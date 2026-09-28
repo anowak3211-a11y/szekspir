@@ -1,0 +1,6 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
+let state={snapshot:{'MEL-00019':{Feedback:'Keep this'}}};const original=Module._load;
+Module._load=function(name,...args){if(name==='./store')return{mutate:async(key,initial,fn)=>{assert.equal(key,'editor-sync-sheet');return fn(state)}};return original.call(this,name,...args)};
+const {retireLegacySync,LEGACY_SYNC_FENCE}=require('../lib/editor-sync-version.ts');
+(async()=>{state.lease='running';state.leaseUntil=Date.now()+60000;await assert.rejects(retireLegacySync('sheet'),/finishing/);assert.equal(state.lease,'running');state.leaseUntil=0;const snapshot=await retireLegacySync('sheet');assert.equal(snapshot['MEL-00019'].Feedback,'Keep this');assert.equal(state.lease,LEGACY_SYNC_FENCE);assert(state.leaseUntil>Date.now());assert.notEqual(snapshot,state.snapshot);await retireLegacySync('sheet');console.log('PASS: fence waits for active sync, blocks legacy writers, preserves migration baseline, remains idempotent');})().catch(e=>{console.error(e);process.exitCode=1});

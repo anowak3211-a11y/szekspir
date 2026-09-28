@@ -1,0 +1,13 @@
+# Original videos on Google Drive
+
+Prepared 18 September 2026; Google connection verified; production deployment awaiting explicit approval after automatic review rejection.
+
+UI: four workflow cards; mutually exclusive VMake and Drive selections, optional neither. Neither destination is selected initially; Drive is enabled only after a successful configuration preflight. Text and audio jobs do not upload a video. VMake jobs retain enhancement then subtitle removal.
+
+Set GOOGLE_DRIVE_VIDEO_FOLDER_ID. For My Drive, also set GOOGLE_DRIVE_CLIENT_ID, GOOGLE_DRIVE_CLIENT_SECRET and GOOGLE_DRIVE_REFRESH_TOKEN for an authorised human Google account with Drive access. Alternatively use an actual Shared Drive folder accessible by the existing service account. A shared My Drive folder is not a Shared Drive and does not solve service-account storage quotas.
+
+GET /api/drive validates configuration and write access before source upload. createJob validates it again. The Drive stage transfers the original video via the existing public-URL DNS-pinned downloader, with a 2 GB maximum and timeout. A Google-generated file ID is persisted on the job before transfer so retries reuse it. A completed upload is detected on retry; sharing is retried separately. The resulting video has reader access via link for the existing editor workflow. A sharing failure remains visible and blocks finalisation. Daily Briefs Video receives driveUrl; VMake continues to use cleanUrl. Existing jobs with no destination retain original behavior.
+
+Validated locally: typecheck, parallel-pipeline test (Drive completes without VMake submissions), progress-view test, full webpack production build. Queue route wrappers now accept Request explicitly to satisfy generated Next route types. Source changes currently in /tmp/szekspir-voice-release only; sync precise edits into <local-project> after configuration and before final production deployment. Do not deploy with Drive as default until connected. Previous production is dpl_4xexEUQPhvM2538ec2Dopxc2yobX.
+
+Google connected using drive.file only. Created app-owned folder SZEKSPIR (1wgVFDpgV37Icw83tr6bpByR0oJR8wLCq) and moved it under supplied ads for inspo folder (15QwIYuNG-Mw5fLcfjS4F7vee2NPDRS8G). Verified parent and canAddChildren using app OAuth. Uploaded a 2275-byte test video with preallocated ID, enabled reader-by-link, read back metadata, then trashed only the test file. OAuth config remains in Testing with one test user; check refresh-token expiry requirements before treating connection as permanent. Credentials are in protected temporary files, not repository or production yet.

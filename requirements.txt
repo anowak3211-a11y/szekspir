@@ -1,0 +1,2 @@
+requests
+alibabacloud_oss_v2

@@ -1,0 +1,7 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
+const {planSync}=require('../lib/editor-sync-plan.ts');const h=['Ad ID','Adapted script','HOOK OG','Hook 1','Hook 2','Video','Voice Over','Feedback','Approval','Hours spent','Your work','Notes'];
+const a=[h,['MEL-00001','script','og','hook1','hook2','','','feedback','','','','note']],e=structuredClone(a);const apply=(rows,changes)=>changes.forEach(c=>{rows[c.row-1]??=[];rows[c.row-1][c.col]=c.value});
+let p=planSync(a,e,{},501);e[1][3]='';e[1][4]='manual';e[1][7]='';e[1][11]='manual note';p=planSync(a,e,p.snapshot,501);assert(!p.editorChanges.length);apply(a,p.adminChanges);assert.equal(a[1][3],'');assert.equal(a[1][4],'manual');assert.equal(a[1][7],'');
+a[1][3]='stale generated';a[1][4]='new auto hook';p=planSync(a,e,p.snapshot,501);assert(!p.editorChanges.length);assert(p.adminChanges.some(c=>c.col===3&&c.value===''));
+let n=planSync(a,[h],{},501);assert(n.editorChanges.some(c=>c.col===3&&c.value==='stale generated'));const migrated=planSync(a,e,{},501);assert(!migrated.editorChanges.some(c=>c.col===3));
+console.log('PASS manual deletion, manual text/notes, repeated stale sync, review deletion, migration and new tasks');

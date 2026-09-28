@@ -1,0 +1,49 @@
+{
+  "functions": {
+    "api/vmake_submit.py": {
+      "maxDuration": 300,
+      "memory": 1024
+    },
+    "api/vmake_status.py": {
+      "maxDuration": 60
+    },
+    "app/api/queues/process-job/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "szekspir-jobs"
+        }
+      ]
+    },
+    "app/api/queues/editor-sync/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "szekspir-editor-sync"
+        }
+      ]
+    },
+    "app/api/queues/additional-video/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "szekspir-additional-video"
+        }
+      ]
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/jobs/worker",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/editors/sync",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/editors/quality",
+      "schedule": "2-59/5 * * * *"
+    }
+  ]
+}

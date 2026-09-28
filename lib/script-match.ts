@@ -1,0 +1,3 @@
+export function normaliseScript(text:string){return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
+function shingles(text:string){const words=normaliseScript(text).split(' ');return new Set(words.slice(0,-2).map((_,i)=>words.slice(i,i+3).join(' ')));}
+export function scriptSimilarity(a:string,b:string){const x=normaliseScript(a),y=normaliseScript(b);if(!x||!y)return 0;if(x===y)return 1;const left=shingles(a),right=shingles(b);if(!left.size||!right.size)return 0;let overlap=0;for(const word of left)if(right.has(word))overlap++;return 2*overlap/(left.size+right.size);}

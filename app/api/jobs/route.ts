@@ -1,0 +1,5 @@
+import {after} from 'next/server';
+import {cancelJob,abortJob,requestVoiceover,createJob,getJob,jobs,editJob,retryJob,advance,workQueue,scheduleJob} from '@/lib/jobs';
+export const maxDuration=300;
+export async function GET(req:Request){try{const id=new URL(req.url).searchParams.get('id');const job=id?await getJob(id):null;return Response.json({jobs:id?(job?[job]:[]):await jobs()},{headers:{'Cache-Control':'no-store'}});}catch(e){return Response.json({error:(e as Error).message},{status:500});}}
+export async function POST(req:Request){try{const b=await req.json();const job=b.action==='cancel'?await cancelJob(b.id):b.action==='abort'?await abortJob(b.id):(b.action==='voiceover'||b.action==='regenerate-voiceover')?await requestVoiceover(b.id,b.script,b.hooks,b.voiceId,b.action==='regenerate-voiceover'?(typeof b.revision==='number'?b.revision:-1):undefined,b.voiceProcessing):b.action==='retry'?await retryJob(b.id,!!b.confirmUncertain):b.action==='edit'?await editJob(b.id,b.script,b.hooks):await createJob(b);await scheduleJob(job.id);return Response.json({job});}catch(e){return Response.json({error:(e as Error).message},{status:400});}}

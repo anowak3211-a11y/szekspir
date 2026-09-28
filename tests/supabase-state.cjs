@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict'),fs=require('fs'),ts=require('typescript');
+require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2020,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,n);
+process.env.SUPABASE_URL='https://example.supabase.co';process.env.SUPABASE_SECRET_KEY='test-server-key';
+let row=null;global.fetch=async(url,options)=>{assert.equal(options.headers.apikey,'test-server-key');const b=JSON.parse(options.body);if(url.endsWith('_read'))return Response.json(row?[row]:[]);if((row?.version??null)!==b.p_expected)return Response.json(null);row={payload:b.p_payload,version:String(Number(row?.version||0)+1)};return Response.json(row.version);};
+const db=require('../lib/supabase-state.ts');
+(async()=>{
+ assert.equal(await db.readDatabaseState('job-test'),null);
+ await db.writeDatabaseState('job-test','encrypted');
+ await assert.rejects(()=>db.writeDatabaseState('job-test','overwrite'),{name:'BlobPreconditionFailedError'});
+ const snapshot=await db.readDatabaseState('job-test');
+ const results=await Promise.allSettled([db.writeDatabaseState('job-test','one',snapshot.version),db.writeDatabaseState('job-test','two',snapshot.version)]);
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+ let calls=0;global.fetch=async()=>++calls===1?new Response('timeout',{status:522}):Response.json([]);assert.equal(await db.readDatabaseState('job-test'),null);assert.equal(calls,2);
+ calls=0;global.fetch=async()=>{calls++;return new Response('timeout',{status:522})};await assert.rejects(()=>db.writeDatabaseState('job-test','payload'));assert.equal(calls,3,'CAS writes retry the same conditional request');
+ let writes=0;row=null;global.fetch=async(url,options)=>{const b=JSON.parse(options.body);if(url.endsWith('_read'))return Response.json(row?[row]:[]);writes++;if(writes===1){row={payload:b.p_payload,version:'1'};return new Response('lost response',{status:522});}return Response.json(null);};
+ assert.deepEqual(await db.writeDatabaseState('job-test','exact-encrypted-payload'),{etag:'1'});assert.equal(writes,2,'lost committed write is recovered without a second mutation');
+ global.fetch=async()=>new Response('secret-provider-response',{status:503});
+ await assert.rejects(()=>db.readDatabaseState('job-test'),{message:'Database state request failed (HTTP 503)'});
+ console.log('PASS Supabase adapter: missing record, insert-only, stale revision, concurrent writes, sanitised outage errors. Offline transport test; live SQL verification pending.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

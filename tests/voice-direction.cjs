@@ -1,0 +1,10 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,n);
+const {directedNarration}=require('../lib/voice-direction.ts'),{narration}=require('../lib/speech.ts');
+const source='[upbeat music] Is this you? Take 400 mg before bed. Click the link below to buy 2 get one free.';
+const directed=directedNarration(source);
+assert.equal(directed.replace(/\[[^\]]*\]\s*/g,'').replace(/\s+/g,' ').trim(),narration(source).replace(/\s+/g,' ').trim());
+assert.equal((directed.match(/\[(curious|confident|reassuring|excited)\]/g)||[]).length,0);
+assert(!/\[(sigh|breath|pause|upbeat music)/i.test(directed));
+assert.equal(directedNarration(directed),directed);
+console.log('PASS consistent delivery preserves spoken words; no breath/pause cues; repeat application is stable');

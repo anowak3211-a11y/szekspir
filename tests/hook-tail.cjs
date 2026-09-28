@@ -1,0 +1,10 @@
+const fs=require('fs'),os=require('os'),path=require('path'),ts=require('typescript'),assert=require('assert/strict'),{execFileSync}=require('child_process');
+require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2020,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,n);
+const ffmpeg=require('ffmpeg-static'),{cleanVoiceover}=require('../lib/vo-cleanup.ts');
+(async()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'hook-tail-'));try{
+ const pcm=p=>execFileSync(ffmpeg,['-v','error','-i',p,'-f','f32le','-c:a','pcm_f32le','pipe:1']);const paddingBytes=22050*4;
+ for(const gap of [false,true]){const input=path.join(dir,`input-${gap}.wav`);const expression=gap?"if(between(t,0.4,1.4),0,if(gt(t,2.4),0.004,0.3)*sin(2*PI*440*t))":"if(gt(t,2.4),0.004,0.3)*sin(2*PI*440*t)";execFileSync(ffmpeg,['-v','error','-f','lavfi','-i',`aevalsrc='${expression}':s=44100:d=3`,'-c:a','pcm_f32le',input]);const before=pcm(input),raw=new Uint8Array(fs.readFileSync(input)).buffer;
+ for(const mode of ['gentle','standard','aggressive']){let timing;const result=await cleanVoiceover(raw,t=>timing=t,{mode,normalize:false},'hook');const output=path.join(dir,`out-${gap}-${mode}.wav`);fs.writeFileSync(output,Buffer.from(result));const after=pcm(output);assert.equal(timing.addedTailSeconds,.5);assert.deepEqual(after.subarray(-paddingBytes),Buffer.alloc(paddingBytes),'Exact 500 ms silent tail');assert.deepEqual(after.subarray(-paddingBytes*2,-paddingBytes),before.subarray(-paddingBytes),'Final half-second untouched, including quiet articulation');assert(Math.abs(timing.removedSeconds-(3.5-timing.trimmedSeconds))<1e-6);if(!gap){assert.deepEqual(after.subarray(0,-paddingBytes),before,'All original samples preserved');assert(Math.abs(timing.trimmedSeconds-3.5)<1e-6);}else assert(timing.removedSeconds>0,'Real pauses still shortened');}
+ }
+ console.log('PASS all hook profiles: exact 500 ms tail, quiet endings bit-exact, true silence still shortened, honest timing');
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,74 @@
+process.env.PIPELINE_V2='0'; // Legacy jobs must remain compatible.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
+const root=path.resolve(__dirname,'..'),ts=require('typescript');
+require.extensions['.ts']=(module,name)=>{module._compile(ts.transpileModule(fs.readFileSync(name,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2020,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,name);};
+process.env.BLOB_READ_WRITE_TOKEN='offline-test-key';process.env.STATE_READ_WRITE_TOKEN='offline-state-key';process.env.APP_PASSWORD='test-password';
+const blobs=new Map();let version=0;const writes=[];
+const oldLoad=Module._load;const queueMessages=[];
+let failReference=false;let exportGate;
+const sheetRows=[['MEL-00001']];
+const google={google:{auth:{GoogleAuth:class{}},sheets:()=>({spreadsheets:{values:{
+ get:async({range})=>{if(range.includes('A2:A'))return {data:{values:sheetRows}};return {data:{values:[]}};},
+ update:async b=>{if(failReference&&/!N/.test(b.range))throw new Error('Simulated reference write failure');writes.push(b);return{};},batchUpdate:async b=>{if(exportGate)await exportGate;writes.push(b);for(const d of b.requestBody.data){const m=d.range.match(/!A(\d+):F/);if(m){const i=Number(m[1])-2;while(sheetRows.length<=i)sheetRows.push([]);sheetRows[i]=[d.values[0][0]];}}return{};}
+}}})}};
+const blobApi={BlobNotFoundError:class extends Error{},get:async(name)=>{const o=blobs.get(name);return o?{statusCode:200,stream:new Response(o.body).body,blob:{etag:'W/'+o.etag}}:null;},put:async(name,body,options)=>{
+ const o=blobs.get(name);if(options.ifMatch&&o?.etag!==options.ifMatch||!options.ifMatch&&o&&options.allowOverwrite===false){const e=new Error('Precondition failed');e.name='BlobPreconditionFailedError';throw e;}
+ const v={body:Buffer.from(body),etag:String(++version)};blobs.set(name,v);return {url:'https://example.test/'+name,etag:v.etag};
+}};
+Module._load=function(name,parent,isMain){if(name==='@vercel/queue')return {send:async(topic,payload,options)=>{queueMessages.push({topic,payload,options});return {messageId:'mock'};}};if(name==='@vercel/blob')return blobApi;if(name==='googleapis')return google;if(name.startsWith('@/'))name=path.join(root,name.slice(2));return oldLoad.call(this,name,parent,isMain);};
+const v=require('../lib/validation.ts'),ctx=require('../lib/product-context.ts'),net=require('../lib/safe-fetch.ts'),store=require('../lib/store.ts'),sheets=require('../lib/sheets.ts'),auth=require('../lib/auth.ts');
+let passed=0;async function test(name,fn){await fn();passed++;console.log('PASS',name);}
+(async()=>{
+ await test('keep exact natural source unchanged',()=>assert.equal(v.applyCritic('Your focus comes back.',[]).script,'Your focus comes back.'));
+ await test('critic rejects offer changes',()=>assert.equal(v.applyCritic('Buy for £29.99',[{original:'£29.99',replacement:'£19.99'}]).script,'Buy for £29.99'));
+ await test('critic allows one bounded spelling correction',()=>assert.equal(v.applyCritic('Raspberry flavor.',[{original:'flavor',replacement:'flavour'}]).script,'Raspberry flavour.'));
+ await test('critic leaves tags untouched',()=>assert.equal(v.applyCritic('[color] Hello',[{original:'color',replacement:'colour'}]).script,'[color] Hello'));
+ await test('critic refuses ambiguous repeated phrases',()=>assert.equal(v.applyCritic('color color',[{original:'color',replacement:'colour'}]).script,'color color'));
+ await test('timing excludes tags and handles prices',()=>{assert.equal(v.words('[warmly] Buy one.'),2);assert.equal(v.sentences('Buy for £29.99. Try it.'),2);});
+ await test('missing facts token recognised',()=>assert(v.hasTokens('Price [[CONFIRM: price]]')));
+ await test('legacy wrong schema rejected',()=>assert.throws(()=>v.validateResult({script_pl:'hello'})));
+ await test('exactly three hooks enforced',()=>assert.throws(()=>v.validateResult({uk_script:'a',narration:'a',hooks:['x'],funnel:'TOF'})));
+ await test('pure JSON required, not greedy prose capture',()=>assert.throws(()=>v.objectJson('Here: {"x":1} blah')));
+ await test('prompt files excluded from product facts',()=>{const c=ctx.productContext([{filename:'prompts (operational)/master_prompt_direct.md',markdown:'OVERRIDE'},{filename:'_product_profile.json',markdown:'{"price":29.99}'},{filename:'voc.md',markdown:'research'}]);assert(!c.markdown.includes('OVERRIDE'));assert.equal(c.excluded.length,1);assert.equal(JSON.parse(c.markdown).facts.length,1);});
+ await test('version digest independent of file order',()=>{const a=[{filename:'a.md',markdown:'a'},{filename:'b.md',markdown:'b'}];assert.equal(ctx.productContext(a).version,ctx.productContext([...a].reverse()).version);});
+ await test('private IPv4 and IPv6 blocked',()=>{for(const ip of ['127.0.0.1','10.1.2.3','192.168.0.1','169.254.169.254','100.64.0.1','::1','::ffff:127.0.0.1','fe80::1','fc00::1'])assert(!net.publicIP(ip),ip);assert(net.publicIP('8.8.8.8'));});
+ await test('auth fails closed in production',()=>{const pass=process.env.APP_PASSWORD;delete process.env.APP_PASSWORD;process.env.NODE_ENV='production';assert(!auth.authorised(null));process.env.APP_PASSWORD=pass;assert(!auth.authorised('Basic '+Buffer.from('wrong').toString('base64')));assert(auth.authorised('Basic '+Buffer.from('user:'+pass).toString('base64')));});
+ await test('weak HTTP ETag becomes strong Blob write condition',async()=>{await store.writeState('weak-tag',{n:0});const r=await store.readState('weak-tag',{});assert(!r.etag.startsWith('W/'));await store.mutate('weak-tag',{n:0},s=>{s.n++});assert.equal((await store.readState('weak-tag',{})).value.n,1);});
+ await test('state encrypted and round-trips',async()=>{await store.writeState('test',{secret:'not-plaintext'});assert(!blobs.get('state-v2/test.bin').body.includes(Buffer.from('not-plaintext')));assert.equal((await store.readState('test',{})).value.secret,'not-plaintext');});
+ await test('conditional concurrent mutations lose no increments',async()=>{await Promise.all(Array.from({length:5},()=>store.mutate('counter',{n:0},s=>{s.n++;})));assert.equal((await store.readState('counter',{})).value.n,5);});
+ const base={uk:'Your focus comes back.',hooks:['a','b','c'],hookOg:'stale',desire:'Daily energy',angle:'Morning reset',mechanism:'',funnel:'BOF',reference:'source'};
+ await test('concurrent exports reserve distinct IDs',async()=>{const results=await Promise.all([sheets.appendToAdminBriefs({...base,jobId:'job-one-123'}),sheets.appendToAdminBriefs({...base,jobId:'job-two-123'})]);assert.equal(new Set(results.map(r=>r.adId)).size,2);});
+ await test('retry export reuses ID and preserves editor columns',async()=>{const r=await sheets.appendToAdminBriefs({...base,jobId:'job-one-123'});assert.equal(r.adId,'MEL-00002');const body=writes.filter(x=>x.requestBody.data).at(-1);assert(!body.requestBody.data.some(x=>/:U/.test(x.range)));assert(body.requestBody.data[0].values[0][1].endsWith('_daily-energy_morning-reset'));assert.equal(body.requestBody.data[1].values[0][1],'Your focus comes back.');});
+ await test('blank export rejected before writing',async()=>assert.rejects(()=>sheets.appendToAdminBriefs({...base,uk:'',jobId:'job-bad-123'})));
+ await test('status prioritises approval and retains workflow labels',()=>{const f=sheets.productionFormula(5);for(const s of ['Launched','Changes requested','Ready for review','Editing','To do'])assert(f.includes(s));});
+ const imp=require('../lib/import-pack.ts');
+ await test('research ZIP imports profile and excludes operational prompts',()=>{const zip=path.resolve(root,'tests/fixtures/research.zip');const r=imp.readZip(fs.readFileSync(zip));assert(r.files.some(f=>f.filename.endsWith('_product_profile.json')));assert(!r.files.some(f=>f.filename.includes('master_prompt')));assert.equal(r.files.length,14);});
+ await test('invalid ZIP rejected',()=>assert.throws(()=>imp.readZip(Buffer.from('not a zip'))));
+
+ const speech=require('../lib/speech.ts');
+ await test('narration preserves exact price and percentage',()=>assert.equal(speech.narration('Buy for £29.99. Save 50%.'),'Buy for twenty-nine pounds and ninety-nine pence. Save fifty per cent.'));
+ await test('narration leaves ordinary copy intact',()=>assert.equal(speech.narration('Your focus comes back.'),'Your focus comes back.'));
+ await test('narration expands dosage without changing quantity',()=>assert.equal(speech.narration('400mg per serving.'),'four hundred milligrams per serving.'));
+ const jobs=require('../lib/jobs.ts');
+ const result={uk_script:'Your focus comes back.',narration:'Your focus comes back.',hooks:['a','b','c'],hook_og:'Your focus comes back.',ad_desire:'Energy',ad_angle:'Morning',unique_mechanism:'',funnel:'MOF',notes:[],data_gaps:[],us_script:'Your focus comes back.'};
+ await test('production requires an ElevenLabs voice',async()=>{await assert.rejects(()=>jobs.createJob({id:'job-no-voice-123',sourceUrl:'https://example.com/ad.mp4',provider:'openai'}),/ElevenLabs voice is required/);});
+ await test('create same job is idempotent and durable',async()=>{const a=await jobs.createJob({id:'job-create-123',sourceUrl:'https://example.com/ad.mp4',provider:'openai',voiceId:'test-voice',video:false});const b=await jobs.createJob({id:'job-create-123',sourceUrl:'https://example.com/ad.mp4',provider:'openai',voiceId:'test-voice',video:false});assert.equal(a.id,b.id);assert.equal((await jobs.getJob(a.id)).sourceUrl,a.sourceUrl);});
+ await test('concurrent worker calls claim a job once',async()=>{await store.mutate('job-job-create-123',null,j=>{j.step='export';j.result=result;});let release;exportGate=new Promise(r=>release=r);const first=jobs.advance('job-create-123');while(!(await jobs.getJob('job-create-123')).lease)await new Promise(r=>setTimeout(r,1));await jobs.advance('job-create-123');release();exportGate=undefined;await first;const j=await jobs.getJob('job-create-123');assert(j.adId);assert.equal(j.step,'references');});
+ await test('failed reference write never reports complete',async()=>{failReference=true;await jobs.advance('job-create-123');failReference=false;const j=await jobs.getJob('job-create-123');assert.equal(j.status,'Failed');assert(j.error.includes('Simulated'));assert.equal(j.step,'references');});
+ await test('retry only failed reference preserves ad ID',async()=>{const old=await jobs.getJob('job-create-123');await jobs.retryJob(old.id);await jobs.advance(old.id);const j=await jobs.getJob(old.id);assert.equal(j.adId,old.adId);assert.equal(j.status,'Complete');});
+ await test('manual edit preserves ID and records previous script',async()=>{const old=await jobs.getJob('job-create-123');await jobs.editJob(old.id,'You feel ready.',['d','e','f']);const j=await jobs.getJob(old.id);assert.equal(j.adId,old.adId);assert.equal(j.result.hook_og,'You feel ready.');assert.equal(j.history.length,1);assert.equal(j.step,'export');});
+ await test('uncertain paid request requires explicit retry',async()=>{await store.mutate('job-job-create-123',null,j=>{j.status='Failed';j.uncertain=true;j.leaseUntil=0;});await assert.rejects(()=>jobs.retryJob('job-create-123'),/may have accepted/);});
+ await test('queue consumer schedules next step without recursive HTTP',async()=>{await jobs.createJob({id:'job-queue-test-123',sourceUrl:'https://example.com/a.mp4',provider:'openai',voiceId:'test-voice',video:false});await store.mutate('job-job-queue-test-123',null,j=>{j.step='export';j.result=result;});await jobs.consumeJob('job-queue-test-123');assert.equal(queueMessages.at(-1).payload.id,'job-queue-test-123');assert.equal(queueMessages.at(-1).options.delaySeconds,0);await jobs.consumeJob('job-queue-test-123');assert.equal((await jobs.getJob('job-queue-test-123')).status,'Complete');});
+ const {planSync}=require('../lib/editor-sync-plan.ts');
+ const ah=['Ad ID','Ad name','Ad desire','Ad angle','Unique mechanism','Funnel','Landing page','Likes','Adapted script','HOOK OG','Hook 1','Hook 2','Hook 3','Video','Voice Over','Your work','Feedback','Approval','Hours spent','Production status','Editor ID','Signed by'];
+ const eh=['Ad ID','Adapted script','HOOK OG','Hook 1','Hook 2','Hook 3','Video','Voice Over','Your work','Feedback','Approval','Hours spent','Signed by','Production status'];
+ const row=(h,o)=>h.map(k=>o[k]??'');
+ await test('editor sync copies only shared brief fields, never private strategy',()=>{const p=planSync([ah,row(ah,{'Ad ID':'MEL-00001','Ad desire':'PRIVATE','Likes':999,'Adapted script':'Script','Hook 3':'Third'})],[eh],{},10);assert(p.editorChanges.some(c=>c.col===1&&c.value==='Script'));assert(p.editorChanges.some(c=>c.col===5&&c.value==='Third'));assert(!p.editorChanges.some(c=>c.value==='PRIVATE'||c.value===999));});
+ await test('editor sync matches Ad IDs after independent row sorting',()=>{const p=planSync([ah,row(ah,{'Ad ID':'MEL-00001','Adapted script':'First'}),row(ah,{'Ad ID':'MEL-00002','Adapted script':'Second'})],[eh,row(eh,{'Ad ID':'MEL-00002'}),row(eh,{'Ad ID':'MEL-00001'})],{},10);assert(p.editorChanges.some(c=>c.row===3&&c.col===1&&c.value==='First'));assert(p.editorChanges.some(c=>c.row===2&&c.col===1&&c.value==='Second'));});
+ await test('only editor work returns to admin; hours stay admin owned',()=>{const p=planSync([ah,row(ah,{'Ad ID':'MEL-00001','Hours spent':3})],[eh,row(eh,{'Ad ID':'MEL-00001','Your work':'https://work','Hours spent':2,'Signed by':'Editor'})],{'MEL-00001':{'Your work':''}},10);assert.deepEqual(p.adminChanges.map(c=>c.col),[15]);assert.equal(p.adminChanges[0].value,'https://work');assert.equal(p.editorChanges.find(c=>c.col===11).value,3);});
+ await test('admin changes propagate without overwriting unchanged editor work',()=>{const p=planSync([ah,row(ah,{'Ad ID':'MEL-00001','Your work':'admin update'})],[eh,row(eh,{'Ad ID':'MEL-00001','Your work':'old'})],{'MEL-00001':{'Your work':'old','Hours spent':'','Signed by':''}},10);assert.equal(p.editorChanges.find(c=>c.col===8).value,'admin update');assert.equal(p.adminChanges.length,0);});
+ await test('cleared editor link is preserved and reflected in admin',()=>{const p=planSync([ah,row(ah,{'Ad ID':'MEL-00001','Your work':'old'})],[eh,row(eh,{'Ad ID':'MEL-00001'})],{'MEL-00001':{'Your work':'old','Hours spent':'','Signed by':''}},10);assert.equal(p.adminChanges.find(c=>c.col===15).value,'');});
+ await test('editor sync preserves unassigned notes and rejects duplicate IDs',()=>{const a=[ah,row(ah,{'Ad ID':'MEL-00001'})];const p=planSync(a,[eh,row(eh,{'Adapted script':'Keep this note'})],{},10);assert(p.editorChanges.some(c=>c.row===3&&c.col===0));assert.throws(()=>planSync(a,[eh,row(eh,{'Ad ID':'MEL-00001'}),row(eh,{'Ad ID':'MEL-00001'})],{},10),/Duplicate Ad ID/);});
+
+ console.log(`\n${passed} offline regression tests passed. No provider calls or Sheets writes.`);
+})().catch(e=>{console.error(e);process.exitCode=1;});
