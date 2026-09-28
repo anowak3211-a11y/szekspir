@@ -46,7 +46,14 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 
 - Home now links to `/szekspir-pl`; `/szekspir` remains the UK workspace. Both use the shared client in `app/szekspir/workspace.tsx`.
 - New jobs persist `market: uk | pl`; old jobs without it remain UK. Workspace job lists and direct job reads are market-filtered. Regeneration and all job voiceover paths preserve the saved market.
-- Polish localisation uses `lib/polish-localization.ts`, no default Mellow product or UK retail/offer substitutions. Only confirmed Polish-market product facts should be selected. The existing `uk_script` storage key also holds Polish scripts for compatibility; no state migration is required.
+- Polish localisation uses `lib/polish-localization.ts` with the Orthomax default described below, no Mellow product or UK retail/offer substitutions. Only confirmed Polish-market product facts should be selected. The existing `uk_script` storage key also holds Polish scripts for compatibility; no state migration is required.
 - Polish narration leaves numeric notation intact for multilingual TTS instead of expanding it into English. Polish-labelled, owned and favourite voices are available with a separate saved selection. Singing-ad adaptation and the English pause-comparison sample are not offered in the PL workspace. There is no separate Polish critic; the British critic and its badge apply only to UK jobs.
 - This is a workspace in the existing application, not a separate account/backend: products, providers, Drive and editor sheets remain shared. Market labels appear in script history. Additional recordings inherit the saved ad's market.
 - Offline validation: TypeScript and focused Polish/UK localisation, voice, job pipeline, regeneration, delivery and additional-file tests pass. The existing regression baseline still fails at `tests/regression.cjs:56` (`references` expected, `export` actual). No production data or paid provider requests were used.
+
+## Orthomax PL copy profile
+
+- PL now defaults to Orthomax StepMax insoles in generation and regeneration, with the reveal at the source product reveal. The default job metadata names the product; UK is unchanged. Optional selected product documents provide additional target facts, not a different target brand.
+- Polish rules cover natural direct-response language, source length, narrator continuity, 2-3 sentence alternative openings, dialogue register, number formatting and no em dashes. Three internal checks review one draft; there is no separate paid Polish critic or verified quality badge.
+- Historical promotions are not a current offer configuration. The basic profile confirms no offer; missing target offer terms become data gaps. Clinical timelines, testimonials and unrelated source-product mechanisms must not become target-product facts.
+- Only distilled application rules were added. Private source chats, attachments, identifiers and operational access discussions are not committed. No production product records were changed.
