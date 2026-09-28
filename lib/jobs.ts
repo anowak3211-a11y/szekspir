@@ -1,3 +1,4 @@
+import {parseMarket} from './market';
 import {editorHooks,sendsHook} from './hook-delivery';
 import {parseCtaMode,type CtaMode} from './cta-mode';
 import {voiceProcessing,type VoiceProcessing} from './voice-processing';
@@ -15,11 +16,13 @@ import {appendToAdminBriefs,updateReference} from './sheets';
 import {generateVO} from './elevenlabs';
 import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
-export type Job={hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
+export type Job={market?:import('./market').Market;hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
 type Index={ids:string[]};
 export async function getJob(id:string){if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');return (await readState<Job|null>(`job-${id}`,null)).value;}
 export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;return (await Promise.all(index.ids.slice().reverse().map(getJob))).filter((j):j is Job=>!!j);}
 export async function createJob(input:Partial<Job>){
+ const market=parseMarket(input.market);
+ if(market==='pl'&&input.singingAd)throw Error('Polish localisation does not support singing ads yet.');
  const ctaMode=parseCtaMode(input.ctaMode);
  const text=typeof input.transcript==='string'?input.transcript.trim():'';
  if(!input.id||(!input.sourceUrl&&!text))throw new Error('Job ID and source required');
@@ -27,7 +30,7 @@ export async function createJob(input:Partial<Job>){
  if(input.vmakeMode&&!['enhance','remove','both','combo'].includes(input.vmakeMode))throw Error('Invalid VMake mode');
  if(input.videoDestination&&!['vmake','drive','none'].includes(input.videoDestination))throw Error('Invalid video destination');
  if(input.editorId!==undefined&&!EDITOR_WORKSPACES.some(e=>e.id===input.editorId))throw Error('Unknown editor');
- const old=await getJob(input.id);if(old){await register(old.id);return old;}
+ const old=await getJob(input.id);if(old&&parseMarket(old.market)!==market)throw Error('Job already exists for a different market.');if(old){await register(old.id);return old;}
  if(input.voiceoverEnabled!==false&&(typeof input.voiceId!=='string'||!input.voiceId.trim()))throw new Error('ElevenLabs voice is required before starting production');
  if(!['anthropic','openai','custom'].includes(input.provider||''))throw new Error('Invalid provider');
  
@@ -38,7 +41,7 @@ export async function createJob(input:Partial<Job>){
  const startedAt=typeof input.startedAt==='number'&&Number.isFinite(input.startedAt)&&input.startedAt>0&&input.startedAt<=Date.now()?input.startedAt:undefined;
  const destination=text||input.video===false?'none':input.videoDestination||'drive';
  if(destination==='drive')await (await import('./drive-video')).driveUploadTarget();
- const job:Job={generateHooks:input.generateHooks!==false,ctaMode:input.singingAd===true?'original':ctaMode,editorNotes:typeof input.editorNotes==='string'?input.editorNotes.trim().slice(0,5000):'',singingAd:input.singingAd===true,editorId:input.editorId||'mine',videoDestination:destination,startedAt,engine:text||input.video!==false?2:process.env.PIPELINE_V2==='0'?undefined:2,vmakeMode:input.vmakeMode||'both',enhanceVideo:destination==='vmake'&&input.vmakeMode!=='remove',id:input.id,name:String(input.name||'Ad').slice(0,200),sourceUrl:input.sourceUrl||'',transcript:text||undefined,stages:text?{transcribe:{done:true}}:undefined,audioUrl:input.audioUrl,video:destination==='vmake',voiceoverEnabled:input.voiceoverEnabled!==false,provider:input.provider as Provider,model:String(input.model||''),productName:input.productName||'',productContext:context,productVersion:(product as {version?:string})?.version||'',voiceId:input.voiceId||'',generateVo:false,duration:input.duration,status:'Queued',step:'localise',created:Date.now(),updated:Date.now()};
+ const job:Job={market,generateHooks:input.generateHooks!==false,ctaMode:input.singingAd===true?'original':ctaMode,editorNotes:typeof input.editorNotes==='string'?input.editorNotes.trim().slice(0,5000):'',singingAd:input.singingAd===true,editorId:input.editorId||'mine',videoDestination:destination,startedAt,engine:text||input.video!==false?2:process.env.PIPELINE_V2==='0'?undefined:2,vmakeMode:input.vmakeMode||'both',enhanceVideo:destination==='vmake'&&input.vmakeMode!=='remove',id:input.id,name:String(input.name||'Ad').slice(0,200),sourceUrl:input.sourceUrl||'',transcript:text||undefined,stages:text?{transcribe:{done:true}}:undefined,audioUrl:input.audioUrl,video:destination==='vmake',voiceoverEnabled:input.voiceoverEnabled!==false,provider:input.provider as Provider,model:String(input.model||''),productName:input.productName||'',productContext:context,productVersion:(product as {version?:string})?.version||'',voiceId:input.voiceId||'',generateVo:false,duration:input.duration,status:'Queued',step:'localise',created:Date.now(),updated:Date.now()};
  try{await writeState(`job-${job.id}`,job);}catch(e){if(!/AlreadyExists|Precondition/.test((e as Error).name)&&!/already exists/i.test((e as Error).message))throw e;}
  await register(job.id);return (await getJob(job.id))!;
 }
@@ -95,7 +98,7 @@ export async function advance(id:string){
    }
    await checkpoint('Localising');await beforePaid();
    const us_script=job.transcript!;
-   const result=await localize(us_script,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false);
+   const result=await localize(us_script,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market);
    job.result={...result,us_script,video_url};if(result.no_speech){job.generateVo=false;job.voiceoverEnabled=false;job.generateHooks=false;}job.step='export';job.progress='Localisation complete';
   }else if(job.step==='export'){
    const r=job.result!;
@@ -105,8 +108,8 @@ export async function advance(id:string){
    const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw new Error('Script has unresolved product data. Edit the draft before recording narration.');
    const path=`vo/${job.id}-r${job.revision||0}.wav`;
    job.voUrl=await existingMedia(path)||await existingMedia(path.replace(/\.wav$/,'.mp3'));
-   if(!job.voUrl){await beforePaid();const narration=await prepareNarration(r.uk_script,job.provider,job.model);r.narration=narration;
-    const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{job.voOriginalUrl=await putMedia(`vo/${job.id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');job.voTiming=timing;},job.voiceProcessing);job.voUrl=await putMedia(path,Buffer.from(audio),'audio/wav');
+   if(!job.voUrl){await beforePaid();const narration=await prepareNarration(r.uk_script,job.provider,job.model,job.market);r.narration=narration;
+    const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{job.voOriginalUrl=await putMedia(`vo/${job.id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');job.voTiming=timing;},job.voiceProcessing,'voiceover',job.market);job.voUrl=await putMedia(path,Buffer.from(audio),'audio/wav');
    }
    job.step=job.video&&!job.cleanUrl?'submit':'references';
   }else if(job.step==='submit'){
@@ -157,7 +160,7 @@ export async function consumeJob(id:string){
 
 export async function requestVoiceover(id:string,script:string,hooks:string[],voiceId:string,regenerateRevision?:number,processingInput?:unknown){
  const processing=voiceProcessing(processingInput);
- if(!/^[\w-]{8,100}$/.test(id)||!voiceId)throw Error('Choose a British voice first');
+ if(!/^[\w-]{8,100}$/.test(id)||!voiceId)throw Error('Choose a voice first');
  return mutate<Job|null,Job>(`job-${id}`,null,s=>{
   if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw Error('Wait for the script to finish');if(s.result.no_speech)throw Error('No dialogue detected. This video does not need a voiceover.');
   for(const i of [0,1,2])if(s.hookVoPending?.[i]&&(s.hookVoInputs?.[i]?.text!==hooks[i]||s.hookVoInputs?.[i]?.voiceId!==voiceId))throw Error('A hook is recording with different text or voice. Keep those settings or wait for that hook.');

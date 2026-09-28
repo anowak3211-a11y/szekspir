@@ -68,7 +68,7 @@ export async function advanceParallel(id:string):Promise<number>{
       await paid();const t=await transcribeWithDuration(file);await save(s=>{s.transcript=t.text;s.duration=s.duration||t.duration;});
      }
     }else if(k==='localise'){
-     if(!job.result){await paid();const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
+     if(!job.result){await paid();const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
     }else if(k==='enhanceSubmit'){
      if(!job.enhanceTaskId&&!job.enhancedUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.resolvedVideoUrl||job.sourceUrl,operation:'enhance'});
       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake enhancer returned no task or output');
@@ -109,8 +109,8 @@ export async function advanceParallel(id:string):Promise<number>{
     }else if(k==='vo'){
      const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw Error('Fill in missing product details before recording narration');
      const path=`vo/${id}-r${job.revision||0}.wav`;let url=job.voUrl||await existingMedia(path)||await existingMedia(path.replace(/\.wav$/,'.mp3'));
-     if(!url){let narration=r.narration;if(!narration){await paid();narration=await prepareNarration(r.uk_script,job.provider,job.model);await save(s=>{s.result!.narration=narration;});}
-      await paid();const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.voOriginalUrl=original;s.voTiming=timing;});},job.voiceProcessing);url=await putMedia(path,Buffer.from(audio),'audio/wav');}
+     if(!url){let narration=r.narration;if(!narration){await paid();narration=await prepareNarration(r.uk_script,job.provider,job.model,job.market);await save(s=>{s.result!.narration=narration;});}
+      await paid();const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.voOriginalUrl=original;s.voTiming=timing;});},job.voiceProcessing,'voiceover',job.market);url=await putMedia(path,Buffer.from(audio),'audio/wav');}
      await save(s=>{s.voUrl=url;s.voNeedsRegeneration=false;});if(job.adId)await updateVoiceover(job.adId,voiceLinks((await getJob(id))!));
      for(let i=0;i<Math.min(2,r.hooks.length);i++){
       const latest=(await getJob(id))!;if(latest.abortedAt)throw Error('Stopped by you');
@@ -120,7 +120,7 @@ export async function advanceParallel(id:string):Promise<number>{
       if(!claimedHook)continue;
       const hookPath=`vo/${id}-r${job.revision||0}-hook-${i+1}.wav`;
       let hookUrl=await existingMedia(hookPath)||await existingMedia(hookPath.replace(/\.wav$/,'.mp3'));
-      if(!hookUrl){await paid();const audio=await generateVO(await prepareNarration(r.hooks[i],job.provider,job.model),job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-hook-${i+1}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.hookVoOriginalUrls={...s.hookVoOriginalUrls,[i]:original};s.hookVoTimings={...s.hookVoTimings,[i]:timing};});},job.voiceProcessing,'hook');hookUrl=await putMedia(hookPath,Buffer.from(audio),'audio/wav');}
+      if(!hookUrl){await paid();const audio=await generateVO(await prepareNarration(r.hooks[i],job.provider,job.model,job.market),job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-hook-${i+1}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.hookVoOriginalUrls={...s.hookVoOriginalUrls,[i]:original};s.hookVoTimings={...s.hookVoTimings,[i]:timing};});},job.voiceProcessing,'hook',job.market);hookUrl=await putMedia(hookPath,Buffer.from(audio),'audio/wav');}
       await save(s=>{s.hookVoUrls={...s.hookVoUrls,[i]:hookUrl!};s.hookVoPending={...s.hookVoPending,[i]:false};s.hookVoNeedsRegeneration={...s.hookVoNeedsRegeneration,[i]:false};});
       if(job.adId)await updateVoiceover(job.adId,voiceLinks((await getJob(id))!));
      }

@@ -7,7 +7,7 @@ import VoicePicker from '@/app/szekspir/components/voice-picker';
 import VoicePreview from '@/app/szekspir/components/voice-preview';
 import PausePreview from '@/app/szekspir/components/pause-preview';
 type Editor={id:string;name:string;sheetId:string};
-type Ad={adId:string;name:string;script:string;hooks?:string[]};
+type Ad={market?:'uk'|'pl';adId:string;name:string;script:string;hooks?:string[]};
 type Voice={group?:string;voice_id:string;name:string;preview_url?:string|null};
 async function request(url:string,body?:unknown){const r=await fetch(url,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{cache:'no-store'});const d=await r.json();if(!r.ok)throw Error(d.error||'Request failed. Please try again.');return d;}
 const defaults:VoiceProcessing={mode:'standard',normalize:false,emotion:'subtle'};
@@ -25,8 +25,9 @@ export default function AdditionalFiles(){
  const uploaded=useRef<{file:File;path:string}|null>(null);
  const requestId=useRef<string|null>(null),savedPayload=useRef('');
  const selected=ads.find(a=>a.adId===adId),workspace=editors.find(e=>e.id===editor);
+ useEffect(()=>{let live=true;setVoices([]);setVoice('');request('/api/voices?market='+(selected?.market||'uk')).then(v=>{if(live)setVoices(v.voices);}).catch(e=>{if(live)setError(e.message);});return()=>{live=false;};},[selected?.market]);
  const active=files.some(f=>(!f.provider||f.provider==='elevenlabs')&&f.status==='generating'&&Date.now()-f.createdAt<360000);
- useEffect(()=>{let live=true;Promise.all([request('/api/editors'),request('/api/voices').catch(()=>({voices:[]}))]).then(([a,v])=>{if(live){setEditors(a.editors);setVoices(v.voices);setReady(true);}}).catch(e=>{if(live)setError(e.message);});return()=>{live=false;};},[]);
+ useEffect(()=>{let live=true;request('/api/editors').then(a=>{if(live){setEditors(a.editors);setReady(true);}}).catch(e=>{if(live)setError(e.message);});return()=>{live=false;};},[]);
  useEffect(()=>{setAdId('');setAds([]);setFiles([]);setLinks('');setError('');setNotice('');if(!editor)return;let live=true;setListLoading(true);request(`/api/additional-files?editor=${encodeURIComponent(editor)}`).then(d=>{if(live)setAds(d.ads);}).catch(e=>{if(live)setError(e.message);}).finally(()=>{if(live)setListLoading(false);});return()=>{live=false;};},[editor]);
  useEffect(()=>{if(!adId)return;let live=true;let timer:ReturnType<typeof setTimeout>;setLoading(true);setFiles([]);setLinks('');setHistoryError('');
   async function poll(){try{const d=await request(`/api/additional-files?editor=${encodeURIComponent(editor)}&ad=${encodeURIComponent(adId)}`);if(live){setFiles(d.files);setLinks(d.links);setHistoryError('');}}catch(e){if(live)setHistoryError((e as Error).message);}finally{if(live){setLoading(false);timer=setTimeout(poll,5000);}}}
