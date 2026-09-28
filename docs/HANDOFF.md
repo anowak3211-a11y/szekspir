@@ -41,3 +41,12 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - Offline `npm test`: 28 checks passed, then `tests/regression.cjs:56` failed: expected step `references`, actual step `export`. This is an unresolved baseline failure, not a green test suite. Investigate the fixture versus current job steps before relying on this regression check.
 - The initial default build attempt could not use dependencies symlinked outside the temporary checkout (Turbopack restriction); this is a validation-environment issue.
 - Production build with `next build --webpack` passed (including TypeScript and page generation). Existing middleware deprecation/Edge Runtime warnings remain.
+
+## Polish workspace — separate tile
+
+- Home now links to `/szekspir-pl`; `/szekspir` remains the UK workspace. Both use the shared client in `app/szekspir/workspace.tsx`.
+- New jobs persist `market: uk | pl`; old jobs without it remain UK. Workspace job lists and direct job reads are market-filtered. Regeneration and all job voiceover paths preserve the saved market.
+- Polish localisation uses `lib/polish-localization.ts`, no default Mellow product or UK retail/offer substitutions. Only confirmed Polish-market product facts should be selected. The existing `uk_script` storage key also holds Polish scripts for compatibility; no state migration is required.
+- Polish narration leaves numeric notation intact for multilingual TTS instead of expanding it into English. Polish-labelled, owned and favourite voices are available with a separate saved selection. Singing-ad adaptation and the English pause-comparison sample are not offered in the PL workspace. There is no separate Polish critic; the British critic and its badge apply only to UK jobs.
+- This is a workspace in the existing application, not a separate account/backend: products, providers, Drive and editor sheets remain shared. Market labels appear in script history. Additional recordings inherit the saved ad's market.
+- Offline validation: TypeScript and focused Polish/UK localisation, voice, job pipeline, regeneration, delivery and additional-file tests pass. The existing regression baseline still fails at `tests/regression.cjs:56` (`references` expected, `export` actual). No production data or paid provider requests were used.

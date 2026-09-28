@@ -15,6 +15,11 @@ export default function Home() {
             faithful British phrasing and reliable export to the editors&apos; sheet.
           </span>
         </a>
+        <a className="tile big" href="/szekspir-pl">
+          <span className="tile-icon" aria-hidden="true">🇵🇱</span>
+          <span className="tile-title">SZEKSPIR PL</span>
+          <span className="tile-sub">Reklamy na polski rynek. Polski skrypt, alternatywne hooki i lektor po zatwierdzeniu tekstu.</span>
+        </a>
         <a className="tile big" href="/szekspir/history">
           <span className="tile-icon">📜</span>
           <span className="tile-title">SCRIPT HISTORY</span>

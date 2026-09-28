@@ -1,3 +1,4 @@
+import {jobs} from './jobs';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {EDITOR_WORKSPACES} from './editor-workspaces';
@@ -13,19 +14,20 @@ const api=()=>google.sheets({version:'v4',auth:sheetAuth()});
 const key=(adId:string)=>{if(!/^MEL-\d+$/.test(adId))throw Error('Invalid Ad ID.');return 'additional-files-'+adId;};
 function workspace(editorId:string){const w=EDITOR_WORKSPACES.find(w=>w.id===editorId);if(!w)throw Error('Choose a valid editor.');return w;}
 async function masterRows(){return (await api().spreadsheets.values.get({spreadsheetId:master(),range:"'Daily Briefs'!A1:AC502",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];}
-export async function additionalAds(editorId:string){workspace(editorId);const rows=await masterRows(),h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Editor ID')]===editorId&&/^MEL-\d+$/.test(String(r[h.indexOf('Ad ID')]))).map(r=>({adId:String(r[h.indexOf('Ad ID')]),name:String(r[h.indexOf('Ad name')]||''),script:String(r[h.indexOf('Adapted script')]||''),hooks:[String(r[h.indexOf('Hook 1')]||''),String(r[h.indexOf('Hook 2')]||'')]})).reverse();}
+export async function additionalAds(editorId:string){workspace(editorId);const markets=new Map((await jobs()).filter(j=>j.adId).map(j=>[j.adId,j.market||'uk']));const rows=await masterRows(),h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Editor ID')]===editorId&&/^MEL-\d+$/.test(String(r[h.indexOf('Ad ID')]))).map(r=>({market:markets.get(String(r[h.indexOf('Ad ID')]))||'uk',adId:String(r[h.indexOf('Ad ID')]),name:String(r[h.indexOf('Ad name')]||''),script:String(r[h.indexOf('Adapted script')]||''),hooks:[String(r[h.indexOf('Hook 1')]||''),String(r[h.indexOf('Hook 2')]||'')]})).reverse();}
 async function selectedAd(editorId:string,adId:string){workspace(editorId);key(adId);const rows=await masterRows(),h=rows[0]||[],matches=rows.map((r,i)=>({r,i})).filter(x=>x.i>0&&x.r[h.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad not found or duplicated.');const {r,i}=matches[0];if(r[h.indexOf('Editor ID')]!==editorId)throw Error('This ad is assigned to another editor. Refresh the list.');const col=h.indexOf('Additional files');if(col<0)throw Error('Additional files column is not configured.');return {row:i+1,col,links:String(r[col]||'')};}
 export async function additionalHistory(editorId:string,adId:string){const ad=await selectedAd(editorId,adId);const state=(await readState<AdditionalState>(key(adId),{files:[]})).value;const w=workspace(editorId);const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:R501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];const h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);return {files:state.files,links:mergeAdditionalLinks(ad.links,String(r?.[h.indexOf('Additional files')]||''))};}
 export async function requestAdditional(input:Record<string,unknown>){
  const b=additionalInput(input);await selectedAd(b.editorId,b.adId);
  const prior=(await readState<AdditionalState>(key(b.adId),{files:[]})).value.files.find(f=>f.id===b.requestId);
  if(prior){if((prior.provider&&prior.provider!=='elevenlabs')||prior.hookIndex!==b.hookIndex||prior.text!==b.text||prior.voiceId!==b.voiceId||prior.label!==b.label||prior.editorId!==b.editorId||JSON.stringify(prior.processing)!==JSON.stringify(b.processing))throw Error('Request already exists with different settings.');return prior;}
- const voice=selectableVoices(await listVoices()).find(v=>v.voice_id===b.voiceId);if(!voice)throw Error('Choose a voice from the current list.');
+ const market=(await jobs()).find(j=>j.adId===b.adId)?.market||'uk';
+ const voice=selectableVoices(await listVoices(),market).find(v=>v.voice_id===b.voiceId);if(!voice)throw Error('Choose a voice from the current list.');
  return mutate<AdditionalState,AdditionalFile>(key(b.adId),{files:[]},s=>{
   const old=s.files.find(f=>f.id===b.requestId);if(old)return old;
   if(s.files.some(f=>f.status==='generating'&&Date.now()-f.createdAt<360000))throw Error('A recording is already in progress for this ad.');
   if(s.files.length>=200)throw Error('This ad has reached its recording history limit.');
-  const f:AdditionalFile={id:b.requestId,adId:b.adId,editorId:b.editorId,label:b.label,hookIndex:b.hookIndex,text:b.text,voiceId:b.voiceId,voiceName:voice.name,processing:b.processing,createdAt:Date.now(),status:'generating'};s.files.unshift(f);return f;
+  const f:AdditionalFile={id:b.requestId,adId:b.adId,editorId:b.editorId,label:b.label,hookIndex:b.hookIndex,text:b.text,voiceId:b.voiceId,voiceName:voice.name,market,processing:b.processing,createdAt:Date.now(),status:'generating'};s.files.unshift(f);return f;
  });
 }
 export async function generateAdditional(adId:string,id:string){
@@ -33,7 +35,7 @@ export async function generateAdditional(adId:string,id:string){
  if(!f)return;
  const update=(fn:(f:AdditionalFile)=>void)=>mutate<AdditionalState,void>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id);if(!f)throw Error('Recording not found.');fn(f);});
  try{
-  const audio=await generateVO(f.text,f.voiceId,async raw=>{const originalUrl=await putMedia(`vo/additional-${id}-original.mp3`,Buffer.from(raw),'audio/mpeg');await update(f=>{f.originalUrl=originalUrl;});},f.processing,f.hookIndex===undefined?'voiceover':'hook');
+  const audio=await generateVO(f.text,f.voiceId,async raw=>{const originalUrl=await putMedia(`vo/additional-${id}-original.mp3`,Buffer.from(raw),'audio/mpeg');await update(f=>{f.originalUrl=originalUrl;});},f.processing,f.hookIndex===undefined?'voiceover':'hook',f.market);
   const url=await putMedia(`vo/additional-${id}.wav`,Buffer.from(audio),'audio/wav');
   await update(f=>{f.url=url;f.status='draft';delete f.error;});
  }catch(e){console.error('Additional recording failed:',(e as Error).message);await update(f=>{f.status='error';f.error='Recording could not be completed. You can generate a new take; any saved original remains available.';});}

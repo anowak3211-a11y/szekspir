@@ -39,13 +39,14 @@ export async function generateVO(
   voiceId: string,
   preserve?:(raw:ArrayBuffer,timing:VoiceTiming)=>Promise<void>,
   processing?:VoiceProcessing,
-  kind:'voiceover'|'hook'='voiceover'
+  kind:'voiceover'|'hook'='voiceover',
+  market:'uk'|'pl'='uk'
 ): Promise<ArrayBuffer> {
   const r = await fetch(`${BASE}/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
     method: "POST",
     headers: { "xi-api-key": key(), "Content-Type": "application/json" },
     body: JSON.stringify({
-      text:directedNarration(text,processing?.emotion??'subtle'),
+      text:directedNarration(text,processing?.emotion??'subtle',market),
       model_id: "eleven_v3",
       voice_settings: { stability: 1.0 },
     }),

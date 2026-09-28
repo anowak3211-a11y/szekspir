@@ -1,3 +1,5 @@
+import {POLISH_SYSTEM_PROMPT,POLISH_PROMPT_VERSION} from './polish-localization';
+import {parseMarket,type Market} from './market';
 import {isNonSpeechTranscript,noSpeechResult} from './no-speech';
 import {ctaInstruction,parseCtaMode,type CtaMode} from './cta-mode';
 import {mayIntroduceMellow,hasUnwantedBrandReveal} from './brand-disclosure';
@@ -8,26 +10,28 @@ import {SYSTEM_PROMPT,CRITIC_PROMPT,PROMPT_VERSION} from './localization-rules';
 import {objectJson,validateResult,applyCritic,timing,opening,LocalizeResult} from './validation';
 export type {LocalizeResult} from './validation';
 export type Provider='anthropic'|'openai'|'custom';
-export async function localize(usScript:string,provider:Provider,model:string,productMd?:string,_voMode?:boolean,singingAd=false,targetBrand="MELLOW",ctaMode:CtaMode="original",generateHooks=true):Promise<LocalizeResult>{
+export async function localize(usScript:string,provider:Provider,model:string,productMd?:string,_voMode?:boolean,singingAd=false,targetBrand="MELLOW",ctaMode:CtaMode="original",generateHooks=true,market:Market='uk'):Promise<LocalizeResult>{
+ market=parseMarket(market);
+ if(market==='pl'&&singingAd)throw Error('Polish localisation does not support singing ads yet.');
  if(isNonSpeechTranscript(usScript))return noSpeechResult();
  const selectedCta=parseCtaMode(ctaMode);
- const system=SYSTEM_PROMPT+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Preserve the original opening in uk_script.');
+ const system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Preserve the original opening in uk_script.');
  const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,()=>targetBrand):usScript):undefined;
- const disclosureInstruction=mayIntroduceMellow(usScript)?'Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word.':'HARD RULE: the US source contains no SP/SP Nutrition brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic magnesium bisglycinate must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
+ const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Only use explicitly confirmed Polish target facts; no default brand or offer.':mayIntroduceMellow(usScript)?'Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word.':'HARD RULE: the US source contains no SP/SP Nutrition brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic magnesium bisglycinate must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
  const user=JSON.stringify({disclosureInstruction,mode:productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
  let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
  try{result=validateResult(objectJson(raw),generateHooks?2:0);}catch{
   raw=await complete(provider,model,system,user+'\nPrevious output had an invalid schema. Return exactly the requested JSON contract; do not omit fields.',60000);
   result=validateResult(objectJson(raw),generateHooks?2:0);
  }
- if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks])){
+ if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks])){
   const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',120000);
   result=validateResult(objectJson(corrected),generateHooks?2:0);
-  if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  if(lyrics!==undefined){result.uk_script=lyrics;result.notes=lyrics===usScript?[]:[{original:"Source brand",replacement:targetBrand,reason:"Singing ad: original lyrics preserved; brand replacement only."}];}
  // Check the context-sensitive adaptation without appending a stock CTA.
- const checks=await Promise.all([result.uk_script,...result.hooks].map(async (text,index)=>{
+ const checks=market==='pl'?[]:await Promise.all([result.uk_script,...result.hooks].map(async (text,index)=>{
   if(singingAd&&index===0)return {uk_script:text,fixes:[]};
   for(let attempt=0;attempt<2;attempt++){
    try{return await critic(text,provider,model,usScript);}catch(error){if(attempt===1)throw new Error(languageCheckError(error,index));}
@@ -38,10 +42,10 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   if(i===0){result.uk_script=checked.uk_script;result.notes.push(...checked.fixes);}
   else result.hooks[i-1]=checked.uk_script;
  });
- if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
- if(!singingAd)result.language_check={model:criticModel(provider),checkedAt:new Date().toISOString()};
+ if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+ if(!singingAd&&market==='uk')result.language_check={model:criticModel(provider),checkedAt:new Date().toISOString()};
 
- result.narration=singingAd?result.uk_script:narration(result.uk_script);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=PROMPT_VERSION+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
+ result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
  return result;
 }
 async function complete(
@@ -96,7 +100,7 @@ export async function critic(script:string,provider:Provider,_model:string,sourc
  if(!Array.isArray(raw.fixes))throw new Error('Invalid British English check response');
  const fixed=applyCritic(script,raw.fixes,sourceTranscript);return {uk_script:fixed.script,fixes:fixed.fixes};
 }
-export async function prepareNarration(script:string,_provider:Provider,_model:string){return narration(script);}
+export async function prepareNarration(script:string,_provider:Provider,_model:string,market:Market='uk'){return narration(script,market);}
 export async function transcribeWithDuration(file:File):Promise<{text:string;duration?:number}>{
  const client=new OpenAI({apiKey:process.env.OPENAI_API_KEY,timeout:60000,maxRetries:0});
  const response=await client.audio.transcriptions.create({file,model:'whisper-1',response_format:'verbose_json'});
