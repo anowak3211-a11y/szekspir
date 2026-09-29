@@ -1,5 +1,5 @@
 import {listVoices,generatePauseSample} from '@/lib/elevenlabs';
-import {voiceProcessing} from '@/lib/voice-processing';
+import {voiceProcessing,breathsEnabled} from '@/lib/voice-processing';
 import {cleanVoiceover,VO_CLEANUP_VERSION} from '@/lib/vo-cleanup';
 import {existingMedia,putMedia} from '@/lib/media';
 import {withEditorLocks} from '@/lib/editor-locks';
@@ -44,7 +44,7 @@ export async function POST(req:Request){
    });
   }
 
-  const processedPath=`vo/preview-${key}-v2-${VO_CLEANUP_VERSION}-${processing.mode}-${processing.normalize?'norm':'plain'}.wav`;
+  const processedPath=`vo/preview-${key}-v2-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}.wav`;
   let processed=await existingMedia(processedPath);
   if(!processed){
    const response=await fetch(original,{signal:AbortSignal.timeout(30000)});

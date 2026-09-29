@@ -18,3 +18,9 @@ assert.throws(()=>voiceProcessing({...settings,breaths:'yes'}));
 const pl='Mam 25 lat. To moja historia.';
 assert.equal(directedNarration(pl,'subtle','pl',settings),'[conversational] '+pl);
 console.log('PASS storytelling direction: approved words preserved, sparse breaths, Natural stability, optional background, Polish retained');
+
+const standard={mode:'standard',normalize:false,breaths:true};
+assert(directedNarration(story,'subtle','uk',standard).includes('[exhales]'));
+assert(!directedNarration(story,'subtle','uk',{...standard,breaths:false}).includes('[exhales]'));
+assert.equal(voiceSettings(standard).stability,.5);
+assert.equal(voiceSettings({...standard,breaths:false}).stability,1);

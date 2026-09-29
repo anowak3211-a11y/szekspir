@@ -1,4 +1,4 @@
-import {voiceProcessing,PAUSE_PROFILES,EXTRA_PAUSE_SECONDS,type VoiceProcessing} from './voice-processing';
+import {voiceProcessing,breathsEnabled,PAUSE_PROFILES,EXTRA_PAUSE_SECONDS,type VoiceProcessing} from './voice-processing';
 import ffmpeg from 'ffmpeg-static';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
@@ -6,7 +6,7 @@ import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const run=promisify(execFile);
-export const VO_CLEANUP_VERSION='pause-cleanup-v14-storytelling';
+export const VO_CLEANUP_VERSION='pause-cleanup-v15-standard-breaths';
 // Profile-controlled trimming preserves speech samples and retains quiet gap margins.
 async function trimPass(input:string,output:string,duration:number,profile:ReadonlyArray<readonly [number,number,number]>,protectBreaths:boolean,hook:boolean){
  const minimum=Math.min(...profile.map(p=>p[0]));
@@ -51,7 +51,7 @@ export async function cleanVoiceover(raw:ArrayBuffer,onTiming?:(timing:VoiceTimi
   if(processing.mode==='gentle'){
    // Preserve every decoded sample, including breathing, hesitation and the full ending.
    await run(ffmpeg!,['-hide_banner','-loglevel','error','-nostdin','-n','-i',input,...(kind==='hook'?['-af','apad=pad_dur=0.5']:[]),'-c:a','pcm_f32le',output],{timeout:90000,maxBuffer:1024*1024});
-  }else await trimPass(input,output,originalSeconds,PAUSE_PROFILES[processing.mode],kind==='hook',kind==='hook');
+  }else await trimPass(input,output,originalSeconds,PAUSE_PROFILES[processing.mode],breathsEnabled(processing)||kind==='hook',kind==='hook');
   const trimmedSeconds=await audioDuration(output),addedTailSeconds=kind==='hook'?0.5:0;
   onTiming?.({originalSeconds,trimmedSeconds,removedSeconds:Math.max(0,originalSeconds+addedTailSeconds-trimmedSeconds),cleanupVersion:VO_CLEANUP_VERSION,processing,addedTailSeconds});
   const clean=await readFile(output);if(clean.length<128)throw Error('Empty cleaned audio');

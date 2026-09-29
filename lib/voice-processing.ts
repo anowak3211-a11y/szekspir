@@ -12,3 +12,5 @@ export function voiceProcessing(value?:unknown):VoiceProcessing{
 export const PAUSE_PROFILES={standard:[[.48,.7,.18],[.18,.2,.18]],gentle:[[.7,.35,.3]],aggressive:[[.35,.9,.06],[.14,.35,.06]]} as const;
 
 export const EXTRA_PAUSE_SECONDS=.1;
+
+export function breathsEnabled(value?:VoiceProcessing){return value?.mode==='gentle'?value.breaths!==false:value?.mode==='standard'&&value.breaths===true;}

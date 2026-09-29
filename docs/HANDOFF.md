@@ -66,3 +66,8 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - Optional ambience failure returns clean narration with a visible warning and never retries the paid request. UI exposes the same controls in the shared UK/PL workspace and Additional Files. The pause preview is only a processing comparison, not a preview of new delivery or ambience.
 - Focused offline checks cover words/cues, provider request selection, original preservation, sample-exact Storytelling, hook tails, optional ambience mixing/duration and failure fallback. No paid generations or production Sheet mutations are part of verification.
 - Existing unrelated `tests/notes-emotion.cjs` sheet-note assertion fails (after its voice assertions pass); the unchanged editor sync implementation is outside this delivery change. The regression baseline above remains unresolved.
+
+## Standard voice options
+
+- Standard also exposes breathing and optional scene background in the shared voice controls (UK/PL and Additional Files). Standard breathing is opt-in for backward compatibility; background remains off by default. When enabled, breathing uses sparse cues, Natural stability and breath-safe silence detection while retaining the Standard pause profile. Storytelling still preserves full pauses. VSL remains unchanged. Preview cache keys include breath protection.
+- The owner authorised committing, pushing and deploying this fix without another confirmation.

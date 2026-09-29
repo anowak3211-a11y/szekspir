@@ -11,7 +11,7 @@ const save=async raw=>{preserved++;assert.equal(new Uint8Array(raw)[0],1);};
  await generateVO('My story.', 'test',save,{mode:'gentle',normalize:false});assert.equal(ambienceCalls,0);assert.equal(requests[0].voice_settings.stability,.5);assert(requests[0].text.startsWith('[conversational]'));
  await generateVO('My story.','test',save,{mode:'gentle',normalize:false,ambience:'car'});assert.equal(ambienceCalls,1);
  await generateVO('My hook.','test',save,{mode:'gentle',normalize:false,ambience:'car'},'hook');assert.equal(ambienceCalls,1,'Hooks never generate ambience');
- await generateVO('My story.','test',save,{mode:'standard',normalize:false,ambience:'car'});assert.equal(ambienceCalls,1);assert.equal(requests[3].voice_settings.stability,1);
+ await generateVO('My story.','test',save,{mode:'standard',normalize:false,ambience:'car'});assert.equal(ambienceCalls,2);assert.equal(requests[3].voice_settings.stability,1);
  assert.equal(preserved,4);assert.equal(requests.length,4);
  console.log('PASS provider requests: Natural storytelling, unchanged other modes, opt-in main VO ambience, originals preserved');
 })().catch(e=>{console.error(e);process.exitCode=1});

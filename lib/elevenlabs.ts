@@ -58,7 +58,7 @@ export async function generateVO(
    const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
    // Background is opt-in for the main narration only; hooks stay clean for editing.
    let output=clean;
-   if(timing&&preserve&&processing?.mode==='gentle'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){
+   if(timing&&preserve&&processing&&processing.mode!=='aggressive'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){
     const {addStoryAmbience}=await import('./story-ambience');
     output=await addStoryAmbience(clean,processing.ambience,timing,key());
    }
