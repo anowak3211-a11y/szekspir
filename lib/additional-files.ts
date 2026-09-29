@@ -35,7 +35,7 @@ export async function generateAdditional(adId:string,id:string){
  if(!f)return;
  const update=(fn:(f:AdditionalFile)=>void)=>mutate<AdditionalState,void>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id);if(!f)throw Error('Recording not found.');fn(f);});
  try{
-  const audio=await generateVO(f.text,f.voiceId,async raw=>{const originalUrl=await putMedia(`vo/additional-${id}-original.mp3`,Buffer.from(raw),'audio/mpeg');await update(f=>{f.originalUrl=originalUrl;});},f.processing,f.hookIndex===undefined?'voiceover':'hook',f.market);
+  const audio=await generateVO(f.text,f.voiceId,async (raw,timing)=>{const originalUrl=await putMedia(`vo/additional-${id}-original.mp3`,Buffer.from(raw),'audio/mpeg');await update(f=>{f.originalUrl=originalUrl;f.timing=timing;});},f.processing,f.hookIndex===undefined?'voiceover':'hook',f.market);
   const url=await putMedia(`vo/additional-${id}.wav`,Buffer.from(audio),'audio/wav');
   await update(f=>{f.url=url;f.status='draft';delete f.error;});
  }catch(e){console.error('Additional recording failed:',(e as Error).message);await update(f=>{f.status='error';f.error='Recording could not be completed. You can generate a new take; any saved original remains available.';});}

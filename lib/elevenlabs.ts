@@ -1,5 +1,5 @@
 import type {VoiceProcessing} from './voice-processing';
-import {directedNarration} from './voice-direction';
+import {directedNarration,voiceSettings} from './voice-direction';
 import type {VoiceTiming} from './vo-cleanup';
 import {cleanVoiceover} from './vo-cleanup';
 const BASE = "https://api.elevenlabs.io/v1";
@@ -46,14 +46,25 @@ export async function generateVO(
     method: "POST",
     headers: { "xi-api-key": key(), "Content-Type": "application/json" },
     body: JSON.stringify({
-      text:directedNarration(text,processing?.emotion??'subtle',market),
+      text:directedNarration(text,processing?.emotion??'subtle',market,processing),
       model_id: "eleven_v3",
-      voice_settings: { stability: 1.0 },
+      voice_settings: voiceSettings(processing),
     }),
   });
   if (!r.ok) throw new Error(`ElevenLabs TTS: ${r.status} ${await r.text()}`);
   const raw=await r.arrayBuffer();
-  try{let timing:VoiceTiming|undefined;const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);if(preserve&&timing)await preserve(raw,timing);return clean;}finally{new Uint8Array(raw).fill(0);}
+  try{
+   let timing:VoiceTiming|undefined;
+   const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
+   // Background is opt-in for the main narration only; hooks stay clean for editing.
+   let output=clean;
+   if(timing&&preserve&&processing?.mode==='gentle'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){
+    const {addStoryAmbience}=await import('./story-ambience');
+    output=await addStoryAmbience(clean,processing.ambience,timing,key());
+   }
+   if(preserve&&timing)await preserve(raw,timing);
+   return output;
+  }finally{new Uint8Array(raw).fill(0);}
 }
 
 // Fixed comparison narration: generated only when the library preview is too short.

@@ -6,7 +6,7 @@ import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const run=promisify(execFile);
-export const VO_CLEANUP_VERSION='pause-cleanup-v13-hook-tail';
+export const VO_CLEANUP_VERSION='pause-cleanup-v14-storytelling';
 // Profile-controlled trimming preserves speech samples and retains quiet gap margins.
 async function trimPass(input:string,output:string,duration:number,profile:ReadonlyArray<readonly [number,number,number]>,protectBreaths:boolean,hook:boolean){
  const minimum=Math.min(...profile.map(p=>p[0]));
@@ -39,7 +39,7 @@ async function audioDuration(input:string){
  if(!Number.isFinite(duration)||duration<=0)throw Error('Invalid audio duration');
  return duration;
 }
-export type VoiceTiming={originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number};
+export type VoiceTiming={originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number;dryUrl?:string;ambienceUrl?:string;ambienceWarning?:string};
 export async function cleanVoiceover(raw:ArrayBuffer,onTiming?:(timing:VoiceTiming)=>void,options?:VoiceProcessing,kind:'voiceover'|'hook'='voiceover'):Promise<ArrayBuffer>{
  const processing=voiceProcessing(options);
  if(!ffmpeg)throw Error('Voiceover cleanup is unavailable');
@@ -48,7 +48,10 @@ export async function cleanVoiceover(raw:ArrayBuffer,onTiming?:(timing:VoiceTimi
   const input=join(dir,'raw.audio'),output=join(dir,'clean.wav');
   await writeFile(input,Buffer.from(raw),{mode:0o600});
   const originalSeconds=await audioDuration(input);
-  await trimPass(input,output,originalSeconds,PAUSE_PROFILES[processing.mode],processing.mode==='gentle'||kind==='hook',kind==='hook');
+  if(processing.mode==='gentle'){
+   // Preserve every decoded sample, including breathing, hesitation and the full ending.
+   await run(ffmpeg!,['-hide_banner','-loglevel','error','-nostdin','-n','-i',input,...(kind==='hook'?['-af','apad=pad_dur=0.5']:[]),'-c:a','pcm_f32le',output],{timeout:90000,maxBuffer:1024*1024});
+  }else await trimPass(input,output,originalSeconds,PAUSE_PROFILES[processing.mode],kind==='hook',kind==='hook');
   const trimmedSeconds=await audioDuration(output),addedTailSeconds=kind==='hook'?0.5:0;
   onTiming?.({originalSeconds,trimmedSeconds,removedSeconds:Math.max(0,originalSeconds+addedTailSeconds-trimmedSeconds),cleanupVersion:VO_CLEANUP_VERSION,processing,addedTailSeconds});
   const clean=await readFile(output);if(clean.length<128)throw Error('Empty cleaned audio');

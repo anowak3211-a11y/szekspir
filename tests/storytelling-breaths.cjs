@@ -7,6 +7,6 @@ const ffmpeg=require('ffmpeg-static'),{cleanVoiceover}=require('../lib/vo-cleanu
  const breath="if(between(t,1,2),if(between(t,1.2,1.8),0.004*sin(2*PI*170*t),0),0.3*sin(2*PI*440*t))";
  const gentle=await process('breath',breath,'gentle');assert(gentle.timing.removedSeconds<1/44100);assert.deepEqual(gentle.after,gentle.before,'Every speech and quiet breath sample preserved');
  const standard=await process('control',breath,'standard');assert(standard.timing.removedSeconds>.7,'Control proves this fixture exposed the old detector');
- const silence=await process('silence',"if(between(t,1,2),0,0.3*sin(2*PI*440*t))",'gentle');assert(Math.abs(silence.timing.removedSeconds-.25)<.002,'Storytelling still shortens real silence, keeping extra 100 ms');
- console.log('PASS quiet breath surrogate and speech bit-exact; genuine silence shortened by 250 ms; standard unchanged');
+ const silence=await process('silence',"if(between(t,1,2),0,0.3*sin(2*PI*440*t))",'gentle');assert(silence.timing.removedSeconds<1/44100,'Storytelling preserves natural pauses');assert.deepEqual(silence.after,silence.before,'Complete story waveform preserved');
+ console.log('PASS quiet breath surrogate and speech bit-exact; natural pauses preserved; standard unchanged');
  }finally{fs.rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,6 +1,6 @@
 import {voiceProcessing, type VoiceProcessing} from './voice-processing';
 import {hasTokens} from './validation';
-export type AdditionalFile={market?:'uk'|'pl';hookIndex?:0|1;provider?:'elevenlabs'|'vmake'|'none';mediaType?:'audio'|'video';sourcePath?:string;vmakeMode?:'enhance'|'remove'|'both';videoStep?:'enhance'|'remove'|'save';taskId?:string;outputUrl?:string;pendingSubmit?:boolean;leaseUntil?:number;id:string;adId:string;editorId:string;label:string;text:string;voiceId:string;voiceName:string;processing:VoiceProcessing;createdAt:number;startedAt?:number;approvedAt?:number;status:'generating'|'draft'|'approved'|'error';url?:string;originalUrl?:string;error?:string};
+export type AdditionalFile={timing?:import('./vo-cleanup').VoiceTiming;market?:'uk'|'pl';hookIndex?:0|1;provider?:'elevenlabs'|'vmake'|'none';mediaType?:'audio'|'video';sourcePath?:string;vmakeMode?:'enhance'|'remove'|'both';videoStep?:'enhance'|'remove'|'save';taskId?:string;outputUrl?:string;pendingSubmit?:boolean;leaseUntil?:number;id:string;adId:string;editorId:string;label:string;text:string;voiceId:string;voiceName:string;processing:VoiceProcessing;createdAt:number;startedAt?:number;approvedAt?:number;status:'generating'|'draft'|'approved'|'error';url?:string;originalUrl?:string;error?:string};
 export type AdditionalState={files:AdditionalFile[]};
 export function additionalInput(input:Record<string,unknown>){
  const {adId,editorId,requestId,voiceId}=input;
