@@ -1,3 +1,4 @@
+import {isSheetsQuotaError,sheetRetryDelay,SHEET_QUOTA_WAIT} from './sheets-quota';
 import {videoLinks} from './video-links';
 import {editorHooks,sendsHook} from './hook-delivery';
 import {voiceLinks} from './voice-links';
@@ -14,7 +15,7 @@ import {opening,hasTokens} from './validation';
 import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
 export type Stage='driveUpload'|'transcribe'|'localise'|'enhanceSubmit'|'enhancePoll'|'videoSubmit'|'videoPoll'|'export'|'vo'|'references';
-export type StageState={resubmitRequired?:boolean;done?:boolean;pending?:boolean;error?:string;uncertain?:boolean;attempts?:number;ms?:number;started?:number;finished?:number;nextAt?:number};
+export type StageState={briefSaved?:boolean;quotaRetries?:number;retryReason?:string;resubmitRequired?:boolean;done?:boolean;pending?:boolean;error?:string;uncertain?:boolean;attempts?:number;ms?:number;started?:number;finished?:number;nextAt?:number};
 const labels:Record<Stage,string>={driveUpload:'Saving original video to Drive',transcribe:'Transcribing',localise:'Localising',enhanceSubmit:'Starting video enhancement',enhancePoll:'Enhancing video',videoSubmit:'Starting video cleanup',videoPoll:'Cleaning video',export:'Saving brief',vo:'Generating and trimming voiceover',references:'Finishing'};
 export function readyStages(j:Job,now=Date.now()):Stage[]{
  if(j.abortedAt||j.cancelledAt||j.hookDeliveryPending!==undefined)return [];
@@ -35,7 +36,7 @@ export function readyStages(j:Job,now=Date.now()):Stage[]{
 export function retryParallel(j:Job){
  if(j.stages?.enhancePoll?.resubmitRequired&&!j.enhancedUrl){j.enhanceTaskId=undefined;j.enhanceSubmittedAt=undefined;j.stages.enhanceSubmit={};j.stages.enhancePoll={};}
  if(j.stages?.videoPoll?.resubmitRequired&&!j.cleanUrl&&!j.videoOutputUrl){j.taskId=undefined;j.submittedAt=undefined;j.stages.videoSubmit={};j.stages.videoPoll={};}
-for(const s of Object.values(j.stages||{})){if(!s.done){s.error=undefined;s.pending=false;s.uncertain=false;s.nextAt=undefined;s.started=undefined;s.finished=undefined;}}}
+for(const s of Object.values(j.stages||{})){if(!s.done){s.error=undefined;s.pending=false;s.uncertain=false;s.nextAt=undefined;s.quotaRetries=0;s.retryReason=undefined;s.started=undefined;s.finished=undefined;}}}
 export function editParallel(j:Job){j.stages={...j.stages,localise:{done:true},export:{},vo:{},references:{}};j.completedAt=undefined;}
 // Shared leases bound provider activity across processes, not just within one instance.
 async function acquire(id:string,token:string){return mutate<Record<string,{token:string;until:number}>,boolean>('pipeline-capacity',{},s=>{const now=Date.now();for(const k of Object.keys(s))if(s[k].until<=now)delete s[k];if(s[id]||Object.keys(s).length>=3)return false;s[id]={token,until:now+360000};return true;});}
@@ -105,12 +106,13 @@ export async function advanceParallel(id:string):Promise<number>{
      const url=await saveOriginalToDrive(job,async fileId=>{await save(s=>{s.driveFileId=fileId;});});
      await save(s=>{s.driveUrl=url;});
     }else if(k==='export'){
-     const r=job.result!,out=await appendToAdminBriefs({jobId:id,editorId:job.editorId,editorNotes:job.editorNotes,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(job)});await save(s=>{s.adId=out.adId;});await syncAssignedEditor(out.adId);
+     if(!job.stages?.export?.briefSaved||!job.adId){const r=job.result!,out=await appendToAdminBriefs({jobId:id,editorId:job.editorId,editorNotes:job.editorNotes,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(job)});await save(s=>{s.adId=out.adId;s.stages!.export!.briefSaved=true;});}
+     await syncAssignedEditor((await getJob(id))!.adId!);
     }else if(k==='vo'){
      const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw Error('Fill in missing product details before recording narration');
      const path=`vo/${id}-r${job.revision||0}.wav`;let url=job.voUrl||await existingMedia(path)||await existingMedia(path.replace(/\.wav$/,'.mp3'));
      if(!url){let narration=r.narration;if(!narration){await paid();narration=await prepareNarration(r.uk_script,job.provider,job.model,job.market);await save(s=>{s.result!.narration=narration;});}
-      await paid();const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.voOriginalUrl=original;s.voTiming=timing;});},job.voiceProcessing,'voiceover',job.market);url=await putMedia(path,Buffer.from(audio),'audio/wav');}
+      await paid();const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.voOriginalUrl=original;s.voTiming=timing;});},job.voiceProcessing,'voiceover',job.market,job.voPace);url=await putMedia(path,Buffer.from(audio),'audio/wav');}
      await save(s=>{s.voUrl=url;s.voNeedsRegeneration=false;});if(job.adId)await updateVoiceover(job.adId,voiceLinks((await getJob(id))!));
      for(let i=0;i<Math.min(2,r.hooks.length);i++){
       const latest=(await getJob(id))!;if(latest.abortedAt)throw Error('Stopped by you');
@@ -126,8 +128,11 @@ export async function advanceParallel(id:string):Promise<number>{
      }
      const completed=(await getJob(id))!;if(r.hooks.slice(0,2).some((_,i)=>sendsHook(completed,i)&&(completed.hookVoPending?.[i]||!completed.hookVoUrls?.[i]))){await patch(s=>{s.stages![k]!.nextAt=Date.now()+5000;});return;}
     }else if(k==='references'){await updateReference(job.adId!,videoLinks(job),voiceLinks(job));await syncAssignedEditor(job.adId!);}
-    await patch(s=>{s.stages![k]!.done=true;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;});
+    await patch(s=>{s.stages![k]!.done=true;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
    }catch(e){await patch(s=>{const stage=s.stages![k]!;stage.finished=Date.now();
+    if(['export','references','vo'].includes(k)&&!stage.pending&&isSheetsQuotaError(e)&&(stage.quotaRetries||0)<5){
+     stage.quotaRetries=(stage.quotaRetries||0)+1;stage.nextAt=Date.now()+sheetRetryDelay(stage.quotaRetries);stage.error=undefined;stage.uncertain=false;stage.retryReason=SHEET_QUOTA_WAIT;return;
+    }
     const safe=(e as Error&{safeToRetry?:boolean}).safeToRetry===true;
     if(safe)stage.pending=false;
     stage.uncertain=!!stage.pending;

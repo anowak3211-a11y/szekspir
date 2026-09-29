@@ -1,5 +1,5 @@
 import type {VoiceProcessing} from './voice-processing';
-import {directedNarration,voiceSettings} from './voice-direction';
+import {pacedNarration,voiceSettings} from './voice-direction';
 import type {VoiceTiming} from './vo-cleanup';
 import {cleanVoiceover} from './vo-cleanup';
 const BASE = "https://api.elevenlabs.io/v1";
@@ -40,15 +40,18 @@ export async function generateVO(
   preserve?:(raw:ArrayBuffer,timing:VoiceTiming)=>Promise<void>,
   processing?:VoiceProcessing,
   kind:'voiceover'|'hook'='voiceover',
-  market:'uk'|'pl'='uk'
+  market:'uk'|'pl'='uk',
+  pace?:import('./source-pace').SourcePace
 ): Promise<ArrayBuffer> {
   const r = await fetch(`${BASE}/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
     method: "POST",
     headers: { "xi-api-key": key(), "Content-Type": "application/json" },
     body: JSON.stringify({
-      text:directedNarration(text,processing?.emotion??'subtle',market,processing),
+      // V3 delivery tags guide articulation; numeric speed alone may miss the target.
+      // Keep this cue sparse and only use it for a measured, slower previous take.
+      text:pacedNarration(text,processing?.emotion??'subtle',market,processing,kind==='voiceover'?pace:undefined),
       model_id: "eleven_v3",
-      voice_settings: voiceSettings(processing),
+      voice_settings: {...voiceSettings(processing),...(pace&&kind==='voiceover'?{speed:pace.speed}:{})},
     }),
   });
   if (!r.ok) throw new Error(`ElevenLabs TTS: ${r.status} ${await r.text()}`);
@@ -56,6 +59,7 @@ export async function generateVO(
   try{
    let timing:VoiceTiming|undefined;
    const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
+   if(timing&&pace&&kind==='voiceover')timing.pace=pace;
    // Background is opt-in for the main narration only; hooks stay clean for editing.
    let output=clean;
    if(timing&&preserve&&processing&&processing.mode!=='aggressive'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){

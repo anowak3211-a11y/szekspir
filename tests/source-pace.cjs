@@ -1,0 +1,16 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,n);
+const {sourcePace,paceCheck,paceSample,spokenWords}=require('../lib/source-pace.ts');
+const script=Array(465).fill('word').join(' '),processing={mode:'gentle',normalize:false};
+const job={duration:160.638708,transcript:Array(466).fill('word').join(' '),result:{uk_script:script},voiceId:'jodi',voTiming:{trimmedSeconds:189.1,processing}};
+const p=sourcePace(job,script,'jodi',processing);assert(p.calibrated);assert(Math.abs(p.targetSeconds-160.294)<.01);assert.equal(p.speed,1.18);
+assert.equal(sourcePace(job,script,'different',processing).speed,1);
+assert.equal(sourcePace(job,script,'jodi',{...processing,matchSourcePace:false}),undefined);
+assert.equal(sourcePace({...job,duration:undefined},script,'jodi',processing),undefined);
+assert.equal(sourcePace({...job,singingAd:true},script,'jodi',processing),undefined);
+assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:90}},script,'jodi',processing).speed,1,'Never slow down');
+assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:300}},script,'jodi',processing).speed,1.2,'Provider speed cap');
+assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:170,pace:{speed:1.1,scriptWords:465}}},script,'jodi',processing).speed,1.167,'Calibrate from prior generation speed');
+assert(!paceCheck(189.1,p.targetSeconds).withinTarget);assert(paceCheck(164,p.targetSeconds).withinTarget);
+const sample=paceSample('This is a complete sentence. '.repeat(40));assert(spokenWords(sample)<=80);assert(sample.endsWith('.'));
+console.log('PASS native source pace calibration, bounds, missing reference, voice changes, timing QA, complete sample');

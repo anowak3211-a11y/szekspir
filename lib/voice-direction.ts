@@ -1,3 +1,4 @@
+import type {SourcePace} from './source-pace';
 import {narration} from './speech';
 import {breathsEnabled,type VoiceProcessing} from './voice-processing';
 /** Sparse breaths at complete thoughts; never rewrite approved spoken words. */
@@ -16,4 +17,8 @@ export function directedNarration(script:string,emotion:'off'|'subtle'='off',mar
 }
 export function voiceSettings(processing?:VoiceProcessing){
  return {stability:processing?.mode==='gentle'||breathsEnabled(processing)?0.5:1.0};
+}
+
+export function pacedNarration(script:string,emotion:'off'|'subtle'='subtle',market:'uk'|'pl'='uk',processing?:VoiceProcessing,pace?:SourcePace){
+ return (pace?.previewDelivery==='faster'?'[rapid-fire] ':pace?.calibrated&&pace.speed>1.1?'[rushed] ':'')+directedNarration(script,emotion,market,processing);
 }

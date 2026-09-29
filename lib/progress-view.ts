@@ -14,6 +14,6 @@ export function progressRows(job?:Job,upload?:UploadStatus|null):ProgressRow[]{
   const legacyDone=!job.stages&&(job.step==='done'||(key==='transcribe'&&!!job.transcript)||(key==='localise'&&!!job.result)||(key==='videoSubmit'&&!!job.taskId)||(key==='videoPoll'&&!!job.cleanUrl)||(key==='export'&&!!job.adId)||(key==='vo'&&!!job.voUrl));
   const legacyActive=job.engine!==2&&job.status==='Running'&&!job.stages&&({localise:'localise',submit:'videoSubmit',poll:'videoPoll',export:'export',vo:'vo',references:'references'} as Record<string,string>)[job.step]===key;
   const state=s?.error?'error':s?.done||legacyDone?'done':(s?.started||legacyActive)&&job.status!=='Failed'?'active':'waiting';
-  return {key,label,detail:state==='error'?s?.error||'Needs attention':state==='active'?detail:state==='done'?(job.result?.no_speech&&(key==='localise'||key==='transcribe')?'No dialogue detected — script, hooks and voiceover skipped.':'Finished'):job.status==='Queued'?'Queued — processing has not started.':'Waiting for earlier stages',state,started:s?.started,finished:s?.finished};
+  return {key,label,detail:state==='error'?s?.error||'Needs attention':state==='active'?(s?.retryReason||detail):state==='done'?(job.result?.no_speech&&(key==='localise'||key==='transcribe')?'No dialogue detected — script, hooks and voiceover skipped.':'Finished'):job.status==='Queued'?'Queued — processing has not started.':'Waiting for earlier stages',state,started:s?.started,finished:s?.finished};
  });
 }

@@ -71,3 +71,26 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 
 - Standard also exposes breathing and optional scene background in the shared voice controls (UK/PL and Additional Files). Standard breathing is opt-in for backward compatibility; background remains off by default. When enabled, breathing uses sparse cues, Natural stability and breath-safe silence detection while retaining the Standard pause profile. Storytelling still preserves full pauses. VSL remains unchanged. Preview cache keys include breath protection.
 - The owner authorised committing, pushing and deploying this fix without another confirmation.
+
+## Sheets quota recovery
+
+- Background tabs no longer read editor Sheets for delivery badges. Visible tabs check once per minute, backing off to five minutes after failures. Previously every tab read both admin and editor ranges every 30 seconds.
+- Export checkpoints a successfully saved brief before editor sync. Retrying sync reuses the checkpoint instead of rewriting the brief. Edits reset the export stage as before.
+- Explicit Google Sheets quota errors in export, final links, or VO sheet updates defer the stage for 60/120/240/300/300 seconds, with an explanatory progress message. Never auto-retry when a paid request is pending. Manual retry resets this budget; other errors keep the existing behavior.
+- Offline pipeline tests verify cooldown, checkpoint reuse and no extra paid calls.
+- Current workflow: edit locally and deploy directly to Vercel. Do not commit/push to GitHub until the owner explicitly ends the session and asks for upload.
+
+## Drive video links with remembered VMake settings
+
+- Drive-only jobs export their saved Drive URL regardless of a remembered VMake combo selection. Combo output labels apply only outside the Drive destination. Offline pipeline coverage includes Drive upload with combo selected.
+
+## Native source-pace preview and checks
+
+- Main VO requests derive a duration target from source duration and source/adapted word counts. A prior take with the same voice and pause mode calibrates ElevenLabs native `voice_settings.speed` (1.0–1.2, never slowdown). With no matching take, use 1.0 and measure; no fabricated universal voice speed. Singing and missing speech references are excluded. No digital time stretching, no automatic paid regeneration loop.
+- Timing records retain the target and synthesis speed; UI flags deviations beyond 5%. This compares average duration/word rate, not word-level lip sync; source silence/music can affect the estimate. Existing finished files are not altered by deployment.
+- `Preview source pace` records a short complete-sentence opening with the same voice/settings, without ambience. It is cached by inputs, protected by a durable paid-request claim, and does not change job recordings or editor links. An interrupted paid sample is not automatically repeated. Full VO regeneration remains explicit.
+- Tests cover measured calibration, voice/mode mismatch, limits, no slowdown, missing source, sample boundaries and provider speed propagation. Listening to real samples is still necessary to assess naturalness.
+
+- V3 additionally receives one `[rushed]` cue when a matching measured prior take needs over 10% acceleration. Numeric speed and delivery cues are approximate, not guarantees. Real auditions showed that a stronger cue can even produce a longer take; always inspect the result and listen.
+- Faster-delivery and ~30s breathing auditions have separate caches and never change the full VO. The breathing audition uses a longer complete-sentence excerpt, Storytelling and breath cues on, with ambience off.
+- Accepted preference: source-paced Storytelling without added breath cues; preserve naturally generated pauses and quiet sounds. Keep optional breaths available. User authorised full regeneration using this combination and publishing this session's changes to GitHub. Future sessions still require an explicit request before pushing.

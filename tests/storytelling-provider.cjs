@@ -6,12 +6,15 @@ require.cache[require.resolve('../lib/story-ambience.ts')]={exports:{addStoryAmb
 process.env.ELEVENLABS_API_KEY='offline-test';
 global.fetch=async(url,options)=>{requests.push(JSON.parse(options.body));return {ok:true,arrayBuffer:async()=>new Uint8Array([1,2,3]).buffer};};
 const {generateVO}=require('../lib/elevenlabs.ts');
+const {pacedNarration}=require('../lib/voice-direction.ts');
+assert.equal(pacedNarration('Same words.','subtle','uk',{mode:'gentle'},{previewDelivery:'faster',speed:1.2}),'[rapid-fire] [conversational] Same words.');
 const save=async raw=>{preserved++;assert.equal(new Uint8Array(raw)[0],1);};
 (async()=>{
  await generateVO('My story.', 'test',save,{mode:'gentle',normalize:false});assert.equal(ambienceCalls,0);assert.equal(requests[0].voice_settings.stability,.5);assert(requests[0].text.startsWith('[conversational]'));
  await generateVO('My story.','test',save,{mode:'gentle',normalize:false,ambience:'car'});assert.equal(ambienceCalls,1);
  await generateVO('My hook.','test',save,{mode:'gentle',normalize:false,ambience:'car'},'hook');assert.equal(ambienceCalls,1,'Hooks never generate ambience');
  await generateVO('My story.','test',save,{mode:'standard',normalize:false,ambience:'car'});assert.equal(ambienceCalls,2);assert.equal(requests[3].voice_settings.stability,1);
- assert.equal(preserved,4);assert.equal(requests.length,4);
+ await generateVO('Sample.','test',save,{mode:'gentle',normalize:false},'voiceover','uk',{speed:1.18,targetSeconds:2,calibrated:true});assert.equal(requests[4].voice_settings.speed,1.18);assert(!requests[4].text.includes('1.18'));assert(requests[4].text.startsWith('[rushed] [conversational]'));assert(!requests[2].text.includes('[rushed]'));
+ assert.equal(preserved,5);assert.equal(requests.length,5);
  console.log('PASS provider requests: Natural storytelling, unchanged other modes, opt-in main VO ambience, originals preserved');
 })().catch(e=>{console.error(e);process.exitCode=1});

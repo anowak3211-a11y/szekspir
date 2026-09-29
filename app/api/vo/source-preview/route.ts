@@ -1,0 +1,32 @@
+import {createHash} from 'node:crypto';
+import {getJob} from '@/lib/jobs';
+import {generateVO} from '@/lib/elevenlabs';
+import {sourcePace,paceSample,spokenWords} from '@/lib/source-pace';
+import {voiceProcessing} from '@/lib/voice-processing';
+import {mutate,readState} from '@/lib/store';
+import {putMedia} from '@/lib/media';
+import type {VoiceTiming} from '@/lib/vo-cleanup';
+export const maxDuration=300;
+type Sample={url:string;original:string;text:string;seconds:number;targetSeconds:number;speed:number};
+type State={started?:boolean;sample?:Sample};
+export async function POST(req:Request){try{
+ const b=await req.json();if(typeof b.id!=='string'||typeof b.voiceId!=='string'||typeof b.script!=='string'||b.script.length>20000)throw Error('Choose a saved script and voice.');
+ const job=await getJob(b.id);if(!job?.result||job.abortedAt)throw Error('Saved job unavailable.');
+ const breathSample=b.variant==='breaths30';
+ const processing={...voiceProcessing(b.processing),...(breathSample?{mode:'gentle' as const,breaths:true}:{}),ambience:'none' as const};
+ const pace=sourcePace(job,b.script,b.voiceId,processing);if(!pace)throw Error('Source speech duration is unavailable for this recording.');
+ const faster=b.variant==='faster';
+ const text=paceSample(b.script,breathSample?75:45);if(spokenWords(text)<5)throw Error('Add a longer script.');
+ const key=createHash('sha256').update(JSON.stringify([breathSample?'native-breaths30-v1':faster?'native-pace-faster-v1':'native-pace-v2',b.voiceId,text,processing,pace])).digest('hex');
+ const stateKey='pace-preview-'+key;
+ const cached=(await readState<State>(stateKey,{})).value;if(cached.sample)return Response.json(cached.sample);
+ const claim=await mutate<State,Sample|undefined>(stateKey,{},s=>{if(s.sample)return s.sample;if(s.started)throw Error('This sample is already being prepared or was interrupted. No paid request has been repeated.');s.started=true;return undefined;});
+ if(claim)return Response.json(claim);
+ let timing:VoiceTiming|undefined,original='';
+ const samplePace={...pace,...(faster?{previewDelivery:'faster' as const,speed:1.2}:{}),targetSeconds:pace.targetSeconds*spokenWords(text)/pace.scriptWords,scriptWords:spokenWords(text)};
+ const audio=await generateVO(text,b.voiceId,async(raw,t)=>{timing=t;original=await putMedia(`vo/pace-${key}-original.mp3`,Buffer.from(raw),'audio/mpeg');},processing,'voiceover',job.market,samplePace);
+ if(!timing)throw Error('Sample timing unavailable.');
+ const url=await putMedia(`vo/pace-${key}.wav`,Buffer.from(audio),'audio/wav');
+ const sample={url,original,text,seconds:timing.trimmedSeconds,targetSeconds:samplePace.targetSeconds,speed:samplePace.speed,variant:breathSample?'breaths30':faster?'faster':'source'};
+ await mutate<State,void>(stateKey,{},s=>{s.sample=sample;});return Response.json(sample);
+}catch(e){return Response.json({error:(e as Error).message},{status:400});}}
