@@ -16,7 +16,13 @@ Module._load=function(n,p,...args){
 (async()=>{
  const {parseMarket,matchesMarket}=require('../lib/market.ts');
  assert.equal(parseMarket(undefined),'uk');assert.throws(()=>parseMarket('fr'));assert(matchesMarket({},'uk'));assert(!matchesMarket({},'pl'));
+ const {assertPolishLength}=require('../lib/polish-localization.ts');
+ assert.throws(()=>assertPolishLength('source '.repeat(400),'tekst '.repeat(150)),/zbyt krótka/);
+ assert.doesNotThrow(()=>assertPolishLength('source '.repeat(400),'tekst '.repeat(360)));
+ assert.doesNotThrow(()=>assertPolishLength('short script','krótki tekst'));
  const {localize,prepareNarration}=require('../lib/localize.ts');
+ await assert.rejects(()=>localize('source '.repeat(400),'openai','test',undefined,false,false,'','original',true,'pl'),/zbyt krótka/);
+ assert.equal(requests.length,1,'Short output fails without an automatic paid retry');requests.length=0;
  const pl=await localize('Take 2 capsules. Price $49.99.','openai','test',undefined,false,false,'MELLOW','original',true,'pl');
  assert.match(pl.uk_script,/Weź/);assert.equal(pl.narration,pl.uk_script);assert.match(pl.prompt_version,/^pl-/);assert.equal(pl.language_check,undefined);assert.equal(requests.length,1,'PL quality passes stay within one generation, without a British critic');
  const plRequest=requests[0];assert.equal(JSON.parse(plRequest.messages[1].content).mode,'BRAND_ADAPTATION');assert.match(plRequest.messages[0].content,/Orthomax StepMax/);assert.match(plRequest.messages[0].content,/three distinct internal checks/);assert.match(plRequest.messages[0].content,/Historical 1\+1 and 2\+1 examples are not current offer confirmation/);

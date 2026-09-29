@@ -1,4 +1,4 @@
-import {POLISH_SYSTEM_PROMPT,POLISH_PROMPT_VERSION} from './polish-localization';
+import {POLISH_SYSTEM_PROMPT,POLISH_PROMPT_VERSION,assertPolishLength} from './polish-localization';
 import {parseMarket,type Market} from './market';
 import {isNonSpeechTranscript,noSpeechResult} from './no-speech';
 import {ctaInstruction,parseCtaMode,type CtaMode} from './cta-mode';
@@ -24,6 +24,7 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   raw=await complete(provider,model,system,user+'\nPrevious output had an invalid schema. Return exactly the requested JSON contract; do not omit fields.',60000);
   result=validateResult(objectJson(raw),generateHooks?2:0);
  }
+ if(market==='pl')assertPolishLength(usScript,result.uk_script);
  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks])){
   const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',120000);
   result=validateResult(objectJson(corrected),generateHooks?2:0);
