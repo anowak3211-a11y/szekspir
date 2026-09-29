@@ -94,3 +94,9 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - V3 additionally receives one `[rushed]` cue when a matching measured prior take needs over 10% acceleration. Numeric speed and delivery cues are approximate, not guarantees. Real auditions showed that a stronger cue can even produce a longer take; always inspect the result and listen.
 - Faster-delivery and ~30s breathing auditions have separate caches and never change the full VO. The breathing audition uses a longer complete-sentence excerpt, Storytelling and breath cues on, with ambience off.
 - Accepted preference: source-paced Storytelling without added breath cues; preserve naturally generated pauses and quiet sounds. Keep optional breaths available. User authorised full regeneration using this combination and publishing this session's changes to GitHub. Future sessions still require an explicit request before pushing.
+
+## Full-length PL adaptation correction
+
+- PL adapts source scenes and argument beats at comparable depth, including cross-category source adverts. Incompatible product explanations are replaced by developed insole explanations rather than deleted. Unsupported factual attribution is not invented.
+- A conservative guard rejects PL results below 65% of source lexical word count for sources of 300+ words. It does not automatically retry paid generation or mutate existing scripts. This catches drastic collapse, not semantic omissions; manual learn-more still must preserve the body. The prompt targets comparable length and full scene coverage.
+- Validation uses mocked generation, including rejection of a collapsed long script and no automatic retry; no live paid generation.
