@@ -1,0 +1,7 @@
+'use client';
+import {useState} from 'react';
+export default function EditorComment({id,ready}:{id:string;ready:boolean}){
+ const [comment,setComment]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
+ async function save(){if(busy||!comment.trim())return;setBusy(true);setError('');setMessage('');try{const r=await fetch('/api/jobs/comment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,comment}),signal:AbortSignal.timeout(290000)});const result=await r.json();if(!r.ok)throw Error(result.error||'Could not save the comment.');setComment('');setMessage(`Comment added to ${result.editor}’s Notes and the admin sheet.`);}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ return <section className="vopanel" aria-label="Additional comment"><h2>Additional comment</h2><label htmlFor="additional-comment">Notes for your editor</label><textarea id="additional-comment" value={comment} maxLength={5000} rows={3} disabled={busy} onChange={e=>setComment(e.target.value)} placeholder="Anything else the editor should pay attention to?"/><p>Add a note at any time. Existing notes are kept.</p><button onClick={save} disabled={busy||!ready||!comment.trim()}>{busy?'Saving comment…':'Save comment to editor'}</button>{!ready&&<p>Available once the ad is saved to the editor sheet.</p>}{message&&<p role="status">{message}</p>}{error&&<p role="alert">{error}</p>}</section>;
+}

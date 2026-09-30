@@ -32,14 +32,14 @@ async function trimPass(input:string,output:string,duration:number,profile:Reado
  filters.push(segments.map((_,i)=>`[a${i}]`).join('')+`concat=n=${segments.length}:v=0:a=1${hook?',apad=pad_dur=0.5':''}[out]`);
  await run(ffmpeg!,['-hide_banner','-loglevel','error','-nostdin','-n','-i',input,'-filter_complex',filters.join(';'),'-map','[out]','-c:a','pcm_f32le',output],{timeout:90000,maxBuffer:1024*1024});
 }
-async function audioDuration(input:string){
+export async function audioDuration(input:string){
  const check=await run(ffmpeg!,['-hide_banner','-loglevel','info','-nostdin','-i',input,'-map','0:a:0','-af','ashowinfo','-f','null','-'],{timeout:30000,maxBuffer:16*1024*1024});
  const frames=[...check.stderr.matchAll(/rate:(\d+).*?nb_samples:(\d+)/g)];
  const duration=frames.reduce((sum,m)=>sum+Number(m[2])/Number(m[1]),0);
  if(!Number.isFinite(duration)||duration<=0)throw Error('Invalid audio duration');
  return duration;
 }
-export type VoiceTiming={pace?:import('./source-pace').SourcePace;originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number;dryUrl?:string;ambienceUrl?:string;ambienceWarning?:string};
+export type VoiceTiming={speakerSwitchSeconds?:number;speakerTimingWarning?:string;speaker1Speed?:number;pace?:import('./source-pace').SourcePace;originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number;dryUrl?:string;ambienceUrl?:string;ambienceWarning?:string};
 export async function cleanVoiceover(raw:ArrayBuffer,onTiming?:(timing:VoiceTiming)=>void,options?:VoiceProcessing,kind:'voiceover'|'hook'='voiceover'):Promise<ArrayBuffer>{
  const processing=voiceProcessing(options);
  if(!ffmpeg)throw Error('Voiceover cleanup is unavailable');

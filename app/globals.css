@@ -270,3 +270,10 @@ body{line-height:1.55} .wrap{max-width:1180px} h1{letter-spacing:-.025em} h2,h3{
 .video-quality-alerts summary {min-height:44px;cursor:pointer;padding:8px 0;}
 .video-quality-alerts small {font-size:13px;}
 @media(max-width:720px){.video-quality-alerts{margin:12px;padding:16px;}.video-quality-top{flex-direction:column;}}
+
+.ad-video-preview {margin:16px 0;border:1px solid var(--border);border-radius:12px;padding:0 16px;overflow-wrap:anywhere;}
+.ad-video-preview summary {min-height:44px;padding:12px 0;cursor:pointer;font-weight:600;}
+.ad-video-preview-content {padding-bottom:16px;}
+.ad-video-preview-content p {margin:0 0 12px;}
+.ad-video-preview video,.ad-video-preview iframe {display:block;width:100%;max-width:720px;height:min(60vh,560px);border:0;border-radius:8px;background:#111;object-fit:contain;margin:0 auto 12px;}
+.ad-video-preview a {display:inline-block;min-height:44px;padding-top:8px;}

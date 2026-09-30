@@ -111,6 +111,7 @@ export async function advanceParallel(id:string):Promise<number>{
     }else if(k==='vo'){
      const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw Error('Fill in missing product details before recording narration');
      const path=`vo/${id}-r${job.revision||0}.wav`;let url=job.voUrl||await existingMedia(path)||await existingMedia(path.replace(/\.wav$/,'.mp3'));
+     if(!url&&job.dualVoice){const {generateDualVoice}=await import('./generate-dual-voice');url=await generateDualVoice(job,paid,save);}
      if(!url){let narration=r.narration;if(!narration){await paid();narration=await prepareNarration(r.uk_script,job.provider,job.model,job.market);await save(s=>{s.result!.narration=narration;});}
       await paid();const audio=await generateVO(narration,job.voiceId,async(raw,timing)=>{const original=await putMedia(`vo/${id}-r${job.revision||0}-original.mp3`,Buffer.from(raw),'audio/mpeg');await save(s=>{s.voOriginalUrl=original;s.voTiming=timing;});},job.voiceProcessing,'voiceover',job.market,job.voPace);url=await putMedia(path,Buffer.from(audio),'audio/wav');}
      await save(s=>{s.voUrl=url;s.voNeedsRegeneration=false;});if(job.adId)await updateVoiceover(job.adId,voiceLinks((await getJob(id))!));

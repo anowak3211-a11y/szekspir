@@ -1,3 +1,4 @@
+import {dualVoice} from './dual-voice';
 import {sourcePace,type SourcePace} from './source-pace';
 import {parseMarket} from './market';
 import {editorHooks,sendsHook} from './hook-delivery';
@@ -17,7 +18,7 @@ import {appendToAdminBriefs,updateReference} from './sheets';
 import {generateVO} from './elevenlabs';
 import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
-export type Job={voPace?:SourcePace;market?:import('./market').Market;hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
+export type Job={dualVoice?:import("./dual-voice").DualVoice;speakerTakes?:Record<number,import("./generate-dual-voice").SpeakerTake>;forceFinishedAt?:number;voPace?:SourcePace;market?:import('./market').Market;hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
 type Index={ids:string[]};
 export async function getJob(id:string){if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');return (await readState<Job|null>(`job-${id}`,null)).value;}
 export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;return (await Promise.all(index.ids.slice().reverse().map(getJob))).filter((j):j is Job=>!!j);}
@@ -51,7 +52,7 @@ export async function retryJob(id:string,confirmUncertain=false){
  if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');
  return mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw new Error('Job not found');if(s.abortedAt)throw Error('This job was stopped');if(s.leaseUntil&&s.leaseUntil>Date.now())throw new Error('Job still running');if(s.uncertain&&!confirmUncertain)throw new Error('The provider may have accepted the previous paid request. Confirm before retrying it.');if(s.engine===2)retryParallel(s);s.status='Queued';s.error=undefined;s.uncertain=false;s.pendingStep=undefined;s.updated=Date.now();return s;});
 }
-export async function editJob(id:string,script:string,hooks:string[]){
+export async function editJob(id:string,script:string,hooks:string[],dualInput?:unknown){
  if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');
  const prior=await getJob(id);let recovered:string|undefined;
  if(prior&&!prior.voUrl&&prior.history?.length&&!(prior.leaseUntil&&prior.leaseUntil>Date.now())){
@@ -62,7 +63,9 @@ export async function editJob(id:string,script:string,hooks:string[]){
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:s.result.narration||script,data_gaps:hasTokens(script)?s.result.data_gaps:[]});
   if(!s.voUrl&&recovered&&s.revision===prior?.revision){s.voUrl=recovered;s.voNeedsRegeneration=s.history?.at(-1)?.script.trim()!==s.result.uk_script.trim();}
   for(const i of [0,1,2])if(hooks[i]!==s.result.hooks[i]&&s.hookVoUrls?.[i])s.hookVoNeedsRegeneration={...s.hookVoNeedsRegeneration,[i]:true};
-  const scriptChanged=script.trim()!==s.result.uk_script.trim();
+  const speakers=dualInput===undefined?s.dualVoice:dualVoice(dualInput,script,s.voiceId);
+  const speakersChanged=JSON.stringify(speakers)!==JSON.stringify(s.dualVoice);s.dualVoice=speakers;
+  const scriptChanged=script.trim()!==s.result.uk_script.trim()||speakersChanged;
   s.history=[...(s.history||[]),{at:Date.now(),script:s.result.uk_script,promptVersion:s.result.prompt_version}].slice(-30);
   s.result={...s.result,...validated,hook_og:opening(script)};s.result.narration='';s.revision=(s.revision||0)+1;
   if(s.engine===2)editParallel(s);s.generateVo=false;s.voApprovedRevision=undefined;s.voNeedsRegeneration=!!s.voUrl&&(scriptChanged||!!s.voNeedsRegeneration);s.status='Queued';s.step='export';s.error=undefined;s.updated=Date.now();return s;
@@ -159,8 +162,9 @@ export async function consumeJob(id:string){
  if(current&&current.step!=='done'&&current.status!=='Failed')await scheduleJob(id,delay??(current.step==='poll'?20:0));
 }
 
-export async function requestVoiceover(id:string,script:string,hooks:string[],voiceId:string,regenerateRevision?:number,processingInput?:unknown){
+export async function requestVoiceover(id:string,script:string,hooks:string[],voiceId:string,regenerateRevision?:number,processingInput?:unknown,dualInput?:unknown){
  const processing=voiceProcessing(processingInput);
+ const speakers=dualVoice(dualInput,script,voiceId);
  if(!/^[\w-]{8,100}$/.test(id)||!voiceId)throw Error('Choose a voice first');
  return mutate<Job|null,Job>(`job-${id}`,null,s=>{
   if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw Error('Wait for the script to finish');if(s.result.no_speech)throw Error('No dialogue detected. This video does not need a voiceover.');
@@ -169,11 +173,13 @@ export async function requestVoiceover(id:string,script:string,hooks:string[],vo
   if((s.leaseUntil||0)>Date.now())throw Error('A step is saving right now. Try again in a few seconds.');
   if(s.stages?.vo?.uncertain||s.stages?.vo?.pending)throw Error('The previous voice request needs checking before another recording.');
   if(hasTokens(script))throw Error('Replace unfinished placeholders in the script before recording.');
-  if(regenerateRevision===undefined&&s.generateVo&&s.voApprovedRevision===(s.revision||0)&&s.result.uk_script===script&&s.voiceId===voiceId&&JSON.stringify(s.result.hooks)===JSON.stringify(hooks)&&!s.stages?.vo?.error)return s;
+  if(regenerateRevision===undefined&&s.generateVo&&s.voApprovedRevision===(s.revision||0)&&s.result.uk_script===script&&s.voiceId===voiceId&&JSON.stringify(s.dualVoice)===JSON.stringify(speakers)&&JSON.stringify(s.voiceProcessing)===JSON.stringify(processing)&&JSON.stringify(s.result.hooks)===JSON.stringify(hooks)&&!s.stages?.vo?.error)return s;
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:script});
   s.history=[...(s.history||[]),{at:Date.now(),script:s.result.uk_script,promptVersion:s.result.prompt_version}].slice(-30);
   if(regenerateRevision!==undefined){s.previousVo={url:s.voUrl!,originalUrl:s.voOriginalUrl,hooks:s.hookVoUrls,revision:s.revision||0};s.voRegeneratedFrom=regenerateRevision;}
-  s.voPace=sourcePace(s,script,voiceId,processing);
+  s.voPace=speakers?undefined:sourcePace(s,script,voiceId,processing);
+  s.dualVoice=speakers;s.speakerTakes=undefined;
+  if(speakers)s.engine=2;
   s.result={...s.result,...validated,narration:''};s.revision=(s.revision||0)+1;
   s.voOriginalUrl=undefined;s.voTiming=undefined;s.hookVoOriginalUrls=Object.fromEntries(Object.entries(s.hookVoOriginalUrls||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.hookVoTimings=Object.fromEntries(Object.entries(s.hookVoTimings||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.hookVoUrls=Object.fromEntries(Object.entries(s.hookVoUrls||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.voiceProcessing=processing;s.voApprovedRevision=s.revision;s.voiceoverEnabled=true;s.generateVo=true;s.voiceId=voiceId;s.voUrl=undefined;
   if(s.engine===2)s.stages={...s.stages,localise:{done:true},export:{},vo:{},references:{}};

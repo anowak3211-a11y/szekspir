@@ -100,3 +100,35 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - PL adapts source scenes and argument beats at comparable depth, including cross-category source adverts. Incompatible product explanations are replaced by developed insole explanations rather than deleted. Unsupported factual attribution is not invented.
 - A conservative guard rejects PL results below 65% of source lexical word count for sources of 300+ words. It does not automatically retry paid generation or mutate existing scripts. This catches drastic collapse, not semantic omissions; manual learn-more still must preserve the body. The prompt targets comparable length and full scene coverage.
 - Validation uses mocked generation, including rejection of a collapsed long script and no automatic retry; no live paid generation.
+
+## Force finish — 30 September 2026
+
+- A separate Force finish button saves the current script/hooks and available material links, then closes the task even when delivery checks report missing assets. The receipt retains failed checks and explicitly marks the override; it does not claim complete delivery.
+- The operation holds a job lease, preserves media and provider state, and never queues generation. Active/pending recordings, processing and hook-selection writes must finish first. A Sheets/save error does not mark the task force-finished. Changed scripts still mark old recordings as needing regeneration.
+- Offline validation: typecheck, force-finish and finish-route tests pass. Existing editor-checklist combo fixture fails because it specifies Drive destination with VMake combo expectations; this unrelated fixture is unchanged.
+- Changes are local and deployed directly; no GitHub push until the owner requests the end-of-session upload.
+
+## Two speakers in one script — 30 September 2026
+
+- The script-review step now has opt-in Two voices controls: main voice reads the introduction, a different selected voice reads from a selected sentence to the end. A preview shows both text portions; changing the text invalidates a stale split until reselected. Hooks retain the main voice.
+- Optional start time is the exact start of the second audio segment in the final VO. The full first take is preserved when it fits, with silence added as needed. A slightly longer intro uses pitch-preserving tempo adjustment capped at 1.15×; if it cannot fit, fail visibly without publishing a mistimed combined VO or cutting words. Both per-speaker recordings remain saved for inspection. No time stretching is applied when time is omitted.
+- Each completed speaker take is checkpointed independently. Interrupted paid requests retain the existing uncertain-request protection. Main recording is a combined uncompressed WAV, originals and separate parts are retained, optional ambience is applied once to the combined track. Single-speaker source-pace calibration/previews are not applied to dual-speaker generation.
+- Settings persist when recording or finishing. Recordings are never created merely by enabling the checkbox. Legacy jobs using two voices use the parallel pipeline. Normal one-voice workflows are unchanged.
+- Offline checks: exact timing with generated tones, natural concatenation/padding, bounded pitch-preserving acceleration, invalid/stale split rejection, checkpoint reuse after second-provider failure, original preservation, existing pipeline/voice tests and typecheck. These validate mechanics; no paid two-voice audition was run as a test.
+
+## Compact quality alerts — 30 September 2026
+
+- Quality alerts are collapsed by default with the warning count visible in the summary. Expand to see comparisons and run Check now.
+- Mounted only on the UK/PL Szekspir landing/upload view after route initialization, never on job tabs, Additional Files or admin working pages. Background quality checks are unchanged; client summary polling only runs while the landing panel is mounted.
+
+- Once a durable job is loaded, production progress uses its current errors/status and ignores stale browser upload errors. This avoids a false Needs attention banner after a recovered database/save timeout.
+
+## Collapsible ad preview — 30 September 2026
+
+- Job progress cards include an initially expanded original-video preview identified by Ad ID. Direct uploaded/resolved videos use native controls; saved Drive-only references can use the Drive preview. No autoplay.
+- The preview is open by default (user correction); media mounts only when expanded and unmounts on collapse to stop playback and avoid downloading videos in every working tab. Audio/text-only sources without video do not show a misleading player.
+
+## Additional editor comments — 30 September 2026
+
+- Job pages now let the user append an Additional comment after upload/recording. Saves only Notes in the current assigned editor and admin row, preserving existing notes from both. Exact retries do not duplicate the paragraph. No regeneration or completion action is triggered.
+- Uses assignment/workspace locks, resolves current assignment and headers by Ad ID, refuses missing/deleted/ambiguous rows rather than recreating them. Updates saved job notes to retain the additions in subsequent exports.
