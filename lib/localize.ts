@@ -20,14 +20,14 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
  const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.':mayIntroduceMellow(usScript)?'Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word.':'HARD RULE: the US source contains no SP/SP Nutrition brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic magnesium bisglycinate must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
  let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
- try{result=validateResult(objectJson(raw),generateHooks?2:0);}catch{
+ try{result=validateLocalisation(raw,generateHooks);}catch{
   raw=await complete(provider,model,system,user+'\nPrevious output had an invalid schema. Return exactly the requested JSON contract; do not omit fields.',60000);
-  result=validateResult(objectJson(raw),generateHooks?2:0);
+  result=validateLocalisation(raw,generateHooks,true);
  }
  if(market==='pl')assertPolishLength(usScript,result.uk_script);
  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks])){
   const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',120000);
-  result=validateResult(objectJson(corrected),generateHooks?2:0);
+  result=validateLocalisation(corrected,generateHooks,true);
   if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  if(lyrics!==undefined){result.uk_script=lyrics;result.notes=lyrics===usScript?[]:[{original:"Source brand",replacement:targetBrand,reason:"Singing ad: original lyrics preserved; brand replacement only."}];}
@@ -48,6 +48,18 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
 
  result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
  return result;
+}
+function validateLocalisation(raw:string,generateHooks:boolean,allowMissingHooks=false):LocalizeResult{
+ const data=objectJson(raw);
+ // Hook generation is optional. Ignore unsolicited hooks instead of paying for
+ // another full-script generation when the user explicitly disabled them.
+ if(!generateHooks)return validateResult({...data,hooks:[]},0);
+ try{return validateResult(data,2);}catch(error){
+  if(!allowMissingHooks||!(error instanceof Error)||!error.message.startsWith('Expected zero or two non-empty alternative hooks'))throw error;
+  const withoutHooks=validateResult({...data,hooks:[]},0);
+  withoutHooks.notes.push({original:'Alternative hooks',replacement:'Not generated',reason:'The language model did not return two valid hooks after a retry; the main script was preserved.'});
+  return withoutHooks;
+ }
 }
 async function complete(
   provider: Provider,

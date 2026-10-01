@@ -1,8 +1,8 @@
 import type {SourcePace} from './source-pace';
 import {narration} from './speech';
-import {breathsEnabled,type VoiceProcessing} from './voice-processing';
+import {breathsEnabled,type VoiceEmotion,type VoiceProcessing} from './voice-processing';
 /** Sparse breaths at complete thoughts; never rewrite approved spoken words. */
-export function directedNarration(script:string,emotion:'off'|'subtle'='off',market:'uk'|'pl'='uk',processing?:VoiceProcessing){
+export function directedNarration(script:string,emotion:VoiceEmotion='off',market:'uk'|'pl'='uk',processing?:VoiceProcessing){
  let text=narration(script,market);
  if(breathsEnabled(processing)){
    let words=0,breaths=0;
@@ -12,13 +12,16 @@ export function directedNarration(script:string,emotion:'off'|'subtle'='off',mar
     words=0;breaths++;return sentence+' [exhales]';
    });
  }
- if(processing?.mode==='gentle')return emotion==='subtle'&&text?'[conversational] '+text:text;
- return emotion==='subtle'&&text?'[calm] '+text:text;
+ const tag=emotion==='off'?'':emotion==='subtle'?(processing?.mode==='gentle'?'conversational':'calm'):emotion;
+ const reaction=processing?.openingReaction&&processing.openingReaction!=='none'?`[${processing.openingReaction}] `:'';
+ return text?`${reaction}${tag?`[${tag}] `:''}${text}`:text;
 }
 export function voiceSettings(processing?:VoiceProcessing){
- return {stability:processing?.mode==='gentle'||breathsEnabled(processing)?0.5:1.0};
+ const emotion=processing?.emotion??'off';
+ return {stability:emotion==='off'&&processing?.mode!=='gentle'&&!breathsEnabled(processing)&&(!processing?.openingReaction||processing.openingReaction==='none')?1.0:0.5,similarity_boost:0.75};
 }
 
-export function pacedNarration(script:string,emotion:'off'|'subtle'='subtle',market:'uk'|'pl'='uk',processing?:VoiceProcessing,pace?:SourcePace){
- return (pace?.previewDelivery==='faster'?'[rapid-fire] ':pace?.calibrated&&pace.speed>1.1?'[rushed] ':'')+directedNarration(script,emotion,market,processing);
+export function pacedNarration(script:string,emotion:VoiceEmotion='off',market:'uk'|'pl'='uk',processing?:VoiceProcessing,_pace?:SourcePace){
+ // Eleven v4 has no Speed control. Do not imply timing can be forced with v3-era cues.
+ return directedNarration(script,emotion,market,processing);
 }

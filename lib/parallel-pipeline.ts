@@ -14,18 +14,21 @@ import {appendToAdminBriefs,updateReference,updateVoiceover} from './sheets';
 import {opening,hasTokens} from './validation';
 import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
-export type Stage='driveUpload'|'transcribe'|'localise'|'enhanceSubmit'|'enhancePoll'|'videoSubmit'|'videoPoll'|'export'|'vo'|'references';
+import {joinParts,needsParts,planParts,preparePart} from './long-video';
+export type Stage='driveUpload'|'transcribe'|'localise'|'segment'|'enhanceSubmit'|'enhancePoll'|'videoSubmit'|'videoPoll'|'export'|'vo'|'references';
 export type StageState={briefSaved?:boolean;quotaRetries?:number;retryReason?:string;resubmitRequired?:boolean;done?:boolean;pending?:boolean;error?:string;uncertain?:boolean;attempts?:number;ms?:number;started?:number;finished?:number;nextAt?:number};
-const labels:Record<Stage,string>={driveUpload:'Saving original video to Drive',transcribe:'Transcribing',localise:'Localising',enhanceSubmit:'Starting video enhancement',enhancePoll:'Enhancing video',videoSubmit:'Starting video cleanup',videoPoll:'Cleaning video',export:'Saving brief',vo:'Generating and trimming voiceover',references:'Finishing'};
+const labels:Record<Stage,string>={driveUpload:'Saving original video to Drive',transcribe:'Transcribing',localise:'Localising',segment:'Preparing video parts',enhanceSubmit:'Starting video enhancement',enhancePoll:'Enhancing video',videoSubmit:'Starting video cleanup',videoPoll:'Cleaning video',export:'Saving brief',vo:'Generating and trimming voiceover',references:'Finishing'};
 export function readyStages(j:Job,now=Date.now()):Stage[]{
  if(j.abortedAt||j.cancelledAt||j.hookDeliveryPending!==undefined)return [];
  const s=j.stages||{},done=(k:Stage)=>!!s[k]?.done;
  const list:Stage[]=[];
  if(!done('transcribe'))list.push('transcribe');
  if(done('transcribe')&&!done('localise'))list.push('localise');
- if(j.video&&j.enhanceVideo&&!done('enhanceSubmit')&&(j.audioUrl||j.resolvedVideoUrl||/\.(mp4|mov|webm)(\?|#|$)/i.test(j.sourceUrl)))list.push('enhanceSubmit');
+ const segmented=j.video&&needsParts(j.duration);
+ if(segmented&&!done('segment'))list.push('segment');
+ if(j.video&&j.enhanceVideo&&(!segmented||done('segment'))&&!done('enhanceSubmit')&&(j.audioUrl||j.resolvedVideoUrl||/\.(mp4|mov|webm)(\?|#|$)/i.test(j.sourceUrl)))list.push('enhanceSubmit');
  if(j.video&&j.enhanceVideo&&done('enhanceSubmit')&&!done('enhancePoll'))list.push('enhancePoll');
- if(j.video&&j.vmakeMode!=='enhance'&&(!j.enhanceVideo||done('enhancePoll'))&&!done('videoSubmit')&&(j.audioUrl||j.resolvedVideoUrl||/\.(mp4|mov|webm)(\?|#|$)/i.test(j.sourceUrl)))list.push('videoSubmit');
+ if(j.video&&j.vmakeMode!=='enhance'&&(!segmented||done('segment'))&&(!j.enhanceVideo||done('enhancePoll'))&&!done('videoSubmit')&&(j.audioUrl||j.resolvedVideoUrl||/\.(mp4|mov|webm)(\?|#|$)/i.test(j.sourceUrl)))list.push('videoSubmit');
  if(j.video&&(j.vmakeMode==='enhance'?done('enhancePoll'):done('videoSubmit'))&&!done('videoPoll'))list.push('videoPoll');
  if(j.videoDestination==='drive'&&!done('driveUpload')&&(j.audioUrl||j.resolvedVideoUrl))list.push('driveUpload');
  if(done('localise')&&!done('export'))list.push('export');
@@ -34,6 +37,8 @@ export function readyStages(j:Job,now=Date.now()):Stage[]{
  return list.filter(k=>!s[k]?.error&&(s[k]?.nextAt||0)<=now);
 }
 export function retryParallel(j:Job){
+ if(j.videoParts&&j.stages?.enhancePoll?.resubmitRequired){const part=j.videoParts.find(p=>!p.enhancedUrl);if(part){part.enhanceTaskId=undefined;part.enhanceSubmittedAt=undefined;}j.stages.enhanceSubmit={};j.stages.enhancePoll={};}
+ if(j.videoParts&&j.stages?.videoPoll?.resubmitRequired){const part=j.videoParts.find(p=>!p.removedUrl);if(part){part.removeTaskId=undefined;part.removeSubmittedAt=undefined;}j.stages.videoSubmit={};j.stages.videoPoll={};}
  if(j.stages?.enhancePoll?.resubmitRequired&&!j.enhancedUrl){j.enhanceTaskId=undefined;j.enhanceSubmittedAt=undefined;j.stages.enhanceSubmit={};j.stages.enhancePoll={};}
  if(j.stages?.videoPoll?.resubmitRequired&&!j.cleanUrl&&!j.videoOutputUrl){j.taskId=undefined;j.submittedAt=undefined;j.stages.videoSubmit={};j.stages.videoPoll={};}
 for(const s of Object.values(j.stages||{})){if(!s.done){s.error=undefined;s.pending=false;s.uncertain=false;s.nextAt=undefined;s.quotaRetries=0;s.retryReason=undefined;s.started=undefined;s.finished=undefined;}}}
@@ -53,6 +58,7 @@ export async function advanceParallel(id:string):Promise<number>{
   });claimed=true;
   const patch=async(fn:(s:Job)=>void)=>mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s||s.lease!==token)throw Error('Lease expired');fn(s);s.updated=Date.now();});
   const runStage=async(k:Stage)=>{
+   let repeat=false;
    const start=Date.now();await patch(s=>{const old=s.stages![k]||{};s.stages![k]={...old,attempts:(old.attempts||0)+1,started:old.started||(k==='videoPoll'?s.submittedAt:undefined)||start};});
    const paid=()=>patch(s=>{s.stages![k]!.pending=true;});
    const save=async(fn:(s:Job)=>void)=>{
@@ -70,30 +76,60 @@ export async function advanceParallel(id:string):Promise<number>{
      }
     }else if(k==='localise'){
      if(!job.result){await paid();const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
+    }else if(k==='segment'){
+     const parts=job.videoParts||planParts(job.duration!);
+     if(!job.videoParts)await save(s=>{s.videoParts=parts;});
+     const index=parts.findIndex(p=>!p.sourceUrl);
+     if(index>=0){const url=await preparePart(job.resolvedVideoUrl||job.sourceUrl,id,index,parts[index]);await save(s=>{if(url)s.videoParts![index].sourceUrl=url;else if(index===s.videoParts!.length-1&&index>0)s.videoParts!.pop();else throw Error('A middle video part is missing.');});repeat=!!url&&index<parts.length-1;}
     }else if(k==='enhanceSubmit'){
-     if(!job.enhanceTaskId&&!job.enhancedUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.resolvedVideoUrl||job.sourceUrl,operation:'enhance'});
+     if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.enhanceTaskId&&!p.enhancedUrl);
+      if(index>=0){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.videoParts[index].sourceUrl,operation:'enhance'});
+       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake enhancer returned no task or output');
+       await save(s=>{const part=s.videoParts![index];part.enhanceTaskId=r.task_id?String(r.task_id):undefined;part.enhanceSubmittedAt=Date.now();part.enhancedUrl=r.output_urls?.[0];});repeat=index<job.videoParts.length-1;}
+     }else if(!job.enhanceTaskId&&!job.enhancedUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.resolvedVideoUrl||job.sourceUrl,operation:'enhance'});
       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake enhancer returned no task or output');
       await save(s=>{s.enhanceTaskId=r.task_id?String(r.task_id):undefined;s.enhanceSubmittedAt=Date.now();s.enhancedUrl=r.output_urls?.[0];});
      }
     }else if(k==='enhancePoll'){
-     if(!job.enhancedUrl){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.enhanceTaskId!)}`);
+     if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.enhancedUrl);
+      if(index>=0){const part=job.videoParts[index],r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(part.enhanceTaskId!)}`);
+       if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
+       if(!r.done){if(Date.now()-(part.enhanceSubmittedAt||Date.now())>3600000)throw Error('VMake enhancement still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+       const url=r.output_urls?.[0];if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.videoParts![index].enhancedUrl=url;});repeat=index<job.videoParts.length-1;
+      }
+      if(!repeat&&job.vmakeMode==='combo'&&!job.enhancedSavedUrl){const current=(await getJob(id))!;const url=await joinParts(current.videoParts!.map(p=>p.enhancedUrl!),id,'-enhanced',job.duration);await save(s=>{s.enhancedSavedUrl=url;});}
+     }else if(!job.enhancedUrl){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.enhanceTaskId!)}`);
       if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
       if(!r.done){if(Date.now()-(job.enhanceSubmittedAt||Date.now())>3600000)throw Error('VMake enhancement still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
       const url=r.output_urls?.[0];if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.enhancedUrl=url;});
      }
-     if(job.vmakeMode==='combo'&&!job.enhancedSavedUrl){
+     if(!job.videoParts&&job.vmakeMode==='combo'&&!job.enhancedSavedUrl){
       const enhanced=(await getJob(id))!.enhancedUrl;
       if(!enhanced)throw Error('Enhanced video missing');
       const saved=await finalise(enhanced,id+'-enhanced');
       await save(s=>{s.enhancedSavedUrl=saved;});
      }
     }else if(k==='videoSubmit'){
-     if(!job.taskId&&!job.cleanUrl&&!job.videoOutputUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.enhanceVideo?(job.enhancedSavedUrl||job.enhancedUrl):job.resolvedVideoUrl||job.sourceUrl,operation:'remove'});
+     if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.removeTaskId&&!p.removedUrl);
+      if(index>=0){const part=job.videoParts[index];await paid();const r=await pythonCall('/api/vmake_submit',{url:job.enhanceVideo?part.enhancedUrl:part.sourceUrl,operation:'remove'});
+       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake returned no task or output');
+       await save(s=>{const current=s.videoParts![index];current.removeTaskId=r.task_id?String(r.task_id):undefined;current.removeSubmittedAt=Date.now();current.removedUrl=r.output_urls?.[0];});repeat=index<job.videoParts.length-1;}
+     }else if(!job.taskId&&!job.cleanUrl&&!job.videoOutputUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.enhanceVideo?(job.enhancedSavedUrl||job.enhancedUrl):job.resolvedVideoUrl||job.sourceUrl,operation:'remove'});
       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake returned no task or output');
       await save(s=>{s.taskId=r.task_id?String(r.task_id):undefined;s.submittedAt=Date.now();s.videoOutputUrl=r.output_urls?.[0];});
      }
     }else if(k==='videoPoll'){
-     if(!job.cleanUrl){let url=job.vmakeMode==='enhance'?job.enhancedUrl:job.videoOutputUrl;
+     if(job.videoParts&&!job.cleanUrl){
+      if(job.vmakeMode!=='enhance'){
+       const index=job.videoParts.findIndex(p=>!p.removedUrl);
+       if(index>=0){const part=job.videoParts[index],r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(part.removeTaskId!)}`);
+        if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed'));}
+        if(!r.done){if(Date.now()-(part.removeSubmittedAt||Date.now())>3600000)throw Error('VMake still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+        const url=r.output_urls?.[0];if(!url)throw Error('VMake completed without video');await save(s=>{s.videoParts![index].removedUrl=url;});repeat=index<job.videoParts.length-1;
+       }
+      }
+      if(!repeat){const latest=(await getJob(id))!;const urls=latest.videoParts!.map(p=>job.vmakeMode==='enhance'?p.enhancedUrl!:p.removedUrl!);const clean=await joinParts(urls,id,'',job.duration);await save(s=>{s.cleanUrl=clean;});}
+     }else if(!job.cleanUrl){let url=job.vmakeMode==='enhance'?job.enhancedUrl:job.videoOutputUrl;
       if(!url){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.taskId!)}`);
        if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed'));}
        if(!r.done){if(Date.now()-(job.submittedAt||Date.now())>3600000)throw Error('VMake still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
@@ -129,7 +165,7 @@ export async function advanceParallel(id:string):Promise<number>{
      }
      const completed=(await getJob(id))!;if(r.hooks.slice(0,2).some((_,i)=>sendsHook(completed,i)&&(completed.hookVoPending?.[i]||!completed.hookVoUrls?.[i]))){await patch(s=>{s.stages![k]!.nextAt=Date.now()+5000;});return;}
     }else if(k==='references'){await updateReference(job.adId!,videoLinks(job),voiceLinks(job));await syncAssignedEditor(job.adId!);}
-    await patch(s=>{s.stages![k]!.done=true;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
+    await patch(s=>{s.stages![k]!.done=!repeat;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
    }catch(e){await patch(s=>{const stage=s.stages![k]!;stage.finished=Date.now();
     if(['export','references','vo'].includes(k)&&!stage.pending&&isSheetsQuotaError(e)&&(stage.quotaRetries||0)<5){
      stage.quotaRetries=(stage.quotaRetries||0)+1;stage.nextAt=Date.now()+sheetRetryDelay(stage.quotaRetries);stage.error=undefined;stage.uncertain=false;stage.retryReason=SHEET_QUOTA_WAIT;return;

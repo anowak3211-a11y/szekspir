@@ -3,6 +3,7 @@ import {pacedNarration,voiceSettings} from './voice-direction';
 import type {VoiceTiming} from './vo-cleanup';
 import {cleanVoiceover} from './vo-cleanup';
 const BASE = "https://api.elevenlabs.io/v1";
+export const ELEVEN_MODEL_ID='eleven_v4';
 
 function key(): string {
   const k = process.env.ELEVENLABS_API_KEY;
@@ -47,11 +48,9 @@ export async function generateVO(
     method: "POST",
     headers: { "xi-api-key": key(), "Content-Type": "application/json" },
     body: JSON.stringify({
-      // V3 delivery tags guide articulation; numeric speed alone may miss the target.
-      // Keep this cue sparse and only use it for a measured, slower previous take.
-      text:pacedNarration(text,processing?.emotion??'subtle',market,processing,kind==='voiceover'?pace:undefined),
-      model_id: "eleven_v3",
-      voice_settings: {...voiceSettings(processing),...(pace&&kind==='voiceover'?{speed:pace.speed}:{})},
+      text:pacedNarration(text,processing?.emotion??'off',market,processing,kind==='voiceover'?pace:undefined),
+      model_id: ELEVEN_MODEL_ID,
+      voice_settings: voiceSettings(processing),
     }),
   });
   if (!r.ok) throw new Error(`ElevenLabs TTS: ${r.status} ${await r.text()}`);
@@ -59,7 +58,7 @@ export async function generateVO(
   try{
    let timing:VoiceTiming|undefined;
    const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
-   if(timing&&pace&&kind==='voiceover')timing.pace=pace;
+   if(timing){timing.modelId=ELEVEN_MODEL_ID;if(pace&&kind==='voiceover')timing.pace={...pace,speed:1,calibrated:false};}
    // Background is opt-in for the main narration only; hooks stay clean for editing.
    let output=clean;
    if(timing&&preserve&&processing&&processing.mode!=='aggressive'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){
@@ -75,7 +74,7 @@ export async function generateVO(
 export async function generatePauseSample(voiceId:string):Promise<ArrayBuffer>{
  const r=await fetch(`${BASE}/text-to-speech/${voiceId}?output_format=mp3_44100_128`,{
   method:'POST',headers:{'xi-api-key':key(),'Content-Type':'application/json'},
-  body:JSON.stringify({text:"Take a moment to listen. This is the same voice, reading at a natural pace. Between each thought, there is a little room to breathe. Now compare the pauses, and choose the rhythm that feels right for your story. There is no need to rush.",model_id:'eleven_v3',voice_settings:{stability:1.0}}),signal:AbortSignal.timeout(90000)
+  body:JSON.stringify({text:"Take a moment to listen. This is the same voice, reading at a natural pace. Between each thought, there is a little room to breathe. Now compare the pauses, and choose the rhythm that feels right for your story. There is no need to rush.",model_id:ELEVEN_MODEL_ID,voice_settings:{stability:1.0,similarity_boost:0.75}}),signal:AbortSignal.timeout(90000)
  });
  if(!r.ok)throw Error(`Could not generate the comparison sample (HTTP ${r.status}).`);
  return r.arrayBuffer();

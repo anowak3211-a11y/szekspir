@@ -8,11 +8,12 @@ import VoicePreview from '@/app/szekspir/components/voice-preview';
 import StorySettings from '@/app/szekspir/components/story-settings';
 import StoryStems from '@/app/szekspir/components/story-stems';
 import PausePreview from '@/app/szekspir/components/pause-preview';
+import VoiceDirections from '@/app/szekspir/components/voice-directions';
 type Editor={id:string;name:string;sheetId:string};
 type Ad={market?:'uk'|'pl';adId:string;name:string;script:string;hooks?:string[]};
 type Voice={group?:string;voice_id:string;name:string;preview_url?:string|null};
 async function request(url:string,body?:unknown){const r=await fetch(url,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{cache:'no-store'});const d=await r.json();if(!r.ok)throw Error(d.error||'Request failed. Please try again.');return d;}
-const defaults:VoiceProcessing={mode:'standard',normalize:false,emotion:'subtle'};
+const defaults:VoiceProcessing={mode:'standard',normalize:false,emotion:'off',openingReaction:'none'};
 export default function AdditionalFiles(){
  const [editors,setEditors]=useState<Editor[]>([]),[voices,setVoices]=useState<Voice[]>([]),[editor,setEditor]=useState(''),[ads,setAds]=useState<Ad[]>([]),[adId,setAdId]=useState('');
  const [recordings,setRecordings]=useState<string[]>(['voiceover']);
@@ -100,7 +101,7 @@ export default function AdditionalFiles(){
     <PausePreview voiceId={voice} processing={processing}/>
    </fieldset>
    
-   <label className="additional-check"><input type="checkbox" disabled={!!busy} checked={processing.emotion==='subtle'} onChange={e=>{const p:VoiceProcessing={...processing,emotion:e.target.checked?'subtle':'off'};setProcessing(p);saveDraft({processing:p});}}/>Subtle emotion at the start</label>
+   <VoiceDirections value={processing} disabled={!!busy} onChange={p=>{setProcessing(p);saveDraft({processing:p});}}/>
    <StorySettings value={processing} disabled={!!busy} onChange={p=>{setProcessing(p);saveDraft({processing:p});}}/>
    {recordings.length>0&&<button className="primary-action" disabled={!!busy||active||loading||!!historyError||!text.trim()||!label.trim()||!voice} onClick={()=>generate()}>{busy==='generate'?'Starting…':active?'Recording in progress…':loading?'Checking saved files…':historyError?'Waiting for connection…':hookIndex!==undefined?`Regenerate Hook ${hookIndex+1}`:files.length?'Generate another take':'Generate voiceover'}</button>}
    {recordings.filter(k=>k!==String(hookIndex??'voiceover')).map(k=>{const d=extraDrafts[k];return <button key={k} className="primary-action" style={{marginTop:12}} disabled={!!busy||active||loading||!!historyError||!d?.text.trim()||!d?.label.trim()||!voice} onClick={()=>generate({...d,hookIndex:k==='voiceover'?undefined:Number(k) as 0|1})}>{active?'Recording in progress…':k==='voiceover'?'Generate voiceover':`Regenerate Hook ${Number(k)+1}`}</button>;})}{historyError&&<p className="err" role="status">Cannot check saved recordings right now. Generation will unlock when the connection returns. <button disabled={loading} onClick={()=>setHistoryRetry(n=>n+1)}>Retry connection</button></p>}<p className="hint">Uses ElevenLabs credits. Nothing is sent to the editor until you approve a take.</p></>}

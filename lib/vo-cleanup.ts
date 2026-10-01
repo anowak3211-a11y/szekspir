@@ -39,7 +39,7 @@ export async function audioDuration(input:string){
  if(!Number.isFinite(duration)||duration<=0)throw Error('Invalid audio duration');
  return duration;
 }
-export type VoiceTiming={speakerSwitchSeconds?:number;speakerTimingWarning?:string;speaker1Speed?:number;pace?:import('./source-pace').SourcePace;originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number;dryUrl?:string;ambienceUrl?:string;ambienceWarning?:string};
+export type VoiceTiming={modelId?:string;speakerSwitchSeconds?:number;speakerTimingWarning?:string;speaker1Speed?:number;pace?:import('./source-pace').SourcePace;originalSeconds:number;trimmedSeconds:number;removedSeconds:number;cleanupVersion:string;processing?:VoiceProcessing;addedTailSeconds?:number;dryUrl?:string;ambienceUrl?:string;ambienceWarning?:string};
 export async function cleanVoiceover(raw:ArrayBuffer,onTiming?:(timing:VoiceTiming)=>void,options?:VoiceProcessing,kind:'voiceover'|'hook'='voiceover'):Promise<ArrayBuffer>{
  const processing=voiceProcessing(options);
  if(!ffmpeg)throw Error('Voiceover cleanup is unavailable');

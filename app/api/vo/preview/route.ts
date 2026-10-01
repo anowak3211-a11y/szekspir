@@ -1,4 +1,4 @@
-import {listVoices,generatePauseSample} from '@/lib/elevenlabs';
+import {listVoices,generatePauseSample,ELEVEN_MODEL_ID} from '@/lib/elevenlabs';
 import {voiceProcessing,breathsEnabled} from '@/lib/voice-processing';
 import {cleanVoiceover,VO_CLEANUP_VERSION} from '@/lib/vo-cleanup';
 import {existingMedia,putMedia} from '@/lib/media';
@@ -16,7 +16,7 @@ export async function POST(req:Request){
   const body=await req.json(),processing=voiceProcessing(body.processing);
   if(typeof body.voiceId!=='string'||!body.voiceId.match(/^[a-zA-Z0-9_-]{1,100}$/))return Response.json({error:'Choose a voice first.'},{status:400});
   const key=createHash('sha256').update(body.voiceId).digest('hex').slice(0,24);
-  const originalPath=`vo/preview-${key}-10s-v2.wav`;
+  const originalPath=`vo/preview-${key}-10s-${ELEVEN_MODEL_ID}.wav`;
   let original=await existingMedia(originalPath);
   if(!original){
    original=await withEditorLocks(['pause-sample-'+key],async()=>{
@@ -31,7 +31,7 @@ export async function POST(req:Request){
      let seconds=0;
      if(voice.preview_url){const r=await fetch(voice.preview_url,{signal:AbortSignal.timeout(30000)});if(r.ok){await writeFile(input,Buffer.from(await r.arrayBuffer()));seconds=await duration();}}
      if(seconds<10){
-      const rawPath=`vo/preview-${key}-generated-v2.mp3`;
+      const rawPath=`vo/preview-${key}-generated-${ELEVEN_MODEL_ID}.mp3`;
       let saved=await existingMedia(rawPath);
       if(!saved)saved=await putMedia(rawPath,Buffer.from(await generatePauseSample(body.voiceId)),'audio/mpeg');
       const r=await fetch(saved,{signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('Could not load the saved comparison sample.');
@@ -44,7 +44,7 @@ export async function POST(req:Request){
    });
   }
 
-  const processedPath=`vo/preview-${key}-v2-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}.wav`;
+  const processedPath=`vo/preview-${key}-${ELEVEN_MODEL_ID}-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}.wav`;
   let processed=await existingMedia(processedPath);
   if(!processed){
    const response=await fetch(original,{signal:AbortSignal.timeout(30000)});

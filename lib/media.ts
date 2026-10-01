@@ -8,7 +8,7 @@ export function storageClient(){
  if(!url||!key)throw Error('Media storage is not configured');
  return createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(120000)})}});
 }
-function checkPath(path:string){if(!/^(sources\/[\w-]+\/(?:source|audio)\.[a-z0-9]+|(?:clean|vo)\/[\w-]+\.(?:mp4|mp3|wav))$/i.test(path))throw Error('Invalid media path');}
+function checkPath(path:string){if(!/^(sources\/[\w-]+\/(?:(?:source|audio)\.[a-z0-9]+|part-[0-2]\.mp4)|(?:clean|vo)\/[\w-]+\.(?:mp4|mp3|wav))$/i.test(path))throw Error('Invalid media path');}
 export async function existingMedia(path:string){
  checkPath(path);
  if(mediaBackend()==='blob'){try{return (await head(path)).url;}catch(e){if(e instanceof BlobNotFoundError||(e as Error).name==='BlobNotFoundError')return undefined;throw e;}}
