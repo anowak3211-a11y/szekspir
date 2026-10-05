@@ -14,7 +14,7 @@ Local source is Next.js 16.3.5. The old handoff's Next.js 15 description is obso
 ## What changed
 - Minimal-change localisation, no automatic understatement and no ASA/CAP rewriting pass. Source-only mode preserves source assertions for internal review; brand mode uses actual product data and records missing values explicitly.
 - Schema validation with one bounded retry. Critic changes are limited to known spelling/vocabulary pairs; whole-script rewrites and numbers are rejected.
-- JSON/ZIP import separates facts, evidence, research and examples. README and operational prompts are excluded, with an import report. Existing older files with those roles are also excluded when context is assembled.
+- JSON/ZIP import includes master prompts and README as copywriting guidance; brand_voice is guidance and offer_brief is offer facts. Facts, guidance, evidence, research and examples are grouped separately, with an import report. New product contexts include previously stored prompt files too. Previously skipped files must be imported again; existing jobs retain their saved context.
 - Script, spoken narration and duration are distinct. Voice choice is explicit and saved locally. Auto-VO has its own toggle. Source duration comes from transcription or uploaded media metadata; actual VO duration is measured by the audio player for comparison.
 - Durable encrypted job records, leased steps, existing provider task IDs and resumable progress. No browser-held VMake polling state. Each private queue delivery advances one leased step. VMake task IDs are reused when polling or retrying, without re-submitting the video.
 - Interrupted paid requests with uncertain provider acceptance are not automatically repeated. The UI asks for an explicit retry after checking provider history. Successful exported rows and media are reused.
@@ -23,7 +23,7 @@ Local source is Next.js 16.3.5. The old handoff's Next.js 15 description is obso
 - Python endpoints enforce authentication independently. Downloads pin public DNS addresses, recheck redirects and enforce size/time limits. Debug output no longer returns provider response bodies or signed input URLs.
 
 ## Verification after configuration
-1. Import the conversion-first ZIP; confirm the JSON profile is facts and both master prompts are excluded.
+1. Import the conversion-first ZIP; confirm the JSON profile and offer brief are facts and both master prompts, brand voice and README are included as guidance.
 2. Run one short link and one local video with your chosen British voice. Confirm clean video + VO + reference links and measured durations.
 3. Close the page after queueing. Reopen after background processing; the same job and Ad ID should remain.
 4. Edit its script and save; confirm the same row changes and editor feedback stays intact.

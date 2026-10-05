@@ -1,5 +1,28 @@
 # Current development handoff — 28 September 2026
 
+## UK prompt v18 guidance deployment — 5 October 2026
+
+- Owner requested deploying the edited localisation guidance except the parts that would automatically invent target-brand evidence or mechanically rename attributed institutions. UK prompt version is now `uk-faithful-2026-10-05-v18-product-guidance-safe`.
+- Product guidance, master prompts, brand voice and research examples remain usable as copywriting guidance within the selected mode. Automatic target-brand testimonials, medical studies, customer counts, retailer availability/certifications, FDA-to-MHRA regulatory swaps and renamed attributed studies remain disallowed unless a supplied target source supports the replacement.
+- Existing jobs retain their captured prompt/context. New localisations use the updated prompt after deployment. No live Sheet mutations or paid provider calls are required for validation.
+- Validation: TypeScript, focused localisation/model/guidance tests, Bloomwise naming, 40 offline core regressions, `git diff --check` and local webpack production build pass. Vercel production deployment `dpl_5hub5wHU5tmMvosGErCL85HZxiLQ` is READY and aliased to `https://szekspir.vercel.app`. No GitHub commit/push.
+
+## Better UK critic and product copy guidance — 5 October 2026
+
+- OpenAI UK language checking (including the existing custom-provider OpenAI checker path) now requests gpt-6-sol with low effort and the existing strict fixes schema. The bounded spelling/retail edit allowlist, retry/refusal handling and critic prompt are unchanged; Anthropic remains Haiku. Saved language-check metadata names the actual new model; historical results are not rewritten.
+- Product imports/context no longer exclude master prompts, README, AGENTS or other instruction files by filename. Master prompts and brand_voice are guidance; offer_brief is facts. Copy guidance is explicitly used by UK and PL generation rather than ignored wholesale, within the selected application mode/market/CTA/hook choices and JSON contract. Prompt versions change to UK v17-product-guidance and PL v4.
+- ZIP and individual-file imports, saved-file editing and context assembly all include these files. Already stored files participate in new contexts; files skipped by old imports must be re-imported. Existing jobs retain their captured productContext and are not silently migrated or regenerated. No live product-sheet mutations are made by this update.
+- Owner requested opening localization-rules.ts for direct code editing; file-open request was queued to the current Codex thread. Changing a local source file requires a subsequent deployment to affect production.
+- Validation: TypeScript, 40 offline core regressions, model-request/critic, guidance context/import/editing, localisation-depth, CTA, Bloomwise and UK/PL tests pass. Requests and Sheet writes were mocked; no live paid generation or production Sheet mutation. Local webpack and production Turbopack builds pass. Deployment `dpl_7EgqWeQ5wHtyXUAx6sGbHz8fGMTa` is READY and aliased to `https://szekspir.vercel.app`. No GitHub commit/push. Native file-open does not establish whether the user wants an additional in-app Szekspir rules editor; clarification was requested.
+
+## Direct-rip fidelity and saffron naming — 5 October 2026
+
+- Close mode explicitly edits the supplied advert rather than writing a replacement: original hook, sentence/scene order, rhythm, repetitions and emotional strength stay; only necessary local and target-product substitutions are made. Requested alternative hooks remain separate. Full mode retains creative rewriting. Depth version is now v2; UK base prompt is v16-direct-rip.
+- With a selected saffron product context and source brand disclosure, a deterministic final naming pass normalises existing Mellow-prefixed Kids/Saffon aliases and bare Mellow to MELLOW SAFFRON GUMMIES in the script and alternative hooks, before deriving narration. It does not brand generic kids-gummies category mentions, add a reveal, change faithful-source/no-context jobs or rename explicitly named magnesium products.
+- The current owner-supplied saffron money-back duration is 90 days, overriding old context that says 100, only at an existing guarantee. Ingredient/serving/dose/customer quantities remain target-specific: use explicit target data or retain source wording for comparison and report the gap separately, without inline review labels. Do not infer a full formulation from a partial list or another brand's label.
+- The saved private medical-ad draft is not imported as verified product data or a universal FDA-to-MHRA substitution rule. Existing saved scripts, recordings and jobs are not automatically regenerated; VMake legacy integration is unchanged.
+- Validation: TypeScript, 40 core offline regressions, depth, Bloomwise/naming, disclosure, singing, critic, regeneration, UK/PL market, CTA and model-request tests pass. Local webpack and production Turbopack builds pass. Provider outputs were mocked; no paid generation or live Sheet writes. Final deployment `dpl_FFfXXzPZ3gPoaLwYFdsbJx8WLbEw` is READY and aliased to `https://szekspir.vercel.app`. No GitHub commit/push.
+
 ## GitHub source sync — 5 October 2026
 
 - Owner explicitly requested uploading the accumulated deployed changes to GitHub. This checkpoint supersedes earlier no-commit/no-push notes for these changes only; it does not grant ongoing permission for future pushes.

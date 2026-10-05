@@ -122,7 +122,7 @@ export default function ProductFolder() {
       </p>
       <h1>📦 PRODUCT <span className="tag">folders</span></h1>
       <p className="sub">
-        1. Select a product tile. 2. Drop .md, .json or ZIP files into it. Facts, research and examples stay separate. Operational prompts and README files are excluded.
+        1. Select a product tile. 2. Drop .md, .txt, .json or ZIP files into it. Master prompts, brand voice and README files are included as copywriting guidance. Product and offer facts, research and examples stay separate.
       </p>
 
       <div className="tiles small">

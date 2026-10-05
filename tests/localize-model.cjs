@@ -12,5 +12,5 @@ vm.runInContext(ts.transpileModule(source.slice(start,end),{compilerOptions:{tar
  await context.complete('openai','gpt-4o-mini','system','user');assert.equal(request.reasoning_effort,undefined);
  await context.complete('custom','gpt-6-sol','system','user');assert.equal(request.reasoning_effort,undefined);
  const ui=fs.readFileSync('app/szekspir/workspace.tsx','utf8');assert.ok(ui.includes("useState('gpt-6-sol')"));assert.ok(ui.includes('GPT-6 Sol · Low effort'));
- console.log('PASS GPT-6 Sol defaults to low; legacy/custom/critic settings preserved');
+ console.log('PASS GPT-6 Sol defaults to low; legacy/custom request settings preserved');
 })().catch(e=>{console.error(e);process.exitCode=1;});

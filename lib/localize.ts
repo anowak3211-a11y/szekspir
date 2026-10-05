@@ -18,12 +18,14 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
  if(market==='pl'&&singingAd)throw Error('Polish localisation does not support singing ads yet.');
  if(isNonSpeechTranscript(usScript))return noSpeechResult();
  const selectedCta=parseCtaMode(ctaMode);
- const system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+localizationInstruction(depth)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Keep the main opening in uk_script.');
+ let system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+localizationInstruction(depth)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Keep the main opening in uk_script.');
  const saffronProduct=market==='uk'&&/kids|saff[ro]*n/i.test(targetBrand);
  if(saffronProduct)targetBrand='MELLOW SAFFRON GUMMIES';
  const bloomTarget=targetBrand;
  const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bbloom[\s-]*wise\b|\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,m=>/bloom/i.test(m)?bloomTarget:targetBrand):usScript):undefined;
  const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.':mayIntroduceMellow(usScript)?`Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word. Bloomwise, Bloom Wise and Bloom-Wise are the confirmed competitor; in BRAND_ADAPTATION replace them with ${bloomTarget}.`:'HARD RULE: the US source contains no confirmed competitor brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic ingredients must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
+ const targetProductInstruction=saffronProduct&&productMd?.trim()?'The selected target is MELLOW SAFFRON GUMMIES. Always use this exact complete name at existing brand mentions, never Kids Gummies or bare Mellow. The owner\'s current guarantee is 90 days: replace an existing money-back guarantee duration with 90 days, overriding older target documents that say 100 days. Do not add a guarantee where the source has none. Dose, serving size and ingredient count still require explicit target facts; do not infer them from competitor copy.':'';
+ if(targetProductInstruction)system+='\n'+targetProductInstruction;
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
  let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
  try{result=validateLocalisation(raw,generateHooks);}catch{
@@ -55,10 +57,19 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   const before=result.uk_script;result.uk_script=replace(before);result.hooks=result.hooks.map(replace);
   if(before!==result.uk_script)result.notes.push({original:'Bloomwise',replacement:bloomTarget,reason:'Confirmed competitor replaced with the selected target product.'});
  }
+ if(saffronProduct&&productMd?.trim()&&mayIntroduceMellow(usScript)){
+  const before=result.uk_script;
+  result.uk_script=canonicalSaffronName(before);result.hooks=result.hooks.map(canonicalSaffronName);
+  if(before!==result.uk_script)result.notes.push({original:'Target product name',replacement:'MELLOW SAFFRON GUMMIES',reason:'Owner-defined canonical name; existing brand disclosure retained.'});
+ }
  if(!singingAd&&market==='uk')result.language_check={model:criticModel(provider),checkedAt:new Date().toISOString()};
 
- result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v1-'+depth+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
+ result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v2-'+depth+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
  return result;
+}
+function canonicalSaffronName(text:string):string{
+ // Normalise only existing names. Keep explicitly named magnesium separate.
+ return text.replace(/\bmellow\b(?!\s+magnesium\b)(?:\s+(?:kids(?:\s+gummies)?|saff(?:ro|o|r)?n(?:\s+gummies)?|gummies))?/gi,()=> 'MELLOW SAFFRON GUMMIES');
 }
 function validateLocalisation(raw:string,generateHooks:boolean,allowMissingHooks=false):LocalizeResult{
  const data=objectJson(raw);
@@ -119,7 +130,7 @@ async function complete(
 }
 
 
-function criticModel(provider:Provider){return provider==='anthropic'?'claude-haiku-4-5-20251001':'gpt-4o-mini';}
+function criticModel(provider:Provider){return provider==='anthropic'?'claude-haiku-4-5-20251001':'gpt-6-sol';}
 export async function critic(script:string,provider:Provider,_model:string,sourceTranscript?:string){
  const raw=objectJson(await complete(provider==='custom'?'openai':provider,criticModel(provider),CRITIC_PROMPT,JSON.stringify({script,sourceTranscript}),30000,true));
  if(!Array.isArray(raw.fixes))throw new Error('Invalid British English check response');

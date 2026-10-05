@@ -1,5 +1,4 @@
 import {inflateRawSync} from 'node:zlib';
-import {fileRole} from './product-context';
 export function readZip(buf:Buffer){
  let end=-1;for(let i=buf.length-22;i>=Math.max(0,buf.length-65557);i--)if(buf.readUInt32LE(i)===0x06054b50){end=i;break;}
  if(end<0)throw new Error('Invalid ZIP');const count=buf.readUInt16LE(end+10);let at=buf.readUInt32LE(end+16),total=0;
@@ -15,7 +14,6 @@ export function readZip(buf:Buffer){
   const start=offset+30+buf.readUInt16LE(offset+26)+buf.readUInt16LE(offset+28);if(start+packed>buf.length)throw new Error('Truncated ZIP');
   const data=method===0?buf.subarray(start,start+packed):inflateRawSync(buf.subarray(start,start+packed),{maxOutputLength:200000});
   if(data.length!==size)throw new Error('Invalid ZIP size');total+=size;
-  if(fileRole(filename)==='excluded'){skipped.push(filename);continue;}
   const markdown=data.toString('utf8');if(filename.endsWith('.json'))JSON.parse(markdown);files.push({filename,markdown});
  }
  return {files,skipped};

@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 import path from "path";
-import {fileRole,productContext} from "./product-context";
+import {productContext} from "./product-context";
 
 function auth() {
   const scopes = ["https://www.googleapis.com/auth/spreadsheets"];
@@ -89,7 +89,6 @@ export async function renameProduct(oldName:string,newName:string){
 
 export async function updateFile(product:string,filename:string,markdown:string,expectedMarkdown:string){
   if(!product?.trim()||!filename?.trim()||typeof markdown!=='string'||typeof expectedMarkdown!=='string')throw new Error('Product, file and previous contents are required');
-  if(fileRole(filename)==='excluded')throw new Error('Operational files cannot be edited as product research');
   if(markdown.length>49000)throw new Error('Document exceeds spreadsheet cell limit');
   if(/\.json$/i.test(filename))JSON.parse(markdown);
   const rows=await readRows();

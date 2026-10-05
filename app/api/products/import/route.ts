@@ -7,7 +7,7 @@ export async function POST(req:Request){try{
  if(!product||!(file instanceof File)||file.size>3*1024*1024)throw new Error('Product and research file up to 3MB required');
  let files:{filename:string;markdown:string}[]=[],skipped:string[]=[];
  if(file.name.endsWith('.zip'))({files,skipped}=readZip(Buffer.from(await file.arrayBuffer())));
- else if(/\.(md|txt|json)$/i.test(file.name)&&fileRole(file.name)!=='excluded'){const markdown=await file.text();if(markdown.length>49000)throw new Error('File exceeds the spreadsheet cell limit; split it into smaller documents');if(file.name.endsWith('.json'))JSON.parse(markdown);files=[{filename:file.name,markdown}];}
+ else if(/\.(md|txt|json)$/i.test(file.name)){const markdown=await file.text();if(markdown.length>49000)throw new Error('File exceeds the spreadsheet cell limit; split it into smaller documents');if(file.name.endsWith('.json'))JSON.parse(markdown);files=[{filename:file.name,markdown}];}
  else skipped=[file.name];
  // Sheets stores one document per cell. Reject the pack before making partial writes.
  if(files.some(f=>f.markdown.length>49000))throw new Error('A document exceeds the spreadsheet cell limit; split it before import');

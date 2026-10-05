@@ -22,7 +22,13 @@ Module._load=function(n,p,...rest){
   const prompt=calls[0].messages[0].content;
   assert(prompt.includes(mode==='close'?'CLOSE LOCALISATION — VMAKE RIP':'FULL LOCALISATION — NEW VIDEO FROM SCRATCH'));
   assert(prompt.includes('must not become an action by MHRA without supplied supporting evidence'));
-  assert.match(result.prompt_version,new RegExp('-depth-v1-'+mode+'$'));
+  assert.match(result.prompt_version,new RegExp('-depth-v2-'+mode+'$'));
+  if(mode==='close'){
+   assert(prompt.includes('Edit the supplied script; do not write a replacement advert'));
+   assert(prompt.includes('undo stylistic changes that were not necessary'));
+   assert(prompt.includes('Alternative hooks, when requested, belong only in the separate hooks array'));
+  }else assert(!prompt.includes('Edit the supplied script; do not write a replacement advert'));
+  if(market==='uk')assert(prompt.includes('distinguish active ingredients from excipients'));
   assert.deepEqual(result.hooks,[]);
  }
  calls.length=0;
