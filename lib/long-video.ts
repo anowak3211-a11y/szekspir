@@ -25,8 +25,9 @@ function runFfmpeg(args:string[],input?:NodeJS.ReadableStream){
  return new Promise<void>((resolve,reject)=>{
   const child=spawn(executable,args,{stdio:['pipe','ignore','pipe']});let stderr='';
   child.stderr.on('data',(b:Buffer)=>{stderr=(stderr+b.toString()).slice(-2000);});
-  child.on('error',reject);
-  child.on('close',code=>code===0?resolve():reject(Error(`Video processing failed (${code}): ${stderr.slice(-350)}`)));
+  const timer=setTimeout(()=>child.kill('SIGKILL'),180000);
+  child.on('error',error=>{clearTimeout(timer);reject(error);});
+  child.on('close',code=>{clearTimeout(timer);code===0?resolve():reject(Error(`Video processing failed (${code}): ${stderr.slice(-350)}`));});
   if(input){input.on('error',()=>child.kill());input.pipe(child.stdin);child.stdin.on('error',()=>{});}else child.stdin.end();
  });
 }

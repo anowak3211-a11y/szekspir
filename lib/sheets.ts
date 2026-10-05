@@ -33,7 +33,7 @@ async function adminOffset(sheets:ReturnType<typeof google.sheets>,spreadsheetId
 
 import {mutate} from './store';
 import {opening} from './validation';
-export interface BriefRow {noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
+export interface BriefRow {sheetProduct?:import("./sheet-product").SheetProduct;noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
 function slug(s:string){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
 type Reservation={adId:string;row:number};
 type Allocations={max:number;lastRow:number;reservations:Record<string,Reservation>};
@@ -64,6 +64,11 @@ export async function appendToAdminBriefs(row:BriefRow){
  const data=[{range:r(`'${BRIEFS_TAB}'!A${n}:F${n}`),values:[[reserved.adId,adName,row.desire,row.angle,row.mechanism,row.funnel]]},{range:r(`'${BRIEFS_TAB}'!I${n}:M${n}`),values:[[row.uk,opening(row.uk),row.hooks[0]||'',row.hooks[1]||'','']]}];
  if(!existing[20]){data.push({range:r(`'${BRIEFS_TAB}'!U${n}`),values:[[editor.id]]});if(offset)data.push({range:`'${BRIEFS_TAB}'!A${n}`,values:[[editor.name]]});}
  if(!existing[13])data.push({range:r(`'${BRIEFS_TAB}'!N${n}`),values:[[row.reference.replace(/^clean video:\s*/i,'')]]});
+ if(row.sheetProduct&&!existing[0]){
+  const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];
+  const col=header.indexOf('Product');if(col<0)throw Error('Product column is not configured');
+  data.push({range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,values:[[row.sheetProduct]]});
+ }
  await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data}});
  if(row.editorNotes){const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];const col=header.indexOf('Notes');if(col<0)throw Error('Notes column is not configured');await sheets.spreadsheets.values.update({spreadsheetId,range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,valueInputOption:'RAW',requestBody:{values:[[row.editorNotes]]}});}
  // Formula reacts to actual values, not cell fill colours. Existing workflows are preserved.

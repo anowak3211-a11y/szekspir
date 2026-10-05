@@ -4,17 +4,20 @@ import {sheetAuth} from './sheets';
 import {openVideoStream} from './stream-media';
 import {MEDIA_LIMIT} from './media';
 import type {Job} from './jobs';
-function driveClient(){
+import {driveConnection,oauthClient} from './drive-oauth';
+async function driveClient(){
+ const {active}=await driveConnection();
+ if(active){const auth=oauthClient(active);auth.setCredentials({refresh_token:active.refreshToken});return {drive:google.drive({version:'v3',auth}),human:true};}
  const {GOOGLE_DRIVE_CLIENT_ID:clientId,GOOGLE_DRIVE_CLIENT_SECRET:clientSecret,GOOGLE_DRIVE_REFRESH_TOKEN:refreshToken}=process.env;
- if(clientId&&clientSecret&&refreshToken){const auth=new google.auth.OAuth2(clientId,clientSecret);auth.setCredentials({refresh_token:refreshToken});return google.drive({version:'v3',auth});}
- return google.drive({version:'v3',auth:sheetAuth()});
+ if(clientId&&clientSecret&&refreshToken){const auth=new google.auth.OAuth2(clientId,clientSecret);auth.setCredentials({refresh_token:refreshToken});return {drive:google.drive({version:'v3',auth}),human:true};}
+ return {drive:google.drive({version:'v3',auth:sheetAuth()}),human:false};
 }
 export async function driveUploadTarget(){
  const folderId=process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID;
  if(!folderId||!/^[-\w]+$/.test(folderId))throw Error('Google Drive is not connected yet. Configure the video folder before choosing Send to Drive.');
- const drive=driveClient();const {data:folder}=await drive.files.get({fileId:folderId,supportsAllDrives:true,fields:'id,mimeType,driveId,capabilities(canAddChildren)'});
+ const {drive,human}=await driveClient();const {data:folder}=await drive.files.get({fileId:folderId,supportsAllDrives:true,fields:'id,mimeType,driveId,capabilities(canAddChildren)'},{timeout:15000,retry:false});
  if(folder.mimeType!=='application/vnd.google-apps.folder'||!folder.capabilities?.canAddChildren)throw Error('The app cannot upload to the selected Google Drive folder.');
- if(!folder.driveId&&!process.env.GOOGLE_DRIVE_REFRESH_TOKEN)throw Error('Connect your Google account to upload to My Drive. The Sheets service account requires a Shared Drive.');
+ if(!folder.driveId&&!human)throw Error('Connect your Google account to upload to My Drive. The Sheets service account requires a Shared Drive.');
  return {drive,folderId};
 }
 export async function saveOriginalToDrive(job:Job,rememberId:(id:string)=>Promise<void>){

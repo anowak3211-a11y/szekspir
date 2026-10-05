@@ -1,6 +1,6 @@
 // Ingredient names and ranking labels (e.g. S tier) are not competitor names.
 export function mayIntroduceMellow(source:string){
- return /\bp\s*[-–‑]\s*nutrition\b/i.test(source)||/spenatrician\b/i.test(source)||/\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/i.test(source)||/\bmellow\b/i.test(source);
+ return /\bbloom[\s-]*wise\b/i.test(source)||/\bp\s*[-–‑]\s*nutrition\b/i.test(source)||/spenatrician\b/i.test(source)||/\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/i.test(source)||/\bmellow\b/i.test(source);
 }
 export function hasUnwantedBrandReveal(source:string,texts:string[]){
  if(mayIntroduceMellow(source))return false;

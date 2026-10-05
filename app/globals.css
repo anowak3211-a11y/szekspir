@@ -95,6 +95,10 @@ td.add, td.del { text-decoration: none; }
 .prodhead button { cursor: pointer; }
 .mdedit { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
 .mdview { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; overflow-x: auto; }
+.product-file-editor { margin-top: 18px; }
+.product-file-editor label { display: block; font-weight: 600; margin-bottom: 8px; }
+.product-edit-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.product-edit-actions .go { margin-top: 0; }
 .hint { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
 .crumb { margin: 0 0 8px; }
 .crumb a { color: var(--muted); text-decoration: none; font-size: 14px; }
@@ -277,3 +281,7 @@ body{line-height:1.55} .wrap{max-width:1180px} h1{letter-spacing:-.025em} h2,h3{
 .ad-video-preview-content p {margin:0 0 12px;}
 .ad-video-preview video,.ad-video-preview iframe {display:block;width:100%;max-width:720px;height:min(60vh,560px);border:0;border-radius:8px;background:#111;object-fit:contain;margin:0 auto 12px;}
 .ad-video-preview a {display:inline-block;min-height:44px;padding-top:8px;}
+.duplicate-upload {text-align:center;max-width:680px;padding-top:12vh;}
+.duplicate-upload svg {display:block;width:clamp(120px,25vw,220px);margin:0 auto 24px;fill:none;stroke:#b42318;stroke-width:12;stroke-linecap:round;}
+.duplicate-upload h1 {color:#b42318;}
+.duplicate-upload a {display:inline-block;min-height:44px;padding:12px;}

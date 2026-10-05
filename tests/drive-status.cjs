@@ -1,0 +1,14 @@
+const fs=require('node:fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,f);
+const {driveStatusError}=require('../lib/drive-status.ts');
+assert.match(driveStatusError({response:{data:{error:'invalid_grant'}}}),/expired or was revoked/);
+assert.match(driveStatusError({code:403}),/permissions/);
+assert.match(driveStatusError({code:404}),/cannot be found/);
+assert.match(driveStatusError({code:503}),/temporarily/);
+assert.match(driveStatusError(Error('Configure the video folder')),/not configured/);
+assert.match(driveStatusError(Error('requires a Shared Drive')),/service account/);
+assert.ok(!driveStatusError(Error('secret-access-token')).includes('secret-access-token'));
+const ui=fs.readFileSync('app/szekspir/workspace.tsx','utf8');
+assert.ok(ui.includes('Check Drive connection again'));
+assert.ok(!ui.includes("setDriveStatus('Google account connection required')"));
+console.log('PASS Drive errors are actionable and redacted; retry control present');

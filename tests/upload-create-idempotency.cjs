@@ -1,0 +1,12 @@
+const fs=require('fs'),ts=require('typescript'),vm=require('vm'),assert=require('node:assert/strict');
+const src=fs.readFileSync('lib/jobs.ts','utf8');
+const code=ts.transpileModule(src.slice(src.indexOf('export async function createJob'),src.indexOf('export async function retryJob')),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
+(async()=>{let stored=null,writes=0,indexFails=true;const index={ids:[]},module={exports:{}};
+ vm.runInNewContext(code,{module,exports:module.exports,process:{env:{}},parseMarket:x=>x||'uk',parseSheetProduct:x=>x,parseCtaMode:x=>x||'original',EDITOR_WORKSPACES:[{id:'mine'}],getJob:async()=>stored,getProducts:async()=>[],URL,writeState:async(k,j)=>{writes++;stored=j;},mutate:async(k,f,fn)=>{if(indexFails){indexFails=false;throw Error('database disconnected after job saved');}return fn(index);}});
+ const input={id:'same-job-id',sourceUrl:'https://media.test/video',video:false,voiceoverEnabled:false,provider:'openai'};
+ await assert.rejects(module.exports.createJob(input),/database disconnected/);
+ const result=await module.exports.createJob(input);assert.equal(writes,1);assert.equal(result,stored);assert.deepEqual(index.ids,['same-job-id']);
+ stored.status='Running';stored.stages={transcribe:{done:true}};
+ await module.exports.createJob({...input,name:'Do not overwrite'});assert.equal(writes,1);assert.equal(stored.status,'Running');assert.equal(stored.stages.transcribe.done,true);assert.equal(index.ids.length,1);
+ console.log('PASS: save retry recovers partial registration, preserves running job/checkpoints, never creates a second job.');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,6 @@
+import {claimFile,releaseFile,DuplicateFileError} from '@/lib/file-dedup';
+export const maxDuration=60;
+export async function POST(req:Request){
+ try{const b=await req.json();if(b.action==='release')await releaseFile(b.hash,b.id);else await claimFile(b.hash,b.id,b.market==='pl'?'pl':'uk');return Response.json({ok:true});}
+ catch(e){if(e instanceof DuplicateFileError)return Response.json({duplicate:e.duplicate},{status:409});return Response.json({error:(e as Error).message},{status:400});}
+}

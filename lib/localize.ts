@@ -7,17 +7,23 @@ import {narration} from './speech';
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
 import {SYSTEM_PROMPT,CRITIC_PROMPT,PROMPT_VERSION} from './localization-rules';
+import {parseLocalizationMode,localizationInstruction,type LocalizationMode} from './localization-mode';
 import {objectJson,validateResult,applyCritic,timing,opening,LocalizeResult} from './validation';
 export type {LocalizeResult} from './validation';
 export type Provider='anthropic'|'openai'|'custom';
-export async function localize(usScript:string,provider:Provider,model:string,productMd?:string,_voMode?:boolean,singingAd=false,targetBrand="MELLOW",ctaMode:CtaMode="original",generateHooks=true,market:Market='uk'):Promise<LocalizeResult>{
+export async function localize(usScript:string,provider:Provider,model:string,productMd?:string,_voMode?:boolean,singingAd=false,targetBrand="MELLOW",ctaMode:CtaMode="original",generateHooks=true,market:Market='uk',localizationMode:LocalizationMode='close'):Promise<LocalizeResult>{
+ const depth=parseLocalizationMode(localizationMode);
+ if(singingAd&&depth==='full')throw Error('Full localisation is not available for singing ads.');
  market=parseMarket(market);
  if(market==='pl'&&singingAd)throw Error('Polish localisation does not support singing ads yet.');
  if(isNonSpeechTranscript(usScript))return noSpeechResult();
  const selectedCta=parseCtaMode(ctaMode);
- const system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Preserve the original opening in uk_script.');
- const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,()=>targetBrand):usScript):undefined;
- const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.':mayIntroduceMellow(usScript)?'Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word.':'HARD RULE: the US source contains no SP/SP Nutrition brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic magnesium bisglycinate must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
+ const system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+localizationInstruction(depth)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Keep the main opening in uk_script.');
+ const saffronProduct=market==='uk'&&/kids|saff[ro]*n/i.test(targetBrand);
+ if(saffronProduct)targetBrand='MELLOW SAFFRON GUMMIES';
+ const bloomTarget=targetBrand;
+ const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bbloom[\s-]*wise\b|\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,m=>/bloom/i.test(m)?bloomTarget:targetBrand):usScript):undefined;
+ const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.':mayIntroduceMellow(usScript)?`Only replace explicitly named source brands at the same point in the script. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word. Bloomwise, Bloom Wise and Bloom-Wise are the confirmed competitor; in BRAND_ADAPTATION replace them with ${bloomTarget}.`:'HARD RULE: the US source contains no confirmed competitor brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic ingredients must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
  let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
  try{result=validateLocalisation(raw,generateHooks);}catch{
@@ -44,9 +50,14 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   else result.hooks[i-1]=checked.uk_script;
  });
  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+ if(market==='uk'&&productMd?.trim()&&/\bbloom[\s-]*wise\b/i.test(usScript)){
+  const replace=(text:string)=>text.replace(/\bbloom[\s-]*wise\b/gi,()=>bloomTarget);
+  const before=result.uk_script;result.uk_script=replace(before);result.hooks=result.hooks.map(replace);
+  if(before!==result.uk_script)result.notes.push({original:'Bloomwise',replacement:bloomTarget,reason:'Confirmed competitor replaced with the selected target product.'});
+ }
  if(!singingAd&&market==='uk')result.language_check={model:criticModel(provider),checkedAt:new Date().toISOString()};
 
- result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
+ result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v1-'+depth+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
  return result;
 }
 function validateLocalisation(raw:string,generateHooks:boolean,allowMissingHooks=false):LocalizeResult{
@@ -94,8 +105,9 @@ async function complete(
   });
   const resp = await client.chat.completions.create({
     ...(structuredCheck ? {response_format:{type:'json_schema' as const,json_schema:{name:'british_english_check',strict:true,schema:{type:'object',additionalProperties:false,required:['fixes'],properties:{fixes:{type:'array',items:{type:'object',additionalProperties:false,required:['original','replacement','reason'],properties:{original:{type:'string'},replacement:{type:'string'},reason:{type:'string'}}}}}}}}} : {}),
-    model: model || (provider === "openai" ? "gpt-5.6-sol" : "gpt-4o"),
-    ...(provider === "openai" && /^(gpt-5\.6(?:-(?:sol|terra|luna))?)(?:$|-)/.test(model || "gpt-5.6-sol") ? { reasoning_effort: "none" as const } : {}),
+    model: model || (provider === "openai" ? "gpt-6-sol" : "gpt-4o"),
+    ...(provider === "openai" && /^gpt-6-sol(?:$|-)/.test(model || "gpt-6-sol") ? { reasoning_effort: "low" as const } :
+      provider === "openai" && /^(gpt-5\.6(?:-(?:sol|terra|luna))?)(?:$|-)/.test(model) ? { reasoning_effort: "none" as const } : {}),
     messages: [
       { role: "system", content: system },
       { role: "user", content: user },

@@ -1,0 +1,47 @@
+const fs=require('fs'),ts=require('typescript'),Module=require('module'),assert=require('node:assert/strict');
+for(const ext of ['.ts','.tsx'])require.extensions[ext]=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true,jsx:ts.JsxEmit.ReactJSX}}).outputText,f);
+global.fetch=async()=>{throw Error('No live network in localisation-mode tests');};
+const calls=[],state=new Map(),real=Module._load;
+Module._load=function(n,p,...rest){
+ if(n==='openai')return class{chat={completions:{create:async request=>{calls.push(request);return {choices:[{message:{content:JSON.stringify(request.response_format?{fixes:[]}:{uk_script:'A natural opening. Read the article below.',narration:'A natural opening. Read the article below.',hooks:[],notes:[],data_gaps:[],ad_desire:'Understand the idea',ad_angle:'Education',unique_mechanism:'',funnel:'TOF'})}}]};}}};};
+ if(p?.filename.endsWith('/lib/jobs.ts')){
+  if(n==='./store')return {readState:async(k,d)=>({value:state.get(k)??d}),writeState:async(k,v)=>state.set(k,v),mutate:async(k,d,f)=>{const v=state.get(k)??d;const result=f(v);state.set(k,v);return result;}};
+  if(n==='./products')return {getProducts:async()=>[]};
+  if(n==='./parallel-pipeline')return {};
+ }
+ return real.call(this,n,p,...rest);
+};
+(async()=>{
+ const modes=require('../lib/localization-mode.ts');
+ for(const absent of [undefined,null,''])assert.equal(modes.parseLocalizationMode(absent),'close');
+ for(const invalid of ['creative',{},true,1])assert.throws(()=>modes.parseLocalizationMode(invalid));
+ const {localize}=require('../lib/localize.ts');
+ for(const market of ['uk','pl'])for(const mode of ['close','full']){
+  calls.length=0;
+  const result=await localize('A source opening. Read the article below.','openai','test',undefined,false,false,'','original',false,market,mode);
+  const prompt=calls[0].messages[0].content;
+  assert(prompt.includes(mode==='close'?'CLOSE LOCALISATION — VMAKE RIP':'FULL LOCALISATION — NEW VIDEO FROM SCRATCH'));
+  assert(prompt.includes('must not become an action by MHRA without supplied supporting evidence'));
+  assert.match(result.prompt_version,new RegExp('-depth-v1-'+mode+'$'));
+  assert.deepEqual(result.hooks,[]);
+ }
+ calls.length=0;
+ await assert.rejects(()=>localize('Lyrics','openai','test',undefined,false,true,'','original',false,'uk','full'),/singing ads/);
+ assert.equal(calls.length,0);
+ const {createJob}=require('../lib/jobs.ts');
+ const input={id:'mode-close-12345',transcript:'Source',provider:'openai',voiceoverEnabled:false,editorNotes:'Keep my note'};
+ const close=await createJob(input);assert.equal(close.localizationMode,'close');assert.equal(close.editorNotes,'Keep my note');
+ const full=await createJob({...input,id:'mode-full-12345',localizationMode:'full'});assert.equal(full.localizationMode,'full');assert.match(full.editorNotes,/create the video from scratch/);assert.match(full.editorNotes,/Keep my note/);
+ assert.equal((await createJob({...input,id:full.id,localizationMode:'close'})).localizationMode,'full','Idempotent create must not overwrite saved mode');
+ await assert.rejects(()=>createJob({...input,id:'mode-bad-12345',localizationMode:'oops'}));
+ await assert.rejects(()=>createJob({...input,id:'mode-song-12345',localizationMode:'full',singingAd:true}),/singing ads/);
+ const React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+ const Choice=require('../app/szekspir/components/localization-mode.tsx').default;
+ for(const polish of [true,false]){
+  const html=renderToStaticMarkup(React.createElement(Choice,{value:'full',onChange:()=>{},polish}));
+  assert.equal((html.match(/type="radio"/g)||[]).length,2);assert.match(html,/checked="" value="full"/);assert.match(html,/<legend/);assert.match(html,/VMake/);
+ }
+ for(const file of ['lib/jobs.ts','lib/parallel-pipeline.ts','app/api/jobs/regenerate-script/route.ts'])assert.match(fs.readFileSync(file,'utf8'),/job\.market,job\.localizationMode\)/);
+ const ui=fs.readFileSync('app/szekspir/workspace.tsx','utf8');assert.equal((ui.match(/localizationMode:singingAd\?'close':localizationMode/g)||[]).length,2,'Both text and media/link upload drafts retain mode');
+ console.log('PASS localisation depth: UK/PL prompts, validation, saved job/idempotency, editor handoff, accessible controls and all generation paths');
+})().catch(error=>{console.error(error);process.exitCode=1;});

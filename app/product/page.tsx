@@ -13,6 +13,11 @@ export default function ProductFolder() {
   const [dragOver, setDragOver] = useState(false);
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState("");
+  const [renaming,setRenaming]=useState(false);
+  const [nameDraft,setNameDraft]=useState("");
+  const [editingFile,setEditingFile]=useState<ProductFile|null>(null);
+  const [fileDraft,setFileDraft]=useState("");
+  const [saving,setSaving]=useState(false);
 
   async function refresh() {
     const j = await fetch("/api/products").then((r) => r.json());
@@ -68,13 +73,36 @@ export default function ProductFolder() {
 
   async function removeFile(filename: string) {
     if (!confirm(`Delete ${filename} from ${selected}?`)) return;
-    await fetch("/api/products", {
+    setSaving(true);
+    try{const r=await fetch("/api/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "deleteFile", product: selected, filename }),
     });
-    setPreview(null);
-    await refresh();
+    const j=await r.json();if(!r.ok)throw Error(j.error||'Delete failed');
+    setPreview(null);setEditingFile(null);
+    await refresh();setMsg(`Deleted ${filename}.`);
+    }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
+  }
+
+  async function saveName(){
+    const next=nameDraft.trim();
+    if(!next){setMsg('❌ Enter a product name.');return;}
+    if(next===selected){setRenaming(false);return;}
+    setSaving(true);setMsg('Renaming product…');
+    try{const r=await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'rename',product:selected,name:next})});
+      const j=await r.json();if(!r.ok)throw Error(j.error||'Rename failed');
+      await refresh();setSelected(next);setRenaming(false);setPreview(null);setEditingFile(null);setMsg(`Product renamed to ${next}. Existing jobs keep their saved product snapshot.`);
+    }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
+  }
+
+  async function saveFile(){
+    if(!editingFile)return;
+    setSaving(true);setMsg(`Saving ${editingFile.filename}…`);
+    try{const r=await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateFile',product:selected,filename:editingFile.filename,markdown:fileDraft,expectedMarkdown:editingFile.markdown})});
+      const j=await r.json();if(!r.ok)throw Error(j.error||'Save failed');
+      await refresh();setPreview({filename:editingFile.filename,markdown:fileDraft});setEditingFile(null);setMsg(`Saved ${editingFile.filename}. Future jobs will use the updated reference.`);
+    }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
   }
 
   const onDrop = useCallback(
@@ -102,9 +130,12 @@ export default function ProductFolder() {
           <button
             key={p.name}
             className={"tile" + (selected === p.name ? " active" : "")}
+            disabled={saving}
             onClick={() => {
               setSelected(selected === p.name ? "" : p.name);
               setPreview(null);
+              setEditingFile(null);
+              setRenaming(false);
             }}
           >
             <span className="tile-icon">📦</span>
@@ -116,7 +147,9 @@ export default function ProductFolder() {
         ))}
         {adding ? (
           <div className="tile add-tile">
+            <label htmlFor="new-product-name">Product name</label>
             <input
+              id="new-product-name"
               autoFocus
               placeholder="Product name"
               value={newName}
@@ -158,32 +191,32 @@ export default function ProductFolder() {
           onChange={(e) => importFiles(Array.from(e.target.files || []))}
         />
       </label>
-      {msg && <p className="exportmsg">{msg}</p>}
+      {msg && <p className="exportmsg" role="status">{msg}</p>}
 
-      {current && current.files.length > 0 && (
+      {current && (
         <div className="prodeditor">
           <div className="prodhead">
-            <strong>{current.name} — files</strong>
+            {renaming?<><label htmlFor="product-rename">Product name</label><input id="product-rename" autoFocus value={nameDraft} maxLength={120} disabled={saving} onChange={e=>setNameDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')void saveName();if(e.key==='Escape')setRenaming(false);}}/><button type="button" disabled={saving||!nameDraft.trim()} onClick={saveName}>{saving?'Saving…':'Save name'}</button><button type="button" disabled={saving} onClick={()=>setRenaming(false)}>Cancel</button></>
+            :<><strong>{current.name} — files</strong><button type="button" disabled={saving} onClick={()=>{setNameDraft(current.name);setRenaming(true);setMsg('');}}>Rename product</button></>}
           </div>
+          {current.files.length===0&&<p className="hint">No files yet. Drop a research file above to add one.</p>}
           {current.files.map((f) => (
             <div key={f.filename} className="batchrow">
               <button
                 className="filelink"
-                onClick={() =>
-                  setPreview(preview?.filename === f.filename ? null : f)
-                }
+                disabled={saving}
+                onClick={() => {setPreview(preview?.filename === f.filename ? null : f);setEditingFile(null);}}
               >
                 📄 {f.filename}
               </button>
               <span className="tile-sub">
                 {f.markdown.split("\n").length} lines
               </span>
-              <button className="dellink" onClick={() => removeFile(f.filename)}>
-                ✕
-              </button>
+              <button type="button" disabled={saving} onClick={()=>{setEditingFile(f);setFileDraft(f.markdown);setPreview(null);setMsg('');}}>Edit</button>
+              <button type="button" className="dellink" aria-label={`Delete ${f.filename}`} disabled={saving} onClick={() => removeFile(f.filename)}>Delete</button>
             </div>
           ))}
-          {preview && <pre className="script mdview">{preview.markdown}</pre>}
+          {editingFile?<div className="product-file-editor"><label htmlFor="product-file-content">Edit {editingFile.filename}</label><textarea id="product-file-content" className="mdedit" rows={18} value={fileDraft} disabled={saving} onChange={e=>setFileDraft(e.target.value)}/><p className="hint">Only future jobs use changes to this reference. Existing jobs keep their saved copy.</p><div className="product-edit-actions"><button type="button" className="go" disabled={saving||fileDraft===editingFile.markdown||fileDraft.length>49000} onClick={saveFile}>{saving?'Saving…':'Save changes'}</button><button type="button" disabled={saving} onClick={()=>setEditingFile(null)}>Cancel</button></div>{fileDraft.length>49000&&<p className="err" role="alert">This document exceeds the spreadsheet cell limit of 49,000 characters.</p>}</div>:preview&&<pre className="script mdview">{preview.markdown}</pre>}
         </div>
       )}
     </main>

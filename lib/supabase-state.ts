@@ -11,9 +11,16 @@ async function rpc(name:string,body:unknown){
  const attempts=3;
  for(let attempt=0;attempt<attempts;attempt++){
   let r:Response;
-  try{r=await fetch(`${url}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(20000)});}
-  catch(e){if(attempt===attempts-1)throw Error('Database connection unavailable. Please try again.');await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));continue;}
-  if(r.ok)return r.json();
+  try{r=await fetch(`${url}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(8000)});
+   if(r.ok)return await r.json();
+  }
+  catch(e){
+   const code=(e as {cause?:{code?:string}})?.cause?.code;
+   const reason=['ECONNRESET','ETIMEDOUT','ENOTFOUND','EAI_AGAIN','UND_ERR_CONNECT_TIMEOUT'].includes(code||'')?code:(e as Error)?.name==='TimeoutError'?'timeout':e instanceof SyntaxError?'invalid_response':'network_or_response';
+   console.warn('state_transport_retry',{operation:name==='szekspir_state_write'?'write':'read',attempt:attempt+1,reason});
+   if(attempt===attempts-1)throw Error('Database connection unavailable. Please try again.');await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));continue;
+  }
+  console.warn('state_transport_status',{operation:name==='szekspir_state_write'?'write':'read',attempt:attempt+1,status:r.status});
   if(attempt<attempts-1&&[408,429,500,502,503,504,520,521,522,523,524].includes(r.status)){await r.body?.cancel();await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));continue;}
   throw Error(`Database state request failed (HTTP ${r.status})`);
  }

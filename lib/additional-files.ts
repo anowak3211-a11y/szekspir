@@ -16,7 +16,7 @@ function workspace(editorId:string){const w=EDITOR_WORKSPACES.find(w=>w.id===edi
 async function masterRows(){return (await api().spreadsheets.values.get({spreadsheetId:master(),range:"'Daily Briefs'!A1:AC502",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];}
 export async function additionalAds(editorId:string){workspace(editorId);const markets=new Map((await jobs()).filter(j=>j.adId).map(j=>[j.adId,j.market||'uk']));const rows=await masterRows(),h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Editor ID')]===editorId&&/^MEL-\d+$/.test(String(r[h.indexOf('Ad ID')]))).map(r=>({market:markets.get(String(r[h.indexOf('Ad ID')]))||'uk',adId:String(r[h.indexOf('Ad ID')]),name:String(r[h.indexOf('Ad name')]||''),script:String(r[h.indexOf('Adapted script')]||''),hooks:[String(r[h.indexOf('Hook 1')]||''),String(r[h.indexOf('Hook 2')]||'')]})).reverse();}
 async function selectedAd(editorId:string,adId:string){workspace(editorId);key(adId);const rows=await masterRows(),h=rows[0]||[],matches=rows.map((r,i)=>({r,i})).filter(x=>x.i>0&&x.r[h.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad not found or duplicated.');const {r,i}=matches[0];if(r[h.indexOf('Editor ID')]!==editorId)throw Error('This ad is assigned to another editor. Refresh the list.');const col=h.indexOf('Additional files');if(col<0)throw Error('Additional files column is not configured.');return {row:i+1,col,links:String(r[col]||'')};}
-export async function additionalHistory(editorId:string,adId:string){const ad=await selectedAd(editorId,adId);const state=(await readState<AdditionalState>(key(adId),{files:[]})).value;const w=workspace(editorId);const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:R501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];const h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);return {files:state.files,links:mergeAdditionalLinks(ad.links,String(r?.[h.indexOf('Additional files')]||''))};}
+export async function additionalHistory(editorId:string,adId:string){const ad=await selectedAd(editorId,adId);const state=(await readState<AdditionalState>(key(adId),{files:[]})).value;const w=workspace(editorId);const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];const h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);return {files:state.files,links:mergeAdditionalLinks(ad.links,String(r?.[h.indexOf('Additional files')]||''))};}
 export async function requestAdditional(input:Record<string,unknown>){
  const b=additionalInput(input);await selectedAd(b.editorId,b.adId);
  const prior=(await readState<AdditionalState>(key(b.adId),{files:[]})).value.files.find(f=>f.id===b.requestId);
@@ -61,7 +61,7 @@ export async function approveAdditional(editorId:string,adId:string,id:string){
  await syncAssignedEditor(adId);
  // Confirm delivery before showing success. Retrying only reuses the saved file.
  await selectedAd(editorId,adId);
- const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:R501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);
+ const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);
  const file=(await readState<AdditionalState>(key(adId),{files:[]})).value.files.find(f=>f.id===id)!;
  if(!String(r?.[h.indexOf('Additional files')]||'').includes(file.url!))throw Error('File saved; editor delivery has not been confirmed. Click Approve again to retry without recording again.');
  await mutate<AdditionalState,void>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id)!;f.status='approved';f.approvedAt=f.approvedAt||Date.now();});
@@ -75,7 +75,7 @@ export async function requestAdditionalUpload(input:Record<string,unknown>){
   const old=s.files.find(f=>f.id===b.requestId);
   if(old){if(old.provider!==b.provider||old.sourcePath!==b.sourcePath||old.vmakeMode!==b.vmakeMode||old.editorId!==b.editorId||old.label!==b.label)throw Error('Request already exists with different settings.');return old;}
   if(s.files.length>=200)throw Error('This ad has reached its file history limit.');
-  const f:AdditionalFile={id:b.requestId,adId:b.adId,editorId:b.editorId,label:b.label,provider:b.provider,mediaType:b.mediaType,sourcePath:b.sourcePath,vmakeMode:b.vmakeMode,originalUrl:url,text:'',voiceId:'',voiceName:b.provider==='vmake'?'VMake':'Original file',processing:{mode:'standard',normalize:false,emotion:'off'},createdAt:Date.now(),status:b.provider==='none'?'draft':'generating',...(b.provider==='none'?{url}:{videoStep:b.vmakeMode==='remove'?'remove':'enhance'})};
+  const f:AdditionalFile={vmakeOrder:'clean-first',id:b.requestId,adId:b.adId,editorId:b.editorId,label:b.label,provider:b.provider,mediaType:b.mediaType,sourcePath:b.sourcePath,vmakeMode:b.vmakeMode,originalUrl:url,text:'',voiceId:'',voiceName:b.provider==='vmake'?'VMake':'Original file',processing:{mode:'standard',normalize:false,emotion:'off'},createdAt:Date.now(),status:b.provider==='none'?'draft':'generating',...(b.provider==='none'?{url}:{videoStep:b.vmakeMode==='enhance'?'enhance':'remove'})};
   s.files.unshift(f);return f;
  });
 }
@@ -98,12 +98,12 @@ export async function advanceAdditionalVideo(adId:string,id:string){
   }else if(f.taskId){
    const result=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(f.taskId)}`);
    if(result.failed||result.resubmit_required){await update(x=>{x.status='error';x.error=result.message||'VMake processing failed. Check the provider before starting again.';});return;}
-   if(result.done){if(!result.output_urls?.[0])throw Error('VMake completed without a video.');await update(x=>{x.outputUrl=result.output_urls[0];x.taskId=undefined;x.videoStep=x.videoStep==='enhance'&&x.vmakeMode==='both'?'remove':'save';});}
+   if(result.done){if(!result.output_urls?.[0])throw Error('VMake completed without a video.');await update(x=>{x.outputUrl=result.output_urls[0];x.taskId=undefined;x.videoStep=x.vmakeMode==='both'?(x.vmakeOrder==='clean-first'?(x.videoStep==='remove'?'enhance':'save'):(x.videoStep==='enhance'?'remove':'save')):'save';});}
   }else{
    await update(x=>{x.pendingSubmit=true;});
    const result=await pythonCall('/api/vmake_submit',{url:f.outputUrl||f.originalUrl,operation:f.videoStep});
    if(!result.task_id&&!result.output_urls?.[0])throw Error('VMake did not return a task or video.');
-   await update(x=>{x.pendingSubmit=false;if(result.task_id)x.taskId=String(result.task_id);else{x.outputUrl=result.output_urls[0];x.videoStep=x.videoStep==='enhance'&&x.vmakeMode==='both'?'remove':'save';}});
+   await update(x=>{x.pendingSubmit=false;if(result.task_id)x.taskId=String(result.task_id);else{x.outputUrl=result.output_urls[0];x.videoStep=x.vmakeMode==='both'?(x.vmakeOrder==='clean-first'?(x.videoStep==='remove'?'enhance':'save'):(x.videoStep==='enhance'?'remove':'save')):'save';}});
   }
  }catch(e){
   // Polling/storage errors can retry safely; never repeat an uncertain paid submission.

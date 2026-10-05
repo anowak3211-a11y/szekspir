@@ -11,3 +11,4 @@ rows=progressRows({...base,stages:undefined,status:'Complete',step:'done'});asse
 console.log('PASS: parallel stages, optional stages, failures, upload confirmation and completion');
 
 rows=progressRows({...base,engine:2,status:'Queued',stages:undefined});assert(!rows.some(r=>r.state==='active'));assert.equal(rows.filter(r=>r.state==='done').length,0);
+rows=progressRows({...base,vmakeOrder:'clean-first',enhanceVideo:true,vmakeMode:'both',cleanFirst:{parts:[{sourceUrl:'x',removedUrl:'y'}]},stages:{cleanFirst:{started:1}}});assert(rows.some(r=>r.key==='cleanFirst'&&r.detail.includes('Enhancing')));assert(!rows.some(r=>['videoSubmit','videoPoll','enhanceSubmit'].includes(r.key)));

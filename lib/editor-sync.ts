@@ -20,7 +20,7 @@ async function syncOne(workspace:typeof EDITOR_WORKSPACES[number]){
  try{saved=await mutate<State,State>(name,{snapshot:legacySnapshot},s=>{if((s.leaseUntil||0)>Date.now())throw Error('SYNC_BUSY');s.lease=token;s.leaseUntil=Date.now()+360000;return structuredClone(s);});}catch(e){if((e as Error).message==='SYNC_BUSY')return {busy:true};throw e;}
  const sheets=google.sheets({version:'v4',auth:sheetAuth()});
  try{
-  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AC':'R'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
+  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AD':'S'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
   const [admin,editor]=await Promise.all([load(adminId(),'Daily Briefs'),load(editorId(),'My Tasks')]);
   const plan=planAssignedSync(admin.rows,editor.rows,saved.snapshot,editor.capacity,workspace.id);
   if(!plan.adminChanges.length&&!plan.editorChanges.length&&JSON.stringify(plan.snapshot)===JSON.stringify(saved.snapshot)){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});return {unchanged:true};}
@@ -82,7 +82,7 @@ export async function verifyEditorDelivery(job:import('./jobs').Job,synchronise=
   const {api,current}=await editorAssignment(job.adId!);const workspace=EDITOR_WORKSPACES.find(w=>w.id===current);if(!workspace)throw Error('Assigned editor not found.');
   return withEditorLocks(['workspace-'+workspace.id],async()=>{
    if(synchronise)await syncWorkspace(workspace);
-   const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:R501",valueRenderOption:'UNFORMATTED_VALUE'});
+   const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'});
    const rows=response.data.values||[],headers=(rows[0]||[]).map(String),idCol=headers.indexOf('Ad ID');
    const matching=rows.slice(1).filter(row=>row[idCol]===job.adId);if(matching.length>1)throw Error('The editor sheet contains duplicate rows for this ad.');
    const {editorChecklist,deliveryVersion}=await import('./editor-checklist');const checks=editorChecklist(job,headers,matching[0]||[]);

@@ -1,3 +1,5 @@
+import {parseLocalizationMode} from '@/lib/localization-mode';
+import {parseMarket} from '@/lib/market';
 import {parseCtaMode} from '@/lib/cta-mode';
 // Compatibility endpoint for text/file localisation only. Production jobs use /api/jobs.
 import {localize,transcribe,Provider} from '@/lib/localize';
@@ -11,5 +13,5 @@ export async function POST(req:Request){try{
  if(!script.trim())throw new Error('Script or audio required');
  const name=String(f.get('productName')||'');const product=name?(await getProducts()).find(p=>p.name===name):undefined;
  if(name&&!product)throw new Error('Unknown product');
- return Response.json({us_script:script,...await localize(script,provider as Provider,String(f.get('model')||''),product?.markdown,false,false,(name||'MELLOW').toUpperCase(),parseCtaMode(f.get('ctaMode')??undefined))});
+ return Response.json({us_script:script,...await localize(script,provider as Provider,String(f.get('model')||''),product?.markdown,false,false,(name||'MELLOW').toUpperCase(),parseCtaMode(f.get('ctaMode')??undefined),true,parseMarket(f.get('market')??undefined),parseLocalizationMode(f.get('localizationMode')))});
 }catch(e){return Response.json({error:(e as Error).message},{status:400});}}

@@ -6,6 +6,8 @@ const real=Module._load;Module._load=function(n,p,i){if(n==='./long-video')retur
 let driveCalls=0;const priorLoad=Module._load;Module._load=function(n,p,i){if(n==='./drive-video')return {driveUploadTarget:async()=>({}),saveOriginalToDrive:async(job,remember)=>{driveCalls++;await remember('drive-file-123');return 'https://drive.google.com/file/d/drive-file-123/view';}};return priorLoad.call(this,n,p,i);};
 let calls=[];global.fetch=async (url,init)=>{if(url.endsWith('/api/vmake_submit')){submits++;calls.push(JSON.parse(init.body));return Response.json({task_id:'task-'+submits})}return Response.json({done:true,output_urls:['https://out.test/video.mp4']})};
 const jobs=require('../lib/jobs.ts'),pipeline=require('../lib/parallel-pipeline.ts');
+// These fixtures cover historical enhance-first jobs and paid-checkpoint compatibility.
+const createCurrent=jobs.createJob;jobs.createJob=async input=>{const result=await createCurrent(input);await require('../lib/store.ts').mutate('job-'+input.id,null,j=>{j.vmakeOrder=undefined;});return result;};
 const make=async id=>{await jobs.createJob({id,sourceUrl:'https://media.test/source.mp4',audioUrl:'https://media.test/audio.mp3',video:true,videoDestination:'vmake',provider:'openai',generateVo:true,voiceId:'voice'});await require('../lib/store.ts').mutate('job-'+id,null,s=>{s.enhanceVideo=false;});};
 (async()=>{
  await jobs.createJob({id:'drive-original-01',vmakeMode:'combo',editorId:'editor-5',sourceUrl:'https://media.test/source.mp4',audioUrl:'https://media.test/audio.mp3',video:true,provider:'openai',voiceoverEnabled:false});

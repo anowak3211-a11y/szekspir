@@ -17,10 +17,14 @@ let submissions=[];
   const f=await service.requestAdditionalUpload(request);await service.requestAdditionalUpload(request);
   await assert.rejects(()=>service.approveAdditional(input.editorId,input.adId,f.id));
   for(let i=0;i<6;i++)await service.advanceAdditionalVideo(input.adId,f.id);
-  assert.deepEqual(submissions.map(x=>x.operation),mode==='both'?['enhance','remove']:[mode]);
+  assert.deepEqual(submissions.map(x=>x.operation),mode==='both'?['remove','enhance']:[mode]);
   assert.equal(state.files.find(x=>x.id===f.id).status,'draft');
   await service.advanceAdditionalVideo(input.adId,f.id);assert.equal(submissions.length,mode==='both'?2:1);
  }
+ const legacy=await service.requestAdditionalUpload({...base,provider:'vmake',vmakeMode:'both',requestId:require('crypto').randomUUID()});
+ const legacyRecord=state.files.find(x=>x.id===legacy.id);legacyRecord.vmakeOrder=undefined;legacyRecord.videoStep='enhance';submissions=[];
+ for(let i=0;i<6;i++)await service.advanceAdditionalVideo(input.adId,legacy.id);
+ assert.deepEqual(submissions.map(x=>x.operation),['enhance','remove']);
  const f=await service.requestAdditionalUpload({...base,provider:'vmake',vmakeMode:'enhance',requestId:require('crypto').randomUUID()});
  state.files.find(x=>x.id===f.id).pendingSubmit=true;submissions=[];
  await service.advanceAdditionalVideo(input.adId,f.id);assert.equal(submissions.length,0);assert.equal(state.files.find(x=>x.id===f.id).status,'error');

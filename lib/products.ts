@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 import path from "path";
-import {productContext} from "./product-context";
+import {fileRole,productContext} from "./product-context";
 
 function auth() {
   const scopes = ["https://www.googleapis.com/auth/spreadsheets"];
@@ -70,6 +70,37 @@ export async function createProduct(name: string) {
     range: "Products!A:D",
     valueInputOption: "RAW",
     requestBody: { values: [[name, "", "", now()]] },
+  });
+}
+
+export async function renameProduct(oldName:string,newName:string){
+  const old=oldName.trim(),next=newName.trim();
+  if(!old||!next||next.length>120)throw new Error('Enter a product name up to 120 characters');
+  const rows=await readRows();
+  const matches=rows.flatMap((r,i)=>r[0]===old?[i+2]:[]);
+  if(!matches.length)throw new Error('Product not found. Refresh and try again.');
+  if(old===next)return;
+  if(rows.some(r=>r[0]!==old&&r[0]?.toLowerCase()===next.toLowerCase()))throw new Error('A product with that name already exists');
+  await api().spreadsheets.values.batchUpdate({
+    spreadsheetId:SHEET(),
+    requestBody:{valueInputOption:'RAW',data:matches.map(row=>({range:`Products!A${row}`,values:[[next]]}))},
+  });
+}
+
+export async function updateFile(product:string,filename:string,markdown:string,expectedMarkdown:string){
+  if(!product?.trim()||!filename?.trim()||typeof markdown!=='string'||typeof expectedMarkdown!=='string')throw new Error('Product, file and previous contents are required');
+  if(fileRole(filename)==='excluded')throw new Error('Operational files cannot be edited as product research');
+  if(markdown.length>49000)throw new Error('Document exceeds spreadsheet cell limit');
+  if(/\.json$/i.test(filename))JSON.parse(markdown);
+  const rows=await readRows();
+  const matches=rows.flatMap((r,i)=>r[0]===product&&r[1]===filename?[i]:[]);
+  if(matches.length!==1)throw new Error('File not found or duplicated. Refresh before editing.');
+  const index=matches[0];
+  if((rows[index][2]||'')!==expectedMarkdown)throw new Error('This file changed since you opened it. Refresh to see the latest version.');
+  if(markdown===expectedMarkdown)return;
+  await api().spreadsheets.values.update({
+    spreadsheetId:SHEET(),range:`Products!C${index+2}:D${index+2}`,valueInputOption:'RAW',
+    requestBody:{values:[[markdown,now()]]},
   });
 }
 

@@ -1,0 +1,15 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
+const {planAssignedSync}=require('../lib/editor-sync-plan.ts');
+const {parseSheetProduct}=require('../lib/sheet-product.ts');
+assert.equal(parseSheetProduct('Kids Gummies'),'Kids Gummies');assert.equal(parseSheetProduct(undefined),undefined);assert.throws(()=>parseSheetProduct('anything'));
+const base=['Ad ID','Adapted script','HOOK OG','Hook 1','Hook 2','Video','Voice Over','Feedback','Approval','Hours spent','Your work','Production status'];
+const ah=[...base,'Editor ID','Product'],eh=['Product',...base];
+let a=[ah,['MEL-00001',...Array(base.length-1).fill(''),'editor-4','Kids Gummies']],e=[eh];
+const apply=(rows,changes)=>changes.forEach(c=>{rows[c.row-1]??=[];rows[c.row-1][c.col]=c.value});
+let p=planAssignedSync(a,e,{},501,'editor-4');assert(p.editorChanges.some(c=>c.col===0&&c.value==='Kids Gummies'));apply(e,p.editorChanges);
+assert.equal(e[1][1],'MEL-00001');
+e[1][0]='Magnesium Bisglycine Gummies';p=planAssignedSync(a,e,p.snapshot,501,'editor-4');apply(a,p.adminChanges);assert.equal(a[1][ah.indexOf('Product')],e[1][0]);
+e[1][0]='';p=planAssignedSync(a,e,p.snapshot,501,'editor-4');apply(a,p.adminChanges);assert.equal(a[1][ah.indexOf('Product')],'');assert(!p.editorChanges.some(c=>c.col===0));
+e=[eh];p=planAssignedSync(a,e,p.snapshot,501,'editor-4');assert.equal(p.editorChanges.length,0);
+console.log('PASS product validation, shifted columns, new delivery, manual product edit/delete and row deletion');
