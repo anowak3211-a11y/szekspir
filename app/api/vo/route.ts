@@ -1,3 +1,4 @@
+import {assertJobActive} from '@/lib/cancellation';
 import {sendsHook} from '@/lib/hook-delivery';
 import {voiceProcessing} from '@/lib/voice-processing';
 import {withEditorLocks} from '@/lib/editor-locks';
@@ -26,15 +27,17 @@ export async function POST(req: NextRequest) {
     if(hasTokens(text)) return NextResponse.json({error:"Fill in missing product details before generating narration"},{status:400});
     if(jobId){
       if(!Number.isInteger(hookIndex)||hookIndex<0||hookIndex>1)throw Error('Invalid hook');
-      await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(j?.abortedAt)throw Error('This job was stopped');if(!j?.result||!j.adId)throw Error('Save the brief before recording hooks');if(j.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(!sendsHook(j,hookIndex))throw Error('Select Send to editor before recording this hook.');if(j.hookVoPending?.[hookIndex])throw Error('This hook is already recording or needs checking');j.hookVoPending={...j.hookVoPending,[hookIndex]:true};j.hookVoInputs={...j.hookVoInputs,[hookIndex]:{text,voiceId}};});
+      await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(j?.abortedAt)throw Error('This job was stopped');if(!j?.result||!j.adId)throw Error('Save the brief before recording hooks');if((j.leaseUntil||0)>Date.now()||'originalVoiceoverDelivery' in j&&j.originalVoiceoverDelivery)throw Error('A recording or save is in progress. Try again when it finishes.');if(j.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(!sendsHook(j,hookIndex))throw Error('Select Send to editor before recording this hook.');if(j.hookVoPending?.[hookIndex])throw Error('This hook is already recording or needs checking');j.hookVoPending={...j.hookVoPending,[hookIndex]:true};j.hookVoInputs={...j.hookVoInputs,[hookIndex]:{text,voiceId}};});
     }
     const market=jobId?(await getJob(jobId))?.market:undefined;
-    const audio = await generateVO(narration(text,market), voiceId,jobId?async(raw,timing)=>{const {putMedia}=await import('@/lib/media');const original=await putMedia(`vo/${crypto.randomUUID()}-original.mp3`,Buffer.from(raw),'audio/mpeg');await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(!j)throw Error('Job missing');j.hookVoOriginalUrls={...j.hookVoOriginalUrls,[hookIndex]:original};j.hookVoTimings={...j.hookVoTimings,[hookIndex]:timing};});}:undefined,processing,jobId?'hook':'voiceover',market);
+    if(jobId)await assertJobActive(jobId);
+    const audio = await generateVO(narration(text,market), voiceId,jobId?async(raw,timing)=>{await assertJobActive(jobId);const {putMedia}=await import('@/lib/media');const original=await putMedia(`vo/${crypto.randomUUID()}-original.mp3`,Buffer.from(raw),'audio/mpeg');await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(!j||j.abortedAt||j.cancelledAt)throw Error('This job was stopped.');j.hookVoOriginalUrls={...j.hookVoOriginalUrls,[hookIndex]:original};j.hookVoTimings={...j.hookVoTimings,[hookIndex]:timing};});}:undefined,processing,jobId?'hook':'voiceover',market);
     if (save || jobId) {
+      if(jobId)await assertJobActive(jobId);
       const { putMedia } = await import("@/lib/media");
       const url = await putMedia(`vo/${crypto.randomUUID()}_vo_uk.wav`, Buffer.from(audio), "audio/wav");
       if(jobId){
-        await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(!j)throw Error('Job missing');j.hookVoUrls={...j.hookVoUrls,[hookIndex]:url};j.hookVoPending={...j.hookVoPending,[hookIndex]:false};j.result!.hooks[hookIndex]=text;j.hookVoNeedsRegeneration={...j.hookVoNeedsRegeneration,[hookIndex]:false};});
+        await mutate<Job|null,void>(`job-${jobId}`,null,j=>{if(!j||j.abortedAt||j.cancelledAt)throw Error('This job was stopped.');j.hookVoUrls={...j.hookVoUrls,[hookIndex]:url};j.hookVoPending={...j.hookVoPending,[hookIndex]:false};j.result!.hooks[hookIndex]=text;j.hookVoNeedsRegeneration={...j.hookVoNeedsRegeneration,[hookIndex]:false};});
         const job=await getJob(jobId);if(job?.adId){await withEditorLocks(['ad-'+job.adId],async()=>{const latest=await getJob(jobId);if(latest?.adId)await updateVoiceover(latest.adId,voiceLinks(latest));});await syncAssignedEditor(job.adId);}
       }
       return NextResponse.json({ url });
@@ -47,6 +50,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: msg }, { status: /^This job was stopped\.?$/.test(msg) ? 409 : 500 });
   }
 }

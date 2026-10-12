@@ -2,6 +2,9 @@ const fs=require('fs'),ts=require('typescript'),assert=require('assert/strict');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
 const {advanceCleanFirst,retryCleanFirst}=require('../lib/clean-first-video.ts');
 (async()=>{
+ const unavailableJob={id:'status-failure',sourceUrl:'source',cleanFirst:{parts:[{sourceUrl:'source',taskId:'saved-removal',operation:'remove'}]}};let unavailable=true;
+ const statusHooks={paid:async()=>{throw Error('Status retry cannot submit')},save:async fn=>fn(unavailableJob),call:async()=>({done:false,status_unavailable:unavailable}),finalise:async()=>{throw Error('No ready output')},join:async()=>{throw Error('No ready output')}};
+ await advanceCleanFirst(unavailableJob,statusHooks);assert.equal(unavailableJob.cleanFirst.parts[0].statusUnavailable,true);assert.equal(unavailableJob.cleanFirst.parts[0].taskId,'saved-removal');unavailable=false;await advanceCleanFirst(unavailableJob,statusHooks);assert.equal(unavailableJob.cleanFirst.parts[0].statusUnavailable,false);
  for(const count of [1,3]){
   const j={id:'new-clean-first',sourceUrl:'source',duration:count===1?93:1200,...(count===3?{videoParts:[0,1,2].map(i=>({sourceUrl:'part-'+i}))}:{})};
   const calls=[];let pending=false,paid=0;

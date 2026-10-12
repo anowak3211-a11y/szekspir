@@ -1,3 +1,10 @@
+import {canonicalMellowSaffronName,isMellowSaffronTarget} from './mellow-saffron-brand';
+import {findScriptDuplicates,duplicateScriptMessage,type ScriptDuplicate} from './script-dedup';
+import {withEditorLocks} from './editor-locks';
+import {canonicalUkMedicationName} from './uk-medication';
+import {recoverDatabaseStages} from './database-stage-retry';
+import {recoverVmakeReceipts} from './recover-vmake';
+import {markAdCancelled,type CancelCleanup} from './cancellation';
 import {parseLocalizationMode,localizationProductionNote,type LocalizationMode} from './localization-mode';
 import {parseSheetProduct} from './sheet-product';
 import {dualVoice} from './dual-voice';
@@ -20,10 +27,10 @@ import {appendToAdminBriefs,updateReference} from './sheets';
 import {generateVO} from './elevenlabs';
 import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
-export type Job={localizationMode?:LocalizationMode;vmakeOrder?:'clean-first';cleanFirst?:import('./clean-first-video').CleanFirstState;sheetProduct?:import("./sheet-product").SheetProduct;videoParts?:import('./long-video').VideoPart[];dualVoice?:import("./dual-voice").DualVoice;speakerTakes?:Record<number,import("./generate-dual-voice").SpeakerTake>;forceFinishedAt?:number;voPace?:SourcePace;market?:import('./market').Market;hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
+export type Job={duplicateCheckRequired?:boolean;scriptDuplicate?:ScriptDuplicate;voiceReviewRequired?:boolean;cancelCleanup?:CancelCleanup;localizationMode?:LocalizationMode;vmakeOrder?:'clean-first';cleanFirst?:import('./clean-first-video').CleanFirstState;sheetProduct?:import("./sheet-product").SheetProduct;videoParts?:import('./long-video').VideoPart[];dualVoice?:import("./dual-voice").DualVoice;speakerTakes?:Record<number,import("./generate-dual-voice").SpeakerTake>;forceFinishedAt?:number;voPace?:SourcePace;market?:import('./market').Market;hooksToEditor?:Record<number,boolean>;hookDeliveryPending?:number;generateHooks?:boolean;ctaMode?:CtaMode;editorNotes?:string;voiceProcessing?:VoiceProcessing;vmakeMode?:'enhance'|'remove'|'both'|'combo';enhancedSavedUrl?:string;singingAd?:boolean;cancelledAt?:number;hookVoNeedsRegeneration?:Record<number,boolean>;hookVoInputs?:Record<number,{text:string;voiceId:string}>;voNeedsRegeneration?:boolean;editorId?:string;videoDestination?:'vmake'|'drive'|'none';driveUrl?:string;driveFileId?:string;voRegeneratedFrom?:number;previousVo?:{url:string;originalUrl?:string;hooks?:Record<number,string>;revision:number};enhanceVideo?:boolean;enhanceTaskId?:string;enhanceSubmittedAt?:number;enhancedUrl?:string;voiceoverEnabled?:boolean;voOriginalUrl?:string;voTiming?:import("./vo-cleanup").VoiceTiming;hookVoOriginalUrls?:Record<number,string>;hookVoTimings?:Record<number,import("./vo-cleanup").VoiceTiming>;abortedAt?:number;hookVoUrls?:Record<number,string>;hookVoPending?:Record<number,boolean>;voApprovedRevision?:number;startedAt?:number;engine?:number;stages?:Partial<Record<Stage,StageState>>;resolvedVideoUrl?:string;videoOutputUrl?:string;completedAt?:number;transcript?:string;progress?:string;id:string;name:string;sourceUrl:string;audioUrl?:string;video:boolean;provider:Provider;model:string;productName:string;productVersion:string;productContext:string;voiceId:string;generateVo:boolean;duration?:number;status:string;step:'localise'|'export'|'vo'|'submit'|'poll'|'references'|'done';updated:number;created:number;leaseUntil?:number;lease?:string;error?:string;uncertain?:boolean;result?:LocalizeResult&{us_script:string;video_url?:string};adId?:string;voUrl?:string;cleanUrl?:string;taskId?:string;submittedAt?:number;pendingStep?:string;revision?:number;history?:{at:number;script:string;promptVersion?:string}[]};
 type Index={ids:string[]};
 export async function getJob(id:string){if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');return (await readState<Job|null>(`job-${id}`,null)).value;}
-export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;return (await Promise.all(index.ids.slice().reverse().map(getJob))).filter((j):j is Job=>!!j);}
+export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;const ids=index.ids.slice().reverse(),values:Array<Job|null|undefined>=Array(ids.length);let cursor=0;await Promise.all(Array.from({length:Math.min(6,ids.length)},async()=>{for(let i;(i=cursor++)<ids.length;)values[i]=await getJob(ids[i]);}));return values.filter((j):j is Job=>!!j);}
 export async function createJob(input:Partial<Job>){
  const market=parseMarket(input.market);
  const localizationMode=parseLocalizationMode(input.localizationMode);
@@ -48,23 +55,35 @@ export async function createJob(input:Partial<Job>){
  const startedAt=typeof input.startedAt==='number'&&Number.isFinite(input.startedAt)&&input.startedAt>0&&input.startedAt<=Date.now()?input.startedAt:undefined;
  const destination=text||input.video===false?'none':input.videoDestination||'drive';
  if(destination==='drive')await (await import('./drive-video')).driveUploadTarget();
- const job:Job={localizationMode,vmakeOrder:'clean-first',market,sheetProduct,generateHooks:input.generateHooks!==false,ctaMode:input.singingAd===true?'original':ctaMode,editorNotes:[localizationMode==='full'?localizationProductionNote(localizationMode):'',typeof input.editorNotes==='string'?input.editorNotes.trim().slice(0,4500):''].filter(Boolean).join('\n\n'),singingAd:input.singingAd===true,editorId:input.editorId||'mine',videoDestination:destination,startedAt,engine:text||input.video!==false?2:process.env.PIPELINE_V2==='0'?undefined:2,vmakeMode:input.vmakeMode||'both',enhanceVideo:destination==='vmake'&&input.vmakeMode!=='remove',id:input.id,name:String(input.name||'Ad').slice(0,200),sourceUrl:input.sourceUrl||'',transcript:text||undefined,stages:text?{transcribe:{done:true}}:undefined,audioUrl:input.audioUrl,video:destination==='vmake',voiceoverEnabled:input.voiceoverEnabled!==false,provider:input.provider as Provider,model:String(input.model||''),productName:input.productName||(market==='pl'?'Orthomax StepMax':''),productContext:context,productVersion:(product as {version?:string})?.version||(market==='pl'?'orthomax-base-v1':''),voiceId:input.voiceId||'',generateVo:false,duration:input.duration,status:'Queued',step:'localise',created:Date.now(),updated:Date.now()};
+ const job:Job={voiceProcessing:input.voiceProcessing===undefined?undefined:voiceProcessing(input.voiceProcessing),duplicateCheckRequired:true,localizationMode,vmakeOrder:'clean-first',market,sheetProduct,generateHooks:input.generateHooks!==false,ctaMode:input.singingAd===true?'original':ctaMode,editorNotes:[localizationMode==='full'?localizationProductionNote(localizationMode):'',typeof input.editorNotes==='string'?input.editorNotes.trim().slice(0,4500):''].filter(Boolean).join('\n\n'),singingAd:input.singingAd===true,editorId:input.editorId||'mine',videoDestination:destination,startedAt,engine:text||input.video!==false?2:process.env.PIPELINE_V2==='0'?undefined:2,vmakeMode:input.vmakeMode||'both',enhanceVideo:destination==='vmake'&&input.vmakeMode!=='remove',id:input.id,name:String(input.name||'Ad').slice(0,200),sourceUrl:input.sourceUrl||'',transcript:text||undefined,stages:text?{transcribe:{done:true}}:undefined,audioUrl:input.audioUrl,video:destination==='vmake',voiceoverEnabled:input.voiceoverEnabled!==false,provider:input.provider as Provider,model:String(input.model||''),productName:input.productName||(market==='pl'?'Orthomax StepMax':''),productContext:context,productVersion:(product as {version?:string})?.version||(market==='pl'?'orthomax-base-v1':''),voiceId:input.voiceId||'',generateVo:false,duration:input.duration,status:'Queued',step:'localise',created:Date.now(),updated:Date.now()};
  try{await writeState(`job-${job.id}`,job);}catch(e){if(!/AlreadyExists|Precondition/.test((e as Error).name)&&!/already exists/i.test((e as Error).message))throw e;}
  await register(job.id);return (await getJob(job.id))!;
 }
 async function register(id:string){await mutate<Index,void>('jobs',{ids:[]},s=>{if(!s.ids.includes(id))s.ids.push(id);});}
 export async function retryJob(id:string,confirmUncertain=false){
  if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');
- return mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw new Error('Job not found');if(s.abortedAt)throw Error('This job was stopped');if(s.leaseUntil&&s.leaseUntil>Date.now())throw new Error('Job still running');if(s.uncertain&&!confirmUncertain)throw new Error('The provider may have accepted the previous paid request. Confirm before retrying it.');if(s.engine===2)retryParallel(s);s.status='Queued';s.error=undefined;s.uncertain=false;s.pendingStep=undefined;s.updated=Date.now();return s;});
+ return mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw new Error('Job not found');if(s.abortedAt||s.cancelledAt)throw Error('This job was stopped');if(s.scriptDuplicate)throw Error('Review the duplicate advert and choose Continue anyway before retrying.');if(s.leaseUntil&&s.leaseUntil>Date.now())throw new Error('Job still running');if(s.uncertain&&!confirmUncertain)throw new Error('The provider may have accepted the previous paid request. Confirm before retrying it.');if(s.engine===2)retryParallel(s);s.status='Queued';s.error=undefined;s.uncertain=false;s.pendingStep=undefined;s.updated=Date.now();return s;});
+}
+/** Explicit user override only; a generic Retry must never bypass this check. */
+export async function continueDuplicateJob(id:string,confirmed:boolean){
+ if(!/^[\w-]{8,100}$/.test(id)||confirmed!==true)throw Error('Explicit duplicate confirmation required.');
+ return mutate<Job|null,Job>(`job-${id}`,null,job=>{
+  if(!job||job.abortedAt||job.cancelledAt||['Cancelled','Aborted'].includes(job.status))throw Error('This job was stopped.');
+  if(!job.scriptDuplicate){if(job.stages?.duplicateCheck?.approvedAt)return structuredClone(job);throw Error('This job has no duplicate awaiting confirmation.');}
+  if((job.leaseUntil||0)>Date.now()||job.hookDeliveryPending!==undefined)throw Error('A step is saving. Try again when it finishes.');
+  job.stages={...job.stages,duplicateCheck:{...job.stages?.duplicateCheck,done:true,pending:false,uncertain:false,error:undefined,nextAt:undefined,finished:Date.now(),approvedAt:Date.now()}};
+  job.scriptDuplicate=undefined;job.error=undefined;job.uncertain=false;job.pendingStep=undefined;job.status='Queued';job.progress='Duplicate accepted · resuming production';job.updated=Date.now();return structuredClone(job);
+ });
 }
 export async function editJob(id:string,script:string,hooks:string[],dualInput?:unknown){
  if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');
  const prior=await getJob(id);let recovered:string|undefined;
+ if(prior?.market!=='pl'){const normalise=(text:string)=>canonicalUkMedicationName(prior&&isMellowSaffronTarget(prior.productName,prior.productContext,prior.sheetProduct)?canonicalMellowSaffronName(text):text);script=normalise(script);hooks=hooks.map(normalise);}
  if(prior&&!prior.voUrl&&prior.history?.length&&!(prior.leaseUntil&&prior.leaseUntil>Date.now())){
   for(let revision=prior.revision||0;revision>=Math.max(0,(prior.revision||0)-30);revision--){recovered=await existingMedia(`vo/${id}-r${revision}.wav`)||await existingMedia(`vo/${id}-r${revision}.mp3`);if(recovered)break;}
  }
  return mutate<Job|null,Job>(`job-${id}`,null,s=>{
-  if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw new Error('No result yet');if(s.leaseUntil&&s.leaseUntil>Date.now())throw new Error('Wait for the current step to finish');
+  if(s&&'originalVoiceoverDelivery' in s&&s.originalVoiceoverDelivery)throw Error('Finish using the original voiceover first.');if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw new Error('No result yet');if(s.leaseUntil&&s.leaseUntil>Date.now())throw new Error('Wait for the current step to finish');
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:s.result.narration||script,data_gaps:hasTokens(script)?s.result.data_gaps:[]});
   if(!s.voUrl&&recovered&&s.revision===prior?.revision){s.voUrl=recovered;s.voNeedsRegeneration=s.history?.at(-1)?.script.trim()!==s.result.uk_script.trim();}
   for(const i of [0,1,2])if(hooks[i]!==s.result.hooks[i]&&s.hookVoUrls?.[i])s.hookVoNeedsRegeneration={...s.hookVoNeedsRegeneration,[i]:true};
@@ -78,9 +97,13 @@ export async function editJob(id:string,script:string,hooks:string[],dualInput?:
 }
 export async function pythonCall(path:string,body?:unknown){
  const origin=process.env.APP_ORIGIN||(process.env.VERCEL_PROJECT_PRODUCTION_URL?`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`:'http://localhost:3000');
- const r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(240000)});
- if(!r.headers.get('content-type')?.includes('application/json'))throw new Error(`VMake endpoint HTTP ${r.status}: non-JSON response`);
- const data=await r.json();if(!r.ok||data.error){const error=Object.assign(new Error(data.error||`VMake HTTP ${r.status}`),{safeToRetry:data.safe_to_retry===true});throw error;}return data;
+ const statusOnly=!body&&path.startsWith('/api/vmake_status?');
+ const unavailable=()=>({done:false,status_unavailable:true,message:'VMake status check unavailable. Retaining the saved task.'});
+ let r:Response;
+ try{r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(statusOnly?75000:240000)});}catch(e){if(statusOnly&&['TimeoutError','AbortError','TypeError'].includes((e as Error).name))return unavailable();throw e;}
+ if(!r.headers.get('content-type')?.includes('application/json')){if(statusOnly&&[408,429,500,502,503,504].includes(r.status)){await r.body?.cancel();return unavailable();}throw new Error(`VMake endpoint HTTP ${r.status}: non-JSON response`);}
+ let data;try{data=await r.json();}catch(e){if(statusOnly)return unavailable();throw e;}
+ if(!r.ok||data.error){const error=Object.assign(new Error(data.error||`VMake HTTP ${r.status}`),{safeToRetry:data.safe_to_retry===true});throw error;}return data;
 }
 export async function advance(id:string){
  if((await getJob(id))?.engine===2){await advanceParallel(id);return;}
@@ -104,6 +127,15 @@ export async function advance(id:string){
     await checkpoint('Transcribing');await beforePaid();
     const transcript=await transcribeWithDuration(file);job.transcript=transcript.text;job.duration=job.duration||transcript.duration;
     await checkpoint('Localising');
+   }
+   if(job.duplicateCheckRequired&&!job.stages?.duplicateCheck?.done){
+    await withEditorLocks(['script-duplicate-check'],async()=>{
+     const matches=findScriptDuplicates(job,await jobs());
+     job.stages={...job.stages,duplicateCheck:{...job.stages?.duplicateCheck,finished:Date.now(),done:!matches.length,...(matches.length?{error:duplicateScriptMessage(matches)}:{})}};
+     if(matches.length)job.scriptDuplicate={checkedAt:Date.now(),matches};
+     await mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s||s.lease!==token)throw Error('Lease expired');s.stages=job.stages;s.scriptDuplicate=job.scriptDuplicate;s.pendingStep=undefined;});
+     if(matches.length)throw Error(duplicateScriptMessage(matches));
+    });
    }
    await checkpoint('Localising');await beforePaid();
    const us_script=job.transcript!;
@@ -139,7 +171,7 @@ export async function advance(id:string){
    job.step='done';
   }
   job.status=job.step==='done'?(job.result?.data_gaps.length?'Draft saved — product details needed':'Complete'):'Queued';job.error=undefined;
- }catch(e){job.status='Failed';job.error=e instanceof Error?e.message:'Processing failed';job.uncertain=['localise','vo','submit'].includes(job.step)&&(await getJob(id))?.pendingStep!==undefined;}
+ }catch(e){job.status='Failed';job.error=e instanceof Error?e.message:'Processing failed';job.uncertain=!job.scriptDuplicate&&['localise','vo','submit'].includes(job.step)&&(await getJob(id))?.pendingStep!==undefined;}
  await commit();
 }
 export async function finalise(url:string,id:string){
@@ -152,13 +184,15 @@ export async function finalise(url:string,id:string){
 // Durable platform messages replace recursive HTTP handoffs.
 export async function scheduleJob(id:string,delaySeconds=0){
  const {send}=await import('@vercel/queue');
- await send('szekspir-jobs',{id},{region:'iad1',delaySeconds,retentionSeconds:86400});
+ await send('szekspir-jobs',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});
 }
 export async function workQueue(){
- const pending=(await jobs()).filter(j=>j.step!=='done'&&j.status!=='Failed');
+ const pending=(await jobs()).filter(j=>j.step!=='done'&&(j.status!=='Failed'||recoverDatabaseStages(structuredClone(j))));
  for(const j of pending)await scheduleJob(j.id,Math.max(0,Math.ceil(((j.leaseUntil||0)-Date.now())/1000)));
 }
 export async function consumeJob(id:string){
+ await recoverVmakeReceipts(id).catch(()=>{});
+ const snapshot=await getJob(id);if(snapshot&&recoverDatabaseStages(structuredClone(snapshot)))await mutate<Job|null,void>('job-'+id,null,j=>{if(j)recoverDatabaseStages(j);});
  const before=await getJob(id);if(!before||before.step==='done'||before.status==='Failed')return;
  if(before.hookDeliveryPending!==undefined){await scheduleJob(id,15);return;}
  if((before.leaseUntil||0)>Date.now()){await scheduleJob(id,Math.ceil((before.leaseUntil!-Date.now())/1000)+1);return;}
@@ -169,10 +203,11 @@ export async function consumeJob(id:string){
 
 export async function requestVoiceover(id:string,script:string,hooks:string[],voiceId:string,regenerateRevision?:number,processingInput?:unknown,dualInput?:unknown){
  const processing=voiceProcessing(processingInput);
- const speakers=dualVoice(dualInput,script,voiceId);
  if(!/^[\w-]{8,100}$/.test(id)||!voiceId)throw Error('Choose a voice first');
  return mutate<Job|null,Job>(`job-${id}`,null,s=>{
-  if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw Error('Wait for the script to finish');if(s.result.no_speech)throw Error('No dialogue detected. This video does not need a voiceover.');
+  if(s&&'originalVoiceoverDelivery' in s&&s.originalVoiceoverDelivery)throw Error('Finish using the original voiceover first.');if(s?.hookDeliveryPending!==undefined)throw Error('Finish saving the hook delivery selection first.');if(s?.abortedAt)throw Error('This job was stopped');if(!s?.result)throw Error('Wait for the script to finish');if(s.result.no_speech)throw Error('No dialogue detected. This video does not need a voiceover.');
+  if(s.market!=='pl'){script=canonicalUkMedicationName(script);hooks=hooks.map(canonicalUkMedicationName);}
+  const speakers=dualVoice(dualInput,script,voiceId);
   for(const i of [0,1,2])if(s.hookVoPending?.[i]&&(s.hookVoInputs?.[i]?.text!==hooks[i]||s.hookVoInputs?.[i]?.voiceId!==voiceId))throw Error('A hook is recording with different text or voice. Keep those settings or wait for that hook.');
   if(regenerateRevision!==undefined){if(s.voRegeneratedFrom===regenerateRevision)return s;if(!Number.isSafeInteger(regenerateRevision)||regenerateRevision!==(s.revision||0))throw Error('This voiceover changed. Refresh before regenerating.');if(!s.voUrl||s.stages?.vo&&!s.stages.vo.done)throw Error('Wait for the current recording to finish');}
   if((s.leaseUntil||0)>Date.now())throw Error('A step is saving right now. Try again in a few seconds.');
@@ -180,13 +215,17 @@ export async function requestVoiceover(id:string,script:string,hooks:string[],vo
   if(hasTokens(script))throw Error('Replace unfinished placeholders in the script before recording.');
   if(regenerateRevision===undefined&&s.generateVo&&s.voApprovedRevision===(s.revision||0)&&s.result.uk_script===script&&s.voiceId===voiceId&&JSON.stringify(s.dualVoice)===JSON.stringify(speakers)&&JSON.stringify(s.voiceProcessing)===JSON.stringify(processing)&&JSON.stringify(s.result.hooks)===JSON.stringify(hooks)&&!s.stages?.vo?.error)return s;
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:script});
+  const hookProcessing=(value?:VoiceProcessing)=>{const p=voiceProcessing(value);return JSON.stringify([p.mode,p.emotion??'off',p.openingReaction??'none',p.mode==='gentle'?p.breaths!==false:p.mode==='standard'&&p.breaths===true,p.pauseShorteningMs??null,p.tempoFactor??1]);};
+  const keepHook=(index:number)=>s.hookVoPending?.[index]||!sendsHook(s,index)||!!(s.voUrl&&s.hookVoUrls?.[index]&&!s.hookVoNeedsRegeneration?.[index]&&s.voiceId===voiceId&&s.result!.hooks[index]===hooks[index]&&(!s.hookVoInputs?.[index]||(s.hookVoInputs[index].text===hooks[index]&&s.hookVoInputs[index].voiceId===voiceId))&&hookProcessing(s.hookVoTimings?.[index]?.processing||s.voiceProcessing)===hookProcessing(processing));
+  const keptHooks=new Set(Object.keys({...s.hookVoUrls,...s.hookVoOriginalUrls,...s.hookVoTimings,...s.hookVoInputs}).map(Number).filter(keepHook));
   s.history=[...(s.history||[]),{at:Date.now(),script:s.result.uk_script,promptVersion:s.result.prompt_version}].slice(-30);
-  if(regenerateRevision!==undefined){s.previousVo={url:s.voUrl!,originalUrl:s.voOriginalUrl,hooks:s.hookVoUrls,revision:s.revision||0};s.voRegeneratedFrom=regenerateRevision;}
+  if(s.voUrl)s.previousVo={url:s.voUrl,originalUrl:s.voOriginalUrl,hooks:s.hookVoUrls,revision:s.revision||0};
+  if(regenerateRevision!==undefined)s.voRegeneratedFrom=regenerateRevision;
   s.voPace=speakers?undefined:sourcePace(s,script,voiceId,processing);
   s.dualVoice=speakers;s.speakerTakes=undefined;
   if(speakers)s.engine=2;
   s.result={...s.result,...validated,narration:''};s.revision=(s.revision||0)+1;
-  s.voOriginalUrl=undefined;s.voTiming=undefined;s.hookVoOriginalUrls=Object.fromEntries(Object.entries(s.hookVoOriginalUrls||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.hookVoTimings=Object.fromEntries(Object.entries(s.hookVoTimings||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.hookVoUrls=Object.fromEntries(Object.entries(s.hookVoUrls||{}).filter(([i])=>s.hookVoPending?.[Number(i)]||!sendsHook(s,Number(i))));s.voiceProcessing=processing;s.voApprovedRevision=s.revision;s.voiceoverEnabled=true;s.generateVo=true;s.voiceId=voiceId;s.voUrl=undefined;
+  s.voOriginalUrl=undefined;s.voTiming=undefined;s.hookVoOriginalUrls=Object.fromEntries(Object.entries(s.hookVoOriginalUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoTimings=Object.fromEntries(Object.entries(s.hookVoTimings||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoUrls=Object.fromEntries(Object.entries(s.hookVoUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoInputs=Object.fromEntries(Object.entries(s.hookVoInputs||{}).filter(([i])=>keptHooks.has(Number(i))));s.voiceProcessing=processing;s.voApprovedRevision=s.revision;s.voiceoverEnabled=true;s.generateVo=true;s.voiceId=voiceId;s.voUrl=undefined;
   if(s.engine===2)s.stages={...s.stages,localise:{done:true},export:{},vo:{},references:{}};
   s.completedAt=undefined;s.step='export';s.status='Queued';s.error=undefined;s.updated=Date.now();return s;
  });
@@ -199,5 +238,14 @@ export async function cancelJob(id:string){
  const now=Date.now();
  // A tombstone prevents a still-uploading browser from creating this job later.
  if(!await getJob(id)){const tombstone:Job={id,name:'Cancelled upload',sourceUrl:'',video:false,provider:'openai',model:'',productName:'',productVersion:'',productContext:'',voiceId:'',generateVo:false,status:'Cancelled',step:'done',created:now,updated:now,cancelledAt:now,abortedAt:now};try{await writeState(`job-${id}`,tombstone);}catch(error){if(!await getJob(id))throw error;}}
- return mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.cancelledAt=now;s.abortedAt=now;s.status='Cancelled';s.step='done';s.progress=undefined;s.completedAt=now;s.updated=now;s.lease=undefined;s.leaseUntil=undefined;s.error=undefined;s.pendingStep=undefined;s.uncertain=false;s.hookVoPending={};return s;});
+ const stopped=await mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.cancelledAt??=now;s.abortedAt??=now;s.status='Cancelled';s.step='done';s.progress='Stopped · removing sheet records';s.completedAt=s.cancelledAt;s.updated=now;s.lease=undefined;s.leaseUntil=undefined;s.error=undefined;s.pendingStep=undefined;s.uncertain=false;s.hookVoPending={};s.cancelCleanup={status:'pending',requestedAt:s.cancelledAt,adIds:s.adId?[s.adId]:[]};return s;});
+ try{
+  if(stopped.adId)await markAdCancelled(stopped.adId,id,stopped.cancelledAt!);
+  await mutate<Record<string,unknown>,void>('pipeline-capacity',{},s=>{delete s[id];});
+  const {cleanupCancelledBrief}=await import('./cancel-sheet-cleanup');
+  const adIds=await cleanupCancelledBrief(id);
+  return await mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.cancelCleanup={status:'complete',requestedAt:s.cancelledAt!,adIds,completedAt:Date.now()};s.progress='Cancelled · sheet records removed';s.updated=Date.now();return s;});
+ }catch{
+  return mutate<Job|null,Job>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.cancelCleanup={...s.cancelCleanup!,status:'failed',error:'The job is stopped, but its sheet records could not be fully removed. Retry cancellation cleanup.'};s.progress='Stopped · sheet cleanup needs retry';s.updated=Date.now();return s;});
+ }
 }

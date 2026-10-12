@@ -2,7 +2,7 @@ const fs=require('fs'),ts=require('typescript'),vm=require('vm'),assert=require(
 const {indexedDB}=require('fake-indexeddb');
 const storage=new Map(),locks=new Set();
 const navigator={locks:{request:async(name,options,fn)=>{if(locks.has(name))return fn(null);locks.add(name);try{return await fn({name});}finally{locks.delete(name);}}}};
-function load(file,deps={},extras={}){const module={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,{module,exports:module.exports,require:n=>{if(n in deps)return deps[n];throw Error('Unmocked dependency '+n);},indexedDB,navigator,localStorage:{getItem:key=>storage.get(key)},setTimeout,clearTimeout,AbortSignal,Error,File,Blob,...extras});return module.exports;}
+function load(file,deps={},extras={}){const module={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,{module,exports:module.exports,require:n=>{if(n in deps)return deps[n];throw Error('Unmocked dependency '+n);},indexedDB,navigator,localStorage:{getItem:key=>storage.get(key)},setTimeout,clearTimeout,AbortSignal,Error,File,Blob,structuredClone,...extras});return module.exports;}
 const drafts=load('lib/upload-drafts.ts');
 async function scenario(failAt){
  const id='recovery-'+failAt,file=new File(['test-video'],'test.mp4',{type:'video/mp4'});
@@ -24,5 +24,30 @@ async function scenario(failAt){
  await assert.rejects(runner.resumeUpload('missing',()=>{}),/No local recovery copy/);
  locks.add('szekspir-upload-active');await assert.rejects(runner.resumeUpload('active',()=>{}),/already active/);
  await drafts.saveUploadDraft({id:'cancelled',name:'Cancelled',market:'uk',settings:{},video:false,startedAt:1,sourceUrl:'https://media.test/v'});storage.set('szekspir-cancelled-cancelled','1');await assert.rejects(runner.resumeUpload('cancelled',()=>{}),/Cancelled/);
+ // Storage failure must not block transfer; fallback keeps files/settings and
+ // completed URLs for retries in the same tab, then releases them after save.
+ const unavailable=load('lib/upload-drafts.ts',{}, {indexedDB:{open(){throw Error('QuotaExceededError');}}});
+ const fallbackFile=new File(['fallback-video'],'fallback.mp4',{type:'video/mp4'});
+ const fallbackDraft={id:'fallback',name:fallbackFile.name,fileName:fallbackFile.name,market:'uk',settings:{voiceId:'voice'},video:true,startedAt:1};
+ await unavailable.saveUploadDraft(fallbackDraft,fallbackFile);
+ assert.equal(unavailable.uploadNeedsOpenTab('fallback'),true);
+ assert.equal(await unavailable.readUploadMedia('fallback','file'),fallbackFile);
+ assert.equal((await unavailable.listUploadDrafts()).length,1);
+ const fallbackAudio=new File(['audio'],'audio.mp3');
+ await unavailable.saveUploadAudio(fallbackDraft,fallbackAudio);
+ await unavailable.saveUploadDraft({...fallbackDraft,sourceUrl:'https://media.test/already-uploaded'});
+ assert.equal(await unavailable.readUploadMedia('fallback','file'),fallbackFile);
+ assert.equal(await unavailable.readUploadMedia('fallback','audio'),fallbackAudio);
+ assert.equal((await unavailable.readUploadDraft('fallback')).sourceUrl,'https://media.test/already-uploaded');
+ await unavailable.removeUploadDraft('fallback');
+ assert.equal(unavailable.uploadNeedsOpenTab(),false);
+ // A working backup can fail later: original media must remain available.
+ let blocked=false;
+ const later=load('lib/upload-drafts.ts',{}, {indexedDB:{open(...args){if(blocked)throw Error('storage blocked');return indexedDB.open(...args);}}});
+ await later.saveUploadDraft({...fallbackDraft,id:'later'},fallbackFile);blocked=true;
+ await later.saveUploadDraft({...fallbackDraft,id:'later',sourceHash:'hash'});
+ assert.equal(await later.readUploadMedia('later','file'),fallbackFile);
+ await later.removeUploadDraft('later');
+ console.log('PASS: unavailable browser backup allows same-tab recovery; files, audio and completed URLs preserved; temporary references released.');
  console.log('PASS: IndexedDB recovery across runtimes; original file/settings/UUID and completed media reused; lost response creates one job; cleanup and concurrent tab/cancellation guards.');
 })().catch(e=>{console.error(e);process.exitCode=1});

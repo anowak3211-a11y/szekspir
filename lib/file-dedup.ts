@@ -3,6 +3,14 @@ type Claim={id:string;until:number;committed:boolean;market:'uk'|'pl'};
 export type DuplicateFile={id:string;adId?:string;market:'uk'|'pl'};
 export class DuplicateFileError extends Error{constructor(public duplicate:DuplicateFile){super('This exact file has already been added.');}}
 function key(hash:string){if(!/^[a-f0-9]{64}$/.test(hash))throw Error('Invalid file fingerprint');return 'source-sha256-'+hash;}
+// Selection-time lookup must never reserve a file or create a job.
+export async function findDuplicateFile(hash:string):Promise<DuplicateFile|undefined>{
+ const claim=(await readState<{claim?:Claim}>(key(hash),{})).value.claim;
+ if(!claim||(!claim.committed&&claim.until<=Date.now()))return;
+ const job=(await readState<{cancelledAt?:number;adId?:string}|null>('job-'+claim.id,null)).value;
+ if(job?.cancelledAt)return;
+ return {id:claim.id,market:claim.market,...(job?.adId?{adId:job.adId}:{})};
+}
 export async function claimFile(hash:string,id:string,market:'uk'|'pl',commit=false){
  if(!/^[\w-]{8,100}$/.test(id))throw Error('Invalid upload ID');
  const name=key(hash),prior=(await readState<{claim?:Claim}>(name,{})).value.claim;

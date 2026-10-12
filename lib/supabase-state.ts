@@ -11,7 +11,7 @@ async function rpc(name:string,body:unknown){
  const attempts=3;
  for(let attempt=0;attempt<attempts;attempt++){
   let r:Response;
-  try{r=await fetch(`${url}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(8000)});
+  try{r=await fetch(`${url}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(20000)});
    if(r.ok)return await r.json();
   }
   catch(e){

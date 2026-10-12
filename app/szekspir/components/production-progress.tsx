@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
+import {voiceApprovalPending} from '@/lib/voice-approval';
 import AdVideoPreview from './ad-video-preview';
 import type {Job} from '@/lib/jobs';
 import {progressRows,type UploadStatus} from '@/lib/progress-view';
@@ -27,12 +28,13 @@ export default function ProductionProgress({job,upload,lastChecked}:{job?:Job;up
  const stageErrors=rows.filter(r=>r.state==='error');
  const active=rows.filter(r=>r.state==='active').map(r=>r.label);
  return <section className="production-card" aria-label="Production progress">
-  <div className="production-heading"><div><p className="production-file">{job?.name||upload?.name||'New localisation'}</p><p className="production-eyebrow">{job?.adId||'LOCALISATION'}</p><h2>{job?.status==='Aborted'?'Stopped by you':complete?(job?.status==='Complete'?'Your localisation is ready':'Draft ready for review'):failed?'Needs attention':active.length?active.join(' + '):job?'Queued for processing':'Preparing your upload'}</h2></div><button type="button" className="sound-button" onClick={toggle} aria-pressed={sound}>{sound?'Completion sound: on':'Enable completion sound'}</button></div>
+  <div className="production-heading"><div><p className="production-file">{job?.name||upload?.name||'New localisation'}</p><p className="production-eyebrow">{job?.adId||'LOCALISATION'}</p><h2>{job?.status==='Aborted'?'Stopped by you':complete?(job?.forceFinishedAt?'Finished with available materials':voiceApprovalPending(job)?(job?.video||job?.videoDestination==='drive'?'Script and videos ready for review':'Script ready for review'):job?.status==='Complete'?'Your localisation is ready':'Draft ready for review'):failed?'Needs attention':active.length?active.join(' + '):job?'Queued for processing':'Preparing your upload'}</h2></div><button type="button" className="sound-button" onClick={toggle} aria-pressed={sound}>{sound?'Completion sound: on':'Enable completion sound'}</button></div>
+  {complete&&voiceApprovalPending(job)&&<p role="status">Review your script and choose Send to ElevenLabs to record the planned voiceover.</p>}
   {job&&<AdVideoPreview key={job.id} job={job}/>}
   {soundError&&<p role="alert">{soundError}</p>}
   {stageErrors.length>0&&<div className="production-warning" role="alert">{stageErrors.map(r=><p key={r.key}><strong>{r.label}: </strong>{r.detail||"This stage failed. Retry is required."}</p>)}</div>}
   {slow.length>0&&<div className="production-warning" role="status">{slow.map(r=><p key={r.key}><strong>{r.label} · {elapsed(now-r.started!)}.</strong> Taking longer than expected. {r.detail} No completed result confirmed yet.</p>)}</div>}
-  <div className="production-total"><span>Total time</span><strong>{totalStart?elapsed(totalEnd-totalStart):'—'}</strong><small>{!job&&(uploadStale||upload?.error)?'Until last upload update':job?.step==='done'?'Finished': 'Since starting'}{!job?.startedAt&&!upload?.startedAt?' · upload time unavailable for this older job':''}</small></div>
+  <div className="production-total"><span>Total time</span><strong>{totalStart?elapsed(totalEnd-totalStart):'—'}</strong><small>{!job&&(uploadStale||upload?.error)?'Until last upload update':job?.step==='done'?(voiceApprovalPending(job)?'Preparation finished':'Finished'): 'Since starting'}{!job?.startedAt&&!upload?.startedAt?' · upload time unavailable for this older job':''}</small></div>
   <div className="production-summary"><span aria-live="polite">{done} of {rows.length} stages complete</span><span>{job?elapsed((job.completedAt||now)-job.created)+' elapsed':'Upload progress'}</span></div>
   <progress className="production-bar" value={done} max={rows.length} aria-label="Completed stages"/>
   <ol className="production-stages">{rows.map((row,i)=><li key={row.key} className={`production-stage ${row.state}`}><span className="stage-icon" aria-hidden="true">{row.state==='done'?'✓':row.state==='error'?'!':i+1}</span><div className="stage-content"><div className="stage-top"><strong>{row.label}</strong><span>{row.state==='done'?'Done':row.state==='error'?'Error':row.state==='active'?'In progress':'Waiting'}{row.started?' · '+elapsed((row.finished||(job?.status==='Failed'?job.updated:now))-row.started):''}</span></div><p>{row.detail}</p>{row.state==='active'&&(row.percent!==undefined?<progress value={row.percent} max={100} aria-label={`${row.label}: ${row.percent}%`}/>:<progress aria-label={`${row.label} in progress; percentage unavailable`}/>)}</div></li>)}</ol>

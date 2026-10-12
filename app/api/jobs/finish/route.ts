@@ -10,7 +10,7 @@ import {verifyEditorDelivery} from '@/lib/editor-sync';
 export const maxDuration=300;
 export async function POST(request:Request){
  try{
-  const {id,script,hooks,force,dualVoice}=await request.json();let job=await getJob(id);if(!job?.result||!job.adId)throw Error('Wait for the brief to be saved before finishing.');
+  const {id,script,hooks,force,dualVoice}=await request.json();let job=await getJob(id);if(job?.cancelledAt||job?.abortedAt)throw Error('This job was stopped.');if(!job?.result||!job.adId)throw Error('Wait for the brief to be saved before finishing.');
   if(force===true){
    const receipt=await forceFinishJob(id,script,hooks,async saved=>{
     const r=saved.result!;

@@ -1,0 +1,14 @@
+const fs=require('node:fs'),ts=require('typescript'),vm=require('node:vm'),assert=require('node:assert/strict');
+function load(file,deps){const module={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{module,exports:module.exports,require:n=>{if(n in deps)return deps[n];throw Error('Unexpected dependency '+n)},Response,File,Date});return module.exports;}
+const noSpeech=load('lib/no-speech.ts',{}),matcher=load('lib/script-dedup.ts',{'./no-speech':noSpeech});
+const original='At dinner every evening my child watches a screen while we try to talk about our day. We tried putting the tablet away before sitting down together but the same argument returned again and again. This story is about the conversation we wanted to have.';
+let saved=[{id:'earlier-job-001',created:1,status:'Complete',market:'uk',name:'Earlier advert',transcript:original}],calls={localize:0,transcribe:0,products:0};
+const api=load('app/api/process/route.ts',{'@/lib/jobs':{jobs:async()=>saved},'@/lib/script-dedup':matcher,'node:crypto':{randomUUID:()=> 'new-job-001'},'@/lib/localize':{localize:async()=>{calls.localize++;return {uk_script:'Result'}},transcribe:async()=>{calls.transcribe++;return original}},'@/lib/products':{getProducts:async()=>{calls.products++;return []}},'@/lib/localization-mode':{parseLocalizationMode:()=> 'close'},'@/lib/market':{parseMarket:()=> 'uk'},'@/lib/cta-mode':{parseCtaMode:()=> 'original'}});
+const request=data=>({formData:async()=>data});
+(async()=>{
+ let form=new FormData();form.set('text',original.toUpperCase());let response=await api.POST(request(form));assert.equal(response.status,409);let data=await response.json();assert.equal(data.matches[0].id,'earlier-job-001');assert.equal(calls.localize,0);assert.equal(calls.products,0);
+ form=new FormData();form.set('file',new File(['mock speech'],'re-exported.mp3',{type:'audio/mpeg'}));response=await api.POST(request(form));assert.equal(response.status,409);assert.equal(calls.transcribe,1);assert.equal(calls.localize,0);
+ saved=[{...saved[0],cancelledAt:2}];form=new FormData();form.set('text',original);response=await api.POST(request(form));assert.equal(response.status,200);assert.equal(calls.localize,1);
+ saved=[{id:'target-copy-001',created:1,status:'Complete',name:'Different source',transcript:'Another unrelated advert about hiking shoes and walking outdoors without painful feet on a warm sunny afternoon.',result:{uk_script:original}}];response=await api.POST(request(form));assert.equal(response.status,200);assert.equal(calls.localize,2,'Edited target copy alone must not block a new source');
+ console.log('PASS compatibility text/audio duplicate checks stop localisation, cancelled work and matching target copy do not block, no real provider calls');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,3 +1,4 @@
+import {assertAdActive} from './cancellation';
 import {retireLegacySync,retireV2Sync} from './editor-sync-version';
 import {withEditorLocks} from './editor-locks';
 import {additionalLinkRuns} from './additional-files-model';
@@ -49,6 +50,7 @@ export async function syncEditorWorkspace(){
  return results.map(r=>r.status==='fulfilled'?r.value:null);
 }
 export async function editorAssignment(adId:string){
+ await assertAdActive(adId);
  const api=google.sheets({version:'v4',auth:sheetAuth()});const r=await api.spreadsheets.values.get({spreadsheetId:adminId(),range:"'Daily Briefs'!A1:W502"});const rows=r.data.values||[],idCol=rows[0]?.indexOf('Ad ID'),assignmentCol=rows[0]?.indexOf('Editor ID'),nameCol=rows[0]?.indexOf('Editor name'),row=rows.findIndex((r,i)=>i>0&&r[idCol]===adId);if(row<1)throw Error('Ad not found in master sheet');return {api,row:row+1,assignmentCol,nameCol,current:String(rows[row][assignmentCol]||'mine')};
 }
 export async function assignEditor(adId:string,editorId:string){

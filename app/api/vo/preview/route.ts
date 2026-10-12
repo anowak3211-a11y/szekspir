@@ -44,7 +44,7 @@ export async function POST(req:Request){
    });
   }
 
-  const processedPath=`vo/preview-${key}-${ELEVEN_MODEL_ID}-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}.wav`;
+  const processedPath=`vo/preview-${key}-${ELEVEN_MODEL_ID}-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}-pause-${processing.pauseShorteningMs??(processing.matchSourcePace===true?0:300)}-tempo-${processing.tempoFactor??1}.wav`;
   let processed=await existingMedia(processedPath);
   if(!processed){
    const response=await fetch(original,{signal:AbortSignal.timeout(30000)});

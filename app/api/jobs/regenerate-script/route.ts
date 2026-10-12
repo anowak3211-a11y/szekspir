@@ -5,7 +5,7 @@ export const maxDuration=300;
 export async function POST(request:Request){
  try{
   const {id}=await request.json();if(typeof id!=='string')throw Error('Job ID required');
-  const job=await getJob(id);if(!job?.result)throw Error('Wait for the original script to finish.');
+  const job=await getJob(id);if(job?.abortedAt||job?.cancelledAt)throw Error('This job was stopped.');if(!job?.result)throw Error('Wait for the original script to finish.');
   const transcript=job.transcript||job.result.us_script;if(!transcript?.trim())throw Error('No saved transcript found.');
   const result=await localize(transcript,job.provider,job.model,job.productContext,false,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);
   return Response.json({script:result.uk_script,promptVersion:result.prompt_version});

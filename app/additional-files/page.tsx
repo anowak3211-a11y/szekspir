@@ -5,7 +5,7 @@ import type {VoiceProcessing} from '@/lib/voice-processing';
 import {uploadMedia} from '@/lib/media-upload';
 import VoicePicker from '@/app/szekspir/components/voice-picker';
 import VoicePreview from '@/app/szekspir/components/voice-preview';
-import StorySettings from '@/app/szekspir/components/story-settings';
+import BackgroundSound from '@/app/szekspir/components/background-sound';
 import StoryStems from '@/app/szekspir/components/story-stems';
 import PausePreview from '@/app/szekspir/components/pause-preview';
 import VoiceDirections from '@/app/szekspir/components/voice-directions';
@@ -95,14 +95,14 @@ export default function AdditionalFiles(){
    {withVoice&&<>{recordings.length>0&&<><label>{hookIndex===undefined?'Voiceover script':`Hook ${hookIndex+1} script`}<textarea rows={13} maxLength={15000} value={text} disabled={!!busy} onChange={e=>{setText(e.target.value);saveDraft({text:e.target.value});}}/></label><p className="hint">{text.length.toLocaleString()} / 15,000 characters</p></>}
    {recordings.filter(k=>k!==String(hookIndex??'voiceover')).map(k=>{const d=extraDrafts[k]||{text:'',label:''};return <section key={k}><h3>{k==='voiceover'?'Voiceover':`Hook ${Number(k)+1}`}</h3><label>File name<input value={d.label} maxLength={100} disabled={!!busy} onChange={e=>setExtraDrafts(prev=>({...prev,[k]:{...d,label:e.target.value}}))}/></label><label>Script<textarea rows={k==='voiceover'?13:4} value={d.text} maxLength={15000} disabled={!!busy} onChange={e=>setExtraDrafts(prev=>({...prev,[k]:{...d,text:e.target.value}}))}/></label></section>;})}
    <VoicePicker voices={voices} value={voice} disabled={!!busy} onChange={id=>{setVoice(id);saveDraft({voice:id});}}/>
-   <VoicePreview url={voices.find(v=>v.voice_id===voice)?.preview_url}/>
+   <VoicePreview voiceId={voice} url={voices.find(v=>v.voice_id===voice)?.preview_url}/>
    <fieldset className="additional-options"><legend>Voiceover pace</legend><div className="additional-option-grid">{([['gentle','Storytelling','Natural delivery, full pauses and quiet breaths. No automatic shortening.'],['standard','Normal','Natural pauses. Recommended for most ads.'],['aggressive','VSL','Short pauses for fast-paced ads.']] as const).map(([mode,title,description])=><label key={mode} className={processing.mode===mode?'selected':''}><input type="radio" name="additional-pace" checked={processing.mode===mode} disabled={!!busy} onChange={()=>{const p={...processing,mode};setProcessing(p);saveDraft({processing:p});}}/><span><strong>{title}</strong><small>{description}</small></span></label>)}</div>
     <p className="hint">Storytelling keeps the full natural rhythm. Other modes shorten pauses; speech stays at its original speed. Saved as uncompressed WAV. The original ElevenLabs file is kept unchanged.</p>
     <PausePreview voiceId={voice} processing={processing}/>
    </fieldset>
    
    <VoiceDirections value={processing} disabled={!!busy} onChange={p=>{setProcessing(p);saveDraft({processing:p});}}/>
-   <StorySettings value={processing} disabled={!!busy} onChange={p=>{setProcessing(p);saveDraft({processing:p});}}/>
+   <BackgroundSound value={processing} disabled={!!busy} onChange={p=>{setProcessing(p);saveDraft({processing:p});}}/>
    {recordings.length>0&&<button className="primary-action" disabled={!!busy||active||loading||!!historyError||!text.trim()||!label.trim()||!voice} onClick={()=>generate()}>{busy==='generate'?'Starting…':active?'Recording in progress…':loading?'Checking saved files…':historyError?'Waiting for connection…':hookIndex!==undefined?`Regenerate Hook ${hookIndex+1}`:files.length?'Generate another take':'Generate voiceover'}</button>}
    {recordings.filter(k=>k!==String(hookIndex??'voiceover')).map(k=>{const d=extraDrafts[k];return <button key={k} className="primary-action" style={{marginTop:12}} disabled={!!busy||active||loading||!!historyError||!d?.text.trim()||!d?.label.trim()||!voice} onClick={()=>generate({...d,hookIndex:k==='voiceover'?undefined:Number(k) as 0|1})}>{active?'Recording in progress…':k==='voiceover'?'Generate voiceover':`Regenerate Hook ${Number(k)+1}`}</button>;})}{historyError&&<p className="err" role="status">Cannot check saved recordings right now. Generation will unlock when the connection returns. <button disabled={loading} onClick={()=>setHistoryRetry(n=>n+1)}>Retry connection</button></p>}<p className="hint">Uses ElevenLabs credits. Nothing is sent to the editor until you approve a take.</p></>}
    {(withVideo||provider==='none')&&<>

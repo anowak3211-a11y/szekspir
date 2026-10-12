@@ -1,12 +1,36 @@
 const fs=require('fs'),ts=require('typescript'),vm=require('vm'),assert=require('node:assert/strict');
 const src=fs.readFileSync('lib/jobs.ts','utf8');
 const code=ts.transpileModule(src.slice(src.indexOf('export async function createJob'),src.indexOf('export async function retryJob')),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
+const processingModule={exports:{}};
+vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/voice-processing.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,{module:processingModule,exports:processingModule.exports});
+const {voiceProcessing}=processingModule.exports;
 (async()=>{let stored=null,writes=0,indexFails=true;const index={ids:[]},module={exports:{}};
- vm.runInNewContext(code,{module,exports:module.exports,process:{env:{}},parseMarket:x=>x||'uk',parseSheetProduct:x=>x,parseCtaMode:x=>x||'original',EDITOR_WORKSPACES:[{id:'mine'}],getJob:async()=>stored,getProducts:async()=>[],URL,writeState:async(k,j)=>{writes++;stored=j;},mutate:async(k,f,fn)=>{if(indexFails){indexFails=false;throw Error('database disconnected after job saved');}return fn(index);}});
+ vm.runInNewContext(code,{module,exports:module.exports,process:{env:{}},voiceProcessing,parseLocalizationMode:x=>x||'close',localizationProductionNote:()=>'',parseMarket:x=>x||'uk',parseSheetProduct:x=>x,parseCtaMode:x=>x||'original',EDITOR_WORKSPACES:[{id:'mine'}],getJob:async()=>stored,getProducts:async()=>[],URL,writeState:async(k,j)=>{writes++;stored=JSON.parse(JSON.stringify(j));},mutate:async(k,f,fn)=>{if(indexFails){indexFails=false;throw Error('database disconnected after job saved');}return fn(index);}});
  const input={id:'same-job-id',sourceUrl:'https://media.test/video',video:false,voiceoverEnabled:false,provider:'openai'};
  await assert.rejects(module.exports.createJob(input),/database disconnected/);
  const result=await module.exports.createJob(input);assert.equal(writes,1);assert.equal(result,stored);assert.deepEqual(index.ids,['same-job-id']);
  stored.status='Running';stored.stages={transcribe:{done:true}};
  await module.exports.createJob({...input,name:'Do not overwrite'});assert.equal(writes,1);assert.equal(stored.status,'Running');assert.equal(stored.stages.transcribe.done,true);assert.equal(index.ids.length,1);
- console.log('PASS: save retry recovers partial registration, preserves running job/checkpoints, never creates a second job.');
+ for(const matchSourcePace of [false,true]){
+  stored=null;
+  const settings={mode:'gentle',normalize:false,matchSourcePace,emotion:'curious',openingReaction:'sighs',ambience:'car',breaths:false};
+  const candidate={...input,id:`pace-${matchSourcePace?'source':'storytelling'}`,voiceProcessing:settings};
+  const before=JSON.stringify(settings),beforeWrites=writes;
+  const created=await module.exports.createJob(candidate);
+  assert.deepEqual(created.voiceProcessing,settings,'The selected pace, tone, reaction and background survive validation and persisted JSON');
+  assert.equal(JSON.stringify(settings),before,'Creating a job must not alter submitted settings');
+  assert.equal(writes,beforeWrites+1);
+  stored.status='Running';
+  const saved=JSON.stringify(stored.voiceProcessing);
+  const retry=await module.exports.createJob({...candidate,voiceProcessing:{...settings,matchSourcePace:!matchSourcePace,emotion:'angry',ambience:'none'}});
+  assert.equal(JSON.stringify(retry.voiceProcessing),saved,'Retrying an existing UUID cannot overwrite its saved creation style');
+  assert.equal(retry.status,'Running');
+  assert.equal(writes,beforeWrites+1,'An existing UUID must not create a second record');
+ }
+ stored=null;
+ const beforeInvalid=writes;
+ await assert.rejects(module.exports.createJob({...input,id:'invalid-pace',voiceProcessing:{mode:'gentle',normalize:false,matchSourcePace:'true'}}),/Invalid source pace setting/);
+ assert.equal(writes,beforeInvalid,'Invalid settings must be rejected before any persisted job');
+ assert.equal(index.ids.includes('invalid-pace'),false);
+ console.log('PASS: partial registration retry, existing UUID preservation, validated Storytelling/Source settings persisted, invalid pace rejected before save.');
 })().catch(e=>{console.error(e);process.exitCode=1});

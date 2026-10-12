@@ -6,9 +6,15 @@ from sdk.core import api
 from api.vmake_status import _status
 class StatusTests(unittest.TestCase):
  def run_status(self,r):
-  client=types.SimpleNamespace(api=types.SimpleNamespace(getAiStrategy=lambda:{'url':'https://example.com','status_query':{'path':'status'}},queryStatus=lambda *a:r))
+  client=types.SimpleNamespace(api=types.SimpleNamespace(getAiStrategy=lambda:{'url':'https://example.com','status_query':{'path':'status'}},queryStatus=lambda *a:self.checked_query(a,r)))
   sys.modules['sdk.core.client']=types.SimpleNamespace(SkillClient=lambda **kw:client)
   return _status('existing-task')
+ def checked_query(self,args,result):
+  self.assertEqual(args[1]['sync_timeout'],5)
+  return result
+ def test_transport_failure_is_not_processing(self):
+  r=self.run_status({'is_finished':False,'result':' task query network error: secret-network-detail'})
+  self.assertTrue(r['status_unavailable']);self.assertFalse(r['done']);self.assertNotIn('secret',r['message'])
  def test_empty_success_waits(self):
   r=self.run_status({'is_finished':True,'result':{'data':{'status':10,'result':{}}}})
   self.assertFalse(r['done']);self.assertTrue(r['awaiting_output'])

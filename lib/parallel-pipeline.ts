@@ -1,9 +1,14 @@
+import {findScriptDuplicates,duplicateScriptMessage} from './script-dedup';
+import {withEditorLocks} from './editor-locks';
+import {saveProviderReceipt,type VmakeSubmission} from './provider-receipts';
+import {recoverVmakeReceipts} from './recover-vmake';
+import {retryDatabaseStage} from './database-stage-retry';
 import {isSheetsQuotaError,sheetRetryDelay,SHEET_QUOTA_WAIT} from './sheets-quota';
 import {videoLinks} from './video-links';
 import {editorHooks,sendsHook} from './hook-delivery';
 import {voiceLinks} from './voice-links';
 import type {Job} from './jobs';
-import {getJob,finalise,pythonCall} from './jobs';
+import {getJob,jobs,finalise,pythonCall} from './jobs';
 import {mutate} from './store';
 import {fetchAdVideo} from './fetchad';
 import {safeDownload} from './safe-fetch';
@@ -16,14 +21,23 @@ import {existingMedia,putMedia} from './media';
 import {randomUUID} from 'node:crypto';
 import {joinParts,needsParts,planParts,preparePart} from './long-video';
 import {advanceCleanFirst,retryCleanFirst} from './clean-first-video';
-export type Stage='cleanFirst'|'driveUpload'|'transcribe'|'localise'|'segment'|'enhanceSubmit'|'enhancePoll'|'videoSubmit'|'videoPoll'|'export'|'vo'|'references';
-export type StageState={briefSaved?:boolean;quotaRetries?:number;retryReason?:string;resubmitRequired?:boolean;done?:boolean;pending?:boolean;error?:string;uncertain?:boolean;attempts?:number;ms?:number;started?:number;finished?:number;nextAt?:number};
-const labels:Record<Stage,string>={cleanFirst:'Cleaning then enhancing video',driveUpload:'Saving original video to Drive',transcribe:'Transcribing',localise:'Localising',segment:'Preparing video parts',enhanceSubmit:'Starting video enhancement',enhancePoll:'Enhancing video',videoSubmit:'Starting video cleanup',videoPoll:'Cleaning video',export:'Saving brief',vo:'Generating and trimming voiceover',references:'Finishing'};
+export type Stage='cleanFirst'|'driveUpload'|'transcribe'|'duplicateCheck'|'localise'|'segment'|'enhanceSubmit'|'enhancePoll'|'videoSubmit'|'videoPoll'|'export'|'vo'|'references';
+export type StageState={approvedAt?:number;briefSaved?:boolean;quotaRetries?:number;databaseRetries?:number;retryReason?:string;resubmitRequired?:boolean;done?:boolean;pending?:boolean;submission?:VmakeSubmission;error?:string;uncertain?:boolean;attempts?:number;ms?:number;started?:number;finished?:number;nextAt?:number};
+const labels:Record<Stage,string>={cleanFirst:'Cleaning then enhancing video',driveUpload:'Saving original video to Drive',transcribe:'Transcribing',duplicateCheck:'Checking previous adverts',localise:'Localising',segment:'Preparing video parts',enhanceSubmit:'Starting video enhancement',enhancePoll:'Enhancing video',videoSubmit:'Starting video cleanup',videoPoll:'Cleaning video',export:'Saving brief',vo:'Generating and trimming voiceover',references:'Finishing'};
+export function waitForSavedProvider(stage:StageState,submittedAt?:number,unavailable=false,now=Date.now()){
+ const slow=!!submittedAt&&now-submittedAt>3600000;
+ stage.nextAt=now+(slow||unavailable?60000:20000);stage.databaseRetries=0;
+ stage.retryReason=unavailable?'VMake status check unavailable. Retaining and checking the saved task.':slow?'No completed video returned yet. Checking the saved task without resubmitting.':undefined;
+}
 export function readyStages(j:Job,now=Date.now()):Stage[]{
- if(j.abortedAt||j.cancelledAt||j.hookDeliveryPending!==undefined)return [];
+ if(j.abortedAt||j.cancelledAt||j.scriptDuplicate||j.hookDeliveryPending!==undefined)return [];
  const s=j.stages||{},done=(k:Stage)=>!!s[k]?.done;
  const list:Stage[]=[];
  if(!done('transcribe'))list.push('transcribe');
+ if(j.duplicateCheckRequired&&!done('duplicateCheck')){
+  if(done('transcribe'))list.push('duplicateCheck');
+  return list.filter(k=>!s[k]?.error&&(s[k]?.nextAt||0)<=now);
+ }
  if(done('transcribe')&&!done('localise'))list.push('localise');
  const segmented=j.video&&needsParts(j.duration);
  const cleanFirst=j.vmakeOrder==='clean-first'&&j.enhanceVideo&&j.vmakeMode!=='enhance';
@@ -46,7 +60,7 @@ export function retryParallel(j:Job){
  if(j.videoParts&&j.stages?.videoPoll?.resubmitRequired){const part=j.videoParts.find(p=>!p.removedUrl);if(part){part.removeTaskId=undefined;part.removeSubmittedAt=undefined;}j.stages.videoSubmit={};j.stages.videoPoll={};}
  if(j.stages?.enhancePoll?.resubmitRequired&&!j.enhancedUrl){j.enhanceTaskId=undefined;j.enhanceSubmittedAt=undefined;j.stages.enhanceSubmit={};j.stages.enhancePoll={};}
  if(j.stages?.videoPoll?.resubmitRequired&&!j.cleanUrl&&!j.videoOutputUrl){j.taskId=undefined;j.submittedAt=undefined;j.stages.videoSubmit={};j.stages.videoPoll={};}
-for(const s of Object.values(j.stages||{})){if(!s.done){s.error=undefined;s.pending=false;s.uncertain=false;s.nextAt=undefined;s.quotaRetries=0;s.retryReason=undefined;s.started=undefined;s.finished=undefined;}}}
+for(const s of Object.values(j.stages||{})){if(!s.done){s.error=undefined;s.pending=false;s.uncertain=false;s.nextAt=undefined;s.quotaRetries=0;s.databaseRetries=0;s.retryReason=undefined;s.started=undefined;s.finished=undefined;}}}
 export function editParallel(j:Job){j.stages={...j.stages,localise:{done:true},export:{},vo:{},references:{}};j.completedAt=undefined;}
 // Shared leases bound provider activity across processes, not just within one instance.
 async function acquire(id:string,token:string){return mutate<Record<string,{token:string;until:number}>,boolean>('pipeline-capacity',{},s=>{const now=Date.now();for(const k of Object.keys(s))if(s[k].until<=now)delete s[k];if(s[id]||Object.keys(s).length>=3)return false;s[id]={token,until:now+360000};return true;});}
@@ -63,12 +77,13 @@ export async function advanceParallel(id:string):Promise<number>{
   });claimed=true;
   const patch=async(fn:(s:Job)=>void)=>mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s||s.lease!==token)throw Error('Lease expired');fn(s);s.updated=Date.now();});
   const runStage=async(k:Stage)=>{
-   let repeat=false;
+   let repeat=false,checkpointStarted=false,checkpointAcknowledged=false;let submission:VmakeSubmission|undefined;
    const start=Date.now();await patch(s=>{const old=s.stages![k]||{};s.stages![k]={...old,attempts:(old.attempts||0)+1,started:old.started||(k==='videoPoll'?s.submittedAt:undefined)||start};});
-   const paid=()=>patch(s=>{s.stages![k]!.pending=true;});
+   const paid=async(context?:{operation:'enhance'|'remove';part?:number})=>{checkpointStarted=true;checkpointAcknowledged=false;submission=context?{...context,id:randomUUID()}:undefined;await patch(s=>{s.stages![k]!.pending=true;if(submission)s.stages![k]!.submission=submission;});checkpointAcknowledged=true;};
+   const call=async(path:string,body?:unknown)=>{const result=await pythonCall(path,body&&path==='/api/vmake_submit'?{...body as object,checkpoint:submission?{jobId:id,stage:k,...submission}:undefined}:body);if(path==='/api/vmake_submit'&&submission&&(result.task_id||result.output_urls?.[0])){try{await saveProviderReceipt({jobId:id,stage:k,submission,at:Date.now(),taskId:result.task_id,outputUrls:result.output_urls});}catch{console.warn('vmake_receipt_storage_unavailable',{jobId:id,stage:k,submissionId:submission.id});}}return result;};
    const save=async(fn:(s:Job)=>void)=>{
     // Keep the provider response in memory and retry its checkpoint, not its paid request.
-    for(let attempt=0;;attempt++)try{return await patch(s=>{fn(s);s.stages![k]!.pending=false;});}
+    for(let attempt=0;;attempt++)try{return await patch(s=>{fn(s);s.stages![k]!.pending=false;s.stages![k]!.databaseRetries=0;s.stages![k]!.retryReason=undefined;});}
     catch(e){if(attempt>=1||!/Database (connection|state request)/.test((e as Error).message))throw e;await new Promise(r=>setTimeout(r,1500));}
    };
    try{
@@ -79,6 +94,14 @@ export async function advanceParallel(id:string):Promise<number>{
       else{const d=await fetchAdVideo(job.sourceUrl);file=d.file;await save(s=>{s.resolvedVideoUrl=d.videoUrl;});}
       await paid();const t=await transcribeWithDuration(file);await save(s=>{s.transcript=t.text;s.duration=s.duration||t.duration;});
      }
+    }else if(k==='duplicateCheck'){
+     await withEditorLocks(['script-duplicate-check'],async()=>{
+      const matches=findScriptDuplicates(job,await jobs());
+      if(matches.length){await save(s=>{s.scriptDuplicate={checkedAt:Date.now(),matches};});throw Error(duplicateScriptMessage(matches));}
+      // Persist the keeper while holding the check lock. A later source whose
+      // transcription finishes after this scan must see this accepted advert.
+      await save(s=>{s.stages![k]!.done=true;});
+     });
     }else if(k==='localise'){
      if(!job.result){await paid();const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
     }else if(k==='segment'){
@@ -87,14 +110,14 @@ export async function advanceParallel(id:string):Promise<number>{
      const index=parts.findIndex(p=>!p.sourceUrl);
      if(index>=0){const url=await preparePart(job.resolvedVideoUrl||job.sourceUrl,id,index,parts[index]);await save(s=>{if(url)s.videoParts![index].sourceUrl=url;else if(index===s.videoParts!.length-1&&index>0)s.videoParts!.pop();else throw Error('A middle video part is missing.');});repeat=!!url&&index<parts.length-1;}
     }else if(k==='cleanFirst'){
-     const complete=await advanceCleanFirst(job,{paid,save,call:pythonCall,finalise,join:joinParts});
-     if(!complete){await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+     const complete=await advanceCleanFirst(job,{paid,save,call,finalise,join:joinParts});
+     if(!complete){const waiting=job.cleanFirst?.parts.find(p=>p.taskId);await patch(s=>{waitForSavedProvider(s.stages![k]!,waiting?.submittedAt,waiting?.statusUnavailable);});return;}
     }else if(k==='enhanceSubmit'){
      if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.enhanceTaskId&&!p.enhancedUrl);
-      if(index>=0){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.videoParts[index].sourceUrl,operation:'enhance'});
+      if(index>=0){await paid({operation:'enhance',part:index});const r=await call('/api/vmake_submit',{url:job.videoParts[index].sourceUrl,operation:'enhance'});
        if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake enhancer returned no task or output');
        await save(s=>{const part=s.videoParts![index];part.enhanceTaskId=r.task_id?String(r.task_id):undefined;part.enhanceSubmittedAt=Date.now();part.enhancedUrl=r.output_urls?.[0];});repeat=index<job.videoParts.length-1;}
-     }else if(!job.enhanceTaskId&&!job.enhancedUrl){await paid();const r=await pythonCall('/api/vmake_submit',{url:job.resolvedVideoUrl||job.sourceUrl,operation:'enhance'});
+     }else if(!job.enhanceTaskId&&!job.enhancedUrl){await paid({operation:'enhance'});const r=await call('/api/vmake_submit',{url:job.resolvedVideoUrl||job.sourceUrl,operation:'enhance'});
       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake enhancer returned no task or output');
       await save(s=>{s.enhanceTaskId=r.task_id?String(r.task_id):undefined;s.enhanceSubmittedAt=Date.now();s.enhancedUrl=r.output_urls?.[0];});
      }
@@ -102,13 +125,13 @@ export async function advanceParallel(id:string):Promise<number>{
      if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.enhancedUrl);
       if(index>=0){const part=job.videoParts[index],r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(part.enhanceTaskId!)}`);
        if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
-       if(!r.done){if(Date.now()-(part.enhanceSubmittedAt||Date.now())>3600000)throw Error('VMake enhancement still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+       if(!r.done){await patch(s=>{waitForSavedProvider(s.stages![k]!,part.enhanceSubmittedAt,r.status_unavailable===true);});return;}
        const url=r.output_urls?.[0];if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.videoParts![index].enhancedUrl=url;});repeat=index<job.videoParts.length-1;
       }
       if(!repeat&&job.vmakeMode==='combo'&&!job.enhancedSavedUrl){const current=(await getJob(id))!;const url=await joinParts(current.videoParts!.map(p=>p.enhancedUrl!),id,'-enhanced',job.duration);await save(s=>{s.enhancedSavedUrl=url;});}
      }else if(!job.enhancedUrl){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.enhanceTaskId!)}`);
       if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
-      if(!r.done){if(Date.now()-(job.enhanceSubmittedAt||Date.now())>3600000)throw Error('VMake enhancement still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+      if(!r.done){await patch(s=>{waitForSavedProvider(s.stages![k]!,job.enhanceSubmittedAt,r.status_unavailable===true);});return;}
       const url=r.output_urls?.[0];if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.enhancedUrl=url;});
      }
      if(!job.videoParts&&job.vmakeMode==='combo'&&!job.enhancedSavedUrl){
@@ -119,10 +142,10 @@ export async function advanceParallel(id:string):Promise<number>{
      }
     }else if(k==='videoSubmit'){
      if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.removeTaskId&&!p.removedUrl);
-      if(index>=0){const part=job.videoParts[index];const cleanupUrl=(job.enhanceVideo?part.enhancedUrl:part.sourceUrl)!;await paid();const r=await pythonCall('/api/vmake_submit',{url:cleanupUrl,operation:'remove'});
+      if(index>=0){const part=job.videoParts[index];const cleanupUrl=(job.enhanceVideo?part.enhancedUrl:part.sourceUrl)!;await paid({operation:'remove',part:index});const r=await call('/api/vmake_submit',{url:cleanupUrl,operation:'remove'});
        if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake returned no task or output');
        await save(s=>{const current=s.videoParts![index];current.removeTaskId=r.task_id?String(r.task_id):undefined;current.removeSubmittedAt=Date.now();current.removedUrl=r.output_urls?.[0];});repeat=index<job.videoParts.length-1;}
-     }else if(!job.taskId&&!job.cleanUrl&&!job.videoOutputUrl){const cleanupUrl=(job.enhanceVideo?(job.enhancedSavedUrl||job.enhancedUrl):job.resolvedVideoUrl||job.sourceUrl)!;await paid();const r=await pythonCall('/api/vmake_submit',{url:cleanupUrl,operation:'remove'});
+     }else if(!job.taskId&&!job.cleanUrl&&!job.videoOutputUrl){const cleanupUrl=(job.enhanceVideo?(job.enhancedSavedUrl||job.enhancedUrl):job.resolvedVideoUrl||job.sourceUrl)!;await paid({operation:'remove'});const r=await call('/api/vmake_submit',{url:cleanupUrl,operation:'remove'});
       if(!r.task_id&&!r.output_urls?.[0])throw Error('VMake returned no task or output');
       await save(s=>{s.taskId=r.task_id?String(r.task_id):undefined;s.submittedAt=Date.now();s.videoOutputUrl=r.output_urls?.[0];});
      }
@@ -132,7 +155,7 @@ export async function advanceParallel(id:string):Promise<number>{
        const index=job.videoParts.findIndex(p=>!p.removedUrl);
        if(index>=0){const part=job.videoParts[index],r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(part.removeTaskId!)}`);
         if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed'));}
-        if(!r.done){if(Date.now()-(part.removeSubmittedAt||Date.now())>3600000)throw Error('VMake still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+        if(!r.done){await patch(s=>{waitForSavedProvider(s.stages![k]!,part.removeSubmittedAt,r.status_unavailable===true);});return;}
         const url=r.output_urls?.[0];if(!url)throw Error('VMake completed without video');await save(s=>{s.videoParts![index].removedUrl=url;});repeat=index<job.videoParts.length-1;
        }
       }
@@ -140,7 +163,7 @@ export async function advanceParallel(id:string):Promise<number>{
      }else if(!job.cleanUrl){let url=job.vmakeMode==='enhance'?job.enhancedUrl:job.videoOutputUrl;
       if(!url){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.taskId!)}`);
        if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed'));}
-       if(!r.done){if(Date.now()-(job.submittedAt||Date.now())>3600000)throw Error('VMake still processing after one hour. Retry status without resubmitting.');await patch(s=>{s.stages![k]!.nextAt=Date.now()+20000;});return;}
+       if(!r.done){await patch(s=>{waitForSavedProvider(s.stages![k]!,job.submittedAt,r.status_unavailable===true);});return;}
        url=r.output_urls?.[0];if(!url)throw Error('VMake completed without video');await save(s=>{s.videoOutputUrl=url;});
       }
       const clean=await finalise(url!,id);await save(s=>{s.cleanUrl=clean;});
@@ -173,8 +196,11 @@ export async function advanceParallel(id:string):Promise<number>{
      }
      const completed=(await getJob(id))!;if(r.hooks.slice(0,2).some((_,i)=>sendsHook(completed,i)&&(completed.hookVoPending?.[i]||!completed.hookVoUrls?.[i]))){await patch(s=>{s.stages![k]!.nextAt=Date.now()+5000;});return;}
     }else if(k==='references'){await updateReference(job.adId!,videoLinks(job),voiceLinks(job));await syncAssignedEditor(job.adId!);}
-    await patch(s=>{s.stages![k]!.done=!repeat;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
-   }catch(e){await patch(s=>{const stage=s.stages![k]!;stage.finished=Date.now();
+    await patch(s=>{s.stages![k]!.databaseRetries=0;s.stages![k]!.done=!repeat;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
+   }catch(e){const recovered=submission?await recoverVmakeReceipts(id,k).catch(()=>false):false;await patch(s=>{const stage=s.stages![k]!;stage.finished=Date.now();
+    if(recovered&&!stage.pending&&stage.submission?.id===submission?.id){stage.error=undefined;stage.uncertain=false;stage.nextAt=stage.done?undefined:Date.now()+10000;stage.retryReason=stage.done?undefined:'Recovered saved provider request. Checking its progress.';return;}
+    const beforeProviderCall=checkpointStarted&&!checkpointAcknowledged;if(beforeProviderCall){stage.pending=false;stage.uncertain=false;}
+    if(retryDatabaseStage(stage,k,e,Date.now(),beforeProviderCall||k==='duplicateCheck'))return;
     if(['export','references','vo'].includes(k)&&!stage.pending&&isSheetsQuotaError(e)&&(stage.quotaRetries||0)<5){
      stage.quotaRetries=(stage.quotaRetries||0)+1;stage.nextAt=Date.now()+sheetRetryDelay(stage.quotaRetries);stage.error=undefined;stage.uncertain=false;stage.retryReason=SHEET_QUOTA_WAIT;return;
     }
@@ -191,7 +217,7 @@ export async function advanceParallel(id:string):Promise<number>{
   const rejected=outcomes.find(r=>r.status==='rejected');if(rejected?.status==='rejected')throw rejected.reason;
   await patch(s=>{const failures=Object.entries(s.stages!).filter(([,v])=>v.error);s.uncertain=failures.some(([,v])=>v.uncertain);s.error=failures.map(([k,v])=>`${labels[k as Stage]}: ${v.error}`).join(' ')||undefined;
    const independentWork=!!(s.video&&((s.cleanFirst&&!s.stages!.cleanFirst?.done&&!s.stages!.cleanFirst?.error)||(s.stages!.videoSubmit?.done&&!s.stages!.videoPoll?.done&&!s.stages!.videoPoll?.error)||(s.enhanceVideo&&s.stages!.enhanceSubmit?.done&&!s.stages!.enhancePoll?.done&&!s.stages!.enhancePoll?.error)));
-   s.status=s.stages!.references?.done?'Complete':failures.length&&!independentWork&&!readyStages(s).length?'Failed':'Queued';
+   s.status=s.scriptDuplicate?'Failed':s.stages!.references?.done?'Complete':failures.length&&!independentWork&&!readyStages(s).length?'Failed':'Queued';
    if(s.stages!.references?.done){s.step='done';s.completedAt=Date.now();s.progress='Complete';}
    s.lease=undefined;s.leaseUntil=undefined;
   });claimed=false;

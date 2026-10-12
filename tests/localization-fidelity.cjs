@@ -1,0 +1,8 @@
+const fs=require('fs'),assert=require('node:assert/strict'),ts=require('typescript');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const {closeFidelity}=require('../lib/localization-fidelity.ts');
+const sentences=Array.from({length:30},(_,i)=>`I remember moment ${i} when my son told me he wanted to try again.`),source=sentences.join(' ');
+assert(closeFidelity(source,source));assert(closeFidelity(source,source.replaceAll('son','child')));assert(closeFidelity(source,source.replace('moment 3','colour 3')));assert(!closeFidelity(source,'A completely new advertisement about a different story. '.repeat(30)));assert(!closeFidelity(source,sentences.slice(0,10).join(' ')));assert(closeFidelity('Short original.','Short adapted.'));
+const offer='Link below. '+('The introductory price comes with an offer and guarantee. '.repeat(20));const body=sentences.slice(0,20).join(' '),longOffer=body+' '+offer;assert(closeFidelity(longOffer,body+' Read the article below.','learn-more'));assert(!closeFidelity(longOffer,body+' Read the article below.','original'));assert(!closeFidelity(longOffer,sentences.slice(0,4).join(' ')+' Read the article below.','learn-more'));
+const ui=fs.readFileSync('app/szekspir/workspace.tsx','utf8');assert(ui.includes("setLocalizationMode('close')"));const mode=fs.readFileSync('app/szekspir/components/localization-mode.tsx','utf8');assert(mode.includes('Creative rewrite'));
+console.log('PASS light edit retention, necessary word substitutions, rewrite/truncation rejection, own-product reset and explicit creative-mode label');

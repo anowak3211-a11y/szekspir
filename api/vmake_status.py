@@ -17,10 +17,16 @@ def _status(task_id: str):
     from sdk.core import api as vapi
 
     client = SkillClient(ak=os.environ["MT_AK"], sk=os.environ["MT_SK"])
-    policy = client.api.getAiStrategy()
+    policy = dict(client.api.getAiStrategy())
+    # Keep the legacy query/signing path; three read attempts must fit the 60s function.
+    policy["sync_timeout"] = 5
     uri = policy["url"] + "/" + policy["status_query"]["path"] + "?task_id=" + quote(task_id, safe="")
     result = client.api.queryStatus(uri, policy)
     raw = result.get("result") or {}
+    if not isinstance(raw, dict):
+        # SDK transport failures are not evidence that the task is processing.
+        return {"done": False, "status_unavailable": True,
+                "message": "VMake status check unavailable. Retaining the saved task."}
     data = raw.get("data") or {} if isinstance(raw, dict) else {}
     payload = data.get("result") or {} if isinstance(data, dict) else {}
     nested = payload.get("data") or {} if isinstance(payload, dict) else {}

@@ -11,7 +11,7 @@ import {voiceLinkRuns} from './voice-links';
 
 export async function saveHookDelivery(id:string,index:number,enabled:boolean){
  if(!Number.isInteger(index)||index<0||index>1||typeof enabled!=='boolean')throw Error('Invalid hook selection.');
- const before=await getJob(id);if(!before?.result?.hooks[index]||!before.adId)throw Error('Wait for the brief to be saved.');
+ const before=await getJob(id);if(!before?.result?.hooks[index]||!before.adId)throw Error('Wait for the brief to be saved.');if('hookTextDelivery' in before&&before.hookTextDelivery)throw Error('Finish saving the hook text first.');
  const adId=before.adId,assignment=await editorAssignment(adId),workspace=EDITOR_WORKSPACES.find(w=>w.id===assignment.current);if(!workspace)throw Error('Editor not found.');
  return withEditorLocks(['ad-'+adId,'voice-'+adId,'workspace-'+workspace.id],async()=>{
   if((await editorAssignment(adId)).current!==workspace.id)throw Error('Editor changed. Refresh and try again.');
@@ -27,6 +27,8 @@ export async function saveHookDelivery(id:string,index:number,enabled:boolean){
   // Persist intent before external writes. A failed delivery is visible and retryable.
   const job=await mutate<Job|null,Job>(`job-${id}`,null,j=>{
    if(!j?.result||j.abortedAt)throw Error('This job is unavailable.');
+   if('originalVoiceoverDelivery' in j&&j.originalVoiceoverDelivery)throw Error('Finish using the original voiceover first.');
+   if('hookTextDelivery' in j&&j.hookTextDelivery)throw Error('Finish saving the hook text first.');
    if((j.leaseUntil||0)>Date.now()||Object.values(j.hookVoPending||{}).some(Boolean))throw Error('A recording or save is in progress. Try again when it finishes.');
    if(j.hookDeliveryPending!==undefined&&j.hookDeliveryPending!==index)throw Error('Retry the unfinished hook selection first.');
    j.hooksToEditor={...j.hooksToEditor,[index]:enabled};j.hookDeliveryPending=index;j.updated=Date.now();return structuredClone(j);

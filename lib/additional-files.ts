@@ -1,3 +1,4 @@
+import {adCancelled,assertAdActive} from './cancellation';
 import {jobs} from './jobs';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
@@ -15,7 +16,7 @@ const key=(adId:string)=>{if(!/^MEL-\d+$/.test(adId))throw Error('Invalid Ad ID.
 function workspace(editorId:string){const w=EDITOR_WORKSPACES.find(w=>w.id===editorId);if(!w)throw Error('Choose a valid editor.');return w;}
 async function masterRows(){return (await api().spreadsheets.values.get({spreadsheetId:master(),range:"'Daily Briefs'!A1:AC502",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];}
 export async function additionalAds(editorId:string){workspace(editorId);const markets=new Map((await jobs()).filter(j=>j.adId).map(j=>[j.adId,j.market||'uk']));const rows=await masterRows(),h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Editor ID')]===editorId&&/^MEL-\d+$/.test(String(r[h.indexOf('Ad ID')]))).map(r=>({market:markets.get(String(r[h.indexOf('Ad ID')]))||'uk',adId:String(r[h.indexOf('Ad ID')]),name:String(r[h.indexOf('Ad name')]||''),script:String(r[h.indexOf('Adapted script')]||''),hooks:[String(r[h.indexOf('Hook 1')]||''),String(r[h.indexOf('Hook 2')]||'')]})).reverse();}
-async function selectedAd(editorId:string,adId:string){workspace(editorId);key(adId);const rows=await masterRows(),h=rows[0]||[],matches=rows.map((r,i)=>({r,i})).filter(x=>x.i>0&&x.r[h.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad not found or duplicated.');const {r,i}=matches[0];if(r[h.indexOf('Editor ID')]!==editorId)throw Error('This ad is assigned to another editor. Refresh the list.');const col=h.indexOf('Additional files');if(col<0)throw Error('Additional files column is not configured.');return {row:i+1,col,links:String(r[col]||'')};}
+async function selectedAd(editorId:string,adId:string){await assertAdActive(adId);workspace(editorId);key(adId);const rows=await masterRows(),h=rows[0]||[],matches=rows.map((r,i)=>({r,i})).filter(x=>x.i>0&&x.r[h.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad not found or duplicated.');const {r,i}=matches[0];if(r[h.indexOf('Editor ID')]!==editorId)throw Error('This ad is assigned to another editor. Refresh the list.');const col=h.indexOf('Additional files');if(col<0)throw Error('Additional files column is not configured.');return {row:i+1,col,links:String(r[col]||'')};}
 export async function additionalHistory(editorId:string,adId:string){const ad=await selectedAd(editorId,adId);const state=(await readState<AdditionalState>(key(adId),{files:[]})).value;const w=workspace(editorId);const rows=(await api().spreadsheets.values.get({spreadsheetId:w.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];const h=rows[0]||[],r=rows.find((r,i)=>i>0&&r[h.indexOf('Ad ID')]===adId);return {files:state.files,links:mergeAdditionalLinks(ad.links,String(r?.[h.indexOf('Additional files')]||''))};}
 export async function requestAdditional(input:Record<string,unknown>){
  const b=additionalInput(input);await selectedAd(b.editorId,b.adId);
@@ -31,10 +32,12 @@ export async function requestAdditional(input:Record<string,unknown>){
  });
 }
 export async function generateAdditional(adId:string,id:string){
+ if(await adCancelled(adId))return;
  const f=await mutate<AdditionalState,AdditionalFile|undefined>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id);if(!f||f.provider&&f.provider!=='elevenlabs'||f.status!=='generating'||f.startedAt)return;f.startedAt=Date.now();return {...f};});
  if(!f)return;
  const update=(fn:(f:AdditionalFile)=>void)=>mutate<AdditionalState,void>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id);if(!f)throw Error('Recording not found.');fn(f);});
  try{
+  await assertAdActive(adId);
   const audio=await generateVO(f.text,f.voiceId,async (raw,timing)=>{const originalUrl=await putMedia(`vo/additional-${id}-original.mp3`,Buffer.from(raw),'audio/mpeg');await update(f=>{f.originalUrl=originalUrl;f.timing=timing;});},f.processing,f.hookIndex===undefined?'voiceover':'hook',f.market);
   const url=await putMedia(`vo/additional-${id}.wav`,Buffer.from(audio),'audio/wav');
   await update(f=>{f.url=url;f.status='draft';delete f.error;});
@@ -80,9 +83,10 @@ export async function requestAdditionalUpload(input:Record<string,unknown>){
  });
 }
 export async function scheduleAdditionalVideo(adId:string,id:string,delaySeconds=0){
- const {send}=await import('@vercel/queue');await send('szekspir-additional-video',{adId,id},{region:'iad1',delaySeconds,retentionSeconds:86400});
+ const {send}=await import('@vercel/queue');await send('szekspir-additional-video',{adId,id},{region:'fra1',delaySeconds,retentionSeconds:86400});
 }
 export async function advanceAdditionalVideo(adId:string,id:string){
+ if(await adCancelled(adId))return;
  const update=(fn:(f:AdditionalFile)=>void)=>mutate<AdditionalState,void>(key(adId),{files:[]},s=>{const f=s.files.find(f=>f.id===id);if(!f)throw Error('File not found.');fn(f);});
  const f=await mutate<AdditionalState,AdditionalFile|undefined>(key(adId),{files:[]},s=>{
   const f=s.files.find(f=>f.id===id);if(!f||f.provider!=='vmake'||f.status!=='generating'||(f.leaseUntil||0)>Date.now())return;
@@ -101,6 +105,7 @@ export async function advanceAdditionalVideo(adId:string,id:string){
    if(result.done){if(!result.output_urls?.[0])throw Error('VMake completed without a video.');await update(x=>{x.outputUrl=result.output_urls[0];x.taskId=undefined;x.videoStep=x.vmakeMode==='both'?(x.vmakeOrder==='clean-first'?(x.videoStep==='remove'?'enhance':'save'):(x.videoStep==='enhance'?'remove':'save')):'save';});}
   }else{
    await update(x=>{x.pendingSubmit=true;});
+   await assertAdActive(adId);
    const result=await pythonCall('/api/vmake_submit',{url:f.outputUrl||f.originalUrl,operation:f.videoStep});
    if(!result.task_id&&!result.output_urls?.[0])throw Error('VMake did not return a task or video.');
    await update(x=>{x.pendingSubmit=false;if(result.task_id)x.taskId=String(result.task_id);else{x.outputUrl=result.output_urls[0];x.videoStep=x.vmakeMode==='both'?(x.vmakeOrder==='clean-first'?(x.videoStep==='remove'?'enhance':'save'):(x.videoStep==='enhance'?'remove':'save')):'save';}});
@@ -112,4 +117,4 @@ export async function advanceAdditionalVideo(adId:string,id:string){
   else throw e;
  }finally{await update(x=>{x.leaseUntil=0;});}
 }
-export async function additionalVideoPending(adId:string,id:string){return (await readState<AdditionalState>(key(adId),{files:[]})).value.files.some(f=>f.id===id&&f.provider==='vmake'&&f.status==='generating');}
+export async function additionalVideoPending(adId:string,id:string){if(await adCancelled(adId))return false;return (await readState<AdditionalState>(key(adId),{files:[]})).value.files.some(f=>f.id===id&&f.provider==='vmake'&&f.status==='generating');}

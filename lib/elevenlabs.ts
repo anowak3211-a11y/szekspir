@@ -2,6 +2,7 @@ import type {VoiceProcessing} from './voice-processing';
 import {pacedNarration,voiceSettings} from './voice-direction';
 import type {VoiceTiming} from './vo-cleanup';
 import {cleanVoiceover} from './vo-cleanup';
+import {fitVoiceoverPace} from './vo-pace';
 const BASE = "https://api.elevenlabs.io/v1";
 export const ELEVEN_MODEL_ID='eleven_v4';
 
@@ -17,6 +18,16 @@ export interface Voice {
   category: string;
   preview_url?: string | null;
   labels: Record<string, string>;
+}
+
+// Refresh the selected voice's library sample; this endpoint never generates speech.
+export async function getVoice(voiceId:string):Promise<Voice>{
+ if(!/^[a-zA-Z0-9_-]{1,100}$/.test(voiceId))throw Error('Choose a voice first.');
+ const r=await fetch(`${BASE}/voices/${encodeURIComponent(voiceId)}`,{
+  headers:{'xi-api-key':key()},cache:'no-store',signal:AbortSignal.timeout(15000)
+ });
+ if(!r.ok)throw Error(`Could not load this voice's sample (${r.status}).`);
+ return r.json();
 }
 
 export async function listVoices(): Promise<Voice[]> {
@@ -57,8 +68,15 @@ export async function generateVO(
   const raw=await r.arrayBuffer();
   try{
    let timing:VoiceTiming|undefined;
-   const clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
-   if(timing){timing.modelId=ELEVEN_MODEL_ID;if(pace&&kind==='voiceover')timing.pace={...pace,speed:1,calibrated:false};}
+   let clean=await cleanVoiceover(raw,t=>{timing=t;},processing,kind);
+   if(timing){
+    timing.modelId=ELEVEN_MODEL_ID;
+    if(kind==='voiceover'){
+     try{clean=await fitVoiceoverPace(clean,timing,pace);}catch{
+      timing.paceWarning='Source pace matching could not be completed. Original timing retained; no recording was repeated.';
+     }
+    }
+   }
    // Background is opt-in for the main narration only; hooks stay clean for editing.
    let output=clean;
    if(timing&&preserve&&processing&&processing.mode!=='aggressive'&&processing.ambience&&processing.ambience!=='none'&&kind==='voiceover'){

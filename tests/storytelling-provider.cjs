@@ -15,6 +15,7 @@ const save=async raw=>{preserved++;assert.equal(new Uint8Array(raw)[0],1);};
  await generateVO('My hook.','test',save,{mode:'gentle',normalize:false,ambience:'car'},'hook');assert.equal(ambienceCalls,1,'Hooks never generate ambience');
  await generateVO('My story.','test',save,{mode:'standard',normalize:false,ambience:'car'});assert.equal(ambienceCalls,2);assert.equal(requests[3].voice_settings.stability,1);
  await generateVO('Sample.','test',save,{mode:'gentle',normalize:false,emotion:'curious',openingReaction:'yawns'},'voiceover','uk',{speed:1.18,targetSeconds:2,calibrated:true});assert.equal(requests[4].model_id,'eleven_v4');assert.equal(requests[4].voice_settings.speed,undefined);assert.equal(requests[4].text,'[yawns] [curious] Sample.');assert(!requests[2].text.includes('[rushed]'));
- assert.equal(preserved,5);assert.equal(requests.length,5);
+ await generateVO('This is a complete thought with many words. '.repeat(40),'test',save,{mode:'gentle',normalize:false,breaths:true});assert(!requests[5].text.includes('[exhales]'),'Legacy breath flag must not insert cues into a new v4 request');
+ assert.equal(preserved,6);assert.equal(requests.length,6);
  console.log('PASS provider requests: Natural storytelling, unchanged other modes, opt-in main VO ambience, originals preserved');
 })().catch(e=>{console.error(e);process.exitCode=1});

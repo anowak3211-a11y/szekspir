@@ -6,7 +6,7 @@ const settings={mode:'gentle',normalize:false};
 const directed=directedNarration(story,'subtle','uk',settings);
 assert(directed.startsWith('[conversational] '));
 assert.equal(narration(directed).replace(/\s+/g,' '),narration(story).replace(/\s+/g,' '));
-assert.equal((directed.match(/\[exhales\]/g)||[]).length,3,'Sparse, capped breath cues');
+assert.equal((directed.match(/\[exhales\]/g)||[]).length,0,'Native v4 never receives inserted breath cues');
 assert(!directedNarration('One short hook.','subtle','uk',settings).includes('[exhales]'));
 assert(!directedNarration(story,'subtle','uk',{...settings,breaths:false}).includes('[exhales]'));
 assert(!directedNarration(story,'off','uk',settings).includes('[conversational]'));
@@ -17,10 +17,10 @@ assert.throws(()=>voiceProcessing({...settings,ambience:'https://example.com'}))
 assert.throws(()=>voiceProcessing({...settings,breaths:'yes'}));
 const pl='Mam 25 lat. To moja historia.';
 assert.equal(directedNarration(pl,'subtle','pl',settings),'[conversational] '+pl);
-console.log('PASS storytelling direction: approved words preserved, sparse breaths, Natural stability, optional background, Polish retained');
+console.log('PASS storytelling direction: approved words preserved, no injected breaths, Natural stability, optional background, Polish retained');
 
 const standard={mode:'standard',normalize:false,breaths:true};
-assert(directedNarration(story,'subtle','uk',standard).includes('[exhales]'));
+assert(!directedNarration(story,'subtle','uk',standard).includes('[exhales]'));
 assert(!directedNarration(story,'subtle','uk',{...standard,breaths:false}).includes('[exhales]'));
-assert.equal(voiceSettings(standard).stability,.5);
+assert.equal(voiceSettings(standard).stability,1);
 assert.equal(voiceSettings({...standard,breaths:false}).stability,1);

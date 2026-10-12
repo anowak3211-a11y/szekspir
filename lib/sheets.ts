@@ -1,3 +1,4 @@
+import {assertAdActive,assertJobActive} from './cancellation';
 import {EDITOR_WORKSPACES} from './editor-workspaces';
 import {withEditorLocks} from './editor-locks';
 import {voiceLinkRuns,mergeVoiceLinks} from './voice-links';
@@ -38,6 +39,10 @@ function slug(s:string){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replac
 type Reservation={adId:string;row:number};
 type Allocations={max:number;lastRow:number;reservations:Record<string,Reservation>};
 export async function appendToAdminBriefs(row:BriefRow){
+ if(!/^[\w-]{8,100}$/.test(row.jobId))throw Error('Invalid brief');
+ return withEditorLocks(['brief-job-'+row.jobId],async()=>{await assertJobActive(row.jobId);return writeAdminBrief(row);});
+}
+async function writeAdminBrief(row:BriefRow){
  const editor=EDITOR_WORKSPACES.find(e=>e.id===(row.editorId||'mine'));if(!editor)throw Error('Unknown editor');
  if(!/^[\w-]{8,100}$/.test(row.jobId)||(!row.uk.trim()&&!row.noSpeech)||![0,2,3].includes(row.hooks.length)||!['TOF','MOF','BOF'].includes(row.funnel))throw new Error('Invalid brief');
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
@@ -55,6 +60,7 @@ export async function appendToAdminBriefs(row:BriefRow){
   state.max=Math.max(state.max,max)+1;state.lastRow=Math.max(state.lastRow,next);
   const value={adId:`MEL-${String(state.max).padStart(5,'0')}`,row:next};state.reservations[row.jobId]=value;return value;
  });
+ await assertAdActive(reserved.adId);
  const n=reserved.row;
  const current=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A${n}:V${n}`)});
  const existing=current.data.values?.[0]||[];
@@ -77,15 +83,18 @@ export async function appendToAdminBriefs(row:BriefRow){
 }
 export function productionFormula(n:number,offset=0){return shiftAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,offset);}
 export async function updateReference(adId:string,reference:string,voiceover?:string){
+ await withEditorLocks(['sheet-write-'+adId],async()=>{
+ await assertAdActive(adId);
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
  const offset=await adminOffset(sheets,spreadsheetId),r=(value:string)=>shiftAdminRange(value,offset);
  const ids=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A2:A`)});
  const idx=(ids.data.values||[]).findIndex(r=>r[0]===adId);if(idx<0)throw new Error('Ad ID not found');
  await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!N${idx+2}`),valueInputOption:'RAW',requestBody:{values:[[reference.replace(/^clean video:\s*/i,'')]]}});
+ });
  if(voiceover!==undefined)await updateVoiceover(adId,voiceover);
 }
 
-export async function updateVoiceover(adId:string,links:string){return withEditorLocks(['voice-'+adId],()=>writeVoiceover(adId,links));}
+export async function updateVoiceover(adId:string,links:string){return withEditorLocks(['sheet-write-'+adId,'voice-'+adId],async()=>{await assertAdActive(adId);return writeVoiceover(adId,links);});}
 async function writeVoiceover(adId:string,links:string){
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
  const offset=await adminOffset(sheets,spreadsheetId),r=(value:string)=>shiftAdminRange(value,offset);

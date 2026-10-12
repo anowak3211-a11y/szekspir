@@ -1,4 +1,5 @@
 import json
+import re
 import os
 import sys
 
@@ -82,6 +83,10 @@ class handler(BaseHTTPRequestHandler):
             if not url.startswith("http"):
                 raise ValueError("url required")
             result = _submit(url, payload.get("operation", "remove"), progress)
+            checkpoint = payload.get("checkpoint") or {}
+            if result.get("task_id") and isinstance(checkpoint, dict) and re.fullmatch(r"[\w-]{8,100}", str(checkpoint.get("jobId", ""))) and re.fullmatch(r"[\w-]{8,100}", str(checkpoint.get("id", ""))):
+                # Recovery evidence only: never log keys, inputs or signed output URLs.
+                print(json.dumps({"event": "vmake_task_receipt", "jobId": checkpoint["jobId"], "submissionId": checkpoint["id"], "stage": checkpoint.get("stage"), "operation": payload.get("operation", "remove"), "taskId": result["task_id"]}), flush=True)
             code = 200 if "error" not in result else 500
         except Exception as e:  # noqa: BLE001
             result = {"error": str(e)[:500], "safe_to_retry": not progress.get("quota_started", False)}
