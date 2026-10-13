@@ -28,9 +28,10 @@ const ADMIN_SHEET = () =>
   process.env.ADMIN_SHEET_ID || "17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY";
 const BRIEFS_TAB = "Daily Briefs";
 export function shiftAdminRange(value:string,offset:number){return offset?value.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;n+=offset;let out='';while(n){out=String.fromCharCode(65+(n-1)%26)+out;n=Math.floor((n-1)/26);}return out;}):value;}
-type AdminLayout={offset:number;landingPage:boolean};
-export function mapAdminRange(value:string,layout:AdminLayout){const shifted=shiftAdminRange(value,layout.offset);return layout.landingPage?shifted.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;return n>=9?shiftAdminRange(letters,1):letters;}):shifted;}
-async function adminLayout(sheets:ReturnType<typeof google.sheets>,spreadsheetId:string):Promise<AdminLayout>{const [h,lp]=await Promise.all([sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:B1"}),sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!I1"})]);return {offset:h.data.values?.[0]?.[0]==='Editor name'?1:0,landingPage:lp.data.values?.[0]?.[0]==='Landing page'};}
+type AdminLayout={offset:number;landingPage:boolean;workFirst?:boolean};
+export function adminColumnIndex(letters:string){let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;return n-1;}
+export function mapAdminRange(value:string,layout:AdminLayout){const shifted=shiftAdminRange(value,layout.offset);return shifted.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=adminColumnIndex(letters)+1;if(layout.landingPage&&n>=9)n++;if(layout.workFirst){if(n===18)n=10;else if(n>18)n--;}return shiftAdminRange('A',n-1);});}
+async function adminLayout(sheets:ReturnType<typeof google.sheets>,spreadsheetId:string):Promise<AdminLayout>{const [h,lp,work]=await Promise.all([sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:B1"}),sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!I1"}),sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!J1"})]);return {offset:h.data.values?.[0]?.[0]==='Editor name'?1:0,landingPage:lp.data.values?.[0]?.[0]==='Landing page',workFirst:work.data.values?.[0]?.[0]==='Your work'};}
 
 
 
@@ -65,14 +66,15 @@ async function writeAdminBrief(row:BriefRow){
  await assertAdActive(reserved.adId);
  const n=reserved.row;
  const current=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A${n}:V${n}`)});
- const existing=(current.data.values?.[0]||[]).filter((_,i)=>!layout.landingPage||i!==8-offset);
- if(existing.some(x=>String(x).trim())&&existing[0]!==reserved.adId)throw new Error('Reserved row has changed outside this app. No data overwritten.');
+ const existing=current.data.values?.[0]||[];
+ const prior=(column:string)=>existing[adminColumnIndex(r(column))-adminColumnIndex(r('A'))];
+ if(existing.some(x=>String(x).trim())&&prior('A')!==reserved.adId)throw new Error('Reserved row has changed outside this app. No data overwritten.');
  const adName=`${reserved.adId}_${row.funnel}_${slug(row.desire)}_${slug(row.angle)}`;
- // Only write owned columns; LP, likes and all editor fields survive edits/retries.
+ // Only write owned columns; landing-page choices and all editor fields survive edits/retries.
  const data=[{range:r(`'${BRIEFS_TAB}'!A${n}:F${n}`),values:[[reserved.adId,adName,row.desire,row.angle,row.mechanism,row.funnel]]},{range:r(`'${BRIEFS_TAB}'!I${n}:M${n}`),values:[[row.uk,opening(row.uk),row.hooks[0]||'',row.hooks[1]||'','']]}];
- if(!existing[20]){data.push({range:r(`'${BRIEFS_TAB}'!U${n}`),values:[[editor.id]]});if(offset)data.push({range:`'${BRIEFS_TAB}'!A${n}`,values:[[editor.name]]});}
- if(!existing[13])data.push({range:r(`'${BRIEFS_TAB}'!N${n}`),values:[[row.reference.replace(/^clean video:\s*/i,'')]]});
- if(row.sheetProduct&&!existing[0]){
+ if(!prior('U')){data.push({range:r(`'${BRIEFS_TAB}'!U${n}`),values:[[editor.id]]});if(offset)data.push({range:`'${BRIEFS_TAB}'!A${n}`,values:[[editor.name]]});}
+ if(!prior('N'))data.push({range:r(`'${BRIEFS_TAB}'!N${n}`),values:[[row.reference.replace(/^clean video:\s*/i,'')]]});
+ if(row.sheetProduct&&!prior('A')){
   const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];
   const col=header.indexOf('Product');if(col<0)throw Error('Product column is not configured');
   data.push({range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,values:[[row.sheetProduct]]});
@@ -80,10 +82,10 @@ async function writeAdminBrief(row:BriefRow){
  await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data}});
  if(row.editorNotes){const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];const col=header.indexOf('Notes');if(col<0)throw Error('Notes column is not configured');await sheets.spreadsheets.values.update({spreadsheetId,range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,valueInputOption:'RAW',requestBody:{values:[[row.editorNotes]]}});}
  // Formula reacts to actual values, not cell fill colours. Existing workflows are preserved.
- if(!existing[19])await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset,layout.landingPage)]]}});
+ if(!prior('T'))await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset,layout.landingPage,layout.workFirst)]]}});
  return {adId:reserved.adId,url:`https://docs.google.com/spreadsheets/d/${spreadsheetId}`};
 }
-export function productionFormula(n:number,offset=0,landingPage=false){return mapAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,{offset,landingPage});}
+export function productionFormula(n:number,offset=0,landingPage=false,workFirst=false){return mapAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,{offset,landingPage,workFirst});}
 export async function updateReference(adId:string,reference:string,voiceover?:string){
  await withEditorLocks(['sheet-write-'+adId],async()=>{
  await assertAdActive(adId);

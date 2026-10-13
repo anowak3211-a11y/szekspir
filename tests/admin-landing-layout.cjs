@@ -12,3 +12,13 @@ assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",{offset:1,landingPage:false}),
 assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",{offset:0,landingPage:false}),"'Daily Briefs'!I3:M3");
 const formula=productionFormula(3,1,true);assert(formula.includes('TO_TEXT(T3)'));assert(formula.includes('R3<>'));assert(formula.includes('W3<>'));assert(formula.includes('X3<>'));assert(formula.startsWith('=IF(B3='));
 console.log('PASS old/new admin layouts keep ID, copy, video, VO, assignment and workflow formulas on correct columns; no network/state calls');
+
+const work={offset:1,landingPage:true,workFirst:true};
+assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",work),"'Daily Briefs'!K3:O3");
+assert.equal(mapAdminRange("'Daily Briefs'!N3",work),"'Daily Briefs'!P3");
+assert.equal(mapAdminRange("'Daily Briefs'!O3",work),"'Daily Briefs'!Q3");
+assert.equal(mapAdminRange("'Daily Briefs'!P3",work),"'Daily Briefs'!J3");
+assert.equal(mapAdminRange("'Daily Briefs'!U3",work),"'Daily Briefs'!V3");
+assert.equal(mapAdminRange("'Daily Briefs'!T3",work),"'Daily Briefs'!U3");
+const moved=productionFormula(3,1,true,true);assert(moved.includes('TO_TEXT(S3)'));assert(moved.includes('J3<>'));assert(moved.includes('V3<>'));assert(moved.includes('W3<>'));
+console.log('PASS Your work at J preserves copy/video/VO and remaps approval, assignment and status');

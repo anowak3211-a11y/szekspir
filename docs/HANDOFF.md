@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Your work at J, Likes removed — 13 October 2026
+
+- Owner requested moving native Your work from R to J and removing Likes. The old/new layouts are detected from J1. Copy/hooks/video/VO remain K:Q; assignment, approval and status mapping follow the shifted columns, and production formulas reference Your work at J. Prior-cell guards resolve actual mapped columns rather than positional assumptions. Header-based sync/copy/media workflows remain supported.
+- Typecheck, core offline regressions, copy-save and layout tests verify preserved copy/video/VO and remapped Your work/approval/assignment/status without paid provider or routine live Sheet mutation tests.
+- Production deployment `dpl_CzvNaFWSZ8FiZdjnYzmoKibEAn3Q` is READY before the Sheet change. Native move R→J then delete shifted Likes K completed atomically. Full J1:J502 readback preserves all prior Your work values, hyperlinks and text/chip runs. Table metadata confirms J Your work, K script, Q VO, R Feedback, V Editor ID and AD Product; native formulas have no readback errors. Private full-column backup remains outside the repository.
+
 ## Admin landing-page column compatibility — 13 October 2026
 
 - Owner requested native Landing page dropdown at column I, beside product angle H. Admin writes detect the inserted column and map script/hooks/video/VO/assignment/status correctly, while legacy layouts remain supported. Read ranges include the new final Product column AE; header-based copy/hook/audio/assignment/sync preserve existing schemas and recordings.
