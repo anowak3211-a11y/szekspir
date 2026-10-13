@@ -1,0 +1,14 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const real=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/sheets.ts')){if(n==='./store')return {mutate:async()=>{throw Error('No live store calls');}};if(n==='googleapis')return {google:{sheets:()=>{throw Error('No live sheet calls');}}};}return real.call(this,n,p,i);};
+const {mapAdminRange,productionFormula}=require('../lib/sheets.ts');
+const layout={offset:1,landingPage:true};
+assert.equal(mapAdminRange("'Daily Briefs'!A3:F3",layout),"'Daily Briefs'!B3:G3");
+assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",layout),"'Daily Briefs'!K3:O3");
+assert.equal(mapAdminRange("'Daily Briefs'!N3",layout),"'Daily Briefs'!P3");
+assert.equal(mapAdminRange("'Daily Briefs'!O3",layout),"'Daily Briefs'!Q3");
+assert.equal(mapAdminRange("'Daily Briefs'!U3",layout),"'Daily Briefs'!W3");
+assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",{offset:1,landingPage:false}),"'Daily Briefs'!J3:N3");
+assert.equal(mapAdminRange("'Daily Briefs'!I3:M3",{offset:0,landingPage:false}),"'Daily Briefs'!I3:M3");
+const formula=productionFormula(3,1,true);assert(formula.includes('TO_TEXT(T3)'));assert(formula.includes('R3<>'));assert(formula.includes('W3<>'));assert(formula.includes('X3<>'));assert(formula.startsWith('=IF(B3='));
+console.log('PASS old/new admin layouts keep ID, copy, video, VO, assignment and workflow formulas on correct columns; no network/state calls');

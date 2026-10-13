@@ -28,7 +28,9 @@ const ADMIN_SHEET = () =>
   process.env.ADMIN_SHEET_ID || "17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY";
 const BRIEFS_TAB = "Daily Briefs";
 export function shiftAdminRange(value:string,offset:number){return offset?value.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;n+=offset;let out='';while(n){out=String.fromCharCode(65+(n-1)%26)+out;n=Math.floor((n-1)/26);}return out;}):value;}
-async function adminOffset(sheets:ReturnType<typeof google.sheets>,spreadsheetId:string){const h=await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:B1"});return h.data.values?.[0]?.[0]==='Editor name'?1:0;}
+type AdminLayout={offset:number;landingPage:boolean};
+export function mapAdminRange(value:string,layout:AdminLayout){const shifted=shiftAdminRange(value,layout.offset);return layout.landingPage?shifted.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;return n>=9?shiftAdminRange(letters,1):letters;}):shifted;}
+async function adminLayout(sheets:ReturnType<typeof google.sheets>,spreadsheetId:string):Promise<AdminLayout>{const [h,lp]=await Promise.all([sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:B1"}),sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!I1"})]);return {offset:h.data.values?.[0]?.[0]==='Editor name'?1:0,landingPage:lp.data.values?.[0]?.[0]==='Landing page'};}
 
 
 
@@ -46,7 +48,7 @@ async function writeAdminBrief(row:BriefRow){
  const editor=EDITOR_WORKSPACES.find(e=>e.id===(row.editorId||'mine'));if(!editor)throw Error('Unknown editor');
  if(!/^[\w-]{8,100}$/.test(row.jobId)||(!row.uk.trim()&&!row.noSpeech)||![0,2,3].includes(row.hooks.length)||!['TOF','MOF','BOF'].includes(row.funnel))throw new Error('Invalid brief');
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
- const offset=await adminOffset(sheets,spreadsheetId),r=(value:string)=>shiftAdminRange(value,offset);
+ const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);
  const ids=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A2:A`)});
  let max=0,lastRow=1;
  (ids.data.values||[]).forEach((r,i)=>{if(r.some(x=>String(x).trim()))lastRow=i+2;const m=String(r[0]||'').match(/^MEL-(\d+)$/);if(m)max=Math.max(max,Number(m[1]));});
@@ -63,7 +65,7 @@ async function writeAdminBrief(row:BriefRow){
  await assertAdActive(reserved.adId);
  const n=reserved.row;
  const current=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A${n}:V${n}`)});
- const existing=current.data.values?.[0]||[];
+ const existing=(current.data.values?.[0]||[]).filter((_,i)=>!layout.landingPage||i!==8-offset);
  if(existing.some(x=>String(x).trim())&&existing[0]!==reserved.adId)throw new Error('Reserved row has changed outside this app. No data overwritten.');
  const adName=`${reserved.adId}_${row.funnel}_${slug(row.desire)}_${slug(row.angle)}`;
  // Only write owned columns; LP, likes and all editor fields survive edits/retries.
@@ -78,15 +80,15 @@ async function writeAdminBrief(row:BriefRow){
  await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data}});
  if(row.editorNotes){const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];const col=header.indexOf('Notes');if(col<0)throw Error('Notes column is not configured');await sheets.spreadsheets.values.update({spreadsheetId,range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,valueInputOption:'RAW',requestBody:{values:[[row.editorNotes]]}});}
  // Formula reacts to actual values, not cell fill colours. Existing workflows are preserved.
- if(!existing[19])await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset)]]}});
+ if(!existing[19])await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset,layout.landingPage)]]}});
  return {adId:reserved.adId,url:`https://docs.google.com/spreadsheets/d/${spreadsheetId}`};
 }
-export function productionFormula(n:number,offset=0){return shiftAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,offset);}
+export function productionFormula(n:number,offset=0,landingPage=false){return mapAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,{offset,landingPage});}
 export async function updateReference(adId:string,reference:string,voiceover?:string){
  await withEditorLocks(['sheet-write-'+adId],async()=>{
  await assertAdActive(adId);
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
- const offset=await adminOffset(sheets,spreadsheetId),r=(value:string)=>shiftAdminRange(value,offset);
+ const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);
  const ids=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A2:A`)});
  const idx=(ids.data.values||[]).findIndex(r=>r[0]===adId);if(idx<0)throw new Error('Ad ID not found');
  await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!N${idx+2}`),valueInputOption:'RAW',requestBody:{values:[[reference.replace(/^clean video:\s*/i,'')]]}});
@@ -97,10 +99,10 @@ export async function updateReference(adId:string,reference:string,voiceover?:st
 export async function updateVoiceover(adId:string,links:string){return withEditorLocks(['sheet-write-'+adId,'voice-'+adId],async()=>{await assertAdActive(adId);return writeVoiceover(adId,links);});}
 async function writeVoiceover(adId:string,links:string){
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
- const offset=await adminOffset(sheets,spreadsheetId),r=(value:string)=>shiftAdminRange(value,offset);
+ const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);
  const ids=await sheets.spreadsheets.values.get({spreadsheetId,range:r("'Daily Briefs'!A2:A502")});
  const idx=(ids.data.values||[]).findIndex(r=>r[0]===adId);if(idx<0)throw Error('Ad ID not found');
  const previous=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'Daily Briefs'!O${idx+2}`)});links=mergeVoiceLinks(String(previous.data.values?.[0]?.[0]||''),links);
  await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'Daily Briefs'!O${idx+2}`),valueInputOption:'RAW',requestBody:{values:[[links]]}});
- const meta=await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'});const sheetId=meta.data.sheets?.find(s=>s.properties?.title===BRIEFS_TAB)?.properties?.sheetId;if(sheetId!==undefined&&sheetId!==null&&links)await sheets.spreadsheets.batchUpdate({spreadsheetId,requestBody:{requests:[{updateCells:{range:{sheetId,startRowIndex:idx+1,endRowIndex:idx+2,startColumnIndex:14+offset,endColumnIndex:15+offset},rows:[{values:[{textFormatRuns:voiceLinkRuns(links)}]}],fields:'textFormatRuns'}}]}});
+ const meta=await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'});const sheetId=meta.data.sheets?.find(s=>s.properties?.title===BRIEFS_TAB)?.properties?.sheetId;if(sheetId!==undefined&&sheetId!==null&&links)await sheets.spreadsheets.batchUpdate({spreadsheetId,requestBody:{requests:[{updateCells:{range:{sheetId,startRowIndex:idx+1,endRowIndex:idx+2,startColumnIndex:14+offset+(layout.landingPage?1:0),endColumnIndex:15+offset+(layout.landingPage?1:0)},rows:[{values:[{textFormatRuns:voiceLinkRuns(links)}]}],fields:'textFormatRuns'}}]}});
 }

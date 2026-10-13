@@ -124,7 +124,7 @@ export async function useOriginalVoiceover(input:UseOriginalVoiceoverInput):Prom
    const current=await assertCurrent();
    if((await editorAssignment(reserved.adId!)).current!==workspace.id)throw Error('Assigned editor changed. Refresh and try again.');
    const api=google.sheets({version:'v4',auth:sheetAuth()});
-   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AD502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
    const rows=await Promise.all(targets.map(async target=>{
     const data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
     const idCol=headers.indexOf('Ad ID'),voiceCol=headers.indexOf('Voice Over');if(idCol<0||voiceCol<0)throw Error('Ad ID or Voice Over column missing.');

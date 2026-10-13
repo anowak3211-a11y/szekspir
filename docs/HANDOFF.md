@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Admin landing-page column compatibility — 13 October 2026
+
+- Owner requested native Landing page dropdown at column I, beside product angle H. Admin writes detect the inserted column and map script/hooks/video/VO/assignment/status correctly, while legacy layouts remain supported. Read ranges include the new final Product column AE; header-based copy/hook/audio/assignment/sync preserve existing schemas and recordings.
+- Local offline mapping and core regression checks pass. Sheet classification uses the final CTA: offer/direct-product → PDP, education/article → Advertorial; unclassified non-product materials remain blank.
+- Deployment `dpl_6tP3kiQgixkcNtYSMrzooWzG8YWm` is READY at `https://szekspir.vercel.app` before the live column insertion. Native table now has H Angle produktu, I Landing page, J Likes and K Adapted script; Product is AE. 145 live adverts read back: 118 PDP, 15 Advertorial, 12 intentionally blank. Existing scripts and H category values read back unchanged. Google adjusted prior H/status formulas to the shifted references. Native LP row formulas fill through row 502 and allow manual chip overrides. Additional-files, copy, hook and original-audio regression checks pass; no paid provider verification.
+
 ## GitHub and production publication policy — 13 October 2026
 
 - Owner explicitly instructed: upload to the repository as well, always. Every requested Szekspir publication now includes commit and normal push to GitHub as well as the Vercel production deployment, after required checks. This supersedes historical end-of-session/separate-push restrictions below. Both project and parent AGENTS.md persist the preference. Never include credentials or private operational backups; no force push.

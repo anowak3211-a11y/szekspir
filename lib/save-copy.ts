@@ -60,7 +60,7 @@ export async function saveCopy(input:CopyInput):Promise<{job:Job;editor:string;u
    if(input.script!==reserved.result!.uk_script){fields['Adapted script']=input.script;fields['HOOK OG']=opening(input.script);}
    for(let i=0;i<input.hooks.length;i++)if(input.hooks[i]!==reserved.result!.hooks[i])fields[`Hook ${i+1}`]=sendsHook(reserved,i)?input.hooks[i]:'';
    const api=google.sheets({version:'v4',auth:sheetAuth()});
-   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AD502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
    for(const target of targets){
     const rows=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=rows[0]||[],idCol=headers.indexOf('Ad ID');
     const matches=rows.map((row,index)=>({row,index})).filter(x=>x.index>0&&x.row[idCol]===adId);

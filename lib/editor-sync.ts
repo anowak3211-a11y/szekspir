@@ -21,7 +21,7 @@ async function syncOne(workspace:typeof EDITOR_WORKSPACES[number]){
  try{saved=await mutate<State,State>(name,{snapshot:legacySnapshot},s=>{if((s.leaseUntil||0)>Date.now())throw Error('SYNC_BUSY');s.lease=token;s.leaseUntil=Date.now()+360000;return structuredClone(s);});}catch(e){if((e as Error).message==='SYNC_BUSY')return {busy:true};throw e;}
  const sheets=google.sheets({version:'v4',auth:sheetAuth()});
  try{
-  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AD':'S'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
+  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AE':'S'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
   const [admin,editor]=await Promise.all([load(adminId(),'Daily Briefs'),load(editorId(),'My Tasks')]);
   const plan=planAssignedSync(admin.rows,editor.rows,saved.snapshot,editor.capacity,workspace.id);
   if(!plan.adminChanges.length&&!plan.editorChanges.length&&JSON.stringify(plan.snapshot)===JSON.stringify(saved.snapshot)){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});return {unchanged:true};}
@@ -51,7 +51,7 @@ export async function syncEditorWorkspace(){
 }
 export async function editorAssignment(adId:string){
  await assertAdActive(adId);
- const api=google.sheets({version:'v4',auth:sheetAuth()});const r=await api.spreadsheets.values.get({spreadsheetId:adminId(),range:"'Daily Briefs'!A1:W502"});const rows=r.data.values||[],idCol=rows[0]?.indexOf('Ad ID'),assignmentCol=rows[0]?.indexOf('Editor ID'),nameCol=rows[0]?.indexOf('Editor name'),row=rows.findIndex((r,i)=>i>0&&r[idCol]===adId);if(row<1)throw Error('Ad not found in master sheet');return {api,row:row+1,assignmentCol,nameCol,current:String(rows[row][assignmentCol]||'mine')};
+ const api=google.sheets({version:'v4',auth:sheetAuth()});const r=await api.spreadsheets.values.get({spreadsheetId:adminId(),range:"'Daily Briefs'!A1:X502"});const rows=r.data.values||[],idCol=rows[0]?.indexOf('Ad ID'),assignmentCol=rows[0]?.indexOf('Editor ID'),nameCol=rows[0]?.indexOf('Editor name'),row=rows.findIndex((r,i)=>i>0&&r[idCol]===adId);if(row<1)throw Error('Ad not found in master sheet');return {api,row:row+1,assignmentCol,nameCol,current:String(rows[row][assignmentCol]||'mine')};
 }
 export async function assignEditor(adId:string,editorId:string){
  editorId=editorId||'mine';
