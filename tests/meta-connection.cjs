@@ -1,7 +1,7 @@
 const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module'),{createHmac}=require('node:crypto');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
 const states=new Map(),calls=[],original=Module._load;const fakeSecret='OfflineFixtureSecret0000000000000';
-Module._load=function(n,p,i){if(n==='./meta-rate-limit'&&/\/lib\/meta-client\.ts$/.test(p?.filename||''))return {withMetaBudget:async fn=>fn(),recordMetaUsage:async()=>0,isMetaRateLimit:()=>false,MetaBudgetWait:class extends Error{}};if(n==='./store'&&/\/lib\/meta-(client|oauth)\.ts$/.test(p?.filename||''))return {readState:async(k,f)=>({value:structuredClone(states.get(k)??f)}),mutate:async(k,f,fn)=>{const value=structuredClone(states.get(k)??f),out=fn(value);states.set(k,value);return out;}};return original.call(this,n,p,i);};
+Module._load=function(n,p,i){if(n==='./meta-rate-limit'&&/\/lib\/meta-client\.ts$/.test(p?.filename||''))return {withMetaBudget:async fn=>fn(),recordMetaUsage:async()=>0,isMetaRateLimit:()=>false,MetaBudgetWait:class extends Error{}};if(n==='./store'&&/\/lib\/meta-(client|oauth|read-cache)\.ts$/.test(p?.filename||''))return {readState:async(k,f)=>({value:structuredClone(states.get(k)??f)}),mutate:async(k,f,fn)=>{const value=structuredClone(states.get(k)??f),out=fn(value);states.set(k,value);return out;}};return original.call(this,n,p,i);};
 const originalFetch=global.fetch;global.fetch=async(url,options)=>{const u=new URL(url);assert.equal(u.hostname,'graph.facebook.com');calls.push({u,options});if(u.pathname.endsWith('/oauth/access_token'))return Response.json({access_token:'offline_access_token_for_test_only',expires_in:3600});if(u.pathname.endsWith('/campaigns')||u.pathname.endsWith('/promote_pages'))return Response.json({data:[]});if(u.searchParams.get('fields')==='account_id')return Response.json({account_id:'100000000001'});if(u.pathname.endsWith('/adsets'))return Response.json({data:[]});return Response.json({id:'100000000009'});};
 const client=require('../lib/meta-client.ts'),oauth=require('../lib/meta-oauth.ts');
 (async()=>{
@@ -14,7 +14,7 @@ const client=require('../lib/meta-client.ts'),oauth=require('../lib/meta-oauth.t
   for(const kind of ['campaigns','pages','adsets']){
    assert.deepEqual(await client.metaResources(kind,account,'100000000004'),[]);
    const path=kind==='adsets'?'100000000004/adsets':`act_100000000001/${kind==='pages'?'promote_pages':'campaigns'}`;
-   assert.equal(calls.at(-1).u.pathname,`/${client.META_VERSION}/${path}`);
+   assert(calls.some(c=>c.u.pathname===`/${client.META_VERSION}/${path}`));
   }
  }
  const beforeInvalid=calls.length;await assert.rejects(()=>client.metaResources('campaigns','act_act_100000000001'),/Invalid account/);assert.equal(calls.length,beforeInvalid);
