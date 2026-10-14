@@ -1,14 +1,19 @@
 import {closeFidelity} from './localization-fidelity';
 import type {SavedNativeAd} from './native-ad-model';
-export type AntkiWork={id:string;revision:number;sourceText:string;sourceHeadline:string;sourceImage:string;sourceDriveId:string;status:'queued'|'working'|'ready'|'failed'|'uncertain';phase:'text'|'image'|'poll'|'archive'|'deliver'|'done';chunks:string[];ukChunks:string[];ukHeadline:string;ukText:string;imagePrompt:string;imageTaskId?:string;imageResultUrl?:string;imageFileId?:string;imageDriveUrl?:string;pending?:string;error?:string;updated:number;polls:number};
+export type AntkiWork={id:string;revision:number;sourceText:string;sourceHeadline:string;sourceImage:string;sourceDriveId:string;status:'queued'|'working'|'ready'|'failed'|'uncertain';phase:'text'|'image'|'poll'|'archive'|'deliver'|'done';chunks:string[];ukChunks:string[];ukHeadline:string;ukText:string;imagePrompt:string;imageTaskId?:string;imageResultUrl?:string;imageFileId?:string;imageDriveUrl?:string;delivered?:{headline:string;text:string;imageUrl:string};pending?:string;error?:string;updated:number;polls:number};
 export function sourceChunks(text:string,limit=18000){
  const result:string[]=[];let rest=text;
  while(rest.length>limit){let end=rest.lastIndexOf('\n\n',limit);if(end<limit/2)end=rest.lastIndexOf(' ',limit);if(end<limit/2)end=limit;if(/[\uD800-\uDBFF]/.test(rest[end-1]))end--;result.push(rest.slice(0,end));rest=rest.slice(end);}
  if(rest)result.push(rest);return result;
 }
 export function newAntkiWork(ad:SavedNativeAd):AntkiWork{return {id:ad.id,revision:1,sourceText:ad.primaryText,sourceHeadline:ad.headline||'',sourceImage:ad.imageUrl,sourceDriveId:ad.driveFileId,status:'queued',phase:'text',chunks:sourceChunks(ad.primaryText),ukChunks:[],ukHeadline:'',ukText:'',imagePrompt:'',updated:Date.now(),polls:0};}
+export const protectedNumbers=(text:string)=>text.match(/(?:[£$€]\s*)?\d+(?:[.,:]\d+)*(?:\s*%|\s*(?:mg|mcg|ml|g|kg|lbs|lb)\b)?/gi)||[];
+export const protectedLinks=(text:string)=>text.match(/https?:\/\/[^\s]+/g)||[];
 export function faithfulChunk(source:string,target:string){
  if(!target.trim()||target.length>Math.max(1000,source.trim().length*1.5)||target.length<source.trim().length*.72)throw Error('UK output shortened or rewrote the source. Review before retrying.');
+ if(JSON.stringify(protectedNumbers(source))!==JSON.stringify(protectedNumbers(target)))throw Error('Localisation changed a number, price or quantity.');
+ if(JSON.stringify(protectedLinks(source))!==JSON.stringify(protectedLinks(target)))throw Error('Localisation changed a source link.');
+ if(source.trim().split(/\n[ \t]*\n/).length!==target.trim().split(/\n[ \t]*\n/).length)throw Error('Localisation changed the paragraph structure.');
  if(!closeFidelity(source,target))throw Error('UK output rewrote too much of the original.');
  const lead=source.match(/^\s*/)?.[0]||'',tail=source.match(/\s*$/)?.[0]||'';
  return lead+target.trim()+tail;

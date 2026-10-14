@@ -1,5 +1,13 @@
 # Current development handoff — 28 September 2026
 
+## Owner-authorised live Antki test and hardening — 14 October 2026
+
+- Owner explicitly authorised a real sample download, paid localisation/image generation, live Sheet testing and ongoing publication for a one-hour test session. One narrowly selected Bloomwise parent/saffron reference (not a claim of a winning or owned campaign) completed the production pipeline. The reference row is marked TEST REFERENCE. Local result/research files remain outside this public repository.
+- Text readback: 677 words and 44 paragraphs in both versions; 10 language-only replacements, unchanged numbers, source URL and headline. Kie generated a subtle window/background variation with actual dimensions 2576×3216, retaining the people/action; no claim that either side proves product efficacy.
+- Library reads exclude full US/UK bodies and use metadata ranges; opening a source reads only its row. Image polling does not repeatedly fetch source copy. Headlines include Trendtrack CTA descriptions when title is missing. In-flight library statuses refresh automatically, human stage labels replace internal phase names, image dimensions are shown and Highlight localisation changes compares exact saved texts.
+- Fidelity checks protect numeric quantities/prices, URLs and paragraph structure in addition to retained wording. Known rejected/incomplete text responses fail clearly; ambiguous network submissions still require acknowledged retry. Provider errors never surface credential-bearing raw messages.
+- UK delivery compares against the last delivered content, refuses overwritten/manual/formula Sheet cells and accepts an already-written candidate for idempotent retries. Owner status labels are preserved. This does not alter original source A:T fields. Offline tests cover these conflicts and repeat-safe delivery.
+
 ## Antki row library and owned-ad UK workspace — 14 October 2026
 
 - Owner paused cross-brand research/master files: current scope is their OWN US adverts, faithfully localised to UK without weakening, rewriting or changing arguments. The incorrect research pack was removed from the Native Ads Sheet; all 55 archived images moved to Drive Trash and local exports deleted. Do not resume random research imports.

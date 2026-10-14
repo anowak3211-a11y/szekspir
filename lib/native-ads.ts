@@ -8,18 +8,36 @@ import {mutate,readState} from './store';
 import {NATIVE_TAB,NATIVE_HEADERS,NATIVE_WORK_HEADERS,nativeRow,nativeFromRow,parseNativeExport,type NativeAd} from './native-ad-model';
 const spreadsheetId=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
 const client=()=>google.sheets({version:'v4',auth:sheetAuth()});
-const range=`'${NATIVE_TAB}'!A1:AA2000`;
 async function library(){
  const sheets=client(),id=spreadsheetId();
  const meta=(await sheets.spreadsheets.get({spreadsheetId:id,fields:'sheets.properties'})).data.sheets||[];
  const tab=meta.find(s=>s.properties?.title===NATIVE_TAB)?.properties;
  if(!tab)return {sheets,id,tab:undefined,rows:[] as unknown[][],sheetUrl:`https://docs.google.com/spreadsheets/d/${id}/edit`};
- const rows=(await sheets.spreadsheets.values.get({spreadsheetId:id,range})).data.values||[];
- if(NATIVE_HEADERS.some((h,i)=>rows[0]?.[i]!==h))throw Error('Native Ads headers were changed. Restore the original headers before importing.');
+ const header=(await sheets.spreadsheets.values.get({spreadsheetId:id,range:`'${NATIVE_TAB}'!A1:AA1`})).data.values?.[0]||[];
+ if(NATIVE_HEADERS.some((h,i)=>header[i]!==h))throw Error('Native Ads headers were changed. Restore the original headers before importing.');
+ const ids=(await sheets.spreadsheets.values.get({spreadsheetId:id,range:`'${NATIVE_TAB}'!A2:A2000`})).data.values||[];
+ const rows=[header,...ids.map(r=>[r[0]])];
  return {sheets,id,tab,rows,sheetUrl:`https://docs.google.com/spreadsheets/d/${id}/edit?gid=${tab.sheetId}#gid=${tab.sheetId}`};
 }
-export async function listNativeAds(){const l=await library();return {ads:l.rows.slice(1).map((r,i)=>nativeFromRow(r,i+2,l.sheetUrl)).filter(a=>a.id),sheetUrl:l.sheetUrl};}
-export async function getNativeAd(id:string){if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid native ad ID.');const matches=(await listNativeAds()).ads.filter(a=>a.id===id);if(matches.length!==1)throw Error(matches.length?'Duplicate native ad IDs in Sheet.':'Native ad not found.');return matches[0];}
+export async function listNativeAds(){
+ const l=await library();if(!l.tab)return {ads:[],sheetUrl:l.sheetUrl};
+ // Listing excludes both long US and UK copy. Read only row metadata and links.
+ const ranges=[`'${NATIVE_TAB}'!A2:D2000`,`'${NATIVE_TAB}'!H2:V2000`,`'${NATIVE_TAB}'!Z2:AA2000`];
+ const result=(await l.sheets.spreadsheets.values.batchGet({spreadsheetId:l.id,ranges})).data.valueRanges||[];
+ const count=l.rows.length-1,ads=[];
+ for(let i=0;i<count;i++){
+  const row:unknown[]=[];(result[0]?.values?.[i]||[]).forEach((v,n)=>row[n]=v);(result[1]?.values?.[i]||[]).forEach((v,n)=>row[n+7]=v);(result[2]?.values?.[i]||[]).forEach((v,n)=>row[n+25]=v);
+  if(!row[0])continue;const ad=nativeFromRow(row,i+2,l.sheetUrl);ad.wordCount=Number(row[3]||0);ads.push(ad);
+ }
+ return {ads,sheetUrl:l.sheetUrl};
+}
+export async function getNativeAd(id:string){
+ if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid native ad ID.');
+ const l=await library(),matches=l.rows.flatMap((r,i)=>r[0]===id?[i+1]:[]);
+ if(matches.length!==1)throw Error(matches.length?'Duplicate native ad IDs in Sheet.':'Native ad not found.');
+ const row=matches[0],values=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:AA${row}`})).data.values?.[0]||[];
+ if(values[0]!==id)throw Error('Source rows changed while loading. Retry.');return nativeFromRow(values,row,l.sheetUrl);
+}
 async function createLibrary(l:Awaited<ReturnType<typeof library>>){
  const response=await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[{addSheet:{properties:{title:NATIVE_TAB,gridProperties:{rowCount:2000,columnCount:20,frozenRowCount:1,frozenColumnCount:2,hideGridlines:true}}}}]}});
  const sheetId=response.data.replies?.[0]?.addSheet?.properties?.sheetId;if(sheetId===null||sheetId===undefined)throw Error('Google did not return the new Native Ads tab.');
@@ -75,15 +93,25 @@ async function ensureWorkColumns(l:Awaited<ReturnType<typeof library>>){
  if((l.tab.gridProperties?.columnCount||20)<27)await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[{appendDimension:{sheetId:l.tab.sheetId,dimension:'COLUMNS',length:27-(l.tab.gridProperties?.columnCount||20)}}]}});
  await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!U1:AA1`,valueInputOption:'RAW',requestBody:{values:[NATIVE_WORK_HEADERS]}});
 }
-export async function saveNativeWorkOutput(id:string,sourceText:string,output:{headline:string;text:string;imageUrl:string;status:string}){
+export async function saveNativeWorkOutput(id:string,sourceText:string,output:{headline:string;text:string;imageUrl:string;status:string},expected?:{headline:string;text:string;imageUrl:string}){
  return withEditorLocks(['native-ads-library'],async()=>{
   const l=await library();await ensureWorkColumns(l);
   const matches=l.rows.flatMap((r,i)=>r[0]===id?[{r,i}]:[]);if(matches.length!==1)throw Error('Source is missing or duplicated.');
-  const {r,i}=matches[0];if(nativeFromRow(r,i+1,l.sheetUrl).primaryText!==sourceText)throw Error('The US source changed. Review before saving UK work.');
-  const values=[output.headline,...(await import('./native-ad-model')).textParts(output.text),output.imageUrl,output.status];
+  const {i}=matches[0];const r=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${i+1}:AA${i+1}`})).data.values?.[0]||[];if(r[0]!==id||nativeFromRow(r,i+1,l.sheetUrl).primaryText!==sourceText)throw Error('The US source changed. Review before saving UK work.');
   const range=`'${NATIVE_TAB}'!V${i+1}:AA${i+1}`;
-  await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range,valueInputOption:'RAW',requestBody:{values:[values]}});
-  const actual=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range})).data.values?.[0]||[];
-  if(values.some((v,i)=>v!==String(actual[i]??'')))throw Error('UK Sheet readback failed. Retry saving; no new generation is needed.');
+  // Formula-rendered UK cells reveal owner formulas instead of silently replacing them.
+  const before=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range,valueRenderOption:'FORMULA'})).data.values?.[0]||[];
+  const contentValues=[output.headline,...(await import('./native-ad-model')).textParts(output.text),output.imageUrl];
+  const current={headline:String(before[0]||''),text:[before[1],before[2],before[3]].map(v=>String(v||'')).join(''),imageUrl:String(before[4]||'')};
+  const candidate={headline:output.headline,text:output.text,imageUrl:output.imageUrl};
+  const equal=(a:typeof current,b:typeof current)=>a.headline===b.headline&&a.text===b.text&&a.imageUrl===b.imageUrl;
+  if(!equal(current,candidate)){
+   if(!equal(current,expected||{headline:'',text:'',imageUrl:''}))throw Error('UK cells were changed in Sheet. Your Sheet edits and this draft are preserved; reconcile them before retrying.');
+   const status=before[5]&&before[5]!=='Ready for review'?String(before[5]):output.status;
+   await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range,valueInputOption:'RAW',requestBody:{values:[[...contentValues,status]]}});
+  }
+  const actual=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range,valueRenderOption:'FORMULA'})).data.values?.[0]||[];
+  if(contentValues.some((v,n)=>v!==String(actual[n]??'')))throw Error('UK Sheet readback failed. Retry saving; no new generation is needed.');
+
  });
 }
