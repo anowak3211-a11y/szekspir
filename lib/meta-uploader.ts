@@ -21,7 +21,7 @@ export async function saveUploadBatch(id:string,name:string,raw:unknown[]){
 // Envelope records support atomic replacement with the project's existing CAS.
 export async function readItem(id:string){return (await readState<{item?:UploadItem}>(key(id)+'-record',{})).value.item||null;}
 export async function readBatch(id:string){const batch=(await readState<{batch?:UploadBatch}>(batchKey(id)+'-record',{})).value.batch;if(!batch)throw Error('Batch not found.');const items=await Promise.all(batch.items.map(readItem));if(items.some(i=>!i))throw Error('Batch saving was interrupted. Retry the same save.');return {batch,items:items as UploadItem[]};}
-export async function listBatches(){const ids=(await readState<string[]>('meta-upload-batches',[])).value;return Promise.all(ids.slice(-50).reverse().map(async id=>{const {batch,items}=await readBatch(id);return {...batch,total:items.length,complete:items.filter(i=>i.status==='complete').length,attention:items.filter(i=>i.status==='attention').length};}));}
+export async function listBatches(){const ids=(await readState<string[]>('meta-upload-batches',[])).value;return Promise.all(ids.slice(-50).reverse().map(async id=>{const {batch,items}=await readBatch(id);return {...batch,total:items.length,complete:items.filter(i=>i.status==='complete').length,attention:items.filter(i=>i.status==='attention').length,accounts:Array.from(new Set(items.map(i=>i.ad.accountId))),mediaTypes:Array.from(new Set(items.map(i=>i.ad.media.kind==='library'?'video':i.ad.media.kind))),completedAt:Math.max(0,...items.map(i=>i.verifiedAt||0))};}));}
 async function patchItem(id:string,change:Partial<UploadItem>,lease?:string){return mutate<{item?:UploadItem},UploadItem>(key(id)+'-record',{},s=>{if(!s.item)throw Error('Item not found.');if(lease&&s.item.lease!==lease)throw Error('Uploader lease changed.');Object.assign(s.item,change,{updated:Date.now()});return s.item;});}
 async function schedule(id:string,batchId:string,delaySeconds=0){await send('szekspir-meta-upload',{id,batchId},{region:'fra1',delaySeconds,retentionSeconds:86400,idempotencyKey:`meta-${id}-${Math.floor(Date.now()/1000)}-${delaySeconds}`});}
 export async function startBatch(id:string){const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);if(items.every(i=>['complete','attention','cancelled'].includes(i.status)))throw Error('Resolve the adverts requiring attention before resuming.');for(const ad of Array.from(new Map(items.map(i=>[`${i.ad.accountId}:${i.ad.adSetId}:${i.ad.pageId}`,i.ad])).values()))await assertUploadTarget(ad);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');s.batch.status='running';});for(const item of items)if(!['complete','attention','cancelled'].includes(item.status))await schedule(item.id,id);return readBatch(id);}
@@ -33,7 +33,7 @@ async function verify(item:UploadItem){
  await assertUploadTarget(item.ad);
  const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string}}>(item.metaAdId,{fields:'id,adset_id,status,creative{id}'});
  if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||(!item.reused&&ad.status!=='PAUSED'))throw Error('Meta ad identity, target or paused status did not match.');
- const creative=await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
+ const creative=await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
 }
 class UnconfirmedResult extends Error {}
 export async function reconcileItem(id:string){
@@ -53,7 +53,8 @@ export async function consumeMetaUpload(id:string,batchId:string){
  try{
   if(item.phase==='media'){
    await assertUploadTarget(item.ad);const existing=(await graphList(`${item.ad.adSetId}/ads`,'id,name')).filter(a=>a.name===item.ad.name);if(existing.length)throw Error('An ad with this name already exists. Use Check result; no duplicate was created.');
-   if(item.ad.media.kind==='library'){item.videoId=item.ad.media.videoId;item.phase='processing';}
+   if(item.ad.media.kind==='carousel'){const hashes=item.imageHashes||[],card=item.ad.media.cards[hashes.length];if(card){await pending(item,'image');hashes.push(await uploadImage({...item,ad:{...item.ad,media:card}}));item.imageHashes=hashes;}item.phase=hashes.length===item.ad.media.cards.length?'creative':'media';}
+   else if(item.ad.media.kind==='library'){item.videoId=item.ad.media.videoId;item.phase='processing';}
    else if(item.ad.media.kind==='image'){await pending(item,'image');item.imageHash=await uploadImage(item);item.phase='creative';}
    else{await pending(item,'video');Object.assign(item,await startRemoteVideo(item));}
    item.pending=undefined;delay=0;

@@ -1,0 +1,17 @@
+import {numericId,publicHttps,FEATURE_OFF,LOCKED_FEATURES} from './meta-uploader-model';
+export type CopyTemplate={id:string;name:string;primaryTexts:string[];headlines:string[];descriptions:string[];cta:'SHOP_NOW'|'LEARN_MORE'};
+export type UploaderPreferences={revision:number;pageId:string;url:string;utm:string;creativeName:string;primaryTexts:string[];headlines:string[];descriptions:string[];cta:'SHOP_NOW'|'LEARN_MORE';enhancements:{image:Record<string,boolean>;video:Record<string,boolean>;carousel:Record<string,boolean>};templates:CopyTemplate[]};
+export const defaultPreferences=():UploaderPreferences=>({revision:0,pageId:'',url:'',utm:'',creativeName:'',primaryTexts:['','',''],headlines:[''],descriptions:[''],cta:'SHOP_NOW',enhancements:{image:{enhance_cta:true,inline_comment:true},video:{enhance_cta:true,inline_comment:true},carousel:{enhance_cta:true,inline_comment:true}},templates:[]});
+export function accountNumber(v:unknown){return numericId(String(v??'').replace(/^act_/,''),'account');}
+export function variants(v:unknown,label:string,max=5000){if(!Array.isArray(v)||!v.length||v.length>5||v.some(t=>typeof t!=='string'||t.length>max||t.includes('\0')))throw Error(`Supply 1–5 ${label} variants.`);return v as string[];}
+export function enhancementMap(v:unknown){if(!v||typeof v!=='object'||Array.isArray(v))throw Error('Invalid enhancements.');const out:Record<string,boolean>={};for(const [k,n] of Object.entries(v)){if(![...FEATURE_OFF,'enhance_cta','inline_comment'].includes(k)||typeof n!=='boolean')throw Error('Unknown enhancement.');if(n&&LOCKED_FEATURES.includes(k))throw Error('Catalogue and automatic format changes must remain off.');out[k]=n;}return out;}
+export function parsePreferences(raw:unknown):UploaderPreferences{
+ const a=raw as UploaderPreferences;if(!a||typeof a!=='object'||!Number.isInteger(a.revision)||a.revision<0)throw Error('Invalid settings revision.');
+ const short=(v:unknown,n:number)=>{if(typeof v!=='string'||v.length>n||v.includes('\0'))throw Error('Invalid setting.');return v;};
+ if(!['SHOP_NOW','LEARN_MORE'].includes(a.cta))throw Error('Invalid CTA.');
+ if(!Array.isArray(a.templates)||a.templates.length>24)throw Error('Save at most 24 templates per account.');
+ const templates=a.templates.map(t=>{if(!/^[a-f0-9-]{36}$/.test(t.id)||!t.name?.trim()||t.name.length>160||!['SHOP_NOW','LEARN_MORE'].includes(t.cta))throw Error('Invalid template.');return {id:t.id,name:t.name,primaryTexts:variants(t.primaryTexts,'primary text'),headlines:variants(t.headlines,'headline',255),descriptions:variants(t.descriptions,'description',255),cta:t.cta};});
+ if(new Set(templates.map(t=>t.id)).size!==templates.length)throw Error('Duplicate template IDs.');
+ return {revision:a.revision,pageId:a.pageId?numericId(a.pageId,'Page'):'',url:a.url?publicHttps(a.url):'',utm:short(a.utm,2000),creativeName:short(a.creativeName,240),primaryTexts:variants(a.primaryTexts,'primary text'),headlines:variants(a.headlines,'headline',255),descriptions:variants(a.descriptions,'description',255),cta:a.cta,enhancements:{image:enhancementMap(a.enhancements?.image),video:enhancementMap(a.enhancements?.video),carousel:enhancementMap(a.enhancements?.carousel||{enhance_cta:true,inline_comment:true})},templates};
+}
+export function namedCreative(pattern:string,filename:string,index:number){const base=filename.replace(/\.[^.]+$/,'');return (pattern||'{filename}').replaceAll('{filename}',base).replaceAll('{index}',String(index+1)).replaceAll('{date}',new Date().toISOString().slice(0,10));}
