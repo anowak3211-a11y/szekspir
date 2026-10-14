@@ -1,5 +1,9 @@
 # Current development handoff — 28 September 2026
 
+## Approved purchase destination mapping — 14 October 2026
+
+- Owner corrected the Bloomwise test purchase URL: its exact product CTA now maps deterministically to the confirmed Mellow Mood Munchies PDP. Apply this after language fidelity validation; source USA and research/reference links remain unchanged. Unknown product/article destinations are never guessed. Upload Antki Landing page contains the confirmed Mellow PDP when present in the UK copy. Existing saved work requires a scoped text save, without regeneration or image changes.
+
 ## Owner approval and required person variation — 14 October 2026
 
 - New Antki generations must change at least one recognisable characteristic of a visible anonymous person (hair colour/style or face), while preserving the scene, age, expression and original realism. Camera/background variation alone is insufficient with people. Vision review explicitly checks personChanged; no-person scenes are exempt. Older images without this check require regeneration before approval.
