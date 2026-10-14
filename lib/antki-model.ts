@@ -8,6 +8,9 @@ export function sourceChunks(text:string,limit=18000){
 }
 export function newAntkiWork(ad:SavedNativeAd):AntkiWork{return {id:ad.id,revision:1,sourceText:ad.primaryText,sourceHeadline:ad.headline||'',sourceImage:ad.imageUrl,sourceDriveId:ad.driveFileId,status:'queued',phase:'text',chunks:sourceChunks(ad.primaryText),ukChunks:[],ukHeadline:'',ukText:'',imagePrompt:'',updated:Date.now(),polls:0};}
 export const protectedNumbers=(text:string)=>text.match(/(?:[£$€]\s*)?\d+(?:[.,:]\d+)*(?:\s*%|\s*(?:mg|mcg|ml|g|kg|lbs|lb)\b)?/gi)||[];
+// Explicit destination mapping: product CTA only; research/reference URLs stay untouched.
+export const ANTKI_MELLOW_SAFFRON_URL='https://try-mellow.co/products/mellow-happy-chews-saffron-gummies';
+export function localiseAntkiPurchaseLinks(text:string){return text.replace(/https:\/\/mybloomwise\.com\/products\/bloomwise-all-in-one-kids-daily-support-for-mind-mood-body(?=$|[\s?#])/g,ANTKI_MELLOW_SAFFRON_URL);}
 export const protectedLinks=(text:string)=>text.match(/https?:\/\/[^\s]+/g)||[];
 export function faithfulChunk(source:string,target:string){
  if(!target.trim()||target.length>Math.max(1000,source.trim().length*1.5)||target.length<source.trim().length*.72)throw Error('UK output shortened or rewrote the source. Review before retrying.');

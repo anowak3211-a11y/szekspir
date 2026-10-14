@@ -1,6 +1,7 @@
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {withEditorLocks} from './editor-locks';
+import {ANTKI_MELLOW_SAFFRON_URL} from './antki-model';
 import {textParts} from './native-ad-model';
 import type {SavedNativeAd} from './native-ad-model';
 import type {AntkiWork} from './antki-model';
@@ -10,7 +11,7 @@ export const ANTKI_UPLOAD_TAB='Upload Antki';
 export const ANTKI_UPLOAD_HEADERS=['Ad ID','Ad desire','Funnel','Angle produktu','Landing page','Your work','Adapted script','Primary text','Headline','Description','Primary text 2','Headline 2','Description 2','Primary text 3','Headline 3','Description 3','Primary text · continued 2','Primary text · continued 3','Approved at','Revision','Workspace','Status','Image preview','Original ad'];
 export function approvedAntkiRow(work:AntkiWork,ad:SavedNativeAd){
  const parts=textParts(work.ukText);
- return [work.id,'','','','',work.imageDriveUrl||'','',parts[0],work.ukHeadline,'','','','','','','',parts[1],parts[2],work.approval!.approvedAt,String(work.revision),`https://szekspir.vercel.app/antki/${work.id}`,'Approved','',`https://www.facebook.com/ads/library/?id=${ad.id.replace('facebook_','')}`];
+ return [work.id,'','','',work.ukText.includes(ANTKI_MELLOW_SAFFRON_URL)?ANTKI_MELLOW_SAFFRON_URL:'',work.imageDriveUrl||'','',parts[0],work.ukHeadline,'','','','','','','',parts[1],parts[2],work.approval!.approvedAt,String(work.revision),`https://szekspir.vercel.app/antki/${work.id}`,'Approved','',`https://www.facebook.com/ads/library/?id=${ad.id.replace('facebook_','')}`];
 }
 export async function exportApprovedAntki(work:AntkiWork,ad:SavedNativeAd){
  return withEditorLocks(['antki-upload-sheet'],async()=>{
