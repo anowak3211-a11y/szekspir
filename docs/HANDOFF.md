@@ -1,5 +1,16 @@
 # Current development handoff — 28 September 2026
 
+## Owner-requested Meta uploader — 14 October 2026
+
+- New `/uploader` panel and home tile: imports Upload* worksheets read-only, quoted TSV or JSON, edits per-ad destinations/identity and exact primary texts, saves immutable batches, reviews before starting publication and shows durable per-ad progress/native IDs.
+- Direct Meta integration is configured independently from Supermetrics/Ads Uploader. New encrypted connection record, protected OAuth/token setup and account/campaign/set/Page discovery. Requires a real owner-authorized Meta application/credential; no account subscription or OAuth grant is performed just by deploying this code. No credentials or private operational batch data are in the repo.
+- Original videos from Drive use authenticated byte ranges and checksum/size guards; public direct file URLs and account-library Video IDs are supported. Images stay byte-identical. Existing upload transport adds JPEG/PNG/WebP with a 24 MB image limit; video/audio paths remain intact.
+- One-off private queue `szekspir-meta-upload` advances saved media/creative/ad/verification stages, with leases, source-key dedupe, ambiguous-write intent and backoff. Requires parent campaign PAUSED, creates new ads PAUSED, never modifies parent budgets/sets/targeting. Exact source variants, URL/CTA/Page/media and enhancements are checked before complete; incomplete results remain attention. Does not equate approval with publication or mutate Sheet production status.
+- Validation: typecheck, production webpack build, 40 existing offline regressions and dedicated uploader tests passed; mobile 375px and desktop 1440px UI checked without horizontal overflow. Manual retry cannot bypass a known remote-copy conflict. No live Meta/Drive/Sheet writes were used for testing.
+- Owner selected preparing a new Meta application. Filled setup specification: `docs/meta-app-setup.md`; protected setup page and public privacy notice include the Meta flow. The application has not been created or authorized.
+- Pending: actual Meta connection and owner-selected first live ad to establish format/permission support on the selected account. Offline checks cannot substitute for that test. Setup details in `docs/meta-uploader.md` and `/api/meta/setup`.
+- Next route wrappers explicitly accept Request for both new Meta consumer and existing Antki consumer, matching the other queue endpoints and fixing generated Next route type checks without changing callback semantics.
+
 ## Owner approval and required person variation — 14 October 2026
 
 - New Antki generations must change at least one recognisable characteristic of a visible anonymous person (hair colour/style or face), while preserving the scene, age, expression and original realism. Camera/background variation alone is insufficient with people. Vision review explicitly checks personChanged; no-person scenes are exempt. Older images without this check require regeneration before approval.

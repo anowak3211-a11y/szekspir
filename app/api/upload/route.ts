@@ -15,6 +15,6 @@ export async function POST(req:Request){try{
  const body=input as HandleUploadBody;
  const result=await handleUpload({request:req,body,onBeforeGenerateToken:async(pathname)=>{
   if(!/^sources\/[\w-]+\/(?:source|audio)\.[a-z0-9]+$/i.test(pathname))throw new Error('Invalid upload path');
-  return {allowedContentTypes:['video/mp4','video/quicktime','video/webm','audio/mpeg','audio/mp4','audio/wav','audio/x-wav'],maximumSizeInBytes:200*1024*1024,addRandomSuffix:true};
+  return {allowedContentTypes:['video/mp4','video/quicktime','video/webm','audio/mpeg','audio/mp4','audio/wav','audio/x-wav','image/jpeg','image/png','image/webp'],maximumSizeInBytes:/\.(?:jpe?g|png|webp)$/i.test(pathname)?24*1024*1024:200*1024*1024,addRandomSuffix:true};
  }});return Response.json(result);
 }catch(e){return Response.json({error:(e as Error).message},{status:400});}}
