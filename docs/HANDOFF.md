@@ -1,5 +1,9 @@
 # Current development handoff — 28 September 2026
 
+## Antki naming — 14 October 2026
+
+- Owner defines native image ads as ANTKI. The homepage has one ANTKI tile, using the existing /antki route for the source library. The previous Coming soon placeholder is replaced; /native-ads redirects to /antki. Visible library labels follow Antki. The existing Native Ads Sheet tab and internal API/schema identifiers remain stable, preserving saved sources and imports.
+
 ## Native image ads library — 14 October 2026
 
 - Owner requested a Trendtrack → Google Sheet → Szekspir source workflow. `/native-ads` imports normalized Trendtrack search JSON (file or paste), saves original primary text without rewriting, and archives original images in the connected Drive folder. Sources live in a separate Native Ads tab in the Admin workbook; existing Daily Briefs/editor layouts are preserved.

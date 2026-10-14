@@ -7,7 +7,7 @@ export default function Home() {
       <h1>🎬 Ad Ops</h1>
       <p className="sub">Pick a tool.</p>
       <div className="tiles">
-        <a className="tile big" href="/native-ads"><span className="tile-icon">🖼️</span><span className="tile-title">NATIVE ADS</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
+        <a className="tile big" href="/antki"><span className="tile-icon">🐜</span><span className="tile-title">ANTKI</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
         <a className="tile big" href="/szekspir">
           <span className="tile-icon">🎭</span>
           <span className="tile-title">SZEKSPIR</span>
@@ -32,11 +32,6 @@ export default function Home() {
           <span className="tile-sub">
             Long-form advertorial localization US → UK. Coming soon.
           </span>
-        </a>
-        <a className="tile big" href="/antki">
-          <span className="tile-icon">🐜</span>
-          <span className="tile-title">ANTKI</span>
-          <span className="tile-sub">Advertorials. Coming soon.</span>
         </a>
         <a className="tile big" href="/additional-files">
           <span className="tile-icon" aria-hidden="true">📎</span>
