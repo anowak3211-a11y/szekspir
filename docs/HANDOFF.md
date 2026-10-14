@@ -1,5 +1,9 @@
 # Current development handoff — 28 September 2026
 
+## Separate image approval — 14 October 2026
+
+- Approve image beside image regeneration independently exports the reviewed current photo to Upload Antki Images in the Admin workbook, with permanent link, preview, file ID, approval time and workspace. Does not approve/export unsaved text. File-ID deduplication survives text edits; new photo regeneration resets image approval, preserving earlier exports. Pending image export blocks regeneration; exact retries verify readback and refuse manual row changes. No provider generation is triggered by image approval.
+
 ## Approved purchase destination mapping — 14 October 2026
 
 - Owner corrected the Bloomwise test purchase URL: its exact product CTA now maps deterministically to the confirmed Mellow Mood Munchies PDP. Apply this after language fidelity validation; source USA and research/reference links remain unchanged. Unknown product/article destinations are never guessed. Upload Antki Landing page contains the confirmed Mellow PDP when present in the UK copy. Existing saved work requires a scoped text save, without regeneration or image changes.

@@ -1,3 +1,4 @@
+import {exportApprovedAntkiImage} from './antki-image-approval-sheet';
 import {exportApprovedAntki} from './antki-approval-sheet';
 import {reviewAntkiImage} from './antki-image-review';
 import {send} from '@vercel/queue';
@@ -87,12 +88,13 @@ export async function antkiGeneratedImage(id:string){await getNativeAd(id);const
 export async function regenerateAntkiImage(id:string){
  key(id);const work=await withEditorLocks(['antki-work-'+id],async()=>{
   const work=await readAntkiWork(id);if(!work||work.pending||!['ready','failed'].includes(work.status)||!work.ukText)throw Error('Finish or review the previous request before generating a new photo.');
+  if(work.imageApproval?.state==='pending')throw Error('Finish image approval export before generating a new photo.');
   if(work.approval?.state==='pending')throw Error('Finish approval export before generating a new photo.');
   const ad=await getNativeAd(id);if(ad.primaryText!==work.sourceText||ad.imageUrl!==work.sourceImage)throw Error('The source changed; review it first.');
   work.approval=undefined;
   if(!work.delivered&&work.phase==='done')work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};
   if(work.imageFileId&&work.imageDriveUrl)work.previousImage={fileId:work.imageFileId,url:work.imageDriveUrl};
-  work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imageFileId=undefined;work.imageReview=undefined;work.imageAttempts=0;work.polls=0;
+  work.imageApproval=undefined;work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imageFileId=undefined;work.imageReview=undefined;work.imageAttempts=0;work.polls=0;
   work.imagePrompt=antkiImagePrompt(work);work.phase='image';work.status='queued';work.error=undefined;work.revision++;await persist(work);return work;
  });await scheduleAntki(id);return work;
 }
@@ -108,5 +110,17 @@ export async function approveAntkiWork(id:string,revision:unknown){
   await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl,status:'Ready for review'},work.delivered);
   const sheetUrl=await exportApprovedAntki(work,ad);
   work.approval={...work.approval,state:'approved',sheetUrl};await persist(work);return work;
+ });
+}
+
+export async function approveAntkiImage(id:string,revision:unknown){
+ key(id);return withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);
+  if(!work||work.status!=='ready'||work.phase!=='done'||work.pending||work.revision!==revision||!work.imageFileId||!work.imageDriveUrl||work.imageReview?.personChanged!==true)throw Error('Finish this image and reload before approving.');
+  if(work.imageApproval?.state==='approved'&&work.imageApproval.fileId===work.imageFileId)return work;
+  const ad=await getNativeAd(id);if(ad.imageUrl!==work.sourceImage)throw Error('Source image changed. Review before approval.');
+  if(!work.imageApproval){work.imageApproval={fileId:work.imageFileId,state:'pending',approvedAt:new Date().toISOString()};await persist(work);}
+  const sheetUrl=await exportApprovedAntkiImage(work);
+  work.imageApproval={...work.imageApproval,state:'approved',sheetUrl};await persist(work);return work;
  });
 }
