@@ -4,7 +4,7 @@ export type UploadAd={key:string;name:string;accountId:string;campaignId:string;
 export type UploadDraft=Partial<Omit<UploadAd,'media'>>&{media?:UploadMedia};
 export type UploadPhase='media'|'transfer'|'finish'|'processing'|'creative'|'ad'|'verify'|'done';
 export type UploadItem={id:string;ad:UploadAd;fingerprint:string;phase:UploadPhase;status:'queued'|'working'|'waiting'|'attention'|'complete'|'cancelled';created:number;updated:number;videoId?:string;imageHash?:string;thumbnailUrl?:string;imageHashes?:string[];creativeId?:string;metaAdId?:string;pending?:string;error?:string;attempts:number;lease?:string;leaseUntil?:number;nextAttempt?:number;verifiedAt?:number;reused?:boolean;transfer?:{sessionId:string;fileId:string;size:number;start:number;end:number;checksum:string}};
-export type UploadBatch={id:string;name:string;created:number;items:string[];status:'draft'|'running'|'paused'|'finished';dispatch?:{id:string;token:string;until:number}};
+export type UploadBatch={id:string;name:string;created:number;items:string[];status:'draft'|'running'|'paused'|'finished';dispatch?:{id:string;token:string;until:number};queue?:Record<string,{status:UploadItem['status'];at:number}>};
 export function numericId(value:unknown,label='ID'){const s=String(value??'');if(!/^\d{5,30}$/.test(s))throw Error(`Invalid ${label}.`);return s;}
 export function publicHttps(value:unknown,label='URL'){
  if(typeof value!=='string'||value.length>4096)throw Error(`Invalid ${label}.`);

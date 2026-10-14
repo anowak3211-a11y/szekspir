@@ -3,23 +3,28 @@ import {mutate,readState} from './store';
 const KEY='meta-api-shared-budget';
 export type WaitReason='busy'|'spacing'|'local_budget'|'provider_cooldown';
 export type MetaDiagnostic={at:number;operation:string;method:string;status:number;code:number;subcode:number;durationMs:number;requestId?:string};
-type Budget={calls:number[];lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
+type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
 const initial=():Budget=>({calls:[]});
 export class MetaBudgetWait extends Error{
  constructor(public retryAfterSeconds:number,public reason:WaitReason='busy'){super(reason==='provider_cooldown'?`Meta requested a pause. Retry in ${retryAfterSeconds} seconds.`:`Upload queue is waiting. Retry in ${retryAfterSeconds} seconds.`);this.name='MetaBudgetWait';}
 }
 // One request in flight across workers. A lease expiry is crash recovery, NOT a retry delay.
-export async function withMetaBudget<T>(fn:()=>Promise<T>){
+export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
+ if(cost!==1&&cost!==3)throw Error('Invalid Meta request cost.');
  const token=randomUUID();let acquired=false;
  for(let attempt=0;attempt<2;attempt++){
   const decision=await mutate<Budget,{seconds:number;reason:WaitReason}>(KEY,initial(),s=>{
    const now=Date.now();s.calls=s.calls.filter(t=>t>now-3600000);
+   s.points=(s.points||s.calls.map(at=>({at,cost:3}))).filter(p=>p.at>now-300000);
    const hourly=s.calls.length>=240?s.calls[0]+3600000:0;
    if((s.cooldown||0)>now)return {seconds:Math.ceil((s.cooldown!-now)/1000),reason:'provider_cooldown'};
    if(hourly>now)return {seconds:Math.ceil((hourly-now)/1000),reason:'local_budget'};
+   // Read=1, write=3. Keep a margin below the development-tier score limit.
+   // Unknown tier is deliberately conservative until a response proves Full access.
+   if(s.points.reduce((n,p)=>n+p.cost,0)+cost>(s.accessTier==='full'?500:50))return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
    if((s.leaseUntil||0)>now){s.localWaits=(s.localWaits||0)+1;return {seconds:2,reason:'busy'};}
    if((s.next||0)>now)return {seconds:Math.ceil((s.next!-now)/1000),reason:'spacing'};
-   s.lease=token;s.leaseUntil=now+210000;s.next=now+5000;s.calls.push(now);return {seconds:0,reason:'spacing'};
+   s.lease=token;s.leaseUntil=now+210000;s.next=now+5000;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
   });
   if(!decision.seconds){acquired=true;break;}
   if(decision.reason!=='spacing'||attempt===1)throw new MetaBudgetWait(decision.seconds,decision.reason);
@@ -37,7 +42,7 @@ export function metaUsage(headers:Headers){
    const visit=(v:unknown)=>{if(!v||typeof v!=='object')return;const fields=v as Record<string,unknown>;
     const pct=Math.max(0,...['call_count','total_cputime','total_time','acc_id_util_pct','app_id_util_pct'].map(k=>typeof fields[k]==='number'&&Number.isFinite(fields[k])?fields[k] as number:0));
     const regain=Math.max(0,typeof fields.estimated_time_to_regain_access==='number'?fields.estimated_time_to_regain_access*60:0,typeof fields.reset_time_duration==='number'?fields.reset_time_duration:0);
-    if(pct||regain){buckets.push({header,type:typeof fields.type==='string'?fields.type.slice(0,60):undefined,usage:pct,regainSeconds:Number.isFinite(regain)?regain:0,tier:typeof fields.ads_api_access_tier==='string'?fields.ads_api_access_tier.slice(0,40):undefined});usage=Math.max(usage,pct);seconds=Math.max(seconds,Number.isFinite(regain)?regain:0);}
+    if(pct||regain||['call_count','acc_id_util_pct','app_id_util_pct','ads_api_access_tier'].some(k=>Object.hasOwn(fields,k))){buckets.push({header,type:typeof fields.type==='string'?fields.type.slice(0,60):undefined,usage:pct,regainSeconds:Number.isFinite(regain)?regain:0,tier:typeof fields.ads_api_access_tier==='string'?fields.ads_api_access_tier.slice(0,40):undefined});usage=Math.max(usage,pct);seconds=Math.max(seconds,Number.isFinite(regain)?regain:0);}
     for(const n of Object.values(fields))if(n&&typeof n==='object')visit(n);
    };visit(JSON.parse(raw));
   }catch{/* Never persist raw headers. */}
@@ -50,6 +55,7 @@ export async function recordMetaUsage(headers:Headers,rateLimited=false,diagnost
  const signal=metaUsage(headers);
  return mutate<Budget,number>(KEY,initial(),s=>{
   s.usage=signal.usage;s.signals=signal;
+  const tiers=signal.buckets.map(b=>b.tier);if(tiers.some(t=>t==='development_access'||t==='limited_access'))s.accessTier='limited';else if(tiers.some(t=>t==='standard_access'||t==='full_access'))s.accessTier='full';
   if(diagnostic){const id=headers.get('x-fb-request-id');s.diagnostics=[...(s.diagnostics||[]),{...diagnostic,at:Date.now(),operation:diagnostic.operation.replace(/\d+/g,':id').slice(0,100),requestId:id&&/^[\w-]{1,100}$/.test(id)?id:undefined}].slice(-100);}
   // reset_time_duration may be supplied while usage is low; it is not a pause by itself.
   if(rateLimited||signal.usage>=80){
@@ -61,4 +67,4 @@ export async function recordMetaUsage(headers:Headers,rateLimited=false,diagnost
   return Math.max(0,Math.ceil(((s.cooldown||0)-Date.now())/1000));
  });
 }
-export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:240,minSpacingSeconds:5,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
+export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:240,minSpacingSeconds:5,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:s.accessTier==='full'?500:50,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
