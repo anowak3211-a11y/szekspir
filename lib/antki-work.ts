@@ -50,7 +50,7 @@ export async function consumeAntki(id:string){
    if(work.phase==='text'){
     if(!process.env.OPENAI_API_KEY)throw Error('OpenAI is not configured.');
     work.pending='text';await persist(work);const result=await localiseAntkiChunk(work);work.pending=undefined;
-    if(!work.ukChunks.length)work.ukHeadline=result.headline;work.ukChunks.push(result.text);
+    if(!work.ukChunks.length)work.ukHeadline=result.headline;work.reviewNotes=[...new Set([...(work.reviewNotes||[]),...(result.reviewNotes||[])])].slice(0,50);work.ukChunks.push(result.text);
     if(work.ukChunks.length===work.chunks.length){work.ukText=work.ukChunks.join('');work.imagePrompt=antkiImagePrompt(work);work.phase='image';}
     delay=0;
    }else if(work.phase==='image'){

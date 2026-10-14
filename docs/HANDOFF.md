@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Owner handbook and flexible British adaptation — 14 October 2026
+
+- Owner supplied kompendium_uk_us_ads.md and explicitly replaced strict localisation with natural fully British adaptation. Exact source copy is stored in docs/antki/kompendium-uk-us-ads.md and attached to every new text-provider segment. Server file tracing includes the resource; missing handbook fails visibly rather than silently dropping it.
+- New drafts are marked natural-uk. British idioms, rewritten sentence syntax/rhythm, punctuation, paragraph grouping and handbook tone adjustments are allowed. Removed the 82% word-overlap and exact paragraph-count gates. Bounded full-content length, numeric facts/quantities and research links remain protected; equivalent time punctuation and fact order are allowed. The source USA stays untouched and existing drafts/approvals are not automatically regenerated.
+- Provider reviewNotes are stored separately and shown outside the copy; no fabricated legal/medical confirmation or in-copy disclaimers. Currency, tax, units, actual identities and uncertain school equivalences are never guessed from broad handbook examples. The resource is guidance, not evidence of product efficacy or current law.
+
 ## Separate image approval — 14 October 2026
 
 - Approve image beside image regeneration independently exports the reviewed current photo to Upload Antki Images in the Admin workbook, with permanent link, preview, file ID, approval time and workspace. Does not approve/export unsaved text. File-ID deduplication survives text edits; new photo regeneration resets image approval, preserving earlier exports. Pending image export blocks regeneration; exact retries verify readback and refuse manual row changes. No provider generation is triggered by image approval.
