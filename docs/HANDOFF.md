@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Shared Meta API limiter — 15 October 2026
+
+- Owner requested preventing repeat throttling after the 158-ad batch. The app now shares one durable budget across Graph, discovery and raw image/video transfers: one network request in flight, at least 5 seconds spacing, conservative ceiling 240 calls in the rolling hour. These are application safety settings, not a claim about Ads Manager’s unpublished browser quota. No parent campaign, budget, creative or targeting setting changes.
+- Usage headers (app, ad-account and business-use-case) are parsed into percentages/expiry only; 80% usage triggers a pause. API throttles including 800xx/1675004 trigger a shared exponential cooldown, minimum five minutes; reported regain-access/Retry-After values take precedence. Local waits are bounded; the queue reschedules long rests without calling Meta or exhausting normal retry attempts. Ambiguous write guards remain intact.
+- Operator workflow: no repeated browser refresh or parallel Meta writers after a rate-limit error; allow cooldown, use one narrow verification. This app cannot disable Meta’s internal browser polling or control unrelated connected integrations.
+
 ## Owner handbook and flexible British adaptation — 14 October 2026
 
 - Owner supplied kompendium_uk_us_ads.md and explicitly replaced strict localisation with natural fully British adaptation. Exact source copy is stored in docs/antki/kompendium-uk-us-ads.md and attached to every new text-provider segment. Server file tracing includes the resource; missing handbook fails visibly rather than silently dropping it.

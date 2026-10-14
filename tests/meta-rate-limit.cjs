@@ -1,0 +1,11 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+let state={calls:[]},now=1800000000000;const original=Module._load,realNow=Date.now;Date.now=()=>now;
+Module._load=function(n,p,i){if(n==='./store'&&p?.filename.endsWith('/lib/meta-rate-limit.ts'))return {mutate:async(k,d,fn)=>fn(state)};return original.call(this,n,p,i);};
+(async()=>{const limiter=require('../lib/meta-rate-limit.ts');let release,started=0;const first=limiter.withMetaBudget(async()=>{started++;await new Promise(r=>release=r);return 1;});await new Promise(r=>setImmediate(r));await assert.rejects(()=>limiter.withMetaBudget(async()=>{started++;}),e=>e instanceof limiter.MetaBudgetWait&&e.retryAfterSeconds>=200);assert.equal(started,1);release();assert.equal(await first,1);assert.equal(state.lease,undefined);
+now+=6000;await assert.rejects(()=>limiter.withMetaBudget(async()=>{throw Error('unknown network result');}),/unknown network/);assert.equal(state.lease,undefined);
+state={calls:[]};assert.equal(await limiter.recordMetaUsage(new Headers({'x-business-use-case-usage':JSON.stringify({'123':[{call_count:84,estimated_time_to_regain_access:12}]})})),720);await assert.rejects(()=>limiter.withMetaBudget(async()=>started++),e=>e.retryAfterSeconds===720);
+state={calls:[]};assert.equal(await limiter.recordMetaUsage(new Headers(),true),300);assert.equal(await limiter.recordMetaUsage(new Headers(),true),600);assert(limiter.isMetaRateLimit(80004));assert(limiter.isMetaRateLimit(1675004));assert(!limiter.isMetaRateLimit(100));assert.equal(limiter.metaUsage(new Headers({'x-app-usage':'bad-json'})).usage,0);
+state={calls:Array.from({length:240},()=>now-1000)};await assert.rejects(()=>limiter.withMetaBudget(async()=>started++),e=>e.retryAfterSeconds===3599);now+=3600001;await limiter.withMetaBudget(async()=>started++);assert.equal(state.calls.length,1);
+console.log('PASS: distributed single request, lease cleanup, shared usage-header cooldown, throttle families, malformed headers and rolling-hour cap. No Meta calls.');
+})().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>Date.now=realNow);

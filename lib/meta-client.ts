@@ -1,3 +1,4 @@
+import {withMetaBudget,recordMetaUsage,isMetaRateLimit,MetaBudgetWait} from './meta-rate-limit';
 import {createHmac} from 'node:crypto';
 import {readState,mutate} from './store';
 import {numericId} from './meta-uploader-model';
@@ -7,6 +8,7 @@ const KEY='meta-uploader-connection';
 export const META_VERSION=process.env.META_API_VERSION||'v26.0';
 function version(){if(!/^v\d+\.0$/.test(META_VERSION))throw Error('Invalid Meta API version.');return META_VERSION;}
 export class MetaError extends Error{
+ retryAfterSeconds?:number;rateLimited=false;
  constructor(public code:number,public subcode:number,public transient:boolean,public uncertain:boolean,message:string){super(message);this.name='MetaError';}
 }
 export async function metaConnection(){return (await readState<Connection>(KEY,{})).value;}
@@ -24,10 +26,11 @@ export async function graph<T=Record<string,unknown>>(path:string,params:Record<
  for(const [key,value] of Object.entries(params))if(value!==undefined)body.set(key,typeof value==='string'?value:JSON.stringify(value));
  if(process.env.META_APP_SECRET)body.set('appsecret_proof',createHmac('sha256',process.env.META_APP_SECRET).update(token).digest('hex'));
  if(method==='GET')url.search=body.toString();
- let response:Response,data:Record<string,unknown>;
- try{response=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});data=await response.json();}
- catch{throw new MetaError(0,0,true,method==='POST',method==='POST'?'Meta did not confirm the request. Check its result before retrying.':'Meta is temporarily unavailable.');}
- if(!response.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;is_transient?:boolean;error_user_msg?:string}|undefined;const code=Number(e?.code||response.status),subcode=Number(e?.error_subcode||0);const rate=[4,17,32,613,429].includes(code);const detail=String(e?.error_user_msg||'').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,300);throw new MetaError(code,subcode,rate||!!e?.is_transient||response.status>=500,response.status>=500,`Meta rejected the request (${code}${subcode?'/'+subcode:''}).${detail?' '+detail:''}`);}
+ let response:Response,data:Record<string,unknown>={};
+ try{response=await withMetaBudget(async()=>{const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});data=await r.json();const code=Number((data.error as {code?:number}|undefined)?.code||r.status);await recordMetaUsage(r.headers,isMetaRateLimit(code));return r;});}
+
+ catch(e){if(e instanceof MetaBudgetWait){const error=new MetaError(429,0,true,false,e.message);error.retryAfterSeconds=e.retryAfterSeconds;error.rateLimited=true;throw error;}throw new MetaError(0,0,true,method==='POST',method==='POST'?'Meta did not confirm the request. Check its result before retrying.':'Meta is temporarily unavailable.');}
+ if(!response.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;is_transient?:boolean;error_user_msg?:string}|undefined;const code=Number(e?.code||response.status),subcode=Number(e?.error_subcode||0);const rate=isMetaRateLimit(code);const detail=String(e?.error_user_msg||'').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,300);const error=new MetaError(code,subcode,rate||!!e?.is_transient||response.status>=500,response.status>=500,`Meta rejected the request (${code}${subcode?'/'+subcode:''}).${detail?' '+detail:''}`);error.rateLimited=rate;if(rate)error.retryAfterSeconds=300;throw error;}
  return data as T;
 }
 export async function graphList(path:string,fields:string,extra:Record<string,unknown>={},token?:string,maxPages=20){

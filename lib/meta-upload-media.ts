@@ -1,3 +1,4 @@
+import {withMetaBudget,recordMetaUsage,isMetaRateLimit,MetaBudgetWait} from './meta-rate-limit';
 import {lookup} from 'node:dns/promises';
 import {isIP} from 'node:net';
 import {createHmac} from 'node:crypto';
@@ -16,9 +17,9 @@ export async function originalImage(url:string){
 }
 export async function uploadImage(item:UploadItem){
  if(item.ad.media.kind!=='image')throw Error('Wrong media type.');const image=await originalImage(item.ad.media.url);if(!/^image\/(?:jpeg|png|webp)$/.test(image.contentType.split(';')[0]))throw Error('Choose an original JPEG, PNG or WebP.');
- const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),item.ad.media.filename);const token=await metaToken();let r:Response,d:{images?:Record<string,{hash?:string}>};
- try{r=await fetch(`https://graph.facebook.com/${META_VERSION}/act_${item.ad.accountId}/adimages`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body:form,signal:AbortSignal.timeout(90000)});d=await r.json();}catch{throw new MetaError(0,0,true,true,'Image upload was not confirmed. Check the library before retrying.');}
- const hash=d.images&&Object.values(d.images)[0]?.hash;if(!r.ok||!hash)throw new MetaError(r.status,0,r.status>=500,r.status>=500,'Meta did not confirm the image upload.');return hash;
+ const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),item.ad.media.filename);const token=await metaToken();let r:Response,d:{images?:Record<string,{hash?:string}>;error?:{code?:number;error_subcode?:number}}={};
+ try{r=await withMetaBudget(async()=>{const response=await fetch(`https://graph.facebook.com/${META_VERSION}/act_${item.ad.accountId}/adimages`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body:form,signal:AbortSignal.timeout(90000)});d=await response.json();await recordMetaUsage(response.headers,isMetaRateLimit(Number(d.error?.code||response.status)));return response;});}catch(e){budgetWait(e);throw new MetaError(0,0,true,true,'Image upload was not confirmed. Check the library before retrying.');}
+ const hash=d.images&&Object.values(d.images)[0]?.hash;if(!r.ok||!hash){const code=Number(d.error?.code||r.status),rate=isMetaRateLimit(code);throw Object.assign(new MetaError(code,Number(d.error?.error_subcode||0),rate||r.status>=500,r.status>=500,'Meta did not confirm the image upload.'),{rateLimited:rate,retryAfterSeconds:rate?300:undefined});}return hash;
 }
 function offsets(data:{start_offset?:string;end_offset?:string},size:number){const start=Number(data.start_offset),end=Number(data.end_offset);if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||end<start||end>size||end-start>32*1024*1024)throw Error('Invalid Meta upload offsets.');return {start,end};}
 export async function startRemoteVideo(item:UploadItem):Promise<Pick<UploadItem,'videoId'|'transfer'|'phase'>>{
@@ -38,10 +39,12 @@ export async function transferOriginalChunk(item:UploadItem){
  const wanted=t.end-t.start,chunks:Buffer[]=[];let n=0;try{for await(const chunk of r.data as AsyncIterable<Uint8Array>){n+=chunk.length;if(n>wanted)throw Error('Drive did not honour the original byte range.');chunks.push(Buffer.from(chunk));}}finally{(r.data as {destroy:()=>void}).destroy();}
  if(n!==wanted||r.status!==206||!String(r.headers['content-range']).startsWith(`bytes ${t.start}-${t.end-1}/`))throw Error('Original video chunk could not be verified.');
  const body=new FormData();body.set('upload_phase','transfer');body.set('upload_session_id',t.sessionId);body.set('start_offset',String(t.start));body.set('video_file_chunk',new Blob([new Uint8Array(Buffer.concat(chunks))]),'original.mp4');const token=await metaToken();if(process.env.META_APP_SECRET)body.set('appsecret_proof',createHmac('sha256',process.env.META_APP_SECRET).update(token).digest('hex'));
- let response:Response,d:{start_offset?:string;end_offset?:string;error?:{code?:number;error_subcode?:number;error_data?:{start_offset?:string;end_offset?:string}}};
- try{response=await fetch(`https://graph-video.facebook.com/${META_VERSION}/act_${item.ad.accountId}/advideos`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body,signal:AbortSignal.timeout(90000)});d=await response.json();}catch{throw new MetaError(0,0,true,false,'Video transfer interrupted. Resume uses this same upload session.');}
+ let response:Response,d:{start_offset?:string;end_offset?:string;error?:{code?:number;error_subcode?:number;error_data?:{start_offset?:string;end_offset?:string}}}={};
+ try{response=await withMetaBudget(async()=>{const r=await fetch(`https://graph-video.facebook.com/${META_VERSION}/act_${item.ad.accountId}/advideos`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body,signal:AbortSignal.timeout(90000)});d=await r.json();await recordMetaUsage(r.headers,isMetaRateLimit(Number(d.error?.code||r.status)));return r;});}catch(e){budgetWait(e);throw new MetaError(0,0,true,false,'Video transfer interrupted. Resume uses this same upload session.');}
  if(d.error?.error_subcode===1363037&&d.error.error_data)return {...t,...offsets(d.error.error_data,t.size)};
- if(!response.ok||d.error)throw new MetaError(Number(d.error?.code||response.status),Number(d.error?.error_subcode||0),[429,500,502,503,504].includes(response.status),false,'Meta video transfer was rejected; the original is unchanged.');
+ if(!response.ok||d.error){const code=Number(d.error?.code||response.status),rate=isMetaRateLimit(code);throw Object.assign(new MetaError(code,Number(d.error?.error_subcode||0),rate||[429,500,502,503,504].includes(response.status),false,'Meta video transfer was rejected; the original is unchanged.'),{rateLimited:rate,retryAfterSeconds:rate?300:undefined});}
  const next=offsets(d,t.size);if(next.start<=t.start)throw Error('Meta upload made no progress.');return {...t,...next};
 }
 export async function finishOriginalVideo(item:UploadItem){if(!item.transfer||item.ad.media.kind!=='video')throw Error('Missing upload session.');return graph(`act_${item.ad.accountId}/advideos`,{upload_phase:'finish',upload_session_id:item.transfer.sessionId,title:item.ad.media.filename},'POST',undefined,true);}
+
+function budgetWait(e:unknown){if(e instanceof MetaBudgetWait)throw Object.assign(new MetaError(429,0,true,false,e.message),{rateLimited:true,retryAfterSeconds:e.retryAfterSeconds});}
