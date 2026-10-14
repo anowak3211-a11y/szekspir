@@ -1,5 +1,14 @@
 # Current development handoff — 28 September 2026
 
+## Antki row library and owned-ad UK workspace — 14 October 2026
+
+- Owner paused cross-brand research/master files: current scope is their OWN US adverts, faithfully localised to UK without weakening, rewriting or changing arguments. The incorrect research pack was removed from the Native Ads Sheet; all 55 archived images moved to Drive Trash and local exports deleted. Do not resume random research imports.
+- `/antki` is now a searchable/sortable paginated row library with original thumbnails and headlines. Every row opens `/antki/[id]` in a separate work tab. Desktop compares USA/UK side by side; mobile switches between labelled versions. Source copy stays read-only; UK edits have revision conflict guards and survive delivery failure without new generation.
+- Imports accept up to 300 sources, 15k words each, with automatic UK preparation enabled by default and an originals-only opt-out. The import button explicitly states paid text/image preparation. Existing work is reused, never regenerated simply by opening a row or importing the same ID.
+- Durable encrypted work uses the `szekspir-antki` Vercel Queue: bounded text segments preserve full long-form content, then one reference-based Kie GPT Image 2 UK variation is submitted and polled by task ID, archived in Drive and delivered to appended U:AA work columns with exact readback. Original A:T fields and other tabs are untouched. US headline is U; UK headline/copy/image/status are V:AA. No brand/offer/model-driven reinvention, new hooks or voiceover.
+- `KIE_API_KEY` is needed for automatic images; text uses existing `OPENAI_API_KEY`, optional `ANTKI_TEXT_MODEL` (default gpt-6-sol). Provider requests have durable pre-call reservations: interrupted/ambiguous submissions pause as uncertain and require explicit acknowledged retry, while known image tasks, archive and Sheet delivery resume without paying for a new generation. Queue stages check the source has not changed.
+- Offline work tests mock providers, Drive, Sheet and queue; no live Sheet mutations or paid model calls are used as routine verification. Deleted sources are filtered from the summary index and cannot be processed again without a new explicit import.
+
 ## Antki naming — 14 October 2026
 
 - Owner defines native image ads as ANTKI. The homepage has one ANTKI tile, using the existing /antki route for the source library. The previous Coming soon placeholder is replaced; /native-ads redirects to /antki. Visible library labels follow Antki. The existing Native Ads Sheet tab and internal API/schema identifiers remain stable, preserving saved sources and imports.

@@ -2,15 +2,15 @@ const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/stri
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
 const model=require('../lib/native-ad-model.ts');
 const source={id:'facebook_1234567890123',advertiser:{name:'Example'},content:{body:'  An original sentence.\n\nAnd another one.  ',landingPageUrl:'https://example.com/story'},media:{type:'image',mediaUrl:'https://medias.trendtrack.io/facebook/image/'+'a'.repeat(64)+'.jpg'},metrics:{reach:123,reachDelta7d:45},status:'active',daysRunning:30};
-const parsed=model.parseNativeExport({structuredContent:{data:[source]}})[0];assert.equal(parsed.primaryText,source.content.body);assert.equal(model.nativeFromRow(model.nativeRow(parsed,'file-id-123456'),2,'sheet').primaryText,source.content.body);
+const parsed=model.parseNativeExport({structuredContent:{data:[source]}})[0];assert.equal(model.parseNativeExport([{...source,content:{...source.content,title:'My US headline'}}])[0].headline,'My US headline');model.parseNativeExport(Array.from({length:300},(_,i)=>({...source,id:'facebook_'+String(1000000+i)})));assert.throws(()=>model.parseNativeExport(Array.from({length:301},(_,i)=>({...source,id:'facebook_'+String(1000000+i)}))));assert.equal(parsed.primaryText,source.content.body);assert.equal(model.nativeFromRow(model.nativeRow(parsed,'file-id-123456'),2,'sheet').primaryText,source.content.body);
 const long='story '.repeat(15000);assert.equal(model.wordCount(long),15000);assert.equal(model.textParts(long).join(''),long);assert(model.textParts(long).every(p=>p.length<=45000));model.parseNativeExport([{...source,content:{body:long}}]);assert.throws(()=>model.parseNativeExport([{...source,content:{body:long+'extra'}}]));
 assert.throws(()=>model.parseNativeExport([source,source]));assert.throws(()=>model.parseNativeExport([{...source,media:{...source.media,type:'video'}}]));for(const url of ['http://127.0.0.1/a.jpg','https://medias.trendtrack.io.evil.test/facebook/image/a.jpg','https://medias.trendtrack.io/facebook/image/a.svg','https://user:pass@medias.trendtrack.io/facebook/image/a.jpg'])assert.throws(()=>model.nativeImageUrl(url));
 const png=Buffer.from([137,80,78,71,13,10,26,10]);let rows=[],tab=false,uploads=0,downloads=0,ids=0,shares=0;const state=new Map();
 const sheets={spreadsheets:{
  get:async()=>({data:{sheets:tab?[{properties:{title:model.NATIVE_TAB,sheetId:99}}]:[]}}),
  values:{
-  get:async({range})=>{const row=range.match(/!A(\d+):T\1$/);return {data:{values:structuredClone(row?[rows[Number(row[1])-1]||[]]:rows)}};},
-  update:async({range,requestBody})=>{const n=Number(range.match(/!A(\d+)/)[1]);rows[n-1]=structuredClone(requestBody.values[0]);}
+  get:async({range})=>{const row=range.match(/!A(\d+):(?:T|U|AA)\1$/);return {data:{values:structuredClone(row?[rows[Number(row[1])-1]||[]]:rows)}};},
+  update:async({range,requestBody})=>{const match=range.match(/!(A|U)(\d+)/),n=Number(match[2]);if(match[1]==='U')rows[n-1].splice(20,requestBody.values[0].length,...structuredClone(requestBody.values[0]));else rows[n-1]=structuredClone(requestBody.values[0]);}
  },
  batchUpdate:async({requestBody})=>{
   for(const r of requestBody.requests){if(r.addSheet)tab=true;if(r.updateCells){const n=r.updateCells.range.startRowIndex;rows[n][1]='IMAGE';}}

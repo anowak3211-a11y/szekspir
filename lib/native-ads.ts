@@ -5,10 +5,10 @@ import {driveUploadTarget} from './drive-video';
 import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {mutate,readState} from './store';
-import {NATIVE_TAB,NATIVE_HEADERS,nativeRow,nativeFromRow,parseNativeExport,type NativeAd} from './native-ad-model';
+import {NATIVE_TAB,NATIVE_HEADERS,NATIVE_WORK_HEADERS,nativeRow,nativeFromRow,parseNativeExport,type NativeAd} from './native-ad-model';
 const spreadsheetId=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
 const client=()=>google.sheets({version:'v4',auth:sheetAuth()});
-const range=`'${NATIVE_TAB}'!A1:T2000`;
+const range=`'${NATIVE_TAB}'!A1:AA2000`;
 async function library(){
  const sheets=client(),id=spreadsheetId();
  const meta=(await sheets.spreadsheets.get({spreadsheetId:id,fields:'sheets.properties'})).data.sheets||[];
@@ -31,7 +31,7 @@ async function createLibrary(l:Awaited<ReturnType<typeof library>>){
   {setBasicFilter:{filter:{range:{sheetId,startRowIndex:0,endRowIndex:2000,startColumnIndex:0,endColumnIndex:20}}}}
  ]}});
 }
-function imageType(b:Buffer){if(b.length>=8&&b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))return {mime:'image/png',ext:'png'};if(b.length>=3&&b[0]===255&&b[1]===216&&b[2]===255)return {mime:'image/jpeg',ext:'jpg'};if(b.length>=12&&b.subarray(0,4).toString()==='RIFF'&&b.subarray(8,12).toString()==='WEBP')return {mime:'image/webp',ext:'webp'};throw Error('The source is not a supported image.');}
+export function imageType(b:Buffer){if(b.length>=8&&b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))return {mime:'image/png',ext:'png'};if(b.length>=3&&b[0]===255&&b[1]===216&&b[2]===255)return {mime:'image/jpeg',ext:'jpg'};if(b.length>=12&&b.subarray(0,4).toString()==='RIFF'&&b.subarray(8,12).toString()==='WEBP')return {mime:'image/webp',ext:'webp'};throw Error('The source is not a supported image.');}
 async function saveImage(ad:NativeAd){
  const {drive,folderId}=await driveUploadTarget();
  const key=`native-image-${ad.id}`;let fileId=(await readState<{fileId?:string}>(key,{})).value.fileId;
@@ -46,19 +46,20 @@ export async function importNativeAds(input:unknown){
  const ads=parseNativeExport(input);if(ads.length>10)throw Error('Save up to 10 ads per request.');
  return withEditorLocks(['native-ads-library'],async()=>{
   let l=await library();if(!l.tab){await createLibrary(l);l=await library();}
+  await ensureWorkColumns(l);
   const results:{id:string;status:'saved'|'existing'|'failed';error?:string}[]=[];
   for(const ad of ads){try{
    const prior=l.rows.filter(r=>r[0]===ad.id);if(prior.length>1)throw Error('Duplicate IDs in Native Ads.');if(prior.length){results.push({id:ad.id,status:'existing'});continue;}
    let row=l.rows.length+1;if(row>2000)throw Error('Native Ads library is full (1,999 ads).');
-   const fileId=await saveImage(ad),values=nativeRow(ad,fileId);
-   await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:T${row}`,valueInputOption:'RAW',requestBody:{values:[values]}});
+   const fileId=await saveImage(ad),values=[...nativeRow(ad,fileId),ad.headline||''];
+   await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:U${row}`,valueInputOption:'RAW',requestBody:{values:[values]}});
    const sheetId=l.tab!.sheetId!;
    await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[
     {updateCells:{range:{sheetId,startRowIndex:row-1,endRowIndex:row,startColumnIndex:1,endColumnIndex:2},rows:[{values:[{userEnteredValue:{formulaValue:`=IMAGE("${ad.imageUrl}",1)`},note:'Original image preview. A permanent copy is saved in Drive (columns I–J) and loaded by Szekspir through the protected image endpoint.'}]}],fields:'userEnteredValue,note'}},
     {repeatCell:{range:{sheetId,startRowIndex:row-1,endRowIndex:row,startColumnIndex:0,endColumnIndex:20},cell:{userEnteredFormat:{verticalAlignment:'TOP',wrapStrategy:'CLIP',textFormat:{fontSize:10}}},fields:'userEnteredFormat'}},
     {updateDimensionProperties:{range:{sheetId,dimension:'ROWS',startIndex:row-1,endIndex:row},properties:{pixelSize:180},fields:'pixelSize'}}
    ]}});
-   const readback=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:T${row}`})).data.values?.[0]||[];
+   const readback=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:U${row}`})).data.values?.[0]||[];
    if(values.some((v,i)=>i!==1&&String(v)!==String(readback[i]??'')))throw Error('Sheet readback did not match. Inspect this row before retrying.');
    l.rows.push(readback);results.push({id:ad.id,status:'saved'});
   }catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});l=await library();}}
@@ -66,3 +67,23 @@ export async function importNativeAds(input:unknown){
  });
 }
 export async function nativeImage(id:string){const ad=await getNativeAd(id);if(!/^[-\w]{10,100}$/.test(ad.driveFileId))throw Error('Missing saved image.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId:ad.driveFileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>12*1024*1024)throw Error('Saved image exceeds size limit.');return {buffer,...imageType(buffer)};}
+
+async function ensureWorkColumns(l:Awaited<ReturnType<typeof library>>){
+ if(!l.tab)throw Error('Import a source before preparing it.');
+ const existing=l.rows[0]?.slice(20)||[];
+ if(existing.some((v,i)=>v&&v!==NATIVE_WORK_HEADERS[i]))throw Error('Antki work columns conflict with existing Sheet data.');
+ if((l.tab.gridProperties?.columnCount||20)<27)await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[{appendDimension:{sheetId:l.tab.sheetId,dimension:'COLUMNS',length:27-(l.tab.gridProperties?.columnCount||20)}}]}});
+ await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!U1:AA1`,valueInputOption:'RAW',requestBody:{values:[NATIVE_WORK_HEADERS]}});
+}
+export async function saveNativeWorkOutput(id:string,sourceText:string,output:{headline:string;text:string;imageUrl:string;status:string}){
+ return withEditorLocks(['native-ads-library'],async()=>{
+  const l=await library();await ensureWorkColumns(l);
+  const matches=l.rows.flatMap((r,i)=>r[0]===id?[{r,i}]:[]);if(matches.length!==1)throw Error('Source is missing or duplicated.');
+  const {r,i}=matches[0];if(nativeFromRow(r,i+1,l.sheetUrl).primaryText!==sourceText)throw Error('The US source changed. Review before saving UK work.');
+  const values=[output.headline,...(await import('./native-ad-model')).textParts(output.text),output.imageUrl,output.status];
+  const range=`'${NATIVE_TAB}'!V${i+1}:AA${i+1}`;
+  await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range,valueInputOption:'RAW',requestBody:{values:[values]}});
+  const actual=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range})).data.values?.[0]||[];
+  if(values.some((v,i)=>v!==String(actual[i]??'')))throw Error('UK Sheet readback failed. Retry saving; no new generation is needed.');
+ });
+}
