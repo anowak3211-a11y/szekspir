@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Owner approval and required person variation — 14 October 2026
+
+- New Antki generations must change at least one recognisable characteristic of a visible anonymous person (hair colour/style or face), while preserving the scene, age, expression and original realism. Camera/background variation alone is insufficient with people. Vision review explicitly checks personChanged; no-person scenes are exempt. Older images without this check require regeneration before approval.
+- Approve at the bottom exports only the saved finished UK text/photo to Upload Antki in the Admin workbook. A:P follows existing Upload headers; Q:R holds lossless long-copy continuation, S:X approval time/revision/workspace/status/preview/original link. Unspecified desire, funnel, product angle, landing page, descriptions and extra variants are left blank, without invented copy or offer changes. Your work is the permanent generated Drive photo.
+- Approvals are immutable snapshots keyed by advert ID + revision. Exact retry reuses the row, refuses manual changes and verifies readback before marking approved. Pending export blocks editing/regeneration; editing or regenerating an approved version clears its current approval and requires explicit reapproval, while preserving previous exported rows. No automatic advertising-platform upload or approval of test references is performed.
+
 ## Paired review, character counts and distinct photo requirement — 14 October 2026
 
 - Owner replaced the library subtitle with exactly Twoje antki and requested character counts instead of word counts in rows/workspaces. Counts include spaces/newlines and Unicode code points. Source characters are appended at AB, with the existing reference row backfilled; original columns and word-limit guards remain intact.

@@ -1,4 +1,6 @@
 export function antkiStageLabel(status:string,phase:string){
+ if(status==='approved')return 'Approved · Upload Sheet';
+ if(status==='exporting')return 'Approval export needs retry';
  if(status==='ready')return 'Ready for review';
  if(status==='uncertain')return 'Check previous request';
  if(status==='failed')return 'Needs attention';
