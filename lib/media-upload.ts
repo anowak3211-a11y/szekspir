@@ -14,7 +14,7 @@ export function uploadFailure(error:unknown){
  return new Error('The browser could not confirm the upload after retrying. The connection to storage may have been interrupted. Please try again.');
 }
 export async function uploadMedia(path:string,file:File|Blob,onProgress?:(percentage:number)=>void):Promise<{url:string}>{
- const contentType=file.type||(/\.mp3$/i.test(path)?'audio/mpeg':/\.mov$/i.test(path)?'video/quicktime':'video/mp4');
+ const contentType=file.type||(/\.(?:jpg|jpeg)$/i.test(path)?'image/jpeg':/\.png$/i.test(path)?'image/png':/\.webp$/i.test(path)?'image/webp':/\.mp3$/i.test(path)?'audio/mpeg':/\.mov$/i.test(path)?'video/quicktime':'video/mp4');
  const r=await fetch('/api/upload',{signal:AbortSignal.timeout(30000),method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'sign',path,size:file.size,contentType})});
  const target=await r.json();if(!r.ok)throw Error(target.error||'Could not start upload');
  if(target.backend==='blob'){

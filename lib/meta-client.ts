@@ -1,0 +1,52 @@
+import {createHmac} from 'node:crypto';
+import {readState,mutate} from './store';
+import {numericId} from './meta-uploader-model';
+
+type Connection={token?:string;expiresAt?:number;connectedAt?:number};
+const KEY='meta-uploader-connection';
+export const META_VERSION=process.env.META_API_VERSION||'v26.0';
+function version(){if(!/^v\d+\.0$/.test(META_VERSION))throw Error('Invalid Meta API version.');return META_VERSION;}
+export class MetaError extends Error{
+ constructor(public code:number,public subcode:number,public transient:boolean,public uncertain:boolean,message:string){super(message);this.name='MetaError';}
+}
+export async function metaConnection(){return (await readState<Connection>(KEY,{})).value;}
+export async function metaToken(){const c=await metaConnection();const token=c.token||process.env.META_ACCESS_TOKEN;if(!token||c.token&&c.expiresAt&&c.expiresAt<Date.now())throw Error('Connect Meta in the uploader settings.');return token;}
+export async function connectionStatus(){const c=await metaConnection();return {connected:!!(c.token||process.env.META_ACCESS_TOKEN)&&!(c.token&&c.expiresAt&&c.expiresAt<Date.now()),oauthConfigured:!!(process.env.META_APP_ID&&process.env.META_APP_SECRET),expiresAt:c.expiresAt,connectedAt:c.connectedAt};}
+export async function saveMetaToken(token:string,expiresAt?:number){
+ if(typeof token!=='string'||token.length<20||token.length>4096||/[\r\n\s]/.test(token))throw Error('Invalid Meta access token.');
+ // Validate the supplied credential before replacing a working connection.
+ await graph<{id:string}>('me',{fields:'id'},'GET',token);
+ await mutate<Connection,void>(KEY,{},c=>{c.token=token;c.expiresAt=expiresAt;c.connectedAt=Date.now();});
+}
+export async function graph<T=Record<string,unknown>>(path:string,params:Record<string,unknown>={},method:'GET'|'POST'='GET',credential?:string,video=false):Promise<T>{
+ if(!/^(?:me|act_\d+|\d+)(?:\/[a-z_]+)?$/.test(path))throw Error('Invalid Meta operation.');
+ const token=credential||await metaToken(),url=new URL(`https://${video?'graph-video':'graph'}.facebook.com/${version()}/${path}`),body=new URLSearchParams();
+ for(const [key,value] of Object.entries(params))if(value!==undefined)body.set(key,typeof value==='string'?value:JSON.stringify(value));
+ if(process.env.META_APP_SECRET)body.set('appsecret_proof',createHmac('sha256',process.env.META_APP_SECRET).update(token).digest('hex'));
+ if(method==='GET')url.search=body.toString();
+ let response:Response,data:Record<string,unknown>;
+ try{response=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});data=await response.json();}
+ catch{throw new MetaError(0,0,true,method==='POST',method==='POST'?'Meta did not confirm the request. Check its result before retrying.':'Meta is temporarily unavailable.');}
+ if(!response.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;is_transient?:boolean;error_user_msg?:string}|undefined;const code=Number(e?.code||response.status),subcode=Number(e?.error_subcode||0);const rate=[4,17,32,613,429].includes(code);const detail=String(e?.error_user_msg||'').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,300);throw new MetaError(code,subcode,rate||!!e?.is_transient||response.status>=500,response.status>=500,`Meta rejected the request (${code}${subcode?'/'+subcode:''}).${detail?' '+detail:''}`);}
+ return data as T;
+}
+export async function graphList(path:string,fields:string,extra:Record<string,unknown>={},token?:string,maxPages=20){
+ const result:Record<string,unknown>[]=[];let after:string|undefined;
+ for(let i=0;i<maxPages;i++){const r=await graph<{data:Record<string,unknown>[];paging?:{cursors?:{after?:string};next?:string}}>(path,{fields,limit:100,...extra,after},'GET',token);if(!Array.isArray(r.data))throw Error('Invalid Meta list response.');result.push(...r.data);if(!r.paging?.next)return result;const next=r.paging.cursors?.after;if(!next||next===after)throw Error('Meta pagination could not be confirmed.');after=next;}
+ throw Error('Too many Meta results. Narrow the selected account or ad set.');
+}
+export async function metaAccounts(token?:string){return graphList('me/adaccounts','id,name,currency,account_status',{},token);}
+export async function metaResources(kind:string,accountId:string,campaignId?:string){
+ const account=numericId(accountId,'account');
+ if(kind==='campaigns')return graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget');
+ if(kind==='pages')return graphList(`act_${account}/promote_pages`,'id,name');
+ if(kind==='adsets'){const campaign=numericId(campaignId,'campaign'),c=await graph<{account_id:string}>(campaign,{fields:'account_id'});if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,promoted_object');}
+ throw Error('Unknown resource.');
+}
+export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string}){
+ const set=await graph<{account_id:string;campaign_id:string;destination_type?:string}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type'});
+ if(set.account_id!==ad.accountId||set.campaign_id!==ad.campaignId)throw Error('The ad set does not belong to the selected account and campaign.');
+ const campaign=await graph<{status:string}>(ad.campaignId,{fields:'status'});if(campaign.status!=='PAUSED')throw Error('This uploader requires a paused campaign. Pause it in Meta first.');
+ if(set.destination_type&&set.destination_type!=='WEBSITE')throw Error('Choose a Website ad set.');
+ const pages=await metaResources('pages',ad.accountId);if(!pages.some(p=>p.id===ad.pageId))throw Error('Selected Page is not available for this account.');
+}
