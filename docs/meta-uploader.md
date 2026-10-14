@@ -13,9 +13,9 @@ Panel: `/uploader`. Konfiguracja dla właściciela: `/api/meta/setup`.
 
 ## Integracja
 
-[Przygotowana konfiguracja nowej aplikacji Szekspir Ads](meta-app-setup.md).
+[Przygotowana konfiguracja nowej aplikacji SZEKSPIR](meta-app-setup.md).
 
-Natywna Meta Marketing API v26.0 (wersja konfigurowalna przez `META_API_VERSION`). Potrzebna własna aplikacja Meta i odpowiedni dostęp do kont/stron. W Vercel ustawić prywatnie `META_APP_ID`, `META_APP_SECRET`, zatwierdzić callback `https://szekspir.vercel.app/api/meta/callback`, a następnie użyć Facebook Login w panelu. Żądane zakresy: ads_management, ads_read, pages_show_list, pages_read_engagement. Nowe zgody właściciel potwierdza w normalnym ekranie Meta.
+Natywna Meta Marketing API v26.0 (wersja konfigurowalna przez `META_API_VERSION`). Potrzebna własna aplikacja Meta i odpowiedni dostęp do kont/stron. Dane można zapisać bezpośrednio w prywatnym formularzu aplikacji w `/uploader` (szyfrowany store, sekret niewidoczny w odczycie) lub w Vercel ustawić prywatnie `META_APP_ID`, `META_APP_SECRET`, `META_LOGIN_CONFIG_ID`, zatwierdzić callback `https://szekspir.vercel.app/api/meta/callback`, a następnie użyć Facebook Login w panelu. Żądane zakresy: ads_management, ads_read, pages_show_list, pages_read_engagement. Nowe zgody właściciel potwierdza w normalnym ekranie Meta.
 
 Alternatywnie istniejący token można zapisać w chronionym formularzu lub serwerowej zmiennej `META_ACCESS_TOKEN`. Połączenie jest sprawdzane przed zastąpieniem; tokeny nie wracają do klienta, URL przeglądarki, logów ani repo. Przechowywane są przez istniejący szyfrowany CAS store. Nie zmieniać klucza szyfrowania/state backendu w ramach instalacji.
 
