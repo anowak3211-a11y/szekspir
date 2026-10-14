@@ -31,6 +31,9 @@
         }
       ]
     },
+    "app/api/queues/meta-upload/route.ts": {
+      "experimentalTriggers": [{"type": "queue/v2beta", "topic": "szekspir-meta-upload"}]
+    },
     "app/api/queues/antki/route.ts": {
       "experimentalTriggers": [
         {

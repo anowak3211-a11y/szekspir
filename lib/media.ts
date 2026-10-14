@@ -30,7 +30,8 @@ export async function signMediaUpload(path:string,size:number,contentType:string
  checkPath(path);
  if(!path.startsWith('sources/'))throw Error('Invalid upload path');
  if(!Number.isSafeInteger(size)||size<=0||size>MEDIA_LIMIT)throw Error('Choose a file smaller than 2 GB.');
- if(!['video/mp4','video/quicktime','video/webm','audio/mpeg','audio/mp4','audio/wav','audio/x-wav'].includes(contentType))throw Error('Unsupported media type');
+ if(!['video/mp4','video/quicktime','video/webm','audio/mpeg','audio/mp4','audio/wav','audio/x-wav','image/jpeg','image/png','image/webp'].includes(contentType))throw Error('Unsupported media type');
+ if(contentType.startsWith('image/')&&size>24*1024*1024)throw Error('Image exceeds the 24 MB limit.');
  const client=storageClient(),bucket=client.storage.from(MEDIA_BUCKET);
  const {data,error}=await bucket.createSignedUploadUrl(path,{upsert:false});
  if(error||!data)throw Error('Could not start upload. Please retry.');

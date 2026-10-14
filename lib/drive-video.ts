@@ -5,7 +5,7 @@ import {openVideoStream} from './stream-media';
 import {MEDIA_LIMIT} from './media';
 import type {Job} from './jobs';
 import {driveConnection,oauthClient} from './drive-oauth';
-async function driveClient(){
+export async function driveClient(){
  const {active}=await driveConnection();
  if(active){const auth=oauthClient(active);auth.setCredentials({refresh_token:active.refreshToken});return {drive:google.drive({version:'v3',auth}),human:true};}
  const {GOOGLE_DRIVE_CLIENT_ID:clientId,GOOGLE_DRIVE_CLIENT_SECRET:clientSecret,GOOGLE_DRIVE_REFRESH_TOKEN:refreshToken}=process.env;
