@@ -1,3 +1,4 @@
+import {reviewAntkiImage} from './antki-image-review';
 import {send} from '@vercel/queue';
 import {Readable} from 'node:stream';
 import {getNativeAd,imageType,saveNativeWorkOutput} from './native-ads';
@@ -52,10 +53,15 @@ export async function consumeAntki(id:string){
     delay=0;
    }else if(work.phase==='image'){
     if(!process.env.KIE_API_KEY)throw Error('Kie image generation is not configured.');
-    work.pending='image';await persist(work);work.imageTaskId=await submitAntkiImage(work);work.pending=undefined;work.phase='poll';delay=20;
+    work.imageAttempts=(work.imageAttempts||0)+1;work.pending='image';await persist(work);work.imageTaskId=await submitAntkiImage(work);work.pending=undefined;work.phase='poll';delay=20;
    }else if(work.phase==='poll'){
     work.imageResultUrl=await pollAntkiImage(work.imageTaskId!);work.polls++;
-    if(work.imageResultUrl){work.phase='archive';delay=0;}else if(work.polls>=180)throw Error('Image still processing. Retry resumes the existing task without another generation.');else delay=Math.min(60,20+work.polls*2);
+    if(work.imageResultUrl){work.phase='check';delay=0;}else if(work.polls>=180)throw Error('Image still processing. Retry resumes the existing task without another generation.');else delay=Math.min(60,20+work.polls*2);
+   }else if(work.phase==='check'){
+    work.pending='review';await persist(work);work.imageReview=await reviewAntkiImage(work);work.pending=undefined;
+    if(work.imageReview.different&&work.imageReview.realistic&&work.imageReview.congruent){work.phase='archive';delay=0;}
+    else if((work.imageAttempts||1)<2){work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imagePrompt=antkiImagePrompt(work);work.phase='image';delay=0;}
+    else throw Error('Image rejected: '+work.imageReview.change+' Generate a new variation; this image has not been delivered.');
    }else if(work.phase==='archive'){await archiveImage(work);work.phase='deliver';delay=0;
    }else if(work.phase==='deliver'){
     await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};work.phase='done';work.status='ready';
@@ -74,4 +80,15 @@ export async function editAntkiWork(id:string,text:unknown,headline:unknown,revi
   work.ukText=text;work.ukHeadline=headline;work.revision++;work.phase='deliver';work.status='queued';work.error=undefined;await persist(work);return work;
  });await scheduleAntki(id);return work;
 }
-export async function antkiGeneratedImage(id:string){await getNativeAd(id);const work=await readAntkiWork(id);if(!work?.imageFileId)throw Error('UK image is not ready yet.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId:work.imageFileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>24*1024*1024)throw Error('Image exceeds size limit.');return {buffer,...imageType(buffer)};}
+export async function antkiGeneratedImage(id:string){await getNativeAd(id);const work=await readAntkiWork(id);const fileId=work?.imageFileId&&work.imageDriveUrl?.includes(`/d/${work.imageFileId}/`)?work.imageFileId:work?.previousImage?.fileId;if(!fileId)throw Error('UK image is not ready yet.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>24*1024*1024)throw Error('Image exceeds size limit.');return {buffer,...imageType(buffer)};}
+
+export async function regenerateAntkiImage(id:string){
+ key(id);const work=await withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);if(!work||work.pending||!['ready','failed'].includes(work.status)||!work.ukText)throw Error('Finish or review the previous request before generating a new photo.');
+  const ad=await getNativeAd(id);if(ad.primaryText!==work.sourceText||ad.imageUrl!==work.sourceImage)throw Error('The source changed; review it first.');
+  if(!work.delivered&&work.phase==='done')work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};
+  if(work.imageFileId&&work.imageDriveUrl)work.previousImage={fileId:work.imageFileId,url:work.imageDriveUrl};
+  work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imageFileId=undefined;work.imageReview=undefined;work.imageAttempts=0;work.polls=0;
+  work.imagePrompt=antkiImagePrompt(work);work.phase='image';work.status='queued';work.error=undefined;work.revision++;await persist(work);return work;
+ });await scheduleAntki(id);return work;
+}

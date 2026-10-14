@@ -1,5 +1,13 @@
 # Current development handoff — 28 September 2026
 
+## Paired review, character counts and distinct photo requirement — 14 October 2026
+
+- Owner replaced the library subtitle with exactly Twoje antki and requested character counts instead of word counts in rows/workspaces. Counts include spaces/newlines and Unicode code points. Source characters are appended at AB, with the existing reference row backfilled; original columns and word-limit guards remain intact.
+- Changes are highlighted by default. A separate paired primary-text surface aligns source/UK hard lines through insertions, links hover/touch/keyboard focus on matching rows and synchronises both scroll containers. Resizing equalises row heights on desktop; mobile retains the selected USA/UK tab. Plain UK editing remains available without modifying the source.
+- Every generated photo must have a clearly observable modest variation (default 10–20 degree camera/viewpoint change or changed surroundings) at the original photographic realism. Merely adding a curtain, colour shift or upscale is insufficient. New generations pass normalised-pixel duplicate detection and a vision review for difference, realism and scene congruence before archival/delivery. At most one automatic replacement is attempted; repeated rejection stays Needs attention and is not delivered as ready.
+- Generate different photo reruns only the image path, preserving UK text and the prior image until a reviewed replacement is archived. New image URLs invalidate browser caching; previous images remain in Drive. Provider reservations retain the ambiguous-request guard for image review too. Sharp is an explicit existing-version dependency for bounded decoding and duplicate fingerprints, not a migration of VMake.
+- Focused offline checks cover Unicode counts, inserted-line alignment, exact highlights, identical/recompressed rejection without paid vision calls, image-only regeneration and bounded non-delivery of near-identical images.
+
 ## Owner-authorised live Antki test and hardening — 14 October 2026
 
 - Owner explicitly authorised a real sample download, paid localisation/image generation, live Sheet testing and ongoing publication for a one-hour test session. One narrowly selected Bloomwise parent/saffron reference (not a claim of a winning or owned campaign) completed the production pipeline. The reference row is marked TEST REFERENCE. Local result/research files remain outside this public repository.
