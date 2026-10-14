@@ -1,5 +1,14 @@
 # Current development handoff — 28 September 2026
 
+## Native image ads library — 14 October 2026
+
+- Owner requested a Trendtrack → Google Sheet → Szekspir source workflow. `/native-ads` imports normalized Trendtrack search JSON (file or paste), saves original primary text without rewriting, and archives original images in the connected Drive folder. Sources live in a separate Native Ads tab in the Admin workbook; existing Daily Briefs/editor layouts are preserved.
+- Each import is explicit. The connected research MCP supplies exports; the web app does not reuse Codex OAuth credentials, independently search Trendtrack, or run paid copy/audio generation during import. The client imports one ad per request with visible progress and retry; source IDs deduplicate without overwriting manual Sheet changes. Drive IDs are checkpointed before upload so partial retries reuse images.
+- Storage supports 15,000 words / 135,000 characters, split losslessly across three 45,000-character cells. Native image URLs are restricted to Trendtrack image assets, downloads enforce public IP/size/time limits and image magic. Sheet rows preserve a media preview, permanent Drive URL/file ID, original Meta link, landing page, status and reach snapshots. Reach/spend estimates are not conversion or efficacy evidence.
+- Szekspir reads sources from Sheet, loads the permanent Drive image through an authenticated endpoint, and can open the original primary text in text mode with voiceover/hooks disabled. Native source ID/image URL persist in jobs and image links follow existing master/editor media-reference delivery. Starting localisation remains an explicit paid action and retains existing long-script/provider limits; import itself does not generate or rewrite copy.
+- Offline native regression checks cover source fidelity, 15k-word/cell splitting, unsafe/video/duplicate rejection, image archiving, readback, idempotency and manual edits. Source exports and research copies stay outside the public repo.
+
+
 ## Your work at J, Likes removed — 13 October 2026
 
 - Owner requested moving native Your work from R to J and removing Likes. The old/new layouts are detected from J1. Copy/hooks/video/VO remain K:Q; assignment, approval and status mapping follow the shifted columns, and production formulas reference Your work at J. Prior-cell guards resolve actual mapped columns rather than positional assumptions. Header-based sync/copy/media workflows remain supported.

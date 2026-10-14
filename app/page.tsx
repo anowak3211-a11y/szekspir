@@ -7,6 +7,7 @@ export default function Home() {
       <h1>🎬 Ad Ops</h1>
       <p className="sub">Pick a tool.</p>
       <div className="tiles">
+        <a className="tile big" href="/native-ads"><span className="tile-icon">🖼️</span><span className="tile-title">NATIVE ADS</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
         <a className="tile big" href="/szekspir">
           <span className="tile-icon">🎭</span>
           <span className="tile-title">SZEKSPIR</span>
