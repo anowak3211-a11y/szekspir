@@ -40,7 +40,7 @@ export async function graphList(path:string,fields:string,extra:Record<string,un
 }
 export async function metaAccounts(token?:string){return graphList('me/adaccounts','id,name,currency,account_status',{},token);}
 export async function metaResources(kind:string,accountId:string,campaignId?:string){
- const account=numericId(accountId,'account');
+ const account=numericId(accountId.replace(/^act_/,''),'account');
  if(kind==='campaigns')return graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget');
  if(kind==='pages')return graphList(`act_${account}/promote_pages`,'id,name');
  if(kind==='adsets'){const campaign=numericId(campaignId,'campaign'),c=await graph<{account_id:string}>(campaign,{fields:'account_id'});if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,promoted_object');}
