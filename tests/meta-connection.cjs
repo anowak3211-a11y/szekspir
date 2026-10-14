@@ -1,0 +1,22 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module'),{createHmac}=require('node:crypto');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const states=new Map(),calls=[],original=Module._load;const fakeSecret='OfflineFixtureSecret0000000000000';
+Module._load=function(n,p,i){if(n==='./store'&&/\/lib\/meta-(client|oauth)\.ts$/.test(p?.filename||''))return {readState:async(k,f)=>({value:structuredClone(states.get(k)??f)}),mutate:async(k,f,fn)=>{const value=structuredClone(states.get(k)??f),out=fn(value);states.set(k,value);return out;}};return original.call(this,n,p,i);};
+const originalFetch=global.fetch;global.fetch=async(url,options)=>{const u=new URL(url);assert.equal(u.hostname,'graph.facebook.com');calls.push({u,options});if(u.pathname.endsWith('/oauth/access_token'))return Response.json({access_token:'offline_access_token_for_test_only',expires_in:3600});if(u.pathname.endsWith('/campaigns')||u.pathname.endsWith('/promote_pages'))return Response.json({data:[]});if(u.searchParams.get('fields')==='account_id')return Response.json({account_id:'100000000001'});if(u.pathname.endsWith('/adsets'))return Response.json({data:[]});return Response.json({id:'100000000009'});};
+const client=require('../lib/meta-client.ts'),oauth=require('../lib/meta-oauth.ts');
+(async()=>{
+ await client.saveMetaApp('100000000001',fakeSecret,'100000000002');assert.equal(calls.length,0,'App settings do not grant access or contact Meta');const status=await client.connectionStatus();assert.equal(status.oauthConfigured,true);assert.equal(status.connected,false);assert.equal(status.appId,'100000000001');assert.equal(status.loginConfigId,'100000000002');assert(!JSON.stringify(status).includes(fakeSecret));assert(!Object.hasOwn(status,'token'));assert(!Object.hasOwn(status,'appSecret'));
+ await assert.rejects(()=>client.saveMetaApp('100000000001','short','100000000002'),/secret/);assert.equal(states.get('meta-uploader-connection').appSecret,fakeSecret);
+ const attempt=await oauth.startMetaOauth(),url=new URL(attempt.url);assert.equal(url.searchParams.get('config_id'),'100000000002');assert.equal(url.searchParams.get('response_type'),'code');assert.equal(url.searchParams.get('override_default_response_type'),'true');assert(!url.searchParams.has('client_secret'));assert(!url.searchParams.has('access_token'));assert.equal(attempt.state.length,43);await assert.rejects(()=>oauth.finishMetaOauth(attempt.state,'x'.repeat(43),'fixture_code'),/Invalid sign-in/);assert.equal(calls.length,0);
+ await oauth.finishMetaOauth(attempt.state,attempt.state,'fixture_code');assert.equal((await client.connectionStatus()).connected,true);assert(!JSON.stringify(await client.connectionStatus()).includes('offline_access_token'));assert((await client.connectionStatus()).expiresAt>Date.now());assert.equal(calls.at(-1).u.searchParams.get('appsecret_proof'),createHmac('sha256',fakeSecret).update('offline_access_token_for_test_only').digest('hex'));
+ const count=calls.length;await assert.rejects(()=>oauth.finishMetaOauth(attempt.state,attempt.state,'fixture_code'),/expired/);assert.equal(calls.length,count,'OAuth state is single use');await assert.rejects(()=>client.saveMetaApp('100000000003',fakeSecret,'100000000002'),/different application/);assert.equal((await client.connectionStatus()).appId,'100000000001');assert.equal((await client.connectionStatus()).connected,true);
+ for(const account of ['100000000001','act_100000000001']){
+  for(const kind of ['campaigns','pages','adsets']){
+   assert.deepEqual(await client.metaResources(kind,account,'100000000004'),[]);
+   const path=kind==='adsets'?'100000000004/adsets':`act_100000000001/${kind==='pages'?'promote_pages':'campaigns'}`;
+   assert.equal(calls.at(-1).u.pathname,`/${client.META_VERSION}/${path}`);
+  }
+ }
+ const beforeInvalid=calls.length;await assert.rejects(()=>client.metaResources('campaigns','act_act_100000000001'),/Invalid account/);assert.equal(calls.length,beforeInvalid);
+ console.log('PASS: private app settings, redacted status, Business Login code flow, app secret proof, single-use OAuth state, unchanged connection on invalid or conflicting settings, discovery with plain/prefixed account IDs. No live Meta requests.');
+})().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{global.fetch=originalFetch;});

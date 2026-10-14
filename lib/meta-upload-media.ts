@@ -1,9 +1,8 @@
 import {withMetaBudget,recordMetaUsage,isMetaRateLimit,MetaBudgetWait} from './meta-rate-limit';
 import {lookup} from 'node:dns/promises';
 import {isIP} from 'node:net';
-import {createHmac} from 'node:crypto';
 import {safeDownload,publicIP} from './safe-fetch';
-import {graph,metaToken,META_VERSION,MetaError} from './meta-client';
+import {graph,metaToken,metaProof,META_VERSION,MetaError} from './meta-client';
 import type {UploadItem} from './meta-uploader-model';
 import {driveClient} from './drive-video';
 
@@ -17,7 +16,7 @@ export async function originalImage(url:string){
 }
 export async function uploadImage(item:UploadItem){
  if(item.ad.media.kind!=='image')throw Error('Wrong media type.');const image=await originalImage(item.ad.media.url);if(!/^image\/(?:jpeg|png|webp)$/.test(image.contentType.split(';')[0]))throw Error('Choose an original JPEG, PNG or WebP.');
- const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),item.ad.media.filename);const token=await metaToken();let r:Response,d:{images?:Record<string,{hash?:string}>;error?:{code?:number;error_subcode?:number}}={};
+ const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),item.ad.media.filename);const token=await metaToken(),proof=await metaProof(token);if(proof)form.set('appsecret_proof',proof);let r:Response,d:{images?:Record<string,{hash?:string}>;error?:{code?:number;error_subcode?:number}}={};
  try{r=await withMetaBudget(async()=>{const response=await fetch(`https://graph.facebook.com/${META_VERSION}/act_${item.ad.accountId}/adimages`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body:form,signal:AbortSignal.timeout(90000)});d=await response.json();await recordMetaUsage(response.headers,isMetaRateLimit(Number(d.error?.code||response.status)));return response;});}catch(e){budgetWait(e);throw new MetaError(0,0,true,true,'Image upload was not confirmed. Check the library before retrying.');}
  const hash=d.images&&Object.values(d.images)[0]?.hash;if(!r.ok||!hash){const code=Number(d.error?.code||r.status),rate=isMetaRateLimit(code);throw Object.assign(new MetaError(code,Number(d.error?.error_subcode||0),rate||r.status>=500,r.status>=500,'Meta did not confirm the image upload.'),{rateLimited:rate,retryAfterSeconds:rate?300:undefined});}return hash;
 }
@@ -38,7 +37,7 @@ export async function transferOriginalChunk(item:UploadItem){
  const r=await drive.files.get({fileId:t.fileId,alt:'media',supportsAllDrives:true},{responseType:'stream',headers:{Range:`bytes=${t.start}-${t.end-1}`},timeout:60000,retry:false});
  const wanted=t.end-t.start,chunks:Buffer[]=[];let n=0;try{for await(const chunk of r.data as AsyncIterable<Uint8Array>){n+=chunk.length;if(n>wanted)throw Error('Drive did not honour the original byte range.');chunks.push(Buffer.from(chunk));}}finally{(r.data as {destroy:()=>void}).destroy();}
  if(n!==wanted||r.status!==206||!String(r.headers['content-range']).startsWith(`bytes ${t.start}-${t.end-1}/`))throw Error('Original video chunk could not be verified.');
- const body=new FormData();body.set('upload_phase','transfer');body.set('upload_session_id',t.sessionId);body.set('start_offset',String(t.start));body.set('video_file_chunk',new Blob([new Uint8Array(Buffer.concat(chunks))]),'original.mp4');const token=await metaToken();if(process.env.META_APP_SECRET)body.set('appsecret_proof',createHmac('sha256',process.env.META_APP_SECRET).update(token).digest('hex'));
+ const body=new FormData();body.set('upload_phase','transfer');body.set('upload_session_id',t.sessionId);body.set('start_offset',String(t.start));body.set('video_file_chunk',new Blob([new Uint8Array(Buffer.concat(chunks))]),'original.mp4');const token=await metaToken(),proof=await metaProof(token);if(proof)body.set('appsecret_proof',proof);
  let response:Response,d:{start_offset?:string;end_offset?:string;error?:{code?:number;error_subcode?:number;error_data?:{start_offset?:string;end_offset?:string}}}={};
  try{response=await withMetaBudget(async()=>{const r=await fetch(`https://graph-video.facebook.com/${META_VERSION}/act_${item.ad.accountId}/advideos`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body,signal:AbortSignal.timeout(90000)});d=await r.json();await recordMetaUsage(r.headers,isMetaRateLimit(Number(d.error?.code||r.status)));return r;});}catch(e){budgetWait(e);throw new MetaError(0,0,true,false,'Video transfer interrupted. Resume uses this same upload session.');}
  if(d.error?.error_subcode===1363037&&d.error.error_data)return {...t,...offsets(d.error.error_data,t.size)};
