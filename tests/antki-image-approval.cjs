@@ -1,0 +1,14 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+let rows=[],tab=false,writes=0,failRead=false;
+const column=s=>[...s].reduce((n,c)=>n*26+c.charCodeAt(0)-64,0)-1;
+function read(range){const m=range.match(/!([A-Z]+)(\d+):([A-Z]+)(\d+)/);assert(m);return rows.slice(+m[2]-1,+m[4]).map(r=>(r||[]).slice(column(m[1]),column(m[3])+1));}
+const sheets={spreadsheets:{get:async()=>({data:{sheets:tab?[{properties:{title:'Upload Antki Images',sheetId:55}}]:[]}}),values:{
+get:async({range})=>{if(failRead&&range.includes('A2:X2')){failRead=false;throw Error('offline interrupted read');}return {data:{values:read(range)}};},
+batchGet:async({ranges})=>({data:{valueRanges:ranges.map(r=>({values:read(r)}))}}),
+update:async({range,requestBody})=>{writes++;const m=range.match(/!([A-Z]+)(\d+)/);rows[+m[2]-1]||=[];rows[+m[2]-1].splice(column(m[1]),requestBody.values[0].length,...requestBody.values[0]);}},
+batchUpdate:async({requestBody})=>{for(const r of requestBody.requests){if(r.addSheet)tab=true;if(r.updateCells)rows[r.updateCells.range.startRowIndex][2]=r.updateCells.rows[0].values[0].userEnteredValue.formulaValue;}return {data:{replies:[{addSheet:{properties:{sheetId:55,title:'Upload Antki Images'}}}]}};}}};
+const original=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/antki-image-approval-sheet.ts')){if(n==='googleapis')return {google:{sheets:()=>sheets}};if(n==='./sheets')return {sheetAuth:()=>({})};if(n==='./editor-locks')return {withEditorLocks:async(k,f)=>f()};}return original.call(this,n,p,i);};
+(async()=>{const service=require('../lib/antki-image-approval-sheet.ts');const work={id:'facebook_1234567890123',imageFileId:'image-one',imageDriveUrl:'https://drive.google.com/file/d/image-one/view',imageApproval:{approvedAt:'2026-10-14T20:00:00Z'}};
+const url=await service.exportApprovedAntkiImage(work);assert(url.includes('gid=55'));assert.equal(rows[1][1],work.imageDriveUrl);assert.equal(rows[1][6],'Image approved');assert(rows[1][2].startsWith('=IMAGE('));const before=writes;await service.exportApprovedAntkiImage(work);assert.equal(writes,before);assert.equal(rows.length,2);
+rows[1][1]='Manual';await assert.rejects(()=>service.exportApprovedAntkiImage(work),/edited/);rows[1][1]=work.imageDriveUrl;work.imageFileId='image-two';work.imageDriveUrl='https://drive.google.com/file/d/image-two/view';await service.exportApprovedAntkiImage(work);assert.equal(rows.length,3);assert.equal(rows[1][3],'image-one');assert.equal(rows[2][3],'image-two');console.log('PASS: image-only permanent link/preview export, deduplication by file ID, preserved earlier photos and refusal of manual Sheet conflicts.');})().catch(e=>{console.error(e);process.exitCode=1;});
