@@ -1,5 +1,14 @@
 # Current development handoff — 28 September 2026
 
+## Rapid Ads reference workflow — 15 October 2026
+
+- Owner requested matching the supplied Rapid Ads screens. Uploader now has the narrow icon rail, Geist typography, pale blue background, left upload controls/right creative preview, per-creative dialog, Dashboard, History and card-based Settings. Mobile stacks cards without horizontal page scrolling; icon controls are labelled and keyboard/touch alternatives accompany range/multi-selection.
+- Multiple original files, drag/drop, Sheet/TSV/JSON import, per-creative destinations and 1–5 exact primary/headline/description variants. Selected original images can form a manual 2–10-card carousel in source order; original image hashes and carousel card order/settings are verified. Automatic catalogue/format conversions stay locked off. No source transcoding or paid generation.
+- Encrypted per-account preferences with revision conflicts, up to 24 named templates, bulk template application, duplicate/remove selection, creative naming, UTM tags and explicit image/video/carousel enhancement switches. Default remains Enhance CTA + Relevant comments only. Existing prepared sets/pixels/placements/audiences/budgets remain inherited, not rewritten.
+- Dashboard reads actual Meta account daily insights and active ads using the shared limiter, ten-minute cache and account timezone; purchase aliases are not double counted. History reports module batches, not an invented import of past Rapid Ads or Ads Manager uploads. Team & Access reports the existing shared owner authentication; it does not pretend to implement paid seats, independent invitations or new Meta grants.
+- Offline coverage: account-isolated CAS preferences, variant/UTM/carousel readback, catalogue locks, purchase alias dedupe and dashboard cache; existing uploader recovery/limiter/core tests are retained. Live publication remains a separate owner-selected ad test; do not duplicate the completed historical batch.
+
+
 ## Shared Meta API limiter — 15 October 2026
 
 - Owner requested preventing repeat throttling after the 158-ad batch. The app now shares one durable budget across Graph, discovery and raw image/video transfers: one network request in flight, at least 5 seconds spacing, conservative ceiling 240 calls in the rolling hour. These are application safety settings, not a claim about Ads Manager’s unpublished browser quota. No parent campaign, budget, creative or targeting setting changes.
