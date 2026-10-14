@@ -2,6 +2,7 @@ import {withMetaBudget,recordMetaUsage,isMetaRateLimit,MetaBudgetWait} from './m
 import {createHmac} from 'node:crypto';
 import {readState,mutate} from './store';
 import {numericId} from './meta-uploader-model';
+import {cachedMetaRead,metaCacheKey} from './meta-read-cache';
 
 type Connection={token?:string;expiresAt?:number;connectedAt?:number;appId?:string;appSecret?:string;loginConfigId?:string};
 const KEY='meta-uploader-connection';
@@ -29,11 +30,11 @@ export async function graph<T=Record<string,unknown>>(path:string,params:Record<
  for(const [key,value] of Object.entries(params))if(value!==undefined)body.set(key,typeof value==='string'?value:JSON.stringify(value));
  const proof=await metaProof(token);if(proof)body.set('appsecret_proof',proof);
  if(method==='GET')url.search=body.toString();
- let response:Response,data:Record<string,unknown>={};
- try{response=await withMetaBudget(async()=>{const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});data=await r.json();const code=Number((data.error as {code?:number}|undefined)?.code||r.status);await recordMetaUsage(r.headers,isMetaRateLimit(code));return r;});}
+ let response:Response,data:Record<string,unknown>={},cooldown=0;
+ try{response=await withMetaBudget(async()=>{const started=Date.now(),r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});try{data=await r.json();}finally{const error=data.error as {code?:number;error_subcode?:number}|undefined;const code=Number(error?.code||r.status);cooldown=await recordMetaUsage(r.headers,isMetaRateLimit(code),{operation:path,method,status:r.status,code,subcode:Number(error?.error_subcode||0),durationMs:Date.now()-started});}return r;},method==='POST'?3:1);}
 
- catch(e){if(e instanceof MetaBudgetWait){const error=new MetaError(429,0,true,false,e.message);error.retryAfterSeconds=e.retryAfterSeconds;error.rateLimited=true;throw error;}throw new MetaError(0,0,true,method==='POST',method==='POST'?'Meta did not confirm the request. Check its result before retrying.':'Meta is temporarily unavailable.');}
- if(!response.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;is_transient?:boolean;error_user_msg?:string}|undefined;const code=Number(e?.code||response.status),subcode=Number(e?.error_subcode||0);const rate=isMetaRateLimit(code);const detail=String(e?.error_user_msg||'').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,300);const error=new MetaError(code,subcode,rate||!!e?.is_transient||response.status>=500,response.status>=500,`Meta rejected the request (${code}${subcode?'/'+subcode:''}).${detail?' '+detail:''}`);error.rateLimited=rate;if(rate)error.retryAfterSeconds=300;throw error;}
+ catch(e){if(e instanceof MetaBudgetWait)throw e;throw new MetaError(0,0,true,method==='POST',method==='POST'?'Meta did not confirm the request. Check its result before retrying.':'Meta is temporarily unavailable.');}
+ if(!response.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;is_transient?:boolean;error_user_msg?:string}|undefined;const code=Number(e?.code||response.status),subcode=Number(e?.error_subcode||0);const rate=isMetaRateLimit(code);const detail=String(e?.error_user_msg||'').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,300);const error=new MetaError(code,subcode,rate||!!e?.is_transient||response.status>=500,response.status>=500,`Meta rejected the request (${code}${subcode?'/'+subcode:''}).${detail?' '+detail:''}`);error.rateLimited=rate;if(rate)error.retryAfterSeconds=Math.max(300,cooldown);throw error;}
  return data as T;
 }
 export async function graphList(path:string,fields:string,extra:Record<string,unknown>={},token?:string,maxPages=20){
@@ -41,16 +42,17 @@ export async function graphList(path:string,fields:string,extra:Record<string,un
  for(let i=0;i<maxPages;i++){const r=await graph<{data:Record<string,unknown>[];paging?:{cursors?:{after?:string};next?:string}}>(path,{fields,limit:100,...extra,after},'GET',token);if(!Array.isArray(r.data))throw Error('Invalid Meta list response.');result.push(...r.data);if(!r.paging?.next)return result;const next=r.paging.cursors?.after;if(!next||next===after)throw Error('Meta pagination could not be confirmed.');after=next;}
  throw Error('Too many Meta results. Narrow the selected account or ad set.');
 }
-export async function metaAccounts(token?:string){return graphList('me/adaccounts','id,name,currency,account_status',{},token);}
+export async function cachedMetaResource<T>(operation:string,ttlMs:number,load:(token:string)=>Promise<T>,credential?:string){const token=credential||await metaToken();return cachedMetaRead(metaCacheKey(`${META_VERSION}:${token}`,operation),ttlMs,()=>load(token));}
+export async function metaAccounts(token?:string){return (await cachedMetaResource('accounts',300000,t=>graphList('me/adaccounts','id,name,currency,account_status',{},t),token)).value;}
 export async function metaResources(kind:string,accountId:string,campaignId?:string){
  const account=numericId(accountId.replace(/^act_/,''),'account');
- if(kind==='campaigns')return graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget');
- if(kind==='pages')return graphList(`act_${account}/promote_pages`,'id,name');
- if(kind==='adsets'){const campaign=numericId(campaignId,'campaign'),c=await graph<{account_id:string}>(campaign,{fields:'account_id'});if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,promoted_object');}
+ if(kind==='campaigns')return (await cachedMetaResource(`campaigns:${account}`,30000,t=>graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget',{},t))).value;
+ if(kind==='pages')return (await cachedMetaResource(`pages:${account}`,300000,t=>graphList(`act_${account}/promote_pages`,'id,name',{},t))).value;
+ if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,promoted_object',{},t);})).value;}
  throw Error('Unknown resource.');
 }
 export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string}){
- const set=await graph<{account_id:string;campaign_id:string;destination_type?:string}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type'});
+ const set=(await cachedMetaResource(`target:${ad.accountId}:${ad.adSetId}`,300000,t=>graph<{account_id:string;campaign_id:string;destination_type?:string}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type'},'GET',t))).value;
  if(set.account_id!==ad.accountId||set.campaign_id!==ad.campaignId)throw Error('The ad set does not belong to the selected account and campaign.');
  const campaign=await graph<{status:string}>(ad.campaignId,{fields:'status'});if(campaign.status!=='PAUSED')throw Error('This uploader requires a paused campaign. Pause it in Meta first.');
  if(set.destination_type&&set.destination_type!=='WEBSITE')throw Error('Choose a Website ad set.');

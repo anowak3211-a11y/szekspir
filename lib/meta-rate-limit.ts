@@ -1,52 +1,70 @@
 import {randomUUID} from 'node:crypto';
-import {mutate} from './store';
+import {mutate,readState} from './store';
 const KEY='meta-api-shared-budget';
-type Budget={calls:number[];lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number};
+export type WaitReason='busy'|'spacing'|'local_budget'|'provider_cooldown';
+export type MetaDiagnostic={at:number;operation:string;method:string;status:number;code:number;subcode:number;durationMs:number;requestId?:string};
+type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
 const initial=():Budget=>({calls:[]});
 export class MetaBudgetWait extends Error{
- constructor(public retryAfterSeconds:number){super(`Meta request queue is resting. Retry in ${retryAfterSeconds} seconds.`);}
+ constructor(public retryAfterSeconds:number,public reason:WaitReason='busy'){super(reason==='provider_cooldown'?`Meta requested a pause. Retry in ${retryAfterSeconds} seconds.`:`Upload queue is waiting. Retry in ${retryAfterSeconds} seconds.`);this.name='MetaBudgetWait';}
 }
-// Shared across processes, batches, discovery, Graph and raw media requests.
-export async function withMetaBudget<T>(fn:()=>Promise<T>){
+// One request in flight across workers. A lease expiry is crash recovery, NOT a retry delay.
+export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
+ if(cost!==1&&cost!==3)throw Error('Invalid Meta request cost.');
  const token=randomUUID();let acquired=false;
  for(let attempt=0;attempt<2;attempt++){
-  const wait=await mutate<Budget,number>(KEY,initial(),s=>{
+  const decision=await mutate<Budget,{seconds:number;reason:WaitReason}>(KEY,initial(),s=>{
    const now=Date.now();s.calls=s.calls.filter(t=>t>now-3600000);
+   s.points=(s.points||s.calls.map(at=>({at,cost:3}))).filter(p=>p.at>now-300000);
    const hourly=s.calls.length>=240?s.calls[0]+3600000:0;
-   const until=Math.max(s.cooldown||0,hourly,(s.leaseUntil||0)>now?s.leaseUntil!:0,s.next||0);
-   if(until>now)return Math.ceil((until-now)/1000);
-   s.lease=token;s.leaseUntil=now+210000;s.next=now+5000;s.calls.push(now);return 0;
+   if((s.cooldown||0)>now)return {seconds:Math.ceil((s.cooldown!-now)/1000),reason:'provider_cooldown'};
+   if(hourly>now)return {seconds:Math.ceil((hourly-now)/1000),reason:'local_budget'};
+   // Read=1, write=3. Keep a margin below the development-tier score limit.
+   // Unknown tier is deliberately conservative until a response proves Full access.
+   if(s.points.reduce((n,p)=>n+p.cost,0)+cost>(s.accessTier==='full'?500:50))return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
+   if((s.leaseUntil||0)>now){s.localWaits=(s.localWaits||0)+1;return {seconds:2,reason:'busy'};}
+   if((s.next||0)>now)return {seconds:Math.ceil((s.next!-now)/1000),reason:'spacing'};
+   s.lease=token;s.leaseUntil=now+210000;s.next=now+5000;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
   });
-  if(!wait){acquired=true;break;}
-  // Small spacing waits are bounded; long cooldowns are rescheduled by the queue.
-  if(wait>5||attempt===1)throw new MetaBudgetWait(wait);
-  await new Promise(resolve=>setTimeout(resolve,wait*1000+25));
+  if(!decision.seconds){acquired=true;break;}
+  if(decision.reason!=='spacing'||attempt===1)throw new MetaBudgetWait(decision.seconds,decision.reason);
+  await new Promise(resolve=>setTimeout(resolve,decision.seconds*1000+25));
  }
- if(!acquired)throw new MetaBudgetWait(5);
+ if(!acquired)throw new MetaBudgetWait(2);
  try{return await fn();}finally{await mutate<Budget,void>(KEY,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});}
 }
 export function isMetaRateLimit(code:number){return [4,17,32,613,429,1675004].includes(code)||(code>=80000&&code<80100);}
 export function metaUsage(headers:Headers){
- let usage=0,minutes=0;
- for(const name of ['x-app-usage','x-ad-account-usage','x-business-use-case-usage']){
+ let usage=0,seconds=0;const buckets:{header:string;type?:string;usage:number;regainSeconds:number;tier?:string}[]=[];
+ for(const header of ['x-app-usage','x-ad-account-usage','x-business-use-case-usage','x-fb-ads-insights-throttle']){
   try{
-   const raw=headers.get(name);if(!raw)continue;
-   const visit=(v:unknown)=>{if(!v||typeof v!=='object')return;for(const [k,n] of Object.entries(v)){if(['call_count','total_cputime','total_time','acc_id_util_pct'].includes(k)&&typeof n==='number'&&Number.isFinite(n))usage=Math.max(usage,n);if(k==='estimated_time_to_regain_access'&&typeof n==='number'&&Number.isFinite(n))minutes=Math.max(minutes,n);else if(n&&typeof n==='object')visit(n);}};
-   visit(JSON.parse(raw));
-  }catch{/* Invalid headers are never shown or persisted raw. */}
+   const raw=headers.get(header);if(!raw)continue;
+   const visit=(v:unknown)=>{if(!v||typeof v!=='object')return;const fields=v as Record<string,unknown>;
+    const pct=Math.max(0,...['call_count','total_cputime','total_time','acc_id_util_pct','app_id_util_pct'].map(k=>typeof fields[k]==='number'&&Number.isFinite(fields[k])?fields[k] as number:0));
+    const regain=Math.max(0,typeof fields.estimated_time_to_regain_access==='number'?fields.estimated_time_to_regain_access*60:0,typeof fields.reset_time_duration==='number'?fields.reset_time_duration:0);
+    if(pct||regain||['call_count','acc_id_util_pct','app_id_util_pct','ads_api_access_tier'].some(k=>Object.hasOwn(fields,k))){buckets.push({header,type:typeof fields.type==='string'?fields.type.slice(0,60):undefined,usage:pct,regainSeconds:Number.isFinite(regain)?regain:0,tier:typeof fields.ads_api_access_tier==='string'?fields.ads_api_access_tier.slice(0,40):undefined});usage=Math.max(usage,pct);seconds=Math.max(seconds,Number.isFinite(regain)?regain:0);}
+    for(const n of Object.values(fields))if(n&&typeof n==='object')visit(n);
+   };visit(JSON.parse(raw));
+  }catch{/* Never persist raw headers. */}
  }
- const retry=Number(headers.get('retry-after'));
- return {usage,seconds:Math.max(minutes*60,Number.isFinite(retry)&&retry>0?retry:0)};
+ const raw=headers.get('retry-after'),number=Number(raw),date=raw?Date.parse(raw):NaN;
+ const retry=raw?(Number.isFinite(number)?number:Number.isFinite(date)?Math.ceil((date-Date.now())/1000):0):0;
+ return {usage,seconds:Math.max(seconds,retry>0?retry:0),buckets};
 }
-export async function recordMetaUsage(headers:Headers,rateLimited=false){
+export async function recordMetaUsage(headers:Headers,rateLimited=false,diagnostic?:Omit<MetaDiagnostic,'at'|'requestId'>){
  const signal=metaUsage(headers);
  return mutate<Budget,number>(KEY,initial(),s=>{
-  s.usage=signal.usage;
-  if(rateLimited||signal.usage>=80||signal.seconds>0){
+  s.usage=signal.usage;s.signals=signal;
+  const tiers=signal.buckets.map(b=>b.tier);if(tiers.some(t=>t==='development_access'||t==='limited_access'))s.accessTier='limited';else if(tiers.some(t=>t==='standard_access'||t==='full_access'))s.accessTier='full';
+  if(diagnostic){const id=headers.get('x-fb-request-id');s.diagnostics=[...(s.diagnostics||[]),{...diagnostic,at:Date.now(),operation:diagnostic.operation.replace(/\d+/g,':id').slice(0,100),requestId:id&&/^[\w-]{1,100}$/.test(id)?id:undefined}].slice(-100);}
+  // reset_time_duration may be supplied while usage is low; it is not a pause by itself.
+  if(rateLimited||signal.usage>=80){
    s.strikes=rateLimited?(s.strikes||0)+1:s.strikes||0;
-   const seconds=Math.max(signal.seconds,rateLimited?Math.min(3600,300*2**Math.min(4,(s.strikes||1)-1)):signal.usage>=80?300:0);
+   const seconds=Math.max(signal.seconds,rateLimited?Math.min(3600,300*2**Math.min(4,(s.strikes||1)-1)):300);
    s.cooldown=Math.max(s.cooldown||0,Date.now()+seconds*1000);
-  }else s.strikes=0;
+  }else if(headers.has('retry-after'))s.cooldown=Math.max(s.cooldown||0,Date.now()+signal.seconds*1000);
+  else s.strikes=0;
   return Math.max(0,Math.ceil(((s.cooldown||0)-Date.now())/1000));
  });
 }
+export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:240,minSpacingSeconds:5,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:s.accessTier==='full'?500:50,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}

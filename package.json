@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "node tests/regression.cjs",
+    "test:meta": "node tests/meta-rate-limit.cjs && node tests/meta-connection.cjs && node tests/meta-uploader-settings.cjs && node tests/meta-uploader.cjs && node tests/meta-browser-request.cjs && node tests/meta-resilience.cjs",
     "typecheck": "tsc --noEmit --incremental false"
   },
   "dependencies": {
