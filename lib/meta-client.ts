@@ -2,7 +2,7 @@ import {createHmac} from 'node:crypto';
 import {readState,mutate} from './store';
 import {numericId} from './meta-uploader-model';
 
-type Connection={token?:string;expiresAt?:number;connectedAt?:number};
+type Connection={token?:string;expiresAt?:number;connectedAt?:number;appId?:string;appSecret?:string;loginConfigId?:string};
 const KEY='meta-uploader-connection';
 export const META_VERSION=process.env.META_API_VERSION||'v26.0';
 function version(){if(!/^v\d+\.0$/.test(META_VERSION))throw Error('Invalid Meta API version.');return META_VERSION;}
@@ -10,8 +10,11 @@ export class MetaError extends Error{
  constructor(public code:number,public subcode:number,public transient:boolean,public uncertain:boolean,message:string){super(message);this.name='MetaError';}
 }
 export async function metaConnection(){return (await readState<Connection>(KEY,{})).value;}
+export async function metaApp(){const c=await metaConnection();return c.appId?{id:c.appId,secret:c.appSecret,configId:c.loginConfigId}:{id:process.env.META_APP_ID,secret:process.env.META_APP_SECRET,configId:process.env.META_LOGIN_CONFIG_ID};}
+export async function metaProof(token:string){const {secret}=await metaApp();return secret?createHmac('sha256',secret).update(token).digest('hex'):undefined;}
+export async function saveMetaApp(appId:unknown,secret:unknown,configId:unknown){const id=numericId(appId,'App ID'),config=configId?numericId(configId,'Login configuration ID'):undefined;if(typeof secret!=='string'||secret.length<20||secret.length>256||!/^[a-zA-Z0-9_-]+$/.test(secret))throw Error('Invalid application secret.');await mutate<Connection,void>(KEY,{},c=>{if((c.token||process.env.META_ACCESS_TOKEN)&&(c.appId||process.env.META_APP_ID)!==id)throw Error('A different application already has a connected token. Keep its settings until the connection is explicitly replaced.');c.appId=id;c.appSecret=secret;c.loginConfigId=config;});}
 export async function metaToken(){const c=await metaConnection();const token=c.token||process.env.META_ACCESS_TOKEN;if(!token||c.token&&c.expiresAt&&c.expiresAt<Date.now())throw Error('Connect Meta in the uploader settings.');return token;}
-export async function connectionStatus(){const c=await metaConnection();return {connected:!!(c.token||process.env.META_ACCESS_TOKEN)&&!(c.token&&c.expiresAt&&c.expiresAt<Date.now()),oauthConfigured:!!(process.env.META_APP_ID&&process.env.META_APP_SECRET),expiresAt:c.expiresAt,connectedAt:c.connectedAt};}
+export async function connectionStatus(){const c=await metaConnection(),app=await metaApp();return {connected:!!(c.token||process.env.META_ACCESS_TOKEN)&&!(c.token&&c.expiresAt&&c.expiresAt<Date.now()),oauthConfigured:!!(app.id&&app.secret),appId:app.id,loginConfigId:app.configId,expiresAt:c.expiresAt,connectedAt:c.connectedAt};}
 export async function saveMetaToken(token:string,expiresAt?:number){
  if(typeof token!=='string'||token.length<20||token.length>4096||/[\r\n\s]/.test(token))throw Error('Invalid Meta access token.');
  // Validate the supplied credential before replacing a working connection.
@@ -22,7 +25,7 @@ export async function graph<T=Record<string,unknown>>(path:string,params:Record<
  if(!/^(?:me|act_\d+|\d+)(?:\/[a-z_]+)?$/.test(path))throw Error('Invalid Meta operation.');
  const token=credential||await metaToken(),url=new URL(`https://${video?'graph-video':'graph'}.facebook.com/${version()}/${path}`),body=new URLSearchParams();
  for(const [key,value] of Object.entries(params))if(value!==undefined)body.set(key,typeof value==='string'?value:JSON.stringify(value));
- if(process.env.META_APP_SECRET)body.set('appsecret_proof',createHmac('sha256',process.env.META_APP_SECRET).update(token).digest('hex'));
+ const proof=await metaProof(token);if(proof)body.set('appsecret_proof',proof);
  if(method==='GET')url.search=body.toString();
  let response:Response,data:Record<string,unknown>;
  try{response=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(video?180000:45000)});data=await response.json();}
