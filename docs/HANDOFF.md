@@ -1,5 +1,12 @@
 # Current development handoff — 28 September 2026
 
+## Ads X-Ray integration — 15 October 2026
+
+- Owner supplied source ZIP and authorised integration into Szekspir. `/ads-xray` retains three comparison modes, sentence editing/alignment, local drafts and saved history under mandatory MFA. No separate service, iframe or SQLite. Home tile and saved-job comparison link added. See `docs/ADS-XRAY.md` for full inventory, storage limits and validation.
+- API uses current provider credentials, exact-request paid intent/result guards, independent alignment-column cache, strict input/quote validation and no automatic provider retry. Only verified Sonnet 5.5 is offered; identical pairs bypass billing. Ordinary copy retains exact whitespace/punctuation. History deletion is recoverable through the archive.
+- Offline X-Ray, Auth, Meta, 42 core tests and typecheck pass. Local browser exercised all three mechanical modes without page overflow at mobile/desktop sizes. Current provider docs verified Sonnet 5.5 auto/strict tool compatibility. Live production checks and build pending. No live advertising, provider generation or Sheet writes used as routine tests.
+
+
 ## Security audit fixes — 15 October 2026
 
 - Owner completed authenticator setup; production auth status confirmed complete before activation. Owner then authorised all audit fixes, including enforcing MFA. Production APP_AUTH_MODE=supabase-mfa is now enabled. Deployment dpl_8VhHtsv4vjN6EyyYRbgtYJBSNyHX is READY. Provider-checked owner status reports complete/enforced true; protected uploader opens and loads the connected Meta account. Anonymous API returns 401 and panel redirects 307 to /login; invalid Basic-only API returns 401. Correct legacy-password denial is covered offline without exporting that credential.

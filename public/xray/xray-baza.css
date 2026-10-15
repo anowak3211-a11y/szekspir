@@ -1,0 +1,59 @@
+/* xray-baza.css: style bazowe, na których opiera się znacznik Ads X-Ray (reszta to klasy z tailwind.build.css).
+   Wybór z arkusza aplikacji, z której pochodzi narzędzie: tylko reguły, których używają tryby X-Ray. */
+
+/* Pismo systemowe: bez pobierania czcionek z sieci. */
+html { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+:root { color-scheme: light; }
+html.dark { color-scheme: dark; }
+
+[x-cloak] { display: none !important; }
+
+/* Zaznaczenie tekstu czytelne w obu motywach. */
+::selection { background: rgba(0, 166, 255, 0.25); color: #222121; }
+.dark ::selection { background: rgba(59, 130, 246, 0.45); color: #f8fafc; }
+
+/* Fokus: obrys tylko z klawiatury, w obu motywach. */
+:is(input, select, textarea, button, summary, a, [tabindex]):focus:not(:focus-visible) { outline: none; }
+:is(input, select, textarea, button, summary, a, [tabindex]):focus-visible { outline: 2px solid #415cae; outline-offset: 2px; }
+.dark :is(input, select, textarea, button, summary, a, [tabindex]):focus-visible { outline-color: #7aa2e8; }
+#main-content:focus { outline: none; }
+
+/* Pola tekstowe: wyraźna ramka przy fokusie i czytelna podpowiedź. */
+#main-content :is(input, select, textarea):focus { border-color: rgba(0, 0, 0, 0.55); }
+.dark #main-content :is(input, select, textarea):focus { border-color: rgba(255, 255, 255, 0.6); }
+input::placeholder, textarea::placeholder { color: rgba(34, 33, 33, 0.65); opacity: 1; }
+.dark input::placeholder, .dark textarea::placeholder { color: rgba(255, 255, 255, 0.6); opacity: 1; }
+
+/* Przyciski: ta sama interlinia przy każdym rozmiarze pisma, wypełniony ma przezroczysty obrys
+   (ta sama wysokość co obrysowany). */
+:is(button, a, label, [role="button"]):is([class~="py-1"], [class~="py-1.5"], [class~="py-2"]):is([class*="rounded-md"], [class*="rounded-lg"]) { line-height: 1.25rem; }
+:is(button, a, label, [role="button"]):is([class~="py-1"], [class~="py-1.5"], [class~="py-2"]):is([class*="rounded-md"], [class*="rounded-lg"]):not([class*="border"]) { border: 1px solid transparent; }
+
+/* Stan wyłączony: własny, czytelny kolor zamiast samego przygaszenia. */
+:is(button, [role="button"], select, input:not([type="checkbox"]):not([type="radio"]), textarea):disabled,
+:is(button, a, [role="button"])[aria-disabled="true"] {
+    opacity: 1 !important;
+    color: #6b6b6b !important;
+    border-color: rgba(0, 0, 0, 0.45) !important;
+    cursor: not-allowed;
+}
+:is(button, [role="button"]):disabled:not([class*="bg-transparent"])[class*="bg-"] { background-color: #f4f4f5 !important; }
+.dark :is(button, [role="button"], select, input:not([type="checkbox"]):not([type="radio"]), textarea):disabled,
+.dark :is(button, a, [role="button"])[aria-disabled="true"] {
+    color: #9a9aa2 !important;
+    border-color: rgba(255, 255, 255, 0.40) !important;
+}
+.dark :is(button, [role="button"]):disabled:not([class*="bg-transparent"])[class*="bg-"] { background-color: #27272a !important; }
+
+/* <mark> dziedziczy kolor (w ciemnym motywie domyślny czarny byłby nieczytelny). */
+mark { color: inherit; }
+
+/* Pola wyboru i opcje w ciemnym motywie. */
+.dark select, .dark option { background-color: #18181b; color: #f4f4f5; }
+
+/* Okno potwierdzenia: tytuł i przyciski zawsze w panelu, treść przewija się w środku. */
+[x-ref="appDialogPanel"] { display: flex; flex-direction: column; max-height: calc(100vh - 2rem); }
+[x-ref="appDialogPanel"] > * { flex-shrink: 0; }
+#appDialogMessage { flex-shrink: 1; min-height: 0; overflow-y: auto; }

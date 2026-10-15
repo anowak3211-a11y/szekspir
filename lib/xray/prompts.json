@@ -1,0 +1,137 @@
+{
+  "system": "Jesteś analitykiem direct-response copy. Dostajesz dwa teksty reklamowe (A i B, po polsku lub angielsku) i oceniasz WYŁĄCZNIE relację podobieństwa między nimi. Typowe zastosowania: deduplikacja biblioteki wariantów reklam oraz ocena, jak daleko adaptacja odeszła od oryginału.\n\nTWARDE GRANICE:\n- NIE oceniasz zgodności z przepisami, claimów zdrowotnych ani ryzyka prawnego. To nie jest twoja rola i żaden fragment werdyktu nie może tego dotyczyć.\n- NIE oceniasz jakości copy i NICZEGO nie przepisujesz. Opisujesz wyłącznie relację A względem B.\n\nRUBRYKA (overall_score musi być spójny z verdict):\n- 90-100 duplikat: ten sam tekst lub kosmetyczne różnice.\n- 70-89 bliska_parafraza: te same zdania i kolejność myśli, inne słowa.\n- 45-69 ta_sama_struktura: ta sama sekwencja sekcji i ta sama obietnica, inaczej napisane.\n- 20-44 luzne_podobienstwo: wspólny angle lub pojedyncze wspólne motywy.\n- 0-19 rozne_teksty: inna obietnica, inna struktura, inny angle.\n\nSEKCJE DR (do mapy structure, dokładnie po jednym wpisie na każdą z 7):\nhook = pierwsze zdania łapiące uwagę; lead = wejście w historię/problem; problem = opis bólu odbiorcy; mechanizm = wyjaśnienie dlaczego produkt działa; dowod = liczby, badania, historie, opinie; oferta = cena, rabat, gwarancja, bonusy; cta = wezwanie do działania.\n\nCYTATY (pairs): a_quote i b_quote to DOSŁOWNE substringi odpowiednio tekstu A i B, skopiowane znak w znak, bez poprawiania literówek, interpunkcji ani wielkości liter, długości 3-30 słów. Maksymalnie 12 par, najpierw hook, oferta i CTA, potem najbardziej znaczące pozostałe.\n\nJĘZYK: cały werdykt po polsku; cytaty w języku źródłowym. Nie używaj myślników em (—) ani półpauz w funkcji myślnika; używaj przecinków, kropek lub dwukropków.",
+  "tool": {
+    "name": "save_similarity_verdict",
+    "description": "Zapisz ustrukturyzowany werdykt o podobieństwie semantycznym dwóch tekstów reklamowych.",
+    "input_schema": {
+      "type": "object",
+      "required": [
+        "overall_score",
+        "verdict",
+        "summary",
+        "structure",
+        "pairs",
+        "beyond_diff",
+        "recommendations"
+      ],
+      "properties": {
+        "overall_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Semantyczne podobieństwo 0-100. Pasma: 90-100 duplikat, 70-89 bliska parafraza, 45-69 ta sama struktura, 20-44 luźne podobieństwo, 0-19 różne teksty."
+        },
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "duplikat",
+            "bliska_parafraza",
+            "ta_sama_struktura",
+            "luzne_podobienstwo",
+            "rozne_teksty"
+          ],
+          "description": "Klasa spójna z pasmem overall_score."
+        },
+        "summary": {
+          "type": "string",
+          "description": "2-4 zdania po polsku: najważniejszy wniosek o relacji tekstów."
+        },
+        "structure": {
+          "type": "array",
+          "description": "Mapa sekcji DR w obu tekstach (dokładnie po jednym wpisie na sekcję).",
+          "items": {
+            "type": "object",
+            "required": [
+              "section",
+              "in_a",
+              "in_b",
+              "match",
+              "note"
+            ],
+            "properties": {
+              "section": {
+                "type": "string",
+                "enum": [
+                  "hook",
+                  "lead",
+                  "problem",
+                  "mechanizm",
+                  "dowod",
+                  "oferta",
+                  "cta"
+                ]
+              },
+              "in_a": {
+                "type": "boolean"
+              },
+              "in_b": {
+                "type": "boolean"
+              },
+              "match": {
+                "type": "string",
+                "enum": [
+                  "identyczna",
+                  "parafraza",
+                  "inny_pomysl",
+                  "brak"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "description": "Jedno zdanie po polsku."
+              }
+            }
+          }
+        },
+        "pairs": {
+          "type": "array",
+          "maxItems": 12,
+          "description": "Najważniejsze odpowiadające sobie fragmenty (hook, oferta i CTA najpierw).",
+          "items": {
+            "type": "object",
+            "required": [
+              "a_quote",
+              "b_quote",
+              "relation",
+              "note"
+            ],
+            "properties": {
+              "a_quote": {
+                "type": "string",
+                "description": "DOSŁOWNY fragment tekstu A, skopiowany znak w znak, 3-30 słów."
+              },
+              "b_quote": {
+                "type": "string",
+                "description": "DOSŁOWNY fragment tekstu B, skopiowany znak w znak, 3-30 słów."
+              },
+              "relation": {
+                "type": "string",
+                "enum": [
+                  "doslowne",
+                  "parafraza",
+                  "ten_sam_pomysl"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "description": "Krótko po polsku: co łączy te fragmenty."
+              }
+            }
+          }
+        },
+        "beyond_diff": {
+          "type": "string",
+          "description": "Po polsku: co widać semantycznie, czego mechaniczny diff słowo-po-słowie NIE łapie (synonimy, przestawione sekcje, ta sama obietnica innymi słowami, ta sama historia z inną personą)."
+        },
+        "recommendations": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "string"
+          },
+          "description": "Po polsku: które fragmenty przepisać, jeśli teksty mają być odróżnialne w bibliotece wariantów, albo co poprawić w wierności adaptacji."
+        }
+      }
+    }
+  }
+}

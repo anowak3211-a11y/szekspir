@@ -1,0 +1,28 @@
+# Ads X-Ray in Szekspir — 15 October 2026
+
+Source: owner-supplied `ads-xray.zip`, extracted separately in the UK workspace. Source README is descriptive material, not deployment authority. Integrated into the existing Szekspir deployment at `/ads-xray`, with the current mandatory MFA proxy. No new Python service, iframe, public unauthenticated API, SQLite database or second application.
+
+## Useful features retained
+
+1. Similarities: two to six named texts, pairwise percentage matrix, sentence/word differences, insertions/deletions, editing directly in comparison panels, selection/copy, changed-only view, font controls and synchronised scrolling. Mechanical percentages measure wording overlap, not Meta evaluation or predicted performance.
+2. AI Diff: literal word/sentence changes and moved passages, optional semantic verdict distinguishing duplicate/close paraphrase/same structure/loose similarity/different texts. Structured review of hook, lead, problem, mechanism, proof, offer and CTA; quoted matching fragments, explanation beyond literal diff and suggested differentiation. Quotes returned by AI must exist in the supplied inputs.
+3. Scripts: three columns (original, English, Polish), automatic mechanical sentence alignment, explicit AI alignment, manual anchors, insertions/omissions, editable sentences or continuous text, undo/redo and coordinated scrolling. Works with original/UK English alone too; empty Polish column is allowed. Wording is not automatically translated or rewritten.
+4. Local drafts: restore supplied UI drafts and settings in the same browser. These are localStorage copies, not encrypted server history or cross-device sync; browser clearing can remove them. Existing source multi-tab stale-draft protections are retained.
+5. Saved history: named comparisons, brand, editor label, batch, author and optional Ad Library link; filters and reopen including already obtained AI maps/verdicts. Lists omit full scripts. Catalog uses the existing encrypted CAS store; initial brands are Mellow and Orthomax, with editable labels. Current bounded catalog: 200 records / 4 MB total, 2 MB per comparison, list latest 100 matching entries. No SQLite filesystem persistence on Vercel.
+6. Recoverable deletion: history deletion archives the record; toolbar archive restores it. An occupied comparison key prevents restore/overwrite without an explicit resolution. Revision checks reject stale-tab overwrites. All allowlisted workspace users retain existing owner powers; editor labels do not grant accounts or permissions.
+7. Szekspir job integration: `Compare in Ads X-Ray` opens the module with a job reference. Explicit import reads only saved source/adapted text, asks before replacing the local draft, and never writes back to the production job, sheets or uploader. Unsaved script edits must first be saved in Szekspir.
+8. Access and cost: route, local static assets and APIs remain behind Szekspir MFA. AI accepts only Sonnet 5.5, using the existing server key; verified model ID/prices from https://platform.claude.com/docs/en/models/sonnet-5-5/overview (15 October 2026). UI cost is an estimate, not a cap. No automatic calls on opening/editing/saving. Normalised identical pairs bypass billing. SHA-256 intent/result records cache exact requests; failed/uncertain provider writes remain held rather than blindly repeating. Alignment columns cache independently, preserving a successful first column if the second fails. Ten AI actions per owner per 15 minutes, plus write limits. Provider retries disabled.
+9. Preserved copy: ordinary script copy retains whitespace and punctuation verbatim. Explicit Facebook paragraph formatting only changes layout, retaining long dashes. Comparison never edits the underlying source job.
+10. UI: original self-contained Alpine comparison engines and local CSS/vendor assets are served inside the existing Next application. Polish labels, responsive panels, theme toggle, keyboard editing, 44px controls and reduced-motion overrides retained/added. No external CDN.
+
+## Adaptations and limits
+
+- Literal source prompt and verdict schema retained as data. Python provider compatibility wrappers and model migrations are not executed. Sonnet 5.5 uses auto tool choice, strict schemas and between-tools thinking, matching the current provider API; no unsupported forced tool call or automatic second paid request. Other supplied model choices are omitted until independently configured/verified.
+- No new ad publication, campaign activation, budget mutation, automatic script rewriting or compliance/medical approval.
+- AI pair limit is 60,000 characters per side, rejected rather than silently truncated. Alignment limit 1,200 sentences / 100,000 characters per column. Estimated pricing does not guarantee final spend.
+- A failed/unknown paid request is intentionally not replayed automatically. Operators must check provider outcome; there is no hidden browser retry that can rebill the same request.
+- Local drafts share this origin/browser. Do not use a shared browser profile for private scripts. Server history is separately encrypted.
+
+## Verification
+
+`node tests/xray.cjs`: actual history/AI service contracts with fixture storage/provider, conflict/restore/validation, literal copy, no duplicate paid attempt and source diff engine. No real AI billing. Existing Auth, Meta, core regression suites, typecheck and production build remain required. Browser checks cover all three modes, mobile overflow, actual local comparison and authenticated production loading; record actual outcomes in handoff. Local browser exercised all three mechanical modes at 390px (375px content), and 1440px (1425px content): no horizontal page overflow. AI buttons were not invoked.
