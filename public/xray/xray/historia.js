@@ -599,7 +599,7 @@
             },
             czyBiezacy(w) { const b = biezacy(w.tryb); return !!(b && b.id === w.id); },
             async usun(w) {
-                const ok = await potwierdz(Tf('Usunąć z historii wpis {0}? Tego nie da się cofnąć.', [opisWpisu(w)]),
+                const ok = await potwierdz(Tf('Usunąć z historii wpis {0}? Wpis można przywrócić z Archiwum zapisów.', [opisWpisu(w)]),
                                            T('Usunąć wpis?'), { confirmLabel: T('Usuń'), variant: 'danger' });
                 if (!ok) return;
                 try {
