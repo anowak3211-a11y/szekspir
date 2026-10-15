@@ -7,7 +7,7 @@ const p=sourcePace(job,script,'jodi',processing);assert(!p.calibrated);assert(Ma
 assert.equal(sourcePace(job,script,'different',processing).speed,1);
 assert.equal(sourcePace(job,script,'jodi',{...processing,matchSourcePace:false}),undefined);
 assert.equal(sourcePace({...job,duration:undefined},script,'jodi',processing),undefined);
-assert.equal(sourcePace({...job,singingAd:true},script,'jodi',processing),undefined);
+assert(sourcePace({...job,singingAd:true},script,'jodi',{...processing,matchSourcePace:true}),'Explicit source pace also available for singing adverts');
 assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:90}},script,'jodi',processing).speed,1,'Never slow down');
 assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:300}},script,'jodi',processing).speed,1,'No unsupported v4 synthesis speed');
 assert.equal(sourcePace({...job,voTiming:{...job.voTiming,trimmedSeconds:170,pace:{speed:1.1,scriptWords:465}}},script,'jodi',processing).speed,1,'Legacy speed metadata cannot affect the new take');

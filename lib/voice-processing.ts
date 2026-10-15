@@ -2,7 +2,7 @@ export const EMOTIONS=['off','subtle','calm','conversational','curious','happy',
 export type VoiceEmotion=typeof EMOTIONS[number];
 export const OPENING_REACTIONS=['none','yawns','sighs','laughs','clears throat','gasps'] as const;
 export type OpeningReaction=typeof OPENING_REACTIONS[number];
-export type VoiceAudioAdjustments={pauseShorteningMs:number;tempoFactor:number};
+export type VoiceAudioAdjustments={pauseShorteningMs:number;tempoFactor:number;sourceAnchor?:import('./phrase-pace').PhraseAnchor};
 export type VoiceProcessing={pauseShorteningMs?:number;tempoFactor?:number;matchSourcePace?:boolean;mode:'standard'|'gentle'|'aggressive';normalize:boolean;emotion?:VoiceEmotion;openingReaction?:OpeningReaction;breaths?:boolean;ambience?:'none'|'car'|'room'|'outdoors'};
 export function pauseShorteningMs(value?:VoiceProcessing){return value?.pauseShorteningMs??(value?.matchSourcePace===true?0:300);}
 export function voiceTempoFactor(value?:VoiceProcessing){return value?.tempoFactor??1;}

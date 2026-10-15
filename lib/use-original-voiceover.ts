@@ -1,3 +1,4 @@
+import {fitPhraseAnchor,validatePhraseAnchor} from './phrase-pace';
 import {createHash,randomUUID} from 'node:crypto';
 import {google} from 'googleapis';
 import {getJob,type Job} from './jobs';
@@ -33,6 +34,7 @@ function validate(input:UseOriginalVoiceoverInput){
  if(input.adjustments!==undefined){
   if(!input.adjustments||typeof input.adjustments!=='object'||input.adjustments.pauseShorteningMs===undefined||input.adjustments.tempoFactor===undefined)throw Error('Choose pause shortening and speech speed.');
   voiceProcessing({mode:'gentle',normalize:false,matchSourcePace:false,...input.adjustments});
+  if(input.adjustments.sourceAnchor){validatePhraseAnchor(input.adjustments.sourceAnchor);if(input.adjustments.pauseShorteningMs!==0||input.adjustments.tempoFactor!==1)throw Error('Apply phrase alignment separately from pause and speed adjustments.');}
   if(input.factor!==undefined)throw Error('Use either the preset or the sliders.');
  }
  if(input.factor!==undefined&&input.factor!==1&&input.factor!==1.05)throw Error('Choose original pace or 5% faster.');
@@ -71,12 +73,13 @@ export function originalVoiceoverCell(previous:string,url:string,previousUrl:str
 export async function useOriginalVoiceover(input:UseOriginalVoiceoverInput):Promise<Job>{
  validate(input);
  const factor=input.factor??1;
- const adjustments=input.adjustments?{pauseShorteningMs:input.adjustments.pauseShorteningMs,tempoFactor:input.adjustments.tempoFactor}:undefined;
+ const adjustments=input.adjustments?{pauseShorteningMs:input.adjustments.pauseShorteningMs,tempoFactor:input.adjustments.tempoFactor,...(input.adjustments.sourceAnchor?{sourceAnchor:input.adjustments.sourceAnchor}:{})}:undefined;
  const existing=await getJob(input.id) as OriginalVoiceoverJob|null;
  active(existing);idle(existing!);
+ if(adjustments?.sourceAnchor&&(!existing!.duration||adjustments.sourceAnchor.sourceSeconds>=existing!.duration))throw Error('Source phrase anchor must be inside the original recording.');
  if((existing!.revision||0)!==input.revision)throw Error('This recording changed. Refresh and try again.');
  const restored=existing!.originalVoiceoverRestore;
- if(!existing!.originalVoiceoverDelivery&&restored?.revision===input.revision&&(restored.factor??1)===factor&&JSON.stringify(restored.adjustments)===JSON.stringify(adjustments)&&restored.originalUrl===existing!.voOriginalUrl&&restored.url===existing!.voUrl&&existing!.voiceProcessing?.matchSourcePace===false&&!existing!.voTiming?.paceAdjustment)return existing!;
+ if(!existing!.originalVoiceoverDelivery&&restored?.revision===input.revision&&(restored.factor??1)===factor&&JSON.stringify(restored.adjustments)===JSON.stringify(adjustments)&&restored.originalUrl===existing!.voOriginalUrl&&restored.url===existing!.voUrl&&existing!.voiceProcessing?.matchSourcePace===!!adjustments?.sourceAnchor&&!existing!.voTiming?.paceAdjustment)return existing!;
  const token=randomUUID();
  const reserved=await mutate<OriginalVoiceoverJob|null,OriginalVoiceoverJob>(`job-${input.id}`,null,job=>{
   active(job);idle(job!);
@@ -90,7 +93,7 @@ export async function useOriginalVoiceover(input:UseOriginalVoiceoverInput):Prom
  try{
   let candidate=reserved.originalVoiceoverDelivery!.candidate;
   if(!candidate){
-   const raw=(await safeDownload(reserved.voOriginalUrl!,150*1024*1024)).buffer;
+   const raw=(await safeDownload(adjustments?.sourceAnchor?(reserved.voTiming?.dryUrl||reserved.voUrl!):reserved.voOriginalUrl!,150*1024*1024)).buffer;
    const processing:VoiceProcessing={...reserved.voiceProcessing,mode:'gentle',normalize:false,breaths:false,matchSourcePace:false,pauseShorteningMs:adjustments?.pauseShorteningMs??0,tempoFactor:adjustments?.tempoFactor??1};
    let timing:VoiceTiming|undefined;
    let audio:ArrayBuffer|undefined,background:Buffer|undefined;
@@ -99,6 +102,7 @@ export async function useOriginalVoiceover(input:UseOriginalVoiceoverInput):Prom
     audio=await cleanVoiceover(new Uint8Array(raw).buffer,value=>{timing=value;},processing,'voiceover');
     if(!timing)throw Error('The original recording timing could not be confirmed.');
     timing.modelId=reserved.voTiming?.modelId;
+    if(adjustments?.sourceAnchor){const aligned=await fitPhraseAnchor(audio,timing,adjustments.sourceAnchor);new Uint8Array(audio).fill(0);audio=aligned;}
     if(factor===1.05){const adjusted=await slightlyFasterVoice(audio,timing,factor);new Uint8Array(audio).fill(0);audio=adjusted;}
     await assertCurrent();
     const path=`vo/${input.id}-r${input.revision}-native-${randomUUID()}`;

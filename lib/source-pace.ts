@@ -4,7 +4,7 @@ export type SourcePace={sourceSeconds:number;targetSeconds:number;sourceWords:nu
 export const spokenWords=(text:string)=>text.replace(/\[[^\]]*\]/g,'').trim().split(/\s+/).filter(Boolean).length;
 /** Compare source and script word rates. Audio fitting uses measured output duration separately. */
 export function sourcePace(job:Pick<Job,'duration'|'transcript'|'result'|'voiceId'|'voTiming'|'singingAd'>,script:string,_voiceId:string,processing?:VoiceProcessing):SourcePace|undefined{
- if(processing?.matchSourcePace===false||job.singingAd||job.result?.no_speech||!Number.isFinite(job.duration)||!job.duration||job.duration<5)return;
+ if(processing?.matchSourcePace===false||(job.singingAd&&processing?.matchSourcePace!==true)||job.result?.no_speech||!Number.isFinite(job.duration)||!job.duration||job.duration<5)return;
  const sourceWords=spokenWords(job.transcript||job.result?.us_script||''),scriptWords=spokenWords(script);
  if(sourceWords<10||scriptWords<10)return;
  const targetSeconds=job.duration*scriptWords/sourceWords;
