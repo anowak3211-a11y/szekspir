@@ -1,5 +1,12 @@
 # Current development handoff — 28 September 2026
 
+## Personal account MFA rollout — 15 October 2026
+
+- Owner requested Szekspir-only 2FA. Supabase email/password + TOTP gateway is staged behind `APP_AUTH_MODE=supabase-mfa`; exact email allowlist is configured privately. See `docs/AUTH-MFA.md` for enrollment, activation and recovery. Do not claim MFA is active until owner enrollment and production gate are verified.
+- Next 16 `proxy.ts` replaces middleware and rejects password-only access in MFA mode. First-factor sessions cannot reach pages/APIs; tokens stay in encrypted HttpOnly cookies, with 15-minute setup and absolute eight-hour MFA sessions. Distributed attempt limits and Origin checks protect login/mutations.
+- Python auth independently rejects legacy Basic in MFA mode; cron and internal Python calls use the separate existing machine credential. No provider keys exported, VMake migration, Meta access/budget changes or unrelated voice workflow changes.
+- Offline Auth tests cover bypass attempts, first factor, invitation state, ciphertext tampering, expiry, allowlist, factor removal, outage denial, machine scopes, MFA upgrade, guessing limits and logout. Provider email delivery, redirect configuration and owner enrollment require live verification.
+
 ## Owner-selected Orthomax OFF publication test — 15 October 2026
 
 - Owner authorised one ad in an old OFF Orthomax campaign through Szekspir, explicitly without Supermetrics. A single draft batch is saved; first start was rejected before writes because the legacy set reports UNDEFINED. No successful publication is claimed by that rejection.

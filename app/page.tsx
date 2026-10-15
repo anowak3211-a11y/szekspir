@@ -5,7 +5,7 @@ export default function Home() {
     <main className="wrap home">
       <details className="home-product-menu"><summary><span aria-hidden="true">📦</span> Product <span className="product-chevron" aria-hidden="true">⌄</span></summary><div className="product-popover"><p>Keep your product briefs and UK offer details here. SZEKSPIR uses them when localising your ads.</p><a href="/product">Open product briefs →</a></div></details>
       <h1>🎬 Ad Ops</h1>
-      <p className="sub">Pick a tool.</p>
+      <p className="sub">Pick a tool. <a href="/login">Account &amp; security</a></p>
       <div className="tiles">
         <a className="tile big" href="/uploader"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></svg></span><span className="tile-title">UPLOADER REKLAM</span><span className="tile-sub">Gotowe filmy i obrazy, zatwierdzone teksty oraz publikacja do Meta. Zapisane paczki i postęp każdej reklamy.</span></a>
         <a className="tile big" href="/antki"><span className="tile-icon">🐜</span><span className="tile-title">ANTKI</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>

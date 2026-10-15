@@ -110,7 +110,7 @@ export async function pythonCall(path:string,body?:unknown){
  const statusOnly=!body&&path.startsWith('/api/vmake_status?');
  const unavailable=()=>({done:false,status_unavailable:true,message:'VMake status check unavailable. Retaining the saved task.'});
  let r:Response;
- try{r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(statusOnly?75000:240000)});}catch(e){if(statusOnly&&['TimeoutError','AbortError','TypeError'].includes((e as Error).name))return unavailable();throw e;}
+ try{r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:process.env.APP_AUTH_MODE==='supabase-mfa'?`Bearer ${process.env.CRON_SECRET||''}`:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(statusOnly?75000:240000)});}catch(e){if(statusOnly&&['TimeoutError','AbortError','TypeError'].includes((e as Error).name))return unavailable();throw e;}
  if(!r.headers.get('content-type')?.includes('application/json')){if(statusOnly&&[408,429,500,502,503,504].includes(r.status)){await r.body?.cancel();return unavailable();}throw new Error(`VMake endpoint HTTP ${r.status}: non-JSON response`);}
  let data;try{data=await r.json();}catch(e){if(statusOnly)return unavailable();throw e;}
  if(!r.ok||data.error){const error=Object.assign(new Error(data.error||`VMake HTTP ${r.status}`),{safeToRetry:data.safe_to_retry===true});throw error;}return data;

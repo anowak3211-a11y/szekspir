@@ -12,6 +12,12 @@ from urllib.parse import urlsplit, urljoin
 
 
 def authorised(headers):
+    if os.environ.get("APP_AUTH_MODE") == "supabase-mfa":
+        secret = os.environ.get("CRON_SECRET")
+        # Only the MFA-verified proxy and server workers hold this credential.
+        return bool(secret) and hmac.compare_digest(headers.get("Authorization", ""), "Bearer " + secret)
+    if os.environ.get("APP_AUTH_MODE") not in (None, "", "legacy"):
+        return False
     expected = os.environ.get("APP_PASSWORD")
     if not expected:
         return os.environ.get("NODE_ENV") == "development"
