@@ -3,6 +3,7 @@
 ## Job-list timeout reduction — 15 October 2026
 
 - Production logs confirmed database read transport timeouts. Job lists now load encrypted records in fresh bounded batches of twenty (two batches concurrently) through the existing service-role REST table read grant. No SQL migration, credential changes or provider calls. Mutation paths retain individual compare-and-swap reads and writes; Blob fallback retains bounded individual reads.
+- SQL metadata inspection found 176 job records totalling about 19 MB; loading the entire history per poll still timed out. Summary reads now return the latest twenty records, with Load older jobs appending another page. Polling refreshes the newest page, preserving already loaded history, and hidden tabs pause after their first load. Full worker/detail reads remain available.
 - Identical client GETs share only their in-flight request; status polling cannot overlap itself on visibility changes. No completed response caching, no repeated POST, no automatic re-upload. Timeout messages distinguish slow status from uncertain write responses and do not claim processing failed.
 
 ## Later voiceover choice and initial editor instructions — 15 October 2026

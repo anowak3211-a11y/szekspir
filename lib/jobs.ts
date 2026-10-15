@@ -32,6 +32,13 @@ type Index={ids:string[]};
 export async function getJob(id:string){if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');return (await readState<Job|null>(`job-${id}`,null)).value;}
 export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;const ids=index.ids.slice().reverse();if(ids.some(id=>! /^[\w-]{8,100}$/.test(id)))throw Error('Invalid job index');const values=await readStates<Job|null>(ids.map(id=>`job-${id}`),null);return values.filter((j):j is Job=>!!j);}
 
+export async function jobsPage(offset=0){
+ if(!Number.isSafeInteger(offset)||offset<0)throw Error('Invalid job page');
+ const index=(await readState<Index>('jobs',{ids:[]})).value,ids=index.ids.slice().reverse(),page=ids.slice(offset,offset+20);
+ if(page.some(id=>! /^[\w-]{8,100}$/.test(id)))throw Error('Invalid job index');
+ const values=await readStates<Job|null>(page.map(id=>`job-${id}`),null),nextOffset=Math.min(ids.length,offset+20);
+ return {jobs:values.filter((j):j is Job=>!!j),total:ids.length,nextOffset,hasMore:nextOffset<ids.length};
+}
 export async function createJob(input:Partial<Job>){
  input={...input,editorId:activeEditorId(input.editorId)};
  const market=parseMarket(input.market);
