@@ -17,4 +17,10 @@ assert(verifyCreative(singleItem,{...standard,object_story_spec:{...standard.obj
 const videoItem={...item,imageHash:undefined,videoId:'100000000005',thumbnailUrl:'https://example.test/original-thumb.jpg',ad:{...single,media:{kind:'library',videoId:'100000000005'}}},video=creativePayload(videoItem);
 assert.equal(video.asset_feed_spec,undefined);assert.equal(video.object_story_spec.video_data.video_id,videoItem.videoId);assert.equal(video.object_story_spec.video_data.call_to_action.value.link,single.url);assert.deepEqual(verifyCreative(videoItem,video),[]);
 assert(verifyCreative(videoItem,{...video,object_story_spec:{...video.object_story_spec,video_data:{...video.object_story_spec.video_data,video_id:'100000000099'}}}).includes('Original media differs.'));
+// Meta 100/3858504 rejects the retired bundle even when explicitly opted out.
+assert.equal(standard.degrees_of_freedom_spec.creative_features_spec.standard_enhancements,undefined);
+const legacy=creativePayload({...singleItem,ad:{...single,enhancements:{standard_enhancements:false}}});
+assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.standard_enhancements,undefined,'Legacy saved opt-out must not reintroduce the retired bundle');
+assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.image_enhancement.enroll_status,'OPT_OUT');
+assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.enhance_cta.enroll_status,'OPT_IN');
 console.log('PASS image/video stories: required destination, original media, literal approved copy and CTA; single-copy avoids singular DoF, variants retained, remote mismatches rejected. No live calls.');
