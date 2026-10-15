@@ -276,9 +276,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  </div>
 
  {inputMode==='media'&&!driveReady&&<div role="status" aria-live="polite"><p>{driveStatus}</p><a href="/api/drive/connect" target="_blank" rel="noopener noreferrer" style={{display:'inline-block',padding:12,minHeight:44}}>Connect Google Drive ↗</a><button type="button" disabled={driveChecking} style={{minHeight:44}} onClick={()=>setDriveCheck(n=>n+1)}>{driveChecking?'Checking Drive…':'Check Drive connection again'}</button></div>}
- <div className="actions"><button aria-pressed={inputMode==='media'} onClick={()=>setInputMode('media')}>Video / audio</button><button aria-pressed={inputMode==='text'} onClick={()=>setInputMode('text')}>Paste script</button></div>
- {inputMode==='text'?<textarea className="script edit" rows={8} placeholder={polish?'Wklej oryginalny skrypt. Przygotujemy polską wersję.':'Paste the original script. We will localise it into British English.'} value={sourceScript} onChange={e=>setSourceScript(e.target.value)}/>:
- <div className="inputs"><textarea className="linkbox" placeholder="One ad/video link per line" value={links} onChange={e=>setLinks(e.target.value)}/></div>}
+ {inputMode==='text'&&<textarea className="script edit" rows={8} placeholder={polish?'Wklej oryginalny skrypt. Przygotujemy polską wersję.':'Paste the original script. We will localise it into British English.'} value={sourceScript} onChange={e=>setSourceScript(e.target.value)}/>}
  <section className="vopanel"><h2>Call to action</h2><p>Choose how the script ends. Applies to every file in this upload.</p>
  <label className={`workflow-option ${generateHooks?'selected':''}`}><input type="checkbox" checked={generateHooks} onChange={e=>setGenerateHooks(e.target.checked)}/><span><strong>Generate alternative hooks</strong><small>Add two alternative openings. Uncheck to prepare only the main script; its original opening stays.</small></span></label>
  <LocalizationModeChoice value={singingAd?'close':localizationMode} onChange={setLocalizationMode} polish={polish} disabled={busy||singingAd}/>
