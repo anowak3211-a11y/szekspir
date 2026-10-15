@@ -47,14 +47,23 @@ export async function metaAccounts(token?:string){return (await cachedMetaResour
 export async function metaResources(kind:string,accountId:string,campaignId?:string){
  const account=numericId(accountId.replace(/^act_/,''),'account');
  if(kind==='campaigns')return (await cachedMetaResource(`campaigns:${account}`,30000,t=>graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget',{},t))).value;
- if(kind==='pages')return (await cachedMetaResource(`pages:${account}`,300000,t=>graphList(`act_${account}/promote_pages`,'id,name',{},t))).value;
- if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,promoted_object',{},t);})).value;}
+ if(kind==='pages')return (await cachedMetaResource(`pages-with-tasks:${account}`,300000,async t=>{
+  const pages=await graphList(`act_${account}/promote_pages`,'id,name',{},t);if(pages.length)return pages;
+  // Some legacy accounts return no promote_pages despite the connected user
+  // already having advertising tasks on the Page. Never infer access from a
+  // public Page lookup or return Page access tokens to the browser.
+  return (await graphList('me/accounts','id,name,tasks',{},t)).filter(p=>Array.isArray(p.tasks)&&p.tasks.some((task:unknown)=>task==='ADVERTISE'||task==='PROFILE_PLUS_ADVERTISE')).map(p=>({id:p.id,name:p.name}));
+ })).value;
+ if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,optimization_goal,promoted_object',{},t);})).value;}
  throw Error('Unknown resource.');
 }
 export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string}){
- const set=(await cachedMetaResource(`target:${ad.accountId}:${ad.adSetId}`,300000,t=>graph<{account_id:string;campaign_id:string;destination_type?:string}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type'},'GET',t))).value;
+ const set=(await cachedMetaResource(`target-with-conversion:${ad.accountId}:${ad.adSetId}`,300000,t=>graph<{account_id:string;campaign_id:string;destination_type?:string;optimization_goal?:string;promoted_object?:{pixel_id?:string;application_id?:string}}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type,optimization_goal,promoted_object'},'GET',t))).value;
  if(set.account_id!==ad.accountId||set.campaign_id!==ad.campaignId)throw Error('The ad set does not belong to the selected account and campaign.');
  const campaign=await graph<{status:string}>(ad.campaignId,{fields:'status'});if(campaign.status!=='PAUSED')throw Error('This uploader requires a paused campaign. Pause it in Meta first.');
- if(set.destination_type&&set.destination_type!=='WEBSITE')throw Error('Choose a Website ad set.');
+ // UNDEFINED alone does not identify a website. Legacy pixel conversion
+ // sets must additionally prove offsite/value optimisation and no app target.
+ const legacyWebsite=set.destination_type==='UNDEFINED'&&!!set.promoted_object?.pixel_id&&!set.promoted_object.application_id&&['OFFSITE_CONVERSIONS','VALUE'].includes(set.optimization_goal||'');
+ if(set.destination_type&&set.destination_type!=='WEBSITE'&&!legacyWebsite)throw Error(`Choose a Website ad set. Meta returned ${set.destination_type}.`);
  const pages=await metaResources('pages',ad.accountId);if(!pages.some(p=>p.id===ad.pageId))throw Error('Selected Page is not available for this account.');
 }

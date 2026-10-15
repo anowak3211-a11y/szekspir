@@ -1,0 +1,32 @@
+const fs=require('node:fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('node:module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
+const original=Module._load;let posts=0;const calls=[];
+Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/meta-client.ts')){
+ if(n==='./meta-read-cache')return {metaCacheKey:x=>x,cachedMetaRead:async(k,ttl,load)=>({value:await load()})};
+ if(n==='./store')return {readState:async()=>({value:{token:'offline-token'}})};
+ if(n==='./meta-rate-limit')return {withMetaBudget:async f=>f(),recordMetaUsage:async()=>0,isMetaRateLimit:()=>false,MetaBudgetWait:class extends Error{}};
+ }return original.call(this,n,p,i);};
+let target={account_id:'100000',campaign_id:'200000',destination_type:'UNDEFINED',optimization_goal:'OFFSITE_CONVERSIONS',promoted_object:{pixel_id:'600000',custom_event_type:'PURCHASE'}};
+let campaignStatus='PAUSED',pageTasks=['PROFILE_PLUS_ADVERTISE'];
+global.fetch=async(url,init)=>{const u=new URL(url);calls.push(u.pathname);if(init.method==='POST')posts++;
+ if(u.pathname.endsWith('/promote_pages'))return Response.json({data:[]});
+ if(u.pathname.endsWith('/me/accounts'))return Response.json({data:[{id:'400000',name:'Orthomax fixture',tasks:pageTasks},{id:'499999',name:'Read only fixture',tasks:['ANALYZE']} ]});
+ if(u.pathname.endsWith('/300000'))return Response.json(target);
+ if(u.pathname.endsWith('/200000'))return Response.json({status:campaignStatus});
+ throw Error('Unexpected offline request');
+};
+const client=require('../lib/meta-client.ts'),ad={accountId:'100000',campaignId:'200000',adSetId:'300000',pageId:'400000'};
+(async()=>{
+ await client.assertUploadTarget(ad);
+ assert(calls.some(p=>p.endsWith('/me/accounts')),'Empty promote_pages must discover already-authorised Pages without requesting new scopes');
+ assert.equal(posts,0);
+ const pages=await client.metaResources('pages','100000');assert.deepEqual(pages.map(p=>p.id),['400000']);assert(!JSON.stringify(pages).includes('access_token'));
+ target={...target,destination_type:'APP'};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
+ target={...target,destination_type:'UNDEFINED',promoted_object:{application_id:'900000',pixel_id:'600000'}};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
+ target={...target,promoted_object:{pixel_id:'600000'},optimization_goal:'REACH'};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
+ target={...target,optimization_goal:'OFFSITE_CONVERSIONS',promoted_object:{}};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
+ target={...target,destination_type:'WEBSITE'};await client.assertUploadTarget(ad);
+ campaignStatus='ACTIVE';await assert.rejects(()=>client.assertUploadTarget(ad),/paused campaign/);campaignStatus='PAUSED';
+ pageTasks=['ANALYZE'];await assert.rejects(()=>client.assertUploadTarget(ad),/Page is not available/);
+ assert.equal(posts,0);console.log('PASS: legacy offsite pixel target, explicit app/unknown rejection, fresh parent OFF guard, task-qualified Page discovery without token exposure or new scopes. Zero provider writes.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,5 +1,13 @@
 # Current development handoff — 28 September 2026
 
+## Owner-selected Orthomax OFF publication test — 15 October 2026
+
+- Owner authorised one ad in an old OFF Orthomax campaign through Szekspir, explicitly without Supermetrics. A single draft batch is saved; first start was rejected before writes because the legacy set reports UNDEFINED. No successful publication is claimed by that rejection.
+- Target preflight now recognises UNDEFINED only with an existing pixel, OFFSITE_CONVERSIONS/VALUE optimisation and no application target. APP, unqualified unknown destinations and active parent campaigns remain blocked. The target cache key is versioned for the extra fields; no campaign/ad set settings are rewritten.
+- Empty account promote_pages falls back to me/accounts with id/name/tasks only. Only Pages with ADVERTISE or PROFILE_PLUS_ADVERTISE are exposed; public visibility/read-only tasks cannot qualify. No Page tokens are requested/returned, no OAuth permissions are expanded and the fresh parent OFF check remains.
+- Observed image upload through the existing resumable storage returned HTTP 415. Storage configuration was not changed. The publication fixture instead uses an existing original public Orthomax shop image. This does not establish a fix for local image storage.
+- Added a failing-then-passing offline regression for the legacy target and Page task discovery, app/unknown denial, parent activation and non-advertising Page tasks. Existing Meta/core tests and typecheck remain required. No production environment secret export was performed.
+
 ## Unfinished Meta creative workspace recovery — 15 October 2026
 
 - Continue work in the existing Szekspir `/uploader`; the separate Launchdesk experiment outside this repository is not the product and must not be deployed or integrated as a second backend.
