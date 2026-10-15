@@ -29,7 +29,7 @@ export async function addEditorComment(id:string,input:unknown){
    const notes=mergeComment(cells.map(c=>c.value),comment);
    if(notes.length>49000)throw Error('The Notes cell is too long. Shorten the existing notes first.');
    for(const cell of cells)if(cell.value!==notes)await api.spreadsheets.values.update({spreadsheetId:cell.spreadsheetId,range:cell.range,valueInputOption:'RAW',requestBody:{values:[[notes]]}});
-   await mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.editorNotes=notes;});
+   await mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s)throw Error('Job not found');s.firstEditorComment??=s.editorNotes||'';s.editorNotes=notes;});
    return {ok:true,notes,editor:workspace.name};
   });
  });

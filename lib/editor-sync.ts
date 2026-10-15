@@ -80,15 +80,18 @@ export async function syncAssignedEditor(adId:string){const deadline=Date.now()+
 
 export async function verifyEditorDelivery(job:import('./jobs').Job,synchronise=true){
  if(!job.adId)throw Error('Save the brief before finishing.');
- return withEditorLocks(['ad-'+job.adId],async()=>{
+ const verify=async()=>{
   const {api,current}=await editorAssignment(job.adId!);const workspace=EDITOR_WORKSPACES.find(w=>w.id===current);if(!workspace)throw Error('Assigned editor not found.');
-  return withEditorLocks(['workspace-'+workspace.id],async()=>{
-   if(synchronise)await syncWorkspace(workspace);
+  const read=async()=>{
    const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'});
    const rows=response.data.values||[],headers=(rows[0]||[]).map(String),idCol=headers.indexOf('Ad ID');
    const matching=rows.slice(1).filter(row=>row[idCol]===job.adId);if(matching.length>1)throw Error('The editor sheet contains duplicate rows for this ad.');
    const {editorChecklist,deliveryVersion}=await import('./editor-checklist');const checks=editorChecklist(job,headers,matching[0]||[]);
    return {version:deliveryVersion(job),ok:checks.every(check=>check.ok),checks,editor:workspace.name,url:`https://docs.google.com/spreadsheets/d/${workspace.sheetId}/edit#gid=801`,checkedAt:Date.now()};
-  });
- });
+  };
+  if(!synchronise)return read();
+  return withEditorLocks(['workspace-'+workspace.id],async()=>{await syncWorkspace(workspace);return read();});
+ };
+ // Read-only status checks must not queue behind a complete workspace sync.
+ return synchronise?withEditorLocks(['ad-'+job.adId],verify):verify();
 }

@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Later voiceover choice and initial editor instructions — 15 October 2026
+
+- Saved script jobs have Include voiceover, persisted atomically. Off removes the recording requirement/queued main VO without deleting saved audio; On only enables the option, never records automatically. Active/uncertain recording, active save and cancelled jobs reject changes. Hook recording controls are disabled while VO is off. Delivery versions include this choice so previous checklist results cannot enable Finish incorrectly.
+- Additional comment shows First comment above the new note. New jobs keep upload instructions separately from appended notes; legacy jobs display existing saved instructions as fallback. Comment writes capture the prior notes before the first append if no initial snapshot exists.
+- Force finish verifies available delivery without synchronising the entire editor workspace. Read-only delivery checks no longer acquire writer locks: they compare the saved job version against the observed Sheet row and do not write or recreate missing rows. Ordinary Finish still synchronises. This prevents read checks/full workspace synchronisation from blocking an explicitly forced completion.
+
 ## Retired editor removal — 15 October 2026
 
 - Removed editor-8 from all active editor choices, scheduled workspace synchronisation and quality reports. Persisted jobs/recovery drafts for that retired editor resolve to admin during creation/export, without losing saved copy or media. Existing Admin assignments were moved to admin; historical work links/status remain.

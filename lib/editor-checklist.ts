@@ -17,4 +17,4 @@ export function editorChecklist(job:Job,headers:string[],row:unknown[]){
  return checks;
 }
 
-export function deliveryVersion(job:Job){return JSON.stringify([job.id,job.nativeImageDriveUrl,job.revision,job.result?.uk_script,job.result?.hooks,job.voUrl,job.hookVoUrls,job.voNeedsRegeneration,job.hookVoNeedsRegeneration,job.hookVoPending,job.driveUrl,job.cleanUrl,job.enhancedSavedUrl,job.vmakeMode,job.hooksToEditor,job.hookDeliveryPending]);}
+export function deliveryVersion(job:Job){return JSON.stringify([job.id,job.voiceoverEnabled,job.generateVo,job.nativeImageDriveUrl,job.revision,job.result?.uk_script,job.result?.hooks,job.voUrl,job.hookVoUrls,job.voNeedsRegeneration,job.hookVoNeedsRegeneration,job.hookVoPending,job.driveUrl,job.cleanUrl,job.enhancedSavedUrl,job.vmakeMode,job.hooksToEditor,job.hookDeliveryPending]);}
