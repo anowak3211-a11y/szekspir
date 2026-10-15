@@ -14,7 +14,7 @@ export default function AdVideoPreview({job}:{job:Job}){
   <summary>Preview this ad{job.adId?` · ${job.adId}`:''}</summary>
   {open&&<div className="ad-video-preview-content">
    <p>Original video · {job.name}</p>
-   {source?<video key={source} controls playsInline preload="metadata" aria-label={`Original video ${job.adId||job.name}`} onError={()=>setFailed(true)}><source src={source}/></video>:<iframe src={drive} title={`Original video ${job.adId||job.name}`} allowFullScreen/>}
+   {source?<video key={source} controls playsInline preload="none" aria-label={`Original video ${job.adId||job.name}`} onError={()=>setFailed(true)}><source src={source}/></video>:<iframe src={drive} title={`Original video ${job.adId||job.name}`} allowFullScreen/>}
    {failed&&<p role="status">This video could not be played here. Open the original file below.</p>}
    <a href={source||job.driveUrl||drive} target="_blank" rel="noreferrer">Open original video ↗</a>
   </div>}

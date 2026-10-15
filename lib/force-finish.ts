@@ -1,3 +1,4 @@
+import {deliveryVersion} from './editor-checklist';
 import {dualVoice} from './dual-voice';
 import {randomUUID} from 'node:crypto';
 import type {Job} from './jobs';
@@ -5,10 +6,11 @@ import {mutate} from './store';
 import {validateResult,opening,hasTokens} from './validation';
 
 // Hold the job lease while saving delivery; never enqueue provider work.
-export async function forceFinishJob(id:string,script:string,hooks:string[],deliver:(job:Job)=>Promise<unknown>,dualInput?:unknown){
+export async function forceFinishJob<T>(id:string,script:string,hooks:string[],deliver:(job:Job)=>Promise<T>,dualInput?:unknown,options?:{normal?:boolean;expectedVersion?:string}){
  const token=randomUUID();
  const job=await mutate<Job|null,Job>(`job-${id}`,null,j=>{
   if(!j?.result||!j.adId)throw Error('Wait for the brief to be saved before finishing.');
+  if(options?.expectedVersion&&deliveryVersion(j)!==options.expectedVersion)throw Error('The job changed after publishing was requested. Review and publish again.');
   if(j.abortedAt||j.cancelledAt)throw Error('This job was stopped.');
   if((j.leaseUntil||0)>Date.now()||j.pendingStep||Object.values(j.hookVoPending||{}).some(Boolean)||Object.values(j.stages||{}).some(s=>s.pending)||j.generateVo&&!j.stages?.vo?.done&&!j.stages?.vo?.error)throw Error('Wait for the current recording or processing to finish.');
   if(j.hookDeliveryPending!==undefined)throw Error('Finish saving the hook selection first.');
@@ -28,7 +30,8 @@ export async function forceFinishJob(id:string,script:string,hooks:string[],deli
   const receipt=await deliver(job);
   await mutate<Job|null,void>(`job-${id}`,null,j=>{
    if(!j||j.lease!==token)throw Error('The job changed. Please retry finishing.');
-   j.forceFinishedAt=Date.now();j.completedAt=j.forceFinishedAt;j.updated=j.forceFinishedAt;j.step='done';j.status='Complete';j.error=undefined;
+   const now=Date.now();if(!options?.normal)j.forceFinishedAt=now;else j.forceFinishedAt=undefined;j.completedAt=now;j.updated=now;j.step='done';j.status='Complete';j.error=undefined;
+   if(options?.normal&&j.stages)for(const stage of ['export','references'] as const)j.stages[stage]={...j.stages[stage],done:true,pending:false,error:undefined,retryReason:undefined,nextAt:undefined,finished:now};
   });
   return receipt;
  }finally{await mutate<Job|null,void>(`job-${id}`,null,j=>{if(j?.lease===token){j.lease=undefined;j.leaseUntil=undefined;}});}

@@ -586,3 +586,9 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - Occupied editor leases are read with exponential backoff; no failed-acquisition no-op writes. CAS still rechecks ownership, lock ordering and six-minute lease protection retained.
 - Pipeline assigned-editor sync waits at most briefly for locks and defers contention for 60 seconds instead of failing export/references. Saved brief IDs and paid outputs are reused. Existing failed jobs still require explicit Retry.
 - Validation: lock contention/zero-write regression, complete offline pipeline suite including busy-sync retry without duplicate export, 42 core regressions, typecheck and production build.
+
+### 15 October 2026 — durable publication and transfer reduction
+- Finish now stores one publication intent and queues non-provider delivery in the durable editor queue; repeated clicks share the same token. UI acknowledges the queued state and later shows persisted delivery results, without holding a browser request open for Sheets.
+- Ready editor material is verified without re-export, revision reset, workQueue archive scan or full-workspace sync. Missing delivery still synchronises; normal completion requires all checks; Force finish remains explicit. Revision fingerprints, existing provider guards and job leases protect concurrent work. Bounded retries preserve partial delivery.
+- Job polling uses a small version read and ETag/304 for unchanged records; browser responses omit product-context/history/transcript. Video preview preload is none. No billing caps or subscription settings changed.
+- Validation: durable-publication suite (fast acknowledgement, idempotency, ready fast path, contention retries, version/lease guards), conditional client reads, force-finish suite, 42 regressions, typecheck/build.

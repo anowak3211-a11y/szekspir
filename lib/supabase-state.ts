@@ -58,3 +58,10 @@ export async function writeDatabaseState(name:string,payload:string,expected?:st
  if(typeof version!=='string'||!/^\d+$/.test(version))throw Error('Invalid database state version');
  return {etag:version};
 }
+
+export async function databaseStateVersion(name:string):Promise<string|undefined>{
+ if(!/^[A-Za-z0-9_-]{1,200}$/.test(name))throw Error('Invalid state name');
+ const rows=await transport('szekspir_state?'+new URLSearchParams({select:'version',name:'eq.'+name}),undefined,'read');
+ if(!Array.isArray(rows)||rows.length>1)throw Error('Invalid state version response');
+ if(!rows.length)return;const version=String(rows[0].version);if(!/^\d+$/.test(version))throw Error('Invalid state version');return version;
+}
