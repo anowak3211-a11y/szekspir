@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Security audit fixes — 15 October 2026
+
+- Owner completed authenticator setup; production auth status confirmed complete before activation. Owner then authorised all audit fixes, including enforcing MFA. Production APP_AUTH_MODE is being set to supabase-mfa for the deployment; verify owner access and unauthenticated denial before claiming enforcement complete.
+- Reconciliation now requires PAUSED for recovered ads too. An ACTIVE remote ad no longer becomes complete merely because reused=true; it remains unresolved without changing its status or creating a replacement. Regression failed before the fix and passes after restoring PAUSED.
+- Updated sharp to 0.35.5 and source-map-js to 1.2.2 for GHSA-wq5f-xc86-pv6w and GHSA-68fv-2mgg-jv7q. Image-comparison regression, Auth/Meta suites, 42 core regressions and typecheck pass. No paid provider or live advertising writes used for verification.
+
 ## Personal account MFA rollout — 15 October 2026
 
 - Owner requested Szekspir-only 2FA. Supabase email/password + TOTP gateway is staged behind `APP_AUTH_MODE=supabase-mfa`; exact email allowlist is configured privately. See `docs/AUTH-MFA.md` for enrollment, activation and recovery. Do not claim MFA is active until owner enrollment and production gate are verified.

@@ -48,7 +48,7 @@ async function verify(item:UploadItem){
  if(!item.metaAdId||!item.creativeId)throw Error('Missing native Meta IDs.');
  await assertUploadTarget(item.ad);
  const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string}}>(item.metaAdId,{fields:'id,adset_id,status,creative{id}'});
- if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||(!item.reused&&ad.status!=='PAUSED'))throw Error('Meta ad identity, target or paused status did not match.');
+ if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||ad.status!=='PAUSED')throw Error('Meta ad identity, target or paused status did not match.');
  const creative=await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
 }
 class UnconfirmedResult extends Error {}
