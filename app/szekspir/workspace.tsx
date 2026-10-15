@@ -136,11 +136,11 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  useEffect(()=>{setScriptPreview(null);},[selected]);
  const job=all.find(j=>j.id===selected);
  const publicationPending=!!job?.publication&&['queued','processing'].includes(job.publication.status);
- const closingPublication=useRef(''),seenPendingPublication=useRef('');
- useEffect(()=>{const p=job?.publication;if(!p)return;if(['queued','processing'].includes(p.status)){seenPendingPublication.current=p.token;return;}
+ const closingPublication=useRef('');
+ useEffect(()=>{const p=job?.publication;if(!p)return;if(['queued','processing'].includes(p.status))return;
   if(p.status==='complete'&&p.receipt&&loaded.current===job.id&&script===job.result?.uk_script&&JSON.stringify(hooks)===JSON.stringify(job.result?.hooks.slice(0,2))){
    setFinishResult(p.receipt);setMessage(p.force?'Finished with available materials.':'Published and confirmed on the editor sheet.');
-   if(seenPendingPublication.current===p.token&&closingPublication.current!==p.token&&canCloseFinishedTab(p.receipt)&&!editingScript&&!document.querySelector<HTMLTextAreaElement>('#additional-comment')?.value.trim()){
+   if(closingPublication.current!==p.token&&canCloseFinishedTab(p.receipt)&&!editingScript&&!document.querySelector<HTMLTextAreaElement>('#additional-comment')?.value.trim()){
     const timer=setTimeout(()=>{if(document.querySelector<HTMLTextAreaElement>('#additional-comment')?.value.trim())return;closingPublication.current=p.token;closeFinishedTab(job.id,basePath);},900);return()=>clearTimeout(timer);
    }
   }else if(p.status==='blocked'){setError(p.error||'Publication needs attention.');if(p.receipt)setFinishResult(p.receipt);}
