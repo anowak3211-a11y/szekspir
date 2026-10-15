@@ -1,5 +1,9 @@
 # Current development handoff — 28 September 2026
 
+## Voice settings after script creation — 15 October 2026
+
+- Removed the voice selector, preview, pace and pause/speed panel from the new-upload screen. Voice configuration remains in the saved job after a script is available. Localisation no longer requires choosing a voice first; recording still requires a valid voice and explicit script approval. The initial Voiceover workflow toggle remains.
+
 ## Shared Meta API limiter — 15 October 2026
 
 - Owner requested preventing repeat throttling after the 158-ad batch. The app now shares one durable budget across Graph, discovery and raw image/video transfers: one network request in flight, at least 5 seconds spacing, conservative ceiling 240 calls in the rolling hour. These are application safety settings, not a claim about Ads Manager’s unpublished browser quota. No parent campaign, budget, creative or targeting setting changes.

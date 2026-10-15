@@ -47,7 +47,6 @@ export async function createJob(input:Partial<Job>){
  if(input.videoDestination&&!['vmake','drive','none'].includes(input.videoDestination))throw Error('Invalid video destination');
  if(input.editorId!==undefined&&!EDITOR_WORKSPACES.some(e=>e.id===input.editorId))throw Error('Unknown editor');
  const old=await getJob(input.id);if(old&&parseMarket(old.market)!==market)throw Error('Job already exists for a different market.');if(old){await register(old.id);return old;}
- if(input.voiceoverEnabled!==false&&(typeof input.voiceId!=='string'||!input.voiceId.trim()))throw new Error('ElevenLabs voice is required before starting production');
  if(!['anthropic','openai','custom'].includes(input.provider||''))throw new Error('Invalid provider');
  
  if(input.sourceUrl)new URL(input.sourceUrl);
