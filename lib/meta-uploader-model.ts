@@ -63,31 +63,48 @@ export const FEATURE_OFF=['standard_enhancements','advantage_plus_creative','add
 export const LOCKED_FEATURES=['catalog_feed_tag','product_browsing','product_extensions','product_metadata_automation','product_tags','multi_creative_post_carousel','media_type_automation'];
 export function creativePayload(item:UploadItem){
  const a=item.ad,features=Object.fromEntries(FEATURE_OFF.map(k=>[k,{enroll_status:'OPT_OUT'}]));features.enhance_cta={enroll_status:'OPT_IN'};features.inline_comment={enroll_status:'OPT_IN'};for(const [k,v] of Object.entries(a.enhancements||{}))features[k]={enroll_status:v?'OPT_IN':'OPT_OUT'};
- const carousel=a.media.kind==='carousel';
+ const carousel=a.media.kind==='carousel',multiple=a.primaryTexts.length>1||(a.headlines||[a.headline]).length>1||(a.descriptions||[a.description]).length>1;
  const asset={bodies:a.primaryTexts.map(t=>({text:t})),titles:(a.headlines||[a.headline]).map(text=>({text})),descriptions:(a.descriptions||(a.description?[a.description]:[])).map(text=>({text})),link_urls:[{website_url:a.url}],call_to_action_types:[a.cta],optimization_type:'DEGREES_OF_FREEDOM',ad_formats:[carousel?'CAROUSEL':item.imageHash?'SINGLE_IMAGE':'SINGLE_VIDEO'],...(carousel?{images:(item.imageHashes||[]).map((hash,i)=>({hash,adlabels:[{name:`card_${i}`}]})),carousels:[{child_attachments:(item.imageHashes||[]).map((_,i)=>({image_label:{name:`card_${i}`},link_url_label:{name:'destination'},title_label:{name:'headline'},...(a.descriptions?.length||a.description?{description_label:{name:'description'}}:{})})),multi_share_end_card:a.media.kind==='carousel'&&a.media.endCard===true,multi_share_optimized:false}]}:item.imageHash?{images:[{hash:item.imageHash}]}:{videos:[{video_id:item.videoId,thumbnail_url:item.thumbnailUrl}]})};
  if(carousel){Object.assign(asset.link_urls[0],{adlabels:[{name:'destination'}]});for(const title of asset.titles)Object.assign(title,{adlabels:[{name:'headline'}]});for(const description of asset.descriptions)Object.assign(description,{adlabels:[{name:'description'}]});}
- return {name:`szekspir-upload-${item.id}`,object_story_spec:{page_id:a.pageId,...(item.imageHash&&!carousel?{link_data:{link:a.url,image_hash:item.imageHash,message:a.primaryTexts[0],name:(a.headlines||[a.headline])[0],description:(a.descriptions||[a.description])[0],call_to_action:{type:a.cta,value:{link:a.url}}}}:{})},asset_feed_spec:asset,degrees_of_freedom_spec:{creative_features_spec:features},contextual_multi_ads:{enroll_status:'OPT_OUT'},...(a.urlTags?{url_tags:a.urlTags}:{})};
+ const cta={type:a.cta,value:{link:a.url}},headline=(a.headlines||[a.headline])[0],description=(a.descriptions||[a.description])[0];
+ const story={page_id:a.pageId,...(!carousel?(item.imageHash?{link_data:{link:a.url,image_hash:item.imageHash,message:a.primaryTexts[0],name:headline,description,call_to_action:cta}}:{video_data:{video_id:item.videoId,image_url:item.thumbnailUrl,message:a.primaryTexts[0],title:headline,link_description:description,call_to_action:cta}}):{})};
+ // Meta rejects a singular Degrees of Freedom feed (100/2446218). An ordinary
+ // story carries one approved copy; only actual variants use the asset feed.
+ return {name:`szekspir-upload-${item.id}`,object_story_spec:story,...(multiple||carousel?{asset_feed_spec:asset}:{}),degrees_of_freedom_spec:{creative_features_spec:features},contextual_multi_ads:{enroll_status:'OPT_OUT'},...(a.urlTags?{url_tags:a.urlTags}:{})};
 }
 export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):string[]{
- const errors:string[]=[];const a=item.ad,s=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined;
- if(!s){errors.push('Meta did not return the text variants.');return errors;}
- const list=(name:string)=>(Array.isArray(s[name])?s[name]:[]) as Record<string,unknown>[];
+ const errors:string[]=[],a=item.ad,s=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined;
+ const list=(name:string)=>(Array.isArray(s?.[name])?s?.[name]:[]) as Record<string,unknown>[];
  const same=(actual:unknown,expected:unknown)=>JSON.stringify(actual)===JSON.stringify(expected);
- if(!same(list('bodies').map(t=>t.text),a.primaryTexts))errors.push('Primary text variants differ.');
- if(!same(list('titles').map(t=>t.text),a.headlines||[a.headline]))errors.push('Headline differs.');
- if(!same(list('descriptions').map(t=>t.text),a.descriptions||(a.description?[a.description]:[])))errors.push('Description differs.');
- if(!same(s.call_to_action_types,[a.cta]))errors.push('CTA differs.');
- if(list('link_urls')[0]?.website_url!==a.url)errors.push('Destination URL differs.');
- if(story?.page_id!==a.pageId)errors.push('Facebook Page differs.');
- if(item.imageHash&&a.media.kind!=='carousel'){
-  const link=story?.link_data as Record<string,unknown>|undefined;
-  if(link?.link!==a.url)errors.push('Story destination URL differs.');
-  if(link?.image_hash!==item.imageHash)errors.push('Story original image differs.');
+ const expectedPayload=creativePayload(item),expectedFeed=expectedPayload.asset_feed_spec;
+ if(!s&&expectedFeed)errors.push('Meta did not return the text variants.');
+ if(s){
+  if(!same(list('bodies').map(t=>t.text),a.primaryTexts))errors.push('Primary text variants differ.');
+  if(!same(list('titles').map(t=>t.text),a.headlines||[a.headline]))errors.push('Headline differs.');
+  if(!same(list('descriptions').map(t=>t.text),a.descriptions||(a.description?[a.description]:[])))errors.push('Description differs.');
+  if(!same(s.call_to_action_types,[a.cta]))errors.push('CTA differs.');
+  if(list('link_urls')[0]?.website_url!==a.url)errors.push('Destination URL differs.');
+  if(a.media.kind==='carousel'){
+   if(!same(list('images').map(t=>t.hash),item.imageHashes))errors.push('Original carousel images differ.');
+   if(!same(s.carousels,(expectedFeed as Record<string,unknown>)?.carousels))errors.push('Carousel order or card settings differ.');
+   if(!same(s.ad_formats,['CAROUSEL']))errors.push('Carousel format differs.');
+  }else if(item.imageHash?list('images')[0]?.hash!==item.imageHash:list('videos')[0]?.video_id!==item.videoId)errors.push('Original media differs.');
  }
- if(a.media.kind==='carousel'){if(!same(list('images').map(t=>t.hash),item.imageHashes))errors.push('Original carousel images differ.');const expected=creativePayload(item).asset_feed_spec as Record<string,unknown>;if(!same(s.carousels,expected.carousels))errors.push('Carousel order or card settings differ.');if(!same(s.ad_formats,['CAROUSEL']))errors.push('Carousel format differs.');}
- else if(item.imageHash?list('images')[0]?.hash!==item.imageHash:list('videos')[0]?.video_id!==item.videoId)errors.push('Original media differs.');
- const f=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec;
- const expected=creativePayload(item).degrees_of_freedom_spec.creative_features_spec;
+ if(story?.page_id!==a.pageId)errors.push('Facebook Page differs.');
+ if(a.media.kind!=='carousel'){
+  const image=!!item.imageHash,data=story?.[image?'link_data':'video_data'] as Record<string,unknown>|undefined;
+  const cta=data?.call_to_action as {type?:string;value?:{link?:string}}|undefined;
+  if((image?data?.link:cta?.value?.link)!==a.url)errors.push('Story destination URL differs.');
+  if(image&&data?.image_hash!==item.imageHash)errors.push('Story original image differs.');
+  if(!image&&data?.video_id!==item.videoId)errors.push('Original media differs.');
+  if(!s){
+   if(data?.message!==a.primaryTexts[0])errors.push('Primary text differs.');
+   if(data?.[image?'name':'title']!==(a.headlines||[a.headline])[0])errors.push('Headline differs.');
+   if((data?.[image?'description':'link_description']||'')!==(a.descriptions||[a.description])[0])errors.push('Description differs.');
+   if(cta?.type!==a.cta||cta?.value?.link!==a.url)errors.push('CTA differs.');
+  }
+ }
+ const f=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec,expected=expectedPayload.degrees_of_freedom_spec.creative_features_spec;
  if(!f||Object.entries(expected).some(([k,v])=>f[k]?.enroll_status!==v.enroll_status))errors.push('Creative enhancements differ from the approved settings.');
  if(f&&Object.entries(f).some(([k,v])=>v?.enroll_status==='OPT_IN'&&expected[k]?.enroll_status!=='OPT_IN'))errors.push('An additional enhancement is enabled.');
  if(a.urlTags&&(raw.url_tags||'')!==a.urlTags)errors.push('UTM parameters differ.');

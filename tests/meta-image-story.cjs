@@ -9,4 +9,12 @@ assert.equal(link.image_hash,item.imageHash,'Story and asset feed use the same o
 assert.deepEqual(payload.asset_feed_spec.bodies.map(x=>x.text),ad.primaryTexts);assert.deepEqual(verifyCreative(item,payload),[]);
 assert(verifyCreative(item,{...payload,object_story_spec:{...payload.object_story_spec,link_data:{...link,link:'https://example.test/wrong'}}}).includes('Story destination URL differs.'));
 assert(verifyCreative(item,{...payload,object_story_spec:{...payload.object_story_spec,link_data:{...link,image_hash:'wrong-hash'}}}).includes('Story original image differs.'));
-console.log('PASS image story includes its required link, original hash, literal approved copy and CTA, with independent remote story checks. No live calls.');
+// Meta 100/2446218 rejects Degrees of Freedom when every text/media asset is singular.
+const single={...ad,primaryTexts:[ad.primaryTexts[0]]},singleItem={...item,ad:single},standard=creativePayload(singleItem);
+assert.equal(standard.asset_feed_spec,undefined,'One-copy image uses an ordinary story, not a singular DoF feed');
+assert.deepEqual(verifyCreative(singleItem,standard),[]);
+assert(verifyCreative(singleItem,{...standard,object_story_spec:{...standard.object_story_spec,link_data:{...standard.object_story_spec.link_data,message:'Changed remote text'}}}).includes('Primary text differs.'));
+const videoItem={...item,imageHash:undefined,videoId:'100000000005',thumbnailUrl:'https://example.test/original-thumb.jpg',ad:{...single,media:{kind:'library',videoId:'100000000005'}}},video=creativePayload(videoItem);
+assert.equal(video.asset_feed_spec,undefined);assert.equal(video.object_story_spec.video_data.video_id,videoItem.videoId);assert.equal(video.object_story_spec.video_data.call_to_action.value.link,single.url);assert.deepEqual(verifyCreative(videoItem,video),[]);
+assert(verifyCreative(videoItem,{...video,object_story_spec:{...video.object_story_spec,video_data:{...video.object_story_spec.video_data,video_id:'100000000099'}}}).includes('Original media differs.'));
+console.log('PASS image/video stories: required destination, original media, literal approved copy and CTA; single-copy avoids singular DoF, variants retained, remote mismatches rejected. No live calls.');
