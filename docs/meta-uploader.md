@@ -50,3 +50,9 @@ Ads Uploader jest opcjonalnym innym dostawcą publikacji; ten moduł nie instalu
 - Lokalny transfer przed zapisem paczki wymaga utrzymania karty; ostrzeżenie przed zamknięciem chroni niezapisane pliki/ustawienia. Zapisana paczka i Meta IDs są trwałe na serwerze.
 
 Font Geist pochodzi z dostarczonych zasobów Next.js; licencja OFL znajduje się w `public/fonts/geist/OFL.txt`. Wygląd został odtworzony z ekranów użytkownika, bez pobierania prywatnego kodu Rapid Ads.
+
+## Odzyskiwanie niezapisanej paczki — 15 października 2026
+
+Przed zapisaniem paczki na serwerze `/uploader` zachowuje robocze kreacje w IndexedDB przeglądarki. Po odświeżeniu tej samej karty pokazuje Restore draft / Discard backup. Zachowuje literalne teksty, wybrane kreacje, ich kolejność, indywidualne cele i ustawienia oraz identyfikator zapisu paczki. Wysłane już pliki korzystają z ich istniejących URL; niedokończone oryginały są przechowywane lokalnie, jeżeli przeglądarka ma dostateczny limit. Przywrócenie nie wykonuje transferu ani publikacji; przerwany transfer wymaga jawnego Retry upload.
+
+Kopia jest przypisana do karty i urządzenia. Nie obejmuje sekretów połączenia ani niezapisanych globalnych Settings. Błąd/quota storage jest widoczny, a ostrzeżenie przed opuszczeniem pozostaje aktywne. Zamknięcie karty może usunąć jej sessionStorage: ta funkcja służy do odświeżenia/powrotu w tej samej sesji, nie synchronizacji między urządzeniami. Potwierdzony zapis paczki na serwerze lub New upload usuwa bieżącą kopię lokalną. Nowy test `tests/meta-workspace-draft.cjs` używa fake-indexeddb; nie wywołuje Meta, storage serwera ani Sheets.

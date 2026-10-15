@@ -1,5 +1,12 @@
 # Current development handoff — 28 September 2026
 
+## Unfinished Meta creative workspace recovery — 15 October 2026
+
+- Continue work in the existing Szekspir `/uploader`; the separate Launchdesk experiment outside this repository is not the product and must not be deployed or integrated as a second backend.
+- Unsubmitted creative batches now have per-tab IndexedDB backups: literal copy and blank variant fields, ordered selection, per-creative target/settings snapshots and stable save request identity. Restore/Discard is explicit; restoration cannot publish or automatically resume a transfer. Uploaded originals reuse their existing URL, incomplete local Files can be retried explicitly. Credentials and transient blob preview URLs are excluded.
+- Browser quota/storage failure stays visible and retains the unload warning. Completed local saves permit reload; unsaved Settings and active operations retain their existing warning. Confirmed server saves and New upload remove the backup. This is same-tab/device recovery, not a shared or cloud workspace.
+- Validation: typecheck, Meta offline suite including fake-indexeddb recovery coverage, 42 core regressions and production webpack build. Browser recovery was exercised through the actual local `/uploader`: import a fixture, save locally, reload, Restore, and read back exact textarea paragraphs/whitespace. No live advertising or Sheet writes. Production connection/publication remains subject to the existing owner-selected live test requirement.
+
 ## Job-list timeout reduction — 15 October 2026
 
 - Production logs confirmed database read transport timeouts. Job lists now load encrypted records in fresh bounded batches of twenty (two batches concurrently) through the existing service-role REST table read grant. No SQL migration, credential changes or provider calls. Mutation paths retain individual compare-and-swap reads and writes; Blob fallback retains bounded individual reads.
