@@ -17,7 +17,7 @@ Source: owner-supplied `ads-xray.zip`, extracted separately in the UK workspace.
 
 ## Adaptations and limits
 
-- Literal source prompt and verdict schema retained as data. Python provider compatibility wrappers and model migrations are not executed. Sonnet 5.5 uses auto tool choice, strict schemas and between-tools thinking, matching the current provider API; no unsupported forced tool call or automatic second paid request. Other supplied model choices are omitted until independently configured/verified.
+- Literal source prompt and verdict schema retained as data. Python provider compatibility wrappers and model migrations are not executed. Sonnet 5.5 uses auto tool choice, strict schemas and default provider thinking, matching the current provider API; no unsupported forced tool call or automatic second paid request. Other supplied model choices are omitted until independently configured/verified.
 - No new ad publication, campaign activation, budget mutation, automatic script rewriting or compliance/medical approval.
 - AI pair limit is 60,000 characters per side, rejected rather than silently truncated. Alignment limit 1,200 sentences / 100,000 characters per column. Estimated pricing does not guarantee final spend.
 - A failed/unknown paid request is intentionally not replayed automatically. Operators must check provider outcome; there is no hidden browser retry that can rebill the same request.
