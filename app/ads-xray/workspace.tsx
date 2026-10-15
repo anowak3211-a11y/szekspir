@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { fresh, restore, serialise, compare, spans, legacyVerdictKey, fingerprint, canCompare, words, MODES, TITLES, type Doc, type Mode, type Verdict, type Alignment } from '@/lib/xray/ui-model';
+import { fresh, restore, serialise, compare, variantSimilarity, spans, legacyVerdictKey, fingerprint, canCompare, words, MODES, TITLES, type Doc, type Mode, type Verdict, type Alignment } from '@/lib/xray/ui-model';
 import Icon from './icons';
 import Scripts from './scripts';
 import Manage from './manage';
@@ -126,7 +126,7 @@ export default function Workspace({ initialMode, jobId, historyId }: {
     catch {
         setError('Przeglądarka nie pozwoliła skopiować tekstu.');
     } }
-    const comparison = useMemo(() => compare(d.result ? d.texts[0]?.body || '' : '', d.result ? d.texts[Math.min(pair, d.texts.length - 1)]?.body || '' : '', d.opts), [d.result, d.texts, pair, d.opts]);
+    const comparison = useMemo(() => {const a=d.result?d.texts[0]?.body||'':'',b=d.result?d.texts[Math.min(pair,d.texts.length-1)]?.body||'':'';const result=compare(a,b,d.opts);if(d.mode==='similarities')result.stats.similarity=variantSimilarity(a,b);return result;}, [d.mode,d.result,d.texts,pair,d.opts]);
     const scriptColumns = [{ key: 'orig' as const, label: 'Oryginał' }, { key: 'en' as const, label: 'Angielski · baza' }, { key: 'pl' as const, label: 'Polski' }];
     const analysisKey = fingerprint({ ...d, texts: [d.texts[0], d.texts[pair] || d.texts[1]] });
     const stale = d.ai && d.ai.key !== analysisKey, alignmentStale = d.alignment && d.alignment.key !== fingerprint(d);

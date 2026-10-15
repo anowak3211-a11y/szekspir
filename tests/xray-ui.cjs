@@ -10,3 +10,5 @@ console.log('PASS native X-Ray: exact legacy/v2 recovery, cached verdict migrati
 
 const oldAi=require('../public/xray/xray/ai_diff.js');assert.equal(u.legacyVerdictKey(a,b),oldAi.kluczPary(a,b),'Paid verdict cache keys remain compatible');
 const oldScripts=require('../public/xray/xray/skrypty_pl.js'),sentences=require('../public/xray/xray/zdania.js');assert.equal(u.facebookParagraphs(a),oldScripts.skryptyPlTekstFb(a,sentences),'Explicit Facebook copy keeps legacy paragraph rules');
+
+assert.equal(u.variantSimilarity('Integration check. An original opening. A simple daily routine.','Integration check. A different opening. A simple evening routine.'),0.56,'Redesign preserves the original variant similarity metric, independently of CDiff statistics');

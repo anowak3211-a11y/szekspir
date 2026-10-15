@@ -1,4 +1,5 @@
 import CD from '../../public/xray/cdiff.js';
+import Variants from '../../public/xray/xray/similarities.js';
 import Sentences from '../../public/xray/xray/zdania.js';
 import SentenceMap from '../../public/xray/zdania-mapa.js';
 export type Mode = 'similarities' | 'ai-diff' | 'skrypty-pl';
@@ -197,3 +198,5 @@ export function legacyVerdictKey(a: string, b: string) { const hash = (text: str
 } return h1.toString(36) + h2.toString(36) + ':' + text.length; }; return hash(a) + '|' + hash(b); }
 
 export function facebookParagraphs(text:string):string{return Sentences.podziel(text).flatMap((sentence:string)=>Sentences.podzielRegex(sentence)).reduce((out:string[],sentence:string)=>{if(out.length&&/^–\s*\p{Ll}/u.test(sentence))out[out.length-1]+=' '+sentence;else out.push(sentence);return out;},[]).join('\n\n');}
+
+export function variantSimilarity(a:string,b:string):number{return Variants.simDiffPair(a,b,{cd:CD}).similarity/100;}
