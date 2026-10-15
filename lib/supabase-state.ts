@@ -8,7 +8,7 @@ function config(){
 async function transport(path:string,body:unknown,operation:'read'|'write'){
  const {url,key}=config();
  // Writes repeat the identical compare-and-swap request, never the provider call.
- const attempts=3;
+ const attempts=operation==='write'?3:1;
  for(let attempt=0;attempt<attempts;attempt++){
   let r:Response;
   try{r=await fetch(`${url}/rest/v1/${path}`,{method:body===undefined?'GET':'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(20000)});
