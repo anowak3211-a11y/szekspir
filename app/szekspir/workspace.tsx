@@ -43,7 +43,13 @@ function assertUploadActive(id:string){if(localStorage.getItem('szekspir-cancell
 function uploadStatus(id:string,status:Omit<UploadStatus,'updated'>){try{if(localStorage.getItem('szekspir-cancelled-'+id))return;const key='szekspir-upload-'+id;const previous=JSON.parse(localStorage.getItem(key)||'null');localStorage.setItem(key,JSON.stringify({...status,stage:status.error&&status.stage==='Upload not completed'?(previous?.stage||status.stage):status.stage,startedAt:previous?.startedAt||status.startedAt||Date.now(),updated:Date.now()}));window.dispatchEvent(new Event('szekspir-upload-status'));}catch{}}
 function isBritish(v:Voice){return /british|english.?uk|united kingdom|england|london|scottish|welsh|northern irish|received pronunciation/i.test(v.labels?.accent||'');}
 type Product={name:string;version?:string;files?:{filename:string;markdown:string}[]};
-async function json(url:string,body?:unknown){const r=await fetch(url,{...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{}),cache:'no-store',signal:AbortSignal.timeout(60000)});const j=await r.json();if(!r.ok)throw new Error(j.error||'Request failed');return j;}
+const pendingReads=new Map<string,Promise<any>>();
+function json(url:string,body?:unknown){
+ if(body===undefined&&pendingReads.has(url))return pendingReads.get(url)!;
+ const request=(async()=>{try{const r=await fetch(url,{...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{}),cache:'no-store',signal:AbortSignal.timeout(60000)});const j=await r.json();if(!r.ok)throw new Error(j.error||'Request failed');return j;}catch(error){if(['TimeoutError','AbortError'].includes((error as Error).name))throw Error(body===undefined?'Status request timed out. This does not confirm that processing stopped.':'The response timed out. Check the saved process before retrying.');throw error;}})();
+ if(body===undefined){pendingReads.set(url,request);void request.then(()=>pendingReads.delete(url),()=>pendingReads.delete(url));}
+ return request;
+}
 export default function Szekspir({market='uk'}:{market?:Market}){
  const polish=market==='pl',basePath=marketPath(market),voiceKey=`szekspir-${market}-voice`;
  const language=polish?'polski':'British English';
@@ -138,8 +144,8 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  async function refresh(){const data=await json('/api/jobs?market='+market+(new URLSearchParams(window.location.search).get('job')?'&id='+encodeURIComponent(new URLSearchParams(window.location.search).get('job')!):'&summary=1'));setAll(data.jobs||[]);setLastChecked(Date.now());setPollError('');return data.jobs as Job[];}
  useEffect(()=>{json('/api/products').then(j=>setProducts(j.products)).catch(e=>setError(e.message));json('/api/voices?market='+market).then(j=>{setVoices(j.voices||[]);const prior=localStorage.getItem(voiceKey);if(prior&&!j.voices?.some((v:Voice)=>v.voice_id===prior)){setVoiceId('');localStorage.removeItem(voiceKey);}}).catch(e=>setError(e.message));setVoiceId(localStorage.getItem(voiceKey)||'');
   let active=true;
-  let timer:ReturnType<typeof setTimeout>;
-  const poll=async()=>{if(!active)return;let delay=60000;try{{const jobs=await refresh();if(new URLSearchParams(window.location.search).has('job'))delay=document.visibilityState==='visible'?10000:30000;else if(jobs.some(j=>j.status==='Queued'||j.status==='Running'))delay=30000;}}catch(e){if(active)setPollError((e as Error).message);}if(active)timer=setTimeout(poll,delay);};
+  let timer:ReturnType<typeof setTimeout>;let polling=false;
+  const poll=async()=>{if(!active||polling)return;polling=true;let delay=60000;try{{const jobs=await refresh();if(new URLSearchParams(window.location.search).has('job'))delay=document.visibilityState==='visible'?10000:30000;else if(jobs.some(j=>j.status==='Queued'||j.status==='Running'))delay=30000;}}catch(e){if(active)setPollError((e as Error).message);}finally{polling=false;}if(active)timer=setTimeout(poll,delay);};
   const wake=()=>{if(document.visibilityState==='visible'){clearTimeout(timer);void poll();}};
   void poll();document.addEventListener('visibilitychange',wake);return()=>{active=false;clearTimeout(timer);document.removeEventListener('visibilitychange',wake);};
  },[]);

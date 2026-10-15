@@ -1,5 +1,10 @@
 # Current development handoff — 28 September 2026
 
+## Job-list timeout reduction — 15 October 2026
+
+- Production logs confirmed database read transport timeouts. Job lists now load encrypted records in fresh bounded batches of twenty (two batches concurrently) through the existing service-role REST table read grant. No SQL migration, credential changes or provider calls. Mutation paths retain individual compare-and-swap reads and writes; Blob fallback retains bounded individual reads.
+- Identical client GETs share only their in-flight request; status polling cannot overlap itself on visibility changes. No completed response caching, no repeated POST, no automatic re-upload. Timeout messages distinguish slow status from uncertain write responses and do not claim processing failed.
+
 ## Later voiceover choice and initial editor instructions — 15 October 2026
 
 - Saved script jobs have Include voiceover, persisted atomically. Off removes the recording requirement/queued main VO without deleting saved audio; On only enables the option, never records automatically. Active/uncertain recording, active save and cancelled jobs reject changes. Hook recording controls are disabled while VO is off. Delivery versions include this choice so previous checklist results cannot enable Finish incorrectly.

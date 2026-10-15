@@ -1,4 +1,4 @@
-import {readDatabaseState,writeDatabaseState} from './supabase-state';
+import {readDatabaseState,readDatabaseStates,writeDatabaseState} from './supabase-state';
 import {get,put} from '@vercel/blob';
 import {createCipheriv,createDecipheriv,createHash,randomBytes} from 'node:crypto';
 function backend(){const value=process.env.STATE_BACKEND||'blob';if(value!=='blob'&&value!=='supabase')throw Error('Invalid state backend');return value;}
@@ -27,4 +27,11 @@ export async function mutate<T,R>(name:string,fallback:T,fn:(state:T)=>R):Promis
   }
  }
  throw new Error('Concurrent update; retry shortly');
+}
+
+/** Bulk fresh reads for job lists; mutation paths retain individual CAS reads. */
+export async function readStates<T>(names:string[],fallback:T):Promise<T[]>{
+ if(backend()!=='supabase'){const results:T[]=Array(names.length);let cursor=0;await Promise.all(Array.from({length:Math.min(6,names.length)},async()=>{for(let i;(i=cursor++)<names.length;)results[i]=(await readState(names[i],fallback)).value;}));return results;}
+ const results:T[]=Array(names.length);let cursor=0;
+ await Promise.all(Array.from({length:Math.min(2,Math.ceil(names.length/20))},async()=>{for(let start;(start=cursor)<names.length;){cursor+=20;const batch=names.slice(start,start+20),rows=await readDatabaseStates(batch);for(let i=0;i<batch.length;i++){const row=rows.get(batch[i]);results[start+i]=row?open(Buffer.from(row.payload,'base64')) as T:fallback;}}}));return results;
 }
