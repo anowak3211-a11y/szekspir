@@ -1,0 +1,5 @@
+const fs=require('fs'),ts=require('typescript'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync('app/szekspir/workspace.tsx','utf8');
+const handler=source.match(/job\?\.status==='Queued'&&<button onClick=\{(async\(\)=>\{.*?\})\}>/)[1];
+async function run(error){const calls=[],ctx={job:{id:'same-id',error},retry:async j=>calls.push(['retry',j.id]),json:async(...x)=>calls.push(['request',...x]),refresh:async()=>{},setError:e=>{throw Error(e)}};vm.createContext(ctx);await vm.runInContext(ts.transpileModule('('+handler+')()',{compilerOptions:{target:ts.ScriptTarget.ES2020}}).outputText,ctx);return calls;}
+(async()=>{assert.deepEqual(await run('Enhancing video: TIMEOUT_EXCEPTION'),[['retry','same-id']],'Resume must retry terminal failed stages, not merely requeue a blocked job');const calls=await run();assert.equal(calls.length,1);assert.equal(calls[0][1],'/api/jobs/tick');console.log('PASS failed queued job uses guarded retry; healthy queued job only schedules once');})().catch(e=>{console.error(e);process.exitCode=1});

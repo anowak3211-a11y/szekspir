@@ -2,6 +2,27 @@
 import {readUploadDraft,readUploadMedia,saveUploadDraft,saveUploadAudio,removeUploadDraft} from './upload-drafts';
 import {uploadMedia} from './media-upload';
 type Status=(id:string,status:{name:string;stage:string;error?:string;startedAt?:number;duplicate?:{id:string;adId?:string;market:'uk'|'pl'}})=>void;
+// Only these insert-only/same-owner operations may be replayed after an ambiguous response.
+export async function requestUploadStage(url:'/api/uploads/check'|'/api/jobs',body:object,timeout:number,active:()=>void,waiting:(seconds:number)=>void){
+ const serialized=JSON.stringify(body);
+ for(let attempt=0;;attempt++){
+  active();let failure:unknown,delay=30000*2**attempt;
+  try{
+   const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(timeout),body:serialized});
+   const data=await response.json();
+   const temporary=response.status===408||response.status===429||response.status>=500||response.status===400&&/timed? ?out|timeout|statement timeout|database.*unavailable/i.test(data.error||'');
+   if(!temporary)return {response,data};
+   failure=Error(data.error||`Upload service unavailable (HTTP ${response.status})`);
+   const after=response.headers.get('Retry-After');
+   if(after){const seconds=Number(after),ms=Number.isFinite(seconds)?seconds*1000:Date.parse(after)-Date.now();if(Number.isFinite(ms))delay=Math.max(delay,ms);}
+  }catch(error){
+   if(!['TimeoutError','AbortError','TypeError','SyntaxError'].includes((error as Error).name)&&!/timed? ?out|timeout/i.test((error as Error).message))throw error;
+   failure=error;
+  }
+  if(attempt>=2||delay>300000)throw failure;
+  active();waiting(Math.ceil(delay/1000));await new Promise(resolve=>setTimeout(resolve,delay));
+ }
+}
 export async function resumeUpload(id:string,status:Status){
  if(!navigator.locks)throw Error('Upload recovery requires a browser with Web Locks support. Use a current Chrome, Safari or Firefox.');
  return navigator.locks.request('szekspir-upload-'+id,{ifAvailable:true},async lock=>{
@@ -16,7 +37,7 @@ export async function resumeUpload(id:string,status:Status){
     if(!draft.sourceHash){const original=await readUploadMedia(id,'file');if(!original)throw Error('The local file backup is unavailable. Select the original file again.');
      const {fingerprintFile}=await import('./file-fingerprint');draft.sourceHash=await fingerprintFile(original,n=>{active();report(`Checking exact file · ${n}%`);});await saveUploadDraft(draft);}
     report('Checking for duplicates');
-    const check=await fetch('/api/uploads/check',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(60000),body:JSON.stringify({hash:draft.sourceHash,id,market:draft.market})});const checked=await check.json();
+    const {response:check,data:checked}=await requestUploadStage('/api/uploads/check',{hash:draft.sourceHash,id,market:draft.market},60000,active,seconds=>report(`Duplicate check paused · retry in ${seconds}s`));
     if(check.status===409&&checked.duplicate)return await rejectDuplicate(checked.duplicate);
     if(!check.ok)throw Error(checked.error||'Could not check for duplicates. Resume to try again.');
     let audio=await readUploadMedia(id,'audio');
@@ -35,8 +56,8 @@ export async function resumeUpload(id:string,status:Status){
     active();if(!draft.audioUrl){report('Uploading audio');draft.audioUrl=(await uploadMedia(`sources/${id}/audio.mp3`,audio,n=>report(`Uploading audio · ${Math.round(n)}%`))).url;await saveUploadDraft(draft);}
    }
    active();report('Saving localisation');
-   const response=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(120000),body:JSON.stringify({...draft.settings,id:draft.id,name:draft.name,market:draft.market,startedAt:draft.startedAt,sourceHash:draft.sourceHash,sourceUrl:draft.sourceUrl||draft.audioUrl,audioUrl:draft.audioUrl,video:draft.video,duration:draft.duration})});
-   const saved=await response.json();if(response.status===409&&saved.duplicate)return await rejectDuplicate(saved.duplicate);if(!response.ok||saved.job?.id!==id)throw Error(saved.error||'Could not confirm the saved job. Resume upload to check the same job again.');
+   const {response,data:saved}=await requestUploadStage('/api/jobs',{...draft.settings,id:draft.id,name:draft.name,market:draft.market,startedAt:draft.startedAt,sourceHash:draft.sourceHash,sourceUrl:draft.sourceUrl||draft.audioUrl,audioUrl:draft.audioUrl,video:draft.video,duration:draft.duration},120000,active,seconds=>report(`Saving paused · retry in ${seconds}s`));
+   if(response.status===409&&saved.duplicate)return await rejectDuplicate(saved.duplicate);if(!response.ok||saved.job?.id!==id)throw Error(saved.error||'Could not confirm the saved job. Resume upload to check the same job again.');
    report('Upload complete · loading localisation');
    // A cleanup failure must not masquerade as a failed server save. A later resume
    // still uses the same UUID and the server's insert-only/idempotent create path.
