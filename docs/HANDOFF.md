@@ -1,5 +1,9 @@
 # Current development handoff — 28 September 2026
 
+## Retired editor removal — 15 October 2026
+
+- Removed editor-8 from all active editor choices, scheduled workspace synchronisation and quality reports. Persisted jobs/recovery drafts for that retired editor resolve to admin during creation/export, without losing saved copy or media. Existing Admin assignments were moved to admin; historical work links/status remain.
+
 ## Voice settings after script creation — 15 October 2026
 
 - Removed the voice selector, preview, pace and pause/speed panel from the new-upload screen. Voice configuration remains in the saved job after a script is available. Localisation no longer requires choosing a voice first; recording still requires a valid voice and explicit script approval. The initial Voiceover workflow toggle remains.

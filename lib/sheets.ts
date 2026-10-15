@@ -1,5 +1,5 @@
 import {assertAdActive,assertJobActive} from './cancellation';
-import {EDITOR_WORKSPACES} from './editor-workspaces';
+import {EDITOR_WORKSPACES,activeEditorId} from './editor-workspaces';
 import {withEditorLocks} from './editor-locks';
 import {voiceLinkRuns,mergeVoiceLinks} from './voice-links';
 import { google } from "googleapis";
@@ -46,7 +46,7 @@ export async function appendToAdminBriefs(row:BriefRow){
  return withEditorLocks(['brief-job-'+row.jobId],async()=>{await assertJobActive(row.jobId);return writeAdminBrief(row);});
 }
 async function writeAdminBrief(row:BriefRow){
- const editor=EDITOR_WORKSPACES.find(e=>e.id===(row.editorId||'mine'));if(!editor)throw Error('Unknown editor');
+ const editor=EDITOR_WORKSPACES.find(e=>e.id===activeEditorId(row.editorId));if(!editor)throw Error('Unknown editor');
  if(!/^[\w-]{8,100}$/.test(row.jobId)||(!row.uk.trim()&&!row.noSpeech)||![0,2,3].includes(row.hooks.length)||!['TOF','MOF','BOF'].includes(row.funnel))throw new Error('Invalid brief');
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
  const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);

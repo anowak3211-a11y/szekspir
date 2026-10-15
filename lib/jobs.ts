@@ -21,7 +21,7 @@ import {validateResult,opening,hasTokens,LocalizeResult} from './validation';
 import {getProducts} from './products';
 import {fetchAdVideo} from './fetchad';
 import {safeDownload} from './safe-fetch';
-import {EDITOR_WORKSPACES} from './editor-workspaces';
+import {EDITOR_WORKSPACES,activeEditorId} from './editor-workspaces';
 import {syncAssignedEditor} from './editor-sync';
 import {appendToAdminBriefs,updateReference} from './sheets';
 import {generateVO} from './elevenlabs';
@@ -32,6 +32,7 @@ type Index={ids:string[]};
 export async function getJob(id:string){if(!/^[\w-]{8,100}$/.test(id))throw new Error('Invalid job ID');return (await readState<Job|null>(`job-${id}`,null)).value;}
 export async function jobs(){const index=(await readState<Index>('jobs',{ids:[]})).value;const ids=index.ids.slice().reverse(),values:Array<Job|null|undefined>=Array(ids.length);let cursor=0;await Promise.all(Array.from({length:Math.min(6,ids.length)},async()=>{for(let i;(i=cursor++)<ids.length;)values[i]=await getJob(ids[i]);}));return values.filter((j):j is Job=>!!j);}
 export async function createJob(input:Partial<Job>){
+ input={...input,editorId:activeEditorId(input.editorId)};
  const market=parseMarket(input.market);
  const localizationMode=parseLocalizationMode(input.localizationMode);
  if(input.singingAd&&localizationMode==='full')throw Error('Full localisation is not available for singing ads.');
