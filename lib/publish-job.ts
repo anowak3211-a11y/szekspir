@@ -16,7 +16,7 @@ async function enqueue(id:string,token:string,delaySeconds=0){await send('szeksp
 export async function requestPublication(id:string,script:string,hooks:string[],force:boolean,dualVoice?:unknown){
  const p=await mutate<Job|null,Publication>('job-'+id,null,j=>{
   if(!j?.result||!j.adId||j.cancelledAt||j.abortedAt)throw Error('Save an active brief before publishing.');
-  validateResult({...j.result,uk_script:script,hooks});
+  validateResult({...j.result,uk_script:script,hooks,narration:j.result.narration||script});
   if(j.publication&&['queued','processing'].includes(j.publication.status))return j.publication;
   const value:Publication={token:randomUUID(),status:'queued',requestedAt:Date.now(),attempts:0,script,hooks,dualVoice,force,version:deliveryVersion(j)};
   j.publication=value;return value;
