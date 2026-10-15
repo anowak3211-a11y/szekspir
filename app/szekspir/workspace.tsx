@@ -10,7 +10,7 @@ import type {CtaMode} from '@/lib/cta-mode';
 import {VoiceOptions} from './components/voice-picker';
 import {v4RecordingSettings,pauseShorteningMs,voiceTempoFactor,type VoiceProcessing} from '../../lib/voice-processing';
 import {useEffect,useState,useRef,useMemo} from 'react';
-import {canCloseFinishedTab,closeFinishedTab} from '@/lib/finish-tab';
+import {canCloseFinishedTab,closeFinishedTab,closeWorkTab} from '@/lib/finish-tab';
 import {EDITOR_WORKSPACES} from '@/lib/editor-workspaces';
 import VoicePreview from './components/voice-preview';
 import VideoQualityAlerts from '@/app/components/video-quality-alerts';
@@ -114,7 +114,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
   finally{retryLocks.current.delete(id);setRetryingUploads(old=>old.filter(x=>x!==id));setUploadBatches(n=>n-1);await readRecovery();}
  }
  const uploadTabs=useRef(new Map<string,Window>());
- useEffect(()=>{const channel=new BroadcastChannel('szekspir-finished-tabs');channel.onmessage=event=>{if(event.data?.type==='finished'&&typeof event.data.id==='string'){const tab=uploadTabs.current.get(event.data.id);if(tab){tab.close();uploadTabs.current.delete(event.data.id);}}};return()=>channel.close();},[]);
+ useEffect(()=>{const channel=new BroadcastChannel('szekspir-finished-tabs');channel.onmessage=event=>{if(['finished','close-work-tab'].includes(event.data?.type)&&typeof event.data.id==='string'){const tab=uploadTabs.current.get(event.data.id);if(tab){tab.close();uploadTabs.current.delete(event.data.id);}}};return()=>channel.close();},[]);
  const [savingHookDelivery,setSavingHookDelivery]=useState<number|null>(null);
  const [sendingVo,setSendingVo]=useState(false);
  const [restoringVo,setRestoringVo]=useState(false);
@@ -136,7 +136,16 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  useEffect(()=>{setScriptPreview(null);},[selected]);
  const job=all.find(j=>j.id===selected);
  const publicationPending=!!job?.publication&&['queued','processing'].includes(job.publication.status);
- useEffect(()=>{const p=job?.publication;if(!p)return;if(p.status==='complete'&&p.receipt){setFinishResult(p.receipt);setMessage(p.force?'Finished with available materials.':'Published and confirmed on the editor sheet.');}else if(p.status==='blocked'){setError(p.error||'Publication needs attention.');if(p.receipt)setFinishResult(p.receipt);}},[job?.publication?.token,job?.publication?.status]);
+ const closingPublication=useRef(''),seenPendingPublication=useRef('');
+ useEffect(()=>{const p=job?.publication;if(!p)return;if(['queued','processing'].includes(p.status)){seenPendingPublication.current=p.token;return;}
+  if(p.status==='complete'&&p.receipt&&loaded.current===job.id&&script===job.result?.uk_script&&JSON.stringify(hooks)===JSON.stringify(job.result?.hooks.slice(0,2))){
+   setFinishResult(p.receipt);setMessage(p.force?'Finished with available materials.':'Published and confirmed on the editor sheet.');
+   if(seenPendingPublication.current===p.token&&closingPublication.current!==p.token&&canCloseFinishedTab(p.receipt)&&!editingScript&&!document.querySelector<HTMLTextAreaElement>('#additional-comment')?.value.trim()){
+    const timer=setTimeout(()=>{if(document.querySelector<HTMLTextAreaElement>('#additional-comment')?.value.trim())return;closingPublication.current=p.token;closeFinishedTab(job.id,basePath);},900);return()=>clearTimeout(timer);
+   }
+  }else if(p.status==='blocked'){setError(p.error||'Publication needs attention.');if(p.receipt)setFinishResult(p.receipt);}
+ },[job?.publication?.token,job?.publication?.status,script,JSON.stringify(hooks),editingScript]);
+
  const [sheetDelivery,setSheetDelivery]=useState<{version:string;checks:{label:string;ok:boolean}[]}|null>(null);
  const [sheetError,setSheetError]=useState('');
  useEffect(()=>{let active=true;let timer:ReturnType<typeof setTimeout>;setSheetDelivery(null);setSheetError('');if(!job?.adId||job.cancelledAt)return;if(job.publication?.status==='complete'&&job.publication.receipt){setSheetDelivery(job.publication.receipt);return;}if(publicationPending)return;const id=job.id;
@@ -322,7 +331,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  {job.driveUrl&&<p><a href={job.driveUrl} target="_blank" rel="noreferrer">Open original video in Drive</a></p>}
  {job.vmakeMode==='combo'&&job.enhancedSavedUrl&&<p><a href={job.enhancedSavedUrl} target="_blank" rel="noreferrer">Enhanced video · original subtitles ↗</a></p>}
  {job.cleanUrl&&<p><a href={job.cleanUrl} target="_blank" rel="noreferrer">{job.vmakeMode==='combo'?'Enhanced video · no subtitles ↗':'Open processed video ↗'}</a></p>}
- <div className="actions finish-actions">{finishResult&&canCloseFinishedTab(finishResult)&&<FinishCelebration/>}<button className="primary-action finish-cta" onClick={()=>save()} disabled={busy||publicationPending}>{publicationPending?'Publishing…':finishing?'Queueing publication…':finishResult&&canCloseFinishedTab(finishResult)?'✓ All done!':'Finish ✓'}</button>{publicationPending&&<p role="status">Publication saved. Delivery continues in the background; you can leave this page.</p>}{finishResult&&<section className="vopanel" aria-label="Editor delivery checklist"><h3>{finishResult.forced?'Finished with available materials':finishResult.ok?'✓ Complete in editor workspace':'Not finished — check missing items'}</h3><p>{finishResult.editor}</p><ul>{finishResult.checks.map(check=><li key={check.label}>{check.ok?'✓':'✗'} {check.label}{check.detail&&` — ${check.detail}`}</li>)}</ul><a href={finishResult.url} target="_blank" rel="noopener noreferrer">Open editor sheet ↗</a></section>}<div><button onClick={()=>save(true)} disabled={busy||publicationPending} aria-describedby="force-finish-help">Force finish</button><p id="force-finish-help" className="muted">Finish with available materials, even if the checklist has missing items. No new recordings will be generated.</p></div><button onClick={download}>Download script</button><button onClick={()=>navigator.clipboard.writeText(script)}>Copy script</button></div></>}
+ <div className="actions finish-actions">{finishResult&&canCloseFinishedTab(finishResult)&&<FinishCelebration/>}<button className="primary-action finish-cta" onClick={()=>save()} disabled={busy||publicationPending}>{publicationPending?'Publishing…':finishing?'Queueing publication…':finishResult&&canCloseFinishedTab(finishResult)?'✓ All done!':'Finish ✓'}</button>{publicationPending&&<><p role="status">Publication saved. Delivery continues in the background; you can leave this page.</p><button type="button" onClick={()=>closeWorkTab(job.id,basePath,true)}>Close tab · keep publishing</button></>}{job.publication?.status==='complete'&&<button type="button" onClick={()=>closeFinishedTab(job.id,basePath)}>Close finished tab</button>}{finishResult&&<section className="vopanel" aria-label="Editor delivery checklist"><h3>{finishResult.forced?'Finished with available materials':finishResult.ok?'✓ Complete in editor workspace':'Not finished — check missing items'}</h3><p>{finishResult.editor}</p><ul>{finishResult.checks.map(check=><li key={check.label}>{check.ok?'✓':'✗'} {check.label}{check.detail&&` — ${check.detail}`}</li>)}</ul><a href={finishResult.url} target="_blank" rel="noopener noreferrer">Open editor sheet ↗</a></section>}<div><button onClick={()=>save(true)} disabled={busy||publicationPending} aria-describedby="force-finish-help">Force finish</button><p id="force-finish-help" className="muted">Finish with available materials, even if the checklist has missing items. No new recordings will be generated.</p></div><button onClick={download}>Download script</button><button onClick={()=>navigator.clipboard.writeText(script)}>Copy script</button></div></>}
 
  <style jsx>{`
  .controls{justify-content:center}

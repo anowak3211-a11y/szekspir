@@ -1,0 +1,6 @@
+const assert=require('node:assert/strict'),fs=require('fs'),ts=require('typescript'),vm=require('vm');
+const events=[],timers=[],paths=[];let closes=0;const context={exports:{},BroadcastChannel:class{postMessage(x){events.push(x)}close(){}},window:{close(){closes++},location:{replace:p=>paths.push(p)}},setTimeout:f=>timers.push(f),encodeURIComponent};vm.createContext(context);vm.runInContext(ts.transpileModule(fs.readFileSync('lib/finish-tab.ts','utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,context);
+const {closeWorkTab,closeFinishedTab,canCloseFinishedTab}=context.exports;
+assert(!canCloseFinishedTab({ok:true,checks:[{ok:false}]}));assert(canCloseFinishedTab({ok:true,checks:[{ok:true}]}));
+closeWorkTab('job-queued','/szekspir',true);assert.equal(closes,1);assert.equal(events[0].type,'close-work-tab');timers.shift()();assert.equal(paths[0],'/szekspir?publishing=job-queued','Queued close cannot claim finished');
+context.BroadcastChannel=class{constructor(){throw Error('Unavailable')}};closeFinishedTab('job-ready');assert.equal(closes,2,'Native close survives unavailable BroadcastChannel');timers.shift()();assert.equal(paths[1],'/szekspir?finished=job-ready');console.log('PASS queued and completed tab closure, honest fallback navigation, missing BroadcastChannel; no network/provider calls');

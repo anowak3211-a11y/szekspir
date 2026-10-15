@@ -596,3 +596,8 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 ### 15 October 2026 — outage cooldown
 - Failed state reads now make one transport attempt; caller polling/queue cooldown controls retries. Conditional writes retain identical CAS retries and commit verification. Active detail polling is 30s, idle detail polling 120s; hidden tabs pause. Sheets polling is 5 minutes, skipped during publication and replaced by the persisted receipt after success.
 - User explicitly approved a fast PostgreSQL reboot after automatic approval initially blocked it. Reboot executed through the Supabase dashboard; dashboard returned Healthy. No billing/spend-cap changes. Six publication intents (168,170,171,172,173,174) accepted; 170 confirmed complete during verification. Remaining publication outcomes were not polled repeatedly at the user’s request.
+
+### 15 October 2026 — publication tab closure
+- Persisted publication success now restores the checklist after script hydration and closes a tab that observed its queued/processing token. Unsaved initial-comment text prevents automatic closure, including a recheck immediately before closing.
+- Explicit Close tab · keep publishing is available while queued; Close finished tab after completion. BroadcastChannel requests the owning upload tab to close its child; browser-disallowed closure falls back to the library with separate publishing/finished markers. Missing BroadcastChannel cannot prevent direct close. No publication or provider endpoint is called by closing.
+- Validation: closure behavior test, publication tests, 42 regressions, typecheck/build. Reticle tools unavailable in this Codex session; no Reticle verdict claimed.
