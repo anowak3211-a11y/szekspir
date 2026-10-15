@@ -66,7 +66,7 @@ export function creativePayload(item:UploadItem){
  const carousel=a.media.kind==='carousel';
  const asset={bodies:a.primaryTexts.map(t=>({text:t})),titles:(a.headlines||[a.headline]).map(text=>({text})),descriptions:(a.descriptions||(a.description?[a.description]:[])).map(text=>({text})),link_urls:[{website_url:a.url}],call_to_action_types:[a.cta],optimization_type:'DEGREES_OF_FREEDOM',ad_formats:[carousel?'CAROUSEL':item.imageHash?'SINGLE_IMAGE':'SINGLE_VIDEO'],...(carousel?{images:(item.imageHashes||[]).map((hash,i)=>({hash,adlabels:[{name:`card_${i}`}]})),carousels:[{child_attachments:(item.imageHashes||[]).map((_,i)=>({image_label:{name:`card_${i}`},link_url_label:{name:'destination'},title_label:{name:'headline'},...(a.descriptions?.length||a.description?{description_label:{name:'description'}}:{})})),multi_share_end_card:a.media.kind==='carousel'&&a.media.endCard===true,multi_share_optimized:false}]}:item.imageHash?{images:[{hash:item.imageHash}]}:{videos:[{video_id:item.videoId,thumbnail_url:item.thumbnailUrl}]})};
  if(carousel){Object.assign(asset.link_urls[0],{adlabels:[{name:'destination'}]});for(const title of asset.titles)Object.assign(title,{adlabels:[{name:'headline'}]});for(const description of asset.descriptions)Object.assign(description,{adlabels:[{name:'description'}]});}
- return {name:`szekspir-upload-${item.id}`,object_story_spec:{page_id:a.pageId},asset_feed_spec:asset,degrees_of_freedom_spec:{creative_features_spec:features},contextual_multi_ads:{enroll_status:'OPT_OUT'},...(a.urlTags?{url_tags:a.urlTags}:{})};
+ return {name:`szekspir-upload-${item.id}`,object_story_spec:{page_id:a.pageId,...(item.imageHash&&!carousel?{link_data:{link:a.url,image_hash:item.imageHash,message:a.primaryTexts[0],name:(a.headlines||[a.headline])[0],description:(a.descriptions||[a.description])[0],call_to_action:{type:a.cta,value:{link:a.url}}}}:{})},asset_feed_spec:asset,degrees_of_freedom_spec:{creative_features_spec:features},contextual_multi_ads:{enroll_status:'OPT_OUT'},...(a.urlTags?{url_tags:a.urlTags}:{})};
 }
 export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):string[]{
  const errors:string[]=[];const a=item.ad,s=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined;
@@ -79,6 +79,11 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
  if(!same(s.call_to_action_types,[a.cta]))errors.push('CTA differs.');
  if(list('link_urls')[0]?.website_url!==a.url)errors.push('Destination URL differs.');
  if(story?.page_id!==a.pageId)errors.push('Facebook Page differs.');
+ if(item.imageHash&&a.media.kind!=='carousel'){
+  const link=story?.link_data as Record<string,unknown>|undefined;
+  if(link?.link!==a.url)errors.push('Story destination URL differs.');
+  if(link?.image_hash!==item.imageHash)errors.push('Story original image differs.');
+ }
  if(a.media.kind==='carousel'){if(!same(list('images').map(t=>t.hash),item.imageHashes))errors.push('Original carousel images differ.');const expected=creativePayload(item).asset_feed_spec as Record<string,unknown>;if(!same(s.carousels,expected.carousels))errors.push('Carousel order or card settings differ.');if(!same(s.ad_formats,['CAROUSEL']))errors.push('Carousel format differs.');}
  else if(item.imageHash?list('images')[0]?.hash!==item.imageHash:list('videos')[0]?.video_id!==item.videoId)errors.push('Original media differs.');
  const f=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec;

@@ -9,6 +9,8 @@
 
 ## Owner-selected Orthomax OFF publication test — 15 October 2026
 
+- The extended Page grant completed. The saved original image uploaded successfully; creative creation returned Meta 100/2061015 (required link missing), with no confirmed creative/ad ID. Image payload now carries `object_story_spec.link_data.link` plus the same original hash, approved base copy and CTA, alongside unchanged text variants. Remote verification checks story URL/hash independently. Resume the existing item at creative; do not re-upload the image or duplicate the batch. Offline regression first failed for the absent link and passes after this change. Live verification remains required.
+
 - Owner authorised one ad in an old OFF Orthomax campaign through Szekspir, explicitly without Supermetrics. A single draft batch is saved; first start was rejected before writes because the legacy set reports UNDEFINED. No successful publication is claimed by that rejection.
 - Target preflight now recognises UNDEFINED only with an existing pixel, OFFSITE_CONVERSIONS/VALUE optimisation and no application target. APP, unqualified unknown destinations and active parent campaigns remain blocked. The target cache key is versioned for the extra fields; no campaign/ad set settings are rewritten.
 - Empty account promote_pages falls back to me/accounts with id/name/tasks only. Only Pages with ADVERTISE or PROFILE_PLUS_ADVERTISE are exposed; public visibility/read-only tasks cannot qualify. No Page tokens are requested/returned, no OAuth permissions are expanded and the fresh parent OFF check remains.
