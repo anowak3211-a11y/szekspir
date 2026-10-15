@@ -581,3 +581,8 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - A failed IndexedDB write previously stopped uploads before audio preparation. Selected files now remain in memory in the original tab when durable backup fails; same UUID/settings, original media and completed upload URLs are preserved for same-tab retries. The UI explicitly warns to keep that tab open, and warns before closing while temporary copies remain. Reload recovery still requires a successful IndexedDB backup.
 - Exact browser failure behind job 5c77e95f-d350-4b41-bdbf-7b018bba7bca was not available: the old implementation masked all storage errors. Existing failed jobs with no backup require selecting the original file again after deployment. No storage was cleared and no paid processing was triggered during verification.
 - Validation: typecheck, offline upload recovery tests including initial and mid-upload storage failures, local browser preview loaded a synthetic two-second video and collapse behavior verified.
+
+### 15 October 2026 — editor sync contention
+- Occupied editor leases are read with exponential backoff; no failed-acquisition no-op writes. CAS still rechecks ownership, lock ordering and six-minute lease protection retained.
+- Pipeline assigned-editor sync waits at most briefly for locks and defers contention for 60 seconds instead of failing export/references. Saved brief IDs and paid outputs are reused. Existing failed jobs still require explicit Retry.
+- Validation: lock contention/zero-write regression, complete offline pipeline suite including busy-sync retry without duplicate export, 42 core regressions, typecheck and production build.

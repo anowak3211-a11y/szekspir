@@ -1,6 +1,6 @@
 import {assertAdActive} from './cancellation';
 import {retireLegacySync,retireV2Sync} from './editor-sync-version';
-import {withEditorLocks} from './editor-locks';
+import {EditorSyncBusyError,withEditorLocks} from './editor-locks';
 import {additionalLinkRuns} from './additional-files-model';
 import {voiceLinkRuns} from './voice-links';
 import {randomUUID} from 'node:crypto';
@@ -42,7 +42,7 @@ async function syncOne(workspace:typeof EDITOR_WORKSPACES[number]){
 }
 
 async function syncWorkspace(workspace:typeof EDITOR_WORKSPACES[number]){
- const result=await syncOne(workspace);if('busy' in result)throw Error('Previous editor sync is still finishing. Please retry.');return result;
+ const result=await syncOne(workspace);if('busy' in result)throw new EditorSyncBusyError();return result;
 }
 export async function syncEditorWorkspace(){
  const results=await Promise.allSettled(EDITOR_WORKSPACES.map(workspace=>withEditorLocks(['workspace-'+workspace.id],()=>syncWorkspace(workspace))));
@@ -72,7 +72,7 @@ export async function assignEditor(adId:string,editorId:string){
   },deadline);
  },deadline);
 }
-export async function syncAssignedEditor(adId:string){const deadline=Date.now()+180000;return withEditorLocks(['ad-'+adId],async()=>{
+export async function syncAssignedEditor(adId:string){const deadline=Date.now()+15000;return withEditorLocks(['ad-'+adId],async()=>{
  const {current}=await editorAssignment(adId),workspace=EDITOR_WORKSPACES.find(e=>e.id===current);
  if(!workspace)throw Error('Unknown assigned editor');
  return withEditorLocks(['workspace-'+workspace.id],()=>syncWorkspace(workspace),deadline);

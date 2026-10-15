@@ -201,6 +201,7 @@ export async function advanceParallel(id:string):Promise<number>{
     if(recovered&&!stage.pending&&stage.submission?.id===submission?.id){stage.error=undefined;stage.uncertain=false;stage.nextAt=stage.done?undefined:Date.now()+10000;stage.retryReason=stage.done?undefined:'Recovered saved provider request. Checking its progress.';return;}
     const beforeProviderCall=checkpointStarted&&!checkpointAcknowledged;if(beforeProviderCall){stage.pending=false;stage.uncertain=false;}
     if(retryDatabaseStage(stage,k,e,Date.now(),beforeProviderCall||k==='duplicateCheck'))return;
+    if((e as Error).name==='EditorSyncBusyError'&&!stage.pending){stage.error=undefined;stage.uncertain=false;stage.nextAt=Date.now()+60000;stage.retryReason='Waiting for the editor sheet sync. Retrying automatically.';return;}
     if(['export','references','vo'].includes(k)&&!stage.pending&&isSheetsQuotaError(e)&&(stage.quotaRetries||0)<5){
      stage.quotaRetries=(stage.quotaRetries||0)+1;stage.nextAt=Date.now()+sheetRetryDelay(stage.quotaRetries);stage.error=undefined;stage.uncertain=false;stage.retryReason=SHEET_QUOTA_WAIT;return;
     }
