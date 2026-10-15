@@ -1,5 +1,11 @@
 # Current development handoff — 28 September 2026
 
+## Ads X-Ray native redesign — 15 October 2026
+
+- Owner explicitly requested a complete minimal redesign of newly integrated X-Ray views. Replaced generated HTML route with native React page, scoped CSS and local Geist: responsive mode navigation, input/result stages, labelled editors, mechanical summaries, mobile stacked diff, optional AI disclosure, save/history/archive dialogs and brand/editor management. Existing backend, MFA, provider intent/cache guards and advertising flows remain unchanged.
+- Legacy local drafts and stored paid verdicts migrate to versioned snapshots without altering source text. Existing history payloads remain compatible; writes retain revision-confirmed overwrites. Cross-tab draft writes pause on storage events. Local sentence edits preserve surrounding text, manual anchors and paid alignment remain available; regular copy stays literal, FB paragraph copy is explicit.
+- UI checked locally at 390 and 1440 px: compare, AI confirmation cancellation, localisation sentence edit and undo. Offline X-Ray/UI, MFA, Meta and 42 core regression checks passed; typecheck and production webpack build passed. No paid AI or live advertising calls used. Production verification follows deployment; see docs/xray/REDESIGN-BRIEF.md.
+
 ## Ads X-Ray integration — 15 October 2026
 
 - Owner supplied source ZIP and authorised integration into Szekspir. `/ads-xray` retains three comparison modes, sentence editing/alignment, local drafts and saved history under mandatory MFA. No separate service, iframe or SQLite. Home tile and saved-job comparison link added. See `docs/ADS-XRAY.md` for full inventory, storage limits and validation.

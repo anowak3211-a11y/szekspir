@@ -1,0 +1,24 @@
+'use client';
+import { useMemo, useState } from 'react';
+import { mapped, spans, replaceSpan, fingerprint, facebookParagraphs, type Doc, type Span } from '@/lib/xray/ui-model';
+import { Dialog } from './ui';
+import Icon from './icons';
+import s from './workspace.module.css';
+export default function Scripts({ doc: d, update, copy }: {
+    doc: Doc;
+    update: (p: Partial<Doc>) => void;
+    copy: (text: string) => void;
+}) {
+    const [hover, setHover] = useState<number[]>([]), [editing, setEditing] = useState<{
+        key: 'orig' | 'en' | 'pl';
+        span: Span;
+    } | null>(null), [value, setValue] = useState(''), [manual, setManual] = useState(false), [lang, setLang] = useState<'orig' | 'pl'>('pl'), [base, setBase] = useState(1), [target, setTarget] = useState(1);
+    const cols = [{ key: 'orig' as const, label: 'Oryginał' }, { key: 'en' as const, label: 'Angielski · baza' }, { key: 'pl' as const, label: 'Polski' }];
+    const parts = useMemo(() => ({ orig: spans(d.orig, d.splitting), en: spans(d.en, d.splitting), pl: spans(d.pl, d.splitting) }), [d.orig, d.en, d.pl, d.splitting]);
+    const maps = useMemo(() => { const ai = d.alignment?.key === fingerprint(d) ? d.alignment : undefined; return { orig: mapped(parts.en, parts.orig, ai?.orig_to_en, d.anchorsOrig, ai?.pominiete_en_orig), pl: mapped(parts.en, parts.pl, ai?.pl_to_en, d.anchorsPl, ai?.pominiete_en_pl) }; }, [parts, d]);
+    function related(key: 'orig' | 'en' | 'pl', i: number) { if (key === 'en')
+        return [i]; const g = maps[key].grupy[maps[key].grupaX[i]]; return g ? Array.from({ length: g.e1 - g.e0 }, (_, n) => g.e0 + n) : []; }
+    return <><div className={s.scriptTools}><span>Najedź na zdanie, aby zobaczyć jego parę. Kliknij ołówek, aby je poprawić.</span><button className={s.button} onClick={() => setManual(!manual)}><Icon name="link" size={16}/> Powiązania</button></div>{manual && <div className={s.anchorForm}><label>Wersja<select value={lang} onChange={e => setLang(e.target.value as 'orig' | 'pl')}><option value="pl">Polski</option><option value="orig">Oryginał</option></select></label><label>Zdanie EN<input type="number" min={1} max={parts.en.length} value={base} onChange={e => setBase(+e.target.value)}/></label><label>Zdanie wersji<input type="number" min={1} max={parts[lang].length} value={target} onChange={e => setTarget(+e.target.value)}/></label><button className={s.button} disabled={base < 1 || target < 1 || base > parts.en.length || target > parts[lang].length} onClick={() => update({ [lang === 'pl' ? 'anchorsPl' : 'anchorsOrig']: [...(lang === 'pl' ? d.anchorsPl : d.anchorsOrig), { en: base - 1, x: target - 1 }] })}>Połącz</button><div className={s.anchors}>{(['orig', 'pl'] as const).flatMap(key => (key === 'pl' ? d.anchorsPl : d.anchorsOrig).map((a, i) => <button className={s.button} key={key + i} onClick={() => update({ [key === 'pl' ? 'anchorsPl' : 'anchorsOrig']: (key === 'pl' ? d.anchorsPl : d.anchorsOrig).filter((_, n) => n !== i) })}>EN {a.en + 1} / {key === 'pl' ? 'PL' : 'Oryginał'} {a.x + 1} <Icon name="close" size={13}/></button>))}</div></div>}
+ <div className={`${s.scriptResult} ${d.small ? s.small : ''}`}>{cols.map(column => <article key={column.key}><header><div><strong>{column.label}</strong><small>{parts[column.key].length} zdań · {Math.max(1, Math.ceil(d[column.key].split(/\s+/).length / 180))} min</small></div><button className={s.iconButton} aria-label={'Kopiuj ' + column.label} onClick={() => copy(d[column.key])}><Icon name="copy" size={16}/></button><button className={s.iconButton} aria-label={'Kopiuj akapity Facebook · '+column.label} onClick={()=>copy(facebookParagraphs(d[column.key]))}>FB</button></header><div data-xray-scroll>{parts[column.key].map((p, i) => { const linked = related(column.key, i); return <div className={`${s.sentence} ${linked.some(n => hover.includes(n)) ? s.linked : ''}`} key={i} onMouseEnter={() => setHover(linked)} onMouseLeave={() => setHover([])}><span className={s.lineNumber}>{i + 1}</span><span>{p.text}</span><button className={s.sentenceEdit} aria-label={'Edytuj ' + column.label + ' zdanie ' + (i + 1)} onFocus={() => setHover(linked)} onClick={() => { setEditing({ key: column.key, span: p }); setValue(p.text); }}><Icon name="edit" size={14}/></button></div>; })}{!d[column.key] && <p className={s.muted}>Nie dodano tej wersji.</p>}</div></article>)}</div>
+ {editing && <Dialog title="Edytuj zdanie" subtitle="Pozostały tekst i odstępy pozostaną bez zmian." onClose={() => setEditing(null)}><div className={s.form}><label>Treść zdania<textarea value={value} onChange={e => setValue(e.target.value)} rows={6}/></label><button className={s.primary} onClick={() => { update({ [editing.key]: replaceSpan(d[editing.key], editing.span, value) }); setEditing(null); }}>Zapisz zmianę</button></div></Dialog>}</>;
+}
