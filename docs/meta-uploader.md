@@ -5,10 +5,10 @@ Panel: `/uploader`. Konfiguracja dla właściciela: `/api/meta/setup`.
 ## Co robi
 
 - Wczytuje istniejące zakładki `Upload*` z Admin workbook, tabelę TSV z cytowanymi wielowierszowymi komórkami albo JSON. Odczyt arkuszy nie zmienia wierszy, zatwierdzeń ani statusów produkcji.
-- Każdy hook/VO ma osobny klucz i reklamę. Teksty, emoji, akapity i zatwierdzone URL są przechowywane dosłownie. Domyślny formularz zawiera 3 primary texts +1 headline +1 description; można importować 1–5 primary texts.
+- Każdy hook/VO ma osobny klucz i reklamę. Teksty, emoji, akapity i zatwierdzone URL są przechowywane dosłownie. Domyślny formularz zawiera 3 primary texts +1 headline +1 description; można importować i edytować 1–5 wariantów każdego rodzaju.
 - Przesyła oryginalne filmy i obrazy bez ponownego kodowania. Filmy Drive są przesyłane zakresami bajtów przez połączenie Drive Szekspira; nie zmienia uprawnień udostępniania. Weryfikuje rozmiar/checksum oryginału i odpowiedź Range. Local files używają istniejącego transportu Blob/Supabase. Można podać istniejący account-library Video ID.
 - Tworzy jedynie media, creative i ad w istniejącym zestawie. Nigdy nie tworzy/modyfikuje kampanii, zestawów, budżetów, odbiorców lub harmonogramów. Wymaga kampanii PAUSED; nowe reklamy mają PAUSED.
-- Ustawia Enhance CTA +inline comments jako jedyne opt-in, wyłącza pozostałe wymienione automatyczne funkcje, katalog, multi-advertiser i carousel. Nie tworzy nowych kont Instagram. Tożsamość strony i dostępność profilu dla placements muszą być obsługiwane przez Meta; błąd nie jest obchodzony przez podpinanie innego profilu.
+- Domyślnie ustawia Enhance CTA +inline comments jako jedyne opt-in. Jawne przełączniki w Settings sterują obsługiwanymi funkcjami dla obrazów, filmów i ręcznych karuzel. Katalog, automatyczne zmiany formatu i multi-advertiser pozostają wyłączone. Nie tworzy nowych kont Instagram. Tożsamość strony i dostępność profilu dla placements muszą być obsługiwane przez Meta; błąd nie jest obchodzony przez podpinanie innego profilu.
 - Oznacza reklamę jako complete dopiero po odczycie native ad/creative i sprawdzeniu dosłownych tekstów, mediów, Page, URL, CTA i ustawień. To nie jest potwierdzenie zakończenia review Meta ani rozpoczęcia emisji.
 
 ## Integracja
@@ -38,3 +38,15 @@ Pierwszy rzeczywisty test wymaga połączenia Meta i jawnie wybranej reklamy w p
 [Meta AdAssetFeedSpec](https://github.com/facebook/facebook-python-business-sdk/blob/main/facebook_business/adobjects/adassetfeedspec.py), [creative features](https://github.com/facebook/facebook-python-business-sdk/blob/main/facebook_business/adobjects/adcreativefeaturesspec.py), [original video upload protocol](https://github.com/facebook/facebook-python-business-sdk/blob/main/facebook_business/video_uploader.py).
 
 Ads Uploader jest opcjonalnym innym dostawcą publikacji; ten moduł nie instaluje go, nie kupuje abonamentu ani nie nadaje mu uprawnień. Jego publiczny MCP repo zawiera dokumentację/konfigurację, a nie kod serwera. Nie deklarować zweryfikowanej integracji z ich usługą bez osobnego logowania i testu.
+
+## Ekrany i ustawienia na wzór Rapid Ads
+
+- `/uploader`: pliki z komputera (wiele naraz/drag & drop), oryginalny link Drive/HTTPS, Video ID, arkusze Upload, TSV/JSON. Podgląd i zaznaczanie kreacji; double click lub Edit otwiera pełne warianty bez zmiany ich treści. Obrazy 24 MB i filmy 2 GB odpowiadają rzeczywistym limitom transportu, nie skopiowanemu opisowi 4 GB.
+- Wybrane 2–10 gotowych obrazów można jawnie połączyć w karuzelę. Kopiuje literalne teksty pierwszej kreacji, zachowuje kolejność kart, odznacza źródła. Przed publikacją sprawdzić cały podgląd i właściwy zestaw.
+- `/uploader/settings`: tożsamość FB (Instagram używa FB Page), 1–5 wariantów każdego rodzaju, do 24 szablonów na konto, przełączniki enhancement, URL/UTM i nazwy `{filename}`, `{index}`, `{date}`. Zmiany zapisuje prywatny CAS; nowsza wersja innej karty nie jest nadpisywana. Zastosowanie szablonu do istniejących kreacji jest osobną jawną akcją.
+- `/uploader/dashboard`: rzeczywiste statystyki konta z Meta, okres 7/14/30 dni. Load performance odczytuje konto i wyniki; cache dziesięć minut ogranicza zapytania. Brak odpowiedzi pokazuje błąd, nie wymyślone statystyki.
+- `/uploader/history`: zapisane paczki i ich potwierdzone wyniki z filtrem konta, typu mediów i nazwy. Źródłem jest moduł Szekspira; wcześniejsze publikacje przez inne narzędzia nie są liczone jako jego uploady.
+- `/uploader/teams`: rzeczywisty przegląd dostępu właściciela; nie dodaje osobnych użytkowników ani uprawnień Meta. `/uploader/help`: instrukcja przepływu i odzyskiwania.
+- Lokalny transfer przed zapisem paczki wymaga utrzymania karty; ostrzeżenie przed zamknięciem chroni niezapisane pliki/ustawienia. Zapisana paczka i Meta IDs są trwałe na serwerze.
+
+Font Geist pochodzi z dostarczonych zasobów Next.js; licencja OFL znajduje się w `public/fonts/geist/OFL.txt`. Wygląd został odtworzony z ekranów użytkownika, bez pobierania prywatnego kodu Rapid Ads.
