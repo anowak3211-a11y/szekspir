@@ -13,7 +13,7 @@ export async function compareSavedPace(id:string){
  const job=await getJob(id);if(!job?.result||!job.voOriginalUrl||!job.audioUrl||!job.duration||job.abortedAt||job.cancelledAt)throw Error('Saved original voiceover and source audio are required.');
  const processing={...job.voiceProcessing,mode:'gentle' as const,normalize:false,matchSourcePace:true,pauseShorteningMs:0,tempoFactor:1};
  const reference=sourcePace(job,job.result.uk_script,job.voiceId,processing);if(!reference)throw Error('Source speech timing is unavailable.');
- const hash=createHash('sha256').update(JSON.stringify(['sentence-comparison-v2',id,job.voOriginalUrl,job.audioUrl,job.result.us_script,job.result.uk_script])).digest('hex'),key='vo-comparison-'+hash;
+ const hash=createHash('sha256').update(JSON.stringify(['sentence-comparison-v3',id,job.voOriginalUrl,job.audioUrl,job.result.us_script,job.result.uk_script])).digest('hex'),key='vo-comparison-'+hash;
  type State={started?:boolean;result?:PaceComparison;error?:string};const cached=(await readState<State>(key,{})).value;if(cached.result)return cached.result;
  const prior=await mutate<State,PaceComparison|undefined>(key,{},s=>{if(s.result)return s.result;if(s.started)throw Error(s.error||'Comparison is already being prepared. No analysis repeated.');s.started=true;return undefined;});if(prior)return prior;
  let raw:Buffer|undefined,clean:ArrayBuffer|undefined,whole:ArrayBuffer|undefined,aligned:ArrayBuffer|undefined;

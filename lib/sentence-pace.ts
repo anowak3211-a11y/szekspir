@@ -47,7 +47,9 @@ export async function fitVoiceoverSentences(audio:ArrayBuffer,timing:VoiceTiming
  const points=[{v:0,s:0}];for(let i=0;i<starts.length;i++){const previous=points.at(-1)!;if(i===0&&(starts[i]<.15||voice[i]<.15))continue;if(starts[i]-previous.s<.05||voice[i]-previous.v<.05)throw Error('Sentence timing is not monotonic.');points.push({v:voice[i],s:starts[i]});}
  points.push({v:timing.trimmedSeconds,s:source.duration});
  if(points.length>151)throw Error('Too many sentence boundaries for one recording.');
- for(let i=1;i<points.length;i++){const p=points[i],last=points[i-1],factor=(p.v-last.v)/(p.s-last.s);if(!Number.isFinite(factor)||factor<.5||factor>2)throw Error(`Sentence ${i} requires unsafe tempo; review its timing instead of truncating speech.`);}
+ // A very short or misrecognised boundary must not force extreme speech tempo.
+ // Merge that interval with its neighbour; retain all samples and report coverage.
+ for(let i=1;i<points.length;i++){const p=points[i],last=points[i-1],factor=(p.v-last.v)/(p.s-last.s);if(!Number.isFinite(factor)||factor<.5||factor>2){if(points.length<=2)throw Error('Recording requires unsafe tempo; review its timing instead of truncating speech.');points.splice(i<points.length-1?i:i-1,1);i=0;}}
  if(!ffmpeg)throw Error('Sentence matching is unavailable.');
  const dir=await mkdtemp(join(tmpdir(),'szekspir-sentences-'));try{
   const input=join(dir,'input.wav'),output=join(dir,'output.wav');await writeFile(input,Buffer.from(audio),{mode:0o600});
@@ -56,6 +58,6 @@ export async function fitVoiceoverSentences(audio:ArrayBuffer,timing:VoiceTiming
   filter+=Array.from({length:n},(_,i)=>`[s${i}]`).join('')+`concat=n=${n}:v=0:a=1[out]`;
   await promisify(execFile)(ffmpeg,['-v','error','-nostdin','-n','-i',input,'-filter_complex',filter,'-map','[out]','-c:a','pcm_f32le',output],{timeout:90000,maxBuffer:1024*1024});
   const duration=await audioDuration(output);if(Math.abs(duration-source.duration)>.15)throw Error('Sentence-matched duration could not be confirmed.');
-  const tempos=points.slice(1).map((p,i)=>(p.v-points[i].v)/(p.s-points[i].s));timing.sentenceAlignment={sentences:starts.length,totalSentences:uk.length,sourceSeconds:source.duration,anchors:starts.map((source,i)=>({source,voice:voice[i]})),tempoMin:Math.min(...tempos),tempoMax:Math.max(...tempos)};timing.trimmedSeconds=duration;timing.processing={...timing.processing!,mode:'gentle',normalize:false,matchSourcePace:true};return new Uint8Array(await readFile(output)).buffer;
+  const tempos=points.slice(1).map((p,i)=>(p.v-points[i].v)/(p.s-points[i].s));timing.sentenceAlignment={sentences:points.length-1,totalSentences:uk.length,sourceSeconds:source.duration,anchors:points.slice(0,-1).map(p=>({source:p.s,voice:p.v})),tempoMin:Math.min(...tempos),tempoMax:Math.max(...tempos)};timing.trimmedSeconds=duration;timing.processing={...timing.processing!,mode:'gentle',normalize:false,matchSourcePace:true};return new Uint8Array(await readFile(output)).buffer;
  }finally{await rm(dir,{recursive:true,force:true});}
 }
