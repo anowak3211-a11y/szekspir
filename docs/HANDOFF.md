@@ -2,16 +2,16 @@
 
 ## Security audit fixes — 15 October 2026
 
-- Owner completed authenticator setup; production auth status confirmed complete before activation. Owner then authorised all audit fixes, including enforcing MFA. Production APP_AUTH_MODE is being set to supabase-mfa for the deployment; verify owner access and unauthenticated denial before claiming enforcement complete.
+- Owner completed authenticator setup; production auth status confirmed complete before activation. Owner then authorised all audit fixes, including enforcing MFA. Production APP_AUTH_MODE=supabase-mfa is now enabled. Deployment dpl_8VhHtsv4vjN6EyyYRbgtYJBSNyHX is READY. Provider-checked owner status reports complete/enforced true; protected uploader opens and loads the connected Meta account. Anonymous API returns 401 and panel redirects 307 to /login; invalid Basic-only API returns 401. Correct legacy-password denial is covered offline without exporting that credential.
 - Reconciliation now requires PAUSED for recovered ads too. An ACTIVE remote ad no longer becomes complete merely because reused=true; it remains unresolved without changing its status or creating a replacement. Regression failed before the fix and passes after restoring PAUSED.
-- Updated sharp to 0.35.5 and source-map-js to 1.2.2 for GHSA-wq5f-xc86-pv6w and GHSA-68fv-2mgg-jv7q. Image-comparison regression, Auth/Meta suites, 42 core regressions and typecheck pass. No paid provider or live advertising writes used for verification.
+- Updated sharp to 0.35.5 and source-map-js to 1.2.2 for GHSA-wq5f-xc86-pv6w and GHSA-68fv-2mgg-jv7q. Image-comparison regression, Auth/Meta suites, 42 core regressions, typecheck and production build pass. Official npm production audit reports zero known vulnerabilities after both updates. No paid provider or live advertising writes used for verification.
 
 ## Personal account MFA rollout — 15 October 2026
 
-- Owner requested Szekspir-only 2FA. Supabase email/password + TOTP gateway is staged behind `APP_AUTH_MODE=supabase-mfa`; exact email allowlist is configured privately. See `docs/AUTH-MFA.md` for enrollment, activation and recovery. Do not claim MFA is active until owner enrollment and production gate are verified.
+- Owner requested Szekspir-only 2FA. Supabase email/password + TOTP gateway is now enforced using `APP_AUTH_MODE=supabase-mfa`; exact email allowlist is configured privately. See `docs/AUTH-MFA.md` for enrollment, activation and recovery. Do not claim MFA is active until owner enrollment and production gate are verified.
 - Next 16 `proxy.ts` replaces middleware and rejects password-only access in MFA mode. First-factor sessions cannot reach pages/APIs; tokens stay in encrypted HttpOnly cookies, with 15-minute setup and absolute eight-hour MFA sessions. Distributed attempt limits and Origin checks protect login/mutations.
 - Python auth independently rejects legacy Basic in MFA mode; cron and internal Python calls use the separate existing machine credential. No provider keys exported, VMake migration, Meta access/budget changes or unrelated voice workflow changes.
-- Offline Auth tests cover bypass attempts, first factor, invitation state, ciphertext tampering, expiry, allowlist, factor removal, outage denial, machine scopes, MFA upgrade, guessing limits and logout. Provider email delivery, redirect configuration and owner enrollment require live verification.
+- Offline Auth tests cover bypass attempts, first factor, invitation state, ciphertext tampering, expiry, allowlist, factor removal, outage denial, machine scopes, MFA upgrade, guessing limits and logout. Owner enrollment and enforcement were subsequently verified live as recorded above. Native recovery-code availability remains provider-dependent.
 
 ## Owner-selected Orthomax OFF publication test — 15 October 2026
 
