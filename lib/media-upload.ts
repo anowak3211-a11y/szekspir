@@ -8,6 +8,7 @@ export function uploadFailure(error:unknown){
  const status=response?.getStatus?.()||0;
  if(status===401||status===403)return new Error(`Upload permission expired or was rejected (HTTP ${status}). Please select the file again and retry.`);
  if(status===413)return new Error('Storage rejected the file as too large (HTTP 413).');
+ if(status===415)return new Error('Storage does not accept this file type (HTTP 415). Contact the workspace owner to check supported upload formats.');
  if(status===429)return new Error('Storage is temporarily limiting uploads (HTTP 429). Please wait a moment and retry.');
  if(status>=500)return new Error(`The storage service could not finish the upload (HTTP ${status}). Please retry shortly.`);
  if(status)return new Error(`Storage rejected the upload (HTTP ${status}). Please try again.`);
