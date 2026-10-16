@@ -3,7 +3,7 @@ import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {mutate,readState} from './store';
-import {existingMedia,putMedia,putMediaStream} from './media';
+import {existingMedia,putMedia,putMediaStream,assertMediaTypeSupported} from './media';
 import {swapId,swapSourcePath,swapMix,type VoiceSwap,type SwapMix} from './voice-swap-model';
 import {downloadSwapMedia,prepareSwapAudio,readSwapStems,requestSwapStems,streamSwapVideo,storedSwapSource,probeSwapMedia} from './voice-swap-audio';
 const key=(id:string)=>`voice-swap-${swapId(id)}`;
@@ -63,8 +63,10 @@ export async function advanceVoiceSwap(id:string){
    else{
     const url=await existingMedia(`voice-swaps/${id}/source.wav`);if(!url)throw Error('Prepared audio is missing.');
     const audio=join(dir,'source.wav');await downloadSwapMedia(url,audio,60*1024*1024);
+    await assertMediaTypeSupported('application/zip');
     await update(x=>{x.paidIntent=true;});
     archive=await requestSwapStems(audio);
+    await update(x=>{x.separationReceived=true;});
     // Save the provider response before parsing. Recovery never pays for the same request again.
     const archiveUrl=await putMedia(`voice-swaps/${id}/stems.zip`,archive,'application/zip');await update(x=>{x.archiveUrl=archiveUrl;});
    }
@@ -85,9 +87,17 @@ export async function advanceVoiceSwap(id:string){
    await update(x=>{x.outputUrl=outputUrl;x.status=x.delivery?'queued':'done';if(x.delivery)x.stage='enhance';x.error=undefined;});
   }
  }catch(error){
-  await update(x=>{x.status=x.paidIntent&&!x.archiveUrl&&x.stage==='separate'?'uncertain':'error';x.error=x.status==='uncertain'?'ElevenLabs did not return a confirmed result. Check the provider before any new paid separation.':(error as Error).message.slice(0,350);});
+  await update(x=>{const message=(error as Error).message.slice(0,350);if(x.stage==='separate')x.separationError=message;x.status=x.paidIntent&&!x.archiveUrl&&x.stage==='separate'?'uncertain':'error';x.error=x.status==='uncertain'?(x.separationReceived?'ElevenLabs returned the separation, but Szekspir could not save it. No automatic paid retry was made.':'The separation result could not be confirmed. No automatic paid retry was made.'):message;});
  }finally{await rm(dir,{recursive:true,force:true});await update(x=>{x.leaseUntil=0;});}
  const latest=await getVoiceSwap(id);return latest.status==='queued';
 }
 
 export async function sendVoiceSwap(id:string){return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{if(!s?.outputUrl||!s.mixKey)throw Error('Prepare the mixed film first.');if(s.delivery)return s;if(s.status!=='done')throw Error('Wait for the mix to finish.');s.delivery={mixKey:s.mixKey,started:Date.now()};s.stage='enhance';s.status='queued';s.updated=Date.now();return s;});}
+
+export async function recoverSwapSeparation(id:string,confirmNewCharge=false){
+ const s=await getVoiceSwap(id);if(s.stage!=='separate'||(s.leaseUntil||0)>Date.now()||!['error','uncertain'].includes(s.status))throw Error('This separation is not ready for recovery.');
+ const archiveUrl=s.archiveUrl||await existingMedia(`voice-swaps/${s.id}/stems.zip`);
+ if(!archiveUrl&&!confirmNewCharge)throw Error('Nie znaleziono zapisanego ZIP-a. Oryginalny film i przygotowane audio pozostają zapisane. Ponowienie separacji może naliczyć nową opłatę i wymaga Twojego potwierdzenia.');
+ await assertMediaTypeSupported('application/zip');
+ return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,x=>{if(!x||x.stage!=='separate'||(x.leaseUntil||0)>Date.now()||!['error','uncertain'].includes(x.status))throw Error('Separation state changed. Refresh first.');x.archiveUrl=archiveUrl;if(!archiveUrl){x.paidIntent=false;x.separationReceived=false;}x.status='queued';x.error=undefined;x.separationError=undefined;x.updated=Date.now();return x;});
+}

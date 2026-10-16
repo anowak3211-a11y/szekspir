@@ -1,3 +1,9 @@
+## Voice Swapper ZIP storage failure — 16 October 2026
+
+- Production incident: provider Request Log confirmed one stem separation HTTP 200 / 11.45 s at 22:48:39 Europe/Warsaw. `szekspir-media` bucket allowed audio/video/images but **not application/zip**, so saving the paid response failed. Added application/zip to the existing MIME allowlist in Supabase UI; 2 GB limit and access policies retained.
+- Before a new paid separation, validate that the output bucket accepts ZIP. Persist whether the provider returned bytes and preserve the actual storage error; do not label an output-storage failure as provider timeout. No automatic new paid request.
+- Added safe saved-ZIP reconciliation and an explicitly confirmed new-charge retry using the existing prepared WAV. The first failed response was not retained in Storage; never claim it recovered or submit it again without explicit new-charge consent. Offline preflight / pipeline tests cover rejection before paid intent, archive absence, and no implicit retry.
+
 ## Voice Swapper upload limit — 16 October 2026
 
 - Raised source MP4/MOV limit from 150 MiB to 2 GiB (UI: 2 GB); retained the separate five-minute duration limit. Existing direct-to-storage resumable browser uploads already support this application limit.

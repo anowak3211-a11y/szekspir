@@ -3,6 +3,13 @@ import {put,head,BlobNotFoundError} from '@vercel/blob';
 import {Readable,Transform} from 'node:stream';
 export const MEDIA_LIMIT=2*1024*1024*1024;
 export const MEDIA_BUCKET='szekspir-media';
+export async function assertMediaTypeSupported(contentType:string){
+ if(mediaBackend()!=='supabase')return;
+ const {data,error}=await storageClient().storage.getBucket(MEDIA_BUCKET);
+ if(error||!data)throw Error('Could not verify output storage. No new paid separation was started.');
+ const allowed=data.allowed_mime_types;
+ if(allowed?.length&&!allowed.some(type=>type===contentType||type==='*/*'||type===contentType.split('/')[0]+'/*'))throw Error(`Storage does not accept ${contentType}. Enable this output type before starting a paid separation.`);
+}
 /** Bounded streaming output: large video files never become a single in-memory Buffer. */
 export async function putMediaStream(path:string,input:Readable,contentType:string){
  checkPath(path);let bytes=0;
