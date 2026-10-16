@@ -9,7 +9,7 @@ export function ResourcePicker({label,options,value,disabled,emptyMessage,onChan
  const id=useId(),trigger=useRef<HTMLButtonElement>(null),selected=options.find(o=>o.id===value);
  const filtered=options.filter(o=>o.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
  const status=(o:Option)=>o.status==='PAUSED'?'OFF':o.status;
- return <div className={s.picker} onKeyDown={e=>{if(e.key==='Escape'){setOpen(false);trigger.current?.focus();}}}>
+ return <div className={s.picker} onKeyDown={e=>{if(e.key==='Escape'&&open){e.preventDefault();e.stopPropagation();setOpen(false);trigger.current?.focus();}}}>
   <span id={`${id}-label`} className={s.fieldLabel}>{label}</span>
   <button ref={trigger} type="button" className={s.pickerTrigger} aria-labelledby={`${id}-label ${id}-value`} aria-expanded={open&&!disabled} aria-controls={`${id}-options`} disabled={disabled} onClick={()=>setOpen(v=>!v)}>
    <span id={`${id}-value`}>{selected?.name||`Select ${label.toLowerCase()}`}</span><span className={s.pickerTrailing}>{selected?.status&&<small className={selected.status==='ACTIVE'?s.statusActive:s.statusOff}>{status(selected)}</small>}<Icon name="chevron" size={16}/></span>
