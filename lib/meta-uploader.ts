@@ -51,11 +51,12 @@ async function dispatchNext(batchId:string){
 async function releaseDispatch(batchId:string,id:string,token?:string){await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch?.dispatch?.id===id&&(!token||s.batch.dispatch.token===token))s.batch.dispatch=undefined;});}
 export async function startBatch(id:string){const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);if(items.every(i=>['complete','attention','cancelled'].includes(i.status)))throw Error('Resolve the adverts requiring attention before resuming.');await batchQueue(id);if(batch.status!=='running'){for(const ad of Array.from(new Map(items.filter(i=>!['complete','cancelled'].includes(i.status)).map(i=>[`${i.ad.accountId}:${i.ad.adSetId}:${i.ad.pageId}`,i.ad])).values()))await assertUploadTarget(ad);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');if(s.batch.status!=='running'){s.batch.dispatch=undefined;s.batch.status='running';}});}await dispatchNext(id);return readBatch(id);}
 /** Resume unfinished stages only. Never replay an uncertain remote write. */
+function relaunchable(item:UploadItem){return item.status==='attention'||(item.status==='waiting'&&item.error?.startsWith('Upload queue is waiting.'));}
 export async function relaunchBatch(id:string){
  const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);
  for(const item of items){
-  if(item.status!=='attention'||item.pending||(item.leaseUntil||0)>Date.now())continue;
-  const queued=await mutate<{item?:UploadItem},UploadItem|null>(key(item.id)+'-record',{},s=>{const current=s.item;if(!current||current.status!=='attention'||current.pending||(current.leaseUntil||0)>Date.now())return null;Object.assign(current,{status:'queued',error:undefined,attempts:0,nextAttempt:undefined,lease:undefined,leaseUntil:undefined,updated:Date.now()});return {...current};});
+  if(!relaunchable(item)||item.pending||(item.leaseUntil||0)>Date.now())continue;
+  const queued=await mutate<{item?:UploadItem},UploadItem|null>(key(item.id)+'-record',{},s=>{const current=s.item;if(!current||!relaunchable(current)||current.pending||(current.leaseUntil||0)>Date.now())return null;Object.assign(current,{status:'queued',error:undefined,attempts:0,nextAttempt:undefined,lease:undefined,leaseUntil:undefined,updated:Date.now()});return {...current};});
   if(queued){await batchQueue(id);await updateQueue(id,queued);}
  }
  const current=await readBatch(id);

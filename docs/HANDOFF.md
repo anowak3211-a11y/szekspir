@@ -1,3 +1,9 @@
+## Fifty-ad publication throughput — 17 October 2026
+
+- Owner explicitly requested raising internal limits for 50-ad batches. Application guards are now 6,000 requests/hour, 1,200 weighted points/five minutes and one second between requests (previously 240/hour, 50 limited-tier points and five seconds). These are our throughput guards, not promises of Meta quota. Shared single-request lease, usage-header cooldown at 80%, Retry-After and real provider throttling/backoff remain enforced.
+- Explicit Relaunch recalculates only local “Upload queue is waiting” delays, enabling an existing batch to use the new capacity immediately. Provider waits, live item leases, uncertain write intents, saved IDs and completed ads are preserved. No campaign/ad-set budgets or states change.
+- Offline tests cover 50 ads with six reads/three writes each, elevated local caps, real cooldowns, unknown-write protection and local-only requeue. Full Meta suite and typecheck pass. Existing 22-ad batch completion is checked separately against production state.
+
 ## Relaunch unfinished publication — 17 October 2026
 
 - Owner explicitly requested completing all 22 IMG 1 ads and adding Relaunch. Batch button is now always visible (disabled when finished), with a per-item Relaunch using saved IDs. Batch relaunch atomically requeues only known failed stages without pending writes; completed rows, existing Meta IDs, uncertain outcomes and provider wait times remain intact. If no item is leased, explicit relaunch replaces the same idle dispatch token so stale queued deliveries cannot write and the batch does not wait for the ten-minute crash lease.

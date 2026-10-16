@@ -1,6 +1,9 @@
 import {randomUUID} from 'node:crypto';
 import {mutate,readState} from './store';
 const KEY='meta-api-shared-budget';
+// Application throughput guards, not advertised Meta quotas. Provider headers and
+// cooldowns remain authoritative; one remote request stays in flight at a time.
+const HOURLY_CAP=6000,FIVE_MINUTE_POINT_CAP=1200,MIN_SPACING_MS=1000;
 export type WaitReason='busy'|'spacing'|'local_budget'|'provider_cooldown';
 export type MetaDiagnostic={at:number;operation:string;method:string;status:number;code:number;subcode:number;durationMs:number;requestId?:string};
 type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
@@ -16,15 +19,15 @@ export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
   const decision=await mutate<Budget,{seconds:number;reason:WaitReason}>(KEY,initial(),s=>{
    const now=Date.now();s.calls=s.calls.filter(t=>t>now-3600000);
    s.points=(s.points||s.calls.map(at=>({at,cost:3}))).filter(p=>p.at>now-300000);
-   const hourly=s.calls.length>=240?s.calls[0]+3600000:0;
+   const hourly=s.calls.length>=HOURLY_CAP?s.calls[0]+3600000:0;
    if((s.cooldown||0)>now)return {seconds:Math.ceil((s.cooldown!-now)/1000),reason:'provider_cooldown'};
    if(hourly>now)return {seconds:Math.ceil((hourly-now)/1000),reason:'local_budget'};
-   // Read=1, write=3. Keep a margin below the development-tier score limit.
-   // Unknown tier is deliberately conservative until a response proves Full access.
-   if(s.points.reduce((n,p)=>n+p.cost,0)+cost>(s.accessTier==='full'?500:50))return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
+   // Read=1, write=3. Allow bulk batches without the former 50-point bottleneck.
+   // This local guard never overrides provider cooldowns or usage-header backoff.
+   if(s.points.reduce((n,p)=>n+p.cost,0)+cost>FIVE_MINUTE_POINT_CAP)return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
    if((s.leaseUntil||0)>now){s.localWaits=(s.localWaits||0)+1;return {seconds:2,reason:'busy'};}
    if((s.next||0)>now)return {seconds:Math.ceil((s.next!-now)/1000),reason:'spacing'};
-   s.lease=token;s.leaseUntil=now+210000;s.next=now+5000;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
+   s.lease=token;s.leaseUntil=now+210000;s.next=now+MIN_SPACING_MS;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
   });
   if(!decision.seconds){acquired=true;break;}
   if(decision.reason!=='spacing'||attempt===1)throw new MetaBudgetWait(decision.seconds,decision.reason);
@@ -67,4 +70,4 @@ export async function recordMetaUsage(headers:Headers,rateLimited=false,diagnost
   return Math.max(0,Math.ceil(((s.cooldown||0)-Date.now())/1000));
  });
 }
-export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:240,minSpacingSeconds:5,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:s.accessTier==='full'?500:50,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
+export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:HOURLY_CAP,minSpacingSeconds:MIN_SPACING_MS/1000,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:FIVE_MINUTE_POINT_CAP,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
