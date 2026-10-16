@@ -1,14 +1,23 @@
 import ffmpeg from 'ffmpeg-static';
-import {execFile} from 'node:child_process';
+import {execFile,spawn} from 'node:child_process';
+import {Transform,type Readable} from 'node:stream';
 import {promisify} from 'node:util';
 import {createWriteStream} from 'node:fs';
 import {readFile,stat} from 'node:fs/promises';
 import {pipeline} from 'node:stream/promises';
-import {Transform} from 'node:stream';
 import {inflateRawSync} from 'node:zlib';
 import {openVideoStream} from './stream-media';
 import {SWAP_MAX_BYTES,SWAP_MAX_SECONDS,swapMixFilter,type SwapMix} from './voice-swap-model';
 const run=promisify(execFile);
+/** Remote FFmpeg inputs must be our stored MP4/MOV, never an arbitrary user URL or playlist. */
+export function storedSwapSource(value:string){
+ const url=new URL(value),base=process.env.SUPABASE_URL;
+ const supabase=base&&url.origin===new URL(base).origin&&url.pathname.startsWith('/storage/v1/object/public/szekspir-media/sources/');
+ const blob=url.hostname.endsWith('.public.blob.vercel-storage.com')&&url.pathname.startsWith('/sources/');
+ if(url.protocol!=='https:'||url.username||url.password||url.port||(!supabase&&!blob)||!/^\/.*\/source\.(mp4|mov)$/i.test(url.pathname))throw Error('Only the saved original video can be processed.');
+ return url.href;
+}
+function sourceInput(source:string){return source.startsWith('https:')?['-rw_timeout','30000000','-protocol_whitelist','https,tls,tcp','-f','mov','-i',source]:['-i',source];}
 export async function swapFfmpeg(args:string[]){if(!ffmpeg)throw Error('Audio processor is unavailable.');return run(ffmpeg,['-hide_banner','-nostdin','-y',...args],{timeout:200000,maxBuffer:4*1024*1024});}
 export async function downloadSwapMedia(url:string,path:string,limit=SWAP_MAX_BYTES){
  const input=await openVideoStream(url);let bytes=0;
@@ -16,13 +25,13 @@ export async function downloadSwapMedia(url:string,path:string,limit=SWAP_MAX_BY
  if(!bytes)throw Error('Empty media file.');
 }
 export async function probeSwapMedia(path:string,video=false){
- const {stderr}=await swapFfmpeg(['-i',path,'-map',video?'0:v:0':'0:a:0','-c','copy','-t','0','-f','null','-']);
+ const {stderr}=await swapFfmpeg([...sourceInput(path),'-map',video?'0:v:0':'0:a:0','-c','copy','-t','0','-f','null','-']);
  const m=/Duration: (\d+):(\d+):([\d.]+)/.exec(stderr);const seconds=m?Number(m[1])*3600+Number(m[2])*60+Number(m[3]):0;
  if(!seconds||seconds>SWAP_MAX_SECONDS)throw Error('Use a recording up to 5 minutes long.');return seconds;
 }
 export async function prepareSwapAudio(input:string,output:string){
  const seconds=await probeSwapMedia(input,true);
- await swapFfmpeg(['-v','error','-i',input,'-map','0:a:0','-vn','-ar','44100','-ac','2','-c:a','pcm_s16le',output]);return seconds;
+ await swapFfmpeg(['-v','error',...sourceInput(input),'-map','0:a:0','-vn','-ar','44100','-ac','2','-c:a','pcm_s16le',output]);return seconds;
 }
 /** Bounded ZIP reader: central-directory sizes are checked before inflation; filenames never touch disk. */
 export function readSwapStems(zip:Buffer){
@@ -58,5 +67,18 @@ export async function renderSwapVideo(source:string,background:string,voice:stri
  const voiceSeconds=await probeSwapMedia(voice);
  if(voiceSeconds+mix.offset>seconds+.1)throw Error('The new voiceover extends past the video. Shorten the voiceover or reduce its start offset; speech was not cut.');
  await swapFfmpeg(['-v','error','-i',source,'-i',background,'-i',voice,'-filter_complex',swapMixFilter(mix,seconds),'-map','0:v:0','-map','[mix]','-map_metadata','0','-c:v','copy','-c:a','aac','-b:a','192k','-t',String(seconds),'-movflags','+faststart',output]);
- if((await stat(output)).size>SWAP_MAX_BYTES+40*1024*1024)throw Error('Output exceeds the processing size limit.');
+ if((await stat(output)).size>SWAP_MAX_BYTES)throw Error('Output exceeds the processing size limit.');
+}
+export async function streamSwapVideo(source:string,background:string,voice:string,mix:SwapMix,seconds:number,save:(body:Readable)=>Promise<string>){
+ const voiceSeconds=await probeSwapMedia(voice);
+ if(voiceSeconds+mix.offset>seconds+.1)throw Error('The new voiceover extends past the video. Shorten the voiceover or reduce its start offset; speech was not cut.');
+ if(!ffmpeg)throw Error('Audio processor is unavailable.');
+ const child=spawn(ffmpeg,['-hide_banner','-nostdin','-v','error',...sourceInput(source),'-i',background,'-i',voice,'-filter_complex',swapMixFilter(mix,seconds),'-map','0:v:0','-map','[mix]','-map_metadata','0','-c:v','copy','-c:a','aac','-b:a','192k','-t',String(seconds),'-movflags','+frag_keyframe+delay_moov+default_base_moof','-f','mp4','pipe:1'],{stdio:['ignore','pipe','pipe']});
+ let stderr='';child.stderr.on('data',b=>{stderr=(stderr+b.toString()).slice(-1500);});
+ const completed=new Promise<void>((resolve,reject)=>{child.once('error',reject);child.once('close',code=>code===0?resolve():reject(Error(`Video export failed: ${stderr.slice(-350)}`)));});
+ // Observe rejection immediately while storage applies backpressure to FFmpeg stdout.
+ void completed.catch(()=>{});const timer=setTimeout(()=>child.kill('SIGKILL'),230000);
+ const output=new Transform({transform(chunk,_encoding,done){done(null,chunk);},flush(done){void completed.then(()=>done(),error=>done(error));}});child.stdout.on('error',error=>output.destroy(error));child.stdout.pipe(output);
+ try{const [url]=await Promise.all([save(output),completed]);return url;}
+ finally{clearTimeout(timer);if(child.exitCode===null)child.kill('SIGKILL');child.stdout.unpipe(output);child.stdout.destroy();output.destroy();}
 }

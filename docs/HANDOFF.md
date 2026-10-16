@@ -1,3 +1,9 @@
+## Voice Swapper upload limit — 16 October 2026
+
+- Raised source MP4/MOV limit from 150 MiB to 2 GiB (UI: 2 GB); retained the separate five-minute duration limit. Existing direct-to-storage resumable browser uploads already support this application limit.
+- Original movie stays in storage: FFmpeg reads the trusted stored MP4/MOV via HTTPS/range access, with MOV demuxer forced. Only small audio/stem files use temporary disk. Mixed MP4 streams directly into bounded storage upload; no full-video Buffer or temporary output movie. Fragmented MP4 with delayed moov preserves original frame timestamps, verified against actual FFmpeg fixtures.
+- Offline tests cover packet-preserving streaming export, retained background/new voice and absent source speech, stored-source URL restrictions, idempotency, and the existing delivery pipeline. No multi-gigabyte production transfer or paid provider run performed.
+
 ## Uploader destination and resource choices — 16 October 2026
 
 - Replaced native campaign/ad-set/Page/account menus with accessible button pills in inline disclosure panels. Long lists have a name filter; selected state, ACTIVE/OFF labels, Escape and return focus are explicit. Campaign changes clear the previous ad set immediately. The selected account is visible in the header, with the existing per-browser remembered selection retained.

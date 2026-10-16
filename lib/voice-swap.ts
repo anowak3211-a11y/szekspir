@@ -3,9 +3,9 @@ import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {mutate,readState} from './store';
-import {existingMedia,putMedia} from './media';
+import {existingMedia,putMedia,putMediaStream} from './media';
 import {swapId,swapSourcePath,swapMix,type VoiceSwap,type SwapMix} from './voice-swap-model';
-import {downloadSwapMedia,prepareSwapAudio,readSwapStems,requestSwapStems,renderSwapVideo,probeSwapMedia} from './voice-swap-audio';
+import {downloadSwapMedia,prepareSwapAudio,readSwapStems,requestSwapStems,streamSwapVideo,storedSwapSource,probeSwapMedia} from './voice-swap-audio';
 const key=(id:string)=>`voice-swap-${swapId(id)}`;
 const active=(s:VoiceSwap)=>['queued','preparing','separating','mixing','enhancing','delivering'].includes(s.status);
 export async function getVoiceSwap(id:string){const s=(await readState<VoiceSwap|null>(key(id),null)).value;if(!s)throw Error('Voice swap not found.');return s;}
@@ -54,7 +54,7 @@ export async function advanceVoiceSwap(id:string){
  const dir=await mkdtemp(join(tmpdir(),'voice-swap-'));
  try{
   if(s.stage==='prepare'){
-   const source=join(dir,'source.video'),audio=join(dir,'source.wav');await downloadSwapMedia(s.sourceUrl,source);const duration=await prepareSwapAudio(source,audio);
+   const source=storedSwapSource(s.sourceUrl),audio=join(dir,'source.wav');const duration=await prepareSwapAudio(source,audio);
    if(!await existingMedia(`voice-swaps/${id}/source.wav`))await putMedia(`voice-swaps/${id}/source.wav`,await readFile(audio),'audio/wav');
    await update(x=>{x.duration=duration;x.stage='separate';x.status='queued';});
   }else if(s.stage==='separate'){
@@ -78,9 +78,9 @@ export async function advanceVoiceSwap(id:string){
   }else{
    const outputPath=`voice-swaps/${id}/${s.mixKey}.mp4`;let outputUrl=await existingMedia(outputPath);
    if(!outputUrl){
-    const source=join(dir,'source.video'),bed=join(dir,'background.mp3'),voice=join(dir,'voice.audio'),output=join(dir,'output.mp4');
-    await downloadSwapMedia(s.sourceUrl,source);await downloadSwapMedia(s.backgroundUrl!,bed,30*1024*1024);await downloadSwapMedia(s.voiceUrl!,voice,30*1024*1024);
-    await renderSwapVideo(source,bed,voice,output,s.mix as SwapMix,s.duration!);outputUrl=await putMedia(outputPath,await readFile(output),'video/mp4');
+    const source=storedSwapSource(s.sourceUrl),bed=join(dir,'background.mp3'),voice=join(dir,'voice.audio');
+    await downloadSwapMedia(s.backgroundUrl!,bed,30*1024*1024);await downloadSwapMedia(s.voiceUrl!,voice,30*1024*1024);
+    outputUrl=await streamSwapVideo(source,bed,voice,s.mix as SwapMix,s.duration!,body=>putMediaStream(outputPath,body,'video/mp4'));
    }
    await update(x=>{x.outputUrl=outputUrl;x.status=x.delivery?'queued':'done';if(x.delivery)x.stage='enhance';x.error=undefined;});
   }

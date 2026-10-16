@@ -1,4 +1,4 @@
-export const SWAP_MAX_BYTES=150*1024*1024;
+export const SWAP_MAX_BYTES=2*1024*1024*1024;
 export const SWAP_MAX_SECONDS=300;
 export type SwapStatus='queued'|'preparing'|'separating'|'review'|'mixing'|'enhancing'|'delivering'|'done'|'error'|'uncertain';
 export type SwapMix={voicePath:string;voiceGain:number;backgroundGain:number;offset:number;approved:true};

@@ -1,7 +1,21 @@
 import {createClient} from '@supabase/supabase-js';
 import {put,head,BlobNotFoundError} from '@vercel/blob';
+import {Readable,Transform} from 'node:stream';
 export const MEDIA_LIMIT=2*1024*1024*1024;
 export const MEDIA_BUCKET='szekspir-media';
+/** Bounded streaming output: large video files never become a single in-memory Buffer. */
+export async function putMediaStream(path:string,input:Readable,contentType:string){
+ checkPath(path);let bytes=0;
+ const bounded=new Transform({transform(chunk:Buffer,_encoding,done){bytes+=chunk.length;done(bytes>MEDIA_LIMIT?Error('Video exceeds the 2 GB storage limit'):null,chunk);}});
+ input.on('error',error=>bounded.destroy(error));input.pipe(bounded);
+ try{
+  if(mediaBackend()==='blob')return (await put(path,bounded,{access:'public',addRandomSuffix:false,contentType,multipart:true})).url;
+  const origin=process.env.SUPABASE_URL,key=process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY;if(!origin||!key)throw Error('Storage is not configured');
+  const response=await fetch(`${origin}/storage/v1/object/${MEDIA_BUCKET}/${path}`,{method:'POST',headers:{Authorization:`Bearer ${key}`,apikey:key,'Content-Type':contentType,'x-upsert':'false'},body:bounded as unknown as BodyInit,duplex:'half',signal:AbortSignal.timeout(230000)} as RequestInit);
+  if(!response.ok){await response.body?.cancel();if(response.status===409){const prior=await existingMedia(path);if(prior)return prior;}throw Error(`Video storage returned HTTP ${response.status}`);}
+  await response.body?.cancel();return `${origin}/storage/v1/object/public/${MEDIA_BUCKET}/${path}`;
+ }finally{input.unpipe(bounded);input.destroy();bounded.destroy();}
+}
 export function mediaBackend(){const backend=process.env.MEDIA_BACKEND||'blob';if(!['blob','supabase'].includes(backend))throw Error('Invalid media backend');return backend;}
 export function storageClient(){
  const url=process.env.SUPABASE_URL,key=process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY;
