@@ -1,3 +1,8 @@
+## Brisk casual Voice Swapper take — 17 October 2026
+
+- Owner rejected the phone-coloured mellow take and requested a naturally delivered replacement. Added explicit casual style: native conversational plus rushed delivery at synthesis, with no microphone EQ, no new ambience and no text rewrite. Existing studio and phone takes retain their semantics. The brisk tag is direction, not a guaranteed duration; listening and timing review remain required.
+- Style stays inside the durable paid request identity. One generated take is reused for alignment and export; no uncertain paid retries. Offline narration and prompt tests verify original words, native direction, no phone DSP and cached single-call behaviour.
+
 ## Casual phone-style Voice Swapper recording — 17 October 2026
 
 - Explicit clean / phone recording style per take. Phone requests use the existing native conversational direction at synthesis, then local mild microphone EQ / compression (90 Hz high-pass, 9 kHz low-pass, gentle presence/body reduction). No added echo, generated ambience or extra TTS call. Existing clean mode is unchanged; original raw take remains preserved.

@@ -6,7 +6,7 @@ export function directedNarration(script:string,emotion:VoiceEmotion='off',marke
  const text=narration(script,market);
  const tag=emotion==='off'?'':emotion==='subtle'?(processing?.mode==='gentle'?'conversational':'calm'):emotion;
  const reaction=processing?.openingReaction&&processing.openingReaction!=='none'?`[${processing.openingReaction}] `:'';
- return text?`${reaction}${tag?`[${tag}] `:''}${text}`:text;
+ return text?`${reaction}${processing?.deliveryPace==='brisk'?'[rushed] ':''}${tag?`[${tag}] `:''}${text}`:text;
 }
 export function voiceSettings(processing?:VoiceProcessing){
  const emotion=processing?.emotion??'off';

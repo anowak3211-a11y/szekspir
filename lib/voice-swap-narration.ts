@@ -7,7 +7,7 @@ export function narrationInput(input:Record<string,unknown>){
  const requestId=swapId(input.requestId),text=typeof input.text==='string'?input.text.trim():'';
  if(!text||text.length>10000)throw Error('Enter a script between 1 and 10,000 characters.');
  if(typeof input.voiceId!=='string'||!/^[a-zA-Z0-9_-]{1,100}$/.test(input.voiceId))throw Error('Choose a voice first.');
- const recordingStyle=input.recordingStyle??'studio';if(recordingStyle!=='studio'&&recordingStyle!=='phone')throw Error('Choose a supported recording style.');
+ const recordingStyle=input.recordingStyle??'studio';if(recordingStyle!=='studio'&&recordingStyle!=='phone'&&recordingStyle!=='casual')throw Error('Choose a supported recording style.');
  return {requestId,text,voiceId:input.voiceId,recordingStyle} as const;
 }
 export async function advanceSwapNarration(s:VoiceSwap,update:(fn:(s:VoiceSwap)=>void)=>Promise<void>){
@@ -19,7 +19,7 @@ export async function advanceSwapNarration(s:VoiceSwap,update:(fn:(s:VoiceSwap)=
   await change(t=>{t.submitted=true;});
   let bytes=await generateVO(take.text,take.voiceId,async raw=>{
    const originalUrl=await putMedia(take.path.replace(/\.wav$/,'-original.mp3'),Buffer.from(raw),'audio/mpeg');await change(t=>{t.originalUrl=originalUrl;});
-  },v4RecordingSettings({mode:'gentle',normalize:false,matchSourcePace:false,pauseShorteningMs:0,tempoFactor:1,emotion:take.recordingStyle==='phone'?'conversational':'off'}));
+  },v4RecordingSettings({mode:'gentle',normalize:false,matchSourcePace:false,pauseShorteningMs:0,tempoFactor:1,emotion:take.recordingStyle==='phone'||take.recordingStyle==='casual'?'conversational':'off',...(take.recordingStyle==='casual'?{deliveryPace:'brisk' as const}:{})}));
   if(take.recordingStyle==='phone'){const {phoneRecording}=await import('./voice-swap-phone');bytes=await phoneRecording(bytes);}
   url=await putMedia(take.path,Buffer.from(bytes),'audio/wav');
  }

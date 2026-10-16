@@ -7,4 +7,5 @@ assert.equal(directed.replace(/\[[^\]]*\]\s*/g,'').replace(/\s+/g,' ').trim(),na
 assert.equal((directed.match(/\[(curious|confident|reassuring|excited)\]/g)||[]).length,0);
 assert(!/\[(sigh|breath|pause|upbeat music)/i.test(directed));
 assert.equal(directedNarration(directed),directed);
+assert.equal(directedNarration('Keep all these words.', 'conversational', 'uk', {mode:'gentle',normalize:false,deliveryPace:'brisk'}), '[rushed] [conversational] Keep all these words.');
 console.log('PASS consistent delivery preserves spoken words; no breath/pause cues; repeat application is stable');
