@@ -28,7 +28,7 @@ Module._load=function(n,p,...rest){
    assert(prompt.includes('undo stylistic changes that were not necessary'));
    assert(prompt.includes('Alternative hooks, when requested, belong only in the separate hooks array'));
   }else assert(!prompt.includes('Edit the supplied script; do not write a replacement advert'));
-  if(market==='uk')assert(prompt.includes('distinguish active ingredients from excipients'));
+  if(market==='uk'){assert(prompt.includes('TARGET PRODUCT QUANTITIES'));assert(prompt.includes('RULE_TYP_01'));assert(prompt.includes(mode==='close'?'VARIANT A':'VARIANT B'));}else assert(!prompt.includes('owner-localisation-document'));
   assert.deepEqual(result.hooks,[]);
  }
  calls.length=0;

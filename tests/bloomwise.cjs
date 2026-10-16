@@ -7,6 +7,7 @@ assert(brand.hasUnwantedBrandReveal('I found saffron',['I found Mellow Mood Munc
 let calls=[],output='We use Bloom Wise. Children’s Hospital of Philadelphia published an article.',hooks=[];
 class OpenAI{constructor(){this.chat={completions:{create:async b=>{calls.push(b);return {choices:[{message:{content:JSON.stringify(b.response_format?{fixes:[]}:{uk_script:output,hooks,notes:[]})}}]};}}};}}
 const api=load('lib/localize.ts',{
+ './uk-localisation-guide':{ukLocalisationGuide:()=>''},
  './product-format':load('lib/product-format.ts'),'./uk-medication':load('lib/uk-medication.ts'),'./localization-fidelity':load('lib/localization-fidelity.ts',{'diff':require('diff'),'./product-format':load('lib/product-format.ts')}),'./localization-mode':load('lib/localization-mode.ts'),'./polish-localization':{},'./market':{parseMarket:()=> 'uk'},'./no-speech':{isNonSpeechTranscript:()=>false},'./cta-mode':{parseCtaMode:x=>x,ctaInstruction:()=>''},'./brand-disclosure':brand,'./speech':{narration:x=>x},'@anthropic-ai/sdk':{},'openai':{default:OpenAI},'./localization-rules':{SYSTEM_PROMPT:'',CRITIC_PROMPT:'',PROMPT_VERSION:'test',MELLOW_SAFFRON_NUTRIENTS:7,MELLOW_WEBSITE:'try-mellow.co'},'./validation':{objectJson:JSON.parse,validateResult:x=>x,applyCritic:x=>({script:x,fixes:[]}),timing:()=>({}),opening:x=>x}
 });
 (async()=>{

@@ -1,4 +1,4 @@
-export const PROMPT_VERSION = 'uk-faithful-2026-10-12-v26-short-mood-munchies';
+export const PROMPT_VERSION = 'uk-owner-2026-10-16-v27-localisation';
 // Owner-confirmed nutrient total, 6 October 2026; not a count of excipients.
 export const MELLOW_SAFFRON_NUTRIENTS = 7;
 export const MELLOW_WEBSITE = 'try-mellow.co';

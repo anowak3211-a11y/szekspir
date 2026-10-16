@@ -1,5 +1,14 @@
 # Current development handoff — 28 September 2026
 
+## US → UK owner localisation update — 16 October 2026
+
+- Owner supplied `zasady_lokalizacji_us_uk.md`; exact bytes are stored at `docs/antki/zasady-lokalizacji-us-uk.md` (SHA-256 `c40acb79d70118dfc6542b37e667f474a84cbc5fb074bd162a80632f8b152e95`). This is the newest language/style guidance and takes precedence over the older Antki handbook where they conflict. The older source remains intact.
+- Every Antki text segment receives the complete document with Variant B (native UK transcreation). Removed the older instruction to soften American hype: preserve source emotional force, pain points, promises and urgency. UK close-video localisation uses Variant A; explicitly selected full-video localisation uses native UK language under its existing depth contract. UK hook drafts receive the language guide; Polish and singing-ad lyrics retain their existing rules. This is prompt guidance in the existing requests, not four new paid calls or two automatic variants.
+- Factual and confirmed product/offer rules still bind: no guessed currency/price/tax/size conversions, fabricated identities, UK endorsements or sample case-study facts. Separate review notes stay outside copy. The numeric guard now permits equivalent explicit clock formats (`10:00 AM` → `10am`) while rejecting AM/PM changes, altered prices/doses/quantities and changed research links.
+- The new resource is traced into API deployment bundles; missing or invalid resources fail before a text-provider submission. UK prompt version is bumped. Applies to future generation requests/retries; saved sources, drafts, approvals, audio and Sheet rows are not rewritten and no automatic regeneration is triggered.
+- Offline verification: exact resource hash, Antki request injection/missing-resource guard, time/fact protection, Antki queue/approval flows, UK/PL depth paths, hook and retail localisation, core regressions and TypeScript. No paid generation or live Sheet/ad writes used. Two stale test expectations were updated to the existing quantity rule/current exported prompt version; the Bloomwise isolated harness now stubs the new guide dependency.
+
+
 ## Ads X-Ray native redesign — 15 October 2026
 
 - Owner explicitly requested a complete minimal redesign of newly integrated X-Ray views. Replaced generated HTML route with native React page, scoped CSS and local Geist: responsive mode navigation, input/result stages, labelled editors, mechanical summaries, mobile stacked diff, optional AI disclosure, save/history/archive dialogs and brand/editor management. Existing backend, MFA, provider intent/cache guards and advertising flows remain unchanged.
