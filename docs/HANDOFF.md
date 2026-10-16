@@ -1,3 +1,10 @@
+## Uploader destination and resource choices — 16 October 2026
+
+- Replaced native campaign/ad-set/Page/account menus with accessible button pills in inline disclosure panels. Long lists have a name filter; selected state, ACTIVE/OFF labels, Escape and return focus are explicit. Campaign changes clear the previous ad set immediately. The selected account is visible in the header, with the existing per-browser remembered selection retained.
+- The owner's existing CORSANTA LLC AGREEMENT account was selected through the production UI and returned Magnesium — Video / Saffron campaigns. No new OAuth grant, ad, campaign status or budget change was made.
+- Added account-scoped Mellow destination choices for the four product pages and existing Tired/Sleep and Cortisol advertorials. Focus the Website URL field or use its disclosure; manual URLs and existing creative-specific destinations remain supported. No automatic destination is selected and no default preferences are saved by choosing a pill.
+- Locally hosted Manrope (OFL included), clearer type hierarchy, rounded controls and mobile wrapping. Meta offline suite, 42 core regressions, typecheck and production webpack build passed before publication; production UI check follows deployment.
+
 ## Voice Swapper → VMake → Drive / Admin Sheet — 16 October 2026
 
 - Added `Save and Send to VMake` beside mixing and on completed exports. It enhances the mixed film through the existing **legacy** VMake endpoints, saves the enhanced result in the configured Drive video folder, and creates one new Daily Brief / MEL assigned to admin (`mine`). No transcription, rewriting, TTS, or editor-wide sync is triggered.
