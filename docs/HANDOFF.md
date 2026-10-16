@@ -1,3 +1,9 @@
+## Explicit image-copy regeneration — 17 October 2026
+
+- Added per-card Generuj ponownie · 3 warianty and batch-wide Generuj warianty dla grafik. Both replace the current copy after success, using a baseline captured at the explicit regeneration action; edits made during generation still survive. Busy/uncertain operations cannot start another paid take. Existing copy survives failed requests. The owner explicitly requested regeneration of the current 22-image batch.
+- New automatic image requests require three validated triplets. Explicit regeneration has a persisted UUID and separate cache key; Check saved AI result retains that UUID and cannot double-charge. Legacy saved inputs keep their original keys. Three variants are produced in one model call, not three. No automatic Meta publication.
+- Typecheck and offline Meta suite cover stable regeneration IDs, duplicate checks, required-variant rejection and existing billing guards. Live batch generation follows deployment under the owner's explicit instruction.
+
 ## Saffron image-copy variants — 17 October 2026
 
 - Owner requested three future copy variants: source customer voice, direct sales copy, second customer voice; emoji at the end, distinct across primary/headline/description. Read the existing Meta MEL 125 copy and use its format as the reference. Observed quoted desires are not verified product reviews; never invent testimonial authors, outcomes or ratings. Use source quotes only when relevant to the uploaded image, otherwise use an unquoted desire hook.

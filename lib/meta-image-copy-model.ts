@@ -1,6 +1,6 @@
 import type {UploadDraft} from './meta-uploader-model';
 
-export type ImageCopyInput={accountId:string;imageUrl:string;language:'en-GB'|'image'};
+export type ImageCopyInput={accountId:string;imageUrl:string;language:'en-GB'|'image';variants?:3;generationId?:string};
 export type ImageCopyVariant={primaryText:string;headline:string;description:string};
 export type ImageCopyResult=ImageCopyVariant&{imageText:string;reviewNotes:string[];variants?:ImageCopyVariant[]};
 export type ImageCopyState={input:ImageCopyInput;before?:Pick<UploadDraft,'primaryTexts'|'headline'|'headlines'|'description'|'descriptions'>;status:'queued'|'working'|'ready'|'attention';error?:string;reviewNotes?:string[]};
