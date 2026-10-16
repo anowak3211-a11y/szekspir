@@ -1,3 +1,9 @@
+## Direct ACTIVE publication — 17 October 2026
+
+- Owner replaced Save batch for publication with direct Publish and explicitly selected ACTIVE ads that can spend. The review button now durably saves and starts the existing queue in one request. Review states the count and ACTIVE spending behaviour. Parent campaign/ad-set statuses, targeting and budgets are never changed.
+- Optional validated per-ad publishStatus is persisted in the immutable fingerprint; direct new UI batches explicitly use ACTIVE. Verification/reconciliation checks the requested status. New explicit modes accept active or paused parent campaigns while still validating account/campaign/ad-set/Page/website ownership. Legacy saved batches without a mode remain PAUSED and retain their old parent-OFF requirement.
+- Repeated Publish uses the same batch/item identities; failed/uncertain writes retain reconciliation and no-duplicate safeguards. Offline tests cover direct ACTIVE creation/readback, duplicate publication, wrong remote status, archived-parent rejection and legacy OFF protection. Typecheck and Meta suite pass. Live UI review is checked without publishing test ads or changing budgets.
+
 ## Voice Swapper word and pause synchronisation — 17 October 2026
 
 - Explicit Sync action analyses saved original vocals and a saved generated take with Whisper word timestamps, then places pitch-preserving audio intervals at their original word positions. Source action pauses >=180 ms remain silent in the replacement voice stem. Original generated take and background are retained; TTS and separation are not repeated.

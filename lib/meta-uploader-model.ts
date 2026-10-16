@@ -1,6 +1,6 @@
 export type ImageCard={kind:'image';url:string;filename:string};
 export type UploadMedia={kind:'library';videoId:string}|{kind:'video'|'image';url:string;filename:string}|{kind:'carousel';cards:ImageCard[];endCard?:boolean};
-export type UploadAd={key:string;name:string;accountId:string;campaignId:string;adSetId:string;pageId:string;url:string;cta:'SHOP_NOW'|'LEARN_MORE';primaryTexts:string[];headline:string;description:string;headlines?:string[];descriptions?:string[];urlTags?:string;enhancements?:Record<string,boolean>;media:UploadMedia};
+export type UploadAd={publishStatus?:'ACTIVE'|'PAUSED';key:string;name:string;accountId:string;campaignId:string;adSetId:string;pageId:string;url:string;cta:'SHOP_NOW'|'LEARN_MORE';primaryTexts:string[];headline:string;description:string;headlines?:string[];descriptions?:string[];urlTags?:string;enhancements?:Record<string,boolean>;media:UploadMedia};
 export type UploadDraft=Partial<Omit<UploadAd,'media'>>&{media?:UploadMedia};
 export type UploadPhase='media'|'transfer'|'finish'|'processing'|'creative'|'ad'|'verify'|'done';
 export type UploadItem={id:string;ad:UploadAd;fingerprint:string;phase:UploadPhase;status:'queued'|'working'|'waiting'|'attention'|'complete'|'cancelled';created:number;updated:number;videoId?:string;imageHash?:string;thumbnailUrl?:string;imageHashes?:string[];creativeId?:string;metaAdId?:string;pending?:string;error?:string;attempts:number;lease?:string;leaseUntil?:number;nextAttempt?:number;verifiedAt?:number;reused?:boolean;transfer?:{sessionId:string;fileId:string;size:number;start:number;end:number;checksum:string}};
@@ -26,6 +26,7 @@ export function parseUploadAd(raw:unknown):UploadAd{
  if(media.kind!=='library'&&media.kind!=='carousel'&&/[\r\n/\\]/.test(media.filename))throw Error('Use a filename without path separators.');
  if(a.cta!=='SHOP_NOW'&&a.cta!=='LEARN_MORE')throw Error('Choose Shop now or Learn more.');
  const extra:Partial<UploadAd>={};
+ if(a.publishStatus!==undefined){if(a.publishStatus!=='ACTIVE'&&a.publishStatus!=='PAUSED')throw Error('Choose ACTIVE or PAUSED publication.');extra.publishStatus=a.publishStatus;}
  const variant=(v:unknown,label:string)=>{if(!Array.isArray(v)||v.length<1||v.length>5)throw Error(`Supply 1–5 ${label} variants.`);const list=v.map((t,i)=>text(t,`${label} ${i+1}`,255));if(new Set(list).size!==list.length)throw Error(`${label} variants must be distinct.`);return list;};
  if(a.headlines!==undefined)extra.headlines=variant(a.headlines,'headline');
  if(a.descriptions!==undefined)extra.descriptions=variant(a.descriptions,'description');

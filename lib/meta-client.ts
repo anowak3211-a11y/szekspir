@@ -62,10 +62,11 @@ export async function metaResources(kind:string,accountId:string,campaignId?:str
  if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,optimization_goal,promoted_object',{},t);})).value;}
  throw Error('Unknown resource.');
 }
-export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string}){
+export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string;publishStatus?:'ACTIVE'|'PAUSED'}){
  const set=(await cachedMetaResource(`target-with-conversion:${ad.accountId}:${ad.adSetId}`,300000,t=>graph<{account_id:string;campaign_id:string;destination_type?:string;optimization_goal?:string;promoted_object?:{pixel_id?:string;application_id?:string}}>(ad.adSetId,{fields:'account_id,campaign_id,destination_type,optimization_goal,promoted_object'},'GET',t))).value;
  if(set.account_id!==ad.accountId||set.campaign_id!==ad.campaignId)throw Error('The ad set does not belong to the selected account and campaign.');
- const campaign=await graph<{status:string}>(ad.campaignId,{fields:'status'});if(campaign.status!=='PAUSED')throw Error('This uploader requires a paused campaign. Pause it in Meta first.');
+ const campaign=await graph<{status:string}>(ad.campaignId,{fields:'status'});if(ad.publishStatus===undefined&&campaign.status!=='PAUSED')throw Error('This uploader requires a paused campaign. Pause it in Meta first.');
+ if(ad.publishStatus!==undefined&&!['ACTIVE','PAUSED'].includes(campaign.status))throw Error('Choose an active or paused campaign for publication.');
  // UNDEFINED alone does not identify a website. Legacy pixel conversion
  // sets must additionally prove offsite/value optimisation and no app target.
  const legacyWebsite=set.destination_type==='UNDEFINED'&&!!set.promoted_object?.pixel_id&&!set.promoted_object.application_id&&['OFFSITE_CONVERSIONS','VALUE'].includes(set.optimization_goal||'');

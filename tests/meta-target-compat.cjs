@@ -26,7 +26,7 @@ const client=require('../lib/meta-client.ts'),ad={accountId:'100000',campaignId:
  target={...target,promoted_object:{pixel_id:'600000'},optimization_goal:'REACH'};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
  target={...target,optimization_goal:'OFFSITE_CONVERSIONS',promoted_object:{}};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
  target={...target,destination_type:'WEBSITE'};await client.assertUploadTarget(ad);
- campaignStatus='ACTIVE';await assert.rejects(()=>client.assertUploadTarget(ad),/paused campaign/);campaignStatus='PAUSED';
+ campaignStatus='ACTIVE';await assert.rejects(()=>client.assertUploadTarget(ad),/paused campaign/);await client.assertUploadTarget({...ad,publishStatus:'ACTIVE'});await client.assertUploadTarget({...ad,publishStatus:'PAUSED'});campaignStatus='ARCHIVED';await assert.rejects(()=>client.assertUploadTarget({...ad,publishStatus:'ACTIVE'}),/active or paused campaign/);campaignStatus='PAUSED';
  pageTasks=['ANALYZE'];await assert.rejects(()=>client.assertUploadTarget(ad),/Page is not available/);
  assert.equal(posts,0);console.log('PASS: legacy offsite pixel target, explicit app/unknown rejection, fresh parent OFF guard, task-qualified Page discovery without token exposure or new scopes. Zero provider writes.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

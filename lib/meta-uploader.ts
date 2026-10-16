@@ -19,6 +19,7 @@ export async function saveUploadBatch(id:string,name:string,raw:unknown[]){
  for(const ad of ads){const itemId=itemKey(ad);await mutate<{item?:UploadItem},void>(key(itemId)+'-record',{},s=>{if(s.item){if(s.item.fingerprint!==fingerprint(ad))throw Error('Source key changed.');return;}s.item={id:itemId,ad,fingerprint:fingerprint(ad),phase:'media',status:'queued',created:Date.now(),updated:Date.now(),attempts:0};});}
  await mutate<string[],void>('meta-upload-batches',[],s=>{if(!s.includes(id))s.push(id);});return readBatch(id);
 }
+export async function publishUploadBatch(id:string,name:string,raw:unknown[]){await saveUploadBatch(id,name,raw);return startBatch(id);}
 // Envelope records support atomic replacement with the project's existing CAS.
 export async function readItem(id:string){return (await readState<{item?:UploadItem}>(key(id)+'-record',{})).value.item||null;}
 async function readBatchRecord(id:string){const batch=(await readState<{batch?:UploadBatch}>(batchKey(id)+'-record',{})).value.batch;if(!batch)throw Error('Batch not found.');return batch;}
@@ -48,7 +49,7 @@ async function verify(item:UploadItem){
  if(!item.metaAdId||!item.creativeId)throw Error('Missing native Meta IDs.');
  await assertUploadTarget(item.ad);
  const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string}}>(item.metaAdId,{fields:'id,adset_id,status,creative{id}'});
- if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||ad.status!=='PAUSED')throw Error('Meta ad identity, target or paused status did not match.');
+ if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||ad.status!==(item.ad.publishStatus||'PAUSED'))throw Error(`Meta ad identity, target or ${item.ad.publishStatus?'publication':'paused'} status did not match.`);
  const creative=await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
 }
 class UnconfirmedResult extends Error {}
@@ -88,7 +89,7 @@ export async function consumeMetaUpload(id:string,batchId:string,dispatchToken?:
    if(state==='error'||state==='failed')throw Error('Meta could not process the original video.');
    if(state!=='ready'){if(item.attempts++>=30)throw Error('Video processing is taking too long. Retry checks the same video ID.');delay=Math.min(120,20*2**Math.min(3,item.attempts-1));}else{item.thumbnailUrl=media.thumbnails?.data[0]?.uri||media.picture;if(!item.thumbnailUrl)throw Error('Meta did not return the original thumbnail.');item.phase='creative';item.attempts=0;delay=0;}
   }else if(item.phase==='creative'){await assertUploadTarget(item.ad);await pending(item,'creative');const r=await graph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(item),'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the creative ID.');item.creativeId=r.id;item.pending=undefined;item.phase='ad';delay=0;
-  }else if(item.phase==='ad'){await assertUploadTarget(item.ad);await pending(item,'ad');const r=await graph<{id:string}>(`act_${item.ad.accountId}/ads`,{name:item.ad.name,adset_id:item.ad.adSetId,creative:{creative_id:item.creativeId},status:'PAUSED'},'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the ad ID.');item.metaAdId=r.id;item.pending=undefined;item.phase='verify';delay=0;
+  }else if(item.phase==='ad'){await assertUploadTarget(item.ad);await pending(item,'ad');const r=await graph<{id:string}>(`act_${item.ad.accountId}/ads`,{name:item.ad.name,adset_id:item.ad.adSetId,creative:{creative_id:item.creativeId},status:item.ad.publishStatus||'PAUSED'},'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the ad ID.');item.metaAdId=r.id;item.pending=undefined;item.phase='verify';delay=0;
   }else if(item.phase==='verify'){await verify(item);item.status='complete';item.phase='done';item.verifiedAt=Date.now();item.error=undefined;}
   if(item.status!=='complete')item.status=delay?'waiting':'queued';item.nextAttempt=delay?Date.now()+delay*1000:undefined;item.lease=undefined;item.leaseUntil=undefined;item.error=undefined;await patchItem(id,item,lease);
  }catch(error){const saved=(await readItem(id))!;if(error instanceof MetaBudgetWait){delay=error.retryAfterSeconds;await patchItem(id,{status:'waiting',error:error.message,pending:undefined,nextAttempt:Date.now()+delay*1000,lease:undefined,leaseUntil:undefined},lease);}else{const e=error as MetaError;const safeRetry=e instanceof MetaError&&e.transient&&!e.uncertain&&(e.rateLimited||saved.attempts<8);delay=safeRetry?Math.max(e.retryAfterSeconds||0,Math.min(1800,30*2**saved.attempts)):undefined;await patchItem(id,{status:safeRetry?'waiting':'attention',error:uploaderError(e),pending:e instanceof MetaError&&!e.uncertain?undefined:saved.pending,attempts:e.rateLimited?saved.attempts:saved.attempts+1,nextAttempt:delay?Date.now()+delay*1000:undefined,lease:undefined,leaseUntil:undefined},lease);}}
