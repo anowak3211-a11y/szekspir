@@ -1,7 +1,8 @@
 'use client';
+import type {ImageCopyState} from './meta-image-copy-model';
 import type {UploadDraft} from './meta-uploader-model';
 
-export type WorkspaceCreative=UploadDraft&{localId:string;file?:File;localPreview?:string;progress?:number;fileError?:string};
+export type WorkspaceCreative=UploadDraft&{copy?:ImageCopyState;localId:string;file?:File;localPreview?:string;progress?:number;fileError?:string};
 export type WorkspaceSelection={accountId:string;campaignId:string;adSetId:string;pageId:string;url:string;cta:'SHOP_NOW'|'LEARN_MORE'};
 export type WorkspaceBackup={version:1;id:string;batchId:string;batchName:string;selection:WorkspaceSelection;drafts:WorkspaceCreative[];chosen:string[];updated:number};
 const database='szekspir-meta-workspace-v1';
@@ -15,6 +16,7 @@ export function workspaceCreative(draft:WorkspaceCreative,resolved:UploadDraft):
  for(const key of allowed)if(source[key]!==undefined)Object.assign(result,{[key]:structuredClone(source[key])});
  if(draft.file&&!(draft.media&&draft.media.kind!=='library'&&draft.media.kind!=='carousel'&&draft.media.url))result.file=draft.file;
  if(draft.fileError)result.fileError=draft.fileError;
+ if(draft.copy)result.copy=structuredClone(draft.copy);
  return result;
 }
 export function workspaceTabId(){
