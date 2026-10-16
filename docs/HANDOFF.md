@@ -26,6 +26,11 @@
 - Owner showed generated notes about unreadable flavour badges/asterisks and image-description filler. New uncached copy requests now explicitly address the buyer and the image's central marketing angle; no descriptions of artwork/scenery or generic lifestyle filler. Minor unreadable badges/footnotes are silently omitted. Review notes are reserved for material product/offer ambiguities; existing no-invented-facts and prompt-injection rules remain.
 - Stored AI notes are displayed in a collapsed AI notes section, outside the ad fields. Existing primary texts, headlines, descriptions, source images and saved notes are preserved. Paid cache keys remain unchanged deliberately: this correction cannot regenerate a prior image or turn Check saved AI result into another paid request. Existing cached copy is reused; no automatic paid rewriting was started.
 
+## Image copy presentation correction — 16 October 2026
+
+- Owner showed generated notes about unreadable flavour badges/asterisks and image-description filler. New uncached copy requests now explicitly address the buyer and the image's central marketing angle; no descriptions of artwork/scenery or generic lifestyle filler. Minor unreadable badges/footnotes are silently omitted. Review notes are reserved for material product/offer ambiguities; existing no-invented-facts and prompt-injection rules remain.
+- Stored AI notes are displayed in a collapsed AI notes section, outside the ad fields. Existing primary texts, headlines, descriptions, source images and saved notes are preserved. Paid cache keys remain unchanged deliberately: this correction cannot regenerate a prior image or turn Check saved AI result into another paid request. Existing cached copy is reused; no automatic paid rewriting was started.
+
 ## Image upload → automatic ad copy — 16 October 2026
 
 - Uploader Auto-copy from image is on by default and visible before upload. After each original JPG/PNG/WebP transfer, a serial queue reads that exact image and drafts one primary text, headline and description. Videos are unchanged; existing stored image cards offer an explicit draft action. CORSANTA uses British English; other accounts follow the image language. Uses the existing configured Antki text model (default gpt-6-sol), low reasoning, no model migration.
