@@ -3,7 +3,7 @@ require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n
 let paid=0,record;const media=new Map(),words=[{word:'Hello',start:.1,end:.4},{word:'world',start:.6,end:1}];
 require.cache[require.resolve('../lib/localize.ts')]={exports:{transcribeWithDuration:async(f,times)=>{assert(times);paid++;assert(paid===1?record.sourceTimingSubmitted:record.takes[0].timingSubmitted,'Intent saved before provider call');return {text:'Hello world',words};}}};
 require.cache[require.resolve('../lib/media.ts')]={exports:{existingMedia:async p=>media.get(p),putMedia:async(p)=>{const u='https://stored.test/'+p;media.set(p,u);return u;}}};
-require.cache[require.resolve('../lib/voice-swap-audio.ts')]={exports:{downloadSwapMedia:async(u,p)=>fs.writeFileSync(p,'audio'),swapFfmpeg:async args=>{const out=args.at(-1);fs.writeFileSync(out,Buffer.alloc(2000));}}};
+require.cache[require.resolve('../lib/voice-swap-audio.ts')]={exports:{downloadSwapMedia:async(u,p)=>fs.writeFileSync(p,'audio'),swapFfmpeg:async args=>{const out=args.at(-1);fs.writeFileSync(out,Buffer.alloc(2000,1));}}};
 const {advanceSwapAlignment}=require('../lib/voice-swap-alignment.ts');
 (async()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'swap-align-'));try{
  record={id:'film',status:'queued',stage:'align',duration:2,vocalsUrl:'original',alignmentTake:'take',takes:[{id:'take',url:'new'}]};const update=async fn=>fn(record);

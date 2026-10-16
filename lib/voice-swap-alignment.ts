@@ -13,7 +13,7 @@ export async function renderWordSync(input:string,spans:WordSpan[],seconds:numbe
  for(let i=0;i<spans.length;i++){
   const p=spans[i],length=p.sourceEnd-p.sourceStart,out=join(dir,`word-${i}.pcm`);
   await swapFfmpeg(['-v','error','-ss',String(p.voiceStart),'-t',String(p.voiceEnd-p.voiceStart),'-i',input,'-vn','-af',`${tempos((p.voiceEnd-p.voiceStart)/length)},apad,atrim=duration=${length},afade=t=in:d=0.002,afade=t=out:st=${Math.max(0,length-.002)}:d=0.002`,'-ac','1','-ar','44100','-c:a','pcm_s16le','-f','s16le',out]);
-  const part=await readFile(out),at=Math.round(p.sourceStart*44100)*2;part.copy(pcm,at,0,Math.min(part.length,Math.round(length*44100)*2,pcm.length-at));
+  const part=await readFile(out);if(!part.some(b=>b!==0))throw Error('A tracked speech interval rendered empty. Saved take retained; no regeneration was made.');const at=Math.round(p.sourceStart*44100)*2;part.copy(pcm,at,0,Math.min(part.length,Math.round(length*44100)*2,pcm.length-at));
  }
  const raw=join(dir,'aligned.pcm'),wav=join(dir,'aligned.wav');await writeFile(raw,pcm);await swapFfmpeg(['-v','error','-f','s16le','-ar','44100','-ac','1','-i',raw,'-c:a','pcm_s16le',wav]);return wav;
 }

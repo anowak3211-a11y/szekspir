@@ -4,6 +4,7 @@ const {wordSyncPlan}=require('../lib/word-sync.ts'),ffmpeg=require('ffmpeg-stati
 const source=[{word:'Please',start:.1,end:.5},{word:'cut',start:.6,end:1},{word:'now.',start:2,end:2.5}],voice=[{word:'Please',start:.1,end:.5},{word:'cut',start:.5,end:.9},{word:'now',start:1,end:1.4}];
 (async()=>{
  const p=wordSyncPlan(source,voice,3);assert.equal(p.report.matched,3);assert.equal(p.report.pauses,1);assert.equal(p.spans[1].sourceEnd,1);assert.equal(p.spans[2].sourceStart,2);assert.throws(()=>wordSyncPlan(source,[{word:'Different',start:0,end:1}],3),/differ/);assert.throws(()=>wordSyncPlan([{word:'a',start:1,end:0}],voice,3),/invalid/);
+ const duplicateTimes=[{word:'Please',start:.1,end:.1},{word:'cut',start:.1,end:.9},{word:'now',start:1,end:1.4}];const merged=wordSyncPlan(source,duplicateTimes,3);assert.equal(merged.report.matched,3);assert(merged.spans.every(p=>p.voiceEnd>p.voiceStart),'Zero-length recogniser words are retained within a larger interval');
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'word-sync-test-'));try{
   const input=path.join(dir,'input.wav');execFileSync(ffmpeg,['-v','error','-f','lavfi','-i','sine=frequency=880:duration=1.5:sample_rate=44100',input]);
   require.cache[require.resolve('../lib/localize.ts')]={exports:{}};require.cache[require.resolve('../lib/media.ts')]={exports:{}};
