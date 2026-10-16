@@ -26,12 +26,13 @@ export async function advanceSwapDelivery(s:VoiceSwap,update:Update){
   if(d.providerUrl){const enhancedUrl=d.enhancedUrl||await finalise(d.providerUrl,`voice-swap-${s.id}-${d.mixKey.slice(0,12)}`);await update(x=>{x.delivery!.enhancedUrl=enhancedUrl;x.stage='drive';x.status='queued';});}
   else{if(Date.now()-d.started>2*60*60*1000)throw Error('VMake has not completed within two hours. The saved task is retained.');await update(x=>{x.status='queued';});}
  }else if(s.stage==='drive'){
-  if(!d.enhancedUrl)throw Error('Enhanced film is missing.');
-  const driveUrl=d.driveUrl||await saveOriginalToDrive({id:`voice-swap-${s.id}`,name:s.name,sourceUrl:d.enhancedUrl,driveFileId:d.driveFileId} as import('./jobs').Job,async id=>{await update(x=>{x.delivery!.driveFileId=id;});});
+  const videoUrl=d.mode==='direct'?s.outputUrl:d.enhancedUrl;if(!videoUrl)throw Error('Finished film is missing.');
+  const driveUrl=d.driveUrl||await saveOriginalToDrive({id:`voice-swap-${s.id}`,name:s.name,sourceUrl:videoUrl,driveFileId:d.driveFileId} as import('./jobs').Job,async id=>{await update(x=>{x.delivery!.driveFileId=id;});});
   await update(x=>{x.delivery!.driveUrl=driveUrl;x.stage='sheet';x.status='queued';});
  }else if(s.stage==='sheet'){
-  if(!d.driveUrl)throw Error('Save the enhanced film to Drive first.');
-  const row=await appendToAdminBriefs({jobId:`voice-swap-${s.id}`,editorId:'mine',uk:'',noSpeech:true,hooks:[],hookOg:'',desire:'Voice swap',angle:'Enhanced original',mechanism:'',funnel:'MOF',reference:d.driveUrl,editorNotes:'Voice Swapper: original speech replaced with the supplied voiceover. Background audio retained. Enhanced video saved in Drive.'});
+  if(!d.driveUrl)throw Error('Save the finished film to Drive first.');
+  const script=s.takes?.find(t=>t.path===s.mix?.voicePath)?.text||'';
+  const row=await appendToAdminBriefs({jobId:`voice-swap-${s.id}`,editorId:'mine',uk:script,noSpeech:!script,hooks:[],hookOg:'',desire:'Voice swap',angle:d.mode==='direct'?'Original picture':'Enhanced original',mechanism:'',funnel:'MOF',reference:d.driveUrl,editorNotes:'Voice Swapper: original speech replaced with the selected voiceover. Background audio retained. '+(d.mode==='direct'?'Mixed video saved in Drive without enhancement.':'Enhanced video saved in Drive.')});
   await update(x=>{x.delivery!.adId=row.adId;x.delivery!.sheetUrl=row.url;x.status='done';x.error=undefined;});
  }
 }

@@ -1,3 +1,10 @@
+## Voice Swapper direct save and voice generation — 16 October 2026
+
+- Added **Save bez VMake** both before mixing and on a completed local export: original picture + saved background + replacement voice go directly to the existing Drive folder and Admin Sheet (`mine`). Durable delivery identity and Drive file IDs remain reusable. Existing legacy VMake enhancement is optional and unchanged.
+- New voice can be generated from a pasted script using the existing Eleven v4 integration, or uploaded as before. Voices load only on request; library samples preload nothing. Each new paid take requires an explicit checkbox, queues durably, preserves its script / voice / output and original take, and can be reused without another TTS call. Unknown paid outcomes are not automatically repeated; resume first reconciles saved output.
+- No translation or per-sentence speed fitting. New takes retain natural timing; export still rejects voiceovers extending past the original video. Generated scripts are included in the Admin brief.
+- Offline checks cover direct delivery skipping every VMake call, intent-before-charge, cached / uncertain takes, duplicate request IDs, generated mix validation and direct-save idempotency. No paid provider run or live Sheet write used for verification.
+
 ## Voice Swapper background preview refresh — 16 October 2026
 
 - Background player / download link now use a job-versioned preview URL. `Odśwież odsłuch tła` remounts only the player with a fresh cache key and clears listening approval. It does not re-upload, re-run separation or discard the selected replacement voiceover. Audio still preloads nothing; no background polling or extra provider calls.
@@ -13,6 +20,11 @@
 - Raised source MP4/MOV limit from 150 MiB to 2 GiB (UI: 2 GB); retained the separate five-minute duration limit. Existing direct-to-storage resumable browser uploads already support this application limit.
 - Original movie stays in storage: FFmpeg reads the trusted stored MP4/MOV via HTTPS/range access, with MOV demuxer forced. Only small audio/stem files use temporary disk. Mixed MP4 streams directly into bounded storage upload; no full-video Buffer or temporary output movie. Fragmented MP4 with delayed moov preserves original frame timestamps, verified against actual FFmpeg fixtures.
 - Offline tests cover packet-preserving streaming export, retained background/new voice and absent source speech, stored-source URL restrictions, idempotency, and the existing delivery pipeline. No multi-gigabyte production transfer or paid provider run performed.
+
+## Image copy presentation correction — 16 October 2026
+
+- Owner showed generated notes about unreadable flavour badges/asterisks and image-description filler. New uncached copy requests now explicitly address the buyer and the image's central marketing angle; no descriptions of artwork/scenery or generic lifestyle filler. Minor unreadable badges/footnotes are silently omitted. Review notes are reserved for material product/offer ambiguities; existing no-invented-facts and prompt-injection rules remain.
+- Stored AI notes are displayed in a collapsed AI notes section, outside the ad fields. Existing primary texts, headlines, descriptions, source images and saved notes are preserved. Paid cache keys remain unchanged deliberately: this correction cannot regenerate a prior image or turn Check saved AI result into another paid request. Existing cached copy is reused; no automatic paid rewriting was started.
 
 ## Image upload → automatic ad copy — 16 October 2026
 
