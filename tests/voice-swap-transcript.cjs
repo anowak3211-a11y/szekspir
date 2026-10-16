@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os'),ts=require('typescript');
+require.extensions['.ts']=(m,n)=>m._compile(ts.transpileModule(fs.readFileSync(n,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,n);
+let calls=0,downloads=0,fail=false,record;const state=new Map(),id='e94df220-aae9-45f4-a0e6-b07e74143a59';
+require.cache[require.resolve('../lib/voice-swap-audio.ts')]={exports:{downloadSwapMedia:async(u,p,limit)=>{assert.equal(u,'https://stored.test/vocals.mp3');assert.equal(limit,24*1024*1024);downloads++;fs.writeFileSync(p,'saved vocals');}}};
+require.cache[require.resolve('../lib/localize.ts')]={exports:{transcribeWithDuration:async file=>{calls++;assert.equal(record.transcriptionSubmitted,true,'Intent must be saved before provider call');assert.equal(file.type,'audio/mpeg');assert.equal(await file.text(),'saved vocals');if(fail)throw Error('timeout');return {text:'  Original words.  '};}}};
+require.cache[require.resolve('../lib/store.ts')]={exports:{readState:async(k,f)=>({value:structuredClone(state.get(k)||f)}),mutate:async(k,f,fn)=>{const s=structuredClone(state.get(k)||f),r=fn(s);state.set(k,structuredClone(s));return structuredClone(r);}}};
+const {advanceSwapTranscript}=require('../lib/voice-swap-transcript.ts');
+(async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'swap-transcript-test-'));
+ try{
+  record={id,vocalsUrl:'https://stored.test/vocals.mp3',backgroundUrl:'bed',status:'queued',stage:'transcribe'};const update=async fn=>fn(record);
+  await advanceSwapTranscript(structuredClone(record),update,dir);assert.equal(record.transcript,'Original words.');assert.equal(record.status,'review');assert.equal(calls,1);
+  await advanceSwapTranscript(structuredClone(record),update,dir);assert.equal(calls,1);assert.equal(downloads,1,'Cached text needs no extra media transfer');
+  record={...record,transcript:undefined,transcriptionSubmitted:false};fail=true;await advanceSwapTranscript(structuredClone(record),update,dir);assert.equal(record.status,'review','Failure does not block manual voiceover');assert.equal(record.backgroundUrl,'bed');assert(record.transcriptionError);await advanceSwapTranscript(structuredClone(record),update,dir);assert.equal(calls,2,'No repeated paid call after unknown result');assert.equal(downloads,2);
+  const {requestSwapTranscript,resumeVoiceSwap}=require('../lib/voice-swap.ts');state.set('voice-swap-'+id,{id,status:'review',backgroundUrl:'bed',vocalsUrl:'voice'});const first=await requestSwapTranscript(id);assert.equal(first.stage,'transcribe');assert.deepEqual(await requestSwapTranscript(id),first,'Repeated click reuses the queued job');state.set('voice-swap-'+id,{...first,status:'review',transcriptionSubmitted:true});await assert.rejects(()=>requestSwapTranscript(id),/could not be confirmed/);state.set('voice-swap-'+id,{...first,status:'transcribing',transcriptionSubmitted:true});assert.equal((await resumeVoiceSwap(id)).status,'review','Interrupted transcription releases manual editing without another provider call');state.set('voice-swap-'+id,{...first,status:'review',transcript:'Saved text',transcriptionSubmitted:true});assert.equal((await requestSwapTranscript(id)).transcript,'Saved text');
+  console.log('PASS transcript: isolated saved audio, same OG transcription integration, automatic stage, cached result, intent guard, no paid retry, manual voiceover after failure');
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+})().catch(e=>{console.error(e);process.exitCode=1;});

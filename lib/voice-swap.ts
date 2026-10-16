@@ -7,7 +7,7 @@ import {existingMedia,putMedia,putMediaStream,assertMediaTypeSupported} from './
 import {swapId,swapSourcePath,swapMix,type VoiceSwap,type SwapMix} from './voice-swap-model';
 import {downloadSwapMedia,prepareSwapAudio,readSwapStems,requestSwapStems,streamSwapVideo,storedSwapSource,probeSwapMedia} from './voice-swap-audio';
 const key=(id:string)=>`voice-swap-${swapId(id)}`;
-const active=(s:VoiceSwap)=>['queued','preparing','separating','mixing','voicing','enhancing','delivering'].includes(s.status);
+const active=(s:VoiceSwap)=>['queued','preparing','separating','mixing','voicing','transcribing','enhancing','delivering'].includes(s.status);
 export async function getVoiceSwap(id:string){const s=(await readState<VoiceSwap|null>(key(id),null)).value;if(!s)throw Error('Voice swap not found.');return s;}
 export async function startVoiceSwap(input:Record<string,unknown>){
  const id=swapId(input.id),sourcePath=swapSourcePath(id,input.sourcePath);
@@ -44,6 +44,7 @@ export async function resumeVoiceSwap(id:string){
   if((s.leaseUntil||0)>Date.now())return s;
   if(s.status==='done'||s.status==='review')return s;
   if(s.stage==='voice'&&take&&savedTake&&s.selectedTake===take.id){const selected=s.takes?.find(t=>t.id===take.id);if(selected)selected.url=savedTake;s.status='review';s.error=undefined;s.updated=Date.now();return s;}
+  if(s.stage==='transcribe'&&s.transcriptionSubmitted&&s.transcript===undefined){s.status='review';s.error=undefined;s.transcriptionError='Wynik transkrypcji nie został potwierdzony. Wklej tekst ręcznie; nie ponawiamy płatnego żądania.';s.updated=Date.now();return s;}
   if(s.stage==='voice'&&s.takes?.find(t=>t.id===s.selectedTake)?.submitted)throw Error('Check the previous voice generation before paying for another take.');
   if(s.stage==='enhance'&&s.delivery?.submitted&&!s.delivery.taskId&&!s.delivery.providerUrl)throw Error('Check the saved VMake submission before retrying.');
   if(s.paidIntent&&!s.archiveUrl&&s.stage==='separate')throw Error('The separation outcome is unknown. Check ElevenLabs before paying for another request.');
@@ -54,7 +55,7 @@ export async function advanceVoiceSwap(id:string){
  const s=await mutate<VoiceSwap|null,VoiceSwap|undefined>(key(id),null,s=>{
   if(!s||!active(s)||(s.leaseUntil||0)>Date.now())return;
   if(s.stage==='separate'&&s.paidIntent&&!s.archiveUrl){s.status='uncertain';s.error='Separation was interrupted. Check ElevenLabs; the paid request will not be repeated.';s.updated=Date.now();return;}
-  s.leaseUntil=Date.now()+330000;s.status=s.stage==='prepare'?'preparing':s.stage==='mix'?'mixing':s.stage==='voice'?'voicing':s.stage==='separate'?'separating':s.stage==='enhance'?'enhancing':'delivering';s.updated=Date.now();return {...s};
+  s.leaseUntil=Date.now()+330000;s.status=s.stage==='prepare'?'preparing':s.stage==='mix'?'mixing':s.stage==='voice'?'voicing':s.stage==='transcribe'?'transcribing':s.stage==='separate'?'separating':s.stage==='enhance'?'enhancing':'delivering';s.updated=Date.now();return {...s};
  });
  if(!s)return false;
  const update=(fn:(s:VoiceSwap)=>void)=>mutate<VoiceSwap|null,void>(key(id),null,x=>{if(!x)throw Error('Voice swap disappeared.');fn(x);x.updated=Date.now();});
@@ -81,7 +82,9 @@ export async function advanceVoiceSwap(id:string){
    if(Math.abs(seconds-s.duration!)>.5)throw Error('Separated background length differs from the original. Review the saved stems; no new paid request was made.');
    const backgroundUrl=await existingMedia(`voice-swaps/${id}/background.mp3`)||await putMedia(`voice-swaps/${id}/background.mp3`,stems.background,'audio/mpeg');
    const vocalsUrl=await existingMedia(`voice-swaps/${id}/vocals.mp3`)||await putMedia(`voice-swaps/${id}/vocals.mp3`,stems.vocals,'audio/mpeg');
-   await update(x=>{x.backgroundUrl=backgroundUrl;x.vocalsUrl=vocalsUrl;x.status='review';x.error=undefined;});
+   await update(x=>{x.backgroundUrl=backgroundUrl;x.vocalsUrl=vocalsUrl;x.stage='transcribe';x.status='queued';x.error=undefined;});
+  }else if(s.stage==='transcribe'){
+   const {advanceSwapTranscript}=await import('./voice-swap-transcript');await advanceSwapTranscript(s,update,dir);
   }else if(s.stage==='voice'){
    const {advanceSwapNarration}=await import('./voice-swap-narration');await advanceSwapNarration(s,update);
   }else if(['enhance','drive','sheet'].includes(s.stage)){
@@ -124,3 +127,13 @@ export async function requestSwapNarration(id:string,input:Record<string,unknown
   s.selectedTake=b.requestId;s.stage='voice';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
  });
 }
+
+/** Existing separated films can request the same one-time transcription without separating again. */
+export async function requestSwapTranscript(id:string){return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{
+ if(!s?.backgroundUrl||!s.vocalsUrl)throw Error('Separate the original voice first.');
+ if(s.transcript!==undefined)return s;
+ if(s.stage==='transcribe'&&active(s))return s;
+ if(s.transcriptionSubmitted)throw Error('Previous transcription could not be confirmed. Paste the script; no automatic paid retry was made.');
+ if(active(s)||s.delivery)throw Error('Wait for the current operation to finish.');
+ s.stage='transcribe';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
+});}

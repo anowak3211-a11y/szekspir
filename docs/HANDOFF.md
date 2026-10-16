@@ -1,3 +1,10 @@
+## Voice Swapper automatic script extraction — 16 October 2026
+
+- Newly separated films automatically queue transcription of the saved isolated vocal MP3 through the same `transcribeWithDuration` / Whisper integration as Szekspir. No video re-upload or repeated stem separation. Existing films offer **Wyciągnij tekst z oryginału**. No TTS generation starts automatically.
+- One durable transcription intent per film; cached text avoids further transfers/provider calls, unknown paid results are not retried. Transcription failure or interrupted submission permits manually entering a script while retaining paid stems. Existing 30-second visible-tab status polling is unchanged.
+- Extracted text fills the narration textarea only while it is untouched; typing during an extraction request is preserved. Text stays editable and is not translated or rewritten.
+- Offline coverage verifies automatic stage progression, saved-vocals payload/size bound, durable intent, cached/duplicate requests, uncertain-result suppression and manual-edit recovery. No live paid transcription was run for verification.
+
 ## Voice Swapper direct save and voice generation — 16 October 2026
 
 - Added **Save bez VMake** both before mixing and on a completed local export: original picture + saved background + replacement voice go directly to the existing Drive folder and Admin Sheet (`mine`). Durable delivery identity and Drive file IDs remain reusable. Existing legacy VMake enhancement is optional and unchanged.
