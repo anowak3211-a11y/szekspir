@@ -1,3 +1,9 @@
+## Parallel batch publication — 17 October 2026
+
+- Owner further requested simultaneous processing. A single Publish now fills five durable worker slots from a batch (50-ad manifest tested), replacing the former one-stage dispatch. CAS reserves each item/token once; repeated Resume cannot fan out an item. Legacy single-dispatch records migrate on read, and stale tokens, unknown writes and finished rows remain protected. Pause prevents new stages while existing leases finish.
+- Global Meta request budget permits up to five in-flight requests with shared one-second pacing, local weighted/hour guards and unchanged provider usage / Retry-After / 429 cooldowns. Previous single-request leases remain reserved through rollout. This processes a whole batch without requiring individual clicks; it does not promise 50 simultaneous provider requests.
+- Full offline Meta suite and typecheck pass. New integration tests finish 50 ads with exactly 100 creative/ad writes, overlap five item leases, reject duplicate delivery, preserve pause/resume and retain the source IDs. Production build/deploy and current 22-ad batch readback follow separately.
+
 ## Fifty-ad publication throughput — 17 October 2026
 
 - Owner explicitly requested raising internal limits for 50-ad batches. Application guards are now 6,000 requests/hour, 1,200 weighted points/five minutes and one second between requests (previously 240/hour, 50 limited-tier points and five seconds). These are our throughput guards, not promises of Meta quota. Shared single-request lease, usage-header cooldown at 80%, Retry-After and real provider throttling/backoff remain enforced.

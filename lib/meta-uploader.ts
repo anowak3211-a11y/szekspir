@@ -37,19 +37,31 @@ async function patchItem(id:string,change:Partial<UploadItem>,lease?:string){ret
 async function batchQueue(batchId:string){const batch=await readBatchRecord(batchId);if(batch.queue)return batch;const {items}=await readBatch(batchId);await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch&&!s.batch.queue)s.batch.queue=Object.fromEntries(items.map(i=>[i.id,{status:i.status,at:Math.max(i.nextAttempt||0,i.leaseUntil||0),updated:i.updated}]));});return readBatchRecord(batchId);}
 async function updateQueue(batchId:string,item:UploadItem){await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch?.queue)s.batch.queue[item.id]={status:item.status,at:Math.max(item.nextAttempt||0,item.leaseUntil||0),updated:item.updated};});}
 export async function readBatchProgress(batchId:string,since:number){if(!Number.isSafeInteger(since)||since<0||since>Date.now()+60000)throw Error('Invalid progress timestamp.');const batch=await batchQueue(batchId),ids=Object.entries(batch.queue!).filter(([,i])=>i.updated===undefined||i.updated>=since).map(([id])=>id);const changes=await Promise.all(ids.map(readItem));return {batch,changes:changes.filter((i):i is UploadItem=>!!i)};}
-// Dispatch one stage at a time, not hundreds of competing workers. The durable
-// dispatch token makes repeated Resume and delayed duplicate deliveries harmless.
-async function dispatchNext(batchId:string){
- const batch=await batchQueue(batchId);if(batch.status!=='running')return;const candidates=Object.entries(batch.queue!).filter(([,i])=>!['complete','attention','cancelled'].includes(i.status)).map(([id,i])=>({id,at:i.at})).sort((a,b)=>a.at-b.at);
- if(!candidates.length)return;
- const token=randomUUID(),next=candidates[0],delay=Math.max(0,Math.ceil((next.at-Date.now())/1000));
- const acquired=await mutate<{batch?:UploadBatch},boolean>(batchKey(batchId)+'-record',{},s=>{if(!s.batch||s.batch.status!=='running'||(s.batch.dispatch?.until||0)>Date.now())return false;s.batch.dispatch={id:next.id,token,until:Date.now()+(delay+600)*1000};return true;});
- if(!acquired)return;
- try{await send('szekspir-meta-upload',{id:next.id,batchId,dispatchToken:token},{region:'fra1',delaySeconds:delay,retentionSeconds:86400,idempotencyKey:`meta-dispatch-${token}`});}
- catch{await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch?.dispatch?.token===token){s.batch.dispatch=undefined;s.batch.status='paused';}});throw Error('Next step could not be queued. Resume preserves all saved Meta IDs.');}
+// Bounded parallel stages with durable per-item dispatch tokens. Repeated Resume
+// cannot fan out the same item, and stale deliveries cannot replay a remote write.
+const PARALLEL_ADS=5;
+function activeDispatches(batch:UploadBatch){
+ const entries={...batch.dispatches};if(batch.dispatch&&!entries[batch.dispatch.id])entries[batch.dispatch.id]=batch.dispatch;
+ return Object.fromEntries(Object.entries(entries).filter(([,d])=>d.until>Date.now()));
 }
-async function releaseDispatch(batchId:string,id:string,token?:string){await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch?.dispatch?.id===id&&(!token||s.batch.dispatch.token===token))s.batch.dispatch=undefined;});}
-export async function startBatch(id:string){const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);if(items.every(i=>['complete','attention','cancelled'].includes(i.status)))throw Error('Resolve the adverts requiring attention before resuming.');await batchQueue(id);if(batch.status!=='running'){for(const ad of Array.from(new Map(items.filter(i=>!['complete','cancelled'].includes(i.status)).map(i=>[`${i.ad.accountId}:${i.ad.adSetId}:${i.ad.pageId}`,i.ad])).values()))await assertUploadTarget(ad);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');if(s.batch.status!=='running'){s.batch.dispatch=undefined;s.batch.status='running';}});}await dispatchNext(id);return readBatch(id);}
+function setDispatches(batch:UploadBatch,entries:NonNullable<UploadBatch['dispatches']>){batch.dispatches=entries;batch.dispatch=Object.values(entries)[0];}
+async function dispatchNext(batchId:string){
+ await batchQueue(batchId);
+ const jobs=await mutate<{batch?:UploadBatch},{id:string;token:string;delay:number}[]>(batchKey(batchId)+'-record',{},s=>{
+  const batch=s.batch;if(!batch||batch.status!=='running')return [];
+  const entries=activeDispatches(batch),jobs:{id:string;token:string;delay:number}[]=[];
+  const candidates=Object.entries(batch.queue||{}).filter(([id,i])=>!entries[id]&&!['complete','attention','cancelled'].includes(i.status)).sort(([,a],[,b])=>a.at-b.at);
+  for(const [id,item] of candidates.slice(0,Math.max(0,PARALLEL_ADS-Object.keys(entries).length))){const token=randomUUID(),delay=Math.max(0,Math.ceil((item.at-Date.now())/1000));entries[id]={id,token,until:Date.now()+(delay+600)*1000};jobs.push({id,token,delay});}
+  setDispatches(batch,entries);return jobs;
+ });
+ const results=await Promise.allSettled(jobs.map(async job=>{
+  try{await send('szekspir-meta-upload',{id:job.id,batchId,dispatchToken:job.token},{region:'fra1',delaySeconds:job.delay,retentionSeconds:86400,idempotencyKey:`meta-dispatch-${job.token}`});}
+  catch(error){await releaseDispatch(batchId,job.id,job.token);await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch)s.batch.status='paused';});throw error;}
+ }));
+ if(results.some(r=>r.status==='rejected'))throw Error('Next step could not be queued. Resume preserves all saved Meta IDs.');
+}
+async function releaseDispatch(batchId:string,id:string,token?:string){await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(!s.batch)return;const entries=activeDispatches(s.batch);if(entries[id]&&(!token||entries[id].token===token))delete entries[id];setDispatches(s.batch,entries);});}
+export async function startBatch(id:string){const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);if(items.every(i=>['complete','attention','cancelled'].includes(i.status)))throw Error('Resolve the adverts requiring attention before resuming.');await batchQueue(id);if(batch.status!=='running'){for(const ad of Array.from(new Map(items.filter(i=>!['complete','cancelled'].includes(i.status)).map(i=>[`${i.ad.accountId}:${i.ad.adSetId}:${i.ad.pageId}`,i.ad])).values()))await assertUploadTarget(ad);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');if(s.batch.status!=='running'){setDispatches(s.batch,{});s.batch.status='running';}});}await dispatchNext(id);return readBatch(id);}
 /** Resume unfinished stages only. Never replay an uncertain remote write. */
 function relaunchable(item:UploadItem){return item.status==='attention'||(item.status==='waiting'&&item.error?.startsWith('Upload queue is waiting.'));}
 export async function relaunchBatch(id:string){
@@ -61,7 +73,8 @@ export async function relaunchBatch(id:string){
  }
  const current=await readBatch(id);
  if(current.items.every(i=>['complete','attention','cancelled'].includes(i.status)))return current;
- if(!current.items.some(i=>(i.leaseUntil||0)>Date.now()))await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(s.batch?.dispatch?.token===current.batch.dispatch?.token&&s.batch)s.batch.dispatch=undefined;});
+ const snapshot=activeDispatches(current.batch);
+ await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)return;const entries=activeDispatches(s.batch);for(const item of current.items)if((item.leaseUntil||0)<=Date.now()&&entries[item.id]?.token===snapshot[item.id]?.token)delete entries[item.id];setDispatches(s.batch,entries);});
  return startBatch(id);
 }
 export async function pauseBatch(id:string){await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');s.batch.status='paused';});return readBatch(id);}
@@ -93,7 +106,7 @@ async function checkDuplicate(item:UploadItem,batchId:string){
  await mutate<{owner?:string},void>(nameKey,{},s=>{if(s.owner&&s.owner!==item.id)throw Error('This ad name is reserved by another saved advert. Check its result before using a different source key.');s.owner=item.id;});
 }
 export async function consumeMetaUpload(id:string,batchId:string,dispatchToken?:string){
- const batch=await batchQueue(batchId);if(batch.status!=='running'||!batch.items.includes(id)||dispatchToken&&batch.dispatch?.token!==dispatchToken)return;
+ const batch=await batchQueue(batchId);if(batch.status!=='running'||!batch.items.includes(id)||dispatchToken&&activeDispatches(batch)[id]?.token!==dispatchToken)return;
  const lease=randomUUID();const acquired=await mutate<{item?:UploadItem},UploadItem|null>(key(id)+'-record',{},s=>{const i=s.item;if(!i||['complete','attention','cancelled'].includes(i.status))return null;if((i.leaseUntil||0)>Date.now()||(i.nextAttempt||0)>Date.now())return null;if(i.pending&&i.pending!=='transfer'){i.status='attention';i.updated=Date.now();i.error='Previous request was interrupted. Check its result before retrying.';return null;}i.lease=lease;i.leaseUntil=Date.now()+9*60000;i.updated=Date.now();i.status='working';i.pending=undefined;i.nextAttempt=undefined;return {...i};});
  if(!acquired){const current=await readItem(id);if((current?.leaseUntil||0)>Date.now())return;if(current)await updateQueue(batchId,current);await releaseDispatch(batchId,id,dispatchToken);await markFinished(batchId);await dispatchNext(batchId);return;}let item=acquired,delay:number|undefined;await updateQueue(batchId,item);
  try{

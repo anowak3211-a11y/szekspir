@@ -2,16 +2,16 @@ import {randomUUID} from 'node:crypto';
 import {mutate,readState} from './store';
 const KEY='meta-api-shared-budget';
 // Application throughput guards, not advertised Meta quotas. Provider headers and
-// cooldowns remain authoritative; one remote request stays in flight at a time.
-const HOURLY_CAP=6000,FIVE_MINUTE_POINT_CAP=1200,MIN_SPACING_MS=1000;
+// cooldowns remain authoritative; at most five remote requests stay in flight at a time.
+const HOURLY_CAP=6000,FIVE_MINUTE_POINT_CAP=1200,MIN_SPACING_MS=1000,MAX_IN_FLIGHT=5;
 export type WaitReason='busy'|'spacing'|'local_budget'|'provider_cooldown';
 export type MetaDiagnostic={at:number;operation:string;method:string;status:number;code:number;subcode:number;durationMs:number;requestId?:string};
-type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
+type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';leases?:Record<string,number>;lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
 const initial=():Budget=>({calls:[]});
 export class MetaBudgetWait extends Error{
  constructor(public retryAfterSeconds:number,public reason:WaitReason='busy'){super(reason==='provider_cooldown'?`Meta requested a pause. Retry in ${retryAfterSeconds} seconds.`:`Upload queue is waiting. Retry in ${retryAfterSeconds} seconds.`);this.name='MetaBudgetWait';}
 }
-// One request in flight across workers. A lease expiry is crash recovery, NOT a retry delay.
+// Five requests in flight across workers. Lease expiry is crash recovery, NOT a retry delay.
 export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
  if(cost!==1&&cost!==3)throw Error('Invalid Meta request cost.');
  const token=randomUUID();let acquired=false;
@@ -25,16 +25,19 @@ export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
    // Read=1, write=3. Allow bulk batches without the former 50-point bottleneck.
    // This local guard never overrides provider cooldowns or usage-header backoff.
    if(s.points.reduce((n,p)=>n+p.cost,0)+cost>FIVE_MINUTE_POINT_CAP)return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
-   if((s.leaseUntil||0)>now){s.localWaits=(s.localWaits||0)+1;return {seconds:2,reason:'busy'};}
+   s.leases=Object.fromEntries(Object.entries(s.leases||{}).filter(([,until])=>until>now));
+   // Drain an in-flight request from the previous single-lease implementation.
+   if(s.lease&&(s.leaseUntil||0)>now)s.leases[s.lease]=s.leaseUntil!;
+   if(Object.keys(s.leases).length>=MAX_IN_FLIGHT){s.localWaits=(s.localWaits||0)+1;return {seconds:2,reason:'busy'};}
    if((s.next||0)>now)return {seconds:Math.ceil((s.next!-now)/1000),reason:'spacing'};
-   s.lease=token;s.leaseUntil=now+210000;s.next=now+MIN_SPACING_MS;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
+   s.leases[token]=now+210000;s.next=now+MIN_SPACING_MS;s.calls.push(now);s.points.push({at:now,cost});return {seconds:0,reason:'spacing'};
   });
   if(!decision.seconds){acquired=true;break;}
   if(decision.reason!=='spacing'||attempt===1)throw new MetaBudgetWait(decision.seconds,decision.reason);
   await new Promise(resolve=>setTimeout(resolve,decision.seconds*1000+25));
  }
  if(!acquired)throw new MetaBudgetWait(2);
- try{return await fn();}finally{await mutate<Budget,void>(KEY,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});}
+ try{return await fn();}finally{await mutate<Budget,void>(KEY,initial(),s=>{if(s.leases)delete s.leases[token];if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});}
 }
 export function isMetaRateLimit(code:number){return [4,17,32,613,429,1675004].includes(code)||(code>=80000&&code<80100);}
 export function metaUsage(headers:Headers){
@@ -70,4 +73,4 @@ export async function recordMetaUsage(headers:Headers,rateLimited=false,diagnost
   return Math.max(0,Math.ceil(((s.cooldown||0)-Date.now())/1000));
  });
 }
-export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:HOURLY_CAP,minSpacingSeconds:MIN_SPACING_MS/1000,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:FIVE_MINUTE_POINT_CAP,busy:(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
+export async function metaBudgetStatus(){const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();return {callsInRollingHour:s.calls.filter(t=>t>now-3600000).length,localHourlyCap:HOURLY_CAP,minSpacingSeconds:MIN_SPACING_MS/1000,accessTier:s.accessTier||'unknown',pointsInFiveMinutes:(s.points||[]).filter(p=>p.at>now-300000).reduce((n,p)=>n+p.cost,0),localFiveMinutePointCap:FIVE_MINUTE_POINT_CAP,maxConcurrentRequests:MAX_IN_FLIGHT,inFlightRequests:Object.values(s.leases||{}).filter(until=>until>now).length+((s.leaseUntil||0)>now&&!s.leases?.[s.lease||'']?1:0),busy:Object.values(s.leases||{}).filter(until=>until>now).length>=MAX_IN_FLIGHT||(s.leaseUntil||0)>now,cooldownUntil:(s.cooldown||0)>now?s.cooldown:null,usage:s.usage||0,signals:s.signals,localWaits:s.localWaits||0,diagnostics:s.diagnostics||[]};}
