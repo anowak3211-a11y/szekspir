@@ -1,3 +1,7 @@
+## Voice Swapper background preview refresh — 16 October 2026
+
+- Background player / download link now use a job-versioned preview URL. `Odśwież odsłuch tła` remounts only the player with a fresh cache key and clears listening approval. It does not re-upload, re-run separation or discard the selected replacement voiceover. Audio still preloads nothing; no background polling or extra provider calls.
+
 ## Voice Swapper ZIP storage failure — 16 October 2026
 
 - Production incident: provider Request Log confirmed one stem separation HTTP 200 / 11.45 s at 22:48:39 Europe/Warsaw. `szekspir-media` bucket allowed audio/video/images but **not application/zip**, so saving the paid response failed. Added application/zip to the existing MIME allowlist in Supabase UI; 2 GB limit and access policies retained.
