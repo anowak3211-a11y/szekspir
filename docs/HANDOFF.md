@@ -1,3 +1,9 @@
+## Casual phone-style Voice Swapper recording — 17 October 2026
+
+- Explicit clean / phone recording style per take. Phone requests use the existing native conversational direction at synthesis, then local mild microphone EQ / compression (90 Hz high-pass, 9 kHz low-pass, gentle presence/body reduction). No added echo, generated ambience or extra TTS call. Existing clean mode is unchanged; original raw take remains preserved.
+- Style is part of the durable request identity, cannot change under an existing request UUID, and is shown in take history. Saved output is reused; an unknown paid outcome is not repeated. Existing whole-utterance alignment remains available for the new take and source timing is reused.
+- Offline tests verify conversational direction / single-call cache, invalid and changed styles, original audio preservation, exact output duration and reduced upper-band brightness without a telephone/radio filter. Typecheck and build precede deployment. Actual owner-requested new take is one explicitly authorised generation, not routine paid verification.
+
 ## Confirmed Meta readback evidence — 17 October 2026
 
 - Read-only inspection of two actual IMG 1 creatives confirmed feedCtas/feedUrls=null while story link and SHOP_NOW exactly matched the approved saffron PDP. Both returned OPT_IN only for enhance_cta, inline_comment and the retired standard_enhancements bundle; all individual submitted opt-outs matched. The bundle key is already forbidden on writes (prior live Meta 100/3858504).

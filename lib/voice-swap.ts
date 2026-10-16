@@ -118,14 +118,14 @@ export async function recoverSwapSeparation(id:string,confirmNewCharge=false){
 
 export async function requestSwapNarration(id:string,input:Record<string,unknown>){
  const {narrationInput}=await import('./voice-swap-narration');const b=narrationInput(input);
- const prior=await getVoiceSwap(id);const old=prior.takes?.find(t=>t.id===b.requestId);if(old){if(old.text!==b.text||old.voiceId!==b.voiceId)throw Error('This recording request belongs to another script or voice.');return prior;}
+ const prior=await getVoiceSwap(id);const old=prior.takes?.find(t=>t.id===b.requestId);if(old){if(old.text!==b.text||old.voiceId!==b.voiceId||(old.recordingStyle||'studio')!==b.recordingStyle)throw Error('This recording request belongs to another script or voice.');return prior;}
  if(active(prior)||prior.delivery||!prior.backgroundUrl)throw Error('Wait for the background and finish the current operation first.');
  const {getVoice}=await import('./elevenlabs');const voice=await getVoice(b.voiceId);
  return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{
   if(!s?.backgroundUrl||s.delivery)throw Error('This film cannot record a new voiceover now.');
-  const old=s.takes?.find(t=>t.id===b.requestId);if(old){if(old.text!==b.text||old.voiceId!==b.voiceId)throw Error('Recording request changed.');return s;}if(active(s))throw Error('An operation is already running.');
+  const old=s.takes?.find(t=>t.id===b.requestId);if(old){if(old.text!==b.text||old.voiceId!==b.voiceId||(old.recordingStyle||'studio')!==b.recordingStyle)throw Error('Recording request changed.');return s;}if(active(s))throw Error('An operation is already running.');
   if((s.takes?.length||0)>=20)throw Error('This film has reached its take history limit.');
-  s.takes=[{id:b.requestId,text:b.text,voiceId:b.voiceId,voiceName:voice.name,path:`vo/swap-${s.id}-${b.requestId}.wav`,created:Date.now()},...(s.takes||[])];
+  s.takes=[{id:b.requestId,text:b.text,voiceId:b.voiceId,voiceName:voice.name,recordingStyle:b.recordingStyle,path:`vo/swap-${s.id}-${b.requestId}.wav`,created:Date.now()},...(s.takes||[])];
   s.selectedTake=b.requestId;s.stage='voice';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
  });
 }
