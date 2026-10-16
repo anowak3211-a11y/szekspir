@@ -10,7 +10,7 @@ let target={account_id:'100000',campaign_id:'200000',destination_type:'UNDEFINED
 let campaignStatus='PAUSED',pageTasks=['PROFILE_PLUS_ADVERTISE'];
 global.fetch=async(url,init)=>{const u=new URL(url);calls.push(u.pathname);if(init.method==='POST')posts++;
  if(u.pathname.endsWith('/promote_pages'))return Response.json({data:[]});
- if(u.pathname.endsWith('/me/accounts'))return Response.json({data:[{id:'400000',name:'Orthomax fixture',tasks:pageTasks},{id:'499999',name:'Read only fixture',tasks:['ANALYZE']} ]});
+ if(u.pathname.endsWith('/me/accounts'))return Response.json({data:[{id:'400000',name:'Orthomax fixture',tasks:pageTasks,picture:{data:{url:'https://example.test/page.jpg'}},access_token:'never-return-page-token'},{id:'499999',name:'Read only fixture',tasks:['ANALYZE']} ]});
  if(u.pathname.endsWith('/300000'))return Response.json(target);
  if(u.pathname.endsWith('/200000'))return Response.json({status:campaignStatus});
  throw Error('Unexpected offline request');
@@ -20,7 +20,7 @@ const client=require('../lib/meta-client.ts'),ad={accountId:'100000',campaignId:
  await client.assertUploadTarget(ad);
  assert(calls.some(p=>p.endsWith('/me/accounts')),'Empty promote_pages must discover already-authorised Pages without requesting new scopes');
  assert.equal(posts,0);
- const pages=await client.metaResources('pages','100000');assert.deepEqual(pages.map(p=>p.id),['400000']);assert(!JSON.stringify(pages).includes('access_token'));
+ const pages=await client.metaResources('pages','100000');assert.deepEqual(pages.map(p=>p.id),['400000']);assert(!JSON.stringify(pages).includes('access_token'));assert.equal(pages[0].pictureUrl,'https://example.test/page.jpg');assert(!JSON.stringify(pages).includes('never-return-page-token'));
  target={...target,destination_type:'APP'};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
  target={...target,destination_type:'UNDEFINED',promoted_object:{application_id:'900000',pixel_id:'600000'}};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);
  target={...target,promoted_object:{pixel_id:'600000'},optimization_goal:'REACH'};await assert.rejects(()=>client.assertUploadTarget(ad),/Website/);

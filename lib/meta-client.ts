@@ -44,15 +44,20 @@ export async function graphList(path:string,fields:string,extra:Record<string,un
 }
 export async function cachedMetaResource<T>(operation:string,ttlMs:number,load:(token:string)=>Promise<T>,credential?:string){const token=credential||await metaToken();return cachedMetaRead(metaCacheKey(`${META_VERSION}:${token}`,operation),ttlMs,()=>load(token));}
 export async function metaAccounts(token?:string){return (await cachedMetaResource('accounts',300000,t=>graphList('me/adaccounts','id,name,currency,account_status',{},t),token)).value;}
+function pageSummary(p:Record<string,unknown>){
+ const raw=(p.picture as {data?:{url?:unknown}}|undefined)?.data?.url;let pictureUrl:string|undefined;
+ if(typeof raw==='string')try{const url=new URL(raw);if(url.protocol==='https:'&&!url.username&&!url.password&&!url.searchParams.has('access_token'))pictureUrl=url.href;}catch{}
+ return {id:p.id,name:p.name,...(pictureUrl?{pictureUrl}:{})};
+}
 export async function metaResources(kind:string,accountId:string,campaignId?:string){
  const account=numericId(accountId.replace(/^act_/,''),'account');
  if(kind==='campaigns')return (await cachedMetaResource(`campaigns:${account}`,30000,t=>graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget',{},t))).value;
- if(kind==='pages')return (await cachedMetaResource(`pages-with-tasks:${account}`,300000,async t=>{
-  const pages=await graphList(`act_${account}/promote_pages`,'id,name',{},t);if(pages.length)return pages;
+ if(kind==='pages')return (await cachedMetaResource(`pages-with-pictures-v2:${account}`,300000,async t=>{
+  const pages=await graphList(`act_${account}/promote_pages`,'id,name,picture.type(square){url}',{},t);if(pages.length)return pages.map(pageSummary);
   // Some legacy accounts return no promote_pages despite the connected user
   // already having advertising tasks on the Page. Never infer access from a
   // public Page lookup or return Page access tokens to the browser.
-  return (await graphList('me/accounts','id,name,tasks',{},t)).filter(p=>Array.isArray(p.tasks)&&p.tasks.some((task:unknown)=>task==='ADVERTISE'||task==='PROFILE_PLUS_ADVERTISE')).map(p=>({id:p.id,name:p.name}));
+  return (await graphList('me/accounts','id,name,tasks,picture.type(square){url}',{},t)).filter(p=>Array.isArray(p.tasks)&&p.tasks.some((task:unknown)=>task==='ADVERTISE'||task==='PROFILE_PLUS_ADVERTISE')).map(pageSummary);
  })).value;
  if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,optimization_goal,promoted_object',{},t);})).value;}
  throw Error('Unknown resource.');

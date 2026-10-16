@@ -4,6 +4,13 @@
 - Original movie stays in storage: FFmpeg reads the trusted stored MP4/MOV via HTTPS/range access, with MOV demuxer forced. Only small audio/stem files use temporary disk. Mixed MP4 streams directly into bounded storage upload; no full-video Buffer or temporary output movie. Fragmented MP4 with delayed moov preserves original frame timestamps, verified against actual FFmpeg fixtures.
 - Offline tests cover packet-preserving streaming export, retained background/new voice and absent source speech, stored-source URL restrictions, idempotency, and the existing delivery pipeline. No multi-gigabyte production transfer or paid provider run performed.
 
+## Uploader resource loading and Page pictures — 16 October 2026
+
+- Reproduced Saffron's apparent empty list; Meta subsequently returned S_IMG_BOF_PDP and S_PDP. The previous UI displayed its generic empty message while the read was pending. Campaign/Page/ad-set reads now expose pending/error states, and ad sets offer explicit reload after a failure or empty result. Retry honours an observed Meta wait, stale account/campaign reads cannot replace the current list, and failure reading campaigns no longer prevents the Page read.
+- Existing authorised Page discovery includes profile pictures in the same Graph request; only id/name/safe HTTPS picture URL are returned. No Page tokens, new OAuth scope or separate image discovery calls. Selected Page and choice pills display its avatar, with initials if unavailable.
+- Account chooser shows only CORSANTA LLC AGREEMENT, both UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX accounts (owner explicitly confirmed both), and orthomax.pl 1-F. Other accounts are hidden from the chooser, not disconnected or revoked. Dialog opens directly onto the choices.
+- Regression confirms pending reads do not claim empty, failures offer retry, avatars are rendered and Page access tokens stay private. Production verification follows publication.
+
 ## Uploader destination and resource choices — 16 October 2026
 
 - Replaced native campaign/ad-set/Page/account menus with accessible button pills in inline disclosure panels. Long lists have a name filter; selected state, ACTIVE/OFF labels, Escape and return focus are explicit. Campaign changes clear the previous ad set immediately. The selected account is visible in the header, with the existing per-browser remembered selection retained.

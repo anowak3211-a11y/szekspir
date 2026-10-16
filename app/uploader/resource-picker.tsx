@@ -3,21 +3,22 @@ import {useId,useRef,useState} from 'react';
 import {Icon} from './icons';
 import s from './uploader.module.css';
 
-type Option={id:string;name:string;status?:string};
-export function ResourcePicker({label,options,value,disabled,emptyMessage,onChange}:{label:string;options:Option[];value:string;disabled?:boolean;emptyMessage:string;onChange:(value:string)=>void}){
- const [open,setOpen]=useState(false),[query,setQuery]=useState('');
+type Option={id:string;name:string;status?:string;pictureUrl?:string};
+function PageAvatar({option}:{option:Option}){const [failed,setFailed]=useState(false);return option.pictureUrl&&!failed?<img className={s.pageAvatar} src={option.pictureUrl} alt="" width={28} height={28} referrerPolicy="no-referrer" onError={()=>setFailed(true)}/>:<span className={s.pageAvatarFallback} aria-hidden="true">{option.name.slice(0,1)}</span>;}
+export function ResourcePicker({label,options,value,disabled,emptyMessage,onChange,loading=false,loadError,onRetry,defaultOpen=false}:{label:string;options:Option[];value:string;disabled?:boolean;emptyMessage:string;onChange:(value:string)=>void;loading?:boolean;loadError?:string;onRetry?:()=>void;defaultOpen?:boolean}){
+ const [open,setOpen]=useState(defaultOpen),[query,setQuery]=useState('');
  const id=useId(),trigger=useRef<HTMLButtonElement>(null),selected=options.find(o=>o.id===value);
  const filtered=options.filter(o=>o.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
  const status=(o:Option)=>o.status==='PAUSED'?'OFF':o.status;
- return <div className={s.picker} onKeyDown={e=>{if(e.key==='Escape'&&open){e.preventDefault();e.stopPropagation();setOpen(false);trigger.current?.focus();}}}>
+ return <div className={s.picker} aria-busy={loading} onKeyDown={e=>{if(e.key==='Escape'&&open){e.preventDefault();e.stopPropagation();setOpen(false);trigger.current?.focus();}}}>
   <span id={`${id}-label`} className={s.fieldLabel}>{label}</span>
   <button ref={trigger} type="button" className={s.pickerTrigger} aria-labelledby={`${id}-label ${id}-value`} aria-expanded={open&&!disabled} aria-controls={`${id}-options`} disabled={disabled} onClick={()=>setOpen(v=>!v)}>
-   <span id={`${id}-value`}>{selected?.name||`Select ${label.toLowerCase()}`}</span><span className={s.pickerTrailing}>{selected?.status&&<small className={selected.status==='ACTIVE'?s.statusActive:s.statusOff}>{status(selected)}</small>}<Icon name="chevron" size={16}/></span>
+   <span id={`${id}-value`} className={s.pickerValue}>{label==='Facebook Page'&&selected&&<PageAvatar key={selected.id} option={selected}/>}<span>{selected?.name||(loading?`Loading ${label.toLowerCase()}…`:`Select ${label.toLowerCase()}`)}</span></span><span className={s.pickerTrailing}>{selected?.status&&<small className={selected.status==='ACTIVE'?s.statusActive:s.statusOff}>{status(selected)}</small>}<Icon name="chevron" size={16}/></span>
   </button>
   {open&&!disabled&&<div id={`${id}-options`} className={s.pickerPanel} role="group" aria-labelledby={`${id}-label`}>
    {options.length>6&&<input aria-label={`Filter ${label.toLowerCase()}`} placeholder={`Filter ${label.toLowerCase()}…`} value={query} onChange={e=>setQuery(e.target.value)}/>}
-   <div className={s.choiceGrid}>{filtered.map(o=><button type="button" key={o.id} className={`${s.choicePill} ${value===o.id?s.choiceSelected:''}`} aria-pressed={value===o.id} onClick={()=>{onChange(o.id);setOpen(false);setQuery('');trigger.current?.focus();}}><span>{o.name}</span>{o.status&&<small className={o.status==='ACTIVE'?s.statusActive:s.statusOff}>{status(o)}</small>}{value===o.id&&<Icon name="check" size={15}/>}</button>)}</div>
-   {!filtered.length&&<p className={s.pickerEmpty}>{options.length?'No matching options.':emptyMessage}</p>}
+   <div className={s.choiceGrid}>{filtered.map(o=><button type="button" key={o.id} className={`${s.choicePill} ${value===o.id?s.choiceSelected:''}`} aria-pressed={value===o.id} onClick={()=>{onChange(o.id);setOpen(false);setQuery('');trigger.current?.focus();}}>{label==='Facebook Page'&&<PageAvatar key={o.id} option={o}/>}<span>{o.name}</span>{o.status&&<small className={o.status==='ACTIVE'?s.statusActive:s.statusOff}>{status(o)}</small>}{value===o.id&&<Icon name="check" size={15}/>}</button>)}</div>
+   {loading&&<p className={s.pickerEmpty} role="status">Loading from Meta…</p>}{loadError&&<p className={s.pickerEmpty} role="alert">{loadError}</p>}{!loading&&!loadError&&!filtered.length&&<p className={s.pickerEmpty}>{options.length?'No matching options.':emptyMessage}</p>}{!loading&&onRetry&&<button type="button" onClick={onRetry}>Reload {label.toLowerCase()}</button>}
   </div>}
   {disabled&&<small className={s.pickerHint}>{emptyMessage}</small>}
  </div>;
