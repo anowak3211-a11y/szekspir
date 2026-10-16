@@ -1,3 +1,9 @@
+## Natural utterance synchronisation replaces word cuts — 17 October 2026
+
+- Owner rejected the per-word render as unnatural. The active pipeline now retimes complete utterances with constant pitch-preserving tempo inside each utterance. Words only identify corresponding source pauses; actual cut positions must fall in measured quiet in the saved take (-45 dB, >=120 ms), retaining 40 ms quiet margins. Source pauses >=250 ms can anchor utterances; no internal word slicing or rapid tempo switches.
+- Method/version `phrases-v1` and a distinct `-phrases.wav` output prevent reuse of the rejected `-aligned.wav` cache. Old media remains preserved but the UI no longer selects the old method for export. Existing timestamps/take are reused, with no new transcription or TTS required for this correction. The UI describes whole-utterance alignment rather than exact word matching.
+- Regression checks distinguish whole utterances from the rejected word-cut method, require quiet-only cuts and full first/last take margins, preserve source pause placement, and cover method cache replacement without provider calls. Voice Swapper tests, typecheck and build run before publication. Perceived naturalness remains for the owner's listening review.
+
 ## Direct ACTIVE publication — 17 October 2026
 
 - Owner replaced Save batch for publication with direct Publish and explicitly selected ACTIVE ads that can spend. The review button now durably saves and starts the existing queue in one request. Review states the count and ACTIVE spending behaviour. Parent campaign/ad-set statuses, targeting and budgets are never changed.

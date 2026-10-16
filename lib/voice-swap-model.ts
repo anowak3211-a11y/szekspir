@@ -3,14 +3,14 @@ export const SWAP_MAX_SECONDS=300;
 export type SwapStatus='queued'|'preparing'|'separating'|'review'|'mixing'|'voicing'|'transcribing'|'aligning'|'enhancing'|'delivering'|'done'|'error'|'uncertain';
 export type SwapMix={voicePath:string;voiceGain:number;backgroundGain:number;offset:number;approved:true};
 export type WordTime={word:string;start:number;end:number};
-export type SyncReport={matched:number;sourceWords:number;voiceWords:number;pauses:number;minTempo:number;maxTempo:number};
-export type SwapTake={id:string;voiceId:string;voiceName:string;text:string;path:string;submitted?:boolean;url?:string;originalUrl?:string;created:number;words?:WordTime[];timingSubmitted?:boolean;alignedUrl?:string;alignedPath?:string;syncReport?:SyncReport};
+export type SyncReport={method?:'phrases-v1';phrases?:number;matched:number;sourceWords:number;voiceWords:number;pauses:number;minTempo:number;maxTempo:number};
+export type SwapTake={id:string;voiceId:string;voiceName:string;text:string;path:string;submitted?:boolean;url?:string;originalUrl?:string;created:number;words?:WordTime[];timingSubmitted?:boolean;alignedMethod?:'phrases-v1';alignedUrl?:string;alignedPath?:string;syncReport?:SyncReport};
 export type VoiceSwap={id:string;name:string;sourcePath:string;sourceUrl:string;created:number;updated:number;status:SwapStatus;stage:'prepare'|'separate'|'transcribe'|'align'|'mix'|'voice'|'enhance'|'drive'|'sheet';sourceWords?:WordTime[];sourceTimingSubmitted?:boolean;alignmentTake?:string;transcript?:string;transcriptionSubmitted?:boolean;transcriptionError?:string;takes?:SwapTake[];selectedTake?:string;delivery?:{mode?:'direct'|'vmake';mixKey:string;submitted?:boolean;nextCheckAt?:number;taskId?:string;providerUrl?:string;enhancedUrl?:string;driveFileId?:string;driveUrl?:string;adId?:string;sheetUrl?:string;started:number};leaseUntil?:number;paidIntent?:boolean;separationReceived?:boolean;separationError?:string;archiveUrl?:string;backgroundUrl?:string;vocalsUrl?:string;duration?:number;voiceUrl?:string;mix?:SwapMix;mixKey?:string;outputUrl?:string;error?:string};
 export function swapId(value:unknown):string{if(typeof value!=='string'||! /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(value))throw Error('Invalid Voice Swapper ID.');return value;}
 export function swapSourcePath(id:string,path:unknown){if(typeof path!=='string'||!new RegExp(`^sources/${swapId(id)}/source\\.(mp4|mov)$`).test(path))throw Error('Choose an MP4 or MOV video.');return path;}
 export function swapMix(input:Record<string,unknown>):SwapMix{
  if(input.approved!==true)throw Error('Listen to and approve the separated background before exporting.');
- if(typeof input.voicePath!=='string'||!(/^(?:sources\/[a-f0-9-]{36}\/audio\.(mp3|wav|m4a)|vo\/swap-[a-f0-9-]{36}-[a-f0-9-]{36}(?:-aligned)?\.wav)$/i.test(input.voicePath)))throw Error('Upload the replacement voiceover first.');
+ if(typeof input.voicePath!=='string'||!(/^(?:sources\/[a-f0-9-]{36}\/audio\.(mp3|wav|m4a)|vo\/swap-[a-f0-9-]{36}-[a-f0-9-]{36}(?:-aligned|-phrases)?\.wav)$/i.test(input.voicePath)))throw Error('Upload the replacement voiceover first.');
  for(const [key,max] of [['voiceGain',2],['backgroundGain',2],['offset',SWAP_MAX_SECONDS]] as const){if(typeof input[key]!=='number'||!Number.isFinite(input[key])||input[key]<0||input[key]>max)throw Error(`Invalid ${key}.`);}
  return {voicePath:input.voicePath,voiceGain:input.voiceGain as number,backgroundGain:input.backgroundGain as number,offset:input.offset as number,approved:true};
 }

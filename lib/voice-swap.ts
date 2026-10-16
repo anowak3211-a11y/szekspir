@@ -142,7 +142,7 @@ export async function requestSwapTranscript(id:string){return mutate<VoiceSwap|n
 
 export async function requestSwapAlignment(id:string,takeId:string){swapId(takeId);return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{
  const t=s?.takes?.find(t=>t.id===takeId);if(!s||!t?.url||!s.vocalsUrl)throw Error('Choose a saved recording and original voice first.');
- if(t.alignedUrl)return s;if(s.stage==='align'&&s.alignmentTake===takeId&&active(s))return s;
+ if(t.alignedUrl&&t.alignedMethod==='phrases-v1')return s;if(s.stage==='align'&&s.alignmentTake===takeId&&active(s))return s;
  if(active(s)||s.delivery)throw Error('Wait for the current operation to finish.');
  s.alignmentTake=takeId;s.stage='align';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
 });}
