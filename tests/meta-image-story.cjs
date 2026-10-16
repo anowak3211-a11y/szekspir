@@ -31,4 +31,9 @@ const legacy=creativePayload({...singleItem,ad:{...single,enhancements:{standard
 assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.standard_enhancements,undefined,'Legacy saved opt-out must not reintroduce the retired bundle');
 assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.image_enhancement.enroll_status,'OPT_OUT');
 assert.equal(legacy.degrees_of_freedom_spec.creative_features_spec.enhance_cta.enroll_status,'OPT_IN');
+const liveReadback=structuredClone(storyOnlyFeed);liveReadback.degrees_of_freedom_spec.creative_features_spec.standard_enhancements={enroll_status:'OPT_IN'};
+assert.deepEqual(verifyCreative(item,liveReadback),[],'Retired bundle echo does not override exact per-feature proof');
+const wrongFeature=structuredClone(liveReadback);wrongFeature.degrees_of_freedom_spec.creative_features_spec.image_touchups={enroll_status:'OPT_IN'};assert(verifyCreative(item,wrongFeature).some(e=>e.includes('enhancements differ')),'Individual unapproved changes still fail');
+const unknownFeature=structuredClone(liveReadback);unknownFeature.degrees_of_freedom_spec.creative_features_spec.unapproved_new_feature={enroll_status:'OPT_IN'};assert(verifyCreative(item,unknownFeature).some(e=>e.includes('unapproved_new_feature')),'Unknown concrete enhancements still fail');
+const missingFeature=structuredClone(liveReadback);delete missingFeature.degrees_of_freedom_spec.creative_features_spec.text_optimizations;assert(verifyCreative(item,missingFeature).length,'Bundle echo cannot prove a missing concrete opt-out');
 console.log('PASS image/video stories: required destination, original media, literal approved copy and CTA; single-copy avoids singular DoF, variants retained, remote mismatches rejected. No live calls.');

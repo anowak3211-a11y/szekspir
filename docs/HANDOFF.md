@@ -1,3 +1,9 @@
+## Confirmed Meta readback evidence — 17 October 2026
+
+- Read-only inspection of two actual IMG 1 creatives confirmed feedCtas/feedUrls=null while story link and SHOP_NOW exactly matched the approved saffron PDP. Both returned OPT_IN only for enhance_cta, inline_comment and the retired standard_enhancements bundle; all individual submitted opt-outs matched. The bundle key is already forbidden on writes (prior live Meta 100/3858504).
+- Ignore only that retired aggregate echo on readback. Individual feature checks remain mandatory; missing opt-outs, concrete unapproved features and unknown enabled features still fail. Added regressions for the actual response shape and each failure boundary. This changes verification, not creative payload, destination, CTA, copy, ad IDs or budgets.
+- Typecheck and offline Meta suite pass. Reconcile the existing five native adverts and resume the same paused batch after deployment; never create replacement ads for these verification-only errors.
+
 ## Creative readback verification — 17 October 2026
 
 - Live IMG 1 ads reached verify with saved native IDs and CTA differs / Destination URL differs; paused the upload queue before diagnosis. Reproduced the same false-positive pair when variant-feed delivery fields are omitted but the canonical story matches. Verification now accepts omitted/empty feed CTA/URLs only when canonical story proves the literal approved values. Present conflicts, any extra destination URL, missing canonical proof, wrong media/copy/Page and extra enhancements still fail.

@@ -114,7 +114,9 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
  }
  const f=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec,expected=expectedPayload.degrees_of_freedom_spec.creative_features_spec;
  if(!f||Object.entries(expected).some(([k,v])=>f[k]?.enroll_status!==v.enroll_status))errors.push('Creative enhancements differ from the approved settings.');
- const extraFeatures=f?Object.entries(f).filter(([k,v])=>v?.enroll_status==='OPT_IN'&&expected[k]?.enroll_status!=='OPT_IN').map(([k])=>k):[];
+ // Meta echoes the retired bundle even though it rejects that key on write.
+ // Individual feature states above remain mandatory and authoritative.
+ const extraFeatures=f?Object.entries(f).filter(([k,v])=>k!=='standard_enhancements'&&v?.enroll_status==='OPT_IN'&&expected[k]?.enroll_status!=='OPT_IN').map(([k])=>k):[];
  if(extraFeatures.length)errors.push(`An additional enhancement is enabled: ${extraFeatures.join(', ')}.`);
  if(a.urlTags&&(raw.url_tags||'')!==a.urlTags)errors.push('UTM parameters differ.');
  if((raw.contextual_multi_ads as {enroll_status?:string})?.enroll_status!=='OPT_OUT')errors.push('Multi-advertiser opt-out was not confirmed.');
