@@ -1,3 +1,9 @@
+## Publication result — 17 October 2026
+
+- Production batch finished with 22/22 published and verified, 22 distinct native Meta ad IDs and no remaining attention rows. Literal copy variants, destination, CTA and requested ACTIVE status passed the existing native readback checks. Already published ads were not recreated.
+- One image POST returned Meta HTTP 500/code 2 with unknown outcome. Read-only library inspection found no matching filename among 266 images and native ad reconciliation found no matching ad. Explicit retry of only that image then completed; previous 21 ads remained untouched. Added an authenticated, batch-membership-scoped image inspection GET; offline tests prove it cannot POST and reject another batch's item.
+- Production health confirms five concurrent Meta requests and one-second shared pacing. Code is pushed and deployed; full Meta offline suite, focused image-inspection regression, typecheck and production builds pass. The 50-ad scenario is an offline integration test, not an extra live campaign or spend test.
+
 ## Parallel batch publication — 17 October 2026
 
 - Owner further requested simultaneous processing. A single Publish now fills five durable worker slots from a batch (50-ad manifest tested), replacing the former one-stage dispatch. CAS reserves each item/token once; repeated Resume cannot fan out an item. Legacy single-dispatch records migrate on read, and stale tokens, unknown writes and finished rows remain protected. Pause prevents new stages while existing leases finish.
