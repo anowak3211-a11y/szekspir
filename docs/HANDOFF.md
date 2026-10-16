@@ -1,3 +1,9 @@
+## Relaunch unfinished publication — 17 October 2026
+
+- Owner explicitly requested completing all 22 IMG 1 ads and adding Relaunch. Batch button is now always visible (disabled when finished), with a per-item Relaunch using saved IDs. Batch relaunch atomically requeues only known failed stages without pending writes; completed rows, existing Meta IDs, uncertain outcomes and provider wait times remain intact. If no item is leased, explicit relaunch replaces the same idle dispatch token so stale queued deliveries cannot write and the batch does not wait for the ten-minute crash lease.
+- Account observed limited API tier, 50 local points / five minutes and no provider cooldown. Kept all rate/point/hour limits. Explicit ACTIVE/PAUSED campaign reads share a 30-second credential-scoped cache; legacy parent-OFF checks remain fresh. Verification requests nested creative fields with the ad and falls back to a separate read only if necessary; literal verification is unchanged.
+- Typecheck and offline suites verify Relaunch of a known verify-stage failure reuses IDs without any POST, uncertain pending writes are untouched, finished batches cannot relaunch, old dispatch deliveries are invalidated, short cache expiry preserves legacy OFF guards, and expanded creative reads avoid another request. Production publish completion is read back separately.
+
 ## Brisk casual Voice Swapper take — 17 October 2026
 
 - Owner rejected the phone-coloured mellow take and requested a naturally delivered replacement. Added explicit casual style: native conversational plus rushed delivery at synthesis, with no microphone EQ, no new ambience and no text rewrite. Existing studio and phone takes retain their semantics. The brisk tag is direction, not a guaranteed duration; listening and timing review remain required.

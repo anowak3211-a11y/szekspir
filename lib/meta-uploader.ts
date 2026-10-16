@@ -50,15 +50,28 @@ async function dispatchNext(batchId:string){
 }
 async function releaseDispatch(batchId:string,id:string,token?:string){await mutate<{batch?:UploadBatch},void>(batchKey(batchId)+'-record',{},s=>{if(s.batch?.dispatch?.id===id&&(!token||s.batch.dispatch.token===token))s.batch.dispatch=undefined;});}
 export async function startBatch(id:string){const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);if(items.every(i=>['complete','attention','cancelled'].includes(i.status)))throw Error('Resolve the adverts requiring attention before resuming.');await batchQueue(id);if(batch.status!=='running'){for(const ad of Array.from(new Map(items.filter(i=>!['complete','cancelled'].includes(i.status)).map(i=>[`${i.ad.accountId}:${i.ad.adSetId}:${i.ad.pageId}`,i.ad])).values()))await assertUploadTarget(ad);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');if(s.batch.status!=='running'){s.batch.dispatch=undefined;s.batch.status='running';}});}await dispatchNext(id);return readBatch(id);}
+/** Resume unfinished stages only. Never replay an uncertain remote write. */
+export async function relaunchBatch(id:string){
+ const {batch,items}=await readBatch(id);if(batch.status==='finished')return readBatch(id);
+ for(const item of items){
+  if(item.status!=='attention'||item.pending||(item.leaseUntil||0)>Date.now())continue;
+  const queued=await mutate<{item?:UploadItem},UploadItem|null>(key(item.id)+'-record',{},s=>{const current=s.item;if(!current||current.status!=='attention'||current.pending||(current.leaseUntil||0)>Date.now())return null;Object.assign(current,{status:'queued',error:undefined,attempts:0,nextAttempt:undefined,lease:undefined,leaseUntil:undefined,updated:Date.now()});return {...current};});
+  if(queued){await batchQueue(id);await updateQueue(id,queued);}
+ }
+ const current=await readBatch(id);
+ if(current.items.every(i=>['complete','attention','cancelled'].includes(i.status)))return current;
+ if(!current.items.some(i=>(i.leaseUntil||0)>Date.now()))await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(s.batch?.dispatch?.token===current.batch.dispatch?.token&&s.batch)s.batch.dispatch=undefined;});
+ return startBatch(id);
+}
 export async function pauseBatch(id:string){await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(!s.batch)throw Error('Batch not found.');s.batch.status='paused';});return readBatch(id);}
 async function markFinished(id:string){await batchQueue(id);await mutate<{batch?:UploadBatch},void>(batchKey(id)+'-record',{},s=>{if(s.batch?.queue){const items=Object.values(s.batch.queue);if(items.every(i=>['complete','cancelled','attention'].includes(i.status)))s.batch.status=items.some(i=>i.status==='attention')?'paused':'finished';}});}
 async function pending(item:UploadItem,label:string){await patchItem(item.id,{pending:label},item.lease);}
 async function verify(item:UploadItem){
  if(!item.metaAdId||!item.creativeId)throw Error('Missing native Meta IDs.');
  await assertUploadTarget(item.ad);
- const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string}}>(item.metaAdId,{fields:'id,adset_id,status,creative{id}'});
+ const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string;object_story_spec?:unknown;degrees_of_freedom_spec?:unknown}&Record<string,unknown>}>(item.metaAdId,{fields:'id,adset_id,status,creative{id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags}'});
  if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||ad.status!==(item.ad.publishStatus||'PAUSED'))throw Error(`Meta ad identity, target or ${item.ad.publishStatus?'publication':'paused'} status did not match.`);
- const creative=await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
+ const creative=ad.creative.object_story_spec&&ad.creative.degrees_of_freedom_spec?ad.creative:await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
 }
 class UnconfirmedResult extends Error {}
 export async function reconcileItem(id:string,batchId?:string){
