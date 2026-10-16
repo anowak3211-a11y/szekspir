@@ -1,8 +1,8 @@
 export const SWAP_MAX_BYTES=150*1024*1024;
 export const SWAP_MAX_SECONDS=300;
-export type SwapStatus='queued'|'preparing'|'separating'|'review'|'mixing'|'done'|'error'|'uncertain';
+export type SwapStatus='queued'|'preparing'|'separating'|'review'|'mixing'|'enhancing'|'delivering'|'done'|'error'|'uncertain';
 export type SwapMix={voicePath:string;voiceGain:number;backgroundGain:number;offset:number;approved:true};
-export type VoiceSwap={id:string;name:string;sourcePath:string;sourceUrl:string;created:number;updated:number;status:SwapStatus;stage:'prepare'|'separate'|'mix';leaseUntil?:number;paidIntent?:boolean;archiveUrl?:string;backgroundUrl?:string;vocalsUrl?:string;duration?:number;voiceUrl?:string;mix?:SwapMix;mixKey?:string;outputUrl?:string;error?:string};
+export type VoiceSwap={id:string;name:string;sourcePath:string;sourceUrl:string;created:number;updated:number;status:SwapStatus;stage:'prepare'|'separate'|'mix'|'enhance'|'drive'|'sheet';delivery?:{mixKey:string;submitted?:boolean;nextCheckAt?:number;taskId?:string;providerUrl?:string;enhancedUrl?:string;driveFileId?:string;driveUrl?:string;adId?:string;sheetUrl?:string;started:number};leaseUntil?:number;paidIntent?:boolean;archiveUrl?:string;backgroundUrl?:string;vocalsUrl?:string;duration?:number;voiceUrl?:string;mix?:SwapMix;mixKey?:string;outputUrl?:string;error?:string};
 export function swapId(value:unknown):string{if(typeof value!=='string'||! /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(value))throw Error('Invalid Voice Swapper ID.');return value;}
 export function swapSourcePath(id:string,path:unknown){if(typeof path!=='string'||!new RegExp(`^sources/${swapId(id)}/source\\.(mp4|mov)$`).test(path))throw Error('Choose an MP4 or MOV video.');return path;}
 export function swapMix(input:Record<string,unknown>):SwapMix{

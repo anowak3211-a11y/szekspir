@@ -1,3 +1,9 @@
+## Voice Swapper → VMake → Drive / Admin Sheet — 16 October 2026
+
+- Added `Save and Send to VMake` beside mixing and on completed exports. It enhances the mixed film through the existing **legacy** VMake endpoints, saves the enhanced result in the configured Drive video folder, and creates one new Daily Brief / MEL assigned to admin (`mine`). No transcription, rewriting, TTS, or editor-wide sync is triggered.
+- Durable delivery stages retain VMake task, enhanced media, preallocated Drive file ID, and brief reservation. Unknown paid submissions cannot be repeated. VMake status calls have a persisted 60-second minimum interval; browser checks remain visibility-aware and serial.
+- Offline delivery test checks one legacy submission, delayed duplicate polls, correct enhanced file uploaded, admin brief links, and no repeated unknown submissions. Actual paid separation / enhancement and production Drive/Sheet writes were deliberately not exercised.
+
 # Current development handoff — 28 September 2026
 
 ## Voice Swapper — 16 October 2026
