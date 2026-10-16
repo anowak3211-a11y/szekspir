@@ -32,13 +32,26 @@
       ]
     },
     "app/api/queues/meta-upload/route.ts": {
-      "experimentalTriggers": [{"type": "queue/v2beta", "topic": "szekspir-meta-upload"}]
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "szekspir-meta-upload"
+        }
+      ]
     },
     "app/api/queues/antki/route.ts": {
       "experimentalTriggers": [
         {
           "type": "queue/v2beta",
           "topic": "szekspir-antki"
+        }
+      ]
+    },
+    "app/api/queues/voice-swap/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "szekspir-voice-swap"
         }
       ]
     }

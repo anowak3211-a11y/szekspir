@@ -35,6 +35,7 @@ export default function Home() {
             Long-form advertorial localization US → UK. Coming soon.
           </span>
         </a>
+        <a className="tile big" href="/voice-swapper"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 9h16m-4-4 4 4-4 4M20 15H4m4-4-4 4 4 4"/></svg></span><span className="tile-title">VOICE SWAPPER</span><span className="tile-sub">Usuń oryginalną mowę, zachowaj tło i podłóż gotowy voiceover z ElevenLabs. Odsłuch i eksport filmu.</span></a>
         <a className="tile big" href="/additional-files">
           <span className="tile-icon" aria-hidden="true">📎</span>
           <span className="tile-title">ADDITIONAL FILES</span>
