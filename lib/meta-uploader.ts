@@ -28,6 +28,12 @@ export async function inspectUploadCreative(batchId:string,adId:string){
  const features=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec;
  return {adId,expected:{url:item.ad.url,cta:item.ad.cta},feedCtas:feed?.call_to_action_types??null,feedUrls:feed?.link_urls??null,storyLink:data?.link??null,storyCta:data?.call_to_action??null,enabledFeatures:Object.entries(features||{}).filter(([,v])=>v?.enroll_status==='OPT_IN').map(([k])=>k),errors:verifyCreative(item,raw)};
 }
+/** Read-only recovery evidence for an image write interrupted by Meta. */
+export async function inspectUploadImage(batchId:string,itemId:string){
+ const {items}=await readBatch(batchId),item=items.find(i=>i.id===itemId);if(!item||item.ad.media.kind!=='image')throw Error('Image advert is not in this batch.');
+ const filename=item.ad.media.filename,images=await graphList(`act_${item.ad.accountId}/adimages`,'hash,name');
+ return {itemId,phase:item.phase,pending:item.pending,filename,libraryCount:images.length,matches:images.filter(image=>image.name===filename).map(image=>({name:image.name,hash:image.hash}))};
+}
 // Envelope records support atomic replacement with the project's existing CAS.
 export async function readItem(id:string){return (await readState<{item?:UploadItem}>(key(id)+'-record',{})).value.item||null;}
 async function readBatchRecord(id:string){const batch=(await readState<{batch?:UploadBatch}>(batchKey(id)+'-record',{})).value.batch;if(!batch)throw Error('Batch not found.');return batch;}
