@@ -1,3 +1,9 @@
+## Saffron image-copy variants — 17 October 2026
+
+- Owner requested three future copy variants: source customer voice, direct sales copy, second customer voice; emoji at the end, distinct across primary/headline/description. Read the existing Meta MEL 125 copy and use its format as the reference. Observed quoted desires are not verified product reviews; never invent testimonial authors, outcomes or ratings. Use source quotes only when relevant to the uploaded image, otherwise use an unquoted desire hook.
+- New uncached, clearly identified Mellow saffron generations request three complete triplets in one existing AI call. Every variant is bounded and its first fields must match the legacy scalar fields; the uploader applies all three while preserving manual edits independently. Other products retain one set. Existing cards and legacy paid-cache results remain unchanged; no paid regeneration or Meta ad write is triggered.
+- Offline checks cover three-triplet merging, malformed variants, manual edits, legacy cache compatibility and one provider request for three variants. Typecheck and Meta regression suite pass; actual paid model output was not exercised.
+
 ## Voice Swapper automatic script extraction — 16 October 2026
 
 - Newly separated films automatically queue transcription of the saved isolated vocal MP3 through the same `transcribeWithDuration` / Whisper integration as Szekspir. No video re-upload or repeated stem separation. Existing films offer **Wyciągnij tekst z oryginału**. No TTS generation starts automatically.
