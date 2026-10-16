@@ -9,6 +9,14 @@ assert.equal(link.image_hash,item.imageHash,'Story and asset feed use the same o
 assert.deepEqual(payload.asset_feed_spec.bodies.map(x=>x.text),ad.primaryTexts);assert.deepEqual(verifyCreative(item,payload),[]);
 assert(verifyCreative(item,{...payload,object_story_spec:{...payload.object_story_spec,link_data:{...link,link:'https://example.test/wrong'}}}).includes('Story destination URL differs.'));
 assert(verifyCreative(item,{...payload,object_story_spec:{...payload.object_story_spec,link_data:{...link,image_hash:'wrong-hash'}}}).includes('Story original image differs.'));
+// Meta may return delivery CTA/destination only in the canonical story.
+const storyOnlyFeed=structuredClone(payload);delete storyOnlyFeed.asset_feed_spec.call_to_action_types;delete storyOnlyFeed.asset_feed_spec.link_urls;
+assert.deepEqual(verifyCreative(item,storyOnlyFeed),[],'Canonical approved story can prove omitted feed CTA and URL');
+const wrongCta=structuredClone(storyOnlyFeed);wrongCta.object_story_spec.link_data.call_to_action.type='LEARN_MORE';assert(verifyCreative(item,wrongCta).includes('CTA differs.'));
+const wrongLink=structuredClone(storyOnlyFeed);wrongLink.object_story_spec.link_data.link='https://example.test/wrong';assert(verifyCreative(item,wrongLink).length);
+const explicitWrong=structuredClone(payload);explicitWrong.asset_feed_spec.call_to_action_types=['LEARN_MORE'];assert(verifyCreative(item,explicitWrong).includes('CTA differs.'));
+const extraLink=structuredClone(payload);extraLink.asset_feed_spec.link_urls.push({website_url:'https://example.test/wrong'});assert(verifyCreative(item,extraLink).includes('Destination URL differs.'));
+const missingAll=structuredClone(storyOnlyFeed);delete missingAll.object_story_spec.link_data.call_to_action;assert(verifyCreative(item,missingAll).includes('CTA differs.'));
 // Meta 100/2446218 rejects Degrees of Freedom when every text/media asset is singular.
 const single={...ad,primaryTexts:[ad.primaryTexts[0]]},singleItem={...item,ad:single},standard=creativePayload(singleItem);
 assert.equal(standard.asset_feed_spec,undefined,'One-copy image uses an ordinary story, not a singular DoF feed');

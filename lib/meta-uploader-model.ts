@@ -75,6 +75,8 @@ export function creativePayload(item:UploadItem){
 }
 export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):string[]{
  const errors:string[]=[],a=item.ad,s=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined;
+ const storyData=story?.[item.imageHash?'link_data':'video_data'] as Record<string,unknown>|undefined,storyCta=storyData?.call_to_action as {type?:string;value?:{link?:string}}|undefined;
+ const storyUrl=item.imageHash?storyData?.link:storyCta?.value?.link;
  const list=(name:string)=>(Array.isArray(s?.[name])?s?.[name]:[]) as Record<string,unknown>[];
  const same=(actual:unknown,expected:unknown)=>JSON.stringify(actual)===JSON.stringify(expected);
  const expectedPayload=creativePayload(item),expectedFeed=expectedPayload.asset_feed_spec;
@@ -83,8 +85,12 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
   if(!same(list('bodies').map(t=>t.text),a.primaryTexts))errors.push('Primary text variants differ.');
   if(!same(list('titles').map(t=>t.text),a.headlines||[a.headline]))errors.push('Headline differs.');
   if(!same(list('descriptions').map(t=>t.text),a.descriptions||(a.description?[a.description]:[])))errors.push('Description differs.');
-  if(!same(s.call_to_action_types,[a.cta]))errors.push('CTA differs.');
-  if(list('link_urls')[0]?.website_url!==a.url)errors.push('Destination URL differs.');
+  // Some Meta reads omit delivery fields from the variant feed. Only the
+  // canonical story may prove omitted fields; explicit conflicts still fail.
+  const hasFeedCta=s.call_to_action_types!=null&&!(Array.isArray(s.call_to_action_types)&&!s.call_to_action_types.length);
+  const hasFeedUrls=s.link_urls!=null&&!(Array.isArray(s.link_urls)&&!s.link_urls.length);
+  if(hasFeedCta?!same(s.call_to_action_types,[a.cta]):storyCta?.type!==a.cta)errors.push('CTA differs.');
+  if(hasFeedUrls?!Array.isArray(s.link_urls)||!list('link_urls').every(u=>u.website_url===a.url):storyUrl!==a.url)errors.push('Destination URL differs.');
   if(a.media.kind==='carousel'){
    if(!same(list('images').map(t=>t.hash),item.imageHashes))errors.push('Original carousel images differ.');
    if(!same(s.carousels,(expectedFeed as Record<string,unknown>)?.carousels))errors.push('Carousel order or card settings differ.');
@@ -98,6 +104,7 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
   if((image?data?.link:cta?.value?.link)!==a.url)errors.push('Story destination URL differs.');
   if(image&&data?.image_hash!==item.imageHash)errors.push('Story original image differs.');
   if(!image&&data?.video_id!==item.videoId)errors.push('Original media differs.');
+  if(cta&&(cta.type!==a.cta||cta.value?.link!==undefined&&cta.value.link!==a.url))errors.push('CTA differs.');
   if(!s){
    if(data?.message!==a.primaryTexts[0])errors.push('Primary text differs.');
    if(data?.[image?'name':'title']!==(a.headlines||[a.headline])[0])errors.push('Headline differs.');
@@ -107,7 +114,8 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
  }
  const f=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec,expected=expectedPayload.degrees_of_freedom_spec.creative_features_spec;
  if(!f||Object.entries(expected).some(([k,v])=>f[k]?.enroll_status!==v.enroll_status))errors.push('Creative enhancements differ from the approved settings.');
- if(f&&Object.entries(f).some(([k,v])=>v?.enroll_status==='OPT_IN'&&expected[k]?.enroll_status!=='OPT_IN'))errors.push('An additional enhancement is enabled.');
+ const extraFeatures=f?Object.entries(f).filter(([k,v])=>v?.enroll_status==='OPT_IN'&&expected[k]?.enroll_status!=='OPT_IN').map(([k])=>k):[];
+ if(extraFeatures.length)errors.push(`An additional enhancement is enabled: ${extraFeatures.join(', ')}.`);
  if(a.urlTags&&(raw.url_tags||'')!==a.urlTags)errors.push('UTM parameters differ.');
  if((raw.contextual_multi_ads as {enroll_status?:string})?.enroll_status!=='OPT_OUT')errors.push('Multi-advertiser opt-out was not confirmed.');
  return errors;

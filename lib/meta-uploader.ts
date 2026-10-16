@@ -20,6 +20,14 @@ export async function saveUploadBatch(id:string,name:string,raw:unknown[]){
  await mutate<string[],void>('meta-upload-batches',[],s=>{if(!s.includes(id))s.push(id);});return readBatch(id);
 }
 export async function publishUploadBatch(id:string,name:string,raw:unknown[]){await saveUploadBatch(id,name,raw);return startBatch(id);}
+/** Read-only support evidence, restricted to an advert already in this batch. */
+export async function inspectUploadCreative(batchId:string,adId:string){
+ const {items}=await readBatch(batchId),item=items.find(i=>i.metaAdId===adId);if(!item?.creativeId)throw Error('Advert is not in this batch.');
+ const raw=await graph<Record<string,unknown>>(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
+ const feed=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined,data=story?.[item.imageHash?'link_data':'video_data'] as Record<string,unknown>|undefined;
+ const features=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec;
+ return {adId,expected:{url:item.ad.url,cta:item.ad.cta},feedCtas:feed?.call_to_action_types??null,feedUrls:feed?.link_urls??null,storyLink:data?.link??null,storyCta:data?.call_to_action??null,enabledFeatures:Object.entries(features||{}).filter(([,v])=>v?.enroll_status==='OPT_IN').map(([k])=>k),errors:verifyCreative(item,raw)};
+}
 // Envelope records support atomic replacement with the project's existing CAS.
 export async function readItem(id:string){return (await readState<{item?:UploadItem}>(key(id)+'-record',{})).value.item||null;}
 async function readBatchRecord(id:string){const batch=(await readState<{batch?:UploadBatch}>(batchKey(id)+'-record',{})).value.batch;if(!batch)throw Error('Batch not found.');return batch;}

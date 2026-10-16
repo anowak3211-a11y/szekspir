@@ -1,3 +1,9 @@
+## Creative readback verification — 17 October 2026
+
+- Live IMG 1 ads reached verify with saved native IDs and CTA differs / Destination URL differs; paused the upload queue before diagnosis. Reproduced the same false-positive pair when variant-feed delivery fields are omitted but the canonical story matches. Verification now accepts omitted/empty feed CTA/URLs only when canonical story proves the literal approved values. Present conflicts, any extra destination URL, missing canonical proof, wrong media/copy/Page and extra enhancements still fail.
+- Unexpected enhancement messages now name the enabled feature. Added an authenticated read-only inspect query restricted to an existing batch advert; it returns only selected CTA/URL/feature evidence and validation errors, no credentials. This allows diagnosis of real Meta readback without creating another advert.
+- Offline regressions reject explicit CTA/link conflicts and absent proof while accepting canonical story fallback. Typecheck and Meta suite pass. Live readback/reconciliation follows deployment; existing native IDs must be reused.
+
 ## Natural utterance synchronisation replaces word cuts — 17 October 2026
 
 - Owner rejected the per-word render as unnatural. The active pipeline now retimes complete utterances with constant pitch-preserving tempo inside each utterance. Words only identify corresponding source pauses; actual cut positions must fall in measured quiet in the saved take (-45 dB, >=120 ms), retaining 40 ms quiet margins. Source pauses >=250 ms can anchor utterances; no internal word slicing or rapid tempo switches.
