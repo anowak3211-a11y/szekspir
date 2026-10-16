@@ -236,10 +236,10 @@ export async function critic(script:string,provider:Provider,_model:string,sourc
  const fixed=applyCritic(script,raw.fixes,sourceTranscript);return {uk_script:fixed.script,fixes:fixed.fixes};
 }
 export async function prepareNarration(script:string,_provider:Provider,_model:string,market:Market='uk'){return narration(script,market);}
-export async function transcribeWithDuration(file:File):Promise<{text:string;duration?:number}>{
+export async function transcribeWithDuration(file:File,wordTimes=false):Promise<{text:string;duration?:number;words?:{word:string;start:number;end:number}[]}>{
  const client=new OpenAI({apiKey:process.env.OPENAI_API_KEY,timeout:60000,maxRetries:0});
- const response=await client.audio.transcriptions.create({file,model:'whisper-1',response_format:'verbose_json'});
- return {text:response.text,duration:response.duration};
+ const response=await client.audio.transcriptions.create({file,model:'whisper-1',response_format:'verbose_json',...(wordTimes?{timestamp_granularities:['word' as const]}:{})});
+ return {text:response.text,duration:response.duration,...(wordTimes?{words:response.words}: {})};
 }
 export async function transcribe(file:File){return (await transcribeWithDuration(file)).text;}
 

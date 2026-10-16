@@ -1,3 +1,10 @@
+## Voice Swapper word and pause synchronisation — 17 October 2026
+
+- Explicit Sync action analyses saved original vocals and a saved generated take with Whisper word timestamps, then places pitch-preserving audio intervals at their original word positions. Source action pauses >=180 ms remain silent in the replacement voice stem. Original generated take and background are retained; TTS and separation are not repeated.
+- Word analysis is split into durable queue phases with intent-before-charge guards, saved timestamps and no uncertain paid retries. Future automatic transcript extraction requests word times in its existing single call. No additional status polling; same visible-tab 30-second cadence. A completed aligned output is reused, including after an interrupted state write.
+- Matching requires >=90% monotonic word correspondence and matching opening/ending words; unreliable timing, extreme local tempo or speech beyond the film is rejected instead of silently cutting text. Recognition times are approximate, and the UI requests listening review. Very short intervals are joined to avoid tiny phoneme cuts. The aligned take is used for subsequent mixing and its script is retained in the Admin brief.
+- Offline verification: LCS/word placement and source pause preservation, actual FFmpeg exact-duration/silence fixtures, cached/uncertain provider guards, complete Voice Swapper suites, typecheck and build.
+
 ## Explicit image-copy regeneration — 17 October 2026
 
 - Added per-card Generuj ponownie · 3 warianty and batch-wide Generuj warianty dla grafik. Both replace the current copy after success, using a baseline captured at the explicit regeneration action; edits made during generation still survive. Busy/uncertain operations cannot start another paid take. Existing copy survives failed requests. The owner explicitly requested regeneration of the current 22-image batch.

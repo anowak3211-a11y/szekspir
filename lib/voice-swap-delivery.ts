@@ -31,7 +31,7 @@ export async function advanceSwapDelivery(s:VoiceSwap,update:Update){
   await update(x=>{x.delivery!.driveUrl=driveUrl;x.stage='sheet';x.status='queued';});
  }else if(s.stage==='sheet'){
   if(!d.driveUrl)throw Error('Save the finished film to Drive first.');
-  const script=s.takes?.find(t=>t.path===s.mix?.voicePath)?.text||'';
+  const script=s.takes?.find(t=>t.path===s.mix?.voicePath||t.alignedPath===s.mix?.voicePath)?.text||'';
   const row=await appendToAdminBriefs({jobId:`voice-swap-${s.id}`,editorId:'mine',uk:script,noSpeech:!script,hooks:[],hookOg:'',desire:'Voice swap',angle:d.mode==='direct'?'Original picture':'Enhanced original',mechanism:'',funnel:'MOF',reference:d.driveUrl,editorNotes:'Voice Swapper: original speech replaced with the selected voiceover. Background audio retained. '+(d.mode==='direct'?'Mixed video saved in Drive without enhancement.':'Enhanced video saved in Drive.')});
   await update(x=>{x.delivery!.adId=row.adId;x.delivery!.sheetUrl=row.url;x.status='done';x.error=undefined;});
  }

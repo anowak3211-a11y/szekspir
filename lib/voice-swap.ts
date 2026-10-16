@@ -7,7 +7,7 @@ import {existingMedia,putMedia,putMediaStream,assertMediaTypeSupported} from './
 import {swapId,swapSourcePath,swapMix,type VoiceSwap,type SwapMix} from './voice-swap-model';
 import {downloadSwapMedia,prepareSwapAudio,readSwapStems,requestSwapStems,streamSwapVideo,storedSwapSource,probeSwapMedia} from './voice-swap-audio';
 const key=(id:string)=>`voice-swap-${swapId(id)}`;
-const active=(s:VoiceSwap)=>['queued','preparing','separating','mixing','voicing','transcribing','enhancing','delivering'].includes(s.status);
+const active=(s:VoiceSwap)=>['queued','preparing','separating','mixing','voicing','transcribing','aligning','enhancing','delivering'].includes(s.status);
 export async function getVoiceSwap(id:string){const s=(await readState<VoiceSwap|null>(key(id),null)).value;if(!s)throw Error('Voice swap not found.');return s;}
 export async function startVoiceSwap(input:Record<string,unknown>){
  const id=swapId(input.id),sourcePath=swapSourcePath(id,input.sourcePath);
@@ -28,7 +28,7 @@ export async function mixVoiceSwap(id:string,input:Record<string,unknown>){
  const deliveryMode=input.sendToVmake===true?'vmake':input.saveToDrive===true?'direct':undefined;
  return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{
   if(s?.delivery){if(s.mixKey===mixKey)return s;throw Error('This film has already been sent for delivery. Start a new film to change the mix.');}
-  if(mix.voicePath.startsWith('vo/')&&!s?.takes?.some(t=>t.path===mix.voicePath&&t.url))throw Error('Choose a completed voiceover from this film.');
+  if(mix.voicePath.startsWith('vo/')&&!s?.takes?.some(t=>(t.path===mix.voicePath&&t.url)||(t.alignedPath===mix.voicePath&&t.alignedUrl)))throw Error('Choose a completed voiceover from this film.');
   if(!s?.backgroundUrl)throw Error('Separate the background first.');
   if(active(s)){if(s.mixKey===mixKey)return s;throw Error('A voice swap is already in progress.');}
   if(s.mixKey===mixKey&&s.outputUrl&&s.status==='done'){if(deliveryMode){s.delivery={mode:deliveryMode,mixKey,started:Date.now()};s.stage=deliveryMode==='direct'?'drive':'enhance';s.status='queued';s.updated=Date.now();}return s;}
@@ -55,7 +55,7 @@ export async function advanceVoiceSwap(id:string){
  const s=await mutate<VoiceSwap|null,VoiceSwap|undefined>(key(id),null,s=>{
   if(!s||!active(s)||(s.leaseUntil||0)>Date.now())return;
   if(s.stage==='separate'&&s.paidIntent&&!s.archiveUrl){s.status='uncertain';s.error='Separation was interrupted. Check ElevenLabs; the paid request will not be repeated.';s.updated=Date.now();return;}
-  s.leaseUntil=Date.now()+330000;s.status=s.stage==='prepare'?'preparing':s.stage==='mix'?'mixing':s.stage==='voice'?'voicing':s.stage==='transcribe'?'transcribing':s.stage==='separate'?'separating':s.stage==='enhance'?'enhancing':'delivering';s.updated=Date.now();return {...s};
+  s.leaseUntil=Date.now()+330000;s.status=s.stage==='prepare'?'preparing':s.stage==='mix'?'mixing':s.stage==='voice'?'voicing':s.stage==='transcribe'?'transcribing':s.stage==='align'?'aligning':s.stage==='separate'?'separating':s.stage==='enhance'?'enhancing':'delivering';s.updated=Date.now();return {...s};
  });
  if(!s)return false;
  const update=(fn:(s:VoiceSwap)=>void)=>mutate<VoiceSwap|null,void>(key(id),null,x=>{if(!x)throw Error('Voice swap disappeared.');fn(x);x.updated=Date.now();});
@@ -85,6 +85,8 @@ export async function advanceVoiceSwap(id:string){
    await update(x=>{x.backgroundUrl=backgroundUrl;x.vocalsUrl=vocalsUrl;x.stage='transcribe';x.status='queued';x.error=undefined;});
   }else if(s.stage==='transcribe'){
    const {advanceSwapTranscript}=await import('./voice-swap-transcript');await advanceSwapTranscript(s,update,dir);
+  }else if(s.stage==='align'){
+   const {advanceSwapAlignment}=await import('./voice-swap-alignment');await advanceSwapAlignment(s,update,dir);
   }else if(s.stage==='voice'){
    const {advanceSwapNarration}=await import('./voice-swap-narration');await advanceSwapNarration(s,update);
   }else if(['enhance','drive','sheet'].includes(s.stage)){
@@ -136,4 +138,11 @@ export async function requestSwapTranscript(id:string){return mutate<VoiceSwap|n
  if(s.transcriptionSubmitted)throw Error('Previous transcription could not be confirmed. Paste the script; no automatic paid retry was made.');
  if(active(s)||s.delivery)throw Error('Wait for the current operation to finish.');
  s.stage='transcribe';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
+});}
+
+export async function requestSwapAlignment(id:string,takeId:string){swapId(takeId);return mutate<VoiceSwap|null,VoiceSwap>(key(id),null,s=>{
+ const t=s?.takes?.find(t=>t.id===takeId);if(!s||!t?.url||!s.vocalsUrl)throw Error('Choose a saved recording and original voice first.');
+ if(t.alignedUrl)return s;if(s.stage==='align'&&s.alignmentTake===takeId&&active(s))return s;
+ if(active(s)||s.delivery)throw Error('Wait for the current operation to finish.');
+ s.alignmentTake=takeId;s.stage='align';s.status='queued';s.error=undefined;s.updated=Date.now();return s;
 });}
