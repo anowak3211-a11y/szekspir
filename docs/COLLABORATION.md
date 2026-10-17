@@ -11,3 +11,9 @@ Ustalenie użytkownika, 17 października 2026.
 - Interfejs przekazuje żądania API do stałego serwera z normalną sesją użytkownika. Zapis wymaga właściwego Origin interfejsu; nagłówki tożsamości i uprawnień maszyny nie są przekazywane. Zwykły użytkownik nadal korzysta ze swojego profilu, plików i kluczy. Przed konfiguracją własnego hasła użytkownik korzysta z zaproszenia e-mail w głównej aplikacji.
 - `vercel.ts` zachowuje dotychczasową konfigurację serwera z `vercel.backend.json`. Tryb interfejsu nie rejestruje konsumentów kolejek ani cronów; nie może odbierać zadań produkcji. Bramkę Vercela na samym nowym hostingu wyłączono za wyraźną zgodą właściciela; logowanie Szekspira pozostaje wymagane dla danych.
 - Adres konta aplikacji pozostaje w prywatnym rejestrze profili; profil otrzymuje własny zestaw na Drive administratora. Zaproszenie GitHub musi zostać przyjęte przez Bakki77, zanim może wysyłać zmiany.
+
+## Publikacja interfejsu z CLI
+
+Używaj oficjalnego CLI Vercela obsługującego vercel.ts. W katalogu połączonym wyłącznie z projektem szekspir-bakki uruchamiaj `APP_SHARED_API_ORIGIN=https://szekspir.vercel.app npx --yes vercel@latest --prod --yes`. Ta niesekretna zmienna musi być ustawiona także w procesie CLI, ponieważ konfiguracja jest kompilowana lokalnie przed odczytem środowiska hostingu. Po wdrożeniu potwierdź w metadanych deploymentu `functions: null` (lub brak własnej konfiguracji funkcji), `crons: []` oraz brak produkcyjnych sekretów. Dla głównego projektu nie ustawiaj tej zmiennej.
+
+Weryfikacja nowego adresu: logowanie otwiera się na telefonie, profil bez sesji zwraca 401, poprawny Origin pozwala wyłącznie na normalną obsługę sesji, obcy Origin przy zapisie zwraca 403. Własne hasło, drugi składnik i logowanie na konto Bakki kończy sam użytkownik; sesji członka nie zastępuj kontem właściciela.
