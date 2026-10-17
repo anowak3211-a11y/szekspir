@@ -1,3 +1,9 @@
+## Four neutral text options per Antki — 17 October 2026
+
+- Owner requested four extras alongside the real ad copy: each primary is two Cyrillic gibberish sentences, each headline two words, each description three words. Stable distinct defaults appear for every prepared Antki without AI, extra fetches or background jobs. Individual and grouped copy controls, editing and one explicit four-option save are provided. Existing one-word/Russian neutral draft remains in an expandable panel.
+- Batch validation requires exactly four complete rows with the requested word/sentence counts. Shared neutral revision protects cross-tab and legacy/new edits; each save retains the other neutral fields and preserves source, both UK versions, approval, media and Sheet delivery. Nothing is automatically uploaded to Meta.
+- Offline work regressions cover sixty default sets, word/sentence count validation, stale revisions, legacy/new round trips and zero provider/queue/Sheet calls; typecheck and build run before publication.
+
 ## Neutral Antki copy alternative — 17 October 2026
 
 - Owner clarified the separate alternative precisely: a single-word headline (such as cat/dog) and one neutral Russian sentence, without product copy. Each prepared Antki editor now shows stable defaults immediately, with separate edit/save/copy controls below the unchanged three comparison cards. Defaults use a small deterministic pool, with no AI generation, new image, queue, polling or additional page-load API request.

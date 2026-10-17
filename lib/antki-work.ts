@@ -1,4 +1,4 @@
-import {validateAntkiNeutral} from './antki-neutral';
+import {neutralAntkiDraft,validateAntkiNeutralVariants,validateAntkiNeutral} from './antki-neutral';
 import {assertBrain} from './account-brain';
 import {accountProduct} from './account-product';
 import {accountEnv,requiredAccountEnv} from './account-context';
@@ -242,6 +242,16 @@ export async function saveAntkiNeutral(id:string,text:unknown,headline:unknown,r
  return withEditorLocks(['antki-work-'+id],async()=>{
   const work=await readAntkiWork(id);if(!work)throw Error('Otwórz przygotowanego Antka przed zapisaniem wariantu.');
   const previous=work.neutralVersion?.revision||0;if(revision!==previous)throw Error('Inna karta zmieniła ten wariant. Odśwież stronę przed zapisem.');
-  work.neutralVersion={...draft,revision:previous+1,updated:Date.now()};await persist(work);return work;
+  work.neutralVersion={...work.neutralVersion,...draft,revision:previous+1,updated:Date.now()};await persist(work);return work;
+ });
+}
+
+/** Independent four-option save; retains the earlier one-word variant and all advertising work. */
+export async function saveAntkiNeutralVariants(id:string,input:unknown,revision:unknown){
+ key(id);const variants=validateAntkiNeutralVariants(input);
+ return withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);if(!work)throw Error('Otwórz przygotowanego Antka przed zapisaniem wariantów.');
+  const previous=work.neutralVersion?.revision||0;if(revision!==previous)throw Error('Inna karta zmieniła te warianty. Odśwież stronę przed zapisem.');
+  work.neutralVersion={...neutralAntkiDraft(id),...work.neutralVersion,variants,revision:previous+1,updated:Date.now()};await persist(work);return work;
  });
 }
