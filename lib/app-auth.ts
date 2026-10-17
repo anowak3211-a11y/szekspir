@@ -5,12 +5,17 @@ import {mutate} from './store';
 
 export const AUTH_COOKIE='__Host-szekspir-session';
 const DEV_COOKIE='szekspir-session-dev';
-const SESSION_MS=8*60*60*1000,SETUP_MS=15*60*1000;
+const DAY_MS=24*60*60*1000,SESSION_MS=30*DAY_MS,SETUP_MS=15*60*1000;
 type Tokens={access_token:string;refresh_token:string};
 export type AppSession=Tokens&{until:number;needsPassword?:boolean};
 export class AuthFailure extends Error{constructor(message='Sign in again.',public status=401){super(message);}}
 export function mfaRequired(){return process.env.APP_AUTH_MODE==='supabase-mfa';}
 export function allowedEmail(email:string|undefined){return !!email&&(process.env.AUTH_ALLOWED_EMAILS||'').split(',').map(v=>v.trim().toLowerCase()).filter(Boolean).includes(email.toLowerCase());}
+/** Explicit per-account exception; the invitation allowlist remains mandatory. */
+export function secondFactorRequired(user:Pick<User,'email'>){
+ const email=user.email?.trim().toLowerCase();
+ return !email||!allowedEmail(email)||!(process.env.AUTH_PASSWORD_ONLY_EMAILS||'').split(',').map(v=>v.trim().toLowerCase()).filter(Boolean).includes(email);
+}
 function encryptionKey(){const secret=process.env.JOB_ENCRYPTION_KEY||process.env.BLOB_READ_WRITE_TOKEN;if(!secret)throw new AuthFailure('Sign-in is not configured.',503);return createHash('sha256').update('szekspir-auth-v1\0'+secret).digest();}
 export function authClient(){
  const url=process.env.SUPABASE_URL,key=process.env.SUPABASE_PUBLISHABLE_KEY;
@@ -44,8 +49,12 @@ export async function checkedSession(cookie:string|null,requireMfa=true){
  const user=assertUser(data.user),session=data.session,claims=tokenClaims(session.access_token);
  // Claims are inspected only after provider validation of this exact token.
  if(claims.sub!==user.id||!claims.exp||claims.exp*1000<=Date.now())throw new AuthFailure();
- if(requireMfa&&(saved.needsPassword||claims.aal!=='aal2'||!hasMfa(user)))throw new AuthFailure('Complete two-factor authentication.',403);
- return {client,user,session,until:saved.until,aal:claims.aal,needsPassword:!!saved.needsPassword,changed:session.access_token!==saved.access_token||session.refresh_token!==saved.refresh_token};
+ const requiresSecondFactor=secondFactorRequired(user);
+ const complete=!saved.needsPassword&&(!requiresSecondFactor||(claims.aal==='aal2'&&hasMfa(user)));
+ if(requireMfa&&!complete)throw new AuthFailure('Complete two-factor authentication.',403);
+ // Renew during an existing validated request, at most once daily. No background polling.
+ const until=complete&&saved.until<Date.now()+SESSION_MS-DAY_MS?completeUntil():saved.until;
+ return {client,user,session,until,complete,requiresSecondFactor,aal:claims.aal,needsPassword:!!saved.needsPassword,changed:until!==saved.until||session.access_token!==saved.access_token||session.refresh_token!==saved.refresh_token};
 }
 export async function signIn(email:string,password:string){
  if(!allowedEmail(email))throw new AuthFailure('Email or password is incorrect.');

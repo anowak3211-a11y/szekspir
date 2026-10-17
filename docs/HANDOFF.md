@@ -1,3 +1,9 @@
+## Remembered sign-in and owner password-only access — 17 October 2026
+
+- Owner explicitly requested staying signed in and disabling their second-factor prompt. Completed sessions now last 30 days and roll forward at most daily during an existing provider-validated request; no timers or additional auth polling. Valid old eight-hour sessions migrate on use. Incomplete MFA and password/invitation setup retain their short deadlines; expired cookies remain invalid.
+- New server-only AUTH_PASSWORD_ONLY_EMAILS is an exact per-account exception, intersected with AUTH_ALLOWED_EMAILS. It accepts that account's provider-validated password session without AAL2; it never opens public registration, Basic/machine bypasses, other accounts or unfinished recovery. Existing factors are not deleted. Recovery/password-change proofs, Origin checks, encrypted HttpOnly cookies and logout remain intact.
+- Sign-in status/UI reflects password-only completion and 30-day memory; recovery-code tools are hidden for the exempt account. Offline auth tests cover rolling renewal, no per-request cookie churn, scoped exception, revoked/outsider denial and pending recovery. Typecheck and auth suites pass before deployment. Production exception is configured outside Git.
+
 ## Publication result — 17 October 2026
 
 - Production batch finished with 22/22 published and verified, 22 distinct native Meta ad IDs and no remaining attention rows. Literal copy variants, destination, CTA and requested ACTIVE status passed the existing native readback checks. Already published ads were not recreated.

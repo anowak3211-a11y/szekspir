@@ -1,11 +1,11 @@
 import {NextResponse} from 'next/server';
 import {authorised} from '@/lib/auth';
-import {AuthFailure,authAttempt,authClient,checkedSession,clearSessionCookie,completeUntil,hasMfa,requestBucket,sessionCookie,signIn,tokens,allowedEmail,mfaRequired} from '@/lib/app-auth';
+import {AuthFailure,authAttempt,authClient,checkedSession,clearSessionCookie,completeUntil,hasMfa,requestBucket,sessionCookie,signIn,tokens,allowedEmail,mfaRequired,secondFactorRequired} from '@/lib/app-auth';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const privateHeaders={'Cache-Control':'no-store, private','Referrer-Policy':'no-referrer'};
 export async function GET(request:Request){
- try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:!state.needsPassword&&state.aal==='aal2'&&hasMfa(state.user),factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}
+ try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:state.complete,twoFactor:state.requiresSecondFactor,factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}
  catch(error){return NextResponse.json({signedIn:false,canInvite:!mfaRequired()&&authorised(request.headers.get('authorization'))},{status:error instanceof AuthFailure&&error.status===503?503:200,headers:privateHeaders});}
 }
 export async function POST(request:Request){
@@ -24,7 +24,7 @@ export async function POST(request:Request){
    const email=typeof body.email==='string'?body.email.trim().toLowerCase():'';
    await authAttempt('login:'+email,8);
    const session=await signIn(email,typeof body.password==='string'?body.password:'');
-   return respond({ok:true},sessionCookie(tokens(session),Date.now()+15*60*1000));
+   return respond({ok:true},sessionCookie(tokens(session),secondFactorRequired(session.user)?Date.now()+15*60*1000:completeUntil()));
   }
   if(action==='reset'){
    const email=typeof body.email==='string'?body.email.trim().toLowerCase():'';await authAttempt('reset:'+email,3);
@@ -44,7 +44,7 @@ export async function POST(request:Request){
    if(hasMfa(state.user)&&state.aal!=='aal2')throw new AuthFailure('Enter your authenticator code first.',403);
    if(typeof body.password!=='string'||body.password.length<14||body.password.length>128)throw new AuthFailure('Use a password with 14–128 characters.',400);
    const {error}=await state.client.auth.updateUser({password:body.password});if(error)throw new AuthFailure('Password could not be saved. Use a new, strong password.',400);
-   return respond({ok:true},sessionCookie(tokens(state.session),state.aal==='aal2'?completeUntil():state.until,false));
+   return respond({ok:true},sessionCookie(tokens(state.session),!secondFactorRequired(state.user)||state.aal==='aal2'?completeUntil():state.until,false));
   }
   if(state.needsPassword&&['enrol','backup'].includes(action))throw new AuthFailure('Set your account password first.',403);
   if(action==='enrol'){

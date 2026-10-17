@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState,type FormEvent} from 'react';
 import styles from './sign-in.module.css';
-type Status={signedIn:boolean;enforced?:boolean;canInvite?:boolean;email?:string;needsPassword?:boolean;complete?:boolean;factorId?:string};
+type Status={signedIn:boolean;enforced?:boolean;twoFactor?:boolean;canInvite?:boolean;email?:string;needsPassword?:boolean;complete?:boolean;factorId?:string};
 async function action(body:Record<string,unknown>){const response=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});const data=await response.json();if(!response.ok)throw Error(data.error||'Sign-in failed. Try again.');return data;}
 export default function SignIn(){
  const [status,setStatus]=useState<Status>({signedIn:false}),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -30,12 +30,12 @@ export default function SignIn(){
   <a className={styles.brand} href="/login">SZEKSPIR<span>PRIVATE WORKSPACE</span></a>
   <div className={styles.lock} aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div>
   <h1 id="sign-in-title">{status.complete?'You’re signed in':status.needsPassword?'Set your password':status.signedIn?'Two-factor authentication':'Welcome back'}</h1>
-  <p className={styles.intro}>{status.complete?(status.enforced?'Your account is protected with two-factor authentication.':'Your authenticator is verified. Workspace enforcement is pending activation.'):status.needsPassword?'Create a unique password for your personal account.':status.signedIn?'Use your authenticator app to finish signing in.':'Sign in with your personal account to open the workspace.'}</p>
+  <p className={styles.intro}>{status.complete?(status.twoFactor===false?'Signed in with your personal account.':status.enforced?'Your account is protected with two-factor authentication.':'Your authenticator is verified. Workspace enforcement is pending activation.'):status.needsPassword?'Create a unique password for your personal account.':status.signedIn?'Use your authenticator app to finish signing in.':'Sign in with your personal account to open the workspace.'}</p>
   {error&&<p role="alert" tabIndex={-1} ref={errorRef} className={styles.error}>{error}</p>}
   {loading?<p role="status">Checking your session…</p>:status.complete?<div className={styles.stack}>
    <p className={styles.identity}>{status.email}</p>
    <a className={styles.primary} href="/">Open workspace</a>
-   <button type="button" disabled={busy} onClick={()=>run(async()=>{const data=await action({action:'backup'});if(data.codes)setBackup(data.codes);else setBackupNotice(data.available?'Recovery codes have already been created. Keep your saved copy.':'Recovery codes are unavailable on this Auth server. Keep a secure backup of your authenticator. If you lose it, contact the workspace owner for identity-verified recovery.');})}>Save recovery codes</button>
+   {status.twoFactor!==false&&<button type="button" disabled={busy} onClick={()=>run(async()=>{const data=await action({action:'backup'});if(data.codes)setBackup(data.codes);else setBackupNotice(data.available?'Recovery codes have already been created. Keep your saved copy.':'Recovery codes are unavailable on this Auth server. Keep a secure backup of your authenticator. If you lose it, contact the workspace owner for identity-verified recovery.');})}>Save recovery codes</button>}
    {backup&&<div className={styles.backup}><p>Shown once. Store these codes privately. Each code works once.</p><pre>{backup.join('\n')}</pre><button type="button" onClick={()=>{const blob=new Blob([backup.join('\n')],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='szekspir-recovery-codes.txt';a.click();URL.revokeObjectURL(url);}}>Download codes</button><button type="button" onClick={()=>setBackup(null)}>I saved them — hide codes</button></div>}
    {backupNotice&&<p role="status" className={styles.notice}>{backupNotice}</p>}
   </div>:<form onSubmit={submit} className={styles.stack}>
@@ -52,6 +52,6 @@ export default function SignIn(){
   {status.canInvite&&!status.signedIn&&<button type="button" className={styles.link} disabled={busy||!email} onClick={()=>run(async()=>{const response=await fetch('/api/auth/invite',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email}),cache:'no-store'}),data=await response.json();if(!response.ok)throw Error(data.error||'Invitation failed.');setInviteNotice('Invitation sent. Open the email on this device to set your password and authenticator.');})}>First visit? Send your invitation</button>}
   {inviteNotice&&<p role="status" className={styles.notice}>{inviteNotice}</p>}
   {status.signedIn&&<button type="button" className={styles.link} disabled={busy} onClick={()=>run(async()=>{await action({action:'logout'});setStatus({signedIn:false});setQr('');setFactor('');setBackup(null);setCode('');setRecover(false);})}>Sign out</button>}
-  <p className={styles.footer}>Invite-only access. Sessions expire after 8 hours.</p>
+  <p className={styles.footer}>Invite-only access. This device stays signed in for 30 days, renewed while you use the workspace.</p>
  </section></main>;
 }
