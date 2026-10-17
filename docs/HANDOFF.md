@@ -6,6 +6,12 @@
 
 - Original-only replay skips IDs already loaded in the library, avoiding repeated Sheet calls. Explicit advanced recovery can untrash only the previously allocated Drive file carrying the matching szekspirNativeId tag; default remains refusal, mismatched files cannot be restored. Same bytes, file ID and parents are retained, with readback verification. Offline regressions cover opt-in and mismatched-tag refusal.
 
+## Antki automatic UK queue and Sheets load — 17 October 2026
+
+- Owner requested automatic UK text/image for the existing sixty Bryte adverts. Existing saved IDs now use one batch preparation endpoint with a single exact-row batch read, rather than reimporting and rediscovering every row. Per-ad durable work remains idempotent; completed/uncertain paid work is never automatically regenerated.
+- Queue deliveries reserve shared five-second slots. Known row hints use a fresh exact-row read with ID validation and full rediscovery only if rows moved. Source-change checks remain before processing and delivery. Safe pre-submission Sheets quota failures requeue after cooldown; unknown paid outcomes remain uncertain.
+- Original thumbnails use their durable allocated Drive ID without rediscovering Sheet rows per image. Library refresh slows to once per minute during active work. Offline tests verify no Sheets reads for indexed thumbnails, single-row reads, duplicate batch rejection, shared pacing and quota resumption without paid calls.
+
 ## Remembered sign-in and owner password-only access — 17 October 2026
 
 - Owner explicitly requested staying signed in and disabling their second-factor prompt. Completed sessions now last 30 days and roll forward at most daily during an existing provider-validated request; no timers or additional auth polling. Valid old eight-hour sessions migrate on use. Incomplete MFA and password/invitation setup retain their short deadlines; expired cookies remain invalid.

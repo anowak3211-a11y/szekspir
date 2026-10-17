@@ -31,12 +31,19 @@ export async function listNativeAds(){
  }
  return {ads,sheetUrl:l.sheetUrl};
 }
-export async function getNativeAd(id:string){
+export async function getNativeAd(id:string,rowHint?:number){
  if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid native ad ID.');
+ if(typeof rowHint==='number'&&Number.isSafeInteger(rowHint)&&rowHint>=2&&rowHint<=2000){const values=(await client().spreadsheets.values.get({spreadsheetId:spreadsheetId(),range:`'${NATIVE_TAB}'!A${rowHint}:AA${rowHint}`})).data.values?.[0]||[];if(values[0]===id)return nativeFromRow(values,rowHint,`https://docs.google.com/spreadsheets/d/${spreadsheetId()}/edit`);}
  const l=await library(),matches=l.rows.flatMap((r,i)=>r[0]===id?[i+1]:[]);
  if(matches.length!==1)throw Error(matches.length?'Duplicate native ad IDs in Sheet.':'Native ad not found.');
  const row=matches[0],values=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:AA${row}`})).data.values?.[0]||[];
  if(values[0]!==id)throw Error('Source rows changed while loading. Retry.');return nativeFromRow(values,row,l.sheetUrl);
+}
+export async function getNativeAds(ids:string[]){
+ if(!Array.isArray(ids)||!ids.length||ids.length>60||new Set(ids).size!==ids.length||ids.some(id=>typeof id!=='string'||!/^facebook_\d{5,30}$/.test(id)))throw Error('Choose 1–60 distinct saved adverts.');
+ const l=await library(),positions=ids.map(id=>{const matches=l.rows.flatMap((r,i)=>r[0]===id?[i+1]:[]);if(matches.length!==1)throw Error('Source is missing or duplicated.');return matches[0];});
+ const values=(await l.sheets.spreadsheets.values.batchGet({spreadsheetId:l.id,ranges:positions.map(row=>`'${NATIVE_TAB}'!A${row}:AA${row}`)})).data.valueRanges||[];
+ return ids.map((id,i)=>{const row=values[i]?.values?.[0]||[];if(row[0]!==id)throw Error('Source rows changed. Retry loading.');return nativeFromRow(row,positions[i],l.sheetUrl);});
 }
 async function createLibrary(l:Awaited<ReturnType<typeof library>>){
  const response=await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[{addSheet:{properties:{title:NATIVE_TAB,gridProperties:{rowCount:2000,columnCount:20,frozenRowCount:1,frozenColumnCount:2,hideGridlines:true}}}}]}});
@@ -85,7 +92,7 @@ export async function importNativeAds(input:unknown){
   return {results,sheetUrl:l.sheetUrl};
  });
 }
-export async function nativeImage(id:string){const ad=await getNativeAd(id);if(!/^[-\w]{10,100}$/.test(ad.driveFileId))throw Error('Missing saved image.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId:ad.driveFileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>12*1024*1024)throw Error('Saved image exceeds size limit.');return {buffer,...imageType(buffer)};}
+export async function nativeImage(id:string){if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid native ad ID.');const saved=(await readState<{fileId?:string}>(`native-image-${id}`,{})).value.fileId,driveFileId=saved||(await getNativeAd(id)).driveFileId;if(!/^[-\w]{10,100}$/.test(driveFileId))throw Error('Missing saved image.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId:driveFileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>12*1024*1024)throw Error('Saved image exceeds size limit.');return {buffer,...imageType(buffer)};}
 
 async function ensureWorkColumns(l:Awaited<ReturnType<typeof library>>){
  if(!l.tab)throw Error('Import a source before preparing it.');

@@ -8,7 +8,7 @@ assert.equal(model.faithfulChunk('We leave at 10:00 AM.','We leave at 10am.'),'W
 assert.throws(()=>model.faithfulChunk('We leave at 10:00 AM.','We leave at 10pm.'),/number, price or quantity/);
 assert.equal(model.localiseAntkiPurchaseLinks('Read https://pubmed.ncbi.nlm.nih.gov/123/\nhttps://mybloomwise.com/products/bloomwise-all-in-one-kids-daily-support-for-mind-mood-body'), 'Read https://pubmed.ncbi.nlm.nih.gov/123/\n'+model.ANTKI_MELLOW_SAFFRON_URL);assert.equal(model.localiseAntkiPurchaseLinks('https://mybloomwise.com/products/other'), 'https://mybloomwise.com/products/other');
 const state=new Map(),source={id:'facebook_1234567890123',primaryText:'My favorite color.\n\nMom lives in a neighborhood.',headline:'Favorite color',imageUrl:'https://medias.trendtrack.io/facebook/image/'+ 'a'.repeat(64)+'.jpg',driveFileId:'original-file-123',row:2};
-let imageExports=0,failImageExport=false;let exportCalls=0,failExport=false;let texts=0,images=0,polls=0,uploads=0,deliveries=0,failDelivery=false,failImage=false,sourceReads=0,rejectReview=false,rejectPerson=false,generatedIds=0;const scheduled=[],files=new Set();
+let failRead=false;const scheduledOptions=[];let imageExports=0,failImageExport=false;let exportCalls=0,failExport=false;let texts=0,images=0,polls=0,uploads=0,deliveries=0,failDelivery=false,failImage=false,sourceReads=0,rejectReview=false,rejectPerson=false,generatedIds=0;const scheduled=[],files=new Set();
 process.env.OPENAI_API_KEY='offline-test';process.env.KIE_API_KEY='offline-test';
 const drive={files:{generateIds:async()=>({data:{ids:['generated-image-file-'+(++generatedIds)]}}),get:async({fileId,alt})=>{if(alt)return {data:Buffer.from([137,80,78,71,13,10,26,10])};if(!files.has(fileId))throw Object.assign(Error('missing'),{code:404});return {data:{size:8}};},create:async({requestBody})=>{uploads++;files.add(requestBody.id);}},permissions:{list:async()=>({data:{permissions:[{type:'anyone'}]}})}};
 const real=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/antki-work.ts')){
@@ -17,14 +17,14 @@ const real=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/l
  if(n==='./antki-image-review')return {reviewAntkiImage:async()=>({personChanged:!rejectReview&&!rejectPerson,different:!rejectReview,realistic:true,congruent:true,change:rejectReview?'Near-identical copy.':'New camera angle.'})};
  if(n==='./store')return {readState:async(k,d)=>({value:structuredClone(state.has(k)?state.get(k):d)}),mutate:async(k,d,f)=>{const s=structuredClone(state.has(k)?state.get(k):d),out=f(s);state.set(k,s);return out;}};
  if(n==='./editor-locks')return {withEditorLocks:async(k,f)=>f()};
- if(n==='@vercel/queue')return {send:async(t,m,o)=>{scheduled.push(m.id);}};
- if(n==='./native-ads')return {getNativeAd:async()=>{sourceReads++;return structuredClone(source);},imageType:()=>({mime:'image/png',ext:'png'}),saveNativeWorkOutput:async(id,original,out)=>{deliveries++;assert.equal(original,source.primaryText);assert.match(out.text,/favourite/);if(failDelivery)throw Error('offline Sheet failure');}};
+ if(n==='@vercel/queue')return {send:async(t,m,o)=>{scheduled.push(m.id);scheduledOptions.push(o);}};
+ if(n==='./native-ads')return {getNativeAds:async()=>[structuredClone(source)],getNativeAd:async()=>{sourceReads++;if(failRead)throw Object.assign(Error('Quota exceeded'),{code:429});return structuredClone(source);},imageType:()=>({mime:'image/png',ext:'png'}),saveNativeWorkOutput:async(id,original,out)=>{deliveries++;assert.equal(original,source.primaryText);assert.match(out.text,/favourite/);if(failDelivery)throw Error('offline Sheet failure');}};
  if(n==='./drive-video')return {driveUploadTarget:async()=>({drive,folderId:'folder'})};
  if(n==='./safe-fetch')return {safeDownload:async()=>({buffer:Buffer.from([137,80,78,71,13,10,26,10])})};
  if(n==='./antki-providers')return {localiseAntkiChunk:async w=>{texts++;return {text:w.chunks[w.ukChunks.length].replace('favorite','favourite').replace('color','colour').replace('Mom','Mum'),headline:'Favourite colour'};},submitAntkiImage:async()=>{images++;if(failImage)throw Error('ambiguous timeout');return 'known-task';},pollAntkiImage:async()=>{polls++;return 'https://example.com/generated.png';}};
  }return real.call(this,n,p,i);};
 (async()=>{const service=require('../lib/antki-work.ts');
- await service.startAntkiWork(source.id);await service.startAntkiWork(source.id);assert.equal(texts,0);assert.equal(images,0);
+ await service.startAntkiWork(source.id);await service.startAntkiBatch([source.id]);assert(scheduledOptions[1].delaySeconds>=scheduledOptions[0].delaySeconds+4);failRead=true;await service.consumeAntki(source.id);assert.equal((await service.readAntkiWork(source.id)).status,'queued');assert.equal(texts,0);assert.equal(images,0);failRead=false;await service.startAntkiWork(source.id);assert.equal(texts,0);assert.equal(images,0);
  for(let i=0;i<6;i++)await service.consumeAntki(source.id);
  let w=await service.readAntkiWork(source.id);assert.equal(w.status,'ready');assert.equal(texts,1);assert.equal(images,1);assert.equal(uploads,1);assert.equal(w.sourceText,source.primaryText);assert.equal(deliveries,1);
  await service.startAntkiWork(source.id);await service.consumeAntki(source.id);assert.equal(texts,1);assert.equal(images,1);
