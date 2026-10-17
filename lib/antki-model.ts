@@ -19,9 +19,12 @@ export const ANTKI_MELLOW_SAFFRON_URL='https://try-mellow.co/products/mellow-hap
 // Owner's Mellow-only target-brand correction. Raw US sources and other
 // workspaces' target products are never passed through this adaptation.
 export function antkiTargetCopy(text:string,destination=ANTKI_MELLOW_SAFFRON_URL,targetName='Mellow Mood Munchies'){
- const linked=localiseAntkiPurchaseLinks(text,destination);
+ let linked=localiseAntkiPurchaseLinks(text,destination);
+ if(destination&&!linked.includes(destination)&&/\b(?:EDIT:\s*)?Here(?:['’]s|\s+is)\s+the\s+link\b/i.test(linked)){
+  linked=linked.replace(/(\b(?:EDIT:\s*)?Here(?:['’]s|\s+is)\s+the\s+link\b)(?:\s*[:.—-]\s*|\s*\.)?/i,`$1: ${destination}\n\n`);
+ }
  if(targetName!=='Mellow Mood Munchies')return linked;
- return linked.replace(/\b(?:Bryte(?:\s+Saffron)?|Mellow\s+Happy\s+Chews)\b/gi,'Mellow Mood Munchies');
+ return linked.replace(/\b(?:Bryte(?:\s+Saffron(?:\s+gummies)?)?|Mellow\s+Happy\s+Chews)\b/gi,'Mellow Mood Munchies');
 }
 export function localiseAntkiPurchaseLinks(text:string,destination=ANTKI_MELLOW_SAFFRON_URL){return text.replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,url=>{const suffix=url.match(/[),.;:!?}]+$/)?.[0]||'';return destination+suffix;});}
 export const protectedLinks=(text:string)=>text.match(/https?:\/\/[^\s]+/g)||[];
