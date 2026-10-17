@@ -1,0 +1,40 @@
+name: Szekspir checks
+on:
+  push:
+    branches: [main, 'collab/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:auth
+      - run: npm run test:meta
+      - name: Workspace isolation and Antki recovery
+        run: |
+          node tests/account-isolation.cjs
+          node tests/account-provision.cjs
+          node tests/account-brain.cjs
+          node tests/antki-diagnostics.cjs
+          node tests/antki-rewrite-facts.cjs
+          node tests/antki-work.cjs
+      - run: npm run build
