@@ -1,3 +1,9 @@
+## Neutral Antki copy alternative — 17 October 2026
+
+- Owner clarified the separate alternative precisely: a single-word headline (such as cat/dog) and one neutral Russian sentence, without product copy. Each prepared Antki editor now shows stable defaults immediately, with separate edit/save/copy controls below the unchanged three comparison cards. Defaults use a small deterministic pool, with no AI generation, new image, queue, polling or additional page-load API request.
+- Explicit save stores only neutralVersion with its own revision under the existing workspace-scoped work lock. Stale saves fail. Existing source, both UK versions, work revision, image, approval and Sheet delivery remain untouched; this alternative is not automatically exported or published. The label is a user-requested variant name, not a claim of platform approval or lower CPM.
+- Offline regressions cover all sixty stable default pairs, single-word/Russian-sentence validation, independent stale-write protection and zero provider/Sheet/queue side effects. Existing work/comparison regressions, typecheck and production build verify the change.
+
 ## Fewer Antki Sheet reads during delivery — 17 October 2026
 
 - Known source-row hints now validate fresh original headers, work headers, the current row and duplicate IDs in one formula-rendered batch read. Changed rows still rediscover safely; older libraries still initialise missing work columns. Normal delivery then writes only changed output and verifies readback. This replaces repeated metadata/header/source/formula reads and unconditional header writes, reducing an actual changed save from roughly eight Sheet calls to three (unchanged readback: two), without caching away source/header/manual-edit checks.

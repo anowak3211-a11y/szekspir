@@ -1,3 +1,4 @@
+import {validateAntkiNeutral} from './antki-neutral';
 import {assertBrain} from './account-brain';
 import {accountProduct} from './account-product';
 import {accountEnv,requiredAccountEnv} from './account-context';
@@ -234,3 +235,13 @@ export async function approveAntkiImage(id:string,revision:unknown){
 
 /** Explicit owner-requested batch: snapshot/rewrite once per rule version; retain finished photos and known tasks. */
 export async function refreshAntkiBatch(ids:string[]){const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];for(const ad of ads){try{const prior=await readAntkiWork(ad.id);if(!prior){const work=await startAntkiWork(ad.id,false,false,ad);results.push({id:ad.id,status:work.status});continue;}if(prior.pending||['queued','working'].includes(prior.status)){results.push({id:ad.id,status:'in-progress',error:prior.pending?'Previous paid request needs reconciliation.':undefined});continue;}if(prior.textRewrite&&prior.status==='failed'){await startAntkiWork(ad.id,true,false,ad,true);results.push({id:ad.id,status:'rewrite-queued'});continue;}if(prior.copywritingVersion!==ANTKI_COPYWRITING_VERSION||!prior.lastTextRewriteAt){await rewriteAntkiText(ad.id,prior.revision,true,ad);results.push({id:ad.id,status:'rewrite-queued'});}else if(!prior.imageDriveUrl||!prior.imageFileId){await startAntkiWork(ad.id,true,false,ad);results.push({id:ad.id,status:'image-queued'});}else results.push({id:ad.id,status:'already-current'});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}return results;}
+
+/** Save only the neutral alternative; existing copy, approval, media and delivery remain untouched. */
+export async function saveAntkiNeutral(id:string,text:unknown,headline:unknown,revision:unknown){
+ key(id);const draft=validateAntkiNeutral(text,headline);
+ return withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);if(!work)throw Error('Otwórz przygotowanego Antka przed zapisaniem wariantu.');
+  const previous=work.neutralVersion?.revision||0;if(revision!==previous)throw Error('Inna karta zmieniła ten wariant. Odśwież stronę przed zapisem.');
+  work.neutralVersion={...draft,revision:previous+1,updated:Date.now()};await persist(work);return work;
+ });
+}
