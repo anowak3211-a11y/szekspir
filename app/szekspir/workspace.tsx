@@ -1,4 +1,5 @@
 'use client';
+import {useAccountBrain,brainLabel} from '@/lib/use-account-brain';
 import {workspaceLocalStorage} from '@/lib/browser-workspace';
 import {editorNoteReady,notesForFile,type EditorNoteDraft} from '@/lib/file-editor-notes';
 import {voiceApprovalPending} from '@/lib/voice-approval';
@@ -55,6 +56,7 @@ function json(url:string,body?:unknown){
  return request;
 }
 export default function Szekspir({market='uk'}:{market?:Market}){
+ const accountBrain=useAccountBrain();
  const polish=market==='pl',basePath=marketPath(market),voiceKey=`szekspir-${market}-voice`;
  const language=polish?'polski':'British English';
  const [provider,setProvider]=useState('openai'),[model,setModel]=useState('gpt-6-sol');
@@ -262,7 +264,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  {!selected&&!polish&&<label>Product<select value={sheetProduct} onChange={e=>selectProduct(e.target.value as SheetProduct)}>{SHEET_PRODUCTS.map(name=><option key={name} value={name}>{sheetProductLabel(name)}</option>)}</select><small>Updates the copy reference and editor’s Product column.</small></label>}
  {!selected&&!polish&&<p><a href="/antki">Open Antki library →</a></p>}
  {(nativeSource&&!selected||job?.nativeAdId)&&<section className="vopanel native-source"><h2>Native image reference</h2><img src={`/api/native-ads/image?id=${encodeURIComponent(job?.nativeAdId||nativeSource!.id)}`} alt="Original native ad image saved in Drive"/><p>The original image stays linked to this primary text and is included in the editor’s media reference.</p><a href={job?.nativeImageDriveUrl||nativeSource?.driveUrl} target="_blank" rel="noopener noreferrer">Open saved image ↗</a>{nativeSource&&!selected&&<button type="button" onClick={()=>setNativeSource(null)}>Detach image</button>}</section>}
- {!selected&&<><div className="controls"><label>Engine<select value={provider} onChange={e=>{setProvider(e.target.value);setModel(e.target.value==='anthropic'?'claude-sonnet-5':e.target.value==='openai'?'gpt-6-sol':'');}}><option value="anthropic">Claude</option><option value="openai">OpenAI</option><option value="custom">Custom</option></select></label><label>Model<input list={provider==='openai'?'openai-models':undefined} value={model} onChange={e=>setModel(e.target.value)}/>{provider==='openai'&&<datalist id="openai-models"><option value="gpt-6-sol">GPT-6 Sol · Low effort</option><option value="gpt-4o">GPT-4o · Previous model</option></datalist>}</label><label>Copy reference<select value={productName} onChange={e=>{setProductName(e.target.value);setLocalizationMode('close');}}><option value="">{polish?'Orthomax StepMax · profil podstawowy':'Source-only localisation'}</option>{products.map(p=><option key={p.name} value={p.name}>{copyReferenceLabel(p.name)}</option>)}</select></label></div>
+ {!selected&&<><div className="controls">{accountBrain?<p>Mózg AI: <strong>{brainLabel(accountBrain)}</strong> · <a href="/profile">Zmień w profilu</a></p>:<><label>Engine<select value={provider} onChange={e=>{setProvider(e.target.value);setModel(e.target.value==='anthropic'?'claude-sonnet-5':e.target.value==='openai'?'gpt-6-sol':'');}}><option value="anthropic">Claude</option><option value="openai">OpenAI</option><option value="custom">Custom</option></select></label><label>Model<input list={provider==='openai'?'openai-models':undefined} value={model} onChange={e=>setModel(e.target.value)}/>{provider==='openai'&&<datalist id="openai-models"><option value="gpt-6-sol">GPT-6 Sol · Low effort</option><option value="gpt-4o">GPT-4o · Previous model</option></datalist>}</label></>}<label>Copy reference<select value={productName} onChange={e=>{setProductName(e.target.value);setLocalizationMode('close');}}><option value="">{polish?'Orthomax StepMax · profil podstawowy':'Source-only localisation'}</option>{products.map(p=><option key={p.name} value={p.name}>{copyReferenceLabel(p.name)}</option>)}</select></label></div>
  {inputMode==='media'&&<FileDrop files={files} onChange={selectFiles} onFileCheck={reportFileCheck} fileNotes={fileEditorNotes} onEditorNoteChange={updateFileNote}/>}
  {uploadBatches>0&&<p role="status">Uploading {uploadBatches} batch(es). You can add and start more files now. Keep this page open until uploads finish.</p>}
  <div className="workflow-options">
