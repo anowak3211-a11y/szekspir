@@ -1,0 +1,15 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+process.env.KIE_API_KEY='offline-test';let data,calls=0,responseCode=200;
+global.fetch=async()=>{calls++;return {ok:true,status:200,json:async()=>({code:responseCode,data})};};
+(async()=>{const {pollAntkiImage,submitAntkiImage}=require('../lib/antki-providers.ts');
+data={state:'fail',failCode:'500',failMsg:'Internal Error'};
+await assert.rejects(()=>pollAntkiImage('known-task'),e=>e.code==='antki_image_failed'&&/500.*Internal Error/.test(e.message));
+assert.equal(calls,1,'Polling a failed task must never submit another generation');
+data={state:'fail',failCode:400,failMsg:'x'.repeat(2000)};await assert.rejects(()=>pollAntkiImage('known-task'),e=>e.message.length<700);
+data={state:'generating'};assert.equal(await pollAntkiImage('known-task'),undefined);
+data={state:'success',resultJson:JSON.stringify({resultUrls:['https://example.com/result.png']})};assert.equal(await pollAntkiImage('known-task'),'https://example.com/result.png');
+responseCode=402;await assert.rejects(()=>submitAntkiImage({imagePrompt:'test',sourceImage:'https://example.com/input.png'}),e=>e.code==='antki_image_rejected'&&/credits/i.test(e.message));
+responseCode=500;await assert.rejects(()=>submitAntkiImage({imagePrompt:'test',sourceImage:'https://example.com/input.png'}),e=>e.code!=='antki_image_rejected');
+console.log('Antki provider error diagnostics passed');
+})().catch(e=>{console.error(e);process.exitCode=1;});

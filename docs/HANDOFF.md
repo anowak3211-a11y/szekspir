@@ -1,3 +1,9 @@
+## Antki Kie failure diagnostics and credit rejection — 17 October 2026
+
+- Kie task failures now retain the provider code and bounded message plus the failed task ID. No automatic paid retry was added. Known create-request rejections (400/401/402/422/429) clear the uncertain submission marker; transport errors and server errors retain it. Credit exhaustion is explicitly shown as insufficient Kie credits.
+- Legacy exact HTTP-200/body-402 image submissions are decoded as rejected on read without extra provider calls or writes. Offline tests reproduce lost failure details/ID and incorrectly uncertain credit rejection, then verify the fix, no extra generation and preserved ambiguous-outcome protection. Typecheck passes.
+- Live investigation found the original task failed with Kie 500 Internal Error and zero credits. The owner's requested one-ad image retry was rejected with 402; text remains saved. Completing that image requires funding the connected Kie account, not repeated submissions.
+
 ## Stable Antki numbers and explicit text rewrite — 17 October 2026
 
 - Owner requested rewriting facebook_3572186736282930 with the new copy layer and assigning every Antek its own number. A shared durable CAS registry allocates ANT-00001 style numbers once per source ID; library backfill follows current Sheet order. Sorting, row movement, filtering and repeated imports do not renumber IDs or reuse absent IDs' numbers. Known IDs are read without rewriting the registry. Numbers appear in library headings/search, workspace headings and browser titles; source IDs and ad copy headlines remain unchanged.

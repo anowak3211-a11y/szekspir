@@ -19,7 +19,7 @@ async function persist(work:AntkiWork){
 }
 export async function antkiWorkIndex(){return (await readState<Record<string,{status:string;phase:string}>>('antki-work-index',{})).value;}
 // A single record envelope supports atomic replacement through the existing CAS store.
-export async function readAntkiWork(id:string){return (await readState<{work?:AntkiWork}>(key(id)+'-record',{})).value.work||null;}
+export async function readAntkiWork(id:string){const work=(await readState<{work?:AntkiWork}>(key(id)+'-record',{})).value.work||null;if(work?.phase==='image'&&work.pending==='image'&&work.error==='Kie request failed (200/402).'){work.pending=undefined;work.status='failed';work.error='Kie: insufficient credits (402). Top up the connected Kie account before retrying.';}return work;}
 export async function scheduleAntki(id:string,delaySeconds=0,priority=false){const at=priority?Date.now()+delaySeconds*1000:await mutate<{next?:number},number>('antki-queue-pacing',{},s=>{const at=Math.max(Date.now()+delaySeconds*1000,s.next||0);s.next=at+5000;return at;});delaySeconds=Math.max(0,Math.ceil((at-Date.now())/1000));await send('szekspir-antki',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});}
 export async function startAntkiWork(id:string,retry=false,confirmUncertain=false,source?:SavedNativeAd){
  key(id);const result=await withEditorLocks(['antki-work-'+id],async()=>{
@@ -100,7 +100,7 @@ export async function consumeAntki(id:string){
     await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};if(work.textRewrite){const resume=work.textRewrite;work.phase=resume.status==='ready'?'done':resume.phase;work.status=resume.status;work.error=resume.error;work.lastTextRewriteAt=Date.now();work.textRewrite=undefined;}else{work.phase='done';work.status='ready';}
    }
    await persist(work);
-  }catch(e){if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if((e as {code?:string}).code==='antki_image_failed'){work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}
+  }catch(e){if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected','antki_image_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if((e as {code?:string}).code==='antki_image_failed'){work.failedImageTaskId=work.imageTaskId;work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}
  });
  if(delay!==undefined)await scheduleAntki(id,delay,priority);
 }
