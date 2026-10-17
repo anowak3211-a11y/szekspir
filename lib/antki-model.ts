@@ -46,8 +46,9 @@ const numberWordPattern=new RegExp('\\b(?:'+numberPhrases.map(p=>p.word.replace(
 // morning/evening when the source supplies neither.
 export function normaliseWrittenClockTimes(text:string){
  const hours='one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|[0-9]{1,2}';
- const pattern=new RegExp('\\b(half[ -]past[ -])?('+hours+')(?:[ -]+o[’\']clock)?[ -]+(in[ -]the[ -]morning|in[ -]the[ -]afternoon|in[ -]the[ -]evening|at[ -]night)\\b','gi');
- return text.replace(pattern,(_,half,hour,period)=>{const h=/^\d+$/.test(hour)?Number(hour):smallNumbers.indexOf(hour.toLowerCase());if(h<1||h>12)return _;const morning=/morning/i.test(period)||h===12&&/night/i.test(period);return `${h}${half?':30':''} ${morning?'am':'pm'}`;});
+ const pattern=new RegExp('\\b(half[ -](?:past[ -])?)?('+hours+')(?:[ -]+o[’\']clock)?[ -]+(in[ -]the[ -]morning|in[ -]the[ -]afternoon|in[ -]the[ -]evening|at[ -]night)\\b','gi');
+ const explicit=text.replace(pattern,(_,half,hour,period)=>{const h=/^\d+$/.test(hour)?Number(hour):smallNumbers.indexOf(hour.toLowerCase());if(h<1||h>12)return _;const morning=/morning/i.test(period)||h===12&&/night/i.test(period);return `${h}${half?':30':''} ${morning?'am':'pm'}`;});
+ return explicit.replace(new RegExp('\\bhalf[ -](?:past[ -])?('+hours+')\\b','gi'),(_,hour)=>`${/^\d+$/.test(hour)?Number(hour):smallNumbers.indexOf(hour.toLowerCase())}:30`);
 }
 /** Only confirmed target adaptations enter validation; original source stays intact. */
 export function antkiGenerationSource(source:string,targetName='Mellow Mood Munchies',destination=ANTKI_MELLOW_SAFFRON_URL){
@@ -61,7 +62,7 @@ export function rewriteFactualValues(text:string){
   // "the one I use" is a pronoun, not an added factual quantity.
   if(n===1&&!/^(?:[ -]+(?:hundred|thousand|million|billion|days?|weeks?|months?|years?|hours?|minutes?|seconds?|pathways?|systems?|teachers?|rooms?|people|person|problems?|pieces?|comments?|lessons?|detentions?|children|child|packs?|bottles?|gumm(?:y|ies)|nutrients?|ingredients?|mg|mcg|ml|grams?|pounds?|dollars?|per cent|percent)\b)/i.test(withoutUrls.slice(offset+word.length))&&!/\b(?:week|day|month|year|hour|minute|second)[ -]+$/i.test(withoutUrls.slice(0,offset)))return word;
   return String(n);
- }).replace(/\b(per cent|percent)\b/gi,'%');
+ }).replace(/\b(per cent|percent)\b/gi,'%').replace(/\b(\d+)[ -](dollars?|pounds?|euros?)\b/gi,(_,n,unit)=>(/^dollar/i.test(unit)?'$':/^pound/i.test(unit)?'£':'€')+n);
  for(let i=0;i<3;i++)numeric=numeric.replace(/\b(\d+)\s+(hundred|thousand|million|billion)\b/gi,(_,n,scale)=>String(Number(n)*({hundred:100,thousand:1000,million:1000000,billion:1000000000}[String(scale).toLowerCase()]||1)));
  return [...new Set(protectedNumbers(numeric).map(n=>n.toLowerCase().replace(/\s/g,'').replace(/:/g,'.')))].sort();
 }
