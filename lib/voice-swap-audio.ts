@@ -1,3 +1,5 @@
+import {currentWorkspace} from './account-context';
+import {accountEnv} from './account-context';
 import ffmpeg from 'ffmpeg-static';
 import {execFile,spawn} from 'node:child_process';
 import {Transform,type Readable} from 'node:stream';
@@ -12,8 +14,8 @@ const run=promisify(execFile);
 /** Remote FFmpeg inputs must be our stored MP4/MOV, never an arbitrary user URL or playlist. */
 export function storedSwapSource(value:string){
  const url=new URL(value),base=process.env.SUPABASE_URL;
- const supabase=base&&url.origin===new URL(base).origin&&url.pathname.startsWith('/storage/v1/object/public/szekspir-media/sources/');
- const blob=url.hostname.endsWith('.public.blob.vercel-storage.com')&&url.pathname.startsWith('/sources/');
+ const prefix=currentWorkspace()?'users/'+currentWorkspace()!.id+'/':'';const supabase=base&&url.origin===new URL(base).origin&&url.pathname.startsWith('/storage/v1/object/public/szekspir-media/'+prefix+'sources/');
+ const blob=url.hostname.endsWith('.public.blob.vercel-storage.com')&&url.pathname.startsWith('/'+prefix+'sources/');
  if(url.protocol!=='https:'||url.username||url.password||url.port||(!supabase&&!blob)||!/^\/.*\/source\.(mp4|mov)$/i.test(url.pathname))throw Error('Only the saved original video can be processed.');
  return url.href;
 }
@@ -54,7 +56,7 @@ export function readSwapStems(zip:Buffer){
  if(!result.background||!result.vocals)throw Error('Could not identify the instrumental and vocal stems. Separation is saved; do not submit it again.');return {background:result.background,vocals:result.vocals};
 }
 export async function requestSwapStems(audioPath:string){
- const key=process.env.ELEVENLABS_API_KEY;if(!key)throw Error('ElevenLabs is not configured.');
+ const key=accountEnv('ELEVENLABS_API_KEY');if(!key)throw Error('ElevenLabs is not configured.');
  const form=new FormData();form.set('file',new Blob([new Uint8Array(await readFile(audioPath))],{type:'audio/wav'}),'source.wav');form.set('stem_variation_id','two_stems_v1');
  // Never retry a paid request: a transport timeout has an unknown provider outcome.
  const r=await fetch('https://api.elevenlabs.io/v1/music/stem-separation?output_format=mp3_44100_128',{method:'POST',headers:{'xi-api-key':key},body:form,signal:AbortSignal.timeout(230000)});

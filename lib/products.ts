@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import { google } from "googleapis";
 import path from "path";
 import {productContext} from "./product-context";
@@ -21,7 +22,7 @@ function auth() {
 function api() {
   return google.sheets({ version: "v4", auth: auth() });
 }
-const SHEET = () => process.env.SPREADSHEET_ID!;
+const SHEET = () => accountEnv('SPREADSHEET_ID')!;
 
 export interface ProductFile {
   filename: string;

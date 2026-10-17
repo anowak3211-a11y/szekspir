@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import {google} from 'googleapis';
 import {Readable} from 'node:stream';
 import {sheetAuth} from './sheets';
@@ -13,7 +14,7 @@ export async function driveClient(){
  return {drive:google.drive({version:'v3',auth:sheetAuth()}),human:false};
 }
 export async function driveUploadTarget(){
- const folderId=process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID;
+ const folderId=accountEnv('GOOGLE_DRIVE_VIDEO_FOLDER_ID');
  if(!folderId||!/^[-\w]+$/.test(folderId))throw Error('Google Drive is not connected yet. Configure the video folder before choosing Send to Drive.');
  const {drive,human}=await driveClient();const {data:folder}=await drive.files.get({fileId:folderId,supportsAllDrives:true,fields:'id,mimeType,driveId,capabilities(canAddChildren)'},{timeout:15000,retry:false});
  if(folder.mimeType!=='application/vnd.google-apps.folder'||!folder.capabilities?.canAddChildren)throw Error('The app cannot upload to the selected Google Drive folder.');

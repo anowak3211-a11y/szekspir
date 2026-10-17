@@ -8,15 +8,15 @@ os.environ["HOME"] = "/tmp"
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from http.server import BaseHTTPRequestHandler
-from api.security import authorised, download_public
+from api.security import authorised, vmake_keys, download_public
 
 
-def _status(task_id: str):
+def _status(task_id: str, credentials=None):
     """One status check, no sleeping. Returns done/processing/failed dict."""
     from sdk.core.client import SkillClient
     from sdk.core import api as vapi
 
-    client = SkillClient(ak=os.environ["MT_AK"], sk=os.environ["MT_SK"])
+    client = SkillClient(ak=(credentials or (os.environ["MT_AK"], os.environ["MT_SK"]))[0], sk=(credentials or (os.environ["MT_AK"], os.environ["MT_SK"]))[1])
     policy = dict(client.api.getAiStrategy())
     # Keep the legacy query/signing path; three read attempts must fit the 60s function.
     policy["sync_timeout"] = 5
@@ -72,10 +72,11 @@ class handler(BaseHTTPRequestHandler):
             if task_id == "capabilities":
                 from sdk.core.client import SkillClient
                 from sdk.core.config import INVOKE
-                client = SkillClient(ak=os.environ["MT_AK"], sk=os.environ["MT_SK"])
+                ak, sk = vmake_keys(self.headers)
+                client = SkillClient(ak=ak, sk=sk)
                 result = {"presets": {k: {"task": v.get("task"), "params": v.get("params")} for k, v in INVOKE.items() if any(t in k.lower() for t in ["clear", "eras", "remov", "smart", "hdvideo", "enhanc", "upscale"])}}
             else:
-                result = _status(task_id)
+                result = _status(task_id, vmake_keys(self.headers))
             code = 200
         except Exception as e:  # noqa: BLE001
             result = {"error": str(e)[:500]}

@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {google,sheets_v4,drive_v3} from 'googleapis';
 import {createHash,randomUUID} from 'node:crypto';
 import {sheetAuth} from './sheets';
@@ -6,7 +8,7 @@ import {readState,mutate} from './store';
 import {compareVideoSize,readMp4Size,VideoMeasurement} from './video-quality';
 
 type Cell=sheets_v4.Schema$CellData;
-type Workspace=typeof EDITOR_WORKSPACES[number];
+type Workspace=import('./account-context').EmployeeWorkspace;
 export type QualityResult={adId:string;editor:string;editorId:string;field:string;row:number;col:number;sheetUrl:string;status:'low'|'pass'|'unknown';message:string;files:VideoMeasurement[];reference?:VideoMeasurement;checkedAt:number;fingerprint:string};
 type QualityState={results:QualityResult[];checkedAt?:number;error?:string;lease?:string;until?:number};
 const empty=():QualityState=>({results:[]});
@@ -148,13 +150,13 @@ export async function scanVideoQuality(){
   }catch(e){await mutate<QualityState,void>(name,empty(),s=>{if(s.lease!==token)return;s.error=(e as Error).message;s.lease=undefined;s.until=undefined;});}
  };
  // Two workspaces at a time keeps Drive / Sheets calls within quotas.
- for(let i=0;i<EDITOR_WORKSPACES.length;i+=2)await Promise.all(EDITOR_WORKSPACES.slice(i,i+2).map(scan));
+ for(let i=0;i<accountEditors().length;i+=2)await Promise.all(accountEditors().slice(i,i+2).map(scan));
  const summary=await qualitySummary();
- const adminId=process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+ const adminId=accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
  await applyQualityMarks(sheets,adminId,'Daily Briefs',summary.results,false);
  return summary;
 }
 export async function qualitySummary(){
- const states=await Promise.all(EDITOR_WORKSPACES.map(async w=>({workspace:w,...(await readState<QualityState>(stateName(w.id),empty())).value})));
+ const states=await Promise.all(accountEditors().map(async w=>({workspace:w,...(await readState<QualityState>(stateName(w.id),empty())).value})));
  return {threshold:30,metric:'pixel-count',results:states.flatMap(s=>s.results),checks:states.map(s=>({editor:s.workspace.name,checkedAt:s.checkedAt||null,error:s.error||null})),checkedAt:Math.min(...states.map(s=>s.checkedAt||0))||null};
 }

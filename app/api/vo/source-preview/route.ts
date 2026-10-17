@@ -1,3 +1,4 @@
+import {accountRoute} from '@/lib/account-route';
 import {createHash} from 'node:crypto';
 import {getJob} from '@/lib/jobs';
 import {generateVO} from '@/lib/elevenlabs';
@@ -9,7 +10,7 @@ import type {VoiceTiming} from '@/lib/vo-cleanup';
 export const maxDuration=300;
 type Sample={url:string;original:string;text:string;seconds:number;targetSeconds?:number;speed:number;variant:'source'|'storytelling';paceAdjustment?:VoiceTiming['paceAdjustment']};
 type State={started?:boolean;sample?:Sample};
-export async function POST(req:Request){try{
+async function accountPOST(req:Request){try{
  const b=await req.json();if(typeof b.id!=='string'||typeof b.voiceId!=='string'||typeof b.script!=='string'||b.script.length>20000)throw Error('Choose a saved script and voice.');
  const job=await getJob(b.id);if(!job?.result||job.abortedAt||job.cancelledAt)throw Error('Saved job unavailable.');
  if(b.variant==='faster')throw Error('Eleven v4 does not support the faster-delivery preview. Use the natural v4 preview.');
@@ -32,3 +33,5 @@ export async function POST(req:Request){try{
  const sample:Sample={url,original,text,seconds:timing.trimmedSeconds,...(samplePace?{targetSeconds:samplePace.targetSeconds}:{}),speed:1,variant,...(timing.paceAdjustment?{paceAdjustment:timing.paceAdjustment}:{})};
  await mutate<State,void>(stateKey,{},s=>{s.sample=sample;});return Response.json(sample);
 }catch(e){return Response.json({error:(e as Error).message},{status:400});}}
+
+export const POST=accountRoute(accountPOST);

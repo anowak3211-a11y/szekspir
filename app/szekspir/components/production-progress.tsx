@@ -1,4 +1,5 @@
 'use client';
+import {workspaceLocalStorage} from '@/lib/browser-workspace';
 import {useEffect,useRef,useState} from 'react';
 import {voiceApprovalPending} from '@/lib/voice-approval';
 import AdVideoPreview from './ad-video-preview';
@@ -9,11 +10,11 @@ export default function ProductionProgress({job,upload,lastChecked}:{job?:Job;up
  const [now,setNow]=useState(Date.now()),[sound,setSound]=useState(true),[soundError,setSoundError]=useState('');
  const audio=useRef<AudioContext|null>(null),previous=useRef<string|null>(null);
  useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(timer);},[]);
- useEffect(()=>{try{setSound(localStorage.getItem('szekspir-completion-sound')!=='off');}catch{}return()=>{void audio.current?.close();};},[]);
+ useEffect(()=>{try{setSound(workspaceLocalStorage.getItem('szekspir-completion-sound')!=='off');}catch{}return()=>{void audio.current?.close();};},[]);
  async function enableAudio(){try{audio.current??=new AudioContext();await audio.current.resume();if(audio.current.state==='running')setSoundError('');}catch{setSoundError('Click the sound button to enable audio in this browser.');}}
  useEffect(()=>{if(!sound)return;void enableAudio();const unlock=()=>{void enableAudio();};window.addEventListener('pointerdown',unlock);window.addEventListener('keydown',unlock);return()=>{window.removeEventListener('pointerdown',unlock);window.removeEventListener('keydown',unlock);};},[sound]);
  function chime(){const ctx=audio.current;if(!ctx||ctx.state!=='running'){setSoundError('Sound was blocked by the browser. Click the sound button to enable audio.');return;}[659,880].forEach((hz,i)=>{const o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime+i*.2;o.frequency.value=hz;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.36);});}
- async function toggle(){if(soundError){await enableAudio();return;}const next=!sound;setSound(next);try{localStorage.setItem('szekspir-completion-sound',next?'on':'off');}catch{}if(next)await enableAudio();}
+ async function toggle(){if(soundError){await enableAudio();return;}const next=!sound;setSound(next);try{workspaceLocalStorage.setItem('szekspir-completion-sound',next?'on':'off');}catch{}if(next)await enableAudio();}
  const completion=job?.step==='done'&&job.status!=='Aborted'?`${job.id}:${job.completedAt||job.revision||0}`:'';
  useEffect(()=>{if(previous.current!==null&&completion&&completion!==previous.current&&sound){chime();}previous.current=completion;},[completion,sound]);
  const totalStart=job?.startedAt||upload?.startedAt||job?.created;

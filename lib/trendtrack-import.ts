@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import {createHash} from 'node:crypto';
 import {mutate,readState} from './store';
 import {parseNativeExport,type NativeAd} from './native-ad-model';
@@ -17,7 +18,7 @@ export function trendtrackScope(value:unknown):Scope{
  if(parent==='brandtrackers'&&last&&uuid.test(last))return {kind:'brandtracker',id:last.toLowerCase()};
  throw Error('Otwórz konkretny sklep i skopiuj jego link, np. brandtracker?shop=…');
 }
-async function key(){return process.env.TRENDTRACK_API_KEY||(await readState<{apiKey?:string}>('trendtrack-connection',{})).value.apiKey;}
+async function key(){return accountEnv('TRENDTRACK_API_KEY')||(await readState<{apiKey?:string}>('trendtrack-connection',{})).value.apiKey;}
 export async function trendtrackConnected(){return !!await key();}
 async function request(apiKey:string,path:string,body?:unknown){
  let response:Response;try{response=await fetch(BASE+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${apiKey}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),redirect:'error',cache:'no-store',signal:AbortSignal.timeout(60000)});}catch{throw Error('Trendtrack nie potwierdził odpowiedzi. Nie ponawiamy automatycznie płatnego pobrania.');}

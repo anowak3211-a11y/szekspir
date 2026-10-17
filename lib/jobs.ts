@@ -1,3 +1,6 @@
+import {currentWorkspace} from './account-context';
+import {accountVmakeHeaders} from './account-vmake';
+import {accountEditors} from './account-editors';
 import {canonicalMellowSaffronName,isMellowSaffronTarget} from './mellow-saffron-brand';
 import {findScriptDuplicates,duplicateScriptMessage,type ScriptDuplicate} from './script-dedup';
 import {withEditorLocks} from './editor-locks';
@@ -54,11 +57,12 @@ export async function createJob(input:Partial<Job>){
  if(text.length>100000)throw new Error('Script is too long');
  if(input.vmakeMode&&!['enhance','remove','both','combo'].includes(input.vmakeMode))throw Error('Invalid VMake mode');
  if(input.videoDestination&&!['vmake','drive','none'].includes(input.videoDestination))throw Error('Invalid video destination');
- if(input.editorId!==undefined&&!EDITOR_WORKSPACES.some(e=>e.id===input.editorId))throw Error('Unknown editor');
+ if(input.editorId!==undefined&&!accountEditors().some(e=>e.id===input.editorId))throw Error('Unknown editor');
  const old=await getJob(input.id);if(old&&parseMarket(old.market)!==market)throw Error('Job already exists for a different market.');if(old){await register(old.id);return old;}
  if(!['anthropic','openai','custom'].includes(input.provider||''))throw new Error('Invalid provider');
  
  if(input.sourceUrl)new URL(input.sourceUrl);
+ if(currentWorkspace()&&!input.productName)throw Error('Wybierz własny produkt i dodaj jego dokumenty w Product briefs.');
  const product=input.productName?(await getProducts()).find(p=>p.name===input.productName):undefined;
  if(input.productName&&!product)throw new Error('Product not found');
  const context=product?.markdown||'';
@@ -110,7 +114,7 @@ export async function pythonCall(path:string,body?:unknown){
  const statusOnly=!body&&path.startsWith('/api/vmake_status?');
  const unavailable=()=>({done:false,status_unavailable:true,message:'VMake status check unavailable. Retaining the saved task.'});
  let r:Response;
- try{r=await fetch(origin+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:process.env.APP_AUTH_MODE==='supabase-mfa'?`Bearer ${process.env.CRON_SECRET||''}`:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(statusOnly?75000:240000)});}catch(e){if(statusOnly&&['TimeoutError','AbortError','TypeError'].includes((e as Error).name))return unavailable();throw e;}
+ try{r=await fetch(origin+path,{method:body?'POST':'GET',headers:{...accountVmakeHeaders(),'Content-Type':'application/json',Authorization:process.env.APP_AUTH_MODE==='supabase-mfa'?`Bearer ${process.env.CRON_SECRET||''}`:`Basic ${Buffer.from(':'+process.env.APP_PASSWORD).toString('base64')}`},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(statusOnly?75000:240000)});}catch(e){if(statusOnly&&['TimeoutError','AbortError','TypeError'].includes((e as Error).name))return unavailable();throw e;}
  if(!r.headers.get('content-type')?.includes('application/json')){if(statusOnly&&[408,429,500,502,503,504].includes(r.status)){await r.body?.cancel();return unavailable();}throw new Error(`VMake endpoint HTTP ${r.status}: non-JSON response`);}
  let data;try{data=await r.json();}catch(e){if(statusOnly)return unavailable();throw e;}
  if(!r.ok||data.error){const error=Object.assign(new Error(data.error||`VMake HTTP ${r.status}`),{safeToRetry:data.safe_to_retry===true});throw error;}return data;
@@ -193,7 +197,7 @@ export async function finalise(url:string,id:string){
 }
 // Durable platform messages replace recursive HTTP handoffs.
 export async function scheduleJob(id:string,delaySeconds=0){
- const {send}=await import('@vercel/queue');
+ const {send}=await import('./account-queue');
  await send('szekspir-jobs',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});
 }
 export async function workQueue(){

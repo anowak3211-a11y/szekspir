@@ -1,3 +1,4 @@
+import {accountStateName} from './account-context';
 import {databaseStateVersion,readDatabaseState,readDatabaseStates,writeDatabaseState} from './supabase-state';
 import {get,put} from '@vercel/blob';
 import {createCipheriv,createDecipheriv,createHash,randomBytes} from 'node:crypto';
@@ -7,14 +8,14 @@ function key(){const secret=process.env.JOB_ENCRYPTION_KEY||process.env.BLOB_REA
 function seal(value:unknown){const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',key(),iv);return Buffer.concat([iv,cipher.update(JSON.stringify(value)),cipher.final(),cipher.getAuthTag()]);}
 function open(buf:Buffer){const decipher=createDecipheriv('aes-256-gcm',key(),buf.subarray(0,12));decipher.setAuthTag(buf.subarray(-16));return JSON.parse(Buffer.concat([decipher.update(buf.subarray(12,-16)),decipher.final()]).toString());}
 export async function readState<T>(name:string,fallback:T):Promise<{value:T;etag?:string}>{
- if(backend()==='supabase'){const row=await readDatabaseState(name);return row?{value:open(Buffer.from(row.payload,'base64')) as T,etag:row.version}:{value:fallback};}
+ name=accountStateName(name);if(backend()==='supabase'){const row=await readDatabaseState(name);return row?{value:open(Buffer.from(row.payload,'base64')) as T,etag:row.version}:{value:fallback};}
  const blob=await get(`state-v2/${name}.bin`,{access:'private',token:stateToken(),useCache:false});
  if(!blob)return {value:fallback};
  if(blob.statusCode!==200)throw new Error('Unexpected storage response');
  return {value:open(Buffer.from(await new Response(blob.stream).arrayBuffer())) as T,etag:blob.blob.etag.replace(/^W\//,'')};
 }
 export async function writeState<T>(name:string,value:T,etag?:string){
- if(process.env.STATE_MAINTENANCE==='1')throw Error('Storage migration in progress; please try again shortly');
+ name=accountStateName(name);if(process.env.STATE_MAINTENANCE==='1')throw Error('Storage migration in progress; please try again shortly');
  if(backend()==='supabase')return writeDatabaseState(name,seal(value).toString('base64'),etag);
  return put(`state-v2/${name}.bin`,seal(value),{access:'private',token:stateToken(),addRandomSuffix:false,contentType:'application/octet-stream',cacheControlMaxAge:0,...(etag?{ifMatch:etag}:{allowOverwrite:false})});
 }
@@ -33,7 +34,7 @@ export async function mutate<T,R>(name:string,fallback:T,fn:(state:T)=>R):Promis
 export async function readStates<T>(names:string[],fallback:T):Promise<T[]>{
  if(backend()!=='supabase'){const results:T[]=Array(names.length);let cursor=0;await Promise.all(Array.from({length:Math.min(6,names.length)},async()=>{for(let i;(i=cursor++)<names.length;)results[i]=(await readState(names[i],fallback)).value;}));return results;}
  const results:T[]=Array(names.length);let cursor=0;
- await Promise.all(Array.from({length:Math.min(2,Math.ceil(names.length/20))},async()=>{for(let start;(start=cursor)<names.length;){cursor+=20;const batch=names.slice(start,start+20),rows=await readDatabaseStates(batch);for(let i=0;i<batch.length;i++){const row=rows.get(batch[i]);results[start+i]=row?open(Buffer.from(row.payload,'base64')) as T:fallback;}}}));return results;
+ await Promise.all(Array.from({length:Math.min(2,Math.ceil(names.length/20))},async()=>{for(let start;(start=cursor)<names.length;){cursor+=20;const batch=names.slice(start,start+20).map(accountStateName),rows=await readDatabaseStates(batch);for(let i=0;i<batch.length;i++){const row=rows.get(batch[i]);results[start+i]=row?open(Buffer.from(row.payload,'base64')) as T:fallback;}}}));return results;
 }
 
-export async function stateVersion(name:string){return backend()==='supabase'?databaseStateVersion(name):undefined;}
+export async function stateVersion(name:string){return backend()==='supabase'?databaseStateVersion(accountStateName(name)):undefined;}

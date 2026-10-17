@@ -21,7 +21,7 @@ export async function uploadMedia(path:string,file:File|Blob,onProgress?:(percen
  if(target.backend==='blob'){
   const controller=new AbortController();let lastProgress=Date.now(),lastPercentage=-1,stalled=false;
   const timer=setInterval(()=>{if(Date.now()-lastProgress>=UPLOAD_IDLE_MS){stalled=true;controller.abort();}},10000);
-  try{return await blobUpload(path,file,{access:'public',handleUploadUrl:'/api/upload',multipart:true,abortSignal:controller.signal,onUploadProgress:({percentage})=>{if(percentage>lastPercentage){lastPercentage=percentage;lastProgress=Date.now();onProgress?.(percentage);}}});}
+  try{return await blobUpload(target.path||path,file,{access:'public',handleUploadUrl:'/api/upload',multipart:true,abortSignal:controller.signal,onUploadProgress:({percentage})=>{if(percentage>lastPercentage){lastPercentage=percentage;lastProgress=Date.now();onProgress?.(percentage);}}});}
   catch(error){if(stalled)throw Error(idleMessage);throw error;}finally{clearInterval(timer);}
  }
  if(target.backend!=='supabase')throw Error('Invalid upload configuration');

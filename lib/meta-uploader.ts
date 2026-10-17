@@ -1,5 +1,5 @@
 import {randomUUID,createHash} from 'node:crypto';
-import {send} from '@vercel/queue';
+import {send} from './account-queue';
 import {mutate,readState} from './store';
 import {graph,graphList,assertUploadTarget,MetaError,cachedMetaResource} from './meta-client';
 import {MetaBudgetWait} from './meta-rate-limit';

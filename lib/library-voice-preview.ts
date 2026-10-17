@@ -1,3 +1,4 @@
+import {accountCacheKey} from './account-context';
 import {getVoice} from './elevenlabs';
 import {safeDownload} from './safe-fetch';
 
@@ -8,13 +9,13 @@ const TTL=5*60*1000,MAX_SAMPLES=8;
 
 // Bytes from a saved library sample only. Never fall back to paid text-to-speech.
 export function libraryVoicePreview(voiceId:string):Promise<Sample>{
- const prior=samples.get(voiceId);
+ const prior=samples.get(accountCacheKey(voiceId));
  if(prior&&prior.until>Date.now())return prior.value;
  for(const [id,item] of samples)if(item.until<=Date.now())samples.delete(id);
  if(samples.size>=MAX_SAMPLES)samples.delete(samples.keys().next().value!);
  const value=downloadLibraryVoicePreview(voiceId);
- samples.set(voiceId,{until:Date.now()+TTL,value});
- void value.catch(()=>{if(samples.get(voiceId)?.value===value)samples.delete(voiceId);});
+ samples.set(accountCacheKey(voiceId),{until:Date.now()+TTL,value});
+ void value.catch(()=>{if(samples.get(accountCacheKey(voiceId))?.value===value)samples.delete(accountCacheKey(voiceId));});
  return value;
 }
 async function downloadLibraryVoicePreview(voiceId:string):Promise<Sample>{

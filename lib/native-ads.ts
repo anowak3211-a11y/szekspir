@@ -1,3 +1,4 @@
+import {accountEnv,accountDefault} from './account-context';
 import {antkiNumbers} from './antki-numbers';
 import {google} from 'googleapis';
 import {Readable} from 'node:stream';
@@ -7,7 +8,7 @@ import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {mutate,readState} from './store';
 import {NATIVE_TAB,NATIVE_HEADERS,NATIVE_WORK_HEADERS,characterCount,nativeRow,nativeFromRow,parseNativeExport,type NativeAd} from './native-ad-model';
-const spreadsheetId=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+const spreadsheetId=()=>accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
 const client=()=>google.sheets({version:'v4',auth:sheetAuth()});
 async function library(){
  const sheets=client(),id=spreadsheetId();

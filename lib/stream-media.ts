@@ -1,3 +1,4 @@
+import {accountMediaPath} from './account-context';
 import {lookup} from 'node:dns/promises';
 import https from 'node:https';
 import http from 'node:http';
@@ -14,7 +15,7 @@ export async function openVideoStream(input:string,hops=0,deadline=Date.now()+23
  if(r.statusCode!==200||Number(r.headers['content-length']||0)>MEDIA_LIMIT){r.destroy();fail(Error('Video download failed or exceeds the 2 GB limit'));return;}clearTimeout(timer);resolve(r);});timer=setTimeout(()=>{const e=Error('Video headers timed out');req.destroy(e);fail(e);},Math.max(1,Math.min(30000,deadline-Date.now())));req.setTimeout(30000,()=>req.destroy(Error('Video transfer stalled')));req.on('error',fail);});
 }
 export async function storeVideoStream(url:string,id:string){
- if(!/^[\w-]{8,100}$/.test(id))throw Error('Invalid video ID');const path=`clean/${id}.mp4`,prior=await existingMedia(path);if(prior)return prior;
+ if(!/^[\w-]{8,100}$/.test(id))throw Error('Invalid video ID');const path=accountMediaPath(`clean/${id}.mp4`),prior=await existingMedia(path);if(prior)return prior;
  const deadline=Date.now()+230000,response=await openVideoStream(url,0,deadline);let total=0,first=true;
  const body=Readable.from((async function*(){for await(const piece of response){const b=Buffer.from(piece);if(first){first=false;if(!/^video\//.test(String(response.headers['content-type']))&&!b.subarray(4,12).includes(Buffer.from('ftyp')))throw Error('Output is not a video');}total+=b.length;if(total>MEDIA_LIMIT)throw Error('Video exceeds the 2 GB limit');yield b;}if(!total)throw Error('Empty video');})());
  const origin=process.env.SUPABASE_URL!,key=process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY;if(!origin||!key){response.destroy();throw Error('Storage is not configured');}

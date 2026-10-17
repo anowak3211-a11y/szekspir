@@ -1,3 +1,4 @@
+import {accountEnv,accountDefault} from './account-context';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {withEditorLocks} from './editor-locks';
@@ -15,7 +16,7 @@ export function approvedAntkiRow(work:AntkiWork,ad:SavedNativeAd){
 }
 export async function exportApprovedAntki(work:AntkiWork,ad:SavedNativeAd){
  return withEditorLocks(['antki-upload-sheet'],async()=>{
-  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
   const meta=(await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'})).data.sheets||[];
   let tab=meta.find(s=>s.properties?.title===ANTKI_UPLOAD_TAB)?.properties;
   if(!tab){

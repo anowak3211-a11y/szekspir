@@ -1,3 +1,4 @@
+import {memberWorkspace} from './account-repository';
 /** Server-only identity/MFA gateway. Provider tokens never enter browser storage. */
 import {createCipheriv,createDecipheriv,createHash,randomBytes} from 'node:crypto';
 import {createClient, type Session, type User} from '@supabase/supabase-js';
@@ -38,7 +39,7 @@ export function readSession(cookie:string|null):AppSession|null{
 export function sessionCookie(tokens:Tokens,until:number,needsPassword=false){return `${process.env.NODE_ENV==='production'?AUTH_COOKIE:DEV_COOKIE}=${sealSession(tokens,until,needsPassword)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${Math.max(0,Math.floor((until-Date.now())/1000))}${process.env.NODE_ENV==='production'?'; Secure':''}`;}
 export function clearSessionCookie(){return `${process.env.NODE_ENV==='production'?AUTH_COOKIE:DEV_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`;}
 export function tokenClaims(token:string){try{return JSON.parse(Buffer.from(token.split('.')[1],'base64url').toString()) as {sub?:string;aal?:string;exp?:number};}catch{return {};}}
-function assertUser(user:User|null){if(!user?.id||!user.email_confirmed_at||user.is_anonymous||!allowedEmail(user.email))throw new AuthFailure();return user;}
+async function assertUser(user:User|null){if(!user?.id||!user.email_confirmed_at||user.is_anonymous||!(await canSignIn(user.email)))throw new AuthFailure();return user;}
 export function hasMfa(user:User){return (user.factors||[]).some(f=>f.status==='verified'&&['totp','webauthn','phone'].includes(f.factor_type));}
 export async function checkedSession(cookie:string|null,requireMfa=true){
  const saved=readSession(cookie);if(!saved)throw new AuthFailure();
@@ -46,7 +47,7 @@ export async function checkedSession(cookie:string|null,requireMfa=true){
  // setSession validates the access token with Auth, and refreshes expired tokens.
  const {data,error}=await client.auth.setSession(saved);
  if(error||!data.session)throw new AuthFailure();
- const user=assertUser(data.user),session=data.session,claims=tokenClaims(session.access_token);
+ const user=await assertUser(data.user),session=data.session,claims=tokenClaims(session.access_token);
  // Claims are inspected only after provider validation of this exact token.
  if(claims.sub!==user.id||!claims.exp||claims.exp*1000<=Date.now())throw new AuthFailure();
  const requiresSecondFactor=secondFactorRequired(user);
@@ -57,9 +58,9 @@ export async function checkedSession(cookie:string|null,requireMfa=true){
  return {client,user,session,until,complete,requiresSecondFactor,aal:claims.aal,needsPassword:!!saved.needsPassword,changed:until!==saved.until||session.access_token!==saved.access_token||session.refresh_token!==saved.refresh_token};
 }
 export async function signIn(email:string,password:string){
- if(!allowedEmail(email))throw new AuthFailure('Email or password is incorrect.');
+ if(!(await canSignIn(email)))throw new AuthFailure('Email or password is incorrect.');
  const {data,error}=await authClient().auth.signInWithPassword({email,password});
- if(error||!data.session)throw new AuthFailure('Email or password is incorrect.');assertUser(data.user);return data.session;
+ if(error||!data.session)throw new AuthFailure('Email or password is incorrect.');await assertUser(data.user);return data.session;
 }
 /** Distributed bounded attempts; fail closed if the shared private store is unavailable. */
 export async function authAttempt(bucket:string,limit:number,windowMs=15*60*1000){
@@ -70,3 +71,5 @@ export async function authAttempt(bucket:string,limit:number,windowMs=15*60*1000
 export function requestBucket(request:Request){return process.env.VERCEL?request.headers.get('x-vercel-forwarded-for')||'unknown':'local';}
 export function completeUntil(){return Date.now()+SESSION_MS;}
 export function tokens(session:Session|Tokens):Tokens{return {access_token:session.access_token,refresh_token:session.refresh_token};}
+
+export async function canSignIn(email:string|undefined){if(allowedEmail(email))return true;try{return !!(email&&(await memberWorkspace(email))?.state==='ready');}catch{return false;}}

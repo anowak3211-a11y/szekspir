@@ -2,7 +2,7 @@ const fs=require('node:fs'),ts=require('typescript'),assert=require('node:assert
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
 const states=new Map();let image,providerCalls=0,lastRequest,fail=false,gate,providerResult;
 const expected={primaryText:'A simple berry routine with saffron.',headline:'Meet the berry gummies',description:'Discover the daily routine.',imageText:'Berry gummies with saffron',reviewNotes:[]};
-const original=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/meta-image-copy.ts')){
+const original=Module._load;Module._load=function(n,p,i){if((p?.filename.endsWith('/lib/meta-image-copy.ts')||p?.filename.endsWith('/lib/account-brain.ts'))){
  if(n==='openai')return class{constructor(options){assert.equal(options.maxRetries,0);}chat={completions:{create:async request=>{providerCalls++;lastRequest=request;if(gate)await gate;if(fail)throw Error('Provider outcome unknown');return {choices:[{finish_reason:'stop',message:{content:JSON.stringify(providerResult||expected)}}]};}}};};
  if(n==='./safe-fetch')return {safeDownload:async()=>({buffer:image,contentType:'image/png'})};
  if(n==='./store')return {mutate:async(key,fallback,fn)=>{const s=structuredClone(states.get(key)||fallback),result=fn(s);states.set(key,s);return result;}};

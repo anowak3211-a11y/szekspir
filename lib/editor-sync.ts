@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {assertAdActive} from './cancellation';
 import {retireLegacySync,retireV2Sync} from './editor-sync-version';
 import {EditorSyncBusyError,withEditorLocks} from './editor-locks';
@@ -8,12 +10,12 @@ import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {mutate,readState} from './store';
 import {planAssignedSync,Snapshot,Change} from './editor-sync-plan';
-const adminId=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+const adminId=()=>accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
 import {EDITOR_WORKSPACES} from './editor-workspaces';
 type State={snapshot:Snapshot;lease?:string;leaseUntil?:number;lastSuccess?:number;lastError?:string};
 const initial=():State=>({snapshot:{}});
 function letter(n:number){let out='';for(n++;n>0;n=Math.floor((n-1)/26))out=String.fromCharCode(65+(n-1)%26)+out;return out;}
-async function syncOne(workspace:typeof EDITOR_WORKSPACES[number]){
+async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
  const editorId=()=>workspace.sheetId;
  const legacySnapshot=await retireV2Sync(editorId(),await retireLegacySync(editorId()));
  const name='editor-sync-v3-'+editorId(),token=randomUUID();let saved:State;
@@ -41,11 +43,11 @@ async function syncOne(workspace:typeof EDITOR_WORKSPACES[number]){
  }catch(e){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;s.lastError=(e as Error).message;}});throw e;}
 }
 
-async function syncWorkspace(workspace:typeof EDITOR_WORKSPACES[number]){
+async function syncWorkspace(workspace:import('./account-context').EmployeeWorkspace){
  const result=await syncOne(workspace);if('busy' in result)throw new EditorSyncBusyError();return result;
 }
 export async function syncEditorWorkspace(){
- const results=await Promise.allSettled(EDITOR_WORKSPACES.map(workspace=>withEditorLocks(['workspace-'+workspace.id],()=>syncWorkspace(workspace))));
+ const results=await Promise.allSettled(accountEditors().map(workspace=>withEditorLocks(['workspace-'+workspace.id],()=>syncWorkspace(workspace))));
  const failure=results.find(r=>r.status==='rejected');if(failure?.status==='rejected')throw failure.reason;
  return results.map(r=>r.status==='fulfilled'?r.value:null);
 }
@@ -55,11 +57,11 @@ export async function editorAssignment(adId:string){
 }
 export async function assignEditor(adId:string,editorId:string){
  editorId=editorId||'mine';
- if(editorId!==''&&!EDITOR_WORKSPACES.some(x=>x.id===editorId))throw Error('Unknown editor');
+ if(editorId!==''&&!accountEditors().some(x=>x.id===editorId))throw Error('Unknown editor');
  const deadline=Date.now()+180000;
  return withEditorLocks(['ad-'+adId],async()=>{
   const previous=(await editorAssignment(adId)).current;
-  const source=EDITOR_WORKSPACES.find(w=>w.id===previous),target=EDITOR_WORKSPACES.find(w=>w.id===editorId)!;
+  const source=accountEditors().find(w=>w.id===previous),target=accountEditors().find(w=>w.id===editorId)!;
   return withEditorLocks([...(source?['workspace-'+source.id]:[]),'workspace-'+target.id],async()=>{
    // Preserve submitted work before changing ownership; other editors remain independent.
    if(source)await syncWorkspace(source);
@@ -73,7 +75,7 @@ export async function assignEditor(adId:string,editorId:string){
  },deadline);
 }
 export async function syncAssignedEditor(adId:string){const deadline=Date.now()+15000;return withEditorLocks(['ad-'+adId],async()=>{
- const {current}=await editorAssignment(adId),workspace=EDITOR_WORKSPACES.find(e=>e.id===current);
+ const {current}=await editorAssignment(adId),workspace=accountEditors().find(e=>e.id===current);
  if(!workspace)throw Error('Unknown assigned editor');
  return withEditorLocks(['workspace-'+workspace.id],()=>syncWorkspace(workspace),deadline);
 },deadline);}
@@ -81,7 +83,7 @@ export async function syncAssignedEditor(adId:string){const deadline=Date.now()+
 export async function verifyEditorDelivery(job:import('./jobs').Job,synchronise=true){
  if(!job.adId)throw Error('Save the brief before finishing.');
  const verify=async()=>{
-  const {api,current}=await editorAssignment(job.adId!);const workspace=EDITOR_WORKSPACES.find(w=>w.id===current);if(!workspace)throw Error('Assigned editor not found.');
+  const {api,current}=await editorAssignment(job.adId!);const workspace=accountEditors().find(w=>w.id===current);if(!workspace)throw Error('Assigned editor not found.');
   const read=async()=>{
    const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'});
    const rows=response.data.values||[],headers=(rows[0]||[]).map(String),idCol=headers.indexOf('Ad ID');

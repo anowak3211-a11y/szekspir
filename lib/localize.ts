@@ -1,3 +1,5 @@
+import {brainSettings,brainClient,brainOptions} from './account-brain';
+import {accountEnv,requiredAccountEnv} from './account-context';
 import {ukLocalisationGuide} from './uk-localisation-guide';
 import {canonicalMellowSaffronName,isMellowSaffronTarget} from './mellow-saffron-brand';
 import {closeFidelity} from './localization-fidelity';
@@ -190,8 +192,9 @@ async function complete(
   timeout = 30000,
   structuredCheck = false
 ): Promise<string> {
+  if(brainSettings()){const r=await brainClient(brainOptions(timeout)).chat.completions.create({model,messages:[{role:"system",content:system},{role:"user",content:user}],max_completion_tokens:8000,...(structuredCheck?{response_format:{type:"json_object" as const}}:{})});if(r.choices[0]?.finish_reason!=="stop")throw Error("AI returned an incomplete response.");return r.choices[0]?.message.content||"";}
   if (provider === "anthropic") {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout, maxRetries: 0 });
+    const client = new Anthropic({ apiKey:requiredAccountEnv('ANTHROPIC_API_KEY'), timeout, maxRetries: 0 });
     const resp = await client.messages.create({
       model: model || "claude-sonnet-5",
       max_tokens: 8000,
@@ -209,9 +212,9 @@ async function complete(
     timeout, maxRetries: 0,
     apiKey:
       provider === "custom"
-        ? process.env.CUSTOM_API_KEY
-        : process.env.OPENAI_API_KEY,
-    baseURL: provider === "custom" ? process.env.CUSTOM_BASE_URL : undefined,
+        ? requiredAccountEnv('CUSTOM_API_KEY')
+        : requiredAccountEnv('OPENAI_API_KEY'),
+    baseURL: provider === "custom" ? accountEnv('CUSTOM_BASE_URL') : undefined,
   });
   const resp = await client.chat.completions.create({
     ...(structuredCheck ? {response_format:{type:'json_schema' as const,json_schema:{name:'british_english_check',strict:true,schema:{type:'object',additionalProperties:false,required:['fixes'],properties:{fixes:{type:'array',items:{type:'object',additionalProperties:false,required:['original','replacement','reason'],properties:{original:{type:'string'},replacement:{type:'string'},reason:{type:'string'}}}}}}}}} : {}),
@@ -237,7 +240,7 @@ export async function critic(script:string,provider:Provider,_model:string,sourc
 }
 export async function prepareNarration(script:string,_provider:Provider,_model:string,market:Market='uk'){return narration(script,market);}
 export async function transcribeWithDuration(file:File,wordTimes=false):Promise<{text:string;duration?:number;words?:{word:string;start:number;end:number}[]}>{
- const client=new OpenAI({apiKey:process.env.OPENAI_API_KEY,timeout:60000,maxRetries:0});
+ const client=new OpenAI({apiKey:requiredAccountEnv('OPENAI_API_KEY'),timeout:60000,maxRetries:0});
  const response=await client.audio.transcriptions.create({file,model:'whisper-1',response_format:'verbose_json',...(wordTimes?{timestamp_granularities:['word' as const]}:{})});
  return {text:response.text,duration:response.duration,...(wordTimes?{words:response.words}: {})};
 }

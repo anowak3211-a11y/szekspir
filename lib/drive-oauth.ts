@@ -1,3 +1,5 @@
+import {inOwnerWorkspace} from './account-context';
+import {accountEnv} from './account-context';
 import {google} from 'googleapis';
 import {createHash,randomBytes,timingSafeEqual} from 'node:crypto';
 import {readState,mutate} from './store';
@@ -10,7 +12,7 @@ type Client={clientId:string;clientSecret:string};
 type Connection={pending?:Client;active?:Client&{refreshToken:string}};
 type Attempt={expires:number;verifier:string;clientId:string;used?:boolean};
 const KEY='drive-oauth-connection';
-export async function driveConnection(){return (await readState<Connection>(KEY,{})).value;}
+export async function driveConnection(){return inOwnerWorkspace(async()=>(await readState<Connection>(KEY,{})).value);}
 export function parseDriveClient(raw:string):Client{
  if(raw.length>16384)throw Error('Invalid client file');
  const c=JSON.parse(raw)?.web;
@@ -36,7 +38,7 @@ export async function finishDriveConnection(state:string,cookie:string,code:stri
  const {tokens}=await auth.getToken({code,codeVerifier:attempt.verifier,redirect_uri:DRIVE_CALLBACK});
  if(!tokens.refresh_token)throw Error('No offline access granted');
  auth.setCredentials(tokens);
- const folderId=process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID;
+ const folderId=accountEnv('GOOGLE_DRIVE_VIDEO_FOLDER_ID');
  if(!folderId)throw Error('Configure the video folder');
  const {data}=await google.drive({version:'v3',auth}).files.get({fileId:folderId,supportsAllDrives:true,fields:'mimeType,capabilities(canAddChildren)'},{timeout:15000,retry:false});
  if(data.mimeType!=='application/vnd.google-apps.folder'||!data.capabilities?.canAddChildren)throw Error('Cannot upload to folder');

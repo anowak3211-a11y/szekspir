@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {withEditorLocks} from './editor-locks';
@@ -16,9 +18,9 @@ export async function cleanupCancelledBrief(jobId:string){
   for(const id of adIds)await markAdCancelled(id,jobId,job.cancelledAt);
   if(!adIds.length)return adIds;
   // Sheet writes and syncs must finish before clearing rows; no row indexes shift.
-  return withEditorLocks([...adIds.flatMap(id=>['ad-'+id,'sheet-write-'+id]),...EDITOR_WORKSPACES.map(w=>'workspace-'+w.id)],async()=>{
+  return withEditorLocks([...adIds.flatMap(id=>['ad-'+id,'sheet-write-'+id]),...accountEditors().map(w=>'workspace-'+w.id)],async()=>{
    const api=google.sheets({version:'v4',auth:sheetAuth()});
-   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',tab:'Daily Briefs'},...EDITOR_WORKSPACES.map(w=>({id:w.sheetId,tab:'My Tasks'}))];
+   const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),tab:'Daily Briefs'},...accountEditors().map(w=>({id:w.sheetId,tab:'My Tasks'}))];
    const plans=await Promise.all(targets.map(async target=>{
     const meta=await api.spreadsheets.get({spreadsheetId:target.id,fields:'sheets.properties(sheetId,title,gridProperties)'});
     const properties=meta.data.sheets?.find(s=>s.properties?.title===target.tab)?.properties;

@@ -1,4 +1,5 @@
 'use client';
+import {workspaceLocalStorage} from '@/lib/browser-workspace';
 import {useEffect,useRef,useState} from 'react';
 import type {AdditionalFile} from '@/lib/additional-files-model';
 import type {VoiceProcessing} from '@/lib/voice-processing';
@@ -37,14 +38,14 @@ export default function AdditionalFiles(){
   poll();return()=>{live=false;clearTimeout(timer);};
  },[editor,adId,historyRetry]);
  useEffect(()=>{if(!adId)return;setRecordings(['voiceover']);setExtraDrafts({});setHookIndex(undefined);setUpload(null);uploaded.current=null;setText(selected?.script||'');setLabel('Corrected voiceover');setNotice('');setError('');requestId.current=null;savedPayload.current='';
-  try{const saved=JSON.parse(localStorage.getItem('additional-draft-'+adId)||'null');if(saved){setRecordings([saved.hookIndex===0||saved.hookIndex===1?String(saved.hookIndex):'voiceover']);setHookIndex(saved.hookIndex===0||saved.hookIndex===1?saved.hookIndex:undefined);setText(saved.text||'');setLabel(saved.label||'Corrected voiceover');if(voices.some(v=>v.voice_id===saved.voice))setVoice(saved.voice);if(saved.processing)setProcessing(saved.processing);}}catch{/* local drafts are optional */}
+  try{const saved=JSON.parse(workspaceLocalStorage.getItem('additional-draft-'+adId)||'null');if(saved){setRecordings([saved.hookIndex===0||saved.hookIndex===1?String(saved.hookIndex):'voiceover']);setHookIndex(saved.hookIndex===0||saved.hookIndex===1?saved.hookIndex:undefined);setText(saved.text||'');setLabel(saved.label||'Corrected voiceover');if(voices.some(v=>v.voice_id===saved.voice))setVoice(saved.voice);if(saved.processing)setProcessing(saved.processing);}}catch{/* local drafts are optional */}
  },[adId]);
- function saveDraft(next:{text?:string;label?:string;voice?:string;processing?:VoiceProcessing;hookIndex?:0|1}){try{if(adId)localStorage.setItem('additional-draft-'+adId,JSON.stringify({text,label,voice,processing,hookIndex,...next}));}catch{}}
+ function saveDraft(next:{text?:string;label?:string;voice?:string;processing?:VoiceProcessing;hookIndex?:0|1}){try{if(adId)workspaceLocalStorage.setItem('additional-draft-'+adId,JSON.stringify({text,label,voice,processing,hookIndex,...next}));}catch{}}
  function chooseRecording(index:0|1|undefined){
-  try{localStorage.setItem(`additional-mode-${adId}-${hookIndex??'voiceover'}`,JSON.stringify({text,label}));}catch{}
+  try{workspaceLocalStorage.setItem(`additional-mode-${adId}-${hookIndex??'voiceover'}`,JSON.stringify({text,label}));}catch{}
   let nextText=index===undefined?selected?.script||'':selected?.hooks?.[index]||'';
   let nextLabel=index===undefined?'Corrected voiceover':`Hook ${index+1} — corrected take`;
-  try{const draft=JSON.parse(localStorage.getItem(`additional-mode-${adId}-${index??'voiceover'}`)||'null');if(draft){nextText=draft.text;nextLabel=draft.label;}}catch{}
+  try{const draft=JSON.parse(workspaceLocalStorage.getItem(`additional-mode-${adId}-${index??'voiceover'}`)||'null');if(draft){nextText=draft.text;nextLabel=draft.label;}}catch{}
   setHookIndex(index);setText(nextText);setLabel(nextLabel);saveDraft({hookIndex:index,text:nextText,label:nextLabel});
  }
  function toggleRecording(index:0|1|undefined){

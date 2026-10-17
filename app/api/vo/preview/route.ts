@@ -1,3 +1,4 @@
+import {accountRoute} from '@/lib/account-route';
 import {listVoices,generatePauseSample,ELEVEN_MODEL_ID} from '@/lib/elevenlabs';
 import {voiceProcessing,breathsEnabled} from '@/lib/voice-processing';
 import {cleanVoiceover,VO_CLEANUP_VERSION} from '@/lib/vo-cleanup';
@@ -11,7 +12,7 @@ import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 export const maxDuration=300;
-export async function POST(req:Request){
+async function accountPOST(req:Request){
  try{
   const body=await req.json(),processing=voiceProcessing(body.processing);
   if(typeof body.voiceId!=='string'||!body.voiceId.match(/^[a-zA-Z0-9_-]{1,100}$/))return Response.json({error:'Choose a voice first.'},{status:400});
@@ -54,3 +55,5 @@ export async function POST(req:Request){
   return Response.json({original,processed});
  }catch(e){return Response.json({error:(e as Error).message},{status:400});}
 }
+
+export const POST=accountRoute(accountPOST);

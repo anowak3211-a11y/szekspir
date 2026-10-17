@@ -1,7 +1,8 @@
+import {accountRoute} from '@/lib/account-route';
 import {libraryVoicePreview,LIBRARY_PREVIEW_ERROR} from '@/lib/library-voice-preview';
 export const maxDuration=60;
 
-export async function GET(req:Request){
+async function accountGET(req:Request){
  const voiceId=new URL(req.url).searchParams.get('voiceId');
  if(!voiceId||!/^[a-zA-Z0-9_-]{1,100}$/.test(voiceId))return Response.json({error:'Choose a voice first.'},{status:400});
  try{
@@ -14,3 +15,5 @@ export async function GET(req:Request){
   return Response.json({error:LIBRARY_PREVIEW_ERROR},{status:502});
  }
 }
+
+export const GET=accountRoute(accountGET);

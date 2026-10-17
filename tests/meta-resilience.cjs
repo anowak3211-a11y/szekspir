@@ -9,7 +9,7 @@ const store={readState:async(k,f)=>({value:structuredClone(states.get(k)??f)}),m
 states.set('meta-uploader-connection',{token:'OFFLINE_SYNTHETIC_TOKEN_NOT_A_CREDENTIAL'});
 Module._load=function(n,p,i){if(n.startsWith('@/'))n=path.join(root,n.slice(2));if(p?.filename.startsWith(root+'/lib/')){
  if(n==='./store')return store;
- if(n==='@vercel/queue')return {send:async(topic,body,options)=>{messages.push({body,options});return {messageId:'offline'};}};
+ if((n==='@vercel/queue'||n==='./account-queue'))return {send:async(topic,body,options)=>{messages.push({body,options});return {messageId:'offline'};}};
  if(n==='./meta-rate-limit'&&p.filename.endsWith('/meta-client.ts')){const limiter=require('../lib/meta-rate-limit.ts');return {...limiter,withMetaBudget:async fn=>{if(localBusy){localBusy=false;throw new limiter.MetaBudgetWait(2,'busy');}return fn();}};}
  if(n==='./meta-upload-media')return {startRemoteVideo:async()=>{throw Error('Unexpected remote media in offline audit');},uploadImage:async()=>{throw Error('Unexpected image upload');}};
  }return load.call(this,n,p,i);};

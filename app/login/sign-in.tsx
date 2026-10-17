@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState,type FormEvent} from 'react';
 import styles from './sign-in.module.css';
-type Status={signedIn:boolean;enforced?:boolean;twoFactor?:boolean;canInvite?:boolean;email?:string;needsPassword?:boolean;complete?:boolean;factorId?:string};
+type Status={signedIn:boolean;onboarding?:boolean;enforced?:boolean;twoFactor?:boolean;canInvite?:boolean;email?:string;needsPassword?:boolean;complete?:boolean;factorId?:string};
 async function action(body:Record<string,unknown>){const response=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});const data=await response.json();if(!response.ok)throw Error(data.error||'Sign-in failed. Try again.');return data;}
 export default function SignIn(){
  const [status,setStatus]=useState<Status>({signedIn:false}),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -34,7 +34,7 @@ export default function SignIn(){
   {error&&<p role="alert" tabIndex={-1} ref={errorRef} className={styles.error}>{error}</p>}
   {loading?<p role="status">Checking your session…</p>:status.complete?<div className={styles.stack}>
    <p className={styles.identity}>{status.email}</p>
-   <a className={styles.primary} href="/">Open workspace</a>
+   <a className={styles.primary} href={status.onboarding?'/profile':'/'}>Open workspace</a>
    {status.twoFactor!==false&&<button type="button" disabled={busy} onClick={()=>run(async()=>{const data=await action({action:'backup'});if(data.codes)setBackup(data.codes);else setBackupNotice(data.available?'Recovery codes have already been created. Keep your saved copy.':'Recovery codes are unavailable on this Auth server. Keep a secure backup of your authenticator. If you lose it, contact the workspace owner for identity-verified recovery.');})}>Save recovery codes</button>}
    {backup&&<div className={styles.backup}><p>Shown once. Store these codes privately. Each code works once.</p><pre>{backup.join('\n')}</pre><button type="button" onClick={()=>{const blob=new Blob([backup.join('\n')],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='szekspir-recovery-codes.txt';a.click();URL.revokeObjectURL(url);}}>Download codes</button><button type="button" onClick={()=>setBackup(null)}>I saved them — hide codes</button></div>}
    {backupNotice&&<p role="status" className={styles.notice}>{backupNotice}</p>}

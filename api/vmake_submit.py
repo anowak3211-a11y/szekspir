@@ -9,10 +9,10 @@ os.environ["HOME"] = "/tmp"  # sdk caches gid under ~/.cache; only /tmp is writa
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from http.server import BaseHTTPRequestHandler
-from api.security import authorised, download_public
+from api.security import authorised, download_public, vmake_keys
 
 
-def _submit(video_url: str, operation: str = "remove", progress=None):
+def _submit(video_url: str, operation: str = "remove", progress=None, credentials=None):
     progress = progress if progress is not None else {}
     if operation not in ("enhance", "remove"):
         raise ValueError("Unsupported VMake operation")
@@ -23,8 +23,7 @@ def _submit(video_url: str, operation: str = "remove", progress=None):
     from sdk.core.config import INVOKE, USER_AGENT
     import requests
 
-    ak = os.environ["MT_AK"]
-    sk = os.environ["MT_SK"]
+    ak, sk = credentials or (os.environ["MT_AK"], os.environ["MT_SK"])
     client = SkillClient(ak=ak, sk=sk)
 
     from api.vmake_transfer import upload_video
@@ -82,7 +81,7 @@ class handler(BaseHTTPRequestHandler):
             url = (payload.get("url") or "").strip()
             if not url.startswith("http"):
                 raise ValueError("url required")
-            result = _submit(url, payload.get("operation", "remove"), progress)
+            result = _submit(url, payload.get("operation", "remove"), progress, vmake_keys(self.headers))
             checkpoint = payload.get("checkpoint") or {}
             if result.get("task_id") and isinstance(checkpoint, dict) and re.fullmatch(r"[\w-]{8,100}", str(checkpoint.get("jobId", ""))) and re.fullmatch(r"[\w-]{8,100}", str(checkpoint.get("id", ""))):
                 # Recovery evidence only: never log keys, inputs or signed output URLs.

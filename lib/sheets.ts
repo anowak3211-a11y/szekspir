@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {assertAdActive,assertJobActive} from './cancellation';
 import {EDITOR_WORKSPACES,activeEditorId} from './editor-workspaces';
 import {withEditorLocks} from './editor-locks';
@@ -25,7 +27,7 @@ export function sheetAuth() {
 }
 
 const ADMIN_SHEET = () =>
-  process.env.ADMIN_SHEET_ID || "17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY";
+  accountEnv('ADMIN_SHEET_ID') || accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
 const BRIEFS_TAB = "Daily Briefs";
 export function shiftAdminRange(value:string,offset:number){return offset?value.replace(/([A-Z]+)(?=\d|$)/g,letters=>{let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;n+=offset;let out='';while(n){out=String.fromCharCode(65+(n-1)%26)+out;n=Math.floor((n-1)/26);}return out;}):value;}
 type AdminLayout={offset:number;landingPage:boolean;workFirst?:boolean};
@@ -46,7 +48,7 @@ export async function appendToAdminBriefs(row:BriefRow){
  return withEditorLocks(['brief-job-'+row.jobId],async()=>{await assertJobActive(row.jobId);return writeAdminBrief(row);});
 }
 async function writeAdminBrief(row:BriefRow){
- const editor=EDITOR_WORKSPACES.find(e=>e.id===activeEditorId(row.editorId));if(!editor)throw Error('Unknown editor');
+ const editor=accountEditors().find(e=>e.id===activeEditorId(row.editorId));if(!editor)throw Error('Unknown editor');
  if(!/^[\w-]{8,100}$/.test(row.jobId)||(!row.uk.trim()&&!row.noSpeech)||![0,2,3].includes(row.hooks.length)||!['TOF','MOF','BOF'].includes(row.funnel))throw new Error('Invalid brief');
  const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=ADMIN_SHEET();
  const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);

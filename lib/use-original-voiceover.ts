@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {fitPhraseAnchor,validatePhraseAnchor} from './phrase-pace';
 import {createHash,randomUUID} from 'node:crypto';
 import {google} from 'googleapis';
@@ -122,13 +124,13 @@ export async function useOriginalVoiceover(input:UseOriginalVoiceoverInput):Prom
    }finally{raw.fill(0);background?.fill(0);if(audio)new Uint8Array(audio).fill(0);}
   }
   const savedCandidate=candidate;
-  const assignment=await editorAssignment(reserved.adId!),workspace=EDITOR_WORKSPACES.find(w=>w.id===assignment.current);
+  const assignment=await editorAssignment(reserved.adId!),workspace=accountEditors().find(w=>w.id===assignment.current);
   if(!workspace)throw Error('Assigned editor not found.');
   return await withEditorLocks(['ad-'+reserved.adId,'sheet-write-'+reserved.adId,'voice-'+reserved.adId,'workspace-'+workspace.id],async()=>{
    const current=await assertCurrent();
    if((await editorAssignment(reserved.adId!)).current!==workspace.id)throw Error('Assigned editor changed. Refresh and try again.');
    const api=google.sheets({version:'v4',auth:sheetAuth()});
-   const targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
    const rows=await Promise.all(targets.map(async target=>{
     const data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
     const idCol=headers.indexOf('Ad ID'),voiceCol=headers.indexOf('Voice Over');if(idCol<0||voiceCol<0)throw Error('Ad ID or Voice Over column missing.');

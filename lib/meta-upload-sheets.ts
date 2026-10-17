@@ -1,7 +1,8 @@
+import {accountEnv,accountDefault} from './account-context';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {draftsFromTable} from './meta-uploader-model';
-const admin=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+const admin=()=>accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
 export async function uploadSheetTabs(){const r=await google.sheets({version:'v4',auth:sheetAuth()}).spreadsheets.get({spreadsheetId:admin(),fields:'sheets.properties(title,sheetId)'});return (r.data.sheets||[]).map(s=>({name:s.properties?.title||'',id:s.properties?.sheetId})).filter(s=>/^Upload(?:\s|$)/i.test(s.name));}
 export async function readUploadSheet(tab:string){
  const tabs=await uploadSheetTabs();if(!tabs.some(t=>t.name===tab))throw Error('Choose an existing Upload tab.');

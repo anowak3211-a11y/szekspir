@@ -1,3 +1,4 @@
+import {accountRoute} from '@/lib/account-route';
 import {assertJobActive} from '@/lib/cancellation';
 import {sendsHook} from '@/lib/hook-delivery';
 import {voiceProcessing} from '@/lib/voice-processing';
@@ -14,7 +15,7 @@ import { generateVO } from "@/lib/elevenlabs";
 
 export const maxDuration = 300;
 
-export async function POST(req: NextRequest) {
+async function accountPOST(req: NextRequest) {
   try {
     const { text, voiceId, save, jobId, hookIndex, voiceProcessing: processingInput } = await req.json();
     const processing=voiceProcessing(processingInput);
@@ -53,3 +54,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: /^This job was stopped\.?$/.test(msg) ? 409 : 500 });
   }
 }
+
+export const POST=accountRoute(accountPOST);

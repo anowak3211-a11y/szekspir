@@ -1,10 +1,11 @@
+import {ACCOUNT_HEADER,verifyAccount,type AccountIdentity} from '@/lib/account-identity';
 /** Owner-authorised provisioning only; never a public registration endpoint. */
 import {createClient} from '@supabase/supabase-js';
 import {authorised} from '@/lib/auth';
 import {allowedEmail,authAttempt,requestBucket} from '@/lib/app-auth';
 export const runtime='nodejs';
 export async function POST(request:Request){
- const headers={'Cache-Control':'no-store'};
+ const headers={'Cache-Control':'no-store'};if(process.env.APP_AUTH_MODE==='supabase-mfa'&&!verifyAccount<AccountIdentity>(request.headers.get(ACCOUNT_HEADER))?.owner)return Response.json({error:'Owner access required.'},{status:403,headers});
  if(!authorised(request.headers.get('authorization')))return Response.json({error:'Auth required.'},{status:401,headers});
  if(request.headers.get('origin')!==new URL(request.url).origin)return Response.json({error:'Invalid origin.'},{status:403,headers});
  try{

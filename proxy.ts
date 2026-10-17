@@ -1,9 +1,10 @@
+import {ACCOUNT_HEADER,WORKSPACE_COOKIE,signAccount,verifyAccount,ownerEmail} from './lib/account-identity';
 import { NextRequest, NextResponse } from "next/server";
 import {checkedSession,mfaRequired,sessionCookie,tokens,AuthFailure} from "./lib/app-auth";
 
 export async function proxy(req: NextRequest) {
   const path=req.nextUrl.pathname;
-  if(path==="/login"||path==="/api/auth")return NextResponse.next();
+  if(path==="/login"||path==="/api/auth"||path==="/join"||path==="/api/join")return NextResponse.next();
   if (req.nextUrl.pathname === "/privacy") return NextResponse.next();
   // Scheduled workers retain a separate, narrowly scoped machine credential.
   const header = req.headers.get("authorization") || "";
@@ -24,9 +25,9 @@ export async function proxy(req: NextRequest) {
     try{
       const state=await checkedSession(req.headers.get('cookie'));
       if(!['GET','HEAD','OPTIONS'].includes(req.method)&&req.headers.get('origin')!==req.nextUrl.origin)return new NextResponse('Invalid origin',{status:403});
-      const headers=new Headers(req.headers);
+      const headers=new Headers(req.headers);const owner=ownerEmail(state.user.email||'');const selection=verifyAccount<{actor:string;workspace:string}>(req.cookies.get(WORKSPACE_COOKIE)?.value||null,31*24*60*60*1000);headers.set(ACCOUNT_HEADER,signAccount({id:state.user.id,email:state.user.email,owner,workspace:owner&&selection?.actor===state.user.id?selection.workspace:undefined}));
       // Existing handlers receive their server-only credential only after MFA validation.
-      if(['/api/vmake_submit','/api/vmake_status'].includes(path)){if(!process.env.CRON_SECRET)throw new AuthFailure('Machine authentication is not configured.',503);headers.set('authorization',`Bearer ${process.env.CRON_SECRET}`);}
+      if(['/api/vmake_submit','/api/vmake_status'].includes(path)){if(!owner)return new NextResponse('Use the application processing workflow.',{status:403});if(!process.env.CRON_SECRET)throw new AuthFailure('Machine authentication is not configured.',503);headers.set('authorization',`Bearer ${process.env.CRON_SECRET}`);}
       else headers.set('authorization',`Basic ${Buffer.from(':'+pass).toString('base64')}`);
       const response=NextResponse.next({request:{headers}});
       response.headers.set('Cache-Control','no-store, private');

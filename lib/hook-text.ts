@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {randomUUID} from 'node:crypto';
 import {google} from 'googleapis';
 import {assertAdActive,assertJobActive} from './cancellation';
@@ -42,7 +44,7 @@ export async function saveHookText(input:HookTextInput):Promise<Job>{
  assertEditable(before,input.index);
  // This is the owner's explicit UK literal edit, not a rewrite of the hook.
  if(before!.market!=='pl')input={...input,text:canonicalUkMedicationName(input.text)};
- const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=EDITOR_WORKSPACES.find(w=>w.id===assignment.current);
+ const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=accountEditors().find(w=>w.id===assignment.current);
  if(!workspace)throw Error('Editor not found.');
  return withEditorLocks(['ad-'+adId,'sheet-write-'+adId,'workspace-'+workspace.id],async()=>{
   await assertJobActive(input.id);await assertAdActive(adId);
@@ -59,7 +61,7 @@ export async function saveHookText(input:HookTextInput):Promise<Job>{
    job!.hookDeliveryPending=input.index;job!.hookTextDelivery={token,index:input.index,previousText:input.expectedText,text:input.text};job!.updated=Date.now();return structuredClone(job!);
   });
   try{
-   const api=google.sheets({version:'v4',auth:sheetAuth()}),targets=[{id:process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const api=google.sheets({version:'v4',auth:sheetAuth()}),targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
    const sheets=await Promise.all(targets.map(async target=>{
     const data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
     const idCol=headers.indexOf('Ad ID'),hookCol=headers.indexOf(`Hook ${input.index+1}`);

@@ -1,3 +1,4 @@
+import {accountMediaPath} from './account-context';
 import ffmpeg from 'ffmpeg-static';
 import {spawn} from 'node:child_process';
 import {createReadStream,createWriteStream} from 'node:fs';
@@ -41,7 +42,7 @@ function probeDuration(path:string){
  });
 }
 function sizeGuard(limit:number){let bytes=0;return new Transform({transform(chunk:Buffer,_encoding,callback){bytes+=chunk.length;callback(bytes>limit?Error('Video is too large for server processing; use a lower-bitrate source.'):null,chunk);}});}
-async function storeFile(path:string,file:string){
+async function storeFile(path:string,file:string){path=accountMediaPath(path);
  const size=(await stat(file)).size;if(!size||size>MEDIA_LIMIT)throw Error('Processed video is empty or exceeds the 2 GB storage limit.');
  const prior=await existingMedia(path);if(prior)return prior;
  if(mediaBackend()==='blob')return (await put(path,createReadStream(file),{access:'public',addRandomSuffix:false,contentType:'video/mp4'})).url;

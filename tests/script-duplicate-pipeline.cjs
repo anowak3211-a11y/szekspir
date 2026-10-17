@@ -16,7 +16,7 @@ const originalLoad=Module._load;Module._load=function(n,p,i){
  if(n==='./editor-sync')return {syncAssignedEditor:async()=>{}};
  if(n==='./media')return {existingMedia:async()=>undefined,putMedia:async()=> 'https://test/saved.mp4'};
  if(n==='./drive-video')return {driveUploadTarget:async()=>({}),saveOriginalToDrive:async()=>{counts.drive++;return 'https://drive.test/video';}};
- if(n==='@vercel/queue')return {send:async(queue,payload)=>queued.push({queue,payload})};
+ if((n==='@vercel/queue'||n==='./account-queue'))return {send:async(queue,payload)=>queued.push({queue,payload})};
  if(p?.filename.endsWith('/duplicate/route.ts')&&n==='@/lib/jobs')return require('../lib/jobs.ts');
  return originalLoad.call(this,n,p,i);
 };

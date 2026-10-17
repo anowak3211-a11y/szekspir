@@ -1,6 +1,7 @@
+import {accountRoute} from '@/lib/account-route';
 import {useOriginalVoiceover,OriginalVoiceoverSaveError} from '@/lib/use-original-voiceover';
 export const maxDuration=300;
-export async function POST(req:Request){
+async function accountPOST(req:Request){
  const origin=req.headers.get('origin');
  if(origin&&origin!==new URL(req.url).origin)return Response.json({error:'Use this action from the Szekspir page.'},{status:403});
  try{
@@ -12,3 +13,5 @@ export async function POST(req:Request){
   return Response.json({error:error instanceof Error?error.message:'Could not use the saved original recording.'},{status:409});
  }
 }
+
+export const POST=accountRoute(accountPOST);

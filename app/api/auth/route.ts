@@ -1,11 +1,12 @@
+import {ownerEmail} from '@/lib/account-identity';
 import {NextResponse} from 'next/server';
 import {authorised} from '@/lib/auth';
-import {AuthFailure,authAttempt,authClient,checkedSession,clearSessionCookie,completeUntil,hasMfa,requestBucket,sessionCookie,signIn,tokens,allowedEmail,mfaRequired,secondFactorRequired} from '@/lib/app-auth';
+import {AuthFailure,authAttempt,authClient,checkedSession,clearSessionCookie,completeUntil,hasMfa,requestBucket,sessionCookie,signIn,tokens,allowedEmail,canSignIn,mfaRequired,secondFactorRequired} from '@/lib/app-auth';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const privateHeaders={'Cache-Control':'no-store, private','Referrer-Policy':'no-referrer'};
 export async function GET(request:Request){
- try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:state.complete,twoFactor:state.requiresSecondFactor,factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}
+ try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,onboarding:!ownerEmail(state.user.email||''),enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:state.complete,twoFactor:state.requiresSecondFactor,factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}
  catch(error){return NextResponse.json({signedIn:false,canInvite:!mfaRequired()&&authorised(request.headers.get('authorization'))},{status:error instanceof AuthFailure&&error.status===503?503:200,headers:privateHeaders});}
 }
 export async function POST(request:Request){
@@ -28,13 +29,13 @@ export async function POST(request:Request){
   }
   if(action==='reset'){
    const email=typeof body.email==='string'?body.email.trim().toLowerCase():'';await authAttempt('reset:'+email,3);
-   if(allowedEmail(email)){const {error}=await authClient().auth.resetPasswordForEmail(email,{redirectTo:new URL('/login',process.env.APP_ORIGIN||request.url).href});if(error)throw new AuthFailure('Recovery email could not be sent. Contact the owner.',400);}
+   if(await canSignIn(email)){const {error}=await authClient().auth.resetPasswordForEmail(email,{redirectTo:new URL('/login',process.env.APP_ORIGIN||request.url).href});if(error)throw new AuthFailure('Recovery email could not be sent. Contact the owner.',400);}
    return respond({ok:true});
   }
   if(action==='invite'){
    if(typeof body.access_token!=='string'||typeof body.refresh_token!=='string')throw new AuthFailure();
    const client=authClient(),{data,error}=await client.auth.setSession({access_token:body.access_token,refresh_token:body.refresh_token});
-   if(error||!data.session||!data.user?.email_confirmed_at||data.user.is_anonymous||!allowedEmail(data.user.email))throw new AuthFailure();
+   if(error||!data.session||!data.user?.email_confirmed_at||data.user.is_anonymous||!(await canSignIn(data.user.email)))throw new AuthFailure();
    // Invitation can only establish the first factor; application/API access still requires MFA.
    return respond({ok:true},sessionCookie(tokens(data.session),Date.now()+15*60*1000,true));
   }

@@ -3,8 +3,12 @@ import os
 import sys
 import unittest
 import base64
+import json
+import hmac
+import hashlib
+import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from api.security import authorised
+from api.security import authorised, vmake_keys
 
 class AuthenticationTests(unittest.TestCase):
     def test_mfa_machine_scope(self):
@@ -15,6 +19,16 @@ class AuthenticationTests(unittest.TestCase):
         self.assertTrue(authorised({'Authorization':'Bearer fixture-machine'}))
         del os.environ['CRON_SECRET']
         self.assertFalse(authorised({'Authorization':'Bearer '}))
+    def test_per_workspace_vmake_credentials(self):
+        os.environ.update(CRON_SECRET='fixture-machine',MT_AK='owner-ak',MT_SK='owner-sk')
+        data={'ak':'friend-ak','sk':'friend-sk','expires':int(time.time()*1000)+120000}
+        value=base64.urlsafe_b64encode(json.dumps(data).encode()).decode().rstrip('=')
+        signature=hmac.new(b'fixture-machine',('vmake-account-v1:'+value).encode(),hashlib.sha256).hexdigest()
+        self.assertEqual(vmake_keys({'x-szekspir-vmake':value+'.'+signature}),('friend-ak','friend-sk'))
+        self.assertEqual(vmake_keys({}),('owner-ak','owner-sk'))
+        with self.assertRaises(ValueError):
+            vmake_keys({'x-szekspir-vmake':value+'.'+('0'*64)})
+        self.assertEqual(os.environ['MT_AK'],'owner-ak')
     def test_unknown_mode_fails_closed(self):
         os.environ.update(APP_AUTH_MODE='typo',APP_PASSWORD='fixture-password')
         self.assertFalse(authorised({'Authorization':'Basic '+base64.b64encode(b':fixture-password').decode()}))

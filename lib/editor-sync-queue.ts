@@ -1,4 +1,4 @@
-import {send} from '@vercel/queue';
+import {send} from './account-queue';
 // One-off work only. Recurrence lives in Vercel Cron and follows production.
 export async function scheduleEditorSync(){
  const slot=Math.floor(Date.now()/1000);

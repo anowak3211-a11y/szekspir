@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import {createHash} from 'node:crypto';
 import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -12,7 +13,7 @@ export async function getVoiceSwap(id:string){const s=(await readState<VoiceSwap
 export async function startVoiceSwap(input:Record<string,unknown>){
  const id=swapId(input.id),sourcePath=swapSourcePath(id,input.sourcePath);
  if(input.confirmCost!==true)throw Error('Confirm the paid ElevenLabs separation first.');
- if(!process.env.ELEVENLABS_API_KEY)throw Error('ElevenLabs is not configured.');
+ if(!accountEnv('ELEVENLABS_API_KEY'))throw Error('ElevenLabs is not configured.');
  const sourceUrl=await existingMedia(sourcePath);if(!sourceUrl)throw Error('Finish uploading the original video first.');
  const {value,etag}=await readState<VoiceSwap|null>(key(id),null);
  if(value){if(value.sourcePath!==sourcePath)throw Error('This ID belongs to another source.');return value;}
@@ -20,7 +21,7 @@ export async function startVoiceSwap(input:Record<string,unknown>){
  try{const {writeState}=await import('./store');await writeState(key(id),record,etag);}catch(error){if(/Conflict|AlreadyExists|Precondition/.test((error as Error).name)||/already exists|conflict|precondition/i.test((error as Error).message))return getVoiceSwap(id);throw error;}
  return record;
 }
-export async function scheduleVoiceSwap(id:string,delaySeconds=0){const {send}=await import('@vercel/queue');await send('szekspir-voice-swap',{id:swapId(id)},{region:'fra1',delaySeconds,retentionSeconds:86400});}
+export async function scheduleVoiceSwap(id:string,delaySeconds=0){const {send}=await import('./account-queue');await send('szekspir-voice-swap',{id:swapId(id)},{region:'fra1',delaySeconds,retentionSeconds:86400});}
 export async function mixVoiceSwap(id:string,input:Record<string,unknown>){
  const mix=swapMix(input);const voiceUrl=await existingMedia(mix.voicePath);if(!voiceUrl)throw Error('Finish uploading the new voiceover first.');
  const mixKey=createHash('sha256').update(JSON.stringify(mix)).digest('hex');

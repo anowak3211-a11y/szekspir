@@ -1,0 +1,5 @@
+import {authAttempt,requestBucket} from '@/lib/app-auth';
+import {invitationStatus,redeemAccountInvitation} from '@/lib/account-invitations';
+export const maxDuration=300;
+const headers={'Cache-Control':'no-store, private','Referrer-Policy':'no-referrer'};
+export async function POST(request:Request){try{if(request.headers.get('origin')!==new URL(request.url).origin||!request.headers.get('content-type')?.startsWith('application/json'))return Response.json({error:'Invalid request.'},{status:403,headers});const raw=await request.text();if(raw.length>2000)throw Error('Za duże dane.');const body=JSON.parse(raw);if(typeof body.token!=='string')throw Error('Nieprawidłowy link.');await invitationStatus(body.token);if(body.action==='status')return Response.json({valid:true},{headers});await authAttempt('join:'+requestBucket(request),5);return Response.json(await redeemAccountInvitation(body.token,body.email,body.name),{headers});}catch(e){return Response.json({error:(e as Error).message},{status:400,headers});}}

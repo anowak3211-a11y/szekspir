@@ -1,8 +1,9 @@
+import {accountRoute} from '@/lib/account-route';
 import {getJob} from '@/lib/jobs';
 import {localize} from '@/lib/localize';
 export const maxDuration=300;
 // Preview only: never modify the job, its recordings, queue or editor sheet.
-export async function POST(request:Request){
+async function accountPOST(request:Request){
  try{
   const {id}=await request.json();if(typeof id!=='string')throw Error('Job ID required');
   const job=await getJob(id);if(job?.abortedAt||job?.cancelledAt)throw Error('This job was stopped.');if(!job?.result)throw Error('Wait for the original script to finish.');
@@ -11,3 +12,5 @@ export async function POST(request:Request){
   return Response.json({script:result.uk_script,promptVersion:result.prompt_version});
  }catch(error){return Response.json({error:(error as Error).message},{status:400});}
 }
+
+export const POST=accountRoute(accountPOST);

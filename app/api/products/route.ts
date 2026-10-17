@@ -1,3 +1,4 @@
+import {accountRoute} from '@/lib/account-route';
 import { NextRequest, NextResponse } from "next/server";
 import {
   getProducts,
@@ -8,7 +9,7 @@ import {
   updateFile,
 } from "@/lib/products";
 
-export async function GET() {
+async function accountGET() {
   try {
     return NextResponse.json({ products: await getProducts() });
   } catch (e) {
@@ -17,7 +18,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req: NextRequest) {
+async function accountPOST(req: NextRequest) {
   try {
     const body = await req.json();
     const action = body.action || "addFile";
@@ -47,3 +48,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+export const GET=accountRoute(accountGET);
+export const POST=accountRoute(accountPOST);

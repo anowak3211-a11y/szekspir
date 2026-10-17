@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {adCancelled,assertAdActive} from './cancellation';
 import {jobs} from './jobs';
 import {google} from 'googleapis';
@@ -10,10 +12,10 @@ import {putMedia,existingMedia} from './media';
 import {withEditorLocks} from './editor-locks';
 import {syncAssignedEditor} from './editor-sync';
 import {additionalUploadInput,additionalInput,mergeAdditionalLinks,appendAdditionalLink,additionalLinkRuns,type AdditionalFile,type AdditionalState} from './additional-files-model';
-const master=()=>process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+const master=()=>accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
 const api=()=>google.sheets({version:'v4',auth:sheetAuth()});
 const key=(adId:string)=>{if(!/^MEL-\d+$/.test(adId))throw Error('Invalid Ad ID.');return 'additional-files-'+adId;};
-function workspace(editorId:string){const w=EDITOR_WORKSPACES.find(w=>w.id===editorId);if(!w)throw Error('Choose a valid editor.');return w;}
+function workspace(editorId:string){const w=accountEditors().find(w=>w.id===editorId);if(!w)throw Error('Choose a valid editor.');return w;}
 async function masterRows(){return (await api().spreadsheets.values.get({spreadsheetId:master(),range:"'Daily Briefs'!A1:AE502",valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];}
 export async function additionalAds(editorId:string){workspace(editorId);const markets=new Map((await jobs()).filter(j=>j.adId).map(j=>[j.adId,j.market||'uk']));const rows=await masterRows(),h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Editor ID')]===editorId&&/^MEL-\d+$/.test(String(r[h.indexOf('Ad ID')]))).map(r=>({market:markets.get(String(r[h.indexOf('Ad ID')]))||'uk',adId:String(r[h.indexOf('Ad ID')]),name:String(r[h.indexOf('Ad name')]||''),script:String(r[h.indexOf('Adapted script')]||''),hooks:[String(r[h.indexOf('Hook 1')]||''),String(r[h.indexOf('Hook 2')]||'')]})).reverse();}
 async function selectedAd(editorId:string,adId:string){await assertAdActive(adId);workspace(editorId);key(adId);const rows=await masterRows(),h=rows[0]||[],matches=rows.map((r,i)=>({r,i})).filter(x=>x.i>0&&x.r[h.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad not found or duplicated.');const {r,i}=matches[0];if(r[h.indexOf('Editor ID')]!==editorId)throw Error('This ad is assigned to another editor. Refresh the list.');const col=h.indexOf('Additional files');if(col<0)throw Error('Additional files column is not configured.');return {row:i+1,col,links:String(r[col]||'')};}
@@ -83,7 +85,7 @@ export async function requestAdditionalUpload(input:Record<string,unknown>){
  });
 }
 export async function scheduleAdditionalVideo(adId:string,id:string,delaySeconds=0){
- const {send}=await import('@vercel/queue');await send('szekspir-additional-video',{adId,id},{region:'fra1',delaySeconds,retentionSeconds:86400});
+ const {send}=await import('./account-queue');await send('szekspir-additional-video',{adId,id},{region:'fra1',delaySeconds,retentionSeconds:86400});
 }
 export async function advanceAdditionalVideo(adId:string,id:string){
  if(await adCancelled(adId))return;

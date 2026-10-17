@@ -1,3 +1,4 @@
+import {accountMediaPath,logicalMediaPath} from './account-context';
 import {createClient} from '@supabase/supabase-js';
 import {put,head,BlobNotFoundError} from '@vercel/blob';
 import {Readable,Transform} from 'node:stream';
@@ -12,7 +13,7 @@ export async function assertMediaTypeSupported(contentType:string){
 }
 /** Bounded streaming output: large video files never become a single in-memory Buffer. */
 export async function putMediaStream(path:string,input:Readable,contentType:string){
- checkPath(path);let bytes=0;
+ checkPath(path);path=accountMediaPath(path);let bytes=0;
  const bounded=new Transform({transform(chunk:Buffer,_encoding,done){bytes+=chunk.length;done(bytes>MEDIA_LIMIT?Error('Video exceeds the 2 GB storage limit'):null,chunk);}});
  input.on('error',error=>bounded.destroy(error));input.pipe(bounded);
  try{
@@ -29,9 +30,9 @@ export function storageClient(){
  if(!url||!key)throw Error('Media storage is not configured');
  return createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(120000)})}});
 }
-function checkPath(path:string){if(!/^(voice-swaps\/[a-f0-9-]{36}\/(?:source\.wav|stems\.zip|background\.mp3|vocals\.mp3|[a-f0-9]{64}\.mp4)|sources\/[\w-]+\/(?:(?:source|audio)\.[a-z0-9]+|part-[0-2]\.mp4)|(?:clean|vo)\/[\w-]+\.(?:mp4|mp3|wav))$/i.test(path))throw Error('Invalid media path');}
+function checkPath(path:string){path=logicalMediaPath(path);if(!/^(voice-swaps\/[a-f0-9-]{36}\/(?:source\.wav|stems\.zip|background\.mp3|vocals\.mp3|[a-f0-9]{64}\.mp4)|sources\/[\w-]+\/(?:(?:source|audio)\.[a-z0-9]+|part-[0-2]\.mp4)|(?:clean|vo)\/[\w-]+\.(?:mp4|mp3|wav))$/i.test(path))throw Error('Invalid media path');}
 export async function existingMedia(path:string){
- checkPath(path);
+ checkPath(path);path=accountMediaPath(path);
  if(mediaBackend()==='blob'){try{return (await head(path)).url;}catch(e){if(e instanceof BlobNotFoundError||(e as Error).name==='BlobNotFoundError')return undefined;throw e;}}
  const bucket=storageClient().storage.from(MEDIA_BUCKET);
  const {data,error}=await bucket.info(path);
@@ -39,7 +40,7 @@ export async function existingMedia(path:string){
  return data?bucket.getPublicUrl(path).data.publicUrl:undefined;
 }
 export async function putMedia(path:string,body:Buffer,contentType:string){
- checkPath(path);
+ checkPath(path);path=accountMediaPath(path);
  if(mediaBackend()==='blob')return (await put(path,body,{access:'public',addRandomSuffix:false,contentType})).url;
  if(body.length>MEDIA_LIMIT)throw Error('This media file exceeds the 2 GB storage limit. Use a smaller file.');
  const bucket=storageClient().storage.from(MEDIA_BUCKET);
@@ -48,8 +49,8 @@ export async function putMedia(path:string,body:Buffer,contentType:string){
  return bucket.getPublicUrl(path).data.publicUrl;
 }
 export async function signMediaUpload(path:string,size:number,contentType:string){
- checkPath(path);
- if(!path.startsWith('sources/'))throw Error('Invalid upload path');
+ checkPath(path);path=accountMediaPath(path);
+ if(!logicalMediaPath(path).startsWith('sources/'))throw Error('Invalid upload path');
  if(!Number.isSafeInteger(size)||size<=0||size>MEDIA_LIMIT)throw Error('Choose a file smaller than 2 GB.');
  if(!['video/mp4','video/quicktime','video/webm','audio/mpeg','audio/mp4','audio/wav','audio/x-wav','image/jpeg','image/png','image/webp'].includes(contentType))throw Error('Unsupported media type');
  if(contentType.startsWith('image/')&&size>24*1024*1024)throw Error('Image exceeds the 24 MB limit.');

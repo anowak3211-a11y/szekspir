@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import type {Job} from './jobs';
 import type {VoiceTiming} from './vo-cleanup';
 import {dualVoice} from './dual-voice';
@@ -33,7 +34,7 @@ export async function generateDualVoice(job:Job,paid:()=>Promise<void>,save:(upd
  const original=await joinVoices(await Promise.all(takes.map(t=>load(t.originalUrl))));
  const originalUrl=await putMedia(`vo/${job.id}-r${job.revision||0}-original.wav`,Buffer.from(original),'audio/wav');
  if(job.voiceProcessing?.ambience&&job.voiceProcessing.ambience!=='none'&&job.voiceProcessing.mode!=='aggressive'){
-  await paid();const {addStoryAmbience}=await import('./story-ambience');audio=await addStoryAmbience(audio,job.voiceProcessing.ambience,timing,process.env.ELEVENLABS_API_KEY!);
+  await paid();const {addStoryAmbience}=await import('./story-ambience');audio=await addStoryAmbience(audio,job.voiceProcessing.ambience,timing,accountEnv('ELEVENLABS_API_KEY')!);
  }
  const url=await putMedia(`vo/${job.id}-r${job.revision||0}.wav`,Buffer.from(audio),'audio/wav');
  await save(j=>{j.voUrl=url;j.voOriginalUrl=originalUrl;j.voTiming=timing;});return url;

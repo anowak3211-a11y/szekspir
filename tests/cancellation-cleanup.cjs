@@ -23,7 +23,7 @@ Module._load=function(n,p,...rest){
  if(n==='./store')return {readState:async(k,d)=>({value:structuredClone(state.get(k)??d)}),writeState:async(k,v)=>{if(state.has(k))throw Object.assign(Error('Already exists'),{name:'AlreadyExists'});state.set(k,structuredClone(v));},mutate:async(k,d,fn)=>{const s=structuredClone(state.get(k)??d),result=fn(s);state.set(k,s);return structuredClone(result);}};
  if(n==='./editor-workspaces')return {EDITOR_WORKSPACES:workspaces};
  if(n==='googleapis')return {google:{auth:{GoogleAuth:class{}},sheets:()=>api}};
- if(n==='@vercel/queue')return {send:async()=>{queued++;}};
+ if((n==='@vercel/queue'||n==='./account-queue'))return {send:async()=>{queued++;}};
  if(n==='next/server')return {after:()=>assert.fail('Cancel must not enqueue after-work')};
  if(n.startsWith('@/'))return real.call(this,path.resolve(n.slice(2)),p,...rest);
  return real.call(this,n,p,...rest);

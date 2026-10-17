@@ -1,6 +1,8 @@
 """Authentication and bounded, DNS-pinned public downloads for standalone functions."""
 import base64
 import hmac
+import hashlib
+import json
 import http.client
 import ipaddress
 import os
@@ -87,3 +89,23 @@ def download_public(url, max_bytes=200 * 1024 * 1024):
         finally:
             conn.close()
     raise ValueError("Too many redirects")
+
+
+def vmake_keys(headers):
+    raw = headers.get("x-szekspir-vmake")
+    if not raw:
+        return os.environ["MT_AK"], os.environ["MT_SK"]
+    try:
+        value, signature = raw.split(".", 1)
+        secret = os.environ["CRON_SECRET"].encode()
+        expected = hmac.new(secret, ("vmake-account-v1:" + value).encode(), hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(signature, expected):
+            raise ValueError()
+        data = json.loads(base64.urlsafe_b64decode(value + "=" * (-len(value) % 4)))
+        if not time.time() * 1000 < data["expires"] <= time.time() * 1000 + 125000:
+            raise ValueError()
+        if not all(isinstance(data.get(k), str) and 0 < len(data[k]) <= 4096 for k in ("ak", "sk")):
+            raise ValueError()
+        return data["ak"], data["sk"]
+    except Exception:
+        raise ValueError("Invalid workspace VMake credentials") from None

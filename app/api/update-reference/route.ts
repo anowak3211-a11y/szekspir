@@ -1,7 +1,8 @@
+import {accountRoute} from '@/lib/account-route';
 import { NextRequest, NextResponse } from "next/server";
 import { updateReference } from "@/lib/sheets";
 
-export async function POST(req: NextRequest) {
+async function accountPOST(req: NextRequest) {
   try {
     const { adId, reference } = await req.json();
     if (!adId || !reference) {
@@ -17,3 +18,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+export const POST=accountRoute(accountPOST);

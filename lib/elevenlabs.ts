@@ -1,3 +1,4 @@
+import {accountEnv} from './account-context';
 import type {VoiceProcessing} from './voice-processing';
 import {pacedNarration,voiceSettings} from './voice-direction';
 import type {VoiceTiming} from './vo-cleanup';
@@ -7,7 +8,7 @@ const BASE = "https://api.elevenlabs.io/v1";
 export const ELEVEN_MODEL_ID='eleven_v4';
 
 function key(): string {
-  const k = process.env.ELEVENLABS_API_KEY;
+  const k = accountEnv('ELEVENLABS_API_KEY');
   if (!k) throw new Error("ELEVENLABS_API_KEY not set");
   return k;
 }

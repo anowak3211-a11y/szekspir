@@ -1,9 +1,10 @@
+import {accountRoute} from '@/lib/account-route';
 import {parseMarket} from '@/lib/market';
 import {selectableVoices} from '@/lib/voice-library';
 import { NextResponse } from "next/server";
 import { listVoices } from "@/lib/elevenlabs";
 
-export async function GET(req:Request) {
+async function accountGET(req:Request) {
   try {
     return NextResponse.json({ voices: selectableVoices(await listVoices(),parseMarket(new URL(req.url).searchParams.get('market')??undefined)) });
   } catch (e) {
@@ -11,3 +12,5 @@ export async function GET(req:Request) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+export const GET=accountRoute(accountGET);

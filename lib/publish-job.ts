@@ -1,5 +1,5 @@
 import {randomUUID} from 'node:crypto';
-import {send} from '@vercel/queue';
+import {send} from './account-queue';
 import {getJob,type Job} from './jobs';
 import {mutate} from './store';
 import {deliveryVersion} from './editor-checklist';

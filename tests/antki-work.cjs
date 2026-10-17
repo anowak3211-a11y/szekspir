@@ -19,7 +19,7 @@ const real=Module._load;Module._load=function(n,p,i){if(p?.filename.endsWith('/l
  if(n==='./antki-image-review')return {reviewAntkiImage:async()=>({personChanged:!rejectReview&&!rejectPerson,different:!rejectReview,realistic:true,congruent:true,change:rejectReview?'Near-identical copy.':'New camera angle.'})};
  if(n==='./store')return {readState:async(k,d)=>({value:structuredClone(state.has(k)?state.get(k):d)}),mutate:async(k,d,f)=>{const s=structuredClone(state.has(k)?state.get(k):d),out=f(s);state.set(k,s);return out;}};
  if(n==='./editor-locks')return {withEditorLocks:async(k,f)=>f()};
- if(n==='@vercel/queue')return {send:async(t,m,o)=>{scheduled.push(m.id);scheduledOptions.push(o);}};
+ if((n==='@vercel/queue'||n==='./account-queue'))return {send:async(t,m,o)=>{scheduled.push(m.id);scheduledOptions.push(o);}};
  if(n==='./native-ads')return {getNativeAds:async()=>[structuredClone(source)],getNativeAd:async()=>{sourceReads++;if(failRead)throw Object.assign(Error('Quota exceeded'),{code:429});return structuredClone(source);},imageType:()=>({mime:'image/png',ext:'png'}),saveNativeWorkOutput:async(id,original,out)=>{deliveries++;assert.equal(original,source.primaryText);assert.match(out.text,/favourite/);if(failDelivery)throw Error('offline Sheet failure');}};
  if(n==='./drive-video')return {driveUploadTarget:async()=>({drive,folderId:'folder'})};
  if(n==='./safe-fetch')return {safeDownload:async()=>({buffer:Buffer.from([137,80,78,71,13,10,26,10])})};

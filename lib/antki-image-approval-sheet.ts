@@ -1,10 +1,11 @@
+import {accountEnv,accountDefault} from './account-context';
 import {google} from 'googleapis';
 import {sheetAuth} from './sheets';
 import {withEditorLocks} from './editor-locks';
 import type {AntkiWork} from './antki-model';
 export const IMAGE_APPROVAL_HEADERS=['Ad ID','Approved image · Drive','Image preview','Drive file ID','Approved at','Workspace','Status'];
 export async function exportApprovedAntkiImage(work:AntkiWork){return withEditorLocks(['antki-upload-sheet'],async()=>{
- const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',title='Upload Antki Images';
+ const sheets=google.sheets({version:'v4',auth:sheetAuth()}),spreadsheetId=accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title='Upload Antki Images';
  const meta=(await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'})).data.sheets||[];
  let tab=meta.find(s=>s.properties?.title===title)?.properties;
  if(!tab){const result=await sheets.spreadsheets.batchUpdate({spreadsheetId,requestBody:{requests:[{addSheet:{properties:{title,gridProperties:{rowCount:2000,columnCount:7,frozenRowCount:1,hideGridlines:true}}}}]}});tab=result.data.replies?.[0]?.addSheet?.properties;}

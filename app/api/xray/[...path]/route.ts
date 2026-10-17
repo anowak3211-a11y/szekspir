@@ -1,3 +1,4 @@
+import {accountRoute} from '@/lib/account-route';
 import {checkedSession,authAttempt} from '@/lib/app-auth';
 import {historyRequest,userId} from '@/lib/xray/history';
 import {getJob} from '@/lib/jobs';
@@ -16,4 +17,4 @@ async function handle(request:Request,context:{params:Promise<{path:string[]}>})
   return Response.json(await historyRequest(request.method,path,new URL(request.url).searchParams,body,{id:userId(state.user.id),username:'Właściciel'}),{headers});
  }catch(e){const error=e as Error&{status?:number;istnieje?:unknown};return Response.json({ok:false,error:error.message.startsWith('Sign')?'Zaloguj się ponownie.':/api[_ -]?key|Bearer|sk-ant-|EAA[A-Za-z0-9]/i.test(error.message)?'Nie udało się wykonać operacji. Sprawdź konfigurację.':error.message.slice(0,300),detail:'Nie udało się wykonać operacji.',...(error.istnieje?{istnieje:error.istnieje}:{})},{status:error.status||400,headers});}
 }
-export const GET=handle,POST=handle,DELETE=handle;
+export const GET=accountRoute(handle),POST=accountRoute(handle),DELETE=accountRoute(handle);

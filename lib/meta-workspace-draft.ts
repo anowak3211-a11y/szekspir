@@ -1,4 +1,5 @@
 'use client';
+import {workspaceSessionStorage,browserWorkspaceKey} from './browser-workspace';
 import type {ImageCopyState} from './meta-image-copy-model';
 import type {UploadDraft} from './meta-uploader-model';
 
@@ -21,8 +22,8 @@ export function workspaceCreative(draft:WorkspaceCreative,resolved:UploadDraft):
 }
 export function workspaceTabId(){
  const key='szekspir-meta-workspace-tab';
- const saved=sessionStorage.getItem(key);if(saved)return saved;
- const id=crypto.randomUUID();sessionStorage.setItem(key,id);return id;
+ const saved=workspaceSessionStorage.getItem(key);if(saved)return saved;
+ const id=crypto.randomUUID();workspaceSessionStorage.setItem(key,id);return id;
 }
 function transaction<T>(mode:IDBTransactionMode,work:(store:IDBObjectStore,done:(value:T)=>void)=>void):Promise<T>{
  return new Promise((resolve,reject)=>{
@@ -30,7 +31,7 @@ function transaction<T>(mode:IDBTransactionMode,work:(store:IDBObjectStore,done:
   const finish=(error?:unknown)=>{if(finished)return;finished=true;clearTimeout(timer);db?.close();if(error)reject(Error('Local creative backup is unavailable. Keep this tab open or save a reviewed batch.'));else resolve(value);};
   const timer=setTimeout(()=>{tx?.abort();finish(Error('Storage timeout'));},15000);
   try{
-   const open=indexedDB.open(database,1);
+   const open=indexedDB.open(browserWorkspaceKey(database),1);
    open.onupgradeneeded=()=>open.result.createObjectStore('workspaces',{keyPath:'id'});
    open.onerror=()=>finish(open.error);open.onblocked=()=>finish(Error('Storage blocked'));
    open.onsuccess=()=>{db=open.result;if(finished){db.close();return;}try{tx=db.transaction('workspaces',mode);tx.oncomplete=()=>finish();tx.onerror=()=>finish(tx?.error);tx.onabort=()=>finish(Error('Storage aborted'));work(tx.objectStore('workspaces'),v=>{value=v;});}catch(e){tx?.abort();finish(e);}};

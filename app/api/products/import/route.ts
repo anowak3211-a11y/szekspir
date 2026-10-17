@@ -1,8 +1,9 @@
+import {accountRoute} from '@/lib/account-route';
 import {readZip} from '@/lib/import-pack';
 import {fileRole} from '@/lib/product-context';
 import {addFile} from '@/lib/products';
 export const maxDuration=300;
-export async function POST(req:Request){try{
+async function accountPOST(req:Request){try{
  const f=await req.formData(),product=String(f.get('product')||''),file=f.get('file');
  if(!product||!(file instanceof File)||file.size>3*1024*1024)throw new Error('Product and research file up to 3MB required');
  let files:{filename:string;markdown:string}[]=[],skipped:string[]=[];
@@ -15,3 +16,5 @@ export async function POST(req:Request){try{
  for(const item of files)await addFile(product,item.filename,item.markdown);
  return Response.json({accepted:files.map(f=>({name:f.filename,role:fileRole(f.filename)})),skipped});
 }catch(e){return Response.json({error:(e as Error).message},{status:400});}}
+
+export const POST=accountRoute(accountPOST);

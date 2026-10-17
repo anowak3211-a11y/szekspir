@@ -1,3 +1,5 @@
+import {accountEnv} from '@/lib/account-context';
+import {accountRoute} from '@/lib/account-route';
 import {pythonCall} from '@/lib/jobs';
 import {scheduleEditorSync} from '@/lib/editor-sync-queue';
 import {after} from 'next/server';
@@ -7,13 +9,13 @@ import {getProducts,addFile} from '@/lib/products';
 import {listVoices} from '@/lib/elevenlabs';
 export const maxDuration=300;
 function denied(req:Request){return !authorised(req.headers.get('authorization'),true);}
-export async function GET(req:Request){
+async function accountGET(req:Request){
  if(denied(req))return new Response('Unauthorised',{status:401});
  after(async()=>{await workQueue();await scheduleEditorSync();});return Response.json({queued:true},{status:202});
 }
 // Authenticated machine interface for the uploader/localisation integrations.
 // It never returns provider keys, passwords, raw environment or decrypted credentials.
-export async function POST(req:Request){
+async function accountPOST(req:Request){
  if(denied(req))return new Response('Unauthorised',{status:401});
  try{
   const body=await req.json();
@@ -31,7 +33,7 @@ export async function POST(req:Request){
   if(body.action==='inspect')return Response.json({job:await getJob(body.id)});
   if(body.action==='metadata'){
    const products=await getProducts();const voices=await listVoices();
-   const r=await fetch('https://api.anthropic.com/v1/models',{headers:{'x-api-key':process.env.ANTHROPIC_API_KEY||'','anthropic-version':'2023-06-01'},signal:AbortSignal.timeout(10000)});
+   const r=await fetch('https://api.anthropic.com/v1/models',{headers:{'x-api-key':accountEnv('ANTHROPIC_API_KEY')||'','anthropic-version':'2023-06-01'},signal:AbortSignal.timeout(10000)});
    const m=await r.json();
    return Response.json({products:products.map(p=>({name:p.name,files:p.files.map(f=>f.filename)})),voices:voices.map(v=>({id:v.voice_id,name:v.name,accent:v.labels?.accent})),anthropicStatus:r.status,models:m.data?.map((v:{id:string})=>v.id)||[],jobs:(await jobs()).map(j=>({id:j.id,name:j.name,status:j.status,step:j.step})),version:'2026-09-14-background-v2'});
   }
@@ -40,3 +42,6 @@ export async function POST(req:Request){
   await scheduleJob(job.id);return Response.json({job},{status:202});
  }catch(e){return Response.json({error:(e as Error).message},{status:400});}
 }
+
+export const GET=accountRoute(accountGET);
+export const POST=accountRoute(accountPOST);

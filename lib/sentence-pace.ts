@@ -1,3 +1,4 @@
+import {accountEnv,requiredAccountEnv} from './account-context';
 import OpenAI from 'openai';
 import {createHash} from 'node:crypto';
 import {diffArrays} from 'diff';
@@ -26,7 +27,7 @@ async function cachedWords(key:string,load:()=>Promise<Buffer>){
  const existing=await mutate(name,typeState,state=>{if(state.words)return state.words;if(state.started)throw Error('Speech timing is already being analysed or needs review; no paid analysis repeated.');state.started=true;return undefined;});if(existing)return existing;
  const bytes=await load();let upload=bytes,temporary:string|undefined;try{
   if(bytes.length>20*1024*1024){if(!ffmpeg)throw Error('Speech analysis compression unavailable.');temporary=await mkdtemp(join(tmpdir(),'szekspir-speech-'));const original=join(temporary,'input.wav'),compressed=join(temporary,'speech.mp3');await writeFile(original,bytes,{mode:0o600});await promisify(execFile)(ffmpeg,['-v','error','-nostdin','-n','-i',original,'-ac','1','-ar','16000','-b:a','48k',compressed],{timeout:60000,maxBuffer:1024*1024});upload=await readFile(compressed);}
-  const client=new OpenAI({apiKey:process.env.OPENAI_API_KEY,timeout:60000,maxRetries:0});
+  const client=new OpenAI({apiKey:requiredAccountEnv('OPENAI_API_KEY'),timeout:60000,maxRetries:0});
   const result=await client.audio.transcriptions.create({file:new File([new Uint8Array(upload)],upload.subarray(0,4).toString()==='RIFF'?'speech.wav':'speech.mp3'),model:'whisper-1',response_format:'verbose_json',timestamp_granularities:['word'],language:'en'});
   const words=(result as {words?:Word[]}).words;if(!words?.length||words.some(w=>!Number.isFinite(w.start)||!Number.isFinite(w.end)))throw Error('Speech timing analysis returned no usable word timestamps.');
   await mutate(name,typeState,state=>{state.words=words;});return words;

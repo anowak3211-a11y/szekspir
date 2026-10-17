@@ -1,3 +1,5 @@
+import {accountEditors} from './account-editors';
+import {accountEnv,accountDefault} from './account-context';
 import {getJob,type Job} from './jobs';
 import {mutate} from './store';
 import {editorAssignment} from './editor-sync';
@@ -14,10 +16,10 @@ export async function addEditorComment(id:string,input:unknown){
  if(!job?.adId)throw Error('Wait until the ad has been saved to the editor sheet.');
  const adId=job.adId;
  return withEditorLocks(['ad-'+adId],async()=>{
-  const assignment=await editorAssignment(adId),workspace=EDITOR_WORKSPACES.find(w=>w.id===assignment.current);
+  const assignment=await editorAssignment(adId),workspace=accountEditors().find(w=>w.id===assignment.current);
   if(!workspace)throw Error('This ad has no active editor assignment.');
   return withEditorLocks(['workspace-'+workspace.id],async()=>{
-   const api=assignment.api,admin=process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY';
+   const api=assignment.api,admin=accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');
    const targets=[{spreadsheetId:admin,tab:'Daily Briefs'},{spreadsheetId:workspace.sheetId,tab:'My Tasks'}];
    const cells=await Promise.all(targets.map(async target=>{
     const rows=(await api.spreadsheets.values.get({spreadsheetId:target.spreadsheetId,range:`'${target.tab}'!A1:AZ502`})).data.values||[];

@@ -1,5 +1,5 @@
 const fs=require('fs'),ts=require('typescript'),vm=require('vm'),assert=require('node:assert/strict');
-function load(file,deps={}){const m={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,{module:m,exports:m.exports,require:n=>deps[n]||require(n),Map,Error,JSON,process});return m.exports;}
+function load(file,deps={}){const m={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,{module:m,exports:m.exports,require:n=>n==='./account-context'?{accountCacheKey:k=>k}:n==='./account-brain'?{brainOptions:timeout=>({timeout,maxRetries:0}),brainClient:options=>new deps.openai(options)}:deps[n]||require(n),Map,Error,JSON,process});return m.exports;}
 const {editorNoteReady,notesForFile}=load('lib/file-editor-notes.ts');
 assert(editorNoteReady());assert(!editorNoteReady({raw:'od 0:26 zmień przebitki',instruction:'',translatedFrom:''}));
 const first={raw:'od 0:26 zmień przebitki',instruction:'From 0:26, replace the B-roll.',translatedFrom:'od 0:26 zmień przebitki'},second={raw:'zostaw intro',instruction:'Keep the intro unchanged.',translatedFrom:'zostaw intro'};

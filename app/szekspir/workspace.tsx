@@ -1,4 +1,5 @@
 'use client';
+import {workspaceLocalStorage} from '@/lib/browser-workspace';
 import {editorNoteReady,notesForFile,type EditorNoteDraft} from '@/lib/file-editor-notes';
 import {voiceApprovalPending} from '@/lib/voice-approval';
 import {copyReferenceForProduct,sheetProductLabel,copyReferenceLabel,sheetProductForReference} from '@/lib/product-reference';
@@ -12,7 +13,7 @@ import {VoiceOptions} from './components/voice-picker';
 import {v4RecordingSettings,pauseShorteningMs,voiceTempoFactor,type VoiceProcessing} from '../../lib/voice-processing';
 import {useEffect,useState,useRef,useMemo} from 'react';
 import {canCloseFinishedTab,closeFinishedTab,closeWorkTab} from '@/lib/finish-tab';
-import {EDITOR_WORKSPACES} from '@/lib/editor-workspaces';
+
 import VoicePreview from './components/voice-preview';
 import VideoQualityAlerts from '@/app/components/video-quality-alerts';
 import EditorComment from './components/editor-comment';
@@ -40,8 +41,8 @@ import type {Job} from '@/lib/jobs';
 import type {SavedNativeAd} from '@/lib/native-ad-model';
 import {deliveryVersion} from '@/lib/editor-checklist';
 type Voice={group?:string;preview_url?:string|null;voice_id:string;name:string;labels:Record<string,string>};
-function assertUploadActive(id:string){if(localStorage.getItem('szekspir-cancelled-'+id))throw Error('Cancelled by you');}
-function uploadStatus(id:string,status:Omit<UploadStatus,'updated'>){try{if(localStorage.getItem('szekspir-cancelled-'+id))return;const key='szekspir-upload-'+id;const previous=JSON.parse(localStorage.getItem(key)||'null');localStorage.setItem(key,JSON.stringify({...status,stage:status.error&&status.stage==='Upload not completed'?(previous?.stage||status.stage):status.stage,startedAt:previous?.startedAt||status.startedAt||Date.now(),updated:Date.now()}));window.dispatchEvent(new Event('szekspir-upload-status'));}catch{}}
+function assertUploadActive(id:string){if(workspaceLocalStorage.getItem('szekspir-cancelled-'+id))throw Error('Cancelled by you');}
+function uploadStatus(id:string,status:Omit<UploadStatus,'updated'>){try{if(workspaceLocalStorage.getItem('szekspir-cancelled-'+id))return;const key='szekspir-upload-'+id;const previous=JSON.parse(workspaceLocalStorage.getItem(key)||'null');workspaceLocalStorage.setItem(key,JSON.stringify({...status,stage:status.error&&status.stage==='Upload not completed'?(previous?.stage||status.stage):status.stage,startedAt:previous?.startedAt||status.startedAt||Date.now(),updated:Date.now()}));window.dispatchEvent(new Event('szekspir-upload-status'));}catch{}}
 function isBritish(v:Voice){return /british|english.?uk|united kingdom|england|london|scottish|welsh|northern irish|received pronunciation/i.test(v.labels?.accent||'');}
 type Product={name:string;version?:string;files?:{filename:string;markdown:string}[]};
 const pendingReads=new Map<string,Promise<any>>();
@@ -107,13 +108,13 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  const [retryingUploads,setRetryingUploads]=useState<string[]>([]);
  const [recoverableUploads,setRecoverableUploads]=useState<UploadDraft[]>([]);
  const [recoveryError,setRecoveryError]=useState('');
- async function readRecovery(){try{setRecoverableUploads((await listUploadDrafts()).filter(d=>d.market===market&&!localStorage.getItem('szekspir-cancelled-'+d.id)));setRecoveryError(uploadNeedsOpenTab()?'Browser backup is unavailable. Keep this original upload tab open until all uploads finish. Recovery after closing or reloading this tab is unavailable.':'');}catch(e){setRecoveryError((e as Error).message);}}
+ async function readRecovery(){try{setRecoverableUploads((await listUploadDrafts()).filter(d=>d.market===market&&!workspaceLocalStorage.getItem('szekspir-cancelled-'+d.id)));setRecoveryError(uploadNeedsOpenTab()?'Browser backup is unavailable. Keep this original upload tab open until all uploads finish. Recovery after closing or reloading this tab is unavailable.':'');}catch(e){setRecoveryError((e as Error).message);}}
  useEffect(()=>{void readRecovery();const wake=()=>{if(document.visibilityState==='visible')void readRecovery();};const changed=(e:StorageEvent)=>{if(e.key==='szekspir-recovery-change')wake();};document.addEventListener('visibilitychange',wake);window.addEventListener('storage',changed);window.addEventListener('szekspir-upload-recovery',wake);return()=>{document.removeEventListener('visibilitychange',wake);window.removeEventListener('storage',changed);window.removeEventListener('szekspir-upload-recovery',wake);};},[market]);
  useEffect(()=>{if(!uploadBatches&&!uploadNeedsOpenTab())return;const warn=(event:BeforeUnloadEvent)=>{event.preventDefault();event.returnValue='';};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[uploadBatches,recoveryError]);
  async function retryUpload(id:string){
   const task=retryUploads.current.get(id)||(()=>resumeUpload(id,uploadStatus));if(retryLocks.current.has(id))return;
   retryLocks.current.add(id);setRetryingUploads(old=>[...old,id]);setUploadBatches(n=>n+1);setError('');
-  try{await task();setFailedUploads(old=>old.filter(x=>x!==id));retryUploads.current.delete(id);const duplicate=JSON.parse(localStorage.getItem('szekspir-upload-'+id)||'null')?.duplicate;setMessage(duplicate?'Duplicate removed. The original advert is unchanged.':'Upload saved. Open its process to follow localisation.');await refresh();}
+  try{await task();setFailedUploads(old=>old.filter(x=>x!==id));retryUploads.current.delete(id);const duplicate=JSON.parse(workspaceLocalStorage.getItem('szekspir-upload-'+id)||'null')?.duplicate;setMessage(duplicate?'Duplicate removed. The original advert is unchanged.':'Upload saved. Open its process to follow localisation.');await refresh();}
   catch(e){setError((e as Error).message);}
   finally{retryLocks.current.delete(id);setRetryingUploads(old=>old.filter(x=>x!==id));setUploadBatches(n=>n-1);await readRecovery();}
  }
@@ -125,6 +126,8 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  const [phraseVoice,setPhraseVoice]=useState(''),[phraseSource,setPhraseSource]=useState('');
  const [comparingPace,setComparingPace]=useState(false),[paceComparison,setPaceComparison]=useState<import('@/lib/pace-comparison').PaceComparison|null>(null);
  async function comparePace(){if(!job||comparingPace)return;setComparingPace(true);setError('');try{const r=await fetch('/api/vo/pace-compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:job.id}),signal:AbortSignal.timeout(290000)});const data=await r.json();if(!r.ok)throw Error(data.error||'Comparison failed');setPaceComparison(data);}catch(e){setError((e as Error).message);}finally{setComparingPace(false);}}
+ const [editorWorkspaces,setEditorWorkspaces]=useState<{id:string;name:string;sheetId:string}[]>([]);
+ useEffect(()=>{fetch('/api/editors').then(r=>r.json()).then(d=>{if(d.editors)setEditorWorkspaces(d.editors);}).catch(()=>{});},[]);
  const [finishResult,setFinishResult]=useState<{forced?:boolean;ok:boolean;checks:{label:string;ok:boolean;detail?:string}[];editor:string;url:string}|null>(null);
  const [finishing,setFinishing]=useState(false),[finishSlow,setFinishSlow]=useState(false);
  useEffect(()=>{setFinishResult(null);},[script,JSON.stringify(hooks),selected]);
@@ -133,7 +136,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  const [pollError,setPollError]=useState('');
  const [cancelling,setCancelling]=useState(false);
  const [pendingUpload,setPendingUpload]=useState<UploadStatus|null>(null);
- useEffect(()=>{if(!selected)return;const read=()=>{try{setPendingUpload(JSON.parse(localStorage.getItem('szekspir-upload-'+selected)||'null'));}catch{}};read();window.addEventListener('storage',read);window.addEventListener('szekspir-upload-status',read);return()=>{window.removeEventListener('storage',read);window.removeEventListener('szekspir-upload-status',read);};},[selected]);
+ useEffect(()=>{if(!selected)return;const read=()=>{try{setPendingUpload(JSON.parse(workspaceLocalStorage.getItem('szekspir-upload-'+selected)||'null'));}catch{}};read();window.addEventListener('storage',read);window.addEventListener('szekspir-upload-status',read);return()=>{window.removeEventListener('storage',read);window.removeEventListener('szekspir-upload-status',read);};},[selected]);
  const [editingScript,setEditingScript]=useState(false),[savingCopy,setSavingCopy]=useState(false);
  async function saveCopyToEditor(){if(!job?.result||savingCopy)return;setSavingCopy(true);setBusy(true);setError('');try{const pending=(job as Job&{copyTextDelivery?:{input:unknown}}).copyTextDelivery?.input;const result=await json('/api/jobs/copy',pending||{id:job.id,script,hooks,expectedScript:job.result.uk_script,expectedHooks:job.result.hooks});setAll(old=>old.map(j=>j.id===result.job.id?result.job:j));setScript(result.job.result.uk_script);setHooks(result.job.result.hooks.slice(0,2));setSheetDelivery(null);setMessage('Copy saved and confirmed in '+result.editor+'’s sheet.');}catch(e){setError((e as Error).message);await refresh().catch(()=>{});}finally{setSavingCopy(false);setBusy(false);}}
  const [regeneratingScript,setRegeneratingScript]=useState(false),[scriptPreview,setScriptPreview]=useState<string|null>(null);
@@ -164,7 +167,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  useEffect(()=>{document.title=job?`${job.adId||job.name} · ${job.step==='done'&&voiceApprovalPending(job)?'Review script':job.status} · SZEKSPIR`:polish?'SZEKSPIR PL · Lokalizacje':'SZEKSPIR · Localisations';},[job]);
  async function refresh(){const id=new URLSearchParams(window.location.search).get('job');const data=await json('/api/jobs?market='+market+(id?'&id='+encodeURIComponent(id):'&summary=1'));if(id)setAll(data.jobs||[]);else{setAll(old=>{const merged=new Map(old.map(j=>[j.id,j]));for(const j of data.jobs||[])merged.set(j.id,j);return [...merged.values()].sort((a,b)=>b.created-a.created);});setListTotal(data.total||0);setListCursor(old=>Math.max(old,data.nextOffset||0));}setLastChecked(Date.now());setPollError('');return data.jobs as Job[];}
  async function loadOlderJobs(){if(loadingOlder)return;setLoadingOlder(true);setError('');try{const data=await json(`/api/jobs?market=${market}&summary=1&offset=${listCursor}`);setAll(old=>{const merged=new Map(old.map(j=>[j.id,j]));for(const j of data.jobs||[])merged.set(j.id,j);return [...merged.values()].sort((a,b)=>b.created-a.created);});setListCursor(data.nextOffset);setListTotal(data.total);}catch(e){setError((e as Error).message);}finally{setLoadingOlder(false);}}
- useEffect(()=>{json('/api/products').then(j=>setProducts(j.products)).catch(e=>setError(e.message));json('/api/voices?market='+market).then(j=>{setVoices(j.voices||[]);const prior=localStorage.getItem(voiceKey);if(prior&&!j.voices?.some((v:Voice)=>v.voice_id===prior)){setVoiceId('');localStorage.removeItem(voiceKey);}}).catch(e=>setError(e.message));setVoiceId(localStorage.getItem(voiceKey)||'');
+ useEffect(()=>{json('/api/products').then(j=>setProducts(j.products)).catch(e=>setError(e.message));json('/api/voices?market='+market).then(j=>{setVoices(j.voices||[]);const prior=workspaceLocalStorage.getItem(voiceKey);if(prior&&!j.voices?.some((v:Voice)=>v.voice_id===prior)){setVoiceId('');workspaceLocalStorage.removeItem(voiceKey);}}).catch(e=>setError(e.message));setVoiceId(workspaceLocalStorage.getItem(voiceKey)||'');
   let active=true;
   let timer:ReturnType<typeof setTimeout>;let polling=false,hasPolled=false,failures=0;
   const poll=async()=>{if(!active||polling)return;if(hasPolled&&document.visibilityState!=='visible'){timer=setTimeout(poll,60000);return;}hasPolled=true;polling=true;let delay=60000;try{{const jobs=await refresh();failures=0;const running=jobs.some(j=>j.status==='Queued'||j.status==='Running'||j.publication?.status==='queued'||j.publication?.status==='processing');if(new URLSearchParams(window.location.search).has('job'))delay=running?30000:120000;else if(running)delay=60000;}}catch(e){failures++;delay=Math.min(60000*2**Math.min(failures-1,3),300000);if(active)setPollError((e as Error).message);}finally{polling=false;}if(active)timer=setTimeout(poll,delay);};
@@ -196,7 +199,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
   const tasks=ids.map(id=>async()=>{try{await resumeUpload(id,uploadStatus);}finally{pending.delete(id);}});
   const failures=await runUploads(tasks.map((task,index)=>async()=>{const id=ids[index];try{await task();}catch(e){retryUploads.current.set(id,task);setFailedUploads(old=>old.includes(id)?old:[...old,id]);throw e;}}),2);
   if(failures.length){setError(failures.join('\n'));setMessage('Other uploads finished. Failed files are marked in their own tabs.');await refresh();return;}
-  const duplicates=ids.filter(id=>JSON.parse(localStorage.getItem('szekspir-upload-'+id)||'null')?.duplicate);
+  const duplicates=ids.filter(id=>JSON.parse(workspaceLocalStorage.getItem('szekspir-upload-'+id)||'null')?.duplicate);
   setBatchTabs(old=>old.filter(t=>!duplicates.includes(t.id)));
   setMessage(duplicates.length?`${duplicates.length} duplicate file(s) removed. Other files, if any, were saved.`:opened.some(tab=>!tab)?'Jobs saved. Your browser blocked some tabs. Open each localisation from Saved jobs below.':'Jobs saved. Each localisation has its own tab.');await refresh();
  }catch(e){const message=(e as Error).message;setError(message);pending.forEach((name,id)=>uploadStatus(id,{name,stage:'Upload not completed',error:message}));await refresh().catch(()=>{});}finally{submitLock.current=false;setUploadBatches(n=>n-1);await readRecovery();}}
@@ -208,13 +211,13 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  async function retry(j:Job){if(j.uncertain&&!confirm('The provider may already have charged for the interrupted request. Check its task history first. Retry this step?'))return;try{await json('/api/jobs',{action:'retry',id:j.id,confirmUncertain:!!j.uncertain});await refresh();}catch(e){setError((e as Error).message);}}
  async function abort(){
   if(!selected||cancelling)return;setCancelling(true);setError('');
-  localStorage.setItem('szekspir-cancelled-'+selected,'1');
+  workspaceLocalStorage.setItem('szekspir-cancelled-'+selected,'1');
   try{
    const response=await fetch('/api/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'cancel',id:selected}),signal:AbortSignal.timeout(240000)});
    const data=await response.json();
    if(data.job?.cancelledAt){
     setAll(old=>{const prior=old.some(j=>j.id===selected);return prior?old.map(j=>j.id===selected?data.job:j):[...old,data.job];});
-    localStorage.setItem('szekspir-cancelled-'+selected,'1');localStorage.removeItem('szekspir-upload-'+selected);await removeUploadDraft(selected).catch(()=>{});setPendingUpload(null);setScriptPreview(null);
+    workspaceLocalStorage.setItem('szekspir-cancelled-'+selected,'1');workspaceLocalStorage.removeItem('szekspir-upload-'+selected);await removeUploadDraft(selected).catch(()=>{});setPendingUpload(null);setScriptPreview(null);
    }
    if(!response.ok||data.job?.cancelCleanup?.status!=='complete')throw Error(data.error||'The job is stopped. Retry removing its sheet records.');
    window.location.replace(basePath);
@@ -284,7 +287,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  <label className={`workflow-option ${ctaMode==='original'||singingAd?'selected':''}`}><input type="radio" name="cta-mode" value="original" checked={singingAd||ctaMode==='original'} onChange={()=>setCtaMode('original')}/><span><strong>Original CTA · keep the offer</strong><small>Keep the original ending and offer explanation, adapted to your product. No offer is added if the original has none.</small></span></label>
  <label className={`workflow-option ${ctaMode==='learn-more'&&!singingAd?'selected':''}`}><input type="radio" name="cta-mode" value="learn-more" checked={!singingAd&&ctaMode==='learn-more'} onChange={()=>setCtaMode('learn-more')}/><span><strong>Learn more · no offer</strong><small>End with a link to learn more or read the article. Remove the offer, price and invitation to buy from the ending.</small></span></label>
  </fieldset>{singingAd&&<p>Singing ad keeps the original lyrics and ending.</p>}</section>
- <section className="vopanel"><h2>Assign editor</h2><label>Editor <select value={editorId} disabled={busy} onChange={e=>setEditorId(e.target.value)}>{EDITOR_WORKSPACES.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label><p>The brief and video link will be sent automatically to this editor’s sheet when ready. Applies to all files in this upload.</p><a href={`https://docs.google.com/spreadsheets/d/${EDITOR_WORKSPACES.find(e=>e.id===editorId)!.sheetId}/edit`} target="_blank" rel="noopener noreferrer">Open editor workspace ↗</a></section>
+ <section className="vopanel"><h2>Assign editor</h2><label>Editor <select value={editorId} disabled={busy} onChange={e=>setEditorId(e.target.value)}>{editorWorkspaces.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label><p>The brief and video link will be sent automatically to this editor’s sheet when ready. Applies to all files in this upload.</p><a href={`https://docs.google.com/spreadsheets/d/${editorWorkspaces.find(e=>e.id===editorId)?.sheetId||''}/edit`} target="_blank" rel="noopener noreferrer">Open editor workspace ↗</a></section>
  <button className="go localise-cta" disabled={busy||(inputMode==='media'&&(fileCheckBlocked||fileNotesBlocked))||(inputMode==='text'?!sourceScript.trim():!files.length&&!links.trim())} onClick={submit}>{busy?'Starting…':nativeSource?'Localise native primary text →':singingAd?'Prepare singing ad →':polish?'Przetłumacz na polski →':'Localise to British English →'}</button></>}
  {!selected&&batchTabs.length>0&&<section className="vopanel" aria-label="Processes in this upload"><h2>{batchTabs.length} files · {batchTabs.length} separate processes</h2>{batchTabs.some(t=>t.blocked)&&<p role="alert">Your browser blocked some new tabs. Allow pop-ups for szekspir.vercel.app, or open each process below.</p>}<ul>{batchTabs.map(t=><li key={t.id}><a href={`${basePath}?job=${encodeURIComponent(t.id)}`} target="_blank" rel="noopener noreferrer">{t.name} · {t.blocked?'Open process':'View process'} ↗</a>{failedUploads.includes(t.id)&&<button type="button" disabled={retryingUploads.includes(t.id)} onClick={()=>retryUpload(t.id)}>{retryingUploads.includes(t.id)?'Retrying upload…':'Retry upload'}</button>}</li>)}</ul><p>Keep this page open while uploading. If it closes, return in this browser and use Resume upload. Local recovery copies are removed after the job is saved; clearing browser data removes them.</p></section>}
  {error&&<div className="err" role="alert">{error}</div>}{pollError&&<div className="err" role="alert">Status check failed: {pollError} Retrying automatically.</div>}{message&&<p role="status">{message}</p>}
@@ -314,7 +317,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  {job.voiceoverEnabled!==false&&<div className="vopanel voice-recording">
   <header className="voice-recording-heading"><h2>Record voiceover</h2><span>Eleven v4</span></header>
   <p className="voice-help">Choose the pace for your next recording. Records your script and hooks marked “Send to editor”.</p>
-  <label className="voice-field">Voice<select value={voiceId||job.voiceId} disabled={busy||sendingVo} onChange={e=>{setVoiceId(e.target.value);localStorage.setItem(voiceKey,e.target.value);}}><option value="">Choose a voice</option>{job.voiceId&&!voices.some(v=>v.voice_id===job.voiceId)&&<option disabled value={job.voiceId}>Previously used voice · select a listed voice</option>}<VoiceOptions voices={voices}/></select></label>
+  <label className="voice-field">Voice<select value={voiceId||job.voiceId} disabled={busy||sendingVo} onChange={e=>{setVoiceId(e.target.value);workspaceLocalStorage.setItem(voiceKey,e.target.value);}}><option value="">Choose a voice</option>{job.voiceId&&!voices.some(v=>v.voice_id===job.voiceId)&&<option disabled value={job.voiceId}>Previously used voice · select a listed voice</option>}<VoiceOptions voices={voices}/></select></label>
   <VoicePreview voiceId={voiceId||job.voiceId} url={voices.find(v=>v.voice_id===(voiceId||job.voiceId))?.preview_url}/>
   {!dual&&<VoiceCreation value={voiceProcessing} onChange={setVoiceProcessing} disabled={busy||sendingVo} sourceAvailable={!!sourcePace(job,script,voiceId||job.voiceId,{...voiceProcessing,matchSourcePace:true})} polish={polish}/>}
   {dual&&<VoiceAdjustments value={voiceProcessing} onChange={setVoiceProcessing} disabled={busy||sendingVo} polish={polish}/>}
