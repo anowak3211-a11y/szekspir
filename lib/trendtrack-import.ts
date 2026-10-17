@@ -23,7 +23,7 @@ async function request(apiKey:string,path:string,body?:unknown){
  let response:Response;try{response=await fetch(BASE+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${apiKey}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),redirect:'error',cache:'no-store',signal:AbortSignal.timeout(60000)});}catch{throw Error('Trendtrack nie potwierdził odpowiedzi. Nie ponawiamy automatycznie płatnego pobrania.');}
  if(response.status===400){
   const rejected=await response.json().catch(()=>({}));const fields=rejected?.error?.details?.validationErrors;
-  const reasons=Array.isArray(fields)?fields.slice(0,5).map((f:{field?:string;expected?:string[]})=>String(f.field||'filter')+': '+(Array.isArray(f.expected)?f.expected.join(', '):'invalid')).join('; '):String(rejected?.error?.code||'invalid_request');
+  const reasons=Array.isArray(fields)?fields.slice(0,5).map((f:{field?:string;expected?:string[]})=>String(f.field||'filter')+': '+(Array.isArray(f.expected)?f.expected.join(', '):'invalid')).join('; '):JSON.stringify(rejected?.error||{code:'invalid_request'}).replaceAll(apiKey,'[redacted]');
   throw Error(`Trendtrack odrzucił ${body?'filtry reklam':'identyfikator sklepu'}: ${reasons.slice(0,1000)}`);
  }
  if(!response.ok)throw Error(response.status===401||response.status===403?'Trendtrack odrzucił klucz API. Sprawdź dostęp do workspace.':response.status===402?'Brak kredytów API Trendtracka.':response.status===429?'Trendtrack ograniczył liczbę zapytań. Spróbuj później.':`Trendtrack zwrócił błąd HTTP ${response.status}.`);
@@ -45,7 +45,7 @@ export function selectTrendtrackAds(rows:unknown[]):Pick<Snapshot,'ads'|'skipped
 }
 export async function fetchTrendtrackTop(value:unknown){
  const scope=trendtrackScope(value),apiKey=await key();if(!apiKey)throw Error('Najpierw połącz klucz API Trendtracka.');
- const name='trendtrack-top-v2-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
+ const name='trendtrack-top-v3-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
  const previous=(await readState<Cache>(name,{})).value;
  if(previous.result&&Date.now()-(previous.started||0)<HOUR)return {...previous.result,cached:true};
  await mutate<Cache,void>(name,{},s=>{if(s.started&&Date.now()-s.started<HOUR)throw Error(s.error||'Pobranie już trwa. Nie uruchamiamy drugiego zapytania.');s.started=Date.now();delete s.result;delete s.error;});
