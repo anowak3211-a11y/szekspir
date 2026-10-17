@@ -45,7 +45,7 @@ export function selectTrendtrackAds(rows:unknown[]):Pick<Snapshot,'ads'|'skipped
 }
 export async function fetchTrendtrackTop(value:unknown){
  const scope=trendtrackScope(value),apiKey=await key();if(!apiKey)throw Error('Najpierw połącz klucz API Trendtracka.');
- const name='trendtrack-top-v3-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
+ const name='trendtrack-top-v4-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
  const previous=(await readState<Cache>(name,{})).value;
  if(previous.result&&Date.now()-(previous.started||0)<HOUR)return {...previous.result,cached:true};
  await mutate<Cache,void>(name,{},s=>{if(s.started&&Date.now()-s.started<HOUR)throw Error(s.error||'Pobranie już trwa. Nie uruchamiamy drugiego zapytania.');s.started=Date.now();delete s.result;delete s.error;});
@@ -55,10 +55,13 @@ export async function fetchTrendtrackTop(value:unknown){
   if(scope.kind==='shop'){
    const linked=source?.advertising?.linkedAdvertisers;
    if(!Array.isArray(linked)||source.advertising.linkedAdvertisersCount>linked.length)throw Error('Trendtrack nie zwrócił pełnej listy reklamodawców tego sklepu.');
-   pages=linked.filter((p:{platform?:string})=>!p.platform||p.platform==='facebook').map((p:{facebookPageId?:string;id?:string})=>String(p.facebookPageId||p.id||''));
+   const candidates=linked.filter((p:{platform?:string})=>!p.platform||p.platform==='facebook'),primary=candidates.filter((p:{isPrimary?:boolean})=>p.isPrimary===true);
+   const selected=primary.length===1?primary:candidates;if(selected.length!==1)throw Error('Sklep ma kilka profili reklamowych bez wskazanego głównego. Wybierz główny profil w Trendtracku.');
+   pages=selected.map((p:{facebookPageId?:string;id?:string})=>String(p.facebookPageId||p.id||''));
   }else pages=[String(source?.facebookPageId||'')];
   pages=[...new Set(pages)];if(!pages.length||pages.length>100||pages.some(p=>!/^\d{5,30}$/.test(p)))throw Error('Nie znaleziono stron Facebooka powiązanych ze sklepem.');
-  const result=await request(apiKey,'/v1/ads/query',{trackedPages:pages,platforms:['facebook'],mediaType:'image',status:'all',sortBy:'reach',order:'desc',reachPeriod:'total',page:1,limit:60});
+  // The maintained global ads-search rejects trackedPages. The advertiser route keeps exact page scope.
+  const result=await request(apiKey,`/v1/advertisers/${pages[0]}/ads?limit=60&offset=0&status=all&mediaType=image&sortBy=reach`);
   if(!Array.isArray(result.data)||result.data.length>60)throw Error('Trendtrack zwrócił nieprawidłową liczbę reklam.');
   const chosen=selectTrendtrackAds(result.data),snapshot={...chosen,name:String(source.name||source.domain||'Trendtrack').slice(0,300),fetched:result.data.length};
   await mutate<Cache,void>(name,{},s=>{s.result=snapshot;});return {...snapshot,cached:false};
