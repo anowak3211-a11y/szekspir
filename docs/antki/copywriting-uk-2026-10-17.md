@@ -20,6 +20,10 @@ Keep the same narrator, relationships, events, chronology, causal sequence, turn
 - Close: fulfil the emotional promise of the opening with its existing outcome, then a natural personal CTA. Preserve the intended action and offer. Do not bolt on a lecture, fake scarcity, extra guarantees or repetitive calls to order.
 - Length and format: no universal word target. Preserve necessary emotional build-up; tighten only passages that repeat themselves. Use readable paragraphs with blank lines, varied sentence lengths and an individual conversational voice. Avoid formulaic contrasts, theatrical fragments everywhere, marketing filler and the same tidy ending in every advert.
 
+## Clock times — owner correction, 17 October 2026
+
+In both UK Antki versions (localized and rewritten), write clock times in digits: “nine at night” → “9 pm”; “half past seven in the morning” → “7.30 am”. Preserve the exact hour, minutes and time of day; never invent am/pm when the source is ambiguous. This formatting change preserves the factual time and overrides literal-format preservation for clock times only. This rule applies to written ad copy, not voiceover scripts: spoken narration keeps times in words. Do not extend this correction to ages, counts or durations.
+
 ## Our product and destination
 
 When the source advert promotes saffron gummies as the product to buy, use our name Mellow Mood Munchies in the UK version. Keep names of medicines, cited competitors and previously tried products in their actual narrative roles. This brand adaptation does not make another product's formulation, evidence or results true of ours. Do not invent ingredient equivalence, doses, approvals or clinical validation; flag unresolved product/offer discrepancies in reviewNotes, outside the copy. Keep factual numbers and original URLs literal in the model response for validation; the app separately replaces all UK URLs with the owner's Mellow product destination.
