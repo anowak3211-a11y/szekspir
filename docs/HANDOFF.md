@@ -866,3 +866,10 @@ Use the README checks. Before production changes, verify the linked Vercel proje
 - Tenant boundaries cover state, media paths, browser drafts, paid credentials and queued workers. Missing member credentials fail closed. Shared Google infrastructure remains owner-managed; the legacy VMake API remains unchanged and receives signed short-lived member credentials server-to-server.
 - Profile supports OpenAI, Anthropic, Gemini and a public HTTPS OpenAI-compatible endpoint with an explicit model ID. Selected-provider routing covers Antki copy/image review, localisation/hooks, editor notes, Ads image copy and X-RAY. Audio transcription and media providers remain separate. Custom endpoints use DNS-pinned public connections and reject redirects; no automatic paid retries or provider fallback.
 - Verification: production build and typecheck; offline account isolation/provisioning/provider tests, auth, media/Voice Swapper, Drive OAuth, editor assignment, Antki and Meta regressions. No paid provider generations or Google/email provisioning were performed for these tests. Live invitation/profile check follows deployment; actual friend redemption remains unverified until a recipient uses the link.
+
+
+## Antki saved-error diagnostics — 17 October 2026
+
+- Library adds an explicit grouped diagnosis action for failed/uncertain preparation. It reads the existing work index and saved records through bounded bulk state reads; no provider polling, retry, image download or generation occurs. Responses contain status/stage/cause and saved-output flags, without source texts or provider credentials.
+- Verified the current library UI has 61 rows: 16 Ready for review, 29 Needs attention, 16 Check previous request. These are status counts, not yet a diagnosis of every failure or proof of new-style rewrites. User requested an explanation of the 29 errors.
+- Local diagnostic batch test, typecheck and production build required before deploy. Existing historical credential-file access was rejected by automatic approval; use the authenticated deployed UI for live diagnosis.
