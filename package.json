@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "node tests/regression.cjs",
-    "test:meta": "node tests/meta-rate-limit.cjs && node tests/meta-listing-stale.cjs && node tests/meta-image-upload-copy.cjs && node tests/meta-adsets.cjs && node tests/meta-connection.cjs && node tests/meta-target-compat.cjs && node tests/meta-uploader-settings.cjs && node tests/meta-uploader.cjs && node tests/meta-image-story.cjs && node tests/meta-setup-errors.cjs && node tests/meta-browser-request.cjs && node tests/meta-resource-picker.cjs && node tests/meta-image-copy.cjs && node tests/meta-workspace-draft.cjs && node tests/meta-resilience.cjs",
+    "test:meta": "node tests/meta-rate-limit.cjs && node tests/meta-listing-stale.cjs && node tests/meta-image-upload-copy.cjs && node tests/meta-adsets.cjs && node tests/meta-connection.cjs && node tests/meta-target-compat.cjs && node tests/meta-uploader-settings.cjs && node tests/meta-uploader.cjs && node tests/meta-image-story.cjs && node tests/meta-setup-errors.cjs && node tests/meta-browser-request.cjs && node tests/meta-resource-picker.cjs && node tests/meta-image-copy.cjs && node tests/meta-video-copy.cjs && node tests/meta-workspace-draft.cjs && node tests/meta-resilience.cjs",
     "test:auth": "node tests/auth-mfa.cjs && python3 tests/auth-python.py",
     "typecheck": "tsc --noEmit --incremental false"
   },

@@ -1,9 +1,10 @@
 'use client';
 import {workspaceSessionStorage,browserWorkspaceKey} from './browser-workspace';
+import type {VideoCopyState} from './meta-video-copy-model';
 import type {ImageCopyState} from './meta-image-copy-model';
 import type {UploadDraft} from './meta-uploader-model';
 
-export type WorkspaceCreative=UploadDraft&{copy?:ImageCopyState;localId:string;file?:File;localPreview?:string;progress?:number;fileError?:string};
+export type WorkspaceCreative=UploadDraft&{copy?:ImageCopyState|VideoCopyState;localId:string;file?:File;localPreview?:string;progress?:number;fileError?:string};
 export type WorkspaceSelection={accountId:string;campaignId:string;adSetId:string;pageId:string;url:string;cta:'SHOP_NOW'|'LEARN_MORE'};
 export type WorkspaceBackup={version:1;id:string;batchId:string;batchName:string;selection:WorkspaceSelection;drafts:WorkspaceCreative[];chosen:string[];updated:number};
 const database='szekspir-meta-workspace-v1';
