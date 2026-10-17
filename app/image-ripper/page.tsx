@@ -114,26 +114,25 @@ export default function ImageRipperPage() {
   const [defaultRefs, setDefaultRefs] = useState<BuiltInRef[]>([
     {
       id: 'mellow-packshot-front-uk',
-      label: 'Packshot Front UK (Pouch + Żelki)',
+      label: 'Packshot Front UK — Pouch + Żelki',
       path: '/brand-references/mellow-packshot-front-uk.jpg',
     },
     {
-      id: 'mellow-kie-gold-01',
-      label: 'Kie Gold Style — Dark Navy + Saffron',
-      path: '/brand-references/mellow-kie-gold-01.jpg',
+      id: 'mellow-packshot-30-servings',
+      label: 'Packshot Studio — 30 Servings | 60 Gummies',
+      path: '/brand-references/mellow-packshot-30-servings.jpg',
     },
     {
-      id: 'mellow-kie-gold-02',
-      label: 'Kie Gold Style — Pale Ice-Blue Studio',
-      path: '/brand-references/mellow-kie-gold-02.jpg',
+      id: 'mellow-packshot-spilling-gummies',
+      label: 'Packshot Pochylony — Wysypujące się żelki-kwiatki',
+      path: '/brand-references/mellow-packshot-spilling-gummies.jpg',
     },
   ]);
-  const [selectedRefIds, setSelectedRefIds] = useState<string[]>([
-    'mellow-packshot-front-uk',
-    'mellow-kie-gold-01',
-    'mellow-kie-gold-02',
-  ]);
   const [customRefs, setCustomRefs] = useState<CustomReferenceItem[]>([]);
+
+  const isMellowSelected =
+    !selectedProduct ||
+    /mellow|mood\s*munchies|saffron|kids\s*gummies/i.test(selectedProduct);
 
   const [items, setItems] = useState<RipperItem[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -252,12 +251,6 @@ export default function ImageRipperPage() {
     setCustomRefs((prev) => [...prev, ...added].slice(0, 3));
   }, []);
 
-  const toggleRefId = (id: string) => {
-    setSelectedRefIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
-
   const runSingleItem = useCallback(
     async (itemId: string) => {
       const target = itemsRef.current.find((i) => i.id === itemId);
@@ -276,6 +269,8 @@ export default function ImageRipperPage() {
         .filter(Boolean)
         .join('\n');
 
+      const autoRefIds = isMellowSelected ? defaultRefs.map((r) => r.id) : [];
+
       try {
         const res = await fetch('/api/image-ripper', {
           method: 'POST',
@@ -291,7 +286,7 @@ export default function ImageRipperPage() {
             customInstructions: combinedInstructions,
             customPrompt: target.prompt.trim() || undefined,
             model,
-            referenceIds: selectedRefIds,
+            referenceIds: autoRefIds,
             customReferenceDataUrls: customRefs.map((c) => c.dataUrl),
             useVision,
           }),
@@ -340,7 +335,7 @@ export default function ImageRipperPage() {
         );
       }
     },
-    [batchInstructions, customRefs, model, selectedProduct, selectedRefIds, useVision]
+    [batchInstructions, customRefs, defaultRefs, isMellowSelected, model, selectedProduct, useVision]
   );
 
   const runBatchAll = useCallback(async () => {
@@ -744,112 +739,84 @@ export default function ImageRipperPage() {
           </div>
         )}
 
-        {/* Reference Packshots Selector */}
-        <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid #27272a' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 10,
-              marginBottom: 12,
-            }}
-          >
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#d4d4d8' }}>
-              4. Referencje Packshotów & Stylu (wysyłane do Kie.ai razem z grafiką konkurencji):
-            </span>
-            <div>
-              <input
-                ref={customRefInputRef}
-                type="file"
-                accept="image/*"
-                multiple
-                style={{ display: 'none' }}
-                onChange={(e) => handleCustomRefUpload(e.target.files)}
-              />
-              <button
-                type="button"
-                onClick={() => customRefInputRef.current?.click()}
+        {/* Automatic Packshot Status Bar */}
+        <div
+          style={{
+            marginTop: 18,
+            paddingTop: 14,
+            borderTop: '1px solid #27272a',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10 }}>
+            {isMellowSelected ? (
+              <div
                 style={{
-                  background: '#27272a',
-                  border: '1px solid #3f3f46',
-                  color: '#e4e4e7',
-                  borderRadius: 8,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
                   padding: '6px 12px',
+                  borderRadius: 999,
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  color: '#34d399',
                   fontSize: 12,
                   fontWeight: 600,
-                  cursor: 'pointer',
                 }}
               >
-                + Dodaj własny packshot referencyjny
-              </button>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            {defaultRefs.map((ref) => {
-              const active = selectedRefIds.includes(ref.id);
-              return (
-                <label
-                  key={ref.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '8px 12px',
-                    borderRadius: 12,
-                    background: active ? 'rgba(56, 189, 248, 0.12)' : '#09090b',
-                    border: `1px solid ${active ? '#38bdf8' : '#27272a'}`,
-                    cursor: 'pointer',
-                    fontSize: 13,
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={active}
-                    onChange={() => toggleRefId(ref.id)}
-                  />
-                  <img
-                    src={ref.path}
-                    alt={ref.label}
-                    style={{
-                      width: 44,
-                      height: 44,
-                      objectFit: 'cover',
-                      borderRadius: 6,
-                      border: '1px solid #3f3f46',
-                    }}
-                  />
-                  <span style={{ fontWeight: 600, color: active ? '#f4f4f5' : '#a1a1aa' }}>
-                    {ref.label}
-                  </span>
-                </label>
-              );
-            })}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  {defaultRefs.map((ref) => (
+                    <img
+                      key={ref.id}
+                      src={ref.path}
+                      alt={ref.label}
+                      title={ref.label}
+                      style={{
+                        width: 24,
+                        height: 24,
+                        objectFit: 'cover',
+                        borderRadius: 4,
+                        border: '1px solid rgba(52, 211, 153, 0.5)',
+                      }}
+                    />
+                  ))}
+                </div>
+                <span>
+                  ✓ Packshoty Mellow UK podpięte automatycznie w tle (przód UK + 30 servings + wysypane żelki-kwiatki)
+                </span>
+              </div>
+            ) : (
+              <span style={{ fontSize: 12, color: '#a1a1aa' }}>
+                Wybrano własny produkt z Product Briefs — wgraj packshot referencyjny poniżej:
+              </span>
+            )}
 
             {customRefs.map((cref) => (
               <div
                 key={cref.id}
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 10,
-                  padding: '8px 12px',
-                  borderRadius: 12,
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  border: '1px solid #10b981',
-                  fontSize: 13,
+                  gap: 8,
+                  padding: '5px 10px',
+                  borderRadius: 999,
+                  background: '#09090b',
+                  border: '1px solid #3f3f46',
+                  fontSize: 12,
                 }}
               >
                 <img
                   src={cref.dataUrl}
                   alt={cref.name}
                   style={{
-                    width: 44,
-                    height: 44,
+                    width: 22,
+                    height: 22,
                     objectFit: 'cover',
-                    borderRadius: 6,
+                    borderRadius: 4,
                   }}
                 />
                 <span>{cref.name}</span>
@@ -864,12 +831,40 @@ export default function ImageRipperPage() {
                     color: '#f87171',
                     cursor: 'pointer',
                     fontWeight: 700,
+                    padding: 0,
                   }}
                 >
                   ✕
                 </button>
               </div>
             ))}
+          </div>
+
+          <div>
+            <input
+              ref={customRefInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              style={{ display: 'none' }}
+              onChange={(e) => handleCustomRefUpload(e.target.files)}
+            />
+            <button
+              type="button"
+              onClick={() => customRefInputRef.current?.click()}
+              style={{
+                background: '#27272a',
+                border: '1px solid #3f3f46',
+                color: '#d4d4d8',
+                borderRadius: 8,
+                padding: '6px 12px',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              + Wgraj dodatkowy / własny packshot
+            </button>
           </div>
         </div>
       </section>

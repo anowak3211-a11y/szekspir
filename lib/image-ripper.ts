@@ -26,18 +26,18 @@ export interface RipperVisionAnalysis {
 export const DEFAULT_MELLOW_REFERENCES = [
   {
     id: 'mellow-packshot-front-uk',
-    label: 'Packshot Front UK (Pouch + Żelki)',
+    label: 'Packshot Front UK — Pouch + Żelki',
     path: '/brand-references/mellow-packshot-front-uk.jpg',
   },
   {
-    id: 'mellow-kie-gold-01',
-    label: 'Kie Gold Style — Dark Navy + Saffron',
-    path: '/brand-references/mellow-kie-gold-01.jpg',
+    id: 'mellow-packshot-30-servings',
+    label: 'Packshot Studio — 30 Servings | 60 Gummies',
+    path: '/brand-references/mellow-packshot-30-servings.jpg',
   },
   {
-    id: 'mellow-kie-gold-02',
-    label: 'Kie Gold Style — Pale Ice-Blue Studio',
-    path: '/brand-references/mellow-kie-gold-02.jpg',
+    id: 'mellow-packshot-spilling-gummies',
+    label: 'Packshot Pochylony — Wysypujące się żelki-kwiatki',
+    path: '/brand-references/mellow-packshot-spilling-gummies.jpg',
   },
 ] as const;
 
@@ -125,18 +125,19 @@ export function buildImageRipperPrompt(params: {
   const v = params.visionAnalysis;
 
   const sections: string[] = [
-    `TASK: High-converting 2K direct-response ad creative rebranding (1:1 structural adaptation from the first reference competitor image into our target brand "${displayLabel}").`,
-    `LAYOUT & COMPOSITION LOCK (${aspect}):
-- Preserve the first reference image's exact visual hierarchy, camera angle, grid structure, badge placement, callout arrows, comparison table, timeline layout, or split-screen composition.
-- Replace 100% of competitor branding, competitor logos ("Vitamood", "Moodi", "Magic Stix", "Olly", etc.), competitor packaging, and competitor product forms with our brand assets from the attached packshot/style reference images.`,
+    `TASK: High-converting 2K direct-response ad creative rebranding (1:1 structural adaptation from Image #1 into our target brand "${displayLabel}").`,
+    `HOW TO USE THE INPUT REFERENCE IMAGES (image_input):
+- IMAGE #1 (FIRST IMAGE): This is the COMPETITOR SOURCE AD. Keep its exact visual hierarchy, layout structure, camera angle, grid/split-screen composition, callout arrow positions, and headline placement (${aspect}).
+- IMAGES #2–#4 (SUBSEQUENT IMAGES): These are PURE, TEXT-FREE STUDIO PRODUCT PACKSHOTS of our "${displayLabel}" stand-up pouch and glossy red 5-petal flower-shaped gummies. Use Images #2–#4 strictly as the exact 3D/photographic reference for our pouch artwork, wordmark logo, pink mascot, and flower-shaped gummies. NEVER copy the plain studio podium/background from Images #2–#4 if Image #1 has a different scene or layout.
+- Replace 100% of competitor branding, competitor logos ("Vitamood", "Moodi", "Magic Stix", "Olly", etc.), competitor packaging, and competitor product forms from Image #1 with our product packshot from Images #2–#4.`,
   ];
 
   if (useMellowBook) {
     sections.push(MELLOW_RIPPER_BRAND_BOOK);
     sections.push(
       `CRITICAL MELLOW VISUAL REPLACEMENT RULES:
-- POUCH: Replace any product bottle, box, stick-pack, or purple pouch with the exact matte light sky-blue (#B5E2FA) "mellow Mood munchies" stand-up pouch from the reference packshot (dark navy #102D46 "mellow" logo with smile under "ll", pink "30 SERVINGS | 60 GUMMIES" top-right, cute pink mascot with glasses giving a thumbs up, "NATURAL BERRIES FLAVOUR" badge, "SAFFRON GUMMIES FOR MOOD & FOCUS*" and "Food Supplement").
-- GUMMIES & PROPS: Replace any gummy bears, orange sugar-coated gummies, powder sticks, capsules, or red drink glasses with glossy vibrant berry-red 5-petal flower-shaped gummies, accompanied by a fresh purple saffron crocus flower (Crocus sativus) on crimson saffron threads and fresh berries (raspberries, blueberries, blackberries).
+- POUCH: Replace any product bottle, box, stick-pack, or purple pouch with the exact matte light sky-blue (#B5E2FA) "mellow Mood munchies" stand-up pouch from Images #2–#4 (dark navy #102D46 "mellow" logo with smile under "ll", pink "30 SERVINGS | 60 GUMMIES" top-right, cute pink mascot with glasses giving a thumbs up, "NATURAL BERRIES FLAVOUR" badge, "SAFFRON GUMMIES FOR MOOD & FOCUS*" and "Food Supplement").
+- GUMMIES & PROPS: Replace any gummy bears, orange sugar-coated gummies, powder sticks, capsules, or red drink glasses with glossy vibrant berry-red 5-petal flower-shaped gummies (as shown in Images #2–#4), accompanied by a fresh purple saffron crocus flower (Crocus sativus) on crimson saffron threads and fresh berries (raspberries, blueberries, blackberries).
 - COLOUR PALETTE: Eliminate all competitor purple/lavender/violet backgrounds (#DBD3FF, #6F42C1). Use either Mellow Pale Ice-Blue Studio (#DCECF5 to #EDF7FA) or Deep Mellow Navy (#102D46 to #0D2336) with #102D46 pill CTA buttons and #F6A4C7 soft pink accents.
 - COPY & OFFERS: Use strict UK English ("colour", "flavour", "mum", "behaviour", "Food Supplement"). If an offer/sale badge appears, replace it with "BUY 2 GET 1 FREE" or "BUY 3 GET 2 FREE" (never "EOFY Clearance Sale" or "Buy 1 Get 1 Free"). If a Day timeline appears, use Day 7 / Day 30 / Day 100.`
     );

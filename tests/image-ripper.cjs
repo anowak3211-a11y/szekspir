@@ -175,6 +175,22 @@ test('parseDataUrlToBuffer decodes valid data URLs and rejects invalid strings',
 // 4. Static verification of UI, API route, Home Tiles, and Brand Reference files
 test('Static verification of reference images, API route, UI page, and home tile', () => {
   assert.equal(DEFAULT_MELLOW_REFERENCES.length, 3);
+  assert.deepEqual(
+    DEFAULT_MELLOW_REFERENCES.map((r) => r.id),
+    [
+      'mellow-packshot-front-uk',
+      'mellow-packshot-30-servings',
+      'mellow-packshot-spilling-gummies',
+    ]
+  );
+  assert.deepEqual(
+    DEFAULT_MELLOW_REFERENCES.map((r) => r.path),
+    [
+      '/brand-references/mellow-packshot-front-uk.jpg',
+      '/brand-references/mellow-packshot-30-servings.jpg',
+      '/brand-references/mellow-packshot-spilling-gummies.jpg',
+    ]
+  );
   for (const ref of DEFAULT_MELLOW_REFERENCES) {
     const absRef = path.join(root, 'public', ref.path.replace(/^\/+/, ''));
     assert(fs.existsSync(absRef), `Missing reference image: ${absRef}`);
