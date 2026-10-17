@@ -29,7 +29,7 @@ const tensNumbers=['','','twenty','thirty','forty','fifty','sixty','seventy','ei
 function wordNumber(n:number):string{return n<20?smallNumbers[n]:tensNumbers[Math.floor(n/10)]+(n%10?'-'+smallNumbers[n%10]:'');}
 const numberPhrases=Array.from({length:100},(_,n)=>({n,word:wordNumber(n)})).sort((a,b)=>b.word.length-a.word.length);
 const numberWordPattern=new RegExp('\\b(?:'+numberPhrases.map(p=>p.word.replace(/-/g,'[ -]')).join('|')+')\\b','gi');
-function rewriteNumbers(text:string){
+export function rewriteFactualValues(text:string){
  const withoutUrls=text.replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,'').replace(/\b\d{1,3}(?:,\d{3})+\b/g,n=>n.replace(/,/g,''));
  let numeric=withoutUrls.replace(numberWordPattern,(word:string,offset:number)=>{const n=numberPhrases.find(p=>p.word===word.toLowerCase().replace(/ /g,'-'))!.n;
   // "the one I use" is a pronoun, not an added factual quantity.
@@ -41,7 +41,7 @@ function rewriteNumbers(text:string){
 }
 export function rewrittenChunk(source:string,target:string){
  if(!target.trim()||target.length>Math.max(1000,source.trim().length*2.2)||target.length<source.trim().length*.55)throw Error('UK output shortened the story too much. Review the saved draft.');
- const expected=rewriteNumbers(source),actual=rewriteNumbers(target),missing=expected.filter(n=>!actual.includes(n)),added=actual.filter(n=>!expected.includes(n));
+ const expected=rewriteFactualValues(source),actual=rewriteFactualValues(target),missing=expected.filter(n=>!actual.includes(n)),added=actual.filter(n=>!expected.includes(n));
  if(missing.length||added.length)throw Error('UK factual numbers differ. Missing: '+(missing.join(', ')||'none')+'. Added: '+(added.join(', ')||'none')+'. Review the saved draft; no automatic regeneration.');
  const urls=(text:string)=>[...new Set(protectedLinks(text).map(url=>url.replace(/[),.;:!?}\]]+$/,'')))].sort();
  if(JSON.stringify(urls(source))!==JSON.stringify(urls(target)))throw Error('UK source links differ. Review the saved draft.');
