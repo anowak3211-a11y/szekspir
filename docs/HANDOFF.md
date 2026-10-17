@@ -1,3 +1,10 @@
+## Bounded Antki photo recovery — 17 October 2026
+
+- Owner explicitly requested finishing the failed UK batch. Image edits now use a bounded visual-only prompt instead of appending up to 10,000 characters of medical/testimonial ad copy. Recognisable anonymous hair/face changes are the first required edit, before room/viewpoint changes. Source story, product artwork and natural realism stay required. The current prompt is rebuilt before each actual submission, including saved failures; paid uncertainty guards remain.
+- X-ray review distinguishes an anatomical scan from outward personal appearance. Scan anatomy and projection must remain intact; a different presentation can be reviewed, distorted bones still fail. Rejected photo feedback is retained for the next explicitly requested variation instead of being cleared.
+- Explicit bulk image recovery uses one batch source read, locks and checks each failed record, reuses text, skips active/uncertain/ready/reference-test records and moderation refusals, and keeps normal 15-second queue pacing and two-attempt quality budget. No automatic retry of provider 500 or content refusals was introduced. Ready images remain untouched and nothing is approved or published.
+- Offline work tests cover stale prompt replacement, body omission, retained feedback, duplicate recovery idempotence, refusal/uncertainty exclusion and zero text regeneration. Build/typecheck, comparison/provider diagnostics and core regressions pass. Live completion is verified separately; queued does not mean ready.
+
 ## Separate collaborator frontend and bounded Antki recovery — 17 October 2026
 
 - Owner chose an independent frontend branch with the shared production API and each signed-in account’s data. New frontend hosting has only APP_SHARED_API_ORIGIN; no production database, provider, Google or Blob credentials. Same-origin writes proxy to a fixed API origin, while machine and identity headers are stripped. Backend authentication and workspace isolation remain authoritative. Home and browser storage wait for the authenticated public profile.
