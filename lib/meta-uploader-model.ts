@@ -97,7 +97,14 @@ export function verifyCreative(item:UploadItem,raw:Record<string,unknown>):strin
    if(!same(list('images').map(t=>t.hash),item.imageHashes))errors.push('Original carousel images differ.');
    if(!same(s.carousels,(expectedFeed as Record<string,unknown>)?.carousels))errors.push('Carousel order or card settings differ.');
    if(!same(s.ad_formats,['CAROUSEL']))errors.push('Carousel format differs.');
-  }else if(item.imageHash?list('images')[0]?.hash!==item.imageHash:list('videos')[0]?.video_id!==item.videoId)errors.push('Original media differs.');
+  }else if(item.imageHash){
+   if(list('images')[0]?.hash!==item.imageHash)errors.push('Original media differs.');
+  }else{
+   // Meta can omit the duplicate video asset while retaining the canonical
+   // story video. Omission needs exact story proof; explicit conflicts fail.
+   const hasFeedVideos=s.videos!=null&&!(Array.isArray(s.videos)&&!s.videos.length);
+   if(hasFeedVideos?(list('videos').length!==1||list('videos')[0]?.video_id!==item.videoId):storyData?.video_id!==item.videoId)errors.push('Original media differs.');
+  }
  }
  if(story?.page_id!==a.pageId)errors.push('Facebook Page differs.');
  if(a.media.kind!=='carousel'){

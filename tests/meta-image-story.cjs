@@ -25,6 +25,15 @@ assert(verifyCreative(singleItem,{...standard,object_story_spec:{...standard.obj
 const videoItem={...item,imageHash:undefined,videoId:'100000000005',thumbnailUrl:'https://example.test/original-thumb.jpg',ad:{...single,media:{kind:'library',videoId:'100000000005'}}},video=creativePayload(videoItem);
 assert.equal(video.asset_feed_spec,undefined);assert.equal(video.object_story_spec.video_data.video_id,videoItem.videoId);assert.equal(video.object_story_spec.video_data.call_to_action.value.link,single.url);assert.deepEqual(verifyCreative(videoItem,video),[]);
 assert(verifyCreative(videoItem,{...video,object_story_spec:{...video.object_story_spec,video_data:{...video.object_story_spec.video_data,video_id:'100000000099'}}}).includes('Original media differs.'));
+// Real KALO COMP readback keeps text variants and the canonical video ID,
+// but omits the duplicate feed video list. It must not reject the saved video.
+const variantVideoItem={...videoItem,ad:{...videoItem.ad,primaryTexts:ad.primaryTexts}},variantVideo=creativePayload(variantVideoItem);
+const omittedVideo=structuredClone(variantVideo);delete omittedVideo.asset_feed_spec.videos;
+assert.deepEqual(verifyCreative(variantVideoItem,omittedVideo),[],'Canonical video proves omitted duplicate feed videos');
+const emptyVideo=structuredClone(omittedVideo);emptyVideo.asset_feed_spec.videos=[];assert.deepEqual(verifyCreative(variantVideoItem,emptyVideo),[]);
+const conflictingVideo=structuredClone(variantVideo);conflictingVideo.asset_feed_spec.videos[0].video_id='100000000099';assert(verifyCreative(variantVideoItem,conflictingVideo).includes('Original media differs.'));
+const extraVideo=structuredClone(variantVideo);extraVideo.asset_feed_spec.videos.push({video_id:'100000000099'});assert(verifyCreative(variantVideoItem,extraVideo).includes('Original media differs.'));
+const noVideoProof=structuredClone(omittedVideo);delete noVideoProof.object_story_spec.video_data.video_id;assert(verifyCreative(variantVideoItem,noVideoProof).includes('Original media differs.'));
 // Meta 100/3858504 rejects the retired bundle even when explicitly opted out.
 assert.equal(standard.degrees_of_freedom_spec.creative_features_spec.standard_enhancements,undefined);
 const legacy=creativePayload({...singleItem,ad:{...single,enhancements:{standard_enhancements:false}}});

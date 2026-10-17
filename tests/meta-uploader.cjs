@@ -18,7 +18,7 @@ const record={id:identity.itemKey(ad),ad,videoId:ad.media.videoId,thumbnailUrl:'
 const states=new Map(),queued=[],remoteAds=[],imageUploads=[],creatives=new Map(),calls=[];let now=Date.now(),nextId=100000000010,ambiguousAd=false,rate=false,expandCreative=false;const realNow=Date.now;Date.now=()=>now;
 class MetaError extends Error{constructor(code,subcode,transient,uncertain,msg){super(msg);Object.assign(this,{code,subcode,transient,uncertain});}}
 const original=Module._load;
-Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/meta-uploader.ts')||p?.filename.endsWith('/lib/meta-read-cache.ts')){
+Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/meta-uploader.ts')||p?.filename.endsWith('/lib/meta-read-cache.ts')||p?.filename.endsWith('/lib/meta-rate-limit.ts')){
  if((n==='@vercel/queue'||n==='./account-queue'))return {send:async(topic,body,options)=>{assert.equal(topic,'szekspir-meta-upload');queued.push({body,options});}};
  if(n==='./store')return {readState:async(k,f)=>({value:structuredClone(states.get(k)??f)}),mutate:async(k,f,fn)=>{const value=structuredClone(states.get(k)??f),out=fn(value);states.set(k,value);return structuredClone(out);}};
  if(n==='./meta-client')return {cachedMetaResource:async(operation,ttl,load)=>require('../lib/meta-read-cache.ts').cachedMetaRead(operation,ttl,()=>load('offline')),MetaError,assertUploadTarget:async()=>{},graphList:async(path)=>path.endsWith('/adimages')?[]:path.endsWith('/adcreatives')?[...creatives].map(([id,c])=>({id,name:c.name})):remoteAds.map(x=>({id:x.id,name:x.name,creative:x.creative,status:x.status})),graph:async(path,params={},method='GET')=>{
