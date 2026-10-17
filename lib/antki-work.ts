@@ -12,28 +12,32 @@ import {driveUploadTarget} from './drive-video';
 import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {readState,mutate} from './store';
-import {usableAntkiImage,repairableAntkiImage,knownImageFailure,ANTKI_COPYWRITING_VERSION,newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {advanceAntkiImageFallback,selectOriginalAntkiImage,usableAntkiImage,repairableAntkiImage,knownImageFailure,ANTKI_COPYWRITING_VERSION,newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 import {localiseAntkiChunk,validateAntkiChunk,submitAntkiImage,pollAntkiImage} from './antki-providers';
 export type {AntkiWork} from './antki-model';
 const key=(id:string)=>{if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid Antki ID.');return 'antki-work-'+id;};
 async function persist(work:AntkiWork){
  work.updated=Date.now();await mutate<{work?:AntkiWork},void>(key(work.id)+'-record',{},s=>{s.work=work;});
- await mutate<Record<string,{status:string;phase:string}>,void>('antki-work-index',{},s=>{s[work.id]={status:work.approval?.state==='approved'?'approved':work.approval?.state==='pending'?'exporting':work.status,phase:work.phase};});
+ await mutate<Record<string,{status:string;phase:string;localizedStatus?:string}>,void>('antki-work-index',{},s=>{s[work.id]={status:work.approval?.state==='approved'?'approved':work.approval?.state==='pending'?'exporting':work.status,phase:work.phase,...(work.localizedVersion?{localizedStatus:work.localizedVersion.status}:{})};});
 }
-export async function antkiWorkIndex(){return (await readState<Record<string,{status:string;phase:string}>>('antki-work-index',{})).value;}
+export async function antkiWorkIndex(){return (await readState<Record<string,{status:string;phase:string;localizedStatus?:string}>>('antki-work-index',{})).value;}
 // A single record envelope supports atomic replacement through the existing CAS store.
 export async function readAntkiWork(id:string){const work=(await readState<{work?:AntkiWork}>(key(id)+'-record',{})).value.work||null;if(work?.phase==='image'&&work.pending==='image'&&work.error==='Kie request failed (200/402).'){work.pending=undefined;work.status='failed';work.error='Kie: insufficient credits (402). Top up the connected Kie account before retrying.';work.imageAttempts=Math.max(0,(work.imageAttempts||1)-1);}return work;}
-export async function scheduleAntki(id:string,delaySeconds=0){const at=await mutate<{next?:number},number>('antki-queue-pacing',{},s=>{const at=Math.max(Date.now()+delaySeconds*1000,s.next||0);s.next=at+15000;return at;});delaySeconds=Math.max(0,Math.ceil((at-Date.now())/1000));await send('szekspir-antki',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});}
+// Reserve by expected Sheet reads, rather than delaying a one-read text step like a ten-read delivery.
+// Three seconds per read unit caps Antki scheduling at ~20 Sheet reads/minute, leaving room for UI/legacy jobs.
+async function antkiQueueDelay(delaySeconds:number,units:number){const at=await mutate<{next?:number},number>('antki-queue-pacing-v2',{},s=>{const at=Math.max(Date.now()+delaySeconds*1000,s.next||0);s.next=at+Math.max(1000,units*3000);return at;});return Math.max(0,Math.ceil((at-Date.now())/1000));}
+export async function scheduleAntki(id:string,delaySeconds=0,phase?:AntkiWork['phase']){delaySeconds=await antkiQueueDelay(delaySeconds,phase==='poll'?0:phase==='deliver'||!phase?10:1);await send('szekspir-antki',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});}
+
 export async function startAntkiWork(id:string,retry=false,confirmUncertain=false,source?:SavedNativeAd,completeImage=false){
  key(id);const result=await withEditorLocks(['antki-work-'+id],async()=>{
   const ad=source||await getNativeAd(id);let work=await readAntkiWork(id);
   if(work){if(work.sourceText!==ad.primaryText||work.sourceHeadline!==(ad.headline||'')||work.sourceImage!==ad.imageUrl)throw Error('Source changed. Existing UK work is preserved; review the source.');
    if(!work.sourceRow){work.sourceRow=ad.row;await persist(work);}
-   if(retry&&['failed','uncertain'].includes(work.status)){if(work.pending&&!confirmUncertain)throw Error('The previous provider request may have completed. Confirm before submitting another paid request.');work.pending=undefined;work.error=undefined;work.status='queued';if(completeImage&&work.textRewrite)work.textRewrite.completeImage=true;await persist(work);}
+   if(retry&&['failed','uncertain'].includes(work.status)){if(work.pending&&!confirmUncertain)throw Error('The previous provider request may have completed. Confirm before submitting another paid request.');if(repairableAntkiImage(work)){work.imageFallbackPolicy='gpt-seedream-original';advanceAntkiImageFallback(work,work.error||'Confirmed image failure');}work.pending=undefined;work.error=undefined;work.status='queued';if(completeImage&&work.textRewrite)work.textRewrite.completeImage=true;await persist(work);}
   }else{work=newAntkiWork(ad);work.targetProduct=await accountProduct();await persist(work);}
   return work;
  });
- if(['queued','working'].includes(result.status))await scheduleAntki(id);return result;
+ if(['queued','working'].includes(result.status))await scheduleAntki(id,0,result.phase);return result;
 }
 export async function rewriteAntkiText(id:string,revision:unknown,completeImage=false,source?:SavedNativeAd){
  key(id);const work=await withEditorLocks(['antki-work-'+id],async()=>{
@@ -43,7 +47,7 @@ export async function rewriteAntkiText(id:string,revision:unknown,completeImage=
   const ad=source||await getNativeAd(id,previous.sourceRow);if(ad.primaryText!==previous.sourceText||ad.imageUrl!==previous.sourceImage||(ad.headline||'')!==previous.sourceHeadline)throw Error('Source changed. Review it before rewriting.');
   await mutate<{versions:unknown[]},void>('antki-copy-history-'+id,{versions:[]},s=>{s.versions.push({revision:previous.revision,copywritingVersion:previous.copywritingVersion,text:previous.ukText,headline:previous.ukHeadline,chunks:previous.ukChunks,at:Date.now()});s.versions=s.versions.slice(-3);});
   const next=newAntkiWork(ad);previous.targetProduct=await accountProduct();if(completeImage)previous.approval=undefined;previous.textRewrite={completeImage,phase:previous.phase,status:previous.status,error:previous.error};previous.copywritingVersion=next.copywritingVersion;previous.rejectedText=undefined;previous.ukText='';previous.ukHeadline='';previous.ukChunks=[];previous.chunks=next.chunks;previous.phase='text';previous.status='queued';previous.error=undefined;previous.revision++;await persist(previous);return previous;
- });await scheduleAntki(id);return work;
+ });await scheduleAntki(id,0,work.phase);return work;
 }
 export async function startAntkiBatch(ids:string[]){
  const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];
@@ -73,7 +77,7 @@ async function archiveImage(work:AntkiWork){
  work.imageDriveUrl=`https://drive.google.com/file/d/${work.imageFileId}/view`;
 }
 export async function consumeAntki(id:string){
- key(id);let delay:number|undefined;
+ key(id);let delay:number|undefined,nextPhase:AntkiWork['phase']|undefined;
  await withEditorLocks(['antki-work-'+id],async()=>{
   const work=await readAntkiWork(id);if(!work||['ready','failed','uncertain'].includes(work.status))return;
   if(work.pending){work.status='uncertain';work.error='Previous provider request has no saved result. Review before retrying.';await persist(work);return;}
@@ -96,6 +100,7 @@ export async function consumeAntki(id:string){
    }else if(work.phase==='check'){
     work.pending='review';await persist(work);work.imageReview=await reviewAntkiImage(work);work.pending=undefined;
     if(work.imageReview.personChanged===true&&work.imageReview.different&&work.imageReview.realistic&&work.imageReview.congruent){work.phase='archive';delay=0;}
+    else if(work.imageFallbackPolicy==='gpt-seedream-original'){advanceAntkiImageFallback(work,'Image rejected: '+work.imageReview.change);delay=0;}
     else if((work.imageAttempts||1)<2){work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imagePrompt=antkiImagePrompt(work);work.phase='image';delay=0;}
     else throw Error('Image rejected: '+work.imageReview.change+' Generate a new variation; this image has not been delivered.');
    }else if(work.phase==='archive'){await archiveImage(work);work.phase='deliver';delay=0;
@@ -103,14 +108,14 @@ export async function consumeAntki(id:string){
     await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};if(work.textRewrite){const resume=work.textRewrite;work.phase=resume.status==='ready'?'done':resume.phase;work.status=resume.status;work.error=resume.error;work.lastTextRewriteAt=Date.now();work.textRewrite=undefined;if(resume.completeImage&&(!work.imageDriveUrl||!work.imageFileId)){work.phase=work.imageResultUrl?'check':work.imageTaskId?'poll':'image';work.status='queued';work.error=undefined;delay=0;}}else{work.phase='done';work.status='ready';}
    }
    await persist(work);
-  }catch(e){const candidate=(e as {candidate?:AntkiWork['rejectedText']}).candidate;if(candidate&&candidate.index===work.ukChunks.length&&candidate.text.length<=50000)work.rejectedText=candidate;if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected','antki_image_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if((e as {code?:string}).code==='antki_image_failed'){work.failedImageTaskId=work.imageTaskId;work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}
+  }catch(e){const candidate=(e as {candidate?:AntkiWork['rejectedText']}).candidate;if(candidate&&candidate.index===work.ukChunks.length&&candidate.text.length<=50000)work.rejectedText=candidate;if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected','antki_image_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if(work.imageFallbackPolicy==='gpt-seedream-original'&&['antki_image_failed','antki_image_rejected'].includes((e as {code?:string}).code||'')){if(work.imageTaskId)work.failedImageTaskId=work.imageTaskId;advanceAntkiImageFallback(work,(e as Error).message);await persist(work);delay=0;return;}if((e as {code?:string}).code==='antki_image_failed'){work.failedImageTaskId=work.imageTaskId;work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}finally{nextPhase=work.phase;}
  });
- if(delay!==undefined)await scheduleAntki(id,delay);
+ if(delay!==undefined)await scheduleAntki(id,delay,nextPhase);
 }
 /** Correct a retained rejected draft without generating another response. */
 export async function reviseRejectedAntkiText(id:string,text:unknown,headline:unknown,revision:unknown){
  key(id);if(typeof text!=='string'||!text.trim()||text.length>50000||typeof headline!=='string'||headline.length>1500)throw Error('Podaj zapisany tekst i nagłówek do poprawienia.');
- const work=await withEditorLocks(['antki-work-'+id],async()=>{const work=await readAntkiWork(id);if(!work||work.revision!==revision||work.phase!=='text'||work.status!=='failed'||work.pending||!work.rejectedText)throw Error('Odśwież zapisany wynik przed poprawieniem.');const candidate={...work.rejectedText,text,headline};validateAntkiChunk(work,candidate);work.rejectedText=candidate;work.revision++;work.status='queued';work.error=undefined;await persist(work);return work;});await scheduleAntki(id);return work;
+ const work=await withEditorLocks(['antki-work-'+id],async()=>{const work=await readAntkiWork(id);if(!work||work.revision!==revision||work.phase!=='text'||work.status!=='failed'||work.pending||!work.rejectedText)throw Error('Odśwież zapisany wynik przed poprawieniem.');const candidate={...work.rejectedText,text,headline};validateAntkiChunk(work,candidate);work.rejectedText=candidate;work.revision++;work.status='queued';work.error=undefined;await persist(work);return work;});await scheduleAntki(id,0,work.phase);return work;
 }
 export async function editAntkiWork(id:string,text:unknown,headline:unknown,revision:unknown){
  if(typeof text!=='string'||!text.trim()||text.length>135000||text.trim().split(/\s+/).length>15000||typeof headline!=='string'||headline.length>1500)throw Error('UK text must contain 1–15,000 words and headline up to 1,500 characters.');
@@ -120,7 +125,7 @@ export async function editAntkiWork(id:string,text:unknown,headline:unknown,revi
   if(work.revision!==revision)throw Error('Another tab changed this draft. Reload before saving.');
   if(work.phase==='done'&&!work.delivered)work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};
   work.approval=undefined;work.ukText=localiseAntkiPurchaseLinks(text,work.targetProduct?.url);work.ukHeadline=localiseAntkiPurchaseLinks(headline,work.targetProduct?.url);work.revision++;work.phase='deliver';work.status='queued';work.error=undefined;await persist(work);return work;
- });await scheduleAntki(id);return work;
+ });await scheduleAntki(id,0,work.phase);return work;
 }
 export async function antkiGeneratedImage(id:string){await getNativeAd(id);const work=await readAntkiWork(id);const fileId=work?.imageFileId&&work.imageDriveUrl?.includes(`/d/${work.imageFileId}/`)?work.imageFileId:work?.previousImage?.fileId;if(!fileId)throw Error('UK image is not ready yet.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>24*1024*1024)throw Error('Image exceeds size limit.');return {buffer,...imageType(buffer)};}
 
@@ -133,9 +138,9 @@ export async function regenerateAntkiImage(id:string,source?:SavedNativeAd,onlyF
   work.approval=undefined;
   if(!work.delivered&&work.phase==='done')work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};
   if(work.imageFileId&&work.imageDriveUrl)work.previousImage={fileId:work.imageFileId,url:work.imageDriveUrl};
-  work.imagePrompt=antkiImagePrompt(work);work.imageApproval=undefined;work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imageFileId=undefined;work.imageAttempts=0;work.polls=0;
-  work.phase='image';work.status='queued';work.error=undefined;work.revision++;await persist(work);return work;
- });if(work)await scheduleAntki(id);return work;
+  work.imageFallbackPolicy='gpt-seedream-original';const failure=work.error||'Confirmed failed photo';if(!onlyFailed)work.imageModel='gpt-image-2-image-to-image';work.imagePrompt=antkiImagePrompt(work);work.imageApproval=undefined;work.imageTaskId=undefined;work.imageResultUrl=undefined;work.imageFileId=undefined;work.imageAttempts=0;work.polls=0;
+  work.phase='image';work.status='queued';work.error=undefined;if(onlyFailed)advanceAntkiImageFallback(work,failure);work.revision++;await persist(work);return work;
+ });if(work)await scheduleAntki(id,0,work.phase);return work;
 }
 
 /** Explicit bounded recovery: reuses copy, skips active/unknown/refused requests, and reserves the normal paced queue. */
@@ -147,12 +152,12 @@ export async function repairAntkiImages(ids:string[]){
 }
 
 /** Restore the pre-rewrite UK snapshot when available; generate only genuinely missing close localisations. */
-export async function prepareAntkiLocalizedBatch(ids:string[]){
+export async function prepareAntkiLocalizedBatch(ids:string[],resumeQueued=false){
  const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];
  for(const ad of ads){try{let queue=false;const result=await withEditorLocks(['antki-work-'+ad.id],async()=>{
   const work=await readAntkiWork(ad.id);if(!work)throw Error('Prepare the advert before adding its second UK version.');
   if(ad.primaryText!==work.sourceText||ad.imageUrl!==work.sourceImage||(ad.headline||'')!==work.sourceHeadline)throw Error('Source changed. Existing UK versions are preserved.');
-  if(work.localizedVersion)return work.localizedVersion.status;
+  if(work.localizedVersion){if(resumeQueued){if(work.localizedVersion.status==='queued'&&!work.localizedVersion.pending)queue=true;await persist(work);}return work.localizedVersion.status;}
   const history=(await readState<{versions:{text?:string;headline?:string;copywritingVersion?:string;at?:number}[]}>('antki-copy-history-'+ad.id,{versions:[]})).value.versions;
   const saved=history.find(v=>v.copywritingVersion!==ANTKI_COPYWRITING_VERSION&&typeof v.text==='string'&&!!v.text.trim());
   if(saved){work.localizedVersion={revision:1,status:'ready',headline:localiseAntkiPurchaseLinks(saved.headline||'',work.targetProduct?.url),text:localiseAntkiPurchaseLinks(saved.text!,work.targetProduct?.url),chunks:[],source:'saved-version',updated:Date.now()};}
@@ -161,7 +166,8 @@ export async function prepareAntkiLocalizedBatch(ids:string[]){
  });if(queue)await scheduleAntkiLocalized(ad.id);results.push({id:ad.id,status:result});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
  return results;
 }
-async function scheduleAntkiLocalized(id:string,delay=0){const at=await mutate<{next?:number},number>('antki-queue-pacing',{},s=>{const at=Math.max(Date.now()+delay*1000,s.next||0);s.next=at+15000;return at;});await send('szekspir-antki',{id,version:'localized'},{region:'fra1',delaySeconds:Math.max(0,Math.ceil((at-Date.now())/1000)),retentionSeconds:86400});}
+async function scheduleAntkiLocalized(id:string,delay=0){await send('szekspir-antki',{id,version:'localized'},{region:'fra1',delaySeconds:await antkiQueueDelay(delay,1),retentionSeconds:86400});}
+
 export async function consumeAntkiLocalized(id:string){
  key(id);let delay:number|undefined;
  await withEditorLocks(['antki-work-'+id],async()=>{
@@ -175,6 +181,10 @@ export async function consumeAntkiLocalized(id:string){
    await persist(work);
   }catch(e){const candidate=(e as {candidate?:AntkiWork['rejectedText']}).candidate;if(candidate){v.rejectedText=candidate;v.pending=undefined;}if(['antki_text_rejected','antki_output_rejected'].includes((e as {code?:string}).code||''))v.pending=undefined;if(!v.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){v.status='queued';delay=60;}else v.status=v.pending?'uncertain':'failed';v.error=(e as Error).message;await persist(work);}
  });if(delay!==undefined)await scheduleAntkiLocalized(id,delay);
+}
+export async function reviseAntkiLocalized(id:string,text:unknown,headline:unknown,revision:unknown){
+ key(id);if(typeof text!=='string'||!text.trim()||text.length>50000||typeof headline!=='string'||headline.length>1500)throw Error('Provide the retained localisation draft.');
+ const work=await withEditorLocks(['antki-work-'+id],async()=>{const work=await readAntkiWork(id),v=work?.localizedVersion;if(!work||!v||v.revision!==revision||v.status!=='failed'||v.pending||!v.rejectedText)throw Error('Reload the retained localisation before editing.');const candidate={...v.rejectedText,text,headline};validateAntkiChunk({...work,copywritingVersion:'antki-localized-v1'},candidate);v.rejectedText=candidate;v.status='queued';v.error=undefined;v.revision++;await persist(work);return work;});await scheduleAntkiLocalized(id);return work;
 }
 export async function saveAntkiLocalized(id:string,text:unknown,headline:unknown,revision:unknown){
  key(id);if(typeof text!=='string'||!text.trim()||text.length>135000||text.trim().split(/\s+/).length>15000||typeof headline!=='string'||headline.length>1500)throw Error('Provide the UK localisation text and headline.');
@@ -192,7 +202,7 @@ export async function useOriginalAntkiImages(ids:string[]){
   if(!/^[-\w]{10,100}$/.test(ad.driveFileId))throw Error('Missing saved original image.');
   if(work.imageFileId&&work.imageDriveUrl)work.previousImage={fileId:work.imageFileId,url:work.imageDriveUrl};
   work.sourceDriveId=ad.driveFileId;work.imageFileId=ad.driveFileId;work.imageDriveUrl=`https://drive.google.com/file/d/${ad.driveFileId}/view`;work.imageOrigin='original';work.imageApproval=undefined;work.imageReview=undefined;work.error=undefined;work.phase='deliver';work.status='queued';work.revision++;await persist(work);return work;
- });if(result)await scheduleAntki(ad.id);results.push({id:ad.id,status:result?.status||'unchanged'});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
+ });if(result)await scheduleAntki(ad.id,0,result.phase);results.push({id:ad.id,status:result?.status||'unchanged'});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
  return results;
 }
 

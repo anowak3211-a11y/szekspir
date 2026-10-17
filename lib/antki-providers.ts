@@ -1,8 +1,10 @@
 import {brainClient,brainOptions,assertBrain} from './account-brain';
 import {accountEnv,requiredAccountEnv} from './account-context';
 import OpenAI from 'openai';
+import sharp from 'sharp';
+import {safeDownload} from './safe-fetch';
 import {antkiLocalisationGuide,antkiRewriteGuide} from './antki-localisation-guide';
-import {ANTKI_COPYWRITING_VERSION,ANTKI_LOCALISATION,faithfulChunk,rewrittenChunk,rewriteFactualValues,protectedNumbers,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {seedreamAspectRatio,ANTKI_COPYWRITING_VERSION,ANTKI_LOCALISATION,faithfulChunk,rewrittenChunk,rewriteFactualValues,protectedNumbers,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 export async function localiseAntkiChunk(work:AntkiWork){
  assertBrain();
  const i=work.ukChunks.length;
@@ -19,7 +21,16 @@ async function kie(path:string,body?:unknown){
  const response=await fetch('https://api.kie.ai/api/v1/jobs/'+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${accountEnv('KIE_API_KEY')}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(60000),cache:'no-store'});
  const result=await response.json();if(!response.ok||result.code!==200){const code=Number(result.code)||response.status;if(body&&[400,401,402,422,429].includes(code))throw Object.assign(Error(code===402?'Kie: insufficient credits (402). Top up the connected Kie account before retrying.':`Kie rejected the image request (${code}). Check account access, input or request limits before retrying.`),{code:'antki_image_rejected'});throw Error(`Kie request failed (${response.status}/${Number(result.code)||'invalid response'}).`);}return result.data;
 }
-export async function submitAntkiImage(work:AntkiWork){const data=await kie('createTask',{model:'gpt-image-2-image-to-image',input:{prompt:work.imagePrompt,input_urls:[work.sourceImage],aspect_ratio:'auto',resolution:'4K'}});if(typeof data?.taskId!=='string'||!data.taskId)throw Error('Kie did not return an image task ID.');return data.taskId as string;}
+export async function submitAntkiImage(work:AntkiWork){
+ const model=work.imageModel||'gpt-image-2-image-to-image';let input:Record<string,unknown>;
+ if(model==='seedream/5-pro-image-to-image'){
+  let meta;try{const source=await safeDownload(work.sourceImage,24*1024*1024);meta=await sharp(source.buffer,{limitInputPixels:50000000}).metadata();}catch{throw Object.assign(Error('Seedream could not read the source image. No generation submitted.'),{code:'antki_image_rejected'});}
+  if(work.imagePrompt.length>5000)throw Object.assign(Error('Seedream visual instruction exceeds 5000 characters. No generation submitted.'),{code:'antki_image_rejected'});
+  input={prompt:work.imagePrompt,image_urls:[work.sourceImage],aspect_ratio:seedreamAspectRatio(meta.width||0,meta.height||0),quality:'high',output_format:'png',nsfw_checker:true};
+ }else input={prompt:work.imagePrompt,input_urls:[work.sourceImage],aspect_ratio:'auto',resolution:'4K'};
+ const data=await kie('createTask',{model,input});if(typeof data?.taskId!=='string'||!data.taskId)throw Error('Kie did not return an image task ID.');return data.taskId as string;
+}
+
 export async function pollAntkiImage(taskId:string){
  const data=await kie('recordInfo?taskId='+encodeURIComponent(taskId));
  if(data.state==='fail'){const code=String(data.failCode||'unknown').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40),detail=typeof data.failMsg==='string'?data.failMsg.replace(/[\x00-\x1f]/g,' ').replace(/\s+/g,' ').trim().slice(0,400):'No provider details returned';throw Object.assign(Error(`Kie image task failed (${code}): ${detail}. Retry submits a new paid image request.`),{code:'antki_image_failed'});}

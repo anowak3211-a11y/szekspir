@@ -38,4 +38,6 @@ jobs:
           node tests/antki-diagnostics.cjs
           node tests/antki-rewrite-facts.cjs
           node tests/antki-work.cjs
+          node tests/antki-provider-errors.cjs
+          node tests/antki-localisation-guide.cjs
       - run: npm run build

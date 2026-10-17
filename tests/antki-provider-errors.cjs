@@ -1,7 +1,8 @@
+const Module=require('module');const originalLoad=Module._load;Module._load=function(n,p,i){if(n==='./safe-fetch'&&p?.filename.endsWith('/lib/antki-providers.ts'))return {safeDownload:async()=>({buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aNo0AAAAASUVORK5CYII=','base64')})};return originalLoad.call(this,n,p,i);};
 const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
-process.env.KIE_API_KEY='offline-test';let data,calls=0,responseCode=200;
-global.fetch=async()=>{calls++;return {ok:true,status:200,json:async()=>({code:responseCode,data})};};
+process.env.KIE_API_KEY='offline-test';let data,calls=0,responseCode=200,lastRequest;
+global.fetch=async(url,options)=>{calls++;if(options.body)lastRequest=JSON.parse(options.body);return {ok:true,status:200,json:async()=>({code:responseCode,data})};};
 (async()=>{const {pollAntkiImage,submitAntkiImage}=require('../lib/antki-providers.ts');
 data={state:'fail',failCode:'500',failMsg:'Internal Error'};
 await assert.rejects(()=>pollAntkiImage('known-task'),e=>e.code==='antki_image_failed'&&/500.*Internal Error/.test(e.message));
@@ -11,5 +12,5 @@ data={state:'generating'};assert.equal(await pollAntkiImage('known-task'),undefi
 data={state:'success',resultJson:JSON.stringify({resultUrls:['https://example.com/result.png']})};assert.equal(await pollAntkiImage('known-task'),'https://example.com/result.png');
 responseCode=402;await assert.rejects(()=>submitAntkiImage({imagePrompt:'test',sourceImage:'https://example.com/input.png'}),e=>e.code==='antki_image_rejected'&&/credits/i.test(e.message));
 responseCode=500;await assert.rejects(()=>submitAntkiImage({imagePrompt:'test',sourceImage:'https://example.com/input.png'}),e=>e.code!=='antki_image_rejected');
-console.log('Antki provider error diagnostics passed');
+responseCode=200;data={taskId:'seedream-known-task'};assert.equal(await submitAntkiImage({imageModel:'seedream/5-pro-image-to-image',imagePrompt:'Edit the photo',sourceImage:'https://example.com/input.png'}),'seedream-known-task');assert.equal(lastRequest.model,'seedream/5-pro-image-to-image');assert.deepEqual(lastRequest.input.image_urls,['https://example.com/input.png']);assert.equal(lastRequest.input.quality,'high');assert.equal(lastRequest.input.nsfw_checker,true);assert.equal(lastRequest.input.aspect_ratio,'1:1');assert(!('input_urls' in lastRequest.input));const {seedreamAspectRatio}=require('../lib/antki-model.ts');assert.equal(seedreamAspectRatio(1080,1920),'9:16');assert.equal(seedreamAspectRatio(1920,1080),'16:9');console.log('Antki provider error diagnostics and Seedream fallback payload passed');
 })().catch(e=>{console.error(e);process.exitCode=1;});
