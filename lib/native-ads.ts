@@ -50,17 +50,18 @@ async function createLibrary(l:Awaited<ReturnType<typeof library>>){
  ]}});
 }
 export function imageType(b:Buffer){if(b.length>=8&&b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))return {mime:'image/png',ext:'png'};if(b.length>=3&&b[0]===255&&b[1]===216&&b[2]===255)return {mime:'image/jpeg',ext:'jpg'};if(b.length>=12&&b.subarray(0,4).toString()==='RIFF'&&b.subarray(8,12).toString()==='WEBP')return {mime:'image/webp',ext:'webp'};throw Error('The source is not a supported image.');}
-async function saveImage(ad:NativeAd){
+async function saveImage(ad:NativeAd,restoreTrashed=false){
  const {drive,folderId}=await driveUploadTarget();
  const key=`native-image-${ad.id}`;let fileId=(await readState<{fileId?:string}>(key,{})).value.fileId;
  if(!fileId){const candidate=(await drive.files.generateIds({count:1,space:'drive'})).data.ids?.[0];if(!candidate)throw Error('Drive did not allocate an image ID.');fileId=await mutate<{fileId?:string},string>(key,{},s=>s.fileId||(s.fileId=candidate));}
- let exists=false;try{const f=await drive.files.get({fileId,supportsAllDrives:true,fields:'id,size,trashed'});if(f.data.trashed)throw Error('The saved native image is in Trash. Restore it before retrying.');exists=Number(f.data.size)>0;}catch(e){if(Number((e as {code?:number}).code)!==404)throw e;}
+ let exists=false;try{let f=await drive.files.get({fileId,supportsAllDrives:true,fields:'id,size,trashed,appProperties'});if(f.data.trashed){if(!restoreTrashed)throw Error('The saved native image is in Trash. Restore it before retrying.');if(f.data.appProperties?.szekspirNativeId!==ad.id)throw Error('The trashed file does not match this advert. Restore it manually.');f=await drive.files.update({fileId,supportsAllDrives:true,requestBody:{trashed:false},fields:'id,size,trashed,appProperties'});if(f.data.trashed||!Number(f.data.size))throw Error('Drive did not confirm restoring the saved image.');}exists=Number(f.data.size)>0;}catch(e){if(Number((e as {code?:number}).code)!==404)throw e;}
  if(!exists){const source=await safeDownload(ad.imageUrl,12*1024*1024);const kind=imageType(source.buffer);await drive.files.create({supportsAllDrives:true,requestBody:{id:fileId,name:`native-${ad.id}.${kind.ext}`,parents:[folderId],appProperties:{szekspirNativeId:ad.id}},media:{mimeType:kind.mime,body:Readable.from(source.buffer)},fields:'id'},{timeout:60000,retry:false});}
  const permissions=(await drive.permissions.list({fileId,supportsAllDrives:true,fields:'permissions(type,role)'})).data.permissions||[];
  if(!permissions.some(p=>p.type==='anyone'))await drive.permissions.create({fileId,supportsAllDrives:true,requestBody:{type:'anyone',role:'reader',allowFileDiscovery:false}});
  return fileId;
 }
 export async function importNativeAds(input:unknown){
+ const restoreTrashed=!!input&&typeof input==='object'&&!Array.isArray(input)&&(input as {restoreTrashed?:unknown}).restoreTrashed===true;
  const ads=parseNativeExport(input);if(ads.length>10)throw Error('Save up to 10 ads per request.');
  return withEditorLocks(['native-ads-library'],async()=>{
   let l=await library();if(!l.tab){await createLibrary(l);l=await library();}
@@ -69,7 +70,7 @@ export async function importNativeAds(input:unknown){
   for(const ad of ads){try{
    const prior=l.rows.filter(r=>r[0]===ad.id);if(prior.length>1)throw Error('Duplicate IDs in Native Ads.');if(prior.length){results.push({id:ad.id,status:'existing'});continue;}
    let row=l.rows.length+1;if(row>2000)throw Error('Native Ads library is full (1,999 ads).');
-   const fileId=await saveImage(ad),values=[...nativeRow(ad,fileId),ad.headline||'',...Array(6).fill(''),characterCount(ad.primaryText)];
+   const fileId=await saveImage(ad,restoreTrashed),values=[...nativeRow(ad,fileId),ad.headline||'',...Array(6).fill(''),characterCount(ad.primaryText)];
    await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:AB${row}`,valueInputOption:'RAW',requestBody:{values:[values]}});
    const sheetId=l.tab!.sheetId!;
    await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[
