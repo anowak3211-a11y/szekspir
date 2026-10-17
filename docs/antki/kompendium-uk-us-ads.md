@@ -270,7 +270,7 @@ UK jest systemem **mieszanym** (nie czysto metrycznym) — to ważne, bo dosłow
 - W tekstach pisanych słownie zawsze preferuj format jednoznaczny: `12 October 2026` zamiast samych cyfr, żeby uniknąć pomyłki.
 
 ### Godzina
-- **Aktualizacja właściciela, 17 października 2026 — godziny w Antkach:** w obu wersjach UK (localized i rewritten) zapisuj godziny cyframi: `nine at night` → `9 pm`, `half past seven in the morning` → `7.30 am`. Zachowaj dokładną godzinę, minuty i porę dnia; nie dopowiadaj `am`/`pm`, jeśli źródło ich nie rozstrzyga. To zmiana zapisu, nie wartości faktu. Dotyczy copy czytanego, nie skryptów do lektora — w narracji audio godziny pozostają słownie. Ta reguła nie nakazuje zmiany zapisu wieku, liczebności ani długości trwania.
+- **Aktualizacja właściciela, 17 października 2026 — godziny w Antkach:** w obu wersjach UK (localized i rewritten) zapisuj godziny cyframi: `nine at night` → `9 pm`, `half past seven in the morning` → `7.30 am`. Zachowaj dokładną godzinę, minuty i porę dnia; nie dopowiadaj `am`/`pm`, jeśli źródło ich nie rozstrzyga. To zmiana zapisu, nie wartości faktu. Dotyczy copy czytanego, nie skryptów do lektora — w narracji audio godziny pozostają słownie. Użytkownik rozszerzył zasadę w copy pisanym na okresy i dosłowne liczebności: `three months` → `3 months`, `Three detentions` → `3 detentions`. Zachowuj jednostkę i znaczenie; `a fortnight` pozostaje bez zmiany, bez przeliczania na `2 weeks`. Te konkretne korekty nie obejmują wieku. Pozostałe słowa i interpunkcję zachowuj bez zmian.
 - **UK:** dwukropek lub kropka, małe litery bez kropek w skrócie: `9.30am`, `9:30am`, `17:45`
 - **US:** zawsze dwukropek, często z kropkami w skrócie: `9:30 a.m.`, `9:30 AM`
 

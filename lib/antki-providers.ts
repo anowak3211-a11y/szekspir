@@ -4,7 +4,7 @@ import OpenAI from 'openai';
 import sharp from 'sharp';
 import {safeDownload} from './safe-fetch';
 import {antkiLocalisationGuide,antkiRewriteGuide} from './antki-localisation-guide';
-import {seedreamAspectRatio,ANTKI_COPYWRITING_VERSION,ANTKI_LOCALISATION,faithfulChunk,rewrittenChunk,rewriteFactualValues,protectedNumbers,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {seedreamAspectRatio,ANTKI_COPYWRITING_VERSION,ANTKI_LOCALISATION,faithfulChunk,rewrittenChunk,rewriteFactualValues,protectedNumbers,antkiTargetCopy,type AntkiWork} from './antki-model';
 export async function localiseAntkiChunk(work:AntkiWork){
  assertBrain();
  const i=work.ukChunks.length;
@@ -15,7 +15,7 @@ export async function localiseAntkiChunk(work:AntkiWork){
  let result;try{result=JSON.parse(choice.message.content);}catch{throw Object.assign(Error('Localisation returned invalid JSON.'),{code:'antki_output_rejected'});}if(typeof result.text!=='string'||typeof result.headline!=='string'||result.headline.length>1500||(i===0&&work.sourceHeadline&&!result.headline.trim()))throw Object.assign(Error('Invalid localisation result.'),{code:'antki_output_rejected'});
  return validateAntkiChunk(work,{index:i,text:result.text,headline:result.headline,reviewNotes:Array.isArray(result.reviewNotes)?result.reviewNotes.filter((n:unknown)=>typeof n==='string').slice(0,20).map((n:string)=>n.slice(0,600)):[]});
 }
-export function validateAntkiChunk(work:AntkiWork,candidate:NonNullable<AntkiWork['rejectedText']>){try{const validate=work.copywritingVersion===ANTKI_COPYWRITING_VERSION?rewrittenChunk:faithfulChunk;return {text:localiseAntkiPurchaseLinks(validate(work.chunks[candidate.index],candidate.text),work.targetProduct?.url),headline:work.sourceHeadline?candidate.headline:'',reviewNotes:candidate.reviewNotes};}catch(e){throw Object.assign(e as Error,{code:'antki_output_rejected',candidate});}}
+export function validateAntkiChunk(work:AntkiWork,candidate:NonNullable<AntkiWork['rejectedText']>){try{const validate=work.copywritingVersion===ANTKI_COPYWRITING_VERSION?rewrittenChunk:faithfulChunk;return {text:antkiTargetCopy(validate(work.chunks[candidate.index],candidate.text),work.targetProduct?.url,work.targetProduct?.name),headline:work.sourceHeadline?antkiTargetCopy(candidate.headline,work.targetProduct?.url,work.targetProduct?.name):'',reviewNotes:candidate.reviewNotes};}catch(e){throw Object.assign(e as Error,{code:'antki_output_rejected',candidate});}}
 async function kie(path:string,body?:unknown){
  if(!accountEnv('KIE_API_KEY'))throw Error('Kie image generation is not configured.');
  const response=await fetch('https://api.kie.ai/api/v1/jobs/'+path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${accountEnv('KIE_API_KEY')}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(60000),cache:'no-store'});
