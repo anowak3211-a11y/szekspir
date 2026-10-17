@@ -23,6 +23,9 @@ state={calls:[],accessTier:'full'};await limiter.recordMetaUsage(new Headers({'x
 state={calls:[],accessTier:'limited'};now+=5000;let releaseLimited;const limited=limiter.withMetaBudget(()=>new Promise(r=>{releaseLimited=r;}));await new Promise(r=>setImmediate(r));now+=3000;await assert.rejects(()=>limiter.withMetaBudget(async()=>started++),e=>e.reason==='busy');releaseLimited(1);await limited;
 assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1);assert.equal((await limiter.metaBudgetStatus()).minSpacingSeconds,3);assert.equal((await limiter.metaBudgetStatus()).localFiveMinutePointCap,45);
 state={calls:[],accessTier:'limited',points:Array.from({length:15},()=>({at:now-1000,cost:3}))};await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,1),e=>e.reason==='local_budget');
+// A write needs three points: waking for only the first expiring read can starve writes.
+state={calls:[],accessTier:'limited',points:[{at:now-299000,cost:1},{at:now-290000,cost:1},{at:now-280000,cost:1},...Array.from({length:14},()=>({at:now-1000,cost:3}))]};
+await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,3),e=>e.reason==='local_budget'&&e.retryAfterSeconds===20,'Wait until enough weighted points expire for the entire write');
 state={calls:[]};assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1,'Unknown access is conservative until full access is confirmed');
 console.log('PASS: bounded five-request concurrency, lease cleanup, shared usage-header cooldown, throttle families, malformed headers and rolling-hour cap and 50-ad throughput with provider backoff. No Meta calls.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>Date.now=realNow);

@@ -26,7 +26,7 @@ export async function inspectUploadCreative(batchId:string,adId:string){
  const raw=await graph<Record<string,unknown>>(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
  const feed=raw.asset_feed_spec as Record<string,unknown>|undefined,story=raw.object_story_spec as Record<string,unknown>|undefined,data=story?.[item.imageHash?'link_data':'video_data'] as Record<string,unknown>|undefined;
  const features=(raw.degrees_of_freedom_spec as {creative_features_spec?:Record<string,{enroll_status?:string}>})?.creative_features_spec;
- return {adId,expected:{url:item.ad.url,cta:item.ad.cta},feedCtas:feed?.call_to_action_types??null,feedUrls:feed?.link_urls??null,storyLink:data?.link??null,storyCta:data?.call_to_action??null,enabledFeatures:Object.entries(features||{}).filter(([,v])=>v?.enroll_status==='OPT_IN').map(([k])=>k),errors:verifyCreative(item,raw)};
+ return {adId,expected:{url:item.ad.url,cta:item.ad.cta,videoId:item.videoId??null,imageHash:item.imageHash??null},feedVideos:feed?.videos??null,feedImages:feed?.images??null,storyVideoId:data?.video_id??null,storyImageHash:data?.image_hash??null,feedCtas:feed?.call_to_action_types??null,feedUrls:feed?.link_urls??null,storyLink:data?.link??null,storyCta:data?.call_to_action??null,enabledFeatures:Object.entries(features||{}).filter(([,v])=>v?.enroll_status==='OPT_IN').map(([k])=>k),errors:verifyCreative(item,raw)};
 }
 /** Read-only recovery evidence for an image write interrupted by Meta. */
 export async function inspectUploadImage(batchId:string,itemId:string){

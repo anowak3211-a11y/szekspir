@@ -25,7 +25,8 @@ export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
    if(hourly>now)return {seconds:Math.ceil((hourly-now)/1000),reason:'local_budget'};
    // Read=1, write=3. Limited/unknown access keeps a conservative five-minute budget.
    // This local guard never overrides provider cooldowns or usage-header backoff.
-   if(s.points.reduce((n,p)=>n+p.cost,0)+cost>guard.points)return {seconds:Math.max(1,Math.ceil((s.points[0].at+300000-now)/1000)),reason:'local_budget'};
+   let excess=s.points.reduce((n,p)=>n+p.cost,0)+cost-guard.points;
+   if(excess>0){for(const point of [...s.points].sort((a,b)=>a.at-b.at)){excess-=point.cost;if(excess<=0)return {seconds:Math.max(1,Math.ceil((point.at+300000-now)/1000)),reason:'local_budget'};}}
    s.leases=Object.fromEntries(Object.entries(s.leases||{}).filter(([,until])=>until>now));
    // Drain an in-flight request from the previous single-lease implementation.
    if(s.lease&&(s.leaseUntil||0)>now)s.leases[s.lease]=s.leaseUntil!;
