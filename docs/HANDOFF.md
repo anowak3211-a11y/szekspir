@@ -1,3 +1,9 @@
+## Default inline Antki differences — 17 October 2026
+
+- Both UK localized and UK rewritten now show word changes against USA original immediately inside their respective comparison cards. The original stays visible/read-only. “Edytuj teksty” switches to the existing exact editable values; returning to highlights includes unsaved edits. Mobile retains the three version tabs.
+- Local whole-text diff preserves target whitespace, paragraphs, punctuation and Unicode exactly, with a bounded timeout and no additional requests or generation. Source deletions are not inserted into target text. Existing paired comparison component remains available elsewhere.
+- Comparison regressions verify exact target reconstruction, including blank paragraphs, CRLF, emoji and empty strings.
+
 ## Four neutral text options per Antki — 17 October 2026
 
 - Owner requested four extras alongside the real ad copy: each primary is two Cyrillic gibberish sentences, each headline two words, each description three words. Stable distinct defaults appear for every prepared Antki without AI, extra fetches or background jobs. Individual and grouped copy controls, editing and one explicit four-option save are provided. Existing one-word/Russian neutral draft remains in an expandable panel.

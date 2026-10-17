@@ -11,3 +11,9 @@ export function comparedLines(us:string,uk:string):ComparedLine[]{
   return {us:a,uk:b,usParts:parts?parts.filter(p=>!p.added).map(p=>({text:p.value,changed:!!p.removed})):[{text:a,changed:a!==b}],ukParts:parts?parts.filter(p=>!p.removed).map(p=>({text:p.value,changed:!!p.added})):[{text:b,changed:a!==b}]};
  });
 }
+
+/** Whole-text comparison preserves target whitespace and paragraph breaks byte for byte. */
+export function highlightedTarget(source:string,target:string):{text:string;changed:boolean}[]{
+ const parts=diffWordsWithSpace(source,target,{timeout:100});
+ return parts?parts.filter(p=>!p.removed).map(p=>({text:p.value,changed:!!p.added})):[{text:target,changed:source!==target}];
+}
