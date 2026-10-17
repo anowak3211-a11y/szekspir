@@ -26,6 +26,12 @@ state={calls:[],accessTier:'limited',points:Array.from({length:15},()=>({at:now-
 // A write needs three points: waking for only the first expiring read can starve writes.
 state={calls:[],accessTier:'limited',points:[{at:now-299000,cost:1},{at:now-290000,cost:1},{at:now-280000,cost:1},...Array.from({length:14},()=>({at:now-1000,cost:3}))]};
 await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,3),e=>e.reason==='local_budget'&&e.retryAfterSeconds===20,'Wait until enough weighted points expire for the entire write');
+// Only two points free: do not consume them in preflight GETs before a POST.
+state={calls:[],accessTier:'limited',points:Array.from({length:43},()=>({at:now-290000,cost:1}))};
+await assert.rejects(()=>limiter.assertMetaStageBudget(6),e=>e.reason==='local_budget'&&e.retryAfterSeconds===10);
+assert.equal(state.calls.length,0,'Stage preflight does not consume a point or call Meta');
+now+=10001;await limiter.assertMetaStageBudget(6);assert.equal(state.calls.length,0);
+state={calls:[],accessTier:'limited',cooldown:now+120000};await assert.rejects(()=>limiter.assertMetaStageBudget(6),e=>e.reason==='provider_cooldown'&&e.retryAfterSeconds===120);
 state={calls:[]};assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1,'Unknown access is conservative until full access is confirmed');
 console.log('PASS: bounded five-request concurrency, lease cleanup, shared usage-header cooldown, throttle families, malformed headers and rolling-hour cap and 50-ad throughput with provider backoff. No Meta calls.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>Date.now=realNow);

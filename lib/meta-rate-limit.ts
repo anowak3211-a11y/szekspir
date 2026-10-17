@@ -41,6 +41,17 @@ export async function withMetaBudget<T>(fn:()=>Promise<T>,cost=1){
  if(!acquired)throw new MetaBudgetWait(2);
  try{return await fn();}finally{await mutate<Budget,void>(KEY,initial(),s=>{if(s.leases)delete s.leases[token];if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});}
 }
+// Do not spend the last available read points revalidating a write that cannot
+// yet run. This is only an optimistic preflight; every actual request still
+// acquires its own lease and obeys the unchanged provider/local limits.
+export async function assertMetaStageBudget(cost:number){
+ if(!Number.isInteger(cost)||cost<1||cost>45)throw Error('Invalid Meta stage cost.');
+ const s=(await readState<Budget>(KEY,initial())).value,now=Date.now();
+ if((s.cooldown||0)>now)throw new MetaBudgetWait(Math.ceil((s.cooldown!-now)/1000),'provider_cooldown');
+ const points=(s.points||s.calls.map(at=>({at,cost:3}))).filter(p=>p.at>now-300000).sort((a,b)=>a.at-b.at);
+ let excess=points.reduce((sum,p)=>sum+p.cost,0)+cost-limits(s.accessTier).points;
+ if(excess>0)for(const point of points){excess-=point.cost;if(excess<=0)throw new MetaBudgetWait(Math.max(1,Math.ceil((point.at+300000-now)/1000)),'local_budget');}
+}
 export function isMetaRateLimit(code:number){return [4,17,32,613,429,1675004].includes(code)||(code>=80000&&code<80100);}
 export function metaUsage(headers:Headers){
  let usage=0,seconds=0;const buckets:{header:string;type?:string;usage:number;regainSeconds:number;tier?:string}[]=[];

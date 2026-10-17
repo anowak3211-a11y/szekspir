@@ -2,7 +2,7 @@ import {randomUUID,createHash} from 'node:crypto';
 import {send} from './account-queue';
 import {mutate,readState} from './store';
 import {graph,graphList,assertUploadTarget,MetaError,cachedMetaResource} from './meta-client';
-import {MetaBudgetWait} from './meta-rate-limit';
+import {MetaBudgetWait,assertMetaStageBudget} from './meta-rate-limit';
 import {parseUploadAd,creativePayload,verifyCreative,type UploadBatch,type UploadItem} from './meta-uploader-model';
 import {itemKey,fingerprint} from './meta-uploader-identity';
 import {startRemoteVideo,uploadImage,transferOriginalChunk,finishOriginalVideo} from './meta-upload-media';
@@ -116,6 +116,7 @@ export async function consumeMetaUpload(id:string,batchId:string,dispatchToken?:
  const lease=randomUUID();const acquired=await mutate<{item?:UploadItem},UploadItem|null>(key(id)+'-record',{},s=>{const i=s.item;if(!i||['complete','attention','cancelled'].includes(i.status))return null;if((i.leaseUntil||0)>Date.now()||(i.nextAttempt||0)>Date.now())return null;if(i.pending&&i.pending!=='transfer'){i.status='attention';i.updated=Date.now();i.error='Previous request was interrupted. Check its result before retrying.';return null;}i.lease=lease;i.leaseUntil=Date.now()+9*60000;i.updated=Date.now();i.status='working';i.pending=undefined;i.nextAttempt=undefined;return {...i};});
  if(!acquired){const current=await readItem(id);if((current?.leaseUntil||0)>Date.now())return;if(current)await updateQueue(batchId,current);await releaseDispatch(batchId,id,dispatchToken);await markFinished(batchId);await dispatchNext(batchId);return;}let item=acquired,delay:number|undefined;await updateQueue(batchId,item);
  try{
+  if(['creative','ad'].includes(item.phase))await assertMetaStageBudget(6);
   if(item.phase==='media'){
    await assertUploadTarget(item.ad);await checkDuplicate(item,batchId);
    if(item.ad.media.kind==='carousel'){const hashes=item.imageHashes||[],card=item.ad.media.cards[hashes.length];if(card){await pending(item,'image');hashes.push(await uploadImage({...item,ad:{...item.ad,media:card}}));item.imageHashes=hashes;}item.phase=hashes.length===item.ad.media.cards.length?'creative':'media';}
