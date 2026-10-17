@@ -21,17 +21,20 @@ await limiter.recordMetaUsage(new Headers({'retry-after':'120'}));await assert.r
 state={calls:[],accessTier:'full'};await limiter.recordMetaUsage(new Headers({'x-ad-account-usage':JSON.stringify({acc_id_util_pct:0,ads_api_access_tier:'standard_access'})}));assert.equal((await limiter.metaBudgetStatus()).accessTier,'full');
 
 state={calls:[],accessTier:'limited'};now+=5000;let releaseLimited;const limited=limiter.withMetaBudget(()=>new Promise(r=>{releaseLimited=r;}));await new Promise(r=>setImmediate(r));now+=3000;await assert.rejects(()=>limiter.withMetaBudget(async()=>started++),e=>e.reason==='busy');releaseLimited(1);await limited;
-assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1);assert.equal((await limiter.metaBudgetStatus()).minSpacingSeconds,3);assert.equal((await limiter.metaBudgetStatus()).localFiveMinutePointCap,45);
-state={calls:[],accessTier:'limited',points:Array.from({length:15},()=>({at:now-1000,cost:3}))};await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,1),e=>e.reason==='local_budget');
+assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1);assert.equal((await limiter.metaBudgetStatus()).minSpacingSeconds,3);assert.equal((await limiter.metaBudgetStatus()).localFiveMinutePointCap,180);
+// Owner-approved throughput increase retains serial requests and provider backoff.
+state={calls:[],accessTier:'limited'};now+=5000;for(let i=0;i<20;i++){await limiter.withMetaBudget(async()=>started++,3);now+=3000;}assert.equal((await limiter.metaBudgetStatus()).pointsInFiveMinutes,60,'Limited access can pass the previous 45-point cap');
+await limiter.recordMetaUsage(new Headers({'retry-after':'90'}));await assert.rejects(()=>limiter.withMetaBudget(async()=>started++),e=>e.reason==='provider_cooldown'&&e.retryAfterSeconds===90);
+state={calls:[],accessTier:'limited',points:Array.from({length:60},()=>({at:now-1000,cost:3}))};await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,1),e=>e.reason==='local_budget');
 // A write needs three points: waking for only the first expiring read can starve writes.
-state={calls:[],accessTier:'limited',points:[{at:now-299000,cost:1},{at:now-290000,cost:1},{at:now-280000,cost:1},...Array.from({length:14},()=>({at:now-1000,cost:3}))]};
+state={calls:[],accessTier:'limited',points:[{at:now-299000,cost:1},{at:now-290000,cost:1},{at:now-280000,cost:1},...Array.from({length:59},()=>({at:now-1000,cost:3}))]};
 await assert.rejects(()=>limiter.withMetaBudget(async()=>started++,3),e=>e.reason==='local_budget'&&e.retryAfterSeconds===20,'Wait until enough weighted points expire for the entire write');
 // Only two points free: do not consume them in preflight GETs before a POST.
-state={calls:[],accessTier:'limited',points:Array.from({length:43},()=>({at:now-290000,cost:1}))};
+state={calls:[],accessTier:'limited',points:Array.from({length:178},()=>({at:now-290000,cost:1}))};
 await assert.rejects(()=>limiter.assertMetaStageBudget(6),e=>e.reason==='local_budget'&&e.retryAfterSeconds===10);
 assert.equal(state.calls.length,0,'Stage preflight does not consume a point or call Meta');
 now+=10001;await limiter.assertMetaStageBudget(6);assert.equal(state.calls.length,0);
 state={calls:[],accessTier:'limited',cooldown:now+120000};await assert.rejects(()=>limiter.assertMetaStageBudget(6),e=>e.reason==='provider_cooldown'&&e.retryAfterSeconds===120);
-state={calls:[]};assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1,'Unknown access is conservative until full access is confirmed');
+state={calls:[]};assert.equal((await limiter.metaBudgetStatus()).localFiveMinutePointCap,45,'Unconfirmed access retains the original cap');assert.equal((await limiter.metaBudgetStatus()).maxConcurrentRequests,1,'Unknown access is conservative until full access is confirmed');
 console.log('PASS: bounded five-request concurrency, lease cleanup, shared usage-header cooldown, throttle families, malformed headers and rolling-hour cap and 50-ad throughput with provider backoff. No Meta calls.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>Date.now=realNow);

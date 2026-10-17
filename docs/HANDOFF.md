@@ -1,3 +1,9 @@
+## Owner-approved uploader throughput increase — 18 October 2026
+
+- Confirmed limited/development access now allows 180 weighted points per rolling five minutes, up from the local 45-point cap. Unknown access remains at 45; confirmed full access is unchanged. These are application guards, not advertised Meta quotas.
+- Requests remain serial with three-second spacing for limited/unknown access. Provider Retry-After, usage-header pauses, rate-limit backoff, write reconciliation and the hourly cap remain unchanged. Existing durable batches resume on their scheduled retries; no ads are resubmitted.
+- Offline limiter regressions cover passing the old cap, stopping at the new cap, whole-write/preflight headroom and provider cooldown precedence.
+
 ## Add ad set inside Szekspir Ads — 17 October 2026
 
 - Owner requested an Add ad set control beside the existing selector. It opens a mobile-friendly single-column form for a name, an existing base ad set in the selected campaign and an optional daily minimum in account currency. Success selects the new OFF ad set and updates the account-scoped display list. No Supermetrics approval screen is involved.

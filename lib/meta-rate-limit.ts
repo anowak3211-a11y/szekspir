@@ -8,7 +8,7 @@ export type WaitReason='busy'|'spacing'|'local_budget'|'provider_cooldown';
 export type MetaDiagnostic={at:number;operation:string;method:string;status:number;code:number;subcode:number;durationMs:number;requestId?:string};
 type Budget={calls:number[];points?:{at:number;cost:number}[];accessTier?:'limited'|'full';leases?:Record<string,number>;lease?:string;leaseUntil?:number;next?:number;cooldown?:number;strikes?:number;usage?:number;localWaits?:number;signals?:ReturnType<typeof metaUsage>;diagnostics?:MetaDiagnostic[]};
 const initial=():Budget=>({calls:[]});
-function limits(tier?:Budget['accessTier']){return tier==='full'?{points:FIVE_MINUTE_POINT_CAP,spacing:MIN_SPACING_MS,concurrency:MAX_IN_FLIGHT}:{points:45,spacing:3000,concurrency:1};}
+function limits(tier?:Budget['accessTier']){return tier==='full'?{points:FIVE_MINUTE_POINT_CAP,spacing:MIN_SPACING_MS,concurrency:MAX_IN_FLIGHT}:{points:tier==='limited'?180:45,spacing:3000,concurrency:1};}
 export class MetaBudgetWait extends Error{
  constructor(public retryAfterSeconds:number,public reason:WaitReason='busy'){super(reason==='provider_cooldown'?`Meta requested a pause. Retry in ${retryAfterSeconds} seconds.`:`Upload queue is waiting. Retry in ${retryAfterSeconds} seconds.`);this.name='MetaBudgetWait';}
 }
