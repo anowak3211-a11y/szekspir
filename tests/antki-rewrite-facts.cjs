@@ -1,6 +1,6 @@
 const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
-const model=require('../lib/antki-model.ts');
+const model=require('../lib/antki-model.ts');assert(model.knownImageFailure('image','Kie request failed (200/402).'));assert(model.knownImageFailure('image','Kie image task failed. Retry submits a new paid image request.'));assert(!model.knownImageFailure('image','Provider timed out'));assert(!model.knownImageFailure('check','Kie image task failed.'));
 assert.equal(model.rewrittenChunk('At 14, he was struggling. He was only 14.','He was fourteen and struggling at school.'),'He was fourteen and struggling at school.');
 assert.equal(model.rewrittenChunk('Take 2 gummies with 30mg.','Take two gummies with 30 mg.'),'Take two gummies with 30 mg.');
 assert.equal(model.rewrittenChunk('A 100% guarantee costs $39.99.','The guarantee is one hundred percent. It costs $39.99.'),'The guarantee is one hundred percent. It costs $39.99.');

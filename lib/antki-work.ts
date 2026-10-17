@@ -12,7 +12,7 @@ import {driveUploadTarget} from './drive-video';
 import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {readState,mutate} from './store';
-import {ANTKI_COPYWRITING_VERSION,newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {knownImageFailure,ANTKI_COPYWRITING_VERSION,newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 import {localiseAntkiChunk,validateAntkiChunk,submitAntkiImage,pollAntkiImage} from './antki-providers';
 export type {AntkiWork} from './antki-model';
 const key=(id:string)=>{if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid Antki ID.');return 'antki-work-'+id;};
@@ -47,7 +47,7 @@ export async function rewriteAntkiText(id:string,revision:unknown,completeImage=
 }
 export async function startAntkiBatch(ids:string[]){
  const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];
- for(const ad of ads){try{const prior=await readAntkiWork(ad.id),retry=prior?.status==='failed'&&!prior.pending&&/Quota exceeded|rate limit|Too Many Requests/i.test(prior.error||'');const work=await startAntkiWork(ad.id,retry,false,ad);results.push({id:ad.id,status:work.status});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
+ for(const ad of ads){try{const prior=await readAntkiWork(ad.id),retry=prior?.status==='failed'&&!prior.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test(prior.error||'')||knownImageFailure(prior.phase,prior.error||''));const work=await startAntkiWork(ad.id,retry,false,ad);results.push({id:ad.id,status:work.status});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
  return results;
 }
 export async function repairAntkiLinks(ids:string[]){
