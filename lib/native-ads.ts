@@ -1,3 +1,4 @@
+import {antkiNumbers} from './antki-numbers';
 import {google} from 'googleapis';
 import {Readable} from 'node:stream';
 import {sheetAuth} from './sheets';
@@ -29,7 +30,7 @@ export async function listNativeAds(){
   const row:unknown[]=[];(result[0]?.values?.[i]||[]).forEach((v,n)=>row[n]=v);(result[1]?.values?.[i]||[]).forEach((v,n)=>row[n+7]=v);(result[2]?.values?.[i]||[]).forEach((v,n)=>row[n+25]=v);
   if(!row[0])continue;const ad=nativeFromRow(row,i+2,l.sheetUrl);ad.wordCount=Number(row[3]||0);ads.push(ad);
  }
- return {ads,sheetUrl:l.sheetUrl};
+ const numbers=await antkiNumbers(ads.map(ad=>ad.id));return {ads:ads.map(ad=>({...ad,number:numbers[ad.id]})),sheetUrl:l.sheetUrl};
 }
 export async function getNativeAd(id:string,rowHint?:number){
  if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid native ad ID.');

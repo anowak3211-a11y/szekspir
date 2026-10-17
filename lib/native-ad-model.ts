@@ -1,8 +1,9 @@
+export const antkiLabel=(number?:number)=>number?'ANT-'+String(number).padStart(5,'0'):'Antek';
 export const NATIVE_TAB='Native Ads';
 export const NATIVE_HEADERS=['Trendtrack ID','Image preview','Advertiser','Word count','Primary text','Primary text · continued 2','Primary text · continued 3','Original image URL','Saved image · Drive','Drive file ID','Meta Ad Library','Landing page','Source status','Days running','Reach','Reach growth · 7d','Estimated spend · EUR','Collation ID','Imported at','Source note'];
 export const NATIVE_WORK_HEADERS=['US headline','UK headline','UK primary text','UK primary text · continued 2','UK primary text · continued 3','UK image · Drive','UK preparation','Source characters'];
 export type NativeAd={sourceKind?:'reference-test';headline?:string;id:string;advertiser:string;primaryText:string;wordCount:number;imageUrl:string;landingPage:string;status:string;days:number;reach:number;growth7d:number;spend:number;collationId:string};
-export type SavedNativeAd=NativeAd&{driveUrl:string;driveFileId:string;sheetUrl:string;row:number;workStatus?:string;ukHeadline?:string;ukImageUrl?:string;characterCount?:number};
+export type SavedNativeAd=NativeAd&{number?:number;driveUrl:string;driveFileId:string;sheetUrl:string;row:number;workStatus?:string;ukHeadline?:string;ukImageUrl?:string;characterCount?:number};
 export function characterCount(text:string){return Array.from(text).length;}
 export function wordCount(text:string){return text.trim()?text.trim().split(/\s+/u).length:0;}
 export function nativeImageUrl(value:unknown){

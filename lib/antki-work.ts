@@ -20,7 +20,7 @@ async function persist(work:AntkiWork){
 export async function antkiWorkIndex(){return (await readState<Record<string,{status:string;phase:string}>>('antki-work-index',{})).value;}
 // A single record envelope supports atomic replacement through the existing CAS store.
 export async function readAntkiWork(id:string){return (await readState<{work?:AntkiWork}>(key(id)+'-record',{})).value.work||null;}
-export async function scheduleAntki(id:string,delaySeconds=0){const at=await mutate<{next?:number},number>('antki-queue-pacing',{},s=>{const at=Math.max(Date.now()+delaySeconds*1000,s.next||0);s.next=at+5000;return at;});delaySeconds=Math.max(0,Math.ceil((at-Date.now())/1000));await send('szekspir-antki',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});}
+export async function scheduleAntki(id:string,delaySeconds=0,priority=false){const at=priority?Date.now()+delaySeconds*1000:await mutate<{next?:number},number>('antki-queue-pacing',{},s=>{const at=Math.max(Date.now()+delaySeconds*1000,s.next||0);s.next=at+5000;return at;});delaySeconds=Math.max(0,Math.ceil((at-Date.now())/1000));await send('szekspir-antki',{id},{region:'fra1',delaySeconds,retentionSeconds:86400});}
 export async function startAntkiWork(id:string,retry=false,confirmUncertain=false,source?:SavedNativeAd){
  key(id);const result=await withEditorLocks(['antki-work-'+id],async()=>{
   const ad=source||await getNativeAd(id);let work=await readAntkiWork(id);
@@ -31,6 +31,16 @@ export async function startAntkiWork(id:string,retry=false,confirmUncertain=fals
   return work;
  });
  if(['queued','working'].includes(result.status))await scheduleAntki(id);return result;
+}
+export async function rewriteAntkiText(id:string,revision:unknown){
+ key(id);const work=await withEditorLocks(['antki-work-'+id],async()=>{
+  const previous=await readAntkiWork(id);if(!previous||previous.revision!==revision)throw Error('Reload this advert before rewriting.');
+  if(previous.textRewrite||previous.pending||['queued','working'].includes(previous.status))throw Error('Finish or check the current request before rewriting.');
+  if(previous.approval||previous.imageApproval?.state==='pending')throw Error('Review the approved/exporting advert before rewriting.');
+  const ad=await getNativeAd(id,previous.sourceRow);if(ad.primaryText!==previous.sourceText||ad.imageUrl!==previous.sourceImage||(ad.headline||'')!==previous.sourceHeadline)throw Error('Source changed. Review it before rewriting.');
+  await mutate<{versions:unknown[]},void>('antki-copy-history-'+id,{versions:[]},s=>{s.versions.push({revision:previous.revision,copywritingVersion:previous.copywritingVersion,text:previous.ukText,headline:previous.ukHeadline,chunks:previous.ukChunks,at:Date.now()});s.versions=s.versions.slice(-3);});
+  const next=newAntkiWork(ad);previous.textRewrite={phase:previous.phase,status:previous.status,error:previous.error};previous.copywritingVersion=next.copywritingVersion;previous.ukText='';previous.ukHeadline='';previous.ukChunks=[];previous.chunks=next.chunks;previous.phase='text';previous.status='queued';previous.error=undefined;previous.revision++;await persist(previous);return previous;
+ });await scheduleAntki(id,0,true);return work;
 }
 export async function startAntkiBatch(ids:string[]){
  const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];
@@ -60,9 +70,9 @@ async function archiveImage(work:AntkiWork){
  work.imageDriveUrl=`https://drive.google.com/file/d/${work.imageFileId}/view`;
 }
 export async function consumeAntki(id:string){
- key(id);let delay:number|undefined;
+ key(id);let delay:number|undefined,priority=false;
  await withEditorLocks(['antki-work-'+id],async()=>{
-  const work=await readAntkiWork(id);if(!work||['ready','failed','uncertain'].includes(work.status))return;
+  const work=await readAntkiWork(id);if(!work||['ready','failed','uncertain'].includes(work.status))return;priority=!!work.textRewrite;
   if(work.pending){work.status='uncertain';work.error='Previous provider request has no saved result. Review before retrying.';await persist(work);return;}
   try{
    if(work.phase!=='poll'){const ad=await getNativeAd(id,work.sourceRow);if(ad.primaryText!==work.sourceText||ad.imageUrl!==work.sourceImage||(ad.headline||'')!==work.sourceHeadline)throw Error('Source changed during preparation.');}
@@ -72,7 +82,7 @@ export async function consumeAntki(id:string){
     if(!process.env.OPENAI_API_KEY)throw Error('OpenAI is not configured.');
     work.pending='text';await persist(work);const result=await localiseAntkiChunk(work);work.pending=undefined;
     if(!work.ukChunks.length)work.ukHeadline=result.headline;work.reviewNotes=[...new Set([...(work.reviewNotes||[]),...(result.reviewNotes||[])])].slice(0,50);work.ukChunks.push(result.text);
-    if(work.ukChunks.length===work.chunks.length){work.ukText=work.ukChunks.join('');work.imagePrompt=antkiImagePrompt(work);work.phase='image';}
+    if(work.ukChunks.length===work.chunks.length){work.ukText=work.ukChunks.join('');work.imagePrompt=antkiImagePrompt(work);work.phase=work.textRewrite?'deliver':'image';}
     delay=0;
    }else if(work.phase==='image'){
     if(!process.env.KIE_API_KEY)throw Error('Kie image generation is not configured.');
@@ -87,12 +97,12 @@ export async function consumeAntki(id:string){
     else throw Error('Image rejected: '+work.imageReview.change+' Generate a new variation; this image has not been delivered.');
    }else if(work.phase==='archive'){await archiveImage(work);work.phase='deliver';delay=0;
    }else if(work.phase==='deliver'){
-    await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};work.phase='done';work.status='ready';
+    await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};if(work.textRewrite){const resume=work.textRewrite;work.phase=resume.status==='ready'?'done':resume.phase;work.status=resume.status;work.error=resume.error;work.lastTextRewriteAt=Date.now();work.textRewrite=undefined;}else{work.phase='done';work.status='ready';}
    }
    await persist(work);
   }catch(e){if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if((e as {code?:string}).code==='antki_image_failed'){work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}
  });
- if(delay!==undefined)await scheduleAntki(id,delay);
+ if(delay!==undefined)await scheduleAntki(id,delay,priority);
 }
 export async function editAntkiWork(id:string,text:unknown,headline:unknown,revision:unknown){
  if(typeof text!=='string'||!text.trim()||text.length>135000||text.trim().split(/\s+/).length>15000||typeof headline!=='string'||headline.length>1500)throw Error('UK text must contain 1–15,000 words and headline up to 1,500 characters.');
