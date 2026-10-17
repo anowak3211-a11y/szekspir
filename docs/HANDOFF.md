@@ -1,3 +1,10 @@
+## Add ad set inside Szekspir Ads — 17 October 2026
+
+- Owner requested an Add ad set control beside the existing selector. It opens a mobile-friendly single-column form for a name, an existing base ad set in the selected campaign and an optional daily minimum in account currency. Success selects the new OFF ad set and updates the account-scoped display list. No Supermetrics approval screen is involved.
+- Authenticated same-origin POST `/api/meta/adsets` copies actual base targeting, placements, conversion pixel/event, attribution and delivery settings. New sets are always PAUSED, no ads are copied, and the campaign budget/status remain unchanged. Daily minimum is supported only for campaign daily budgets, converted to minor units and checked against that budget; ABO bases retain their daily budget and lifetime schedules require explicit Meta setup.
+- Name-scoped durable intents prevent repeated or unknown writes from creating duplicates. Confirmed IDs are stored before readback; retries with a saved ID verify instead of creating again. Account/campaign, name, OFF status, targeting, pixel/event, delivery and requested minimum are read back before success. Provider limits keep the form values for a later explicit retry.
+- Offline regressions cover exact template settings, paused status, CBO/ABO budgets, account isolation and known/unknown-repeat protection. Added the new ad-set, listing-fallback and image-copy tests to the existing Meta CI command. Live UI is checked after deploy without creating an unsolicited production ad set.
+
 ## Meta rate-limit recovery and upload image copies — 17 October 2026
 
 - During the owner-authorised ANT 2–12 paired test the uploader confirmed 14 paused ads and rejected images for ANT 3, 4, 9, 12 (both arms). Owner also reported account throttle 17/2446079. The queue finished with eight attention items; no repeated relaunch was issued during the provider limit. Both new paused ad sets have minimum 50 PLN/day, pixel Mellow/Purchase; existing campaign budget remains 200 PLN/day.

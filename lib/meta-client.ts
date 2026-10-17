@@ -75,3 +75,9 @@ export async function assertUploadTarget(ad:{accountId:string;campaignId:string;
  if(set.destination_type&&set.destination_type!=='WEBSITE'&&!legacyWebsite)throw Error(`Choose a Website ad set. Meta returned ${set.destination_type}.`);
  const pages=await metaResources('pages',ad.accountId);if(!pages.some(p=>p.id===ad.pageId))throw Error('Selected Page is not available for this account.');
 }
+
+/** Update only the display list after a verified creation; upload target checks use separate keys. */
+export async function rememberCreatedAdSet(account:string,campaign:string,set:Record<string,unknown>){
+ const token=await metaToken(),key=metaCacheKey(`${META_VERSION}:${token}`,`adsets:${account}:${campaign}`);
+ await mutate<{value?:Record<string,unknown>[];expires?:number},void>(key,{},s=>{if(Array.isArray(s.value)){s.value=[...s.value.filter(x=>x.id!==set.id),set];s.expires=Date.now()+300000;}});
+}
