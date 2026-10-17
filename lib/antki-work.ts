@@ -9,7 +9,7 @@ import {driveUploadTarget} from './drive-video';
 import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {readState,mutate} from './store';
-import {newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {ANTKI_COPYWRITING_VERSION,newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 import {localiseAntkiChunk,submitAntkiImage,pollAntkiImage} from './antki-providers';
 export type {AntkiWork} from './antki-model';
 const key=(id:string)=>{if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid Antki ID.');return 'antki-work-'+id;};
@@ -32,14 +32,14 @@ export async function startAntkiWork(id:string,retry=false,confirmUncertain=fals
  });
  if(['queued','working'].includes(result.status))await scheduleAntki(id);return result;
 }
-export async function rewriteAntkiText(id:string,revision:unknown){
+export async function rewriteAntkiText(id:string,revision:unknown,completeImage=false,source?:SavedNativeAd){
  key(id);const work=await withEditorLocks(['antki-work-'+id],async()=>{
   const previous=await readAntkiWork(id);if(!previous||previous.revision!==revision)throw Error('Reload this advert before rewriting.');
   if(previous.textRewrite||previous.pending||['queued','working'].includes(previous.status))throw Error('Finish or check the current request before rewriting.');
-  if(previous.approval||previous.imageApproval?.state==='pending')throw Error('Review the approved/exporting advert before rewriting.');
-  const ad=await getNativeAd(id,previous.sourceRow);if(ad.primaryText!==previous.sourceText||ad.imageUrl!==previous.sourceImage||(ad.headline||'')!==previous.sourceHeadline)throw Error('Source changed. Review it before rewriting.');
+  if((previous.approval&&!completeImage)||previous.approval?.state==='pending'||previous.imageApproval?.state==='pending')throw Error('Review the approved/exporting advert before rewriting.');
+  const ad=source||await getNativeAd(id,previous.sourceRow);if(ad.primaryText!==previous.sourceText||ad.imageUrl!==previous.sourceImage||(ad.headline||'')!==previous.sourceHeadline)throw Error('Source changed. Review it before rewriting.');
   await mutate<{versions:unknown[]},void>('antki-copy-history-'+id,{versions:[]},s=>{s.versions.push({revision:previous.revision,copywritingVersion:previous.copywritingVersion,text:previous.ukText,headline:previous.ukHeadline,chunks:previous.ukChunks,at:Date.now()});s.versions=s.versions.slice(-3);});
-  const next=newAntkiWork(ad);previous.textRewrite={phase:previous.phase,status:previous.status,error:previous.error};previous.copywritingVersion=next.copywritingVersion;previous.ukText='';previous.ukHeadline='';previous.ukChunks=[];previous.chunks=next.chunks;previous.phase='text';previous.status='queued';previous.error=undefined;previous.revision++;await persist(previous);return previous;
+  const next=newAntkiWork(ad);if(completeImage)previous.approval=undefined;previous.textRewrite={completeImage,phase:previous.phase,status:previous.status,error:previous.error};previous.copywritingVersion=next.copywritingVersion;previous.ukText='';previous.ukHeadline='';previous.ukChunks=[];previous.chunks=next.chunks;previous.phase='text';previous.status='queued';previous.error=undefined;previous.revision++;await persist(previous);return previous;
  });await scheduleAntki(id,0,true);return work;
 }
 export async function startAntkiBatch(ids:string[]){
@@ -97,7 +97,7 @@ export async function consumeAntki(id:string){
     else throw Error('Image rejected: '+work.imageReview.change+' Generate a new variation; this image has not been delivered.');
    }else if(work.phase==='archive'){await archiveImage(work);work.phase='deliver';delay=0;
    }else if(work.phase==='deliver'){
-    await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};if(work.textRewrite){const resume=work.textRewrite;work.phase=resume.status==='ready'?'done':resume.phase;work.status=resume.status;work.error=resume.error;work.lastTextRewriteAt=Date.now();work.textRewrite=undefined;}else{work.phase='done';work.status='ready';}
+    await saveNativeWorkOutput(id,work.sourceText,{headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||'',status:'Ready for review'},work.delivered);work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};if(work.textRewrite){const resume=work.textRewrite;work.phase=resume.status==='ready'?'done':resume.phase;work.status=resume.status;work.error=resume.error;work.lastTextRewriteAt=Date.now();work.textRewrite=undefined;if(resume.completeImage&&(!work.imageDriveUrl||!work.imageFileId)){work.phase=work.imageResultUrl?'check':work.imageTaskId?'poll':'image';work.status='queued';work.error=undefined;delay=0;}}else{work.phase='done';work.status='ready';}
    }
    await persist(work);
   }catch(e){if(!work.pending&&(/Quota exceeded|rate limit|Too Many Requests/i.test((e as Error).message)||Number((e as {code?:unknown}).code)===429)){work.status='queued';work.error='Google Sheets limit reached. Resuming automatically after cooldown.';await persist(work);delay=60;return;}if(['antki_text_rejected','antki_output_rejected','antki_image_rejected'].includes((e as {code?:string}).code||''))work.pending=undefined;if((e as {code?:string}).code==='antki_image_failed'){work.failedImageTaskId=work.imageTaskId;work.imageTaskId=undefined;work.phase='image';}work.status=work.pending?'uncertain':'failed';work.error=(e as Error).message;await persist(work);delay=undefined;}
@@ -155,3 +155,6 @@ export async function approveAntkiImage(id:string,revision:unknown){
   work.imageApproval={...work.imageApproval,state:'approved',sheetUrl};await persist(work);return work;
  });
 }
+
+/** Explicit owner-requested batch: snapshot/rewrite once per rule version; retain finished photos and known tasks. */
+export async function refreshAntkiBatch(ids:string[]){const ads=await getNativeAds(ids),results:{id:string;status:string;error?:string}[]=[];for(const ad of ads){try{const prior=await readAntkiWork(ad.id);if(!prior){const work=await startAntkiWork(ad.id,false,false,ad);results.push({id:ad.id,status:work.status});continue;}if(prior.pending||['queued','working'].includes(prior.status)){results.push({id:ad.id,status:'in-progress',error:prior.pending?'Previous paid request needs reconciliation.':undefined});continue;}if(prior.copywritingVersion!==ANTKI_COPYWRITING_VERSION||!prior.lastTextRewriteAt){await rewriteAntkiText(ad.id,prior.revision,true,ad);results.push({id:ad.id,status:'rewrite-queued'});}else if(!prior.imageDriveUrl||!prior.imageFileId){await startAntkiWork(ad.id,true,false,ad);results.push({id:ad.id,status:'image-queued'});}else results.push({id:ad.id,status:'already-current'});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}return results;}

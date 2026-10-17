@@ -1,3 +1,9 @@
+## Substantial Antki rewrites and explicit batch refresh — 17 October 2026
+
+- Owner rejected the first revised copy as too conservative and explicitly requested all batch copy rewritten plus images completed after funding Kie. New version antki-copy-2026-10-17-rewrite-v2 appends an explicit draft-from-narrative-beats instruction: new opening, sentence/paragraph construction, transitions and close, with the same factual story. It rejects synonym-only rewriting and awkward adaptation meta-copy. Existing story/fact/URL guards remain; previous rule snapshots keep their older prompt.
+- Library batch refresh snapshots/revises each existing source once for this version, completes missing images after text delivery, reuses completed photos and known task/results, and invalidates prior final-copy approval without publishing. Repeating the batch action skips completed/current work and never duplicates active or uncertain paid requests. Reference-test items are excluded in the UI. Bulk queue pacing stays unchanged.
+- Offline tests cover one rewrite/one missing image, repeated-action idempotence, full guide injection, previous copy/image preservation and typecheck. Actual batch completion remains an operational check, not established by mocks.
+
 ## Antki Kie failure diagnostics and credit rejection — 17 October 2026
 
 - Kie task failures now retain the provider code and bounded message plus the failed task ID. No automatic paid retry was added. Known create-request rejections (400/401/402/422/429) clear the uncertain submission marker; transport errors and server errors retain it. Credit exhaustion is explicitly shown as insufficient Kie credits.

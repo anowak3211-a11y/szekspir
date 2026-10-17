@@ -19,3 +19,5 @@ export function antkiLocalisationGuide(copywriting=false){
  guide=source;
  return guide+'\n\n'+ukLocalisationGuide('native')+(copywriting?copywritingGuide():'');
 }
+
+export function antkiRewriteGuide(){const guide=readFileSync(path.join(process.cwd(),'docs/antki/rewrite-uk-v2.md'),'utf8');if(!guide.trim()||guide.length>12000)throw Error('Rewrite rules unavailable. No provider request submitted.');return '\n\nEXPLICIT SUBSTANTIAL REWRITE MODE (LATEST OWNER DIRECTION):\n'+guide;}
