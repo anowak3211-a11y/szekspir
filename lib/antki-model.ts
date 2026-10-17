@@ -1,7 +1,8 @@
 import type {AntkiNeutralVersion} from './antki-neutral';
 import type {SavedNativeAd} from './native-ad-model';
-export const ANTKI_COPYWRITING_VERSION='antki-copy-2026-10-17-rewrite-v2';
-export type AntkiLocalizedVersion={revision:number;status:AntkiWork['status'];headline:string;text:string;chunks:string[];source:'saved-version'|'generated';updated:number;pending?:boolean;error?:string;rejectedText?:AntkiWork['rejectedText']};
+export const ANTKI_COPYWRITING_VERSION='antki-copy-2026-10-18-dialogue-v3';
+export const ANTKI_LOCALIZED_VERSION='antki-localized-2026-10-18-v2';
+export type AntkiLocalizedVersion={rulesVersion?:string;revision:number;status:AntkiWork['status'];headline:string;text:string;chunks:string[];source:'saved-version'|'generated';updated:number;pending?:boolean;error?:string;rejectedText?:AntkiWork['rejectedText']};
 export type AntkiWork={neutralVersion?:AntkiNeutralVersion;localizedVersion?:AntkiLocalizedVersion;imageOrigin?:'original'|'generated';imageFallbackPolicy?:'gpt-seedream-original';imageModel?:'gpt-image-2-image-to-image'|'seedream/5-pro-image-to-image';imageFailures?:{model:string;taskId?:string;reason:string}[];id:string;revision:number;sourceRow?:number;targetProduct?:{name:string;url:string;context:string};copywritingVersion?:string;textRewrite?:{completeImage?:boolean;phase:AntkiWork['phase'];status:AntkiWork['status'];error?:string};lastTextRewriteAt?:number;rejectedText?:{index:number;text:string;headline:string;reviewNotes:string[]};sourceText:string;sourceHeadline:string;sourceImage:string;sourceDriveId:string;status:'queued'|'working'|'ready'|'failed'|'uncertain';phase:'text'|'image'|'poll'|'check'|'archive'|'deliver'|'done';chunks:string[];ukChunks:string[];localisationMode?:"natural-uk";reviewNotes?:string[];ukHeadline:string;ukText:string;imagePrompt:string;imageAttempts?:number;previousImage?:{fileId:string;url:string};imageApproval?:{fileId:string;state:"pending"|"approved";approvedAt:string;sheetUrl?:string};approval?:{revision:number;state:"pending"|"approved";approvedAt:string;sheetUrl?:string};imageReview?:{personChanged?:boolean;different:boolean;realistic:boolean;congruent:boolean;change:string};imageTaskId?:string;failedImageTaskId?:string;imageResultUrl?:string;imageFileId?:string;imageDriveUrl?:string;delivered?:{headline:string;text:string;imageUrl:string};pending?:string;error?:string;updated:number;polls:number};
 export function sourceChunks(text:string,limit=18000){
  const result:string[]=[];let rest=text;
@@ -41,8 +42,21 @@ const tensNumbers=['','','twenty','thirty','forty','fifty','sixty','seventy','ei
 function wordNumber(n:number):string{return n<20?smallNumbers[n]:tensNumbers[Math.floor(n/10)]+(n%10?'-'+smallNumbers[n%10]:'');}
 const numberPhrases=Array.from({length:100},(_,n)=>({n,word:wordNumber(n)})).sort((a,b)=>b.word.length-a.word.length);
 const numberWordPattern=new RegExp('\\b(?:'+numberPhrases.map(p=>p.word.replace(/-/g,'[ -]')).join('|')+')\\b','gi');
+// Written clock words and digits represent the same factual time. Do not infer
+// morning/evening when the source supplies neither.
+export function normaliseWrittenClockTimes(text:string){
+ const hours='one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|[0-9]{1,2}';
+ const pattern=new RegExp('\\b(half[ -]past[ -])?('+hours+')(?:[ -]+o[’\']clock)?[ -]+(in[ -]the[ -]morning|in[ -]the[ -]afternoon|in[ -]the[ -]evening|at[ -]night)\\b','gi');
+ return text.replace(pattern,(_,half,hour,period)=>{const h=/^\d+$/.test(hour)?Number(hour):smallNumbers.indexOf(hour.toLowerCase());if(h<1||h>12)return _;const morning=/morning/i.test(period)||h===12&&/night/i.test(period);return `${h}${half?':30':''} ${morning?'am':'pm'}`;});
+}
+/** Only confirmed target adaptations enter validation; original source stays intact. */
+export function antkiGenerationSource(source:string,targetName='Mellow Mood Munchies',destination=ANTKI_MELLOW_SAFFRON_URL){
+ let text=antkiTargetCopy(source,destination,targetName);
+ if(targetName==='Mellow Mood Munchies')text=text.replace(/\b60(?=[ -]days?(?:[ -]+money[ -]back)?[ -]+guarantee\b)/gi,'100');
+ return text.replace(/\ba fourth[ -]grader\b/gi,'a Year 5 pupil').replace(/\bmiddle school\b/gi,'secondary school');
+}
 export function rewriteFactualValues(text:string){
- const withoutUrls=text.replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,'').replace(/\b\d{1,3}(?:,\d{3})+\b/g,n=>n.replace(/,/g,''));
+ const withoutUrls=normaliseWrittenClockTimes(text).replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,'').replace(/\b\d{1,3}(?:,\d{3})+\b/g,n=>n.replace(/,/g,''));
  let numeric=withoutUrls.replace(numberWordPattern,(word:string,offset:number)=>{const n=numberPhrases.find(p=>p.word===word.toLowerCase().replace(/ /g,'-'))!.n;
   // "the one I use" is a pronoun, not an added factual quantity.
   if(n===1&&!/^(?:[ -]+(?:hundred|thousand|million|billion|days?|weeks?|months?|years?|hours?|minutes?|seconds?|children|child|packs?|bottles?|gumm(?:y|ies)|nutrients?|ingredients?|mg|mcg|ml|grams?|pounds?|dollars?|per cent|percent)\b)/i.test(withoutUrls.slice(offset+word.length)))return word;
