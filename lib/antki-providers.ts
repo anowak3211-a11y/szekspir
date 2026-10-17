@@ -1,10 +1,10 @@
 import OpenAI from 'openai';
 import {antkiLocalisationGuide} from './antki-localisation-guide';
-import {ANTKI_LOCALISATION,faithfulChunk,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
+import {ANTKI_COPYWRITING_VERSION,ANTKI_LOCALISATION,faithfulChunk,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 export async function localiseAntkiChunk(work:AntkiWork){
  if(!process.env.OPENAI_API_KEY)throw Error('OpenAI is not configured.');
  const i=work.ukChunks.length;
- const handbook=antkiLocalisationGuide();
+ const handbook=antkiLocalisationGuide(work.copywritingVersion===ANTKI_COPYWRITING_VERSION);
  let response;try{response=await new OpenAI({apiKey:process.env.OPENAI_API_KEY,maxRetries:0,timeout:150000}).chat.completions.create({model:process.env.ANTKI_TEXT_MODEL||'gpt-6-sol',reasoning_effort:'low',max_completion_tokens:16000,response_format:{type:'json_object'},messages:[{role:'system',content:ANTKI_LOCALISATION+'\n\nLOCALISATION HANDBOOK:\n'+handbook},{role:'user',content:JSON.stringify({headline:i===0?work.sourceHeadline:'',segment:work.chunks[i],previousContext:work.chunks[i-1]?.slice(-1500)||'',nextContext:work.chunks[i+1]?.slice(0,1500)||''})}]});}catch(e){const status=Number((e as {status?:number}).status);throw Object.assign(Error(status?`Text provider rejected the request (HTTP ${status}). Check model, quota or configuration.`:'Text provider did not return a response. Check the previous request before retrying.'),{code:status&&status<500?'antki_text_rejected':'antki_text_uncertain'});}
  const choice=response.choices[0];if(choice?.finish_reason!=='stop'||!choice.message.content||choice.message.refusal)throw Object.assign(Error('Localisation did not return a complete segment.'),{code:'antki_output_rejected'});
  let result;try{result=JSON.parse(choice.message.content);}catch{throw Object.assign(Error('Localisation returned invalid JSON.'),{code:'antki_output_rejected'});}if(typeof result.text!=='string'||typeof result.headline!=='string'||result.headline.length>1500||(i===0&&work.sourceHeadline&&!result.headline.trim()))throw Object.assign(Error('Invalid localisation result.'),{code:'antki_output_rejected'});
