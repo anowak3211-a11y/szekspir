@@ -103,14 +103,28 @@ async function ensureWorkColumns(l:Awaited<ReturnType<typeof library>>){
  if((l.tab.gridProperties?.columnCount||20)<28)await l.sheets.spreadsheets.batchUpdate({spreadsheetId:l.id,requestBody:{requests:[{appendDimension:{sheetId:l.tab.sheetId,dimension:'COLUMNS',length:28-(l.tab.gridProperties?.columnCount||20)}}]}});
  await l.sheets.spreadsheets.values.update({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!U1:AB1`,valueInputOption:'RAW',requestBody:{values:[NATIVE_WORK_HEADERS]}});
 }
-export async function saveNativeWorkOutput(id:string,sourceText:string,output:{headline:string;text:string;imageUrl:string;status:string},expected?:{headline:string;text:string;imageUrl:string}){
+export async function saveNativeWorkOutput(id:string,sourceText:string,output:{headline:string;text:string;imageUrl:string;status:string},expected?:{headline:string;text:string;imageUrl:string},rowHint?:number){
  return withEditorLocks(['native-ads-library'],async()=>{
-  const l=await library();await ensureWorkColumns(l);
-  const matches=l.rows.flatMap((r,i)=>r[0]===id?[{r,i}]:[]);if(matches.length!==1)throw Error('Source is missing or duplicated.');
-  const {i}=matches[0];const r=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${i+1}:AA${i+1}`})).data.values?.[0]||[];if(r[0]!==id||nativeFromRow(r,i+1,l.sheetUrl).primaryText!==sourceText)throw Error('The US source changed. Review before saving UK work.');
-  const range=`'${NATIVE_TAB}'!V${i+1}:AA${i+1}`;
+  let context:{sheets:ReturnType<typeof client>;id:string;sheetUrl:string;row:number;values:unknown[];before:unknown[]}|undefined;
+  if(Number.isSafeInteger(rowHint)&&rowHint!>=2&&rowHint!<=2000){
+   const sheets=client(),sheetId=spreadsheetId(),row=rowHint!;
+   const ranges=(await sheets.spreadsheets.values.batchGet({spreadsheetId:sheetId,ranges:[`'${NATIVE_TAB}'!A1:AB1`,`'${NATIVE_TAB}'!A${row}:AA${row}`,`'${NATIVE_TAB}'!A2:A2000`],valueRenderOption:'FORMULA'})).data.valueRanges||[];
+   const header=ranges[0]?.values?.[0]||[],values=ranges[1]?.values?.[0]||[];if((ranges[2]?.values||[]).filter(r=>r[0]===id).length>1)throw Error('Source is missing or duplicated.');
+   if(NATIVE_HEADERS.some((h,i)=>header[i]!==h))throw Error('Native Ads headers were changed. Restore the original headers before saving.');
+   if(header.slice(20).some((v,i)=>v&&v!==NATIVE_WORK_HEADERS[i]))throw Error('Antki work columns conflict with existing Sheet data.');
+   if(values[0]===id&&NATIVE_WORK_HEADERS.every((h,i)=>header[i+20]===h))context={sheets,id:sheetId,sheetUrl:`https://docs.google.com/spreadsheets/d/${sheetId}/edit`,row,values,before:values.slice(21,27)};
+  }
+  // A moved row or an older library still uses full discovery/header setup.
+  if(!context){
+   const l=await library();await ensureWorkColumns(l);
+   const matches=l.rows.flatMap((r,i)=>r[0]===id?[i+1]:[]);if(matches.length!==1)throw Error('Source is missing or duplicated.');
+   const row=matches[0],values=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!A${row}:AA${row}`})).data.values?.[0]||[];
+   const before=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range:`'${NATIVE_TAB}'!V${row}:AA${row}`,valueRenderOption:'FORMULA'})).data.values?.[0]||[];
+   context={sheets:l.sheets,id:l.id,sheetUrl:l.sheetUrl,row,values,before};
+  }
+  const l=context,r=l.values,before=l.before,range=`'${NATIVE_TAB}'!V${l.row}:AA${l.row}`;
+  if(r[0]!==id||nativeFromRow(r,l.row,l.sheetUrl).primaryText!==sourceText)throw Error('The US source changed. Review before saving UK work.');
   // Formula-rendered UK cells reveal owner formulas instead of silently replacing them.
-  const before=(await l.sheets.spreadsheets.values.get({spreadsheetId:l.id,range,valueRenderOption:'FORMULA'})).data.values?.[0]||[];
   const contentValues=[output.headline,...(await import('./native-ad-model')).textParts(output.text),output.imageUrl];
   const current={headline:String(before[0]||''),text:[before[1],before[2],before[3]].map(v=>String(v||'')).join(''),imageUrl:String(before[4]||'')};
   const candidate={headline:output.headline,text:output.text,imageUrl:output.imageUrl};

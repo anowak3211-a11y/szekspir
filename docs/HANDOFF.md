@@ -1,3 +1,9 @@
+## Fewer Antki Sheet reads during delivery — 17 October 2026
+
+- Known source-row hints now validate fresh original headers, work headers, the current row and duplicate IDs in one formula-rendered batch read. Changed rows still rediscover safely; older libraries still initialise missing work columns. Normal delivery then writes only changed output and verifies readback. This replaces repeated metadata/header/source/formula reads and unconditional header writes, reducing an actual changed save from roughly eight Sheet calls to three (unchanged readback: two), without caching away source/header/manual-edit checks.
+- Antki passes its known row hint and budgets five read units for the entire delivery stage, including fresh source preflight and margin, instead of ten. Provider checks, original-image provenance, independent UK versions and approval rules are unchanged.
+- Offline native-ad tests verify the two-read unchanged fast path, refusal of manual hinted edits and duplicate IDs, plus existing original fidelity, moved/discovery and import recovery checks. Work tests, typecheck and build pass. This change excludes unrelated home/image-ripper work in the shared checkout.
+
 ## Image Ripper 2K Kie.ai batch ad reworker — 17 October 2026
 
 - Added home tile **IMAGE RIPPER** (`app/components/home-tiles.tsx`) and `/image-ripper` workspace (`app/image-ripper/page.tsx`, `app/api/image-ripper/route.ts`, `lib/image-ripper.ts`) for batch rebranding up to 20 competitor static ad creatives 1:1 into our brand at 2K resolution via Kie.ai (`nano-banana-pro`, `gpt-image-2-image-to-image`, and `recraft/crisp-upscale`).
