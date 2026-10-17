@@ -59,7 +59,7 @@ export function rewriteFactualValues(text:string){
  const withoutUrls=normaliseWrittenClockTimes(text).replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,'').replace(/\b\d{1,3}(?:,\d{3})+\b/g,n=>n.replace(/,/g,''));
  let numeric=withoutUrls.replace(numberWordPattern,(word:string,offset:number)=>{const n=numberPhrases.find(p=>p.word===word.toLowerCase().replace(/ /g,'-'))!.n;
   // "the one I use" is a pronoun, not an added factual quantity.
-  if(n===1&&!/^(?:[ -]+(?:hundred|thousand|million|billion|days?|weeks?|months?|years?|hours?|minutes?|seconds?|children|child|packs?|bottles?|gumm(?:y|ies)|nutrients?|ingredients?|mg|mcg|ml|grams?|pounds?|dollars?|per cent|percent)\b)/i.test(withoutUrls.slice(offset+word.length)))return word;
+  if(n===1&&!/^(?:[ -]+(?:hundred|thousand|million|billion|days?|weeks?|months?|years?|hours?|minutes?|seconds?|pathways?|systems?|teachers?|rooms?|people|person|problems?|pieces?|comments?|lessons?|detentions?|children|child|packs?|bottles?|gumm(?:y|ies)|nutrients?|ingredients?|mg|mcg|ml|grams?|pounds?|dollars?|per cent|percent)\b)/i.test(withoutUrls.slice(offset+word.length))&&!/\b(?:week|day|month|year|hour|minute|second)[ -]+$/i.test(withoutUrls.slice(0,offset)))return word;
   return String(n);
  }).replace(/\b(per cent|percent)\b/gi,'%');
  for(let i=0;i<3;i++)numeric=numeric.replace(/\b(\d+)\s+(hundred|thousand|million|billion)\b/gi,(_,n,scale)=>String(Number(n)*({hundred:100,thousand:1000,million:1000000,billion:1000000000}[String(scale).toLowerCase()]||1)));
