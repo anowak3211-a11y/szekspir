@@ -1,3 +1,5 @@
+// Local input safeguard, not a promise of provider acceptance; Meta validation/readback still apply.
+export const UPLOAD_PRIMARY_TEXT_LIMIT=50000;
 export type ImageCard={kind:'image';url:string;filename:string};
 export type UploadMedia={kind:'library';videoId:string}|{kind:'video'|'image';url:string;filename:string}|{kind:'carousel';cards:ImageCard[];endCard?:boolean};
 export type UploadAd={publishStatus?:'ACTIVE'|'PAUSED';key:string;name:string;accountId:string;campaignId:string;adSetId:string;pageId:string;url:string;cta:'SHOP_NOW'|'LEARN_MORE';primaryTexts:string[];headline:string;description:string;headlines?:string[];descriptions?:string[];urlTags?:string;enhancements?:Record<string,boolean>;media:UploadMedia};
@@ -16,7 +18,7 @@ function text(value:unknown,label:string,max:number,required=true){if(typeof val
 export function parseUploadAd(raw:unknown):UploadAd{
  const a=raw as Record<string,unknown>;if(!a||typeof a!=='object'||Array.isArray(a))throw Error('Invalid advert.');
  const primary=a.primaryTexts;if(!Array.isArray(primary)||primary.length<1||primary.length>5)throw Error('Supply 1–5 primary texts.');
- const primaryTexts=primary.map((v,i)=>text(v,`primary text ${i+1}`,5000));
+ const primaryTexts=primary.map((v,i)=>text(v,`primary text ${i+1}`,UPLOAD_PRIMARY_TEXT_LIMIT));
  if(new Set(primaryTexts).size!==primaryTexts.length)throw Error('Primary text variants must be distinct.');
  const m=a.media as Record<string,unknown>;let media:UploadMedia;
  if(m?.kind==='carousel'){if(!Array.isArray(m.cards)||m.cards.length<2||m.cards.length>10)throw Error('A carousel needs 2–10 original image cards.');media={kind:'carousel',cards:m.cards.map((c:Record<string,unknown>)=>({kind:'image',url:publicHttps(c.url,'image URL'),filename:text(c.filename,'filename',240)})),endCard:m.endCard===true};if(media.cards.some(c=>/[\r\n/\\]/.test(c.filename)))throw Error('Invalid carousel filename.');}

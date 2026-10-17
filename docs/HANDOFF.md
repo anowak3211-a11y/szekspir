@@ -1,3 +1,13 @@
+## Linked three-column Antki reading — 17 October 2026
+
+- Owner requested automatic linked scrolling and current-passage emphasis. Highlight mode now uses three read panes, preserving exact text in USA and both UK versions. Scrolling any visible pane aligns the others using source paragraph anchors from the word diff; inserted paragraphs do not simply shift paragraph indices. Current source-linked passages receive a yellow reading highlight while word changes stay green. Hover/tap also selects a passage. A checkbox can disable linked scrolling.
+- No new network requests, paid operations or edits. Plain text editing still switches through the existing control. Regressions preserve complete target reconstruction and source anchors after paragraph insertion.
+
+## Long Antki copy in Szekspir Ads — 17 October 2026
+
+- Removed the local 5,000-character blocker from uploader parsing/editing so full saved Antki texts can be reviewed and submitted unchanged. The local safety cap is now 50,000 characters, matching the editor's retained-copy range. This is not a verified Meta maximum: provider validation, exact creative readback and stop-on-error remain intact. No truncation or AI rewriting.
+- Regression covers a long Unicode/multiline primary through parser and both object-story and multi-variant feed payloads, plus rejection beyond the local cap.
+
 ## Default inline Antki differences — 17 October 2026
 
 - Both UK localized and UK rewritten now show word changes against USA original immediately inside their respective comparison cards. The original stays visible/read-only. “Edytuj teksty” switches to the existing exact editable values; returning to highlights includes unsaved edits. Mobile retains the three version tabs.

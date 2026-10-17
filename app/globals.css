@@ -408,3 +408,5 @@ body{line-height:1.55} .wrap{max-width:1180px} h1{letter-spacing:-.025em} h2,h3{
 .antki-neutral-options{display:grid;gap:20px;margin:20px 0}.antki-neutral-option{min-width:0;margin:0;padding:16px;border:1px solid var(--border);border-radius:10px}.antki-neutral-option legend{padding:0 8px;font-weight:650}.antki-neutral-option .antki-neutral-fields{margin:8px 0 16px;grid-template-columns:minmax(0,1fr)}@media(min-width:850px){.antki-neutral-option .antki-neutral-fields{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)}}
 
 .antki-highlighted-field{min-width:0}.antki-highlighted-field>p{margin:0 0 8px}.antki-highlighted-field .antki-diff-text{height:600px;max-height:600px}.antki-highlighted-field mark{border-radius:2px;padding:0}.antki-diff-text:focus-visible{outline:3px solid #274de0;outline-offset:2px}
+
+.antki-sync-control{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:16px}.antki-sync-control input{width:22px;height:22px}.antki-reading-current{background:#fff2bd;box-shadow:0 0 0 2px #e8c866;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}.antki-reading-current mark{outline:1px solid #8abda0}

@@ -3,6 +3,13 @@ require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f
 const model=require('../lib/meta-uploader-model.ts'),identity=require('../lib/meta-uploader-identity.ts');
 const ad=model.parseUploadAd({key:'TEST-1-H1',name:'Offline fixture — Hook 1',accountId:'100000000001',campaignId:'100000000002',adSetId:'100000000003',pageId:'100000000004',url:'https://example.com/product?x=1&y=2',cta:'SHOP_NOW',primaryTexts:['  Exact first text.\n\n⭐️ Text remains unchanged.  ','Second text.','Third text.'],headline:'Exact headline',description:'Exact description',media:{kind:'library',videoId:'100000000005'}});
 assert.equal(ad.primaryTexts[0],'  Exact first text.\n\n⭐️ Text remains unchanged.  ');assert.equal(ad.url,'https://example.com/product?x=1&y=2');
+const longCopy=('  Exact paragraph 👇.\n\n').repeat(700),longAd=model.parseUploadAd({...ad,primaryTexts:[longCopy,'Extra option.']});
+assert.equal(longAd.primaryTexts[0],longCopy);
+const longPayload=model.creativePayload({id:'long-copy-fixture',ad:longAd,imageHash:'original-hash'});
+assert.equal(longPayload.asset_feed_spec.bodies[0].text,longCopy);
+assert.equal(longPayload.object_story_spec.link_data.message,longCopy);
+assert.throws(()=>model.parseUploadAd({...ad,primaryTexts:['x'.repeat(model.UPLOAD_PRIMARY_TEXT_LIMIT+1)]}),/Invalid primary text/);
+
 const table=model.parseDelimited('Ad ID\tPrimary text\tHeadline\tYour work\nTEST-2\t"First paragraph.\nSecond \"\"quoted\"\" paragraph."\tHeadline\thttps://example.com/original.mp4\n');
 assert.equal(table[1][1],'First paragraph.\nSecond "quoted" paragraph.');assert.equal(model.draftsFromTable(table)[0].primaryTexts[0],table[1][1]);
 assert.throws(()=>model.parseUploadAd({...ad,primaryTexts:[ad.primaryTexts[0],ad.primaryTexts[0]]}),/distinct/);assert.throws(()=>model.parseUploadAd({...ad,url:'http://example.com'}),/HTTPS/);assert.throws(()=>model.parseUploadAd({...ad,media:{kind:'video',url:'https://127.0.0.1/original.mp4',filename:'original.mp4'}}),/public/);assert.throws(()=>model.parseDelimited('x\n"bad'),/Unclosed/);

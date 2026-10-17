@@ -1,5 +1,5 @@
 const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
-const {comparedLines,highlightedTarget}=require('../lib/antki-lines.ts'),{characterCount}=require('../lib/native-ad-model.ts');
+const {comparedLines,highlightedTarget,comparisonBlocks}=require('../lib/antki-lines.ts'),{characterCount}=require('../lib/native-ad-model.ts');
 assert.equal(characterCount('Mum 👇\n'),6);const lines=comparedLines('Mom sits.\n\nSame ending.','Mum sits.\n\nAdded detail.\nSame ending.');assert.equal(lines.at(-1).us,'Same ending.');assert.equal(lines.at(-1).uk,'Same ending.');assert(lines[0].usParts.some(p=>p.changed&&p.text==='Mom'));assert(lines[0].ukParts.some(p=>p.changed&&p.text==='Mum'));assert(lines.some(l=>l.us===''&&l.uk==='Added detail.'));assert.deepEqual(comparedLines('Same.','Same.')[0].ukParts,[{text:'Same.',changed:false}]);
 const sharp=require('sharp'),Module=require('module');let calls=0;const original=Module._load;let image;Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/antki-image-review.ts')){if(n==='./safe-fetch')return {safeDownload:async()=>({buffer:image})};if(n==='openai')return {default:class{constructor(){calls++;}}};}return original.call(this,n,p,i);};
 (async()=>{image=await sharp({create:{width:64,height:64,channels:3,background:'#aabbcc'}}).png().toBuffer();const service=require('../lib/antki-image-review.ts');const check=await service.reviewAntkiImage({sourceImage:'original',imageResultUrl:'output'});assert.equal(check.different,false);assert.equal(calls,0);const same=await sharp(image).png({compressionLevel:0}).toBuffer();assert.equal(await service.imageFingerprint(image),await service.imageFingerprint(same));console.log('PASS: Unicode/spaces character count, linked-line alignment after insertion, exact word highlights, pixel-identical/recompressed rejection before any paid vision check.');})().catch(e=>{console.error(e);process.exitCode=1;});
@@ -7,3 +7,11 @@ const sharp=require('sharp'),Module=require('module');let calls=0;const original
 for(const [source,target] of [['Mom  sits.\n\nSame ending.','Mum sits.\n\nAdded detail.\nSame ending.'],['Deleted words.',''],['','Inserted 👇\n\n'],['Same.','Same.'],['A\r\nB','A\nB']])assert.equal(highlightedTarget(source,target).map(p=>p.text).join(''),target);
 assert(highlightedTarget('Mom sits.','Mum sits.').some(p=>p.changed&&p.text==='Mum'));
 assert(highlightedTarget('Same.','Same.').every(p=>!p.changed));
+
+const paragraphSource='First original paragraph.\n\nSecond exact paragraph.\n\nThird ending.';
+const paragraphTarget='Added opening.\n\nFirst original paragraph.\n\nSecond exact paragraph.\n\nThird ending.';
+const blocks=comparisonBlocks(paragraphSource,paragraphTarget);
+assert.equal(blocks.map(b=>b.text).join(''),paragraphTarget);
+assert.equal(blocks.map(b=>b.separator?b.text:b.parts.map(p=>p.text).join('')).join(''),paragraphTarget);
+assert.equal(blocks.find(b=>b.text==='Second exact paragraph.').anchor,1);
+assert.equal(blocks.find(b=>b.text==='Third ending.').anchor,2);
