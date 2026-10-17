@@ -14,6 +14,6 @@ export function comparedLines(us:string,uk:string):ComparedLine[]{
 
 /** Whole-text comparison preserves target whitespace and paragraph breaks byte for byte. */
 export function highlightedTarget(source:string,target:string):{text:string;changed:boolean}[]{
- const parts=diffWordsWithSpace(source,target,{timeout:100});
+ const parts=diffWordsWithSpace(source,target,{timeout:1000});
  return parts?parts.filter(p=>!p.removed).map(p=>({text:p.value,changed:!!p.added})):[{text:target,changed:source!==target}];
 }
