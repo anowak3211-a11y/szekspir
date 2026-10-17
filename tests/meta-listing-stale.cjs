@@ -1,0 +1,11 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),Module=require('module');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,f);
+const states=new Map(),original=Module._load;class Wait extends Error{}
+Module._load=function(n,p,i){if(p?.filename.endsWith('/lib/meta-read-cache.ts')){if(n==='./account-context')return {accountCacheKey:k=>'workspace:'+k};if(n==='./meta-rate-limit')return {MetaBudgetWait:Wait};if(n==='./store')return {readState:async(k,d)=>({value:states.get(k)||d}),mutate:async(k,d,fn)=>{const s=states.get(k)||structuredClone(d),result=fn(s);states.set(k,s);return result;}};}return original.call(this,n,p,i);};
+const {cachedMetaRead}=require('../lib/meta-read-cache.ts');let now=1000000;const realNow=Date.now;Date.now=()=>now;
+(async()=>{let calls=0;assert.deepEqual((await cachedMetaRead('list',100,async()=>{calls++;return ['saved-set'];})).value,['saved-set']);now+=101;
+const stale=await cachedMetaRead('list',100,async()=>{calls++;throw Object.assign(new Error('provider limit'),{rateLimited:true});},3600000);assert.equal(stale.stale,true);assert.deepEqual(stale.value,['saved-set']);
+await assert.rejects(()=>cachedMetaRead('list',100,async()=>{throw new Wait('pause');}),/pause/,'Fresh validation never inherits listing fallback');
+await assert.rejects(()=>cachedMetaRead('list',100,async()=>{throw Error('access revoked');},3600000),/access revoked/,'Auth failures never fall back');
+states.get('list').leaseUntil=now+10000;assert.equal((await cachedMetaRead('list',100,async()=>{throw Error('must not load');},3600000)).stale,true);await assert.rejects(()=>cachedMetaRead('list',100,async()=>[]),Wait);states.get('list').leaseUntil=undefined;
+now+=3600001;await assert.rejects(()=>cachedMetaRead('list',100,async()=>{throw new Wait('pause');},3600000),Wait,'Expired fallback is not returned');assert.equal(calls,2);console.log('PASS: cached ad-set display during provider pause, bounded age, no stale auth/fresh-validation fallback, coordinated read lease. No network.');})().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>Date.now=realNow);

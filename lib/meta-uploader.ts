@@ -45,7 +45,7 @@ async function updateQueue(batchId:string,item:UploadItem){await mutate<{batch?:
 export async function readBatchProgress(batchId:string,since:number){if(!Number.isSafeInteger(since)||since<0||since>Date.now()+60000)throw Error('Invalid progress timestamp.');const batch=await batchQueue(batchId),ids=Object.entries(batch.queue!).filter(([,i])=>i.updated===undefined||i.updated>=since).map(([id])=>id);const changes=await Promise.all(ids.map(readItem));return {batch,changes:changes.filter((i):i is UploadItem=>!!i)};}
 // Bounded parallel stages with durable per-item dispatch tokens. Repeated Resume
 // cannot fan out the same item, and stale deliveries cannot replay a remote write.
-const PARALLEL_ADS=5;
+const PARALLEL_ADS=1;
 function activeDispatches(batch:UploadBatch){
  const entries={...batch.dispatches};if(batch.dispatch&&!entries[batch.dispatch.id])entries[batch.dispatch.id]=batch.dispatch;
  return Object.fromEntries(Object.entries(entries).filter(([,d])=>d.until>Date.now()));

@@ -1,0 +1,7 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict'),sharp=require('sharp'),{randomBytes,createHash}=require('node:crypto');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const {metaImageUploadCopy}=require('../lib/meta-image-upload-copy.ts');
+(async()=>{const source=await sharp(randomBytes(512*512*3),{raw:{width:512,height:512,channels:3}}).png().toBuffer(),hash=createHash('sha256').update(source).digest('hex');
+const same=await metaImageUploadCopy(source,'image/png','original.png');assert.strictEqual(same.buffer,source);assert.equal(same.filename,'original.png');
+const copy=await metaImageUploadCopy(source,'image/png','large.png',650000),meta=await sharp(copy.buffer).metadata();assert.equal(copy.contentType,'image/jpeg');assert.equal(copy.filename,'large.jpg');assert.equal(meta.width,512);assert.equal(meta.height,512);assert(copy.buffer.length<=650000);assert.equal(createHash('sha256').update(source).digest('hex'),hash);await assert.rejects(()=>metaImageUploadCopy(source,'image/png','large.png',100),/still exceeds/);
+console.log('PASS: small source bytes unchanged, bounded upload-only JPEG copy preserves dimensions and archived input, impossible cap stops before network.');})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -43,24 +43,25 @@ export async function graphList(path:string,fields:string,extra:Record<string,un
  for(let i=0;i<maxPages;i++){const r=await graph<{data:Record<string,unknown>[];paging?:{cursors?:{after?:string};next?:string}}>(path,{fields,limit:100,...extra,after},'GET',token);if(!Array.isArray(r.data))throw Error('Invalid Meta list response.');result.push(...r.data);if(!r.paging?.next)return result;const next=r.paging.cursors?.after;if(!next||next===after)throw Error('Meta pagination could not be confirmed.');after=next;}
  throw Error('Too many Meta results. Narrow the selected account or ad set.');
 }
-export async function cachedMetaResource<T>(operation:string,ttlMs:number,load:(token:string)=>Promise<T>,credential?:string){const token=credential||await metaToken();return cachedMetaRead(metaCacheKey(`${META_VERSION}:${token}`,operation),ttlMs,()=>load(token));}
+export async function cachedMetaResource<T>(operation:string,ttlMs:number,load:(token:string)=>Promise<T>,credential?:string,staleMs=0){const token=credential||await metaToken();return cachedMetaRead(metaCacheKey(`${META_VERSION}:${token}`,operation),ttlMs,()=>load(token),staleMs);}
 export async function metaAccounts(token?:string){return (await cachedMetaResource('accounts',300000,t=>graphList('me/adaccounts','id,name,currency,account_status',{},t),token)).value;}
 function pageSummary(p:Record<string,unknown>){
  const raw=(p.picture as {data?:{url?:unknown}}|undefined)?.data?.url;let pictureUrl:string|undefined;
  if(typeof raw==='string')try{const url=new URL(raw);if(url.protocol==='https:'&&!url.username&&!url.password&&!url.searchParams.has('access_token'))pictureUrl=url.href;}catch{}
  return {id:p.id,name:p.name,...(pictureUrl?{pictureUrl}:{})};
 }
-export async function metaResources(kind:string,accountId:string,campaignId?:string){
+export async function metaResources(kind:string,accountId:string,campaignId?:string){return (await metaResourceSnapshot(kind,accountId,campaignId,false)).value;}
+export async function metaResourceSnapshot(kind:string,accountId:string,campaignId?:string,allowStale=true){
  const account=numericId(accountId.replace(/^act_/,''),'account');
- if(kind==='campaigns')return (await cachedMetaResource(`campaigns:${account}`,30000,t=>graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget',{},t))).value;
- if(kind==='pages')return (await cachedMetaResource(`pages-with-pictures-v2:${account}`,300000,async t=>{
+ if(kind==='campaigns')return cachedMetaResource(`campaigns:${account}`,300000,t=>graphList(`act_${account}/campaigns`,'id,name,status,daily_budget,lifetime_budget',{},t),undefined,allowStale?3600000:0);
+ if(kind==='pages')return cachedMetaResource(`pages-with-pictures-v2:${account}`,300000,async t=>{
   const pages=await graphList(`act_${account}/promote_pages`,'id,name,picture.type(square){url}',{},t);if(pages.length)return pages.map(pageSummary);
   // Some legacy accounts return no promote_pages despite the connected user
   // already having advertising tasks on the Page. Never infer access from a
   // public Page lookup or return Page access tokens to the browser.
   return (await graphList('me/accounts','id,name,tasks,picture.type(square){url}',{},t)).filter(p=>Array.isArray(p.tasks)&&p.tasks.some((task:unknown)=>task==='ADVERTISE'||task==='PROFILE_PLUS_ADVERTISE')).map(pageSummary);
- })).value;
- if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return (await cachedMetaResource(`adsets:${account}:${campaign}`,30000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,optimization_goal,promoted_object',{},t);})).value;}
+ },undefined,allowStale?3600000:0);
+ if(kind==='adsets'){const campaign=numericId(campaignId,'campaign');return cachedMetaResource(`adsets:${account}:${campaign}`,300000,async t=>{const c=await graph<{account_id:string}>(campaign,{fields:'account_id'},'GET',t);if(c.account_id!==account)throw Error('Campaign belongs to another account.');return graphList(`${campaign}/adsets`,'id,name,status,campaign_id,account_id,destination_type,optimization_goal,promoted_object',{},t);},undefined,allowStale?3600000:0);}
  throw Error('Unknown resource.');
 }
 export async function assertUploadTarget(ad:{accountId:string;campaignId:string;adSetId:string;pageId:string;publishStatus?:'ACTIVE'|'PAUSED'}){

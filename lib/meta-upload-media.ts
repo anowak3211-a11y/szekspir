@@ -1,3 +1,6 @@
+import {createHash} from 'node:crypto';
+import {readState,mutate} from './store';
+import {metaImageUploadCopy} from './meta-image-upload-copy';
 import {withMetaBudget,recordMetaUsage,isMetaRateLimit,MetaBudgetWait} from './meta-rate-limit';
 import {lookup} from 'node:dns/promises';
 import {isIP} from 'node:net';
@@ -15,10 +18,12 @@ export async function originalImage(url:string){
  return {buffer:Buffer.concat(chunks),contentType:String(r.headers['content-type']||'image/jpeg'),url};
 }
 export async function uploadImage(item:UploadItem){
- if(item.ad.media.kind!=='image')throw Error('Wrong media type.');const image=await originalImage(item.ad.media.url);if(!/^image\/(?:jpeg|png|webp)$/.test(image.contentType.split(';')[0]))throw Error('Choose an original JPEG, PNG or WebP.');
- const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),item.ad.media.filename);const token=await metaToken(),proof=await metaProof(token);if(proof)form.set('appsecret_proof',proof);let cooldown=0;let r:Response,d:{images?:Record<string,{hash?:string}>;error?:{code?:number;error_subcode?:number}}={};
+ if(item.ad.media.kind!=='image')throw Error('Wrong media type.');const original=await originalImage(item.ad.media.url),image=await metaImageUploadCopy(original.buffer,original.contentType,item.ad.media.filename);if(!/^image\/(?:jpeg|png|webp)$/.test(image.contentType.split(';')[0]))throw Error('Choose an original JPEG, PNG or WebP.');
+ const cacheKey='meta-image-upload-'+createHash('sha256').update(item.ad.accountId+'\0').update(image.buffer).digest('hex'),cached=(await readState<{hash?:string;at?:number}>(cacheKey,{})).value;
+ if(cached.hash&&/^[a-f0-9]{32}$/i.test(cached.hash)&&(cached.at||0)>Date.now()-300000)return cached.hash;
+ const form=new FormData();form.set('filename',new Blob([new Uint8Array(image.buffer)],{type:image.contentType}),image.filename);const token=await metaToken(),proof=await metaProof(token);if(proof)form.set('appsecret_proof',proof);let cooldown=0;let r:Response,d:{images?:Record<string,{hash?:string}>;error?:{code?:number;error_subcode?:number;error_user_msg?:string;message?:string}}={};
  try{r=await withMetaBudget(async()=>{const started=Date.now(),response=await fetch(`https://graph.facebook.com/${META_VERSION}/act_${item.ad.accountId}/adimages`,{method:'POST',headers:{Authorization:`Bearer ${token}`},body:form,signal:AbortSignal.timeout(90000)});try{d=await response.json();}finally{cooldown=await recordMetaUsage(response.headers,isMetaRateLimit(Number(d.error?.code||response.status)),{operation:'act_:id/adimages',method:'POST',status:response.status,code:Number(d.error?.code||response.status),subcode:Number(d.error?.error_subcode||0),durationMs:Date.now()-started});}return response;},3);}catch(e){budgetWait(e);throw new MetaError(0,0,true,true,'Image upload was not confirmed. Check the library before retrying.');}
- const hash=d.images&&Object.values(d.images)[0]?.hash;if(!r.ok||!hash){const code=Number(d.error?.code||r.status),rate=isMetaRateLimit(code);throw Object.assign(new MetaError(code,Number(d.error?.error_subcode||0),rate||r.status>=500,r.status>=500,'Meta did not confirm the image upload.'),{rateLimited:rate,retryAfterSeconds:rate?Math.max(300,cooldown):undefined});}return hash;
+ const hash=d.images&&Object.values(d.images)[0]?.hash;if(!r.ok||!hash){const code=Number(d.error?.code||r.status),rate=isMetaRateLimit(code);throw Object.assign(new MetaError(code,Number(d.error?.error_subcode||0),rate||r.status>=500,r.status>=500,`Meta image upload rejected (${code}/${Number(d.error?.error_subcode||0)}). ${String(d.error?.error_user_msg||d.error?.message||'No image hash returned.').replaceAll(token,'[redacted]').replace(/https?:\/\/\S+/g,'[link]').slice(0,250)}`),{rateLimited:rate,retryAfterSeconds:rate?Math.max(300,cooldown):undefined});}await mutate<{hash?:string;at?:number},void>(cacheKey,{},s=>{s.hash=hash;s.at=Date.now();});return hash;
 }
 function offsets(data:{start_offset?:string;end_offset?:string},size:number){const start=Number(data.start_offset),end=Number(data.end_offset);if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||end<start||end>size||end-start>32*1024*1024)throw Error('Invalid Meta upload offsets.');return {start,end};}
 export async function startRemoteVideo(item:UploadItem):Promise<Pick<UploadItem,'videoId'|'transfer'|'phase'>>{
