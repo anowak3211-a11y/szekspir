@@ -11,9 +11,9 @@ export const protectedNumbers=(text:string)=>(text.match(/\b\d{1,2}(?:[:.]\d{2})
  const clock=token.match(/^(\d{1,2})(?:[:.](\d{2}))?\s*([ap])\.?m\.?$/i);
  return clock?`time:${Number(clock[1])}:${clock[2]||'00'}:${clock[3].toLowerCase()}`:token;
 });
-// Explicit destination mapping: product CTA only; research/reference URLs stay untouched.
+// Owner instruction, 17 October 2026: every URL in UK copy points to our product; US sources remain unchanged.
 export const ANTKI_MELLOW_SAFFRON_URL='https://try-mellow.co/products/mellow-happy-chews-saffron-gummies';
-export function localiseAntkiPurchaseLinks(text:string){return text.replace(/https:\/\/mybloomwise\.com\/products\/bloomwise-all-in-one-kids-daily-support-for-mind-mood-body(?=$|[\s?#])/g,ANTKI_MELLOW_SAFFRON_URL);}
+export function localiseAntkiPurchaseLinks(text:string){return text.replace(/(?:https?:\/\/|www\.)[^\s<>"'`\[\]]+/gi,url=>{const suffix=url.match(/[),.;:!?}]+$/)?.[0]||'';return ANTKI_MELLOW_SAFFRON_URL+suffix;});}
 export const protectedLinks=(text:string)=>text.match(/https?:\/\/[^\s]+/g)||[];
 export function faithfulChunk(source:string,target:string){
  if(!target.trim()||target.length>Math.max(1000,source.trim().length*2.2)||target.length<source.trim().length*.55)throw Error('UK output shortened or rewrote the source. Review before retrying.');

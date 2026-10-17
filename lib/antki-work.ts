@@ -9,7 +9,7 @@ import {driveUploadTarget} from './drive-video';
 import {safeDownload} from './safe-fetch';
 import {withEditorLocks} from './editor-locks';
 import {readState,mutate} from './store';
-import {newAntkiWork,antkiImagePrompt,type AntkiWork} from './antki-model';
+import {newAntkiWork,antkiImagePrompt,localiseAntkiPurchaseLinks,type AntkiWork} from './antki-model';
 import {localiseAntkiChunk,submitAntkiImage,pollAntkiImage} from './antki-providers';
 export type {AntkiWork} from './antki-model';
 const key=(id:string)=>{if(!/^facebook_\d{5,30}$/.test(id))throw Error('Invalid Antki ID.');return 'antki-work-'+id;};
@@ -37,6 +37,19 @@ export async function startAntkiBatch(ids:string[]){
  for(const ad of ads){try{const prior=await readAntkiWork(ad.id),retry=prior?.status==='failed'&&!prior.pending&&/Quota exceeded|rate limit|Too Many Requests/i.test(prior.error||'');const work=await startAntkiWork(ad.id,retry,false,ad);results.push({id:ad.id,status:work.status});}catch(e){results.push({id:ad.id,status:'failed',error:(e as Error).message});}}
  return results;
 }
+export async function repairAntkiLinks(ids:string[]){
+ if(!Array.isArray(ids)||!ids.length||ids.length>60||new Set(ids).size!==ids.length)throw Error('Choose 1–60 distinct adverts.');
+ ids.forEach(key);const results:{id:string;status:string;error?:string}[]=[];
+ for(const id of ids){try{await withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);if(!work){results.push({id,status:'unchanged'});return;}
+  const text=localiseAntkiPurchaseLinks(work.ukText),headline=localiseAntkiPurchaseLinks(work.ukHeadline),chunks=work.ukChunks.map(localiseAntkiPurchaseLinks);
+  if(text===work.ukText&&headline===work.ukHeadline&&chunks.every((v,i)=>v===work.ukChunks[i])){results.push({id,status:'unchanged'});return;}
+  if(work.approval||work.imageApproval?.state==='pending')throw Error('Approved/exporting advert needs review before changing links.');
+  if(work.delivered){const output={headline,text,imageUrl:work.imageDriveUrl||work.delivered.imageUrl,status:'Ready for review'};await saveNativeWorkOutput(id,work.sourceText,output,work.delivered);work.delivered={headline,text,imageUrl:output.imageUrl};}
+  work.ukText=localiseAntkiPurchaseLinks(text);work.ukHeadline=localiseAntkiPurchaseLinks(headline);work.ukChunks=chunks;work.revision++;await persist(work);results.push({id,status:'updated'});
+ });}catch(e){results.push({id,status:'failed',error:(e as Error).message});}}
+ return results;
+}
 async function archiveImage(work:AntkiWork){
  const {drive,folderId}=await driveUploadTarget();
  if(!work.imageFileId){const id=(await drive.files.generateIds({count:1,space:'drive'})).data.ids?.[0];if(!id)throw Error('Drive did not allocate an image ID.');work.imageFileId=id;await persist(work);}
@@ -53,6 +66,7 @@ export async function consumeAntki(id:string){
   if(work.pending){work.status='uncertain';work.error='Previous provider request has no saved result. Review before retrying.';await persist(work);return;}
   try{
    if(work.phase!=='poll'){const ad=await getNativeAd(id,work.sourceRow);if(ad.primaryText!==work.sourceText||ad.imageUrl!==work.sourceImage||(ad.headline||'')!==work.sourceHeadline)throw Error('Source changed during preparation.');}
+   work.ukText=localiseAntkiPurchaseLinks(work.ukText);work.ukHeadline=localiseAntkiPurchaseLinks(work.ukHeadline);work.ukChunks=work.ukChunks.map(localiseAntkiPurchaseLinks);
    work.status='working';
    if(work.phase==='text'){
     if(!process.env.OPENAI_API_KEY)throw Error('OpenAI is not configured.');
@@ -87,7 +101,7 @@ export async function editAntkiWork(id:string,text:unknown,headline:unknown,revi
   if(work.approval?.state==='pending')throw Error('Finish approval export before editing.');
   if(work.revision!==revision)throw Error('Another tab changed this draft. Reload before saving.');
   if(work.phase==='done'&&!work.delivered)work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.imageDriveUrl||''};
-  work.approval=undefined;work.ukText=text;work.ukHeadline=headline;work.revision++;work.phase='deliver';work.status='queued';work.error=undefined;await persist(work);return work;
+  work.approval=undefined;work.ukText=localiseAntkiPurchaseLinks(text);work.ukHeadline=localiseAntkiPurchaseLinks(headline);work.revision++;work.phase='deliver';work.status='queued';work.error=undefined;await persist(work);return work;
  });await scheduleAntki(id);return work;
 }
 export async function antkiGeneratedImage(id:string){await getNativeAd(id);const work=await readAntkiWork(id);const fileId=work?.imageFileId&&work.imageDriveUrl?.includes(`/d/${work.imageFileId}/`)?work.imageFileId:work?.previousImage?.fileId;if(!fileId)throw Error('UK image is not ready yet.');const {drive}=await driveUploadTarget();const response=await drive.files.get({fileId,alt:'media',supportsAllDrives:true},{responseType:'arraybuffer',timeout:30000,retry:false});const buffer=Buffer.from(response.data as ArrayBuffer);if(buffer.length>24*1024*1024)throw Error('Image exceeds size limit.');return {buffer,...imageType(buffer)};}
