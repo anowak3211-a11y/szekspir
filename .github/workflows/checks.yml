@@ -31,6 +31,7 @@ jobs:
       - run: npm run test:meta
       - name: Workspace isolation and Antki recovery
         run: |
+          node tests/shared-api-forward.cjs
           node tests/account-isolation.cjs
           node tests/account-provision.cjs
           node tests/account-brain.cjs

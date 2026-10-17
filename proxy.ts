@@ -1,9 +1,14 @@
+import {sharedApiForward} from './lib/shared-api-forward';
 import {ACCOUNT_HEADER,WORKSPACE_COOKIE,signAccount,verifyAccount,ownerEmail} from './lib/account-identity';
 import { NextRequest, NextResponse } from "next/server";
 import {checkedSession,mfaRequired,sessionCookie,tokens,AuthFailure} from "./lib/app-auth";
 
 export async function proxy(req: NextRequest) {
   const path=req.nextUrl.pathname;
+  if(process.env.APP_SHARED_API_ORIGIN){
+    try{const forward=sharedApiForward(req,process.env.APP_SHARED_API_ORIGIN);return forward?NextResponse.rewrite(forward.url,{request:{headers:forward.headers}}):NextResponse.next();}
+    catch{return new NextResponse('Invalid frontend request',{status:403});}
+  }
   if(path==="/login"||path==="/api/auth"||path==="/join"||path==="/api/join")return NextResponse.next();
   if (req.nextUrl.pathname === "/privacy") return NextResponse.next();
   // Scheduled workers retain a separate, narrowly scoped machine credential.
