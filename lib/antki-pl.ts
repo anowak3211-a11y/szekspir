@@ -1079,7 +1079,7 @@ export function sanitizeAndAuditAntkiPl(
 
   let text = (rawText || '').trim();
   let headline = (rawHeadline || fallbackHeadline || PORADY_MAMY_GOSI_HEADLINE).trim();
-  let description = (rawDescription || 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu').trim();
+  let description = '';
 
   // 1. Replace em-dashes and en-dashes
   if (/[—–]/.test(text) || /[—–]/.test(headline) || /[—–]/.test(description)) {

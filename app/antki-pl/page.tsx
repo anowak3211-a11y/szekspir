@@ -135,7 +135,7 @@ export default function AntkiPlPage() {
       setEditDirty(false);
     } else if (activeAngle) {
       setEditHeadline(activeAngle.defaultHeadline);
-      setEditDescription('Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu');
+      setEditDescription('');
       setEditPrimaryText('');
       setEditDirty(false);
     }
@@ -1198,31 +1198,13 @@ export default function AntkiPlPage() {
               )}
 
               {/* POLA EDYTORA */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+              <div style={{ marginBottom: 12 }}>
                 <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
                   <span>Nagłówek reklamy (Headline w stylu Mellow)</span>
                   <input
                     value={editHeadline}
                     onChange={e => {
                       setEditHeadline(e.target.value);
-                      setEditDirty(true);
-                    }}
-                    style={{
-                      padding: '8px 10px',
-                      borderRadius: 6,
-                      border: '1px solid var(--border)',
-                      background: 'var(--bg)',
-                      color: 'var(--text)',
-                      fontSize: 13,
-                    }}
-                  />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                  <span>Opis dodatkowy (Description)</span>
-                  <input
-                    value={editDescription}
-                    onChange={e => {
-                      setEditDescription(e.target.value);
                       setEditDirty(true);
                     }}
                     style={{

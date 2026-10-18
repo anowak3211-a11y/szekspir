@@ -4,7 +4,7 @@ export const ANTKI_PL_COPY_PART2: Record<
 > = {
  'pl-07-bol-glowy-i-karku': {
  headline: 'Szukaliśmy przyczyny bólu karku u okulisty i laryngologa. Prawdziwy winowajca był w butach córki',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `W gabinecie prywatnego okulisty w Łodzi zapłaciłam kartą 250 złotych, a lekarz odsunął lampę szczelinową od twarzy mojej dziesięcioletniej Zosi, zdjął okulary i rozłożył ręce.
 
 Powiedział wprost, że wzrok mojej córki jest ostry jak u sokoła, dno oka wygląda idealnie, astygmatyzmu nie ma nawet ułamka dioptrii, więc musimy szukać przyczyny gdzie indziej.
@@ -129,7 +129,7 @@ Kiedy pomyślę, że wydałam 839 złotych na szukanie choroby w jej oczach i za
 
  'pl-08-biodro-po-pilce': {
  headline: 'Mój 9-letni syn chciał rzucić piłkę przez ból biodra i pięty. Ortopeda nawet nie dotknął jego biodra',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test w korkach i butach szkolnych',
+ description: '',
  primaryText: `Mój dziewięcioletni Kuba kocha piłkę nożną bardziej niż gry na konsoli, słodycze i cokolwiek innego na świecie.
 
 Dlatego kiedy w zeszły wtorek pod wieczór zszedł z oświetlonego jupiterami orlika w połowie treningu, usiadł na metalowej ławce rezerwowych i zobaczyłam zza siatki, że chowa twarz w dłoniach i gryzie rękaw brudnej bluzy dresowej, żeby chłopaki z drużyny nie widzieli, jak płacze, serce pękło mi na pół.
@@ -252,7 +252,7 @@ Te 50 złotych za parę wkładek uratowało nie tylko jego biodra i kolana, ale 
 
  'pl-09-kolano-na-schodach': {
  headline: 'Założyłam córce opaskę z apteki na bolące kolano. Ortopeda kazał ją zdjąć w tej samej sekundzie',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Mieszkamy w kamienicy w Szczecinie na trzecim piętrze bez windy i te schody pokonujemy codziennie przynajmniej cztery razy.
 
 W zeszły czwartek po południu, kiedy wracałyśmy razem ze szkoły, moja dziesięcioletnia Kasia nagle zatrzymała się w połowie drugiego piętra, usiadła ciężko na zimnym kamiennym stopniu, złapała się obiema dłońmi za kolana i powiedziała cichutko: „Mamo, poczekaj chwilę, nie idź tak szybko, bo znowu strasznie kłuje mnie pod rzepką przy każdym podniesieniu nogi".
@@ -364,7 +364,7 @@ Kiedy widzę, jak moja córka znów zbiega i wbiega na nasze trzecie piętro po 
 
  'pl-10-krzywa-spodniczka-apel': {
  headline: 'Myślałam, że krawcowa krzywo uszyła spódniczkę córki. Na bilansie w szkole przeżyłam szok',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka ( bez ryzyka)',
+ description: '',
  primaryText: `Podczas październikowego apelu w szkole podstawowej w Lublinie stałam w rzędzie dla rodziców pod ścianą sali gimnastycznej i chyba pięć razy podchodziłam do mojej dziewięcioletniej Zosi, żeby przekręcić jej granatową spódniczkę galową z powrotem na środek.
 
 Za każdym razem, kiedy Zosia zrobiła kilkanaście kroków albo przestąpiła z nogi na nogę podczas śpiewania hymnu, gumka w pasie zjeżdżała jej w dół po prawej stronie, zamek błyskawiczny wędrował na brzuch, a plisy układały się krzywo nad kolanami.
@@ -474,7 +474,7 @@ Kiedy patrzę, jak moja Zosia stoi prosto przed lustrem w swojej spódniczce, a 
 
  'pl-11-telefon-od-wuefistki': {
  headline: 'Myślałam, że córka symuluje, żeby nie ćwiczyć na WF-ie. Telefon od wuefistki wbił mnie w ziemię',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Przez cały wrzesień i październik byłam święcie przekonana, że moja dziewięcioletnia Zosia po prostu kombinuje i szuka wymówek, żeby nie ćwiczyć na WF-ie.
 
 W każdy wtorek i czwartek rano, dokładnie w te dni, kiedy w planie lekcji miała dwie godziny wychowania fizycznego pod rząd, przy śniadaniu zaczynał się ten sam koncert: „Mamo, kłuje mnie brzuch, bolą mnie nogi, napisz mi proszę zwolnienie chociaż na dzisiaj".
@@ -592,7 +592,7 @@ Kiedy widzę dziś, jak sama wieczorem pakuje spodenki i koszulkę na gimnastyk�
 
  'pl-12-wybierany-ostatni-do-druzyny': {
  headline: '„Mamo, załatw mi zwolnienie z WF-u, bo wybierają mnie ostatniego". Te słowa syna złamały mi serce',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Kiedy w zeszłą środę po powrocie ze szkoły mój dziewięcioletni Tomek zamknął się na klucz w swoim pokoju, podszedł do drzwi i powiedział łamiącym się głosem: „Mamo, załatw mi proszę zwolnienie z WF-u do końca roku, bo chłopaki śmieją się, że biegam jak kaczuszka i kapitanowie zawsze wybierają mnie do drużyny na samym końcu", poczułam, jakby ktoś wymierzył mi cios prosto w brzuch.
 
 Stałam na korytarzu z kubkiem ciepłego kakao w dłoni, trzymałam fason i spokojnym głosem prosiłam go, żeby otworzył drzwi, ale kiedy w końcu zasnął wieczorem, poszłam do łazienki, odkręciłam wodę w kranie i pierwszy raz od dawna rozpłakałam się z bezsilności.

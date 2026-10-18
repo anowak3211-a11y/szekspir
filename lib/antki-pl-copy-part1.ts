@@ -14,7 +14,7 @@ export const ANTKI_PL_COPY_PART1: Record<
 > = {
  'pl-01-zdarte-zimowe-buty': {
  headline: 'Wydałam 599 zł na wymarzone buty córki. Po 3 tygodniach spojrzałam na podeszwę i zamarłam',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty za 599 złotych (w promocji z 749 zł).
 
 Ale moja Zosia marzyła o tych nowych Nike od wiosny, a ja po tym, jak we wrześniu w miesiąc zmasakrowała zwykłe trampki do szkoły, chciałam, żeby na jesień i zimę miała wreszcie porządne, twarde buty.
@@ -136,7 +136,7 @@ P.S. Dziś wieczorem odwróć buty swojego dziecka podeszwą do światła. Jeśl
 
  'pl-02-mit-bolow-wzrostowych': {
  headline: 'Przez 4 miesiące wierzyłam pediatrze, że to „bóle wzrostowe". Prawda wyszła na jaw w łazience',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Przez cztery miesiące co parę tygodni przeżywałam w naszym mieszkaniu ten sam nocny koszmar. W środku nocy z pokoju mojej 8-letniej Kasi dobiegał cichy szloch, który po chwili zamieniał się w rozdzierający płacz.
 
 Kiedy wpadałam do niej na boso, siedziała na łóżku ze skulonymi nogami i trzymała się obiema rączkami za piszczele oraz kolana, powtarzając przez łzy, że w środku kości „wierci ją i pali żywym ogniem".
@@ -264,7 +264,7 @@ P.S. Kości nie bolą od samego rośnięcia. Zanim dziś w nocy znów sięgniesz
 
  'pl-03-test-mokrej-stopy': {
  headline: 'Spojrzałam na mokre ślady stóp córki po kąpieli. Ten 10-sekundowy test powinna zrobić każda mama',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Moja 10-letnia Zosia pobiegła wieczorem boso z wanny po piżamę, a ja spojrzałam na mokre ślady jej stóp na ciemnych kafelkach i zamarłam.
 
 Zamiast normalnego wcięcia w kształcie półksiężyca na podłodze odbiły się dwa pełne, płaskie prostokąty jak podeszwa żelazka - u mojej córki łuk stopy nie istniał wcale.
@@ -388,7 +388,7 @@ P.S. Od góry każda dziecięca stopa wygląda dobrze. Dopiero mokry ślad na ka
 
  'pl-04-zdjecie-z-wycieczki': {
  headline: 'Powiększyłam zdjęcie córki z wycieczki klasowej. Dopiero wtedy zobaczyłam, co dzieje się z jej nogami',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Wychowawczyni wrzuciła wieczorem na dziennik elektroniczny zdjęcia z październikowej wycieczki klasowej do parku.
 
 Usiadłam z kubkiem herbaty w kuchni, otworzyłam galerię na telefonie i zaczęłam szukać mojej 9-letniej Kasi.
@@ -510,7 +510,7 @@ P.S. Kolana w literę X prawie nigdy nie są winą samych kolan. Zanim okno wzro
 
  'pl-05-potykanie-sie-o-wlasne-nogi': {
  headline: 'Krzyczałam na córkę, że ciągle potyka się na prostej drodze. U fizjoterapeuty zapadłam się pod ziemię',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `„Zosia, czy ty naprawdę nie potrafisz patrzeć pod nogi?!" - krzyknęłam po południu przed szkołą, kiedy moja 8-letnia córka przewróciła się na prostej drodze i podarła spodnie na kolanie.
 
 Stałam nad nią z jej plecakiem w jednej ręce i siatką zakupów w drugiej, zmęczona po całym dniu pracy, po czym zamiast ją przytulić, zaczęłam robić jej wymówki na oczach innych rodziców.
@@ -634,7 +634,7 @@ P.S. Dziecko nie przewraca się na równej drodze z nieuwagi. Kiedy pięta uciek
 
  'pl-06-plecy-i-ciezki-plecak': {
  headline: 'Wydałam 420 zł na ergonomiczny tornister, a plecy córki bolały dalej. Fizjoterapeuta kazał jej zdjąć buty',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Postawiłam szkolny plecak mojej 10-letniej córki na wadze kuchennej przy chlebaku: wyświetlacz pokazał dokładnie 6,5 kilograma.
 
 Patrzyłam na ten wynik i byłam pewna, że właśnie odkryłam, dlaczego moja Kasia codziennie po 16:00 kładzie się na dywanie w salonie i mówi, że pieką ją plecy między łopatkami.

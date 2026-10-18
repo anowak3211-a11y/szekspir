@@ -1,7 +1,7 @@
 export const ANTKI_PL_COPY_PART5: Record<string, { headline: string; description: string; primaryText: string }> = {
  'pl-25-ryciak-rip3-ojciec-wideo': {
  headline: 'Fizjoterapeuta położył telefon na podłodze i nagrał chód mojej córki w zwolnionym tempie. Zobacz, co dzieje się w 1 sekundzie',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `W zeszły czwartek po południu siedziałam w gabinecie rehabilitacji w Poznaniu z moją 10-letnią córką Kasią, która od dwóch miesięcy skarżyła się na piekący ból prawej łydki i kłucie pod prawą łopatką.
 
 Myślałam, że fizjoterapeuta położy ją na kozetce i rozmasuje spięte mięśnie pleców od noszenia ciężkiego plecaka.
@@ -121,7 +121,7 @@ Jeśli zobaczycie, że pięta ucieka do środka, działajcie od razu - zanim ten
 
  'pl-26-zal-po-operacji-za-pozno': {
  headline: 'Na moją lewą stopę było już za późno (8200 zł i 2 śruby w kości). Prawą uratowałam bez skalpela',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
+ description: '',
  primaryText: `Na moją lewą stopę jest już za późno.
 
 Kiedy spojrzę na nią wieczorem po zdjęciu skarpetki, widzę siedmiocentymetrową, sinoczerwoną bliznę biegnącą wzdłuż palucha, pod którą w kości śródstopia tkwią na stałe dwie tytanowe śruby.
@@ -233,7 +233,7 @@ P.S. Za operację jednej stopy zapłaciłam 8200 złotych i sześcioma tygodniam
 
  'pl-27-zal-haluks-wrocil-po-2-latach': {
  headline: 'Siostra zapłaciła 8100 zł za operację haluksa. Po 2 latach kość wróciła, bo nikt nie powiedział jej tego 1 faktu',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu',
+ description: '',
  primaryText: `W zeszłą niedzielę po południu moja starsza siostra Ania przyjechała do mnie na obiad, usiadła na ławce w przedpokoju i z grymasem bólu rozpięła zamek w swoich skórzanych kozakach.
 
 Kiedy zdjęła prawy but oraz cienką rajstopę, obie zaniemówiłyśmy na dobre pół minuty. Dwa lata temu Ania wyjęła z oszczędności 8100 złotych i zapłaciła w prywatnej klinice za operację wycięcia haluksa.
@@ -342,7 +342,7 @@ P.S. Moja siostra musiała zapłacić 8100 złotych i przejść przez operację,
 
  'pl-28-zal-operacja-kolan-nastolatki': {
  headline: 'Moja 14-letnia córka ma dziś śruby w kolanach, bo 5 lat temu posłuchałam słów: „Z tego się wyrasta"',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Późnym wieczorem siedziałam na brzegu łóżka mojej 14-letniej córki Mai w naszym mieszkaniu w Łodzi i zmieniałam jej chłodzący kompres na opuchniętych, zasinionych kolanach.
 
 Na obu nogach od kostek aż po pachwiny miała zapięte ciężkie, czarne ortezy zegarowe, a pod świeżymi szwami w kościach udowych tkwiły tytanowe płytki ósemkowe przykręcone śrubami do chrząstek wzrostowych.
@@ -455,7 +455,7 @@ Sprawdźcie dziś wieczorem bose pięty swoich dzieci - zanim zamknie się ich o
 
  'pl-29-zal-wozek-inwalidzki-beata': {
  headline: 'Mąż zamontował mi pod prysznicem uchwyt dla niepełnosprawnych. Mam dopiero 52 lata',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
+ description: '',
  primaryText: `W zeszłą sobotę po południu siedziałam na brzegu łóżka w naszej sypialni w Krakowie, a z łazienki za ścianą dochodził przeraźliwy huk udarowej wiertarki.
 
 Mój mąż Andrzej wiercił w płytkach pod prysznicem cztery głębokie dziury, żeby przykręcić biały, metalowy uchwyt dla osób niepełnosprawnych i starszych.
@@ -569,7 +569,7 @@ Nie czekajcie, aż mąż będzie musiał wiercić Wam uchwyt w łazience.`,
 
  'pl-30-zal-zastrzyki-sterydowe-pieta': {
  headline: 'Przeszłam 3 bolesne blokady w piętę i 10 zabiegów fali uderzeniowej. Dopiero ten 1 szczegół zatrzymał ból',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Kto nigdy nie leżał na skórzanej kozetce w gabinecie zabiegowym i nie miał wbitej długiej, grubej igły ze sterydem prosto w żywe, zapalone rozcięgno pod piętą, ten nie ma pojęcia, czym jest ból, przy którym człowiek wgryza się zębami w pasek własnej torebki, żeby nie krzyczeć na cały korytarz.
 
 Mam 47 lat, mieszkam we Wrocławiu i w ciągu ostatniego roku dałam sobie wbić trzy takie blokady sterydowe oraz przeszłam dziesięć zabiegów fali uderzeniowej.

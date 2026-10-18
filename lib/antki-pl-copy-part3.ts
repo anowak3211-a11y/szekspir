@@ -1,7 +1,7 @@
 export const ANTKI_PL_COPY_PART3: Record<string, { headline: string; description: string; primaryText: string }> = {
  'pl-13-odmowa-obozu-zimowego': {
  headline: 'Wpłaciłam 900 zł zaliczki na wyjazd klasowy. Wieczorem córka powiedziała zdanie, po którym zamarłam',
- description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - wychodzi 50 zł za parę) · 30 dni gwarancji zwrotu bez ryzyka',
+ description: '',
  primaryText: `Wpłaciłam 900 złotych bezzwrotnej zaliczki na zimowy obóz w górach z klasą mojej 10-letniej Zosi. Cały wrzesień i październik żyła tylko tym wyjazdem.
 
 Odliczała dni w kalendarzu na ścianie, bo miały jechać jej dwie najlepsze przyjaciółki z ławki i miały spać razem w jednym pokoju w pensjonacie pod Zakopanem.
@@ -176,7 +176,7 @@ Te 99,99 złotych uratowało nie tylko jej kolana i nasze 900 złotych zaliczki,
 
  'pl-14-wstyd-w-szatni-buty': {
  headline: 'Wydałam 450 zł na buty ortopedyczne dla córki. Wychowawczyni powiedziała mi, co Kasia robi z nimi w szatni',
- description: 'Niewidzialna korekcja w zwykłych butach · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ description: '',
  primaryText: `Wydałam 450 złotych w sklepie medycznym na wysokie, sztywne trzewiki ortopedyczne z obcasem Thomasa i podklejanym od spodu klinem dla mojej 9-letniej Kasi.
 
 Kupiłam je jeszcze tego samego dnia, w którym starszy ortopeda w przychodni na NFZ rzucił okiem na jej pięty przez dwie minuty i postraszył mnie, że jeśli natychmiast nie zamkniemy kostki w wysokim, twardym bucie, to za trzy lata Kasia skończy w gorsecie na skoliozę.
@@ -334,7 +334,7 @@ P.S. Wczoraj Kasia sama poprosiła mnie, żebym zapisała ją na szkolne zawody 
 
  'pl-15-zwolnienie-z-wf-u-jesien': {
  headline: 'Poszłam tylko po zwolnienie z WF-u dla córki. Lekarz spojrzał na jej nogi i powiedział zdanie, które mną wstrząsnęło',
- description: 'Dlaczego zwolnienie z WF-u pogłębia koślawość? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ description: '',
  primaryText: `Poszłam w czwartek po południu do naszej przychodni tylko po jedną rzecz: chciałam przedłużyć mojej 9-letniej Zosi zwolnienie z WF-u na cały semestr zimowy.
 
 Byłam święcie przekonana, że jestem dobrą, troskliwą mamą, która chroni własne dziecko przed bólem kolan i upokorzeniem na sali gimnastycznej.
@@ -492,7 +492,7 @@ P.S. Tamtego papierka ze zwolnieniem z WF-u nigdy nie zaniosłam do szkoły. Dzi
 
  'pl-16-wojna-o-dywan-19-30': {
  headline: 'Mój 8-letni syn miał nałożyć kaszę do obiadu, a rzucił nią o ścianę. Prawda o domowych ćwiczeniach stóp',
- description: 'Dlaczego 15 minut ćwiczeń przegrywa z 14h na betonie? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ description: '',
  primaryText: `„Nienawidzę Cię, mamo! Nienawidzę tych głupich ćwiczeń!" - krzyknął mój 8-letni Kuba, rzucił woreczkiem z surową kaszą gryczaną o kafelki nad blatem w kuchni, po czym wybiegł z korytarza i z całej siły zatrzasnął drzwi do swojego pokoju.
 
 Miał tylko wyjąć kaszę z szafki i podać mi ją do garnka, kiedy wróciliśmy zmęczeni do domu po pracy i szkole. Ale kiedy zobaczył w dłoni ten biały, foliowy woreczek, puściły mu wszystkie nerwy.
@@ -635,7 +635,7 @@ P.S. Dziś kasza gryczana w naszej kuchni służy już wyłącznie do gotowania 
 
  'pl-17-worek-ze-szkolnymi-kapciami': {
  headline: 'Od października nasze dzieci spędzają 14 godzin dziennie na betonie i panelach. Spojrzałam na buty córki w szatni',
- description: 'Dlaczego zimą koślawość przyspiesza 2x szybciej? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ description: '',
  primaryText: `W zeszły piątek po południu podczas wywiadówki zeszłam na chwilę do podziemi naszej szkoły podstawowej, żeby zabrać do wyprania buty zmieniane mojej 9-letniej Zosi.
 
 Podeszłam do jej boksu w szatni, sięgnęłam na dolną półkę i wzięłam te granatowe tenisówki do ręki.
@@ -773,7 +773,7 @@ P.S. Wczoraj pierwszy raz w życiu odłożyłam jesienne buty Zosi do szafy dla 
 
  'pl-18-mit-gipsu-sztywne-wkladki': {
  headline: 'Zapłaciłam 380 zł za twarde wkładki na zamówienie. Fizjoterapeuta postukał nimi o biurko i kazał wyrzucić',
- description: 'Sztywna skorupa za 380 zł co pół roku vs Dynamiczna sprężyna StepMax (50 zł/para) · 30 dni na test',
+ description: '',
  primaryText: `Byłam w jednym miesiącu u dwóch różnych ortopedów z moją 10-letnią Kasią i usłyszałam dwie zupełnie sprzeczne diagnozy.
 
 Pierwszy kazał natychmiast jechać do punktu ortopedycznego i wyrabiać twarde wkładki na wymiar za 380 złotych.
