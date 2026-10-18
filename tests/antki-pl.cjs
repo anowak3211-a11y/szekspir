@@ -29,8 +29,13 @@ assert.equal(angleMatches.length, 35, `Expected 35 preset angles in lib/antki-pl
 
 // Verify Awareness Stage & Sophistication instructions and new copy rules in system prompt
 assert.match(antkiPlLib, /INSTRUKCJA POZIOMÓW ŚWIADOMOŚCI \(AWARENESS STAGE\) I SOFISTYKACJI RYNKU/, 'System prompt must explain Awareness Stages and Market Sophistication');
+assert.match(antkiPlLib, /OBCY LUDZIE W SKLEPIE NIE ZNAJĄ IMIENIA MATKI/, 'System prompt must forbid store clerk knowing mother first name');
+assert.match(antkiPlLib, /ZERO POLICYJNYCH, SZTUCZNYCH GODZIN CO DO MINUTY/, 'System prompt must forbid fake minute timestamps like o 20:07');
+assert.match(antkiPlLib, /LOGICZNE WEJŚCIE POSTACI DO SCENY/, 'System prompt must enforce logical character entry into scene');
+assert.match(antkiPlLib, /ZAKAZ WYLICZANKI „MAJĄ\.\.\. MAJĄ\.\.\. MAJĄ\.\.\."/, 'System prompt must forbid repetitive Mają... Mają... Mają... list');
+assert.match(antkiPlLib, /DŁUGOŚĆ 1100-1300 SŁÓW/, 'System prompt must enforce 1100-1300 word winner architecture');
+assert.match(antkiPlLib, /7 DNI OBSERWACJI/, 'System prompt must include the 7-day observation device from winners');
 assert.match(antkiPlLib, /LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX/, 'System prompt must enforce plural grammar for Orthomax StepMax');
-assert.match(antkiPlLib, /SPÓJNY ZAPIS GODZIN I LICZB CYFRAMI/, 'System prompt must enforce digital clock hours');
 assert.match(antkiPlLib, /REALIZM EMOCJONALNY MATKI/, 'System prompt must forbid mother crying together with child');
 assert.match(antkiPlLib, /REALISTYCZNY MOST ODKRYCIA/, 'System prompt must enforce organic social discovery bridge');
 assert.match(antkiPlLib, /599\s*zł/, 'Preset #1 must include 599 zł Nike angle');

@@ -166,18 +166,18 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty za 599 złotych (i to w promocji z 749 zł). Ale Zosia marzyła o tych nowych Nike od wiosny, a ja chciałam, żeby na jesień i zimę miała wreszcie porządne, twarde buty. Po 3 tygodniach wzięłam je wieczorem w przedpokoju do ręki, żeby zetrzeć błoto, odwróciłam podeszwę do światła i zamarłam.',
     sceneBeat:
-      'Wewnętrzna krawędź obu pięt w butach za 599 zł starta pod skosem niemal do pianki, a sztywny zapiętek wygięty do środka jak naleśnik. Gosia jedzie wściekła do salonu złożyć reklamację z paragonem w ręku. Kierowniczka zmiany (kobieta po 50-tce, która wcześniej pracowała w sklepie ortopedycznym) bierze buta w dłonie, patrzy na stojącą obok Zosię i mówi: „Pani Małgosiu, ja pani ten wniosek przyjmę. Ale niech pani spojrzy na kostki córki. To nie guma w Nike jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i mieli każdego buta jak tarka". Obalenie mitu pediatry o „bólach wzrostowych".',
+      'Z góry buty wyglądały jeszcze całkiem nieźle, ale pod spodem córka niemal bosą nogą po ziemi chodziła - wewnętrzna krawędź obu pięt w butach za 599 zł była starta pod skosem niemal do pianki, a sztywny zapiętek wygięty do środka tak, że po 3 tygodniach wyglądały na noszone co najmniej parę lat. Gosia jedzie wściekła do salonu złożyć reklamację z paragonem w ręku. Kierowniczka zmiany (kobieta po 50-tce, która wcześniej pracowała w sklepie ortopedycznym - NIE zna imienia Gosi!) bierze buta w dłonie, ściska zapiętek, patrzy na stojącą obok Zosię i mówi spokojnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki. Jej wykrzywia się cały wewnętrzny bok stopy do środka, a odległość między kostkami przy złączonych kolanach to już prawie 5 centymetrów. To nie guma w Nike jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i mieli każdego buta jak tarka". Obalenie mitu pediatry o „bólach wzrostowych".',
     failedSolutionsMath:
-      'Buty Nike w promocji 599 zł + wrześniowe trampki do szkoły 180 zł + żel z magnezem na nocne bóle łydek 45 zł = 824 zł',
+      'Buty Nike w promocji 599 zł + wrześniowe trampki do szkoły (zmasakrowane w miesiąc) 180 zł + żel z arniką i magnezem na nocne bóle łydek 45 zł = 824 zł',
     discoveryBridge:
-      'Po powrocie ze sklepu Gosia wrzuca zdjęcie startej podeszwy na grupę „Mamy z Poznania" z pytaniem, co z tym zrobić. W ciągu 2 godzin pod postem pojawia się ponad 60 komentarzy od mam, które przechodziły dokładnie to samo i wrzucają zdjęcia pomarańczowo-czarnych wkładek Orthomax StepMax.',
+      'Po powrocie ze sklepu Gosia wrzuca zdjęcie startej podeszwy na grupę „Mamy z Poznania" i forum dla mam z pytaniem, co z tym zrobić, bo przecież nie zostawi nawet butów po starszej dla młodszej, skoro są tak zmasakrowane. W ciągu 2 godzin pod postem pojawia się ponad 60 komentarzy od mam, które przechodziły dokładnie to samo i wrzucają zdjęcia pomarańczowo-czarnych wkładek dynamicznych Orthomax StepMax.',
     defaultHeadline: 'Wydałam 599 zł na wymarzone buty córki. Po 3 tygodniach spojrzałam na podeszwę i zamarłam',
   },
   {
     id: 'pl-02-mit-bolow-wzrostowych',
     number: 2,
     code: '02_mit_bolow_wzrostowych',
-    title: 'Nocny płacz o 23:00 i masowanie łydek („Taka jej uroda, to tylko bóle wzrostowe")',
+    title: 'Nocny płacz, syrop Nurofen i strach przed białaczką („Lekarz mówił: nie leczymy wyników, to bóle wzrostowe")',
     segment: 'dzieci',
     funnelStage: 'stage1_domowe_odkrycie',
     funnelLabel: 'Stage 1 · Unaware (Dom)',
@@ -186,13 +186,13 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Małgorzata (38 lat, Wrocław)',
     protagonist: 'Kasia (8 lat)',
     hookIdea:
-      'Przez 4 miesiące wcierałam w łydki mojej 8-letniej córki magnez w żelu, bo pediatra w przychodni powtarzała: „Rośnie, to zwykłe bóle wzrostowe, proszę nie panikować". Aż w zeszły czwartek po 20:00 do naszej łazienki weszła sąsiadka z piętra, która pracuje jako fizjoterapeutka dziecięca.',
+      'Przez 4 miesiące co parę tygodni przeżywałam w nocy ten sam koszmar: w środku nocy moja 8-letnia Kasia budziła się z płaczem, że rwą ją kolana i piszczele, a rano przed wyjściem do szkoły ból nagle znikał jak ręką odjął. Masowałam jej nóżki maścią z arniką i Amolem, przykładałam ciepły termofor z pestek wiśni, podawałam syrop Nurofen, a ze strachu przed białaczką robiłam prywatnie morfologię z rozmazem ręcznym, myśląc, że osiwieję. Pediatra w przychodni powtarzał tylko: „Nie leczymy wyników, tylko dziecko. To zwykłe bóle wzrostowe, taka jej uroda". W zeszły czwartek wieczorem, kiedy Kasia po całym dniu w szkole znów stała przed wanną i popłakiwała, że palą ją piszczele, nie wytrzymałam i poprosiłam naszą sąsiadkę z piętra - fizjoterapeutkę dziecięcą - żeby zaszła na chwilę i spojrzała na jej nogi.',
     sceneBeat:
-      'Kasia stoi boso na płytkach przed wanną i popłakuje, że po całym dniu w szkole palą ją piszczele. Sąsiadka kuca za nią, robi zdjęcie telefonem z poziomu podłogi i pokazuje odwrócone „V" uciekających pięt. Tłumaczy, że kość nie boli od samego rośnięcia - boli mięsień piszczelowy, który przez 14 godzin dziennie na szkolnym betonie i domowych panelach próbuje utrzymać walącą się do środka kostkę.',
+      'Sąsiadka przychodzi na prośbę Gosi, wchodzi do łazienki, widzi Kasię stojącą boso na płytkach przed wanną (i jak chwilę wcześniej siedziała na dywaniku w literę W - kolana złączone, stopy wywinięte na zewnątrz jak u żaby). Kuca za Kasią, patrzy na jej pięty od tyłu i mówi naturalnie: „Gosiu, mogę ci coś pokazać?". Robi zdjęcie telefonem z poziomu podłogi i pokazuje odwrócone „V" uciekających pięt oraz spłaszczony wewnętrzny brzeg stopy. Tłumaczy, dlaczego ból pojawia się wieczorem i w nocy, a rano mija: kość nie boli od samego rośnięcia - boli mięsień piszczelowy i więzadła, które przez 14 godzin dziennie na szkolnym betonie i domowych panelach próbują utrzymać walącą się do środka kostkę.',
     failedSolutionsMath:
-      'Maści i żele z magnezem 140 zł + prywatne badania krwi (witamina D, wapń, morfologia) 195 zł + wizyta prywatna 200 zł = 535 zł',
+      'Syropy przeciwbólowe, smarowidła z apteki i termofor z pestek wiśni 140 zł + prywatna morfologia z rozmazem ręcznym, witamina D i CRP 195 zł + wizyta prywatna 200 zł = 535 zł',
     discoveryBridge:
-      'Sąsiadka przynosi ze swojego mieszkania but swojego 9-letniego syna, wyjmuje z niego pomarańczowo-czarną wkładkę Orthomax StepMax i pokazuje Gosi pod kciukiem, jak pracuje dynamiczna sprężyna.',
+      'Sąsiadka idzie na chwilę do swojego mieszkania i wraca z butem swojego 9-letniego syna, wyjmuje z niego pomarańczowo-czarne wkładki Orthomax StepMax i pokazuje Gosi pod kciukiem, jak pracuje dynamiczna sprężyna.',
     defaultHeadline: 'Przez 4 miesiące wierzyłam pediatrze, że to „bóle wzrostowe". Prawda wyszła na jaw w łazience',
   },
   {
@@ -208,7 +208,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Małgorzata (40 lat, Kraków)',
     protagonist: 'Zosia (10 lat)',
     hookIdea:
-      'Wyszłam z łazienki o 20:30 zaraz po kąpieli mojej 10-letniej córki, spojrzałam na mokre ślady jej stóp na ciemnoszarych kafelkach i poczułam, jak robi mi się zimno.',
+      'Wyszłam z łazienki wieczorem zaraz po kąpieli mojej 10-letniej córki, spojrzałam na mokre ślady jej stóp na ciemnoszarych kafelkach i poczułam, jak robi mi się zimno.',
     sceneBeat:
       'Zamiast charakterystycznego wcięcia po wewnętrznej stronie stopy na kafelkach odbił się pełny, rozlany prostokąt jak stopa żelazka, a obok mokra kropka od wewnętrznej kostki, która niemal dotykała podłogi. Od przodu stopy wyglądały normalnie - dopiero ślad wody pokazał, że przy każdym z 7000 kroków dziennie Zosia uderza gołą kością śródstopia w twardą podłogę.',
     failedSolutionsMath:
@@ -230,9 +230,9 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Małgorzata (38 lat, Gdańsk)',
     protagonist: 'Kasia (9 lat)',
     hookIdea:
-      'Wychowawczyni wrzuciła o 18:00 na dziennik elektroniczny zdjęcia z październikowej wycieczki klasowej. Powiększyłam dwoma palcami zdjęcie mojej 9-letniej Kasi stojącej w pierwszym rzędzie i aż usiadłam na krześle w kuchni.',
+      'Wychowawczyni wrzuciła wieczorem na dziennik elektroniczny zdjęcia z październikowej wycieczki klasowej. Powiększyłam dwoma palcami zdjęcie mojej 9-letniej Kasi stojącej w pierwszym rzędzie i aż usiadłam na krześle w kuchni.',
     sceneBeat:
-      'Wszystkie dzieci stoją prosto, a kolana Kasi w obcisłych legginsach stykają się ze sobą jak litera X, stopy rozjeżdżają się na boki, a prawy bark wisi o 3 centymetry niżej pod ciężarem plecaka. Gdy patrzy się na własne dziecko codziennie w domu, mózg przyzwyczaja się do krzywizny - dopiero obiektyw aparatu pokazuje brutalną prawdę.',
+      'Wszystkie dzieci stoją prosto, a kolana Kasi w obcisłych legginsach stykają się ze sobą jak litera X, między kostkami zieje 5-centymetrowa przerwa, stopy rozjeżdżają się na boki, a prawy bark wisi o 3 centymetry niżej pod ciężarem plecaka. Gdy patrzy się na własne dziecko codziennie w domu, mózg przyzwyczaja się do krzywizny - dopiero obiektyw aparatu pokazuje brutalną prawdę.',
     failedSolutionsMath:
       'Prywatny ortopeda 250 zł + RTG 90 zł + sztywne buty korekcyjne, których córka nie chciała założyć 340 zł = 680 zł',
     discoveryBridge:
@@ -243,22 +243,22 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     id: 'pl-05-potykanie-sie-o-wlasne-nogi',
     number: 5,
     code: '05_potykanie_sie_o_wlasne_nogi',
-    title: 'Krzyczałam na córkę, że rozdarła 3 parę spodni w tym miesiącu. W gabinecie spaliłam się ze wstydu.',
+    title: 'Krzyczałam na córkę, że rozdarła 3 parę spodni i biega jakby miała buty o 3 numery za duże. W gabinecie spaliłam się ze wstydu.',
     segment: 'dzieci',
     funnelStage: 'stage1_domowe_odkrycie',
     funnelLabel: 'Stage 1 · Unaware (Dom)',
     awarenessStage: 'Stage 1: Unaware -> Wyrzuty sumienia',
-    sophistication: 'Poziom 3 (Rotacja wewnętrzna piszczeli przy koślawości)',
+    sophistication: 'Poziom 3 (Wiotkość stawowa i rotacja wewnętrzna piszczeli przy koślawości)',
     narrator: 'Małgorzata (37 lat, Katowice)',
     protagonist: 'Zosia (8 lat)',
     hookIdea:
-      '„Zosia, czy ty naprawdę nie potrafisz patrzeć pod nogi?!" - krzyknęłam o 16:30 przed szkołą, kiedy 3 raz w tym miesiącu rozdarła nowe spodnie na kolanie na zupełnie równym chodniku. Do dziś ściska mnie w gardle na myśl, że darłam się na własne dziecko za coś, czemu nie było winne.',
+      '„Zosia, czy ty naprawdę nie potrafisz patrzeć pod nogi?!" - krzyknęłam po południu przed szkołą, kiedy 3 raz w tym miesiącu przewróciła się na prostej drodze i rozdarła nowe spodnie na kolanie. W domu obijała się o meble, a na podwórku dziwnie biegała, jakby miała buty za duże o 3 numery. Do dziś ściska mnie w gardle na myśl, że darłam się na własne dziecko za coś, czemu nie było winne.',
     sceneBeat:
-      'Fizjoterapeuta pokazuje Gosi, dlaczego Zosia potyka się o własne czubki butów po 7 godzinach w szkole: kiedy łuk stopy opada, kość piętowa kładzie się do środka i pociąga za sobą piszczel do rotacji wewnętrznej. Przy zmęczeniu czubki butów schodzą się do środka i zahaczają o siebie.',
+      'Fizjoterapeuta pokazuje Gosi, dlaczego dzieci z wiotkością stawów i koślawością potykają się o własne czubki butów po 7 godzinach w szkole: kiedy wewnętrzny brzeg stopy opada i nóżka krzywi się w kostce do środka, kość piętowa pociąga za sobą piszczel do rotacji wewnętrznej. Przy zmęczeniu czubki butów uciekają do środka i zahaczają o siebie.',
     failedSolutionsMath:
-      '3 pary zniszczonych spodni i butów 390 zł + wizyta u fizjoterapeuty 180 zł + wkładki z apteki 75 zł = 645 zł',
+      '3 pary zniszczonych spodni i zdartych butów 390 zł + wizyta u fizjoterapeuty 180 zł + wkładki z apteki 75 zł = 645 zł',
     discoveryBridge:
-      'Wieczorem w domu Gosia szuka na grupie rodziców z Katowic opinii o dynamicznych wkładkach korytkowych i trafia na dziesiątki relacji mam stosujących Orthomax StepMax.',
+      'Wieczorem w domu Gosia szuka na forum mam i grupie rodziców z Katowic opinii o wkładkach dla dziecka, które obija się o meble i krzywi kostki, i trafia na relacje mam stosujących wkładki Orthomax StepMax.',
     defaultHeadline: 'Krzyczałam na córkę, że ciągle potyka się na prostej drodze. U fizjoterapeuty zapadłam się pod ziemię',
   },
 
@@ -278,7 +278,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Postawiłam szkolny plecak mojej 10-letniej córki na wadze kuchennej: 6,5 kilograma. Byłam pewna, że to dlatego Kasia codziennie po 16:00 kładzie się na dywanie w salonie i mówi, że pieką ją plecy między łopatkami. Wydałam 420 złotych na najdroższy ergonomiczny tornister z usztywnieniem. Nie pomogło nawet na 1 dzień.',
     sceneBeat:
-      'W gabinecie fizjoterapeuta nawet nie patrzy na plecak. Każe Kasi zdjąć buty i skarpetki. Pokazuje test podniesienia łuku stopy: gdy stopy leżą płasko, miednica ucieka do przodu, a kręgosłup piersiowy wygina się w łuk. Gdy podnosi łuki dłońmi - plecy i łopatki natychmiast się prostują.',
+      'W gabinecie fizjoterapeuta nawet nie patrzy na plecak. Tłumaczy, że ortopeda na NFZ ogląda zawsze tylko 1 narząd wpisany na skierowaniu, a nikt nie patrzy na postawę całościowo od podłogi. Każe Kasi zdjąć buty i skarpetki. Pokazuje test podniesienia łuku stopy: gdy stopy leżą płasko, miednica ucieka do przodu, a kręgosłup piersiowy wygina się w łuk. Gdy podnosi łuki dłońmi - plecy i łopatki natychmiast się prostują.',
     failedSolutionsMath:
       'Ergonomiczny plecak 420 zł + maść przeciwzapalna 45 zł + 2 wizyty u fizjoterapeuty 360 zł = 825 zł',
     discoveryBridge:
@@ -322,7 +322,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Mój 9-letni syn kocha piłkę nożną bardziej niż cokolwiek na świecie. Kiedy w zeszły wtorek o 18:00 zszedł z orlika w połowie treningu, usiadł na ławce i zobaczyłam, że gryzie rękaw bluzy, żeby koledzy nie widzieli, jak płacze z bólu biodra i pięty, serce pękło mi na pół.',
     sceneBeat:
-      'Trener mówił o „zakwasach albo naciągniętej pachwinie". Ortopeda sportowy pokazuje podeszwę butów Kuby oraz kąt koślawości pięty: przy każdym biegu po twardym boisku i szkolnym korytarzu kość piętowa uderza pod kątem, skręcając kolano i zamek biodrowy.',
+      'Trener mówił o „zakwasach albo naciągniętej pachwinie". Ortopeda sportowy pokazuje podeszwę butów Kuby oraz kąt koślawości pięty: przy każdym biegu po twardym boisku i szkolnym korytarzu kość piętowa uderza pod kątem, skręcając kolano w X (a jak mówią na forach: u chłopaka nie ma nic gorszego niż nogi w X) i przeciążając zamek biodrowy.',
     failedSolutionsMath:
       'Maści chłodzące i opaski 135 zł + prywatne USG biodra 220 zł + wizyta u ortopedy 250 zł + żelowe podpiętniki z apteki 65 zł = 670 zł',
     discoveryBridge:
@@ -412,7 +412,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Kiedy mój 9-letni syn zamknął się po 16:00 w pokoju i powiedział przez drzwi: „Mamo, załatw mi zwolnienie z WF-u do końca roku, bo chłopaki śmieją się, że biegam jak kaczuszka i nikt nie chce mnie w drużynie", poczułam, jakby ktoś uderzył mnie w brzuch.',
     sceneBeat:
-      'Wizyta u ortopedy: lekarz pokazuje, skąd bierze się „kaczy chód" i powolny bieg. Gdy łuk podłużny leży na płasko, stopa traci naturalną dźwignię wybicia i dziecko zamiast odbijać się jak ze sprężyny, człapie całą płaską podeszwą po podłodze.',
+      'Wizyta u ortopedy: lekarz pokazuje, skąd bierze się „kaczy chód" i dziwny bieg, jakby dziecko miało buty za duże o 3 numery. Gdy łuk podłużny leży na płasko, stopa traci naturalną dźwignię wybicia i dziecko zamiast odbijać się jak ze sprężyny, człapie całą płaską podeszwą po podłodze.',
     failedSolutionsMath:
       'Wizyta u ortopedy 250 zł + sztywne wkładki ze sklepu ortopedycznego (w których syn nie mógł biegać) 160 zł + zajęcia korekcyjne 240 zł = 650 zł',
     discoveryBridge:
@@ -445,22 +445,22 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     id: 'pl-14-wstyd-w-szatni-buty',
     number: 14,
     code: '14_wstyd_w_szatni_ortopedyczne_buty',
-    title: 'Kupiłam córce sztywne buty ortopedyczne za 450 zł. Chowała je w szafce i chodziła po szkole w skarpetkach.',
+    title: 'Kupiłam córce sztywne buty ortopedyczne z obcasem Thomasa za 450 zł. Chowała je w szafce i chodziła po szkole w skarpetkach.',
     segment: 'dzieci',
     funnelStage: 'stage2_szkola_wf',
     funnelLabel: 'Stage 2/3 · Szkoła i WF',
     awarenessStage: 'Stage 3: Solution Aware (Obiekcja stygmatyzacji D5)',
-    sophistication: 'Poziom 4 (Niewidzialna korekcja w zwykłych butach vs obciachowe trzewiki z NFZ)',
+    sophistication: 'Poziom 4 (Niewidzialna korekcja w zwykłych butach vs obciachowe trzewiki z obcasem Thomasa)',
     narrator: 'Małgorzata (37 lat, Toruń)',
     protagonist: 'Kasia (9 lat)',
     hookIdea:
-      'Wydałam 450 złotych na wysokie, sztywne buty ortopedyczne ze sklepu medycznego, bo lekarz z przychodni postraszył mnie skoliozą. Po 2 tygodniach wychowawczyni powiedziała mi na zebraniu coś, od czego zrobiło mi się gorąco: Kasia po wejściu do szatni chowała te buty za kurtkami i przez 7 godzin chodziła po zimnym szkolnym korytarzu w samych skarpetkach.',
+      'Wydałam 450 złotych na wysokie, sztywne buty ortopedyczne z obcasem Thomasa i podklejanym klinem ze sklepu medycznego, bo ortopeda z przychodni postraszył mnie skoliozą. Po 2 tygodniach wychowawczyni powiedziała mi na zebraniu coś, od czego zrobiło mi się gorąco: Kasia po wejściu do szatni chowała te buty za kurtkami i przez 7 godzin chodziła po zimnym szkolnym korytarzu w samych skarpetkach.',
     sceneBeat:
-      'Dziewczynki z klasy śmiały się z „butów robota". Ponadto młody fizjoterapeuta tłumaczy Gosi, że wysoki, sztywny but za kostkę blokuje staw skokowy jak gips narciarski, przez co mięśnie łydki i stopy zanikają jeszcze szybciej.',
+      'Dziewczynki z klasy śmiały się z ciężkich trzewików (jak to mamy piszą na forach: Aurelka, Memo, Danielki - wysokie sztywne „krajkary", w których dziecko chodzi jak robot). Ponadto młody fizjoterapeuta tłumaczy Gosi, że wysoki, sztywny but za kostkę blokuje staw skokowy jak gips narciarski, a aparat ruchu najlepiej działa będąc w ruchu!',
     failedSolutionsMath:
-      'Buty ortopedyczne 450 zł + pierwsza wizyta 200 zł + druga konsultacja fizjoterapeutyczna 180 zł = 830 zł',
+      'Buty ortopedyczne z obcasem Thomasa 450 zł + pierwsza wizyta 200 zł + druga konsultacja fizjoterapeutyczna 180 zł = 830 zł',
     discoveryBridge:
-      'Na grupie facebookowej mam z Torunia inna mama pokazuje, że wyrzuciła sztywne trzewiki i włożyła córce do zwykłych, modnych sneakersów dynamiczne wkładki Orthomax StepMax, których nikt w szatni nie widzi.',
+      'Na grupie facebookowej mam z Torunia inna mama pokazuje, że wyrzuciła sztywne trzewiki i włożyła córce do zwykłych, modnych sneakersów dynamiczne wkładki Orthomax StepMax, których nikt w szatni nie widzi i które mieszczą się w każdym bucie.',
     defaultHeadline: 'Wydałam 450 zł na buty ortopedyczne dla córki. Wychowawczyni powiedziała mi, co Kasia robi z nimi w szatni',
   },
   {
@@ -500,13 +500,13 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Małgorzata (38 lat, Warszawa)',
     protagonist: 'Kuba (8 lat)',
     hookIdea:
-      '„Nienawidzę Cię, mamo!" - krzyknął mój 8-letni syn, rzucił woreczkiem z kaszą o ścianę w kuchni i zatrzasnął drzwi do swojego pokoju. Miał tylko wyjąć kaszę z szafki do obiadu po tym, jak wróciliśmy do domu po 17:00. Ale kiedy zobaczył ten woreczek, przypomniało mu się, że o 19:30 znowu każę mu przez 20 minut turlać go bosą stopą po dywanie. Kiedy zamknął drzwi, usiadłam sama przy stole w kuchni i po prostu się rozpłakałam.',
+      '„Nienawidzę Cię, mamo!" - krzyknął mój 8-letni syn, rzucił woreczkiem z kaszą o ścianę w kuchni i zatrzasnął drzwi do swojego pokoju. Miał tylko wyjąć kaszę z szafki do obiadu po tym, jak wróciliśmy do domu po 17:00. Ale kiedy zobaczył ten woreczek, przypomniało mu się, że o 19:30 znowu każę mu przez 20 minut turlać go bosą stopą po dywanie, chodzić jak pingwinek na zewnętrznych krawędziach stóp i zbierać palcami chusteczki z podłogi. Kiedy zamknął drzwi, usiadłam sama przy stole w kuchni i po prostu się rozpłakałam.',
     sceneBeat:
-      'Współczucie + zimny prysznic: 3 dni później na kontroli fizjoterapeuta mówi Gosi brutalną prawdę. Nawet gdyby Kuba grzecznie turlał woreczek z kaszą i zwijał ręcznik palcami przez 15 minut dziennie (100 powtórzeń), to teraz w październiku i zimą dzieci nie biegają już po trawie ani piasku. Kuba wstaje rano i przez 14 godzin dziennie robi 7000 kroków po twardym jak skała szkolnym betonie i domowych panelach. Przy każdym z tych 7000 kroków kostka wali się do środka pod kątem 12 stopni. 14 godzin na betonie zawsze zmiażdży 15 minut na dywanie.',
+      'Współczucie + zimny prysznic: 3 dni później na kontroli fizjoterapeuta mówi Gosi brutalną prawdę. Nawet gdyby Kuba nie był uparty jak osiołek i grzecznie bawił się w pingwinka, turlał woreczek z kaszą oraz zwijał ręcznik palcami przez 15 minut dziennie (100 powtórzeń), to teraz w październiku i zimą dzieci nie biegają już po trawie ani piasku. Kuba wstaje rano i przez 14 godzin dziennie robi 7000 kroków po twardym jak skała szkolnym betonie i domowych panelach. Przy każdym z tych 7000 kroków kostka wali się do środka pod kątem 12 stopni. 14 godzin na betonie zawsze zmiażdży 15 minut na dywanie.',
     failedSolutionsMath:
-      'Zestaw do ćwiczeń w domu (mata z kolcami, dysk sensoryczny, taśmy) 260 zł + 4 wizyty kontrolne u fizjoterapeuty 720 zł = 980 zł',
+      'Zestaw do ćwiczeń w domu (mata z kolcami, dysk sensoryczny, woreczki, taśmy) 260 zł + 4 wizyty kontrolne u fizjoterapeuty 720 zł = 980 zł',
     discoveryBridge:
-      'Tego samego wieczoru o 22:00 Gosia opisuje swoją bezsilność na grupie „Mamy dzieci z koślawością i płaskostopiem" na Facebooku. Jedna z mam odpisuje jej: „Dziewczyno, wyrzuć tę kaszę. My przeszliśmy to samo, dopóki koleżanka z grupy nie pokazała mi dynamicznych wkładek Orthomax StepMax".',
+      'Tego samego wieczoru o 22:00 Gosia opisuje swoją bezsilność na forum dla mam i grupie „Mamy dzieci z koślawością i płaskostopiem" na Facebooku. Jedna z mam odpisuje jej: „Dziewczyno, wyrzuć tę kaszę. My przeszliśmy to samo, dopóki koleżanka z grupy nie pokazała mi dynamicznych wkładek Orthomax StepMax".',
     defaultHeadline: 'Mój 8-letni syn miał nałożyć kaszę do obiadu, a rzucił nią o ścianę. Prawda o domowych ćwiczeniach stóp',
   },
   {
@@ -535,22 +535,22 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     id: 'pl-18-mit-gipsu-sztywne-wkladki',
     number: 18,
     code: '18_mit_gipsu_sztywne_wkladki_nfz',
-    title: 'Wydałam 380 zł na twarde wkładki na zamówienie. Córka miała krwawe pęcherze, a fizjoterapeuta powiedział: „Założyła pani dziecku gips na mięśnie"',
+    title: 'Wydałam 380 zł na twarde wkładki na zamówienie (które za pół roku trzeba wyrzucić, bo stopa rośnie!). Fizjoterapeuta powiedział: „Założyła pani dziecku gips na mięśnie"',
     segment: 'dzieci',
     funnelStage: 'stage3_wypalone_matki',
     funnelLabel: 'Stage 3 · Sofistykacja 4 (Wypalone)',
-    awarenessStage: 'Stage 3: Solution Aware (Obiekcja D8: „Wkładki rozleniwiają mięśnie")',
-    sophistication: 'Poziom 4 (Stare sztywne korytka z plastiku vs Dynamiczna sprężyna StepMax)',
+    awarenessStage: 'Stage 3: Solution Aware (Obiekcja D8: „Wkładki za 380 zł na pół roku vs rozleniwianie mięśni")',
+    sophistication: 'Poziom 4 (Stare sztywne skorupy za 300-400 zł co pół roku vs Dynamiczna sprężyna StepMax 50 zł/para)',
     narrator: 'Małgorzata (40 lat, Gdańsk)',
     protagonist: 'Kasia (10 lat)',
     hookIdea:
-      'Myślałam, że skoro płacę 380 złotych w punkcie ortopedycznym za „indywidualne wkładki z wycisku", to kupuję mojej 10-letniej córce najlepsze możliwe rozwiązanie. Po 4 dniach Kasia wróciła ze szkoły o 16:00 z płaczem i krwawymi pęcherzami pod łukiem stopy, a młody fizjoterapeuta wziął tę twardą jak kamień deskę do ręki, postukał nią o biurko i powiedział: „Proszę to natychmiast wyrzucić do kosza".',
+      'Byłam u 2 ortopedów i usłyszałam 2 sprzeczne diagnozy: jeden kazał wyrabiać wkładki na wymiar za 380 złotych, a drugi powiedział, żeby absolutnie nie zakładać wkładek, bo rozleniwią mięśnie. Posłuchałam pierwszego. Po 4 dniach Kasia wróciła ze szkoły o 16:00 z krwawymi pęcherzami, wkładka była tak gruba, że nie wchodziła do żadnych jesiennych butów, a kiedy pomyślałam, że dziecku rośnie stopa i za pół roku będę musiała wyrzucić te 380 złotych do kosza i kupić nowe za 4 stówy, chciało mi się wyć. Wtedy młody fizjoterapeuta wziął tę twardą deskę do ręki, postukał nią o biurko i powiedział: „Proszę nie dać się robić w balona".',
     sceneBeat:
-      'Rozbicie największego mitu: dlaczego lekarze starej daty mówią czasem, że „wkładki rozleniwiają stopę"? Bo mają na myśli sztywne, plastikowe korytka starego typu, które blokują stopę jak gips. Stopa dziecka potrzebuje dynamicznej trampoliny: wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, mają głębokie korytko trzymające piętę w pionie, ale uginają się i oddają energię przy każdym kroku, zmuszając mięśnie do aktywnej pracy.',
+      'Rozbicie największego mitu z polskich forów: dlaczego połowa lekarzy mówi, że „wkładki rozleniwiają stopę"? Bo mają na myśli sztywne, plastikowe skorupy starego typu, które unieruchamiają kostkę jak szyna gipsowa! A aparat ruchu najlepiej działa będąc w ruchu. Stopa dziecka potrzebuje wkładki DYNAMICZNEJ, która pracuje w każdej fazie chodu: wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, mają głębokie korytko trzymające piętę w pionie, ale uginają się jak trampolina i zmuszają mięśnie do pracy. Co więcej, w pakiecie 1+1 wychodzą po 50 zł za parę i mają linie do docięcia nożyczkami, więc rosnąca stopa dziecka nie rujnuje domowego budżetu co pół roku.',
     failedSolutionsMath:
-      'Twarde wkładki na zamówienie 380 zł + badanie komputerowe w punkcie 120 zł + wizyta u fizjoterapeuty 190 zł = 690 zł',
+      'Twarde wkładki na zamówienie (na pół roku!) 380 zł + komputerowe badanie stóp w punkcie 120 zł + buty o rozmiar większe, żeby wkładka weszła 290 zł + wizyta u fizjoterapeuty 190 zł = 980 zł',
     discoveryBridge:
-      'Na grupie FB rodziców z Trójmiasta Gosia pyta, czym zastąpić twarde wkładki z punktu ortopedycznego, i dziesiątki mam wrzucają zdjęcia elastycznych wkładek Orthomax StepMax.',
+      'Na forum Gazeta.pl (emama) i grupie FB rodziców z Trójmiasta Gosia czyta wątek mam zafascynowanych wkładkami dynamicznymi i zamawia pakiet 1+1 wkładek Orthomax StepMax.',
     defaultHeadline: 'Zapłaciłam 380 zł za twarde wkładki na zamówienie. Fizjoterapeuta postukał nimi o biurko i kazał wyrzucić',
   },
   {
@@ -954,53 +954,113 @@ B) STAGE 2: PROBLEM AWARE (Sofistykacja 3 — Efekt Domina / Szkoła i WF):
 C) STAGE 3: SOLUTION AWARE & FRUSTRATED (Sofistykacja 4 — Wypalone Matki / Wojna o Ćwiczenia / 14h na Betonie):
    - Kim jest czytelniczka: Matka, która JUŻ WIE o koślawości. Była u specjalisty, dostała przykaz „proszę ćwiczyć stópki w domu po 20 minut dziennie" albo kupiła twarde wkładki na zamówienie za 380 zł. Jest wypalona, zmęczona wojną z dzieckiem i czuje poczucie winy, że wada nie znika.
    - Jak MUSISZ otworzyć tekst: Od domowego kryzysu (np. syn miał wyjąć kaszę do obiadu, a rzucił woreczkiem z kaszą o ścianę, bo ma dość turlania go stopą po dywanie o 19:30; albo przegląd butów w szkolnej szatni).
-   - Jak prowadzisz środek (SOFISTYKACJA 4 - NOWY MECHANIZM): Zdejmij z matki poczucie winy za pomocą twardej matematyki ekspozycji! Wytłumacz, że jesienią i zimą dzieci nie wychodzą już na dwór na trawę czy piasek - spędzają 14 godzin dziennie na twardym szkolnym betonie i domowych panelach (7000 kroków dziennie = 200 000 kroków miesięcznie). 15 minut ćwiczeń na dywanie (100 powtórzeń) nigdy nie wygra z 7000 kroków na betonie. Rozbij też mit starych sztywnych wkładek („twardy plastik z punktu ortopedycznego działa jak gips i rozleniwia mięśnie, podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki i działają jak dynamiczna trampolina").
+   - Jak prowadzisz środek (SOFISTYKACJA 4 - NOWY MECHANIZM): Zdejmij z matki poczucie winy za pomocą twardej matematyki ekspozycji! Wytłumacz, że jesienią i zimą dzieci nie wychodzą już na dwór na trawę czy piasek - spędzają 14 godzin dziennie na twardym szkolnym betonie i domowych panelach (7000 kroków dziennie = 200 000 kroków miesięcznie). 15 minut ćwiczeń na dywanie (100 powtórzeń) nigdy nie wygra z 7000 kroków na betonie. Rozbij też mit starych sztywnych wkładek („twardy plastik z punktu ortopedycznego za 380 zł działa jak szyna gipsowa i rozleniwia mięśnie, a w dodatku dziecku rośnie stopa i za pół roku trzeba wyrzucić 380 zł do kosza; podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki, działają jak dynamiczna trampolina i w pakiecie 1+1 kosztują 50 zł za parę").
 
 D) STAGE 4: HIGH STAKES / ŻAL PO OPERACJI (Sofistykacja 4 — Ostateczność):
    - Kim jest czytelniczka: Matka lub dorosła kobieta stojąca przed widmem operacji / śrub w kolanach lub cierpiąca po zabiegu.
    - Jak MUSISZ otworzyć tekst: Od brutalnego kontrastu (np. 14-letnia córka ze śrubami w kolanach po zamknięciu okna wzrostowego vs uratowana 8-letnia młodsza siostra; albo lewa stopa po operacji za 8200 zł vs prawa uratowana wkładkami).
 
-=== 2. TWARDE, NIENEGOCJOWALNE ZASADY JĘZYKOWE I LOGICZNE WŁAŚCICIELA ===
-1. STYL MELLOW W OTWARCIU I NAGŁÓWKU (ZERO ZUŻYTYCH SZABLONÓW):
+=== 2. SŁOWNIK JĘZYKA KLIENTA Z POLSKICH FORÓW (GAZETA.PL / EMAMA, KAFETERIA, BABYBOOM, WYKOP, REDDIT) I ZAKTUALIZOWANE AVATARY ===
+Wplataj w narrację autentyczne sformułowania, których polskie matki używają na forach internetowych:
+
+1) SŁOWNIK „MAŁEGO NISZCZYCIELA BUTÓW" (Zdzieranie i wykrzywianie obuwia):
+   - „Jakiekolwiek buty by nie założyła, po 2-3 tygodniach wyglądają na noszone co najmniej parę lat."
+   - „Z góry wyglądały jeszcze całkiem nieźle, ale pod spodem niemal bosą nogą po ziemi chodziła, bo matce nie przyszło do głowy, że w 3 tygodnie tak zedrze podeszwę od środka."
+   - „But jest całkowicie wygięty do środka, zapiętek położony, a obcas ścięty pod skosem jak nożem."
+   - „Nie mam dylematu, czy zostawić buty po starszej dla młodszej, bo po prostu nic nie zostaje - zmasakrowane w błyskawicznym tempie."
+
+2) SŁOWNIK WYGLĄDU NÓG I CHODU DZIECKA (Jak matki opisują koślawość i wiotkość):
+   - „Wykrzywia jej się cały wewnętrzny bok stopy do środka, stopa robi się spłaszczona, a nóżka jakby łamie się w kostce."
+   - „Krzywi nóżki w iksy (X), a odległość między kostkami przy złączonych kolanach to już 4-5 centymetrów."
+   - „Zaczyna dziwnie biegać, jakby miał buty za duże o 3 numery."
+   - „Ma wiotkie stawy - bez podparcia obija się o meble i przewraca na prostej drodze."
+   - „Ciągle siada na podłodze w literę W (siad na żabę - kolana złączone, a stopy rozstawione na zewnątrz) i nie da się go tego oduczyć."
+   - „U chłopca nie ma nic gorszego niż nogi w X."
+
+3) SŁOWNIK NOCNYCH „BÓLÓW WZROSTOWYCH" I PANIKI MATKI:
+   - „Ból nóżek (dokładnie kolan, piszczeli i łydek) pojawia się późnym wieczorem, całą noc budzi się z płaczem, a rano około 9:30 nagle mu przechodzi."
+   - „W nocy masowanie, smarowidła z apteki z arniką i mentolem, ciepły termofor z pestek wiśni i syrop Nurofen albo Apap, bo bez leku nie zaśnie."
+   - „Ze strachu przed białaczką i chłoniakiem leciałam rano robić prywatnie morfologię z rozmazem ręcznym, CRP i witaminę D - myślałam, że osiwieję."
+   - „Pediatra w przychodni zbywał mnie słowami: 'Nie leczymy wyników, tylko dziecko. Taka jej uroda, to bóle wzrostowe'."
+
+4) SŁOWNIK WOJNY O ĆWICZENIA I KONFLIKTU ORTOPEDA NFZ vs FIZJOTERAPEUTA:
+   - „Byłam u 2 ortopedów i usłyszałam 2 sprzeczne diagnozy: jeden kazał nosić sztywne buty z wkładkami, drugi kazał chodzić bez wkładek. I bądź tu mądry!"
+   - „Ortopeda w polskich realiach ogląda 1 narząd wpisany na skierowaniu i ma w arsenale tylko sztywny but, szynę gipsową, dłuto i młotek. Dopiero dobry fizjoterapeuta patrzy na postawę całościowo od stóp do barków."
+   - „Ćwiczenia w domu to droga przez mękę: chodzenie jak pingwinek na zewnętrznych krawędziach stóp, zbieranie chusteczek i ubranek palcami z podłogi, turlanie woreczka z kaszą - dziecko jest uparte jak osiołek, nudzi się po 3 minutach i kończy się płaczem."
+
+5) SŁOWNIK OBIEKCJI WOBEC WKŁADEK NA ZAMÓWIENIE (300-400 ZŁ) I BUTÓW ORTOPEDYCZNYCH (Aurelka, Memo, Danielki, Obcas Thomasa):
+   - KILER-ARGUMENT BUDŻETOWY (Rosnąca stopa): „Wkładki indywidualne w punkcie kosztują 350-400 zł, a przecież dziecku rośnie stopa! Takie wkładki starczają na pół roku, po czym trzeba je wyrzucić do kosza i znów wydać 4 stówy. Dlatego pakiet 1+1 wkładek Orthomax StepMax za 99,99 zł (50 zł za parę) z liniami do docięcia nożyczkami to zbawienie dla budżetu."
+   - KILER-ARGUMENT DOPASOWANIA DO BUTÓW: „Gruba, twarda wkładka z punktu ortopedycznego nie mieści się do żadnych normalnych butów na jesień - trzeba kupować buty o rozmiar większe!"
+   - KILER-ARGUMENT PRZECIW SZTYWNYM BUTOM: „Wysokie kapcie ortopedyczne z obcasem Thomasa i podklejanym klinem (typu Danielki, Memo, Aurelka) są ciężkie, sztywne jak gips, dziecko dziwnie w nich chodzi i wstydzi się ich w szatni. Aparat ruchu najlepiej działa będąc w ruchu - dlatego potrzebne są wkładki DYNAMICZNE, które pracują w każdej fazie chodu."
+
+=== 3. TWARDE, NIENEGOCJOWALNE ZASADY JĘZYKOWE, LOGICZNE I REALIZMU SCENY (5 KRYTYCZNYCH ZASAD WŁAŚCICIELA) ===
+1. OBCY LUDZIE W SKLEPIE NIE ZNAJĄ IMIENIA MATKI (ZERO „Pani Małgosiu" OD SPRZEDAWCZYNI!):
+   - Kiedy matka idzie do sklepu obuwniczego reklamować lub zwrócić zdarte buty (np. Nike za 599 zł), kierowniczka zmiany ani ekspedientka NIE ZNA jej imienia!
+   - NIGDY nie pisz: „Pani Małgosiu, ja pani ten wniosek przyjmę". ZAWSZE pisz naturalnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki...".
+   - Po imieniu („Gosiu" / „Pani Małgosiu") może zwrócić się wyłącznie osoba, która ją zna prywatnie (sąsiadka, koleżanka, wychowawczyni) albo lekarz/fizjoterapeuta, który ma przed sobą kartę pacjenta.
+2. ZERO POLICYJNYCH, SZTUCZNYCH GODZIN CO DO MINUTY („o 20:07", „o 19:30 w czwartek"):
+   - Nikt w prawdziwym życiu nie pamięta, że w zeszły czwartek stał w łazience „o 20:07" albo że dziecko płakało „o 19:30"! Taki zapis brzmi jak fałszywy raport policyjny.
+   - Zamiast sztucznych godzin z minutami używaj naturalnych określeń pory dnia: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy", „Kiedy wróciliśmy po południu ze szkoły", „Przed wyjściem do pracy".
+   - Jeśli w tekście wyjątkowo pojawia się godzina (np. budzik rano albo umówiona wizyta), zapisz ją pełną godziną cyframi (np. „o 6:00 rano") i NIGDY nie mieszaj zapisu cyfrowego ze słownym („po siedemnastej"), ani nie wymyślaj dziwnych minut typu „20:07" czy „18:43".
+3. LOGICZNE WEJŚCIE POSTACI DO SCENY (NIKT NIE WCHODZI SAM Z SIEBIE DO CUDZEJ ŁAZIENKI!):
+   - Sąsiadka-fizjoterapeutka NIGDY „nie wchodzi sobie tak o" do cudzej łazienki, kiedy dziecko stoi przed wanną! To kompletnie nie trzyma się kupy.
+   - Jeśli w scenie pojawia się sąsiadka lub znajoma fizjoterapeutka, matka MUSI ją sama wcześniej poprosić o pomoc i zaprosić na chwilę do mieszkania („Kiedy w czwartek wieczorem Kasia po całym dniu w szkole znów popłakiwała przed kąpielą, że palą ją piszczele, nie wytrzymałam - zapukałam do naszej sąsiadki z piętra, która jest fizjoterapeutką dziecięcą, i poprosiłam, żeby zaszła na chwilę spojrzeć na nogi córki"). Ponadto sąsiadka mówi naturalnie: „Gosiu, mogę ci coś pokazać?", a nie oficjalnie „Pani Gosiu".
+4. ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ..." PRZY OPISIE WKŁADEK (PŁYNNA NARRACJA ZAMIAST SUCHYCH PUNKTÓW):
+   - NIGDY nie pisz opisu wkładek jako trzech osobnych, krótkich zdań zaczynających się od tego samego słowa: „Mają głębokie korytko... Mają dynamiczne podparcie łuku... Mają też wypustki sensoryczne...". To brzmi jak ulotka wygenerowana przez bota!
+   - Zamiast tego wpleć budowę wkładek w płynny, obrazowy akapit narracyjny pokazujący, CO dzieje się ze stopą dziecka w bucie: np. „Kiedy wyjęłam je z pudełka i ścisnęłam w dłoniach, od razu poczułam różnicę. Zamiast sztywnego plastiku jest tu sprężysta pianka o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie jak w dłoniach fizjoterapeuty. Pod spodem dynamiczne podparcie łuku działa przy każdym kroku jak mała trampolina, a delikatne wypustki sensoryczne cały czas bodźcują mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o szkolny beton".
+5. LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX:
+   - W języku polskim „wkładki Orthomax StepMax" to ZAWSZE LICZBA MNOGA (rodzaj niemęskoosobowy: ONE / WKŁADKI).
+   - ZAWSZE pisz: „Wkładki Orthomax StepMax są zrobione ze sprężystej pianki", „stabilizują piętę", „pracują przy każdym kroku", „kosztują 99,99 zł".
+   - NIGDY nie pisz w liczbie pojedynczej: „Orthomax StepMax jest zrobiony...", „StepMax ma...", „Orthomax działał...".
+6. STYL MELLOW W OTWARCIU I NAGŁÓWKU (ZERO ZUŻYTYCH SZABLONÓW):
    - NIGDY nie zaczynaj tekstu od oklepanego zdania „Nie miałam zamiaru tego udostępniać, ponieważ to dość osobiste...". Ten opener jest spalony!
    - NIGDY nie dawaj w nagłówku (headline) oklepanego „Jeśli Twoje dziecko bolą stopy, przeczytaj to ☝️".
-   - Zamiast tego w 1 zdaniu tekstu i w nagłówku wchodź OD RAZU w środek konkretnej sceny, kwoty lub kontrowersji w stylu Mellow (np. „Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty Nike za 599 złotych...", „Mój 8-letni syn miał tylko wyjąć kaszę z szafki do obiadu, a rzucił nią o ścianę...", „Poszłam z córką do fizjoterapeuty przez ból prawego ramienia. Nawet go nie dotknął - kazał jej zdjąć buty.").
-2. LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX:
-   - W języku polskim „wkładki Orthomax StepMax" to ZAWSZE LICZBA MNOGA (rodzaj niemęskoosobowy: ONE / WKŁADKI).
-   - ZAWSZE pisz: „Wkładki Orthomax StepMax są zrobione ze sprężystej pianki", „mają głębokie korytko", „pracują przy każdym kroku", „kosztują 99,99 zł".
-   - NIGDY nie pisz w liczbie pojedynczej: „Orthomax StepMax jest zrobiony...", „StepMax ma...", „Orthomax działał...".
-3. SPÓJNY ZAPIS GODZIN I LICZB CYFRAMI:
-   - Godziny zegarowe, wiek, kwoty, stopnie i liczby kroków zapisuj ZAWSZE CYFRAMI (np. „o 19:30", „wróciłam z pracy po 17:00", „o 6:00 rano", „8-letni syn", „14 godzin", „3 tygodnie", „599 złotych").
-   - NIGDY nie mieszaj w tekście zapisu cyfrowego i słownego dla godzin (np. nigdy nie pisz w jednym akapicie „o 19:30", a chwilę dalej „wróciłam po siedemnastej" - pisz zawsze „po 17:00"!).
-4. REALIZM EMOCJONALNY MATKI (ZERO SZTUCZNEGO PŁACZU RAZEM Z DZIECKIEM):
-   - Matka NIGDY nie siedzi na podłodze i „nie płacze razem z ośmioletnim synem" w trakcie awantury! To brzmi sztucznie i niewiarygodnie.
-   - Prawdziwa matka w trakcie wybuchu dziecka (np. gdy syn rzuca kaszą i krzyczy „Nienawidzę Cię!") zastyga, trzyma emocje na wodzy, a pęka i płacze DOPIERO PÓŹNIEJ SAMA w kuchni lub łazience, kiedy dziecko zatrzaśnie drzwi swojego pokoju albo zaśnie.
-5. REALISTYCZNY MOST ODKRYCIA (REVEAL Z GRUPY NA FB / FORUM / OD INNEJ MAMY):
-   - NIGDY nie pisz, że „wieczorem wpisałam w telefonie nazwę Orthomax StepMax, którą zapisał mi na kartce fizjoterapeuta" bez rozmowy o tym w gabinecie! Gdyby fizjoterapeuta znał tę nazwę, powiedziałby o niej od razu w gabinecie.
-   - Zamiast tego używaj w 100% naturalnego, społecznościowego mostu odkrycia: matka po diagnozie lub domowym odkryciu wchodzi wieczorem na grupę dla mam na Facebooku / forum rodziców (albo rozmawia z koleżanką / inną mamą w szatni, której dziecko miało identyczny problem) i to TAM inne matki wrzucają zdjęcia pomarańczowo-czarnych wkładek Orthomax StepMax oraz link do strony.
-6. ABSOLUTNY ZAKAZ EM-DASHÓW I EN-DASHÓW:
-   - NIGDY nie używaj długiego myślnika „—" (U+2014) ani półpauzy „–" (U+2013) w tekście reklamy ani w nagłówku! Używaj wyłącznie zwykłego krótkiego łącznika „-", kropek, przecinków lub dwukropków.
-7. ZAKAZ KONSTRUKCJI „, i":
+   - Zamiast tego w 1 zdaniu tekstu i w nagłówku wchodź OD RAZU w środek konkretnej sceny, kwoty lub kontrowersji w stylu Mellow (np. „Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty Nike za 599 złotych...", „Mój 8-letni syn miał tylko nałożyć kaszę do obiadu, a rzucił woreczkiem o ścianę w kuchni i zatrzasnął drzwi...").
+7. REALIZM EMOCJONALNY MATKI (ZERO SZTUCZNEGO PŁACZU RAZEM Z DZIECKIEM):
+   - Matka NIGDY nie siedzi na podłodze i „nie płacze razem z ośmioletnim synem" w trakcie awantury!
+   - Prawdziwa matka w trakcie wybuchu dziecka zastyga, trzyma emocje na wodzy, a pęka i płacze DOPIERO PÓŹNIEJ SAMA w kuchni lub łazience, kiedy dziecko zatrzaśnie drzwi swojego pokoju albo zaśnie.
+8. REALISTYCZNY MOST ODKRYCIA (REVEAL Z GRUPY NA FB / FORUM / OD SĄSIADKI LUB INNEJ MAMY):
+   - NIGDY nie pisz, że „wieczorem wpisałam w telefonie nazwę Orthomax StepMax, którą zapisał mi na kartce fizjoterapeuta" bez rozmowy o tym w gabinecie!
+   - Używaj w 100% naturalnego, ludzkiego mostu odkrycia: wątek na grupie dla mam na Facebooku / forum rodziców ze zdjęciami przed i po, sąsiadka przynosząca but swojego syna z mieszkania obok albo rozmowa z mamą koleżanki z klasy.
+9. ABSOLUTNY ZAKAZ EM-DASHÓW I EN-DASHÓW ORAZ „, i":
+   - NIGDY nie używaj długiego myślnika „—" (U+2014) ani półpauzy „–" (U+2013). Używaj wyłącznie zwykłego krótkiego łącznika „-", kropek, przecinków lub dwukropków.
    - Nigdy nie stawiaj przecinka przed spójnikiem „i".
-8. REJESTR PAN / PANI W DIALOGACH:
-   - W rozmowach z lekarzem, fizjoterapeutą, nauczycielem czy kierowniczką sklepu ZAWSZE używaj naturalnego polskiego rejestru „Pan/Pani" („Widzi pani?", „Proszę spojrzeć na pięty", „Panie doktorze"). Do czytelniczki na końcu tekstu zwracaj się bezpośrednio per „Ty" („Zrób ten test dzisiaj wieczorem").
-9. ZERO „WORKA Z KAPCIAMI" W SZKOLE:
-   - Współczesne dzieci w szkole nie noszą „worka z kapciami" - mają buty na zmianę na półce w szatni / w boksie, a jesienią i zimą spędzają cały dzień (14 godzin) pod dachem: 8 godzin na szkolnym betonie i 6 godzin w domu na twardych panelach, bo nikt już nie biega po dworze.
+10. ZERO „WORKA Z KAPCIAMI" W SZKOLE:
+   - Współczesne dzieci w szkole nie noszą „worka z kapciami" - mają buty na zmianę w szatni, a jesienią i zimą spędzają cały dzień (14 godzin) pod dachem: 8 godzin na szkolnym betonie i 6 godzin w domu na twardych panelach, bo nikt już nie wychodzi biegać po dworze.
 
-=== 3. FAKTY O PRODUKCIE I NOWY CENNIK (ORTHOMAX STEPMAX) ===
+=== 4. FAKTY O PRODUKCIE I NOWY CENNIK (ORTHOMAX STEPMAX) ===
 - Nazwa produktu: wkładki dynamiczne Orthomax StepMax (w liczbie mnogiej!).
-- Konstrukcja i mechanizm: charakterystyczne pomarańczowo-czarne wkładki, które są zrobione ze sprężystej pianki o zmiennej gęstości. Mają głębokie korytko w kształcie litery U (U-cup), które chwyta piętę z obu stron i trzyma ją w pionie, dynamiczne podparcie łuku podłużnego pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefę amortyzacji pod piętą. Docina się je nożyczkami w 2 minuty wzdłuż wyznaczonych linii.
+- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..."): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, głębokie korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, dynamiczne podparcie łuku podłużnego pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Docina się je nożyczkami w 2 minuty wzdłuż wyznaczonych linii i mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
 - NOWY CENNIK I GWARANCJA (OBOWIĄZKOWO W KAŻDYM TEKŚCIE):
   * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!). Dostępny jest też pakiet rodzinny 2+2 GRATIS (4 pary za 154,99 zł).
-  * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni! Jedną parę wkładasz na stałe do butów zimowych/jesiennych, a drugą do butów na zmianę w szkole lub kapci domowych, dzięki czemu stopa jest chroniona przez wszystkie 14 godzin dnia.
+  * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni (jedna para do butów zimowych, druga do butów szkolnych na zmianę na pełne 14 godzin dnia) ORAZ nie wydajesz 380 zł co pół roku na twarde wkładki na wymiar, z których rosnąca stopa dziecka wyrasta po 5 miesiącach!
   * GWARANCJA: 30 dni na test bez ryzyka. Nawet po docięciu wkładek nożyczkami i noszeniu ich przez 30 dni można je odesłać i odzyskać 100% pieniędzy.
   * Link docelowy: https://orthomax.pl/products/stepmax
 
-=== 4. STRUKTURA I RYTM TEKSTU ===
-- Długość: 650-950 słów (ok. 4000-6000 znaków).
-- Krótkie, 1-2 zdaniowe akapity, realistyczne dialogi w osobnych linijkach w polskich cudzysłowach „...".
-- Nagłówki sekcji pisane wielkimi literami (np. TRZY TYGODNIE PÓŹNIEJ, WIZYTA W GABINECIE, CO ODKRYŁAM NA GRUPIE DLA MAM, DLATEGO PISZĘ TO DZIŚ).
-- W sekcji mechanizmu użyj wizualnego łańcucha kompensacji ze strzałkami pionowymi w osobnych liniach:
+=== 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (DŁUGOŚĆ 1100-1300 SŁÓW — GŁĘBIA EMOCJONALNA I HISTORIA MATKI Z CÓRKĄ/SYNEM!) ===
+KRYTYCZNE: Teksty poniżej 950 słów są ZA KRÓTKIE i nie konwertują, bo brakuje w nich emocji matki, jej myśli, wyrzutów sumienia i historii jej relacji z dzieckiem!
+Nasze największe historyczne winnery (ROAS 3+) mają **1100-1300 słów** (ok. 6800-8500 znaków) i pełnymi, potoczystymi zdaniami budują filmową opowieść. Każdy tekst MUSI zawierać wszystkie 7 poniższych filarów z odpowiednią objętością:
+
+FILAR 1: UDERZENIE W ŚRODKU SCENY (HOOK + KONKRETNY DETAL, 140-180 słów)
+- Wejdź od razu w żywą scenę domową lub szkolną (bez oklepanych wstępów). Pokaż dokładny przedmiot, kwotę, zapach, oświetlenie w przedpokoju/kuchni/łazience i pierwszą myśl matki.
+
+FILAR 2: HISTORIA MATKI I DZIECKA + „NORMALIZOWANIE" + 7 DNI OBSERWACJI (250-350 słów — SERCE EMOCJONALNE TEKSTU!)
+- Tego najbardziej brakuje w krótkich tekstach! Opisz szczerze, co działo się przez ostatnie miesiące między matką a dzieckiem:
+  * Jak matka racjonalizowała i bagatelizowała sygnały („Myślałam, że po prostu szybko rośnie", „Wierzyłam pediatrze, że taka jej uroda", „Byłam zła, że znów marudzi przed wyjściem albo niszczy kolejne drogie buty").
+  * Wyrzuty sumienia i wewnętrzny monolog matki: moment, w którym uświadamia sobie, że krzyczała na dziecko albo załatwiała mu zwolnienie z WF-u, myśląc, że je chroni, a w rzeczywistości pozwalała, by jego ciało po cichu się zapadało.
+  * Zastosuj zabieg **„7 DNI OBSERWACJI"** (z naszych największych winnerów): kiedy matka zaczyna podejrzewać, że coś jest nie tak (albo po rozmowie w sklepie/gabinecie), przez tydzień po cichu obserwuje swoje dziecko w codziennych sytuacjach — widzi, jak po szkole od razu zrzuca buty i siada na kanapie, jak na schodach przytrzymuje się poręczy, jak siada na dywanie w literę W, jak wycofuje się z zabaw z rówieśnikami, bo wstydzi się, że biegnie ostatnie.
+
+FILAR 3: KASKADA NIEUDANYCH PRÓB I DLACZEGO KAŻDA ZAWIODŁA (180-240 słów)
+- Nie wymieniaj suchych kwot w jednym zdaniu! Opisz historię każdej nieudanej próby i rozczarowania:
+  * Zwykłe wkładki żelowe z apteki/drogerii (49-80 zł) -> miękkie poduszki komfortu, które spłaszczyły się pod ciężarem pięty po tygodniu.
+  * Sztywne buty ortopedyczne lub twarde wkładki na zamówienie z punktu ortopedycznego (350-380 zł) -> twarda plastikowa skorupa jak szyna gipsowa, która nie mieściła się do jesiennych butów, obcierała do pęcherzy, rozleniwiała mięśnie, a po 5 miesiącach i tak trzeba było ją wyrzucić do kosza, bo dziecku urosła stopa!
+  * Domowe ćwiczenia na dywanie / maści / syropy -> dlaczego przegrały z codziennością.
+  * Na końcu sekcji podsumuj wydatki linijka po linijce z dokładną sumą co do złotówki.
+
+FILAR 4: WIZUALNY DOWÓD MECHANIZMU + ŁAŃCUCH KOMPENSACJI + OKNO WZROSTOWE (250-300 słów)
+- Rozbudowany dialog z kierowniczką sklepu (która pracowała w ortopedii), sąsiadką-fizjoterapeutką lub specjalistą w gabinecie.
+- Fizyczny test na żywo (np. kucnięcie za dzieckiem, zdjęcie z poziomu podłogi pokazujące odwrócone „V" pięt i kąt 12 stopni zamiast normy 5-7 stopni; test podniesienia łuków stóp dwoma kciukami, po którym kolana natychmiast odklejają się od siebie, a barki wracają do poziomu).
+- Łańcuch kompensacji ze strzałkami pionowymi w osobnych liniach:
   Stopy zapadają się do środka
   ↓
   Kolana schodzą w X
@@ -1009,24 +1069,44 @@ D) STAGE 4: HIGH STAKES / ŻAL PO OPERACJI (Sofistykacja 4 — Ostateczność):
   ↓
   Kręgosłup wygina się w łuk
   ↓
-  Barki / kolana / plecy przyjmują całe przeciążenie
-- W sekcji kosztowej rozpisz wcześniejsze nieudane wydatki linijka po linijce z dokładną sumą co do złotówki przed porównaniem z pakietem 1+1 za 99,99 zł (50 zł za parę).
+  Barki / kolana / piszczele przyjmują całe przeciążenie
+- Matematyka jesienno-zimowej ekspozycji: 14 godzin dziennie pod dachem (8 godzin na szkolnym betonie + 6 godzin na panelach w domu) = 7000 kroków dziennie = ponad 200 000 kroków miesięcznie.
+- Stawka czasowa (Okno wzrostowe): do 12-13 roku życia kości i więzadła są plastyczne; po zamknięciu chrząstek wzrostowych zostają już tylko aparaty albo stół operacyjny i śruby w kolanach.
+
+FILAR 5: WIARYGODNY MOST ODKRYCIA + PŁYNNY OPIS MECHANIZMU WKŁADEK (150-200 słów)
+- Naturalna historia, jak matka trafiła na wkładki Orthomax StepMax (przez grupę mam na Facebooku / forum / sąsiadkę pokazującą but swojego syna).
+- Opis pierwszego kontaktu z wkładkami po otwarciu paczki i docięcia ich nożyczkami w 2 minuty — napisany PŁYNNĄ PROZĄ (bez wyliczanki „Mają... Mają... Mają...").
+
+FILAR 6: REALISTYCZNA, POWOLNA TRANSFORMACJA ZACHOWANIA DZIECKA (180-220 słów)
+- Zero cudów w 24 godziny! Pokaż wiarygodną oś czasu przez małe zmiany w zachowaniu dziecka:
+  * Dzień 1-3: Dziecko mówi: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie". Matka pilnuje, by wkładało je codziennie do butów zimowych i szkolnych.
+  * Po 2 tygodniach: Pierwsza cicha zmiana zachowania (nie zrzuca butów z płaczem w przedpokoju, przesypia całe noce bez Nurofenu i smarowania piszczeli, przestaje siadać na schodach).
+  * Po miesiącu: Emocjonalny moment przełomu (np. córka wraca ze szkoły z wypiekami na twarzy: „Mamo, dzisiaj na WF-ie pierwszy raz nie byłam ostatnia w biegu!", albo podeszwa nowych butów po miesiącu jest równa jak od linijki).
+  * Po 3 miesiącach: Spokojne potwierdzenie na kontroli („Kąt koślawości zszedł z 12 do 8 stopni, kostki stoją stabilnie").
+
+FILAR 7: OSOBISTE ZAMKNIĘCIE MATKI + OFERTA 1+1 + P.S. (120-160 słów)
+- Osobista refleksja matki do innych mam (bez tonu ulotki medycznej!).
+- Konkretne wyliczenie oferty: Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę — jedna do butów zimowych, druga do butów szkolnych na zmianę) + 30 dni gwarancji zwrotu nawet po docięciu nożyczkami + link: https://orthomax.pl/products/stepmax
+- Mocny, emocjonalny **P.S.** na samym końcu, który zostaje w głowie czytelniczki.
 
 Zwróć wyłącznie poprawny obiekt JSON:
 {
   "headline": "Świeży, konkretny nagłówek w stylu Mellow dopasowany do historii (zero em-dashów, zero oklepanego 'Jeśli Twoje dziecko bolą stopy')",
   "description": "Krótki opis pod nagłówkiem (np. Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test bez ryzyka)",
-  "primaryText": "Pełny tekst reklamy MSL gotowy do wklejenia w Menedżerze Reklam Meta"
+  "primaryText": "Pełny, głęboki emocjonalnie tekst reklamy MSL (1100-1300 słów) gotowy do wklejenia w Menedżerze Reklam Meta"
 }`;
 
 /**
  * Automatyczny audytor i korektor tekstu Antka PL:
- * - usuwa em-dashe (—) i en-dashe (–)
+ * - usuwa em-dashe (—) i en-dashes (–)
  * - usuwa ", i "
  * - poprawia liczbę pojedynczą "Orthomax StepMax jest zrobiony / działa / ma" na liczbę mnogą ("Wkładki Orthomax StepMax są zrobione...")
+ * - usuwa sztuczne "Pani Małgosiu" z ust ekspedientki/kierowniczki sklepu przy reklamacji butów
+ * - zamienia sztuczne godziny co do minuty ("o 20:07", "o 19:43") na naturalną porę dnia ("wieczorem")
+ * - przepisuje wyliczankę "Mają głębokie korytko... Mają dynamiczne podparcie... Mają też wypustki..." na płynną narrację
  * - ujednolica słowny zapis godzin ("po siedemnastej" -> "po 17:00")
  * - podmienia zużyty nagłówek lub spalony opener jeśli model go użyje
- * - sprawdza obecność nowego cennika (99,99 zł / 50 zł) i gwarancji (30 dni)
+ * - sprawdza obecność nowego cennika (99,99 zł / 50 zł), gwarancji (30 dni) i odpowiedniej długości (min. 950 słów, cel 1100-1300)
  */
 export function sanitizeAndAuditAntkiPl(
   rawText: string,
@@ -1084,7 +1164,53 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Poprawiono formę gramatyczną Orthomax StepMax z liczby pojedynczej na mnogą (wkładki „są zrobione / działają / mają").');
   }
 
-  // 4. Normalize spoken clock hours ("po siedemnastej", "o dziewiętnastej" -> "po 17:00", "o 19:00")
+  // 4. Fix stranger store clerk knowing mother's first name ("Pani Małgosiu, ja pani ten wniosek/zwrot/reklamację przyjmę")
+  if (/Pani\s+(?:Małgosiu|Gosiu),\s*(?:ja\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację)\s+przyjmę|przyjmę\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację))/i.test(text)) {
+    text = text.replace(
+      /Pani\s+(?:Małgosiu|Gosiu),\s*(?:ja\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację)\s+przyjmę|przyjmę\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację))/gi,
+      'Przyjmę pani ten zwrot, proszę się nie martwić',
+    );
+    fixes.push('Usunięto nienaturalne zwracanie się po imieniu („Pani Małgosiu") przez pracownicę sklepu przy reklamacji butów.');
+  }
+
+  // 5. Fix hyper-specific fake timestamps (e.g., "o 20:07", "o 19:14", "W zeszły czwartek o 20:00")
+  if (/\bo\s+(?:1[789]|2[0123]):(?:0[1-9]|[12345]\d)\b/i.test(text)) {
+    text = text.replace(/\bo\s+(?:1[89]|2[012]):(?:0[1-9]|[12345]\d)\b/gi, 'wieczorem');
+    text = text.replace(/\bo\s+17:(?:0[1-9]|[12345]\d)\b/gi, 'po południu');
+    text = text.replace(/\bo\s+23:(?:0[1-9]|[12345]\d)\b/gi, 'w środku nocy');
+    fixes.push('Zamieniono sztuczne, co do minuty godziny (np. „o 20:07") na naturalne określenia pory dnia („wieczorem", „w środku nocy").');
+  }
+  if (/W\s+zeszły\s+(?:poniedziałek|wtorek|czwartek|piątek)\s+o\s+(?:18|19|20|21):[0-5]\d/i.test(text)) {
+    text = text.replace(/W\s+zeszły\s+(poniedziałek|wtorek|czwartek|piątek)\s+o\s+(?:18|19|20|21):[0-5]\d/gi, 'W zeszły $1 wieczorem');
+    fixes.push('Zamieniono „W zeszły czwartek o XX:XX" na naturalne „W zeszły czwartek wieczorem".');
+  }
+
+  // 6. Fix neighbour randomly walking into bathroom uninvited
+  if (/I\s+wtedy\s+do\s+łazienki\s+weszła\s+nasza\s+sąsiadka/i.test(text) || /do\s+naszej\s+łazienki\s+weszła\s+sąsiadka/i.test(text)) {
+    text = text
+      .replace(
+        /I\s+wtedy\s+do\s+łazienki\s+weszła\s+nasza\s+sąsiadka\s+z\s+piętra\.?\s*Fizjoterapeutka\s+dziecięca\.?/gi,
+        'Nie wytrzymałam, poszłam zapukać do naszej sąsiadki z piętra, która jest fizjoterapeutką dziecięcą, i poprosiłam ją o poradę. Przyszła po chwili do nas do łazienki.',
+      )
+      .replace(
+        /do\s+naszej\s+łazienki\s+weszła\s+sąsiadka\s+z\s+piętra,\s+która\s+pracuje\s+jako\s+fizjoterapeutka\s+dziecięca/gi,
+        'poprosiłam o radę naszą sąsiadkę z piętra, która pracuje jako fizjoterapeutka dziecięca, żeby zaszła na chwilę i spojrzała na jej nogi',
+      );
+    fixes.push('Poprawiono logikę sceny w łazience: sąsiadka-fizjoterapeutka przychodzi na wyraźną prośbę matki o poradę, a nie wchodzi sama z ulicy.');
+  }
+
+  // 7. Fix repetitive "Mają... Mają... Mają..." anaphora on product features
+  const majaTripletRegex =
+    /Mają\s+głębokie\s+korytko[^.\n]+\.\s*\n+\s*Mają\s+dynamiczne\s+podparcie[^.\n]+\.\s*\n+\s*Mają\s+też\s+wypustki\s+sensoryczne[^.\n]+\./i;
+  if (majaTripletRegex.test(text)) {
+    text = text.replace(
+      majaTripletRegex,
+      'Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, a sprężyste podparcie łuku działa przy każdym kroku jak mała trampolina. Do tego delikatne wypustki sensoryczne na powierzchni cały czas pobudzają mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o twardą podłogę.',
+    );
+    fixes.push('Zamieniono wyliczankę „Mają... Mają... Mają..." na płynny, naturalny opis działania wkładek.');
+  }
+
+  // 8. Normalize spoken clock hours ("po siedemnastej", "o dziewiętnastej" -> "po 17:00", "o 19:00")
   const spokenHours: Array<[RegExp, string]> = [
     [/\b(po|przed|około)\s+szesnastej\b/gi, '$1 16:00'],
     [/\b(po|przed|około)\s+siedemnastej\b/gi, '$1 17:00'],
@@ -1105,7 +1231,7 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Ujednolicono zapis godzin zegarowych do formatu cyfrowego (np. 17:00, 19:00, 6:00).');
   }
 
-  // 5. Replace accidental old price 74,99 / 75 zł / 37 zł for insoles
+  // 9. Replace accidental old price 74,99 / 75 zł / 37 zł for insoles
   if (/\b74[,.]99\b|\b37\s*zł\s*za\s*parę/i.test(text)) {
     text = text
       .replace(/\b74[,.]99\s*zł(?:otych)?/gi, '99,99 zł')
@@ -1114,13 +1240,13 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Zaktualizowano historyczną cenę (74,99/75 zł) na aktualny cennik 99,99 zł (50 zł za parę w 1+1).');
   }
 
-  // 6. Replace overused headline if model defaulted to "Jeśli Twoje dziecko bolą stopy, przeczytaj to"
+  // 10. Replace overused headline if model defaulted to "Jeśli Twoje dziecko bolą stopy, przeczytaj to"
   if (/Jeśli\s+Twoje\s+dziecko\s+bolą\s+stopy/i.test(headline) && fallbackHeadline && !/Jeśli\s+Twoje\s+dziecko/i.test(fallbackHeadline)) {
     headline = fallbackHeadline;
     fixes.push('Zamieniono zużyty nagłówek „Jeśli Twoje dziecko bolą stopy..." na świeży nagłówek Mellow-style.');
   }
 
-  // 7. Clean excessive blank lines
+  // 11. Clean excessive blank lines
   text = text.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n');
 
   const words = (text.match(/\p{L}+(?:['’-]\p{L}+)*/gu) || []).length;
@@ -1139,6 +1265,9 @@ export function sanitizeAndAuditAntkiPl(
   if (/płakałam\s+razem\s+z\s+moim|płakałam\s+razem\s+z\s+moją/i.test(text)) {
     warnings.push('Uwaga na realizm: matka nie powinna płakać „razem z dzieckiem" w trakcie kłótni, tylko dopiero później sama.');
   }
+  if ((text.match(/\bMają\s+/g) || []).length >= 3) {
+    warnings.push('Wykryto powtarzające się wyliczenie „Mają... Mają... Mają..." - opisz budowę wkładek płynną narracją.');
+  }
   if (/worek\s+z\s+kapciami|worka\s+z\s+kapciami/i.test(text)) {
     warnings.push('Wykryto frazę „worek z kapciami" (w szkole dzieci mają buty na zmianę w szatni, nie worek z kapciami).');
   }
@@ -1151,8 +1280,8 @@ export function sanitizeAndAuditAntkiPl(
   if (!/30\s*dni/i.test(text)) {
     warnings.push('Brak wzmianki o 30-dniowej gwarancji zwrotu bez ryzyka.');
   }
-  if (words < 380) {
-    warnings.push(`Tekst jest dość krótki (${words} słów - celujemy w 600-950 słów).`);
+  if (words < 900) {
+    warnings.push(`Tekst jest za krótki (${words} słów - nasze winnery mają 1100-1300 słów z głęboką historią matki i dziecka).`);
   }
 
   return {
