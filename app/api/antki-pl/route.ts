@@ -19,7 +19,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v4-argon';
+const STATE_KEY = 'antki-pl-library-v5-argon';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -33,13 +33,27 @@ async function readLibrary(): Promise<AntkiPlGeneratedAd[]> {
     if (stored.length === 0) {
       return defaultArgonAds;
     }
-    // Merge stored overrides with the full 35 Argon-authored ads so all 35 are always available
+    // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
     for (const ad of defaultArgonAds) {
       byAngle.set(ad.angleId, ad);
     }
     for (const ad of stored) {
-      byAngle.set(ad.angleId, ad);
+      // Only override code defaults if the user explicitly edited or regenerated this ad
+      if (ad.id.startsWith('antek-pl-argon-') && ad.updatedAt === ad.createdAt) {
+        continue;
+      }
+      const audited = sanitizeAndAuditAntkiPl(ad.primaryText, ad.headline, ad.description);
+      byAngle.set(ad.angleId, {
+        ...ad,
+        primaryText: audited.primaryText,
+        headline: audited.headline,
+        description: audited.description,
+        destinationUrl:
+          ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
+            ? ORTHOMAX_PL_DEFAULT_URL
+            : ad.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
+      });
     }
     return Array.from(byAngle.values());
   } catch {

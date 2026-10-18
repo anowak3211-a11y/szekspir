@@ -76,7 +76,7 @@ export interface AntkiPlGeneratedAd {
   updatedAt: number;
 }
 
-export const ORTHOMAX_PL_DEFAULT_URL = 'https://orthomax.pl/products/stepmax';
+export const ORTHOMAX_PL_DEFAULT_URL = 'https://orthomax.pl/products/orthomax-stepmax';
 export const PORADY_MAMY_GOSI_HEADLINE = 'Myślałam, że kupiłam córce wadliwe buty za 599 zł. Prawda okazała się dużo gorsza';
 export const DOROSLI_DEFAULT_HEADLINE = 'Na moją lewą stopę było już za późno. Prawą uratowałam bez skalpela';
 
@@ -1026,7 +1026,7 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
   * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!). Dostępny jest też pakiet rodzinny 2+2 GRATIS (4 pary za 154,99 zł).
   * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni (jedna para do butów zimowych, druga do butów szkolnych na zmianę na pełne 14 godzin dnia) ORAZ nie wydajesz 380 zł co pół roku na twarde wkładki na wymiar, z których rosnąca stopa dziecka wyrasta po 5 miesiącach!
   * GWARANCJA: 30 dni na test bez ryzyka. Nawet po miesiącu normalnego noszenia i testowania wkładek w butach można je odesłać i odzyskać 100% pieniędzy.
-  * Link docelowy: https://orthomax.pl/products/stepmax
+  * Link docelowy: https://orthomax.pl/products/orthomax-stepmax
 
 === 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (DŁUGOŚĆ 1100-1300 SŁÓW + KRÓTKIE AKAPITY Z ENTERAMI!) ===
 KRYTYCZNE:
@@ -1191,13 +1191,25 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Zaktualizowano historyczną cenę (74,99/75 zł) na aktualny cennik 99,99 zł (50 zł za parę w 1+1).');
   }
 
-  // 10. Replace overused headline if model defaulted to "Jeśli Twoje dziecko bolą stopy, przeczytaj to"
+  // 10. Replace broken product handle /products/stepmax with /products/orthomax-stepmax
+  if (/orthomax\.pl\/products\/stepmax(?![a-z0-9-])/i.test(text)) {
+    text = text.replace(/orthomax\.pl\/products\/stepmax(?![a-z0-9-])/gi, 'orthomax.pl/products/orthomax-stepmax');
+    fixes.push('Naprawiono link produktowy na działający adres: https://orthomax.pl/products/orthomax-stepmax.');
+  }
+
+  // 11. Replace any accidental scissor-trimming mentions with exact sizing
+  if (/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/i.test(text)) {
+    text = text.replace(/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/gi, 'miesiącu normalnego noszenia w butach');
+    fixes.push('Usunięto wzmiankę o docinaniu nożyczkami (wkładki mają dokładną rozmiarówkę).');
+  }
+
+  // 12. Replace overused headline if model defaulted to "Jeśli Twoje dziecko bolą stopy, przeczytaj to"
   if (/Jeśli\s+Twoje\s+dziecko\s+bolą\s+stopy/i.test(headline) && fallbackHeadline && !/Jeśli\s+Twoje\s+dziecko/i.test(fallbackHeadline)) {
     headline = fallbackHeadline;
     fixes.push('Zamieniono zużyty nagłówek „Jeśli Twoje dziecko bolą stopy..." na świeży nagłówek Mellow-style.');
   }
 
-  // 11. Clean excessive blank lines
+  // 13. Clean excessive blank lines
   text = text.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n');
 
   const words = (text.match(/\p{L}+(?:['’-]\p{L}+)*/gu) || []).length;
