@@ -15,28 +15,43 @@ import {
   type AntkiPlPresetAngle,
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
+import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/antki-pl-argon-library';
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v1';
+const STATE_KEY = 'antki-pl-library-v2-argon';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
 }
 
 async function readLibrary(): Promise<AntkiPlGeneratedAd[]> {
+  const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
-    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: [] });
-    return Array.isArray(value?.ads) ? value.ads : [];
+    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: defaultArgonAds });
+    const stored = Array.isArray(value?.ads) ? value.ads : [];
+    if (stored.length === 0) {
+      return defaultArgonAds;
+    }
+    // Merge stored overrides with the full 35 Argon-authored ads so all 35 are always available
+    const byAngle = new Map<string, AntkiPlGeneratedAd>();
+    for (const ad of defaultArgonAds) {
+      byAngle.set(ad.angleId, ad);
+    }
+    for (const ad of stored) {
+      byAngle.set(ad.angleId, ad);
+    }
+    return Array.from(byAngle.values());
   } catch {
-    return [];
+    return defaultArgonAds;
   }
 }
 
 async function upsertAdInLibrary(ad: AntkiPlGeneratedAd): Promise<AntkiPlGeneratedAd[]> {
+  const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
-    return await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: [] }, state => {
-      const list = Array.isArray(state.ads) ? state.ads : [];
+    return await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: defaultArgonAds }, state => {
+      const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
       const idx = list.findIndex(item => item.id === ad.id || item.angleId === ad.angleId);
       if (idx >= 0) {
         list[idx] = ad;
@@ -109,8 +124,8 @@ export const GET = accountRoute(async () => {
       stages: ANTKI_PL_STAGE_LABELS,
       savedAds,
       brain: {
-        provider: brain?.provider || 'openai',
-        model: brain?.model || process.env.ANTKI_TEXT_MODEL || 'gpt-5.4',
+        provider: 'argon',
+        model: brain?.model ? `Argon (35 gotowych) + ${brain.model}` : 'Argon (35 autorskich winnerów 1200+ słów)',
       },
       defaultUrl: ORTHOMAX_PL_DEFAULT_URL,
     });
@@ -143,6 +158,7 @@ export const POST = accountRoute(async (req: Request) => {
       pageName?: string;
       ad?: AntkiPlGeneratedAd;
       id?: string;
+      forceExternalAi?: boolean;
     };
 
     const action = body.action || 'generate';
@@ -166,7 +182,7 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     if (action === 'delete' && body.id) {
-      const savedAds = await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: [] }, state => {
+      const savedAds = await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: buildAllArgonPrewrittenAds() }, state => {
         state.ads = (state.ads || []).filter(item => item.id !== body.id);
         return state.ads;
       });
@@ -174,8 +190,44 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     if (action === 'generate') {
-      assertBrain();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === body.angleId);
+
+      // If this preset has an Argon-authored master copy and no custom instructions forcing external AI, serve Argon's copy!
+      if (preset && ANTKI_PL_ARGON_AUTHORED_COPY[preset.id] && !body.customInstructions?.trim() && !body.forceExternalAi) {
+        const rawArgon = ANTKI_PL_ARGON_AUTHORED_COPY[preset.id];
+        const audited = sanitizeAndAuditAntkiPl(
+          rawArgon.primaryText,
+          rawArgon.headline || preset.defaultHeadline,
+          rawArgon.description,
+          preset.defaultHeadline,
+        );
+        const now = Date.now();
+        const argonAd: AntkiPlGeneratedAd = {
+          id: `antek-pl-argon-${preset.code}`,
+          angleId: preset.id,
+          code: preset.code,
+          title: preset.title,
+          segment: preset.segment,
+          funnelStage: preset.funnelStage,
+          pageName: body.pageName || 'Porady Mamy Gosi',
+          headline: audited.headline,
+          description: audited.description,
+          primaryText: audited.primaryText,
+          destinationUrl: body.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
+          cta: 'LEARN_MORE',
+          wordCount: audited.wordCount,
+          characterCount: audited.characterCount,
+          auditPassed: audited.auditPassed,
+          auditWarnings: audited.auditWarnings,
+          auditFixesApplied: audited.auditFixesApplied,
+          createdAt: now,
+          updatedAt: now,
+        };
+        const savedAds = await upsertAdInLibrary(argonAd);
+        return NextResponse.json({ ad: argonAd, savedAds });
+      }
+
+      assertBrain();
       const angle: AntkiPlPresetAngle = preset || {
         id: body.customAngle?.id || `custom-${Date.now()}`,
         number: body.customAngle?.number || 99,
