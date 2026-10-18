@@ -43,8 +43,48 @@ export async function updateUploaderAdsStatus(raw:unknown){
  if(!ids.length)throw Error('Provide at least one ad ID.');
  const results:{id:string;ok:boolean;error?:string}[]=[];
  for(const id of ids){
-  try{await graph(id,{status},'POST');results.push({id,ok:true});}
-  catch(e){results.push({id,ok:false,error:e instanceof Error?e.message:'Failed'});}
+  for(let attempt=0;attempt<4;attempt++){
+   try{await graph(id,{status},'POST');results.push({id,ok:true});break;}
+   catch(e){
+    if(e instanceof MetaBudgetWait&&attempt<3){await new Promise(r=>setTimeout(r,Math.min(5000,e.retryAfterSeconds*1000)));continue;}
+    results.push({id,ok:false,error:e instanceof Error?e.message:'Failed'});break;
+   }
+  }
  }
  return {status,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
 }
+export async function replaceAdsPageInBatch(raw:unknown){
+ const a=raw as Record<string,unknown>;if(!a||typeof a!=='object')throw Error('Invalid request.');
+ const batchId=typeof a.batchId==='string'?a.batchId:'';
+ const pageId=numericId(a.pageId,'Page');
+ const filterAdIds=Array.isArray(a.adIds)?new Set(a.adIds.map(id=>numericId(id,'ad'))):null;
+ const {readBatch}=await import('./meta-uploader');
+ const {creativePayload,verifyCreative}=await import('./meta-uploader-model');
+ const {fingerprint}=await import('./meta-uploader-identity');
+ const {batch,items}=await readBatch(batchId);
+ if(!batch)throw Error('Batch not found.');
+ const targets=items.filter(i=>i.metaAdId&&(!filterAdIds||filterAdIds.has(i.metaAdId))&&i.ad.pageId!==pageId);
+ const results:{adId:string;name:string;ok:boolean;creativeId?:string;error?:string}[]=[];
+ for(const item of targets){
+  for(let attempt=0;attempt<4;attempt++){
+   try{
+    const updatedItem={...item,ad:{...item.ad,pageId}};
+    const cr=await graph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(updatedItem),'POST');
+    if(!/^\d+$/.test(cr.id))throw Error('Creative ID not returned.');
+    await graph(item.metaAdId!,{creative:{creative_id:cr.id}},'POST');
+    const verified=await graph<Record<string,unknown>>(cr.id,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
+    const issues=verifyCreative(updatedItem,verified);
+    if(issues.length)throw Error(issues.join(' '));
+    await mutate<{item?:typeof item},void>('meta-upload-item-'+item.id+'-record',{},s=>{if(s.item){s.item.ad={...s.item.ad,pageId};s.item.fingerprint=fingerprint(s.item.ad);s.item.creativeId=cr.id;s.item.verifiedAt=Date.now();s.item.updated=Date.now();}});
+    results.push({adId:item.metaAdId!,name:item.ad.name,ok:true,creativeId:cr.id});
+    break;
+   }catch(e){
+    if(e instanceof MetaBudgetWait&&attempt<3){await new Promise(r=>setTimeout(r,Math.min(5000,e.retryAfterSeconds*1000)));continue;}
+    results.push({adId:item.metaAdId!,name:item.ad.name,ok:false,error:e instanceof Error?e.message:'Failed'});
+    break;
+   }
+  }
+ }
+ return {batchId,pageId,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
+}
+
