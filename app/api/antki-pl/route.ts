@@ -19,7 +19,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v2-argon';
+const STATE_KEY = 'antki-pl-library-v3-argon-airy';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
