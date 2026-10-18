@@ -35,3 +35,16 @@ export async function createUploaderAdSet(raw:unknown){
  try{const result=await graph<{id:string}>(`act_${input.accountId}/adsets`,payload,'POST');id=numericId(result.id,'created ad set');await mutate<Intent,void>(key,{},s=>{s.id=id;s.state='created';});return await verify(id);}
  catch(e){if(!id)await mutate<Intent,void>(key,{},s=>{s.state=e instanceof MetaBudgetWait||e instanceof MetaError&&!e.uncertain?'failed':'uncertain';});throw e;}
 }
+export async function updateUploaderAdsStatus(raw:unknown){
+ const a=raw as Record<string,unknown>;if(!a||typeof a!=='object')throw Error('Invalid request.');
+ const status=a.status==='ACTIVE'?'ACTIVE':a.status==='PAUSED'?'PAUSED':undefined;
+ if(!status)throw Error('Choose ACTIVE or PAUSED status.');
+ const ids=Array.isArray(a.adIds)?a.adIds.map(id=>numericId(id,'ad')).slice(0,100):[];
+ if(!ids.length)throw Error('Provide at least one ad ID.');
+ const results:{id:string;ok:boolean;error?:string}[]=[];
+ for(const id of ids){
+  try{await graph(id,{status},'POST');results.push({id,ok:true});}
+  catch(e){results.push({id,ok:false,error:e instanceof Error?e.message:'Failed'});}
+ }
+ return {status,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
+}
