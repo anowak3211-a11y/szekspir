@@ -45,7 +45,7 @@ export default function AntkiPlPage() {
   const [activeAngleId, setActiveAngleId] = useState<string | null>(null);
 
   // Generation settings
-  const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/stepmax');
+  const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
   const [pageName, setPageName] = useState('Porady Mamy Gosi');
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);

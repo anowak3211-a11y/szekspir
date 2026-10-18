@@ -89,15 +89,15 @@ Beata bez słowa rozpięła swojego botka i wyjęła ze środka pomarańczowo-cz
 
 Kiedy wzięłam je do ręki, od razu poczułam różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie.
 
-Pod spodem elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina - unosi zapadnięty „namiot" stopy w górę i zbiera rozlane kości śródstopia na miejsce, a delikatne wypustki pobudzają mięśnie do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o chodnik.
+Pod spodem podparcie łuku stopy działa przy każdym kroku jak sprężyna - unosi zapadnięty „namiot" stopy w górę i zbiera rozlane kości śródstopia na miejsce, a delikatne wypustki pobudzają mięśnie do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o chodnik.
 
 Tego samego wieczoru zamówiłam je dla siebie.
 
 Kiedy przyszła paczka w moim dokładnym rozmiarze 38, od razu wyjęłam wkładki z foliowego opakowania, włożyłam je do moich zeszłorocznych botków w rozmiarze 38 i pociągnęłam za zamek.
 
-Suwak przeszedł gładko do samej góry za pierwszym razem!
+Suwak przeszedł gładko do samej góry za pierwszym razem.
 
 Przez pierwsze 2-3 dni czułam pod stopą nowe, sprężyste uniesienie, ale nic mnie nie gniotło - podparta stopa od razu zrobiła się smuklejsza i przestała rozpierać skórę buta.
 
@@ -183,7 +183,7 @@ Kazał mi stanąć boso na podłodze, obejrzał moje kostki od tyłu i wziął d
 
 Nacisnął model stopy z góry, pokazując, co dzieje się podczas chodzenia.
 
-- Przez lata chodzenia po płaskim łuk pani stopy opadł, a pięta uciekła do środka - tłumaczył. - Przy każdym kroku na betonie czy panelach spłaszczająca się stopa szarpie za to rozcięgno z ogromną siłą i tworzy przy pięcie setki mikroskopijnych naderwań. A dlaczego najbardziej boli o 6:00 rano? Kiedy śpi pani w nocy, stopa pod kołdrą jest rozluźniona. Przez siedem godzin snu organizm próbuje naprawić te mikrouszkodzenia i „skleja" naderwane włókna świeżą tkanką, jak delikatnym opatrunkiem. I co robi pani o 6:00 rano? Staje pani boso całym ciężarem ciała na płaskiej podłodze. Łuk stopy w ułamku sekundy zapada się do zera, rozcięgno naciąga się jak struna i jednym ruchem rozrywa pani na żywca cały ten nocny opatrunek!
+- Przez lata chodzenia po płaskim łuk pani stopy opadł, a pięta uciekła do środka - tłumaczył. - Przy każdym kroku na betonie czy panelach spłaszczająca się stopa szarpie za to rozcięgno z ogromną siłą i tworzy przy pięcie setki mikroskopijnych naderwań. A dlaczego najbardziej boli o 6:00 rano? Kiedy śpi pani w nocy, stopa pod kołdrą jest rozluźniona. Przez siedem godzin snu organizm próbuje naprawić te mikrouszkodzenia i „skleja" naderwane włókna świeżą tkanką, jak delikatnym opatrunkiem. I co robi pani o 6:00 rano? Staje pani boso całym ciężarem ciała na płaskiej podłodze. Łuk stopy w ułamku sekundy zapada się do zera, rozcięgno naciąga się jak struna i jednym ruchem rozrywa pani na żywca cały ten nocny opatrunek.
 
 Siedziałam z otwartymi ustami, bo pierwszy raz ktoś opisał mój poranny ból z taką dokładnością. Fizjoterapeuta pokazał mi też, jak uciekanie przed bólem pięty niszczy resztę ciała:
 
@@ -207,15 +207,15 @@ Dziesiątki kobiet pisały tam o pomarańczowo-czarnych wkładkach profilowanych
 
 Od razu zamówiłam zestaw. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam różnicę.
 
-Są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę i trzyma ją prosto, a miękka strefa pod guzem piętowym tłumi wstrząsy jak ochronna poduszka.
+Są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę i trzyma ją prosto, a miękka strefa pod guzem piętowym tłumi wstrząsy jak ochronna poduszka.
 
-Na środku dynamiczny profil pod łukiem podłużnym działa przy każdym kroku jak sprężyna - utrzymuje sklepienie w górze i nie pozwala stopie opaść na płasko, zdejmując całe brutalne napięcie z rozcięgna, podczas gdy wypustki pobudzają krążenie.
+Na środku podparcie łuku stopy działa przy każdym kroku jak sprężyna - utrzymuje sklepienie w górze i nie pozwala stopie opaść na płasko, zdejmując całe brutalne napięcie z rozcięgna, podczas gdy wypustki pobudzają krążenie.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania dopasowałam je idealnie do butów - jedną włożyłam do pełnych kapci przy łóżku, a drugą do butów do pracy.
 
 Przez pierwsze 3 dni stopy przyzwyczajały się do sprężystego podparcia, a ja pilnowałam, żeby o 6:00 rano wsuwać stopy prosto w kapcie z wkładkami.
 
-Już czwartego ranka zamarłam ze zdziwienia: przy wstaniu z łóżka poczułam tylko lekkie ćmienie zamiast „tłuczonego szkła", bo wkładka utrzymała łuk i nocny opatrunek tkanek nie został rozerwany!
+Już czwartego ranka zamarłam ze zdziwienia: przy wstaniu z łóżka poczułam tylko lekkie ćmienie zamiast „tłuczonego szkła", bo wkładka utrzymała łuk i nocny opatrunek tkanek nie został rozerwany.
 
 Po dwóch tygodniach przestałam trzymać się ścian w drodze do łazienki i mogłam normalnie wstawać od biurka w pracy.
 
@@ -312,15 +312,15 @@ Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z opakowania, 
 
 Są zrobione ze sprężystej pianki o zmiennej gęstości, która nie ubija się nawet po całym dniu stania.
 
-Z tyłu wyprofilowane korytko pewnie chwyta piętę i trzyma ją w pionie, a na środku dynamiczny profil łuku działa jak elastyczny resor - unosi śródstopie w górę, dzięki czemu ciężar ciała przestaje miażdżyć palące poduszki pod palcami.
+Z tyłu korytko pewnie chwyta piętę i trzyma ją w pionie, a na środku podparcie łuku stopy działa jak elastyczny resor - unosi śródstopie w górę, dzięki czemu ciężar ciała przestaje miażdżyć palące poduszki pod palcami.
 
-Delikatne wypustki pobudzające na powierzchni przy każdym ruchu pobudzają krążenie krwi i likwidują ołowiany zastój w łydkach, a strefy amortyzujące pod piętą i przodostopiem pochłaniają twardość posadzki.
+Wypustki pobudzające na powierzchni przy każdym kroku wspomagają krążenie krwi i likwidują ołowiany zastój w łydkach, a strefy amortyzujące pod piętą i przodostopiem pochłaniają twardość posadzki.
 
 Wybrałam z tabeli swój dokładny rozmiar i od razu po wyjęciu z opakowania włożyłam je do butów roboczych.
 
 Przez pierwsze 2-3 zmiany czułam wyraźnie, jak sprężysty profil podpiera moje podbicie i nie pozwala kostkom uciekać do środka.
 
-Już pod koniec pierwszego tygodnia złapałam się na tym, że wracam po południu do domu, zdejmuję buty i idę prosto do kuchni gotować obiad - bez kładzenia się na kanapie i bez tabletki przeciwbólowej!
+Już pod koniec pierwszego tygodnia złapałam się na tym, że wracam po południu do domu, zdejmuję buty i idę prosto do kuchni gotować obiad - bez kładzenia się na kanapie i bez tabletki przeciwbólowej.
 
 Po dwóch tygodniach zniknęło uczucie chodzenia po rozgrzanym żelazku, a po miesiącu po ośmiu godzinach pracy miałam wieczorem siłę wyjść z mężem na spacer, bo kręgosłup lędźwiowy przestał rwać.
 
@@ -343,7 +343,7 @@ P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajec
  'pl-34-dorosli-moja-62-letnia-mama': {
  headline: 'Moja 62-letnia mama ukrywała przed nami, dlaczego nie chce już wychodzić z wnukami na spacer',
  description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
- primaryText: `Moja 62-letnia mama Teresa zawsze była w naszej rodzinie wulkanem energii. Jeszcze rok temu to ona dzwoniła do mnie w każdą sobotę rano i wołała: „Gosia, ubieraj dzieciaki, zabieram je na dwie godziny do parku!".
+ primaryText: `Moja 62-letnia mama Teresa zawsze była w naszej rodzinie wulkanem energii. Jeszcze rok temu to ona dzwoniła do mnie w każdą sobotę rano i wołała: „Gosia, ubieraj dzieciaki, zabieram je na dwie godziny do parku.".
 
 Ale tej jesieni za każdym razem, gdy pytałam, czy wyjdzie z nami na spacer albo odbierze wnuki ze szkoły, słyszałam wymówkę.
 
@@ -399,7 +399,7 @@ Wtedy przypomniałam sobie wizytę u fizjoterapeuty, z którym kilka miesięcy w
 
 Zabrałam mamę do tego samego gabinetu. Fizjoterapeuta obejrzał stopy mamy na podoskopie i wytłumaczył jej to, czego żaden lekarz w przychodni nigdy jej nie powiedział.
 
-- Pani Tereso, pani stopy przez 35 lat pracy dźwigały cały dom - powiedział z szacunkiem, pokazując odbicie jej stóp. - Z wiekiem więzadła w stopie tracą sprężystość, a ochronna poduszka tłuszczowa pod piętą i palcami robi się cieńsza. Kiedy opadły oba łuki stopy, kości śródstopia rozjechały się na boki i opadły bezpośrednio na podeszwę buta, a pięty przekrzywiły się do środka. Dlatego na chodniku czuje pani rozżarzone węgle: pani kości uderzają o beton niemal bez żadnej amortyzacji!
+- Pani Tereso, pani stopy przez 35 lat pracy dźwigały cały dom - powiedział z szacunkiem, pokazując odbicie jej stóp. - Z wiekiem więzadła w stopie tracą sprężystość, a ochronna poduszka tłuszczowa pod piętą i palcami robi się cieńsza. Kiedy opadły oba łuki stopy, kości śródstopia rozjechały się na boki i opadły bezpośrednio na podeszwę buta, a pięty przekrzywiły się do środka. Dlatego na chodniku czuje pani rozżarzone węgle: pani kości uderzają o beton niemal bez żadnej amortyzacji.
 
 Pokazał nam też, dlaczego razem ze stopami mamę zaczęły rwać kolana i biodro:
 
@@ -419,17 +419,17 @@ Rozwiązanie miałam już sprawdzone we własnym domu i na naszej grupie dla mam
 
 Kiedy paczka przyszła, dałam charakterystyczne pomarańczowo-czarne wkładki mamie do ręki. Mama ścisnęła je i uśmiechnęła się z niedowierzaniem, bo zamiast twardego plastiku poczuła sprężystą piankę o zmiennej gęstości.
 
-wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją stabilnie na schodach, a miękka strefa pod piętą i przodostopiem działa jak ochronna poduszka dla wrażliwych kości.
+Korytko obejmuje w nich piętę z obu stron i trzyma ją stabilnie na schodach, a miękka strefa pod piętą i przodostopiem działa jak ochronna poduszka dla wrażliwych kości.
 
-Na środku elastyczne podparcie łuku unosi zapadnięte śródstopie jak sprężyna, odciążając piekące poduszki pod palcami i haluksa, podczas gdy drobne wypustki pobudzają krążenie w stopach.
+Na środku podparcie łuku stopy unosi zapadnięte śródstopie jak sprężyna, odciążając piekące poduszki pod palcami i haluksa, podczas gdy drobne wypustki pobudzają krążenie w stopach.
 
 Zamówiłam dokładny rozmiar 39 mojej mamy i od razu po wyjęciu z opakowania jedną parę włożyłam do jej półbutów wyjściowych, a drugą do pełnych kapci domowych.
 
-Przez pierwsze 2-3 dni mama mówiła: „Gosiu, czuję pod spodem miękką górkę, która trzyma mi stopę, ale pierwszy raz nic mnie nie gniecie!".
+Przez pierwsze 2-3 dni mama mówiła: „Gosiu, czuję pod spodem miękką górkę, która trzyma mi stopę, ale pierwszy raz nic mnie nie gniecie.".
 
 Po dwóch tygodniach miska do moczenia stóp zniknęła z jej łazienki, a mama krzątała się po kuchni lekkim krokiem bez podpierania się o blat.
 
-Po miesiącu zadzwoniła do mnie wzruszona: „Gosia, wracam z rynku na piechotę z dwiema siatkami jabłek i ani razu nie musiałam stawać przy murku!
+Po miesiącu zadzwoniła do mnie wzruszona: „Gosia, wracam z rynku na piechotę z dwiema siatkami jabłek i ani razu nie musiałam stawać przy murku.
 
 Mogę jutro zabrać dzieciaki do parku na kasztany?". Kiedy w niedzielę patrzyłam przez okno, jak moja mama idzie wyprostowana alejką, trzymając wnuki za ręce, miałam łzy w oczach.
 
@@ -502,11 +502,11 @@ Prawdziwy przełom przyniosła mi dopiero rozmowa z fizjoterapeutą zajmującym 
 
 Kiedy opowiedziałam mu ze wstydem o przymierzaniu rozmiaru 40, od razu wyprowadził mnie z błędu.
 
-- Pani Małgosiu, niech pani nie słucha bajek, że kobiecie po czterdziestce rośnie stopa - powiedział stanowczo. - Kości u dorosłej kobiety nie wydłużają się ani o milimetr! To, co zmusiło panią do poproszenia o rozmiar 40, to czysta fizyka zapadającego się sklepienia.
+- Pani Małgosiu, niech pani nie słucha bajek, że kobiecie po czterdziestce rośnie stopa - powiedział stanowczo. - Kości u dorosłej kobiety nie wydłużają się ani o milimetr. To, co zmusiło panią do poproszenia o rozmiar 40, to czysta fizyka zapadającego się sklepienia.
 
 Wziął do ręki model szkieletu stopy i pokazał mi łuk podłużny oraz poprzeczny.
 
-- Przez trzydzieści lat te dwa łuki trzymały pani stopę wysoko i wąsko w rozmiarze 38 - tłumaczył, naciskając model od góry. - Ale po czterdziestym roku życia więzadła słabną od chodzenia po płaskim betonie i panelach. Kiedy łuki opadają na płasko, stopa zachowuje się jak namiot, z którego wyjęto środkowy maszt: cała konstrukcja zapada się w dół i rozlewa na szerokość! Kości śródstopia rozchodzą się jak wachlarz, poszerzając przodostopie nawet o półtora centymetra i wypychając paluch w bolesnego haluksa. Kupując rozmiar 40, daje pani tylko szersze pudełko, w którym ten „namiot" rozlewa się jeszcze szybciej!
+- Przez trzydzieści lat te dwa łuki trzymały pani stopę wysoko i wąsko w rozmiarze 38 - tłumaczył, naciskając model od góry. - Ale po czterdziestym roku życia więzadła słabną od chodzenia po płaskim betonie i panelach. Kiedy łuki opadają na płasko, stopa zachowuje się jak namiot, z którego wyjęto środkowy maszt: cała konstrukcja zapada się w dół i rozlewa na szerokość. Kości śródstopia rozchodzą się jak wachlarz, poszerzając przodostopie nawet o półtora centymetra i wypychając paluch w bolesnego haluksa. Kupując rozmiar 40, daje pani tylko szersze pudełko, w którym ten „namiot" rozlewa się jeszcze szybciej.
 
 Pokazał mi też, jak zapadnięta stopa w za dużych butach niszczy stawy wyżej:
 
@@ -520,7 +520,7 @@ Kolana schodzą do wewnątrz i zaczynają kłuć przy każdym schodzeniu ze scho
 ↓
 Miednica i odcinek lędźwiowy kręgosłupa sztywnieją od nienaturalnego chodu
 
-Kiedy ukląkł przy mnie i dwoma kciukami uniósł mój łuk stopy od spodu, moje szerokie przodostopie w jednej chwili zebrało się do środka i zrobiło smuklejsze!
+Kiedy ukląkł przy mnie i dwoma kciukami uniósł mój łuk stopy od spodu, moje szerokie przodostopie w jednej chwili zebrało się do środka i zrobiło smuklejsze.
 
 Wyjaśnił mi, że jesienią i zimą spędzamy w butach i kapciach po 14 godzin dziennie na twardym podłożu, robiąc około 7000 kroków dziennie (ponad 200 000 miesięcznie).
 
@@ -534,17 +534,17 @@ Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z paczki, od r
 
 Są zrobione ze sprężystej pianki o zmiennej gęstości, która nie zabiera miejsca w bucie jak gruba skorupa ze sklepu medycznego.
 
-Z tyłu wyprofilowane korytko obejmuje piętę i trzyma ją w osi, a na środku sprężysty profil dynamicznie unosi łuk stopy jak mała trampolina, dzięki czemu rozjechane kości śródstopia zbierają się na swoje miejsce i stopa automatycznie staje się węższa.
+Z tyłu korytko obejmuje piętę i trzyma ją w osi, a na środku podparcie łuku stopy unosi sklepienie, dzięki czemu rozjechane kości śródstopia zbierają się na swoje miejsce i stopa automatycznie staje się węższa.
 
 Delikatne wypustki pobudzają mięśnie głębokie do trzymania sklepienia, a miękkie strefy pod piętą i palcami tłumią uderzenia o chodnik.
 
 Wybrałam z dokładnej rozmiarówki swój rozmiar 38 i od razu po wyjęciu z opakowania włożyłam wkładki do botków, których tydzień wcześniej nie mogłam dopiąć.
 
-Kiedy wsunęłam stopę, zamek zasunął się bez żadnego oporu! Przez pierwsze 2-3 dni czułam pod podbiciem sprężystą pracę profilu, ale boki stóp wreszcie nie były zmiażdżone.
+Kiedy wsunęłam stopę, zamek zasunął się bez żadnego oporu. Przez pierwsze 2-3 dni czułam pod podbiciem sprężystą pracę profilu, ale boki stóp wreszcie nie były zmiażdżone.
 
 Po dwóch tygodniach zniknęły sine pręgi na skórze i pieczenie pod palcami po pracy.
 
-Po miesiącu wróciłam do galerii w Krakowie z moimi wkładkami w torebce, włożyłam je do wymarzonych kozaków i wyszłam ze sklepu z pudełkiem w moim normalnym rozmiarze!
+Po miesiącu wróciłam do galerii w Krakowie z moimi wkładkami w torebce, włożyłam je do wymarzonych kozaków i wyszłam ze sklepu z pudełkiem w moim normalnym rozmiarze.
 
 Dziś mijają trzy miesiące - kolana przestały kłuć na schodach, a za duże buty oddałam i już do nich nie wrócę.
 

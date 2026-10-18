@@ -87,11 +87,11 @@ Zamówiłam je od razu. Kiedy paczka przyszła i wyjęłam wkładki Orthomax Ste
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która ugina się i oddaje energię przy każdym ruchu.
 
-Z tyłu mają głębokie, wyprofilowane wyprofilowane korytko, które obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak kciuki doktora podczas testu przed lustrem.
+Z tyłu mają korytko, które obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak kciuki doktora podczas testu przed lustrem.
 
-Pod śródstopiem znajduje się podparcie łuku stopy działające jak mała trampolina, a na powierzchni umieszczone są delikatne wypustki pobudzające, które przy każdym z 7000 kroków bodźcują mięśnie stopy do aktywnej pracy, podczas gdy strefa pod piętą tłumi wstrząsy na szkolnym korytarzu.
+Pod śródstopiem znajduje się podparcie łuku stopy działające jak sprężyna, a na powierzchni umieszczone są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy strefa pod piętą tłumi wstrząsy na szkolnym korytarzu.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do butów Kasi.
 
 Zmiana nie zadziałała jak magiczna różdżka w jedną dobę, ale przyszła krok po kroku:
 
@@ -205,11 +205,11 @@ Wkładki Orthomax StepMax są sprężyste, trzymają piętę jak w imadle i urat
 
 Zamówiłam pakiet jeszcze tej samej nocy. Kiedy wyjęłam wkładki Orthomax StepMax z opakowania i włożyłam je do moich jesiennych półbutów, od razu zrozumiałam, dlaczego fizjoterapeuta mówił o dynamicznym wsparciu.
 
-Wkładki Orthomax StepMax są zrobione z elastycznej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i blokuje jej uciekanie do środka.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i blokuje jej uciekanie do środka.
 
 Pod spodem sprężyste wyprofilowanie unosi łuk podłużny i poprzeczny, zdejmując cały miażdżący nacisk ze stawu palucha, a delikatne wypustki pobudzają głębokie mięśnie stopy, podczas gdy miękka poduszka pod piętą amortyzuje uderzenia o chodnik.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania dopasowałam je idealnie do butów - .
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do butów.
 
 Różnicę na obu stopach obserwowałam tydzień po tygodniu:
 
@@ -314,9 +314,9 @@ Zamówiłyśmy od razu dwa pakiety - dla mnie i dla Ani. Kiedy wyjęłam wkładk
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która nie zapada się pod ciężarem ciała, ale działa jak elastyczny amortyzator.
 
-Z tyłu wyprofilowane korytko obejmuje piętę i trzyma ją sztywno w pionie, nie pozwalając kostce uciekać do środka.
+Z tyłu korytko obejmuje piętę i trzyma ją sztywno w pionie, nie pozwalając kostce uciekać do środka.
 
-Pośrodku znajduje się wyprofilowane, sprężyste sklepienie, które unosi łuk podłużny i poprzeczny, zdejmując nacisk z kości przy paluchu, natomiast delikatne wypustki pobudzające na powierzchni pobudzają mięśnie stopy do pracy przy każdym kroku.
+Pośrodku znajduje się wyprofilowane, sprężyste sklepienie, które unosi łuk podłużny i poprzeczny, zdejmując nacisk z kości przy paluchu, natomiast na powierzchni znajdują się wypustki pobudzające mięśnie stopy do pracy przy każdym kroku.
 
 Dobrałyśmy z tabeli dokładny rozmiar i od razu po wyjęciu z opakowania włożyłyśmy je do kozaków oraz domowych kapci.
 
@@ -391,7 +391,7 @@ Podczas jednej z wizyt kontrolnych z Mają zabrałam ze sobą 8-letnią Zosię i
 
 Postawił Zosię boso na macie, ukucnął za jej piętami i pokazał mi palcem jej ścięgna Achillesa:
 
-- Pani Małgorzato, niech pani spojrzy tutaj. Kolana w iksy u Zosi i wcześniej u Mai w ogóle nie były chorobą kolan! Kolano to tylko bierny zawias pomiędzy biodrem a stopą. Cały dramat zaczyna się na samym dole - od koślawej pięty, która ucieka do środka pod kątem 11 stopni oraz od zapadniętego łuku podłużnego stopy.
+- Pani Małgorzato, niech pani spojrzy tutaj. Kolana w iksy u Zosi i wcześniej u Mai w ogóle nie były chorobą kolan. Kolano to tylko bierny zawias pomiędzy biodrem a stopą. Cały dramat zaczyna się na samym dole - od koślawej pięty, która ucieka do środka pod kątem 11 stopni oraz od zapadniętego łuku podłużnego stopy.
 
 Rozpisał mi na kartce dokładnie, jak wada stóp u 8-latki niszczy kolana do 14 roku życia:
 
@@ -421,9 +421,9 @@ Wkładki Orthomax StepMax pracują jak sprężyna".
 
 Jeszcze tego samego wieczoru zamówiłam pakiet dla Zosi. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu zrozumiałam, dlaczego fizjoterapeuci tak bardzo chwalą dynamiczną stabilizację.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę dziecka z obu stron i trzyma ją w idealnym pionie.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę dziecka z obu stron i trzyma ją w idealnym pionie.
 
-Pod śródstopiem elastyczny łuk działa jak mała trampolina, która przy każdym z 7000 kroków odbija stopę w górę i nie pozwala kolanom zapadać się do środka, a wypustki pobudzające na powierzchni zmuszają mięśnie stopy do budowania własnej siły.
+Pod śródstopiem podparcie łuku stopy działa jak sprężyna, która przy każdym z 7000 kroków odbija stopę w górę i nie pozwala kolanom zapadać się do środka, a na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam obie pary prosto do butów - jedną do trzewików zimowych Zosi, drugą do jej butów szkolnych na zmianę.
 
@@ -462,7 +462,7 @@ Mój mąż Andrzej wiercił w płytkach pod prysznicem cztery głębokie dziury,
 
 Dwa dni wcześniej, wychodząc spod prysznica, moje lewe kolano i przekrzywiona do środka kostka nagle straciły stabilność na mokrym brodziku - runęłam na kolana, rozbijając łokieć o szklaną kabinę.
 
-Kiedy wiertarka ucichła, a Andrzej zawołał z uśmiechem: „Beatko, gotowe, teraz możesz się bezpiecznie trzymać!", przycisnęłam twarz do poduszki, żeby nie słyszał, jak szlocham.
+Kiedy wiertarka ucichła, a Andrzej zawołał z uśmiechem: „Beatko, gotowe, teraz możesz się bezpiecznie trzymać.", przycisnęłam twarz do poduszki, żeby nie słyszał, jak szlocham.
 
 Mam dopiero 52 lata. Nie osiemdziesiąt dwa, tylko pięćdziesiąt dwa.
 
@@ -529,13 +529,13 @@ Odezwała się do mnie pani Grażyna z Krakowa, moja rówieśniczka, która mia�
 
 Wysłała mi zdjęcie swoich butów z pomarańczowo-czarnymi wkładkami dynamicznymi Orthomax StepMax i napisała: „Beatko, wyrzuć te sztywne deski z zakładu ortopedycznego.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, trzymają piętę prosto w głębokim korytku i oddają energię przy każdym kroku jak poduszka powietrzna".
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, trzymają piętę prosto w korytku i oddają energię przy każdym kroku jak poduszka powietrzna".
 
 Zamówiłam pakiet natychmiast. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam pod palcami ich elastyczność.
 
 Wkładki Orthomax StepMax są zrobione z wielowarstwowej, sprężystej pianki o zmiennej gęstości, która nie gniecie wrażliwego śródstopia, lecz pracuje razem z nim w ruchu.
 
-wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją stabilnie w pionie, blokując uciekanie kostek do środka.
+Korytko obejmuje piętę z obu stron i trzyma ją stabilnie w pionie, blokując uciekanie kostek do środka.
 
 Pod spodem sprężyste podparcie unosi zapadnięty łuk podłużny i poprzeczny, prostując oś piszczeli i kolana, a delikatne wypustki pobudzają krążenie i mięśnie stóp, podczas gdy strefa amortyzacyjna pod piętą pochłania uderzenia o beton.
 
@@ -614,11 +614,11 @@ Załamana poszłam do starszego fizjoterapeuty specjalizującego się w biomecha
 
 Kiedy opowiedziałam mu o trzech blokadach i dziesięciu falach uderzeniowych, złapał się za głowę, wziął do ręki plastikowy model stopy z rozciągniętą pod spodem gumową taśmą i pokazał mi coś, co w trzy sekundy wyjaśniło cały mój dramat:
 
-- Pani Małgorzato, niech pani spojrzy na tę gumową taśmę. To jest pani rozcięgno podeszwowe - gruba lina rozpięta między guzem piętowym a palcami, która utrzymuje łuk stopy. Ta kostna narośl na rentgenie, którą nazywają ostrogą, w ogóle nie kłuje pani w mięso! Boli rozcięgno, które jest nieustannie nadrywane przy samej kości piętowej.
+- Pani Małgorzato, niech pani spojrzy na tę gumową taśmę. To jest pani rozcięgno podeszwowe - gruba lina rozpięta między guzem piętowym a palcami, która utrzymuje łuk stopy. Ta kostna narośl na rentgenie, którą nazywają ostrogą, w ogóle nie kłuje pani w mięso. Boli rozcięgno, które jest nieustannie nadrywane przy samej kości piętowej.
 
 Postawił model stopy na biurku i nacisnął go od góry dłonią, spłaszczając łuk. Gumowa taśma pod spodem napięła się jak struna gitarowa przed pęknięciem.
 
-- Widzi pani, co się dzieje, kiedy pani łuk podłużny opada, a pięta ucieka do środka? Przy każdym jednym kroku stopa spłaszcza się i wydłuża, a rozcięgno naciąga się z siłą kilkudziesięciu kilogramów i rwie swój przyczep przy pięcie. W nocy, kiedy pani śpi, organizm próbuje zabliźnić te mikronaderwania. A rano o 6:00 staje pani całym ciężarem na płaskiej stopie bez podparcia łuku i jednym ruchem zrywa cały świeży opatrunek!
+- Widzi pani, co się dzieje, kiedy pani łuk podłużny opada, a pięta ucieka do środka? Przy każdym jednym kroku stopa spłaszcza się i wydłuża, a rozcięgno naciąga się z siłą kilkudziesięciu kilogramów i rwie swój przyczep przy pięcie. W nocy, kiedy pani śpi, organizm próbuje zabliźnić te mikronaderwania. A rano o 6:00 staje pani całym ciężarem na płaskiej stopie bez podparcia łuku i jednym ruchem zrywa cały świeży opatrunek.
 
 Rozpisał mi ten błędny krąg na kartce:
 
@@ -632,7 +632,7 @@ Steryd z zastrzyku wyłącza alarm bólowy, więc chodzisz normalnie i rwiesz tk
 ↓
 Gdy blokada przestaje działać, naderwane rozcięgno wybucha podwójnym stanem zapalnym
 
-- Rozbijanie pięty falą uderzeniową albo wbijanie sterydów bez fizycznego podparcia łuku stopy od spodu to jak zszywanie rany i rozrywanie jej na nowo przy każdym wyjściu z gabinetu na betonowy chodnik - dodał fizjoterapeuta. - Dopóki nie podeprzemy dynamicznie łuku podłużnego, żeby zdjąć naciąg z rozcięgna oraz nie zamortyzujemy samej pięty w korytku stabilizującym, ta rana pod skórą nigdy się nie zagoi.
+- Rozbijanie pięty falą uderzeniową albo wbijanie sterydów bez fizycznego podparcia łuku stopy od spodu to jak zszywanie rany i rozrywanie jej na nowo przy każdym wyjściu z gabinetu na betonowy chodnik - dodał fizjoterapeuta. - Dopóki nie podeprzemy dynamicznie łuku podłużnego, żeby zdjąć naciąg z rozcięgna oraz nie zamortyzujemy samej pięty w korytku, ta rana pod skórą nigdy się nie zagoi.
 
 Tego wieczoru dołączyłam na Facebooku do grupy „Ostroga piętowa i zapalenie rozcięgna - jak się wyleczyłam".
 
@@ -646,9 +646,9 @@ Zamówiłam pakiet od razu. Kiedy wyjęłam wkładki Orthomax StepMax z folioweg
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która działa pod stopą jak amortyzowany most.
 
-Z tyłu wyprofilowane korytko obejmuje piętę z boków i trzyma ją w pionie, a w samym środku pod guzem piętowym znajduje się miękka strefa odciążająca, w której bolesny punkt nie uderza o twardą podeszwę.
+Z tyłu korytko obejmuje piętę z boków i trzyma ją w pionie, a w samym środku pod guzem piętowym znajduje się miękka strefa odciążająca, w której bolesny punkt nie uderza o twardą podeszwę.
 
-Najważniejsze dzieje się jednak centymetr dalej: sprężyste, wyprofilowane podparcie łuku podłużnego przejmuje na siebie ciężar ciała i nie pozwala stopie spłaszczyć się przy kroku, dzięki czemu rozcięgno podeszwowe pozostaje luźne i może się spokojnie goić, podczas gdy wypustki pobudzające poprawiają ukrwienie tkanek.
+Najważniejsze dzieje się jednak centymetr dalej: podparcie łuku stopy przejmuje na siebie ciężar ciała i nie pozwala stopie spłaszczyć się przy kroku, dzięki czemu rozcięgno podeszwowe pozostaje luźne i może się spokojnie goić, podczas gdy wypustki pobudzające poprawiają ukrwienie tkanek.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania dopasowałam je idealnie do butów - jedną wsunęłam do kapci stojących przy łóżku, drugą do jesiennych botków.
 

@@ -546,7 +546,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Byłam u 2 ortopedów i usłyszałam 2 sprzeczne diagnozy: jeden kazał wyrabiać wkładki na wymiar za 380 złotych, a drugi powiedział, żeby absolutnie nie zakładać wkładek, bo rozleniwią mięśnie. Posłuchałam pierwszego. Po 4 dniach Kasia wróciła ze szkoły o 16:00 z krwawymi pęcherzami, wkładka była tak gruba, że nie wchodziła do żadnych jesiennych butów, a kiedy pomyślałam, że dziecku rośnie stopa i za pół roku będę musiała wyrzucić te 380 złotych do kosza i kupić nowe za 4 stówy, chciało mi się wyć. Wtedy młody fizjoterapeuta wziął tę twardą deskę do ręki, postukał nią o biurko i powiedział: „Proszę nie dać się robić w balona".',
     sceneBeat:
-      'Rozbicie największego mitu z polskich forów: dlaczego połowa lekarzy mówi, że „wkładki rozleniwiają stopę"? Bo mają na myśli sztywne, plastikowe skorupy starego typu, które unieruchamiają kostkę jak szyna gipsowa! A aparat ruchu najlepiej działa będąc w ruchu. Stopa dziecka potrzebuje wkładki DYNAMICZNEJ, która pracuje w każdej fazie chodu: wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, mają głębokie korytko trzymające piętę w pionie, ale uginają się jak trampolina i zmuszają mięśnie do pracy. Co więcej, w pakiecie 1+1 wychodzą po 50 zł za parę i mają linie do docięcia nożyczkami, więc rosnąca stopa dziecka nie rujnuje domowego budżetu co pół roku.',
+      'Rozbicie największego mitu z polskich forów: dlaczego połowa lekarzy mówi, że „wkładki rozleniwiają stopę"? Bo mają na myśli sztywne, plastikowe skorupy starego typu, które unieruchamiają kostkę jak szyna gipsowa! A aparat ruchu najlepiej działa będąc w ruchu. Stopa dziecka potrzebuje wkładki DYNAMICZNEJ, która pracuje w każdej fazie chodu: wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, mają korytko trzymające piętę w pionie, ale uginają się jak sprężyna i zmuszają mięśnie do pracy. Co więcej, w pakiecie 1+1 wychodzą po 50 zł za parę i mają linie do docięcia nożyczkami, więc rosnąca stopa dziecka nie rujnuje domowego budżetu co pół roku.',
     failedSolutionsMath:
       'Twarde wkładki na zamówienie (na pół roku!) 380 zł + komputerowe badanie stóp w punkcie 120 zł + buty o rozmiar większe, żeby wkładka weszła 290 zł + wizyta u fizjoterapeuty 190 zł = 980 zł',
     discoveryBridge:
@@ -752,7 +752,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     failedSolutionsMath:
       'Aparaty korekcyjne na noc 180 zł + silikonowe kliny 65 zł + prywatne konsultacje 450 zł = 695 zł (plus 8100 zł operacji siostry)',
     discoveryBridge:
-      'Na forum ortopedycznym dla kobiet po nawrocie haluksa dziesiątki użytkowniczek polecają dynamiczne podparcie łuku we wkładkach Orthomax StepMax.',
+      'Na forum ortopedycznym dla kobiet po nawrocie haluksa dziesiątki użytkowniczek polecają podparcie łuku stopy we wkładkach Orthomax StepMax.',
     defaultHeadline: 'Siostra zapłaciła 8100 zł za operację haluksa. Po 2 latach kość wróciła, bo nikt nie powiedział jej tego 1 faktu',
   },
   {
@@ -954,7 +954,7 @@ B) STAGE 2: PROBLEM AWARE (Sofistykacja 3 — Efekt Domina / Szkoła i WF):
 C) STAGE 3: SOLUTION AWARE & FRUSTRATED (Sofistykacja 4 — Wypalone Matki / Wojna o Ćwiczenia / 14h na Betonie):
    - Kim jest czytelniczka: Matka, która JUŻ WIE o koślawości. Była u specjalisty, dostała przykaz „proszę ćwiczyć stópki w domu po 20 minut dziennie" albo kupiła twarde wkładki na zamówienie za 380 zł. Jest wypalona, zmęczona wojną z dzieckiem i czuje poczucie winy, że wada nie znika.
    - Jak MUSISZ otworzyć tekst: Od domowego kryzysu (np. syn miał wyjąć kaszę do obiadu, a rzucił woreczkiem z kaszą o ścianę, bo ma dość turlania go stopą po dywanie o 19:30; albo przegląd butów w szkolnej szatni).
-   - Jak prowadzisz środek (SOFISTYKACJA 4 - NOWY MECHANIZM): Zdejmij z matki poczucie winy za pomocą twardej matematyki ekspozycji! Wytłumacz, że jesienią i zimą dzieci nie wychodzą już na dwór na trawę czy piasek - spędzają 14 godzin dziennie na twardym szkolnym betonie i domowych panelach (7000 kroków dziennie = 200 000 kroków miesięcznie). 15 minut ćwiczeń na dywanie (100 powtórzeń) nigdy nie wygra z 7000 kroków na betonie. Rozbij też mit starych sztywnych wkładek („twardy plastik z punktu ortopedycznego za 380 zł działa jak szyna gipsowa i rozleniwia mięśnie, a w dodatku dziecku rośnie stopa i za pół roku trzeba wyrzucić 380 zł do kosza; podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki, działają jak dynamiczna trampolina i w pakiecie 1+1 kosztują 50 zł za parę").
+   - Jak prowadzisz środek (SOFISTYKACJA 4 - NOWY MECHANIZM): Zdejmij z matki poczucie winy za pomocą twardej matematyki ekspozycji! Wytłumacz, że jesienią i zimą dzieci nie wychodzą już na dwór na trawę czy piasek - spędzają 14 godzin dziennie na twardym szkolnym betonie i domowych panelach (7000 kroków dziennie = 200 000 kroków miesięcznie). 15 minut ćwiczeń na dywanie (100 powtórzeń) nigdy nie wygra z 7000 kroków na betonie. Rozbij też mit starych sztywnych wkładek („twardy plastik z punktu ortopedycznego za 380 zł działa jak szyna gipsowa i rozleniwia mięśnie, a w dodatku dziecku rośnie stopa i za pół roku trzeba wyrzucić 380 zł do kosza; podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki, działają jak sprężyna i w pakiecie 1+1 kosztują 50 zł za parę").
 
 D) STAGE 4: HIGH STAKES / ŻAL PO OPERACJI (Sofistykacja 4 — Ostateczność):
    - Kim jest czytelniczka: Matka lub dorosła kobieta stojąca przed widmem operacji / śrub w kolanach lub cierpiąca po zabiegu.
@@ -1005,7 +1005,7 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
 4. LOGICZNE WEJŚCIE POSTACI DO SCENY (NIKT NIE WCHODZI SAM Z SIEBIE DO CUDZEJ ŁAZIENKI!):
    - Sąsiadka-fizjoterapeutka NIGDY „nie wchodzi sobie tak o" do cudzej łazienki! Matka MUSI ją sama wcześniej poprosić o pomoc i zaprosić na chwilę do mieszkania, a sąsiadka mówi naturalnie: „Gosiu, mogę ci coś pokazać?".
 5. ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ..." PRZY OPISIE WKŁADEK (PŁYNNA NARRACJA ZAMIAST SUCHYCH PUNKTÓW):
-   - NIGDY nie pisz opisu wkładek jako trzech osobnych, krótkich zdań zaczynających się od „Mają głębokie korytko... Mają dynamiczne podparcie łuku... Mają też wypustki sensoryczne...". Wpleć budowę wkładek w płynny, obrazowy akapit narracyjny.
+   - NIGDY nie pisz opisu wkładek jako trzech osobnych, krótkich zdań zaczynających się od „Mają korytko... Mają podparcie łuku stopy... Mają też wypustki sensoryczne...". Wpleć budowę wkładek w płynny, obrazowy akapit narracyjny.
 6. LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX:
    - ZAWSZE pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione ze sprężystej pianki", „stabilizują piętę", „pracują przy każdym kroku", „kosztują 99,99 zł".
 7. STYL MELLOW W OTWARCIU I NAGŁÓWKU (ZERO ZUŻYTYCH SZABLONÓW):
@@ -1021,7 +1021,7 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
 
 === 4. FAKTY O PRODUKCIE I NOWY CENNIK (ORTHOMAX STEPMAX) ===
 - Nazwa produktu: wkładki dynamiczne Orthomax StepMax (w liczbie mnogiej!).
-- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..." i BEZ pisania o docinaniu nożyczkami): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, głębokie korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, dynamiczne podparcie łuku podłużnego pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Dzięki dokładnej rozmiarówce po wyjęciu z pudełka od razu mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
+- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..." i BEZ pisania o docinaniu nożyczkami): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, podparcie łuku stopy pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Dzięki dokładnej rozmiarówce po wyjęciu z pudełka od razu mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
 - NOWY CENNIK I GWARANCJA (OBOWIĄZKOWO W KAŻDYM TEKŚCIE):
   * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!). Dostępny jest też pakiet rodzinny 2+2 GRATIS (4 pary za 154,99 zł).
   * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni (jedna para do butów zimowych, druga do butów szkolnych na zmianę na pełne 14 godzin dnia) ORAZ nie wydajesz 380 zł co pół roku na twarde wkładki na wymiar, z których rosnąca stopa dziecka wyrasta po 5 miesiącach!
@@ -1054,7 +1054,7 @@ Zwróć wyłącznie poprawny obiekt JSON:
  * - poprawia liczbę pojedynczą "Orthomax StepMax jest zrobiony / działa / ma" na liczbę mnogą ("Wkładki Orthomax StepMax są zrobione...")
  * - usuwa sztuczne "Pani Małgosiu" z ust ekspedientki/kierowniczki sklepu przy reklamacji butów
  * - zamienia sztuczne godziny co do minuty ("o 20:07", "o 19:43") na naturalną porę dnia ("wieczorem")
- * - przepisuje wyliczankę "Mają głębokie korytko... Mają dynamiczne podparcie... Mają też wypustki..." na płynną narrację
+ * - przepisuje wyliczankę "Mają korytko... Mają dynamiczne podparcie... Mają też wypustki..." na płynną narrację
  * - ujednolica słowny zapis godzin ("po siedemnastej" -> "po 17:00")
  * - podmienia zużyty nagłówek lub spalony opener jeśli model go użyje
  * - sprawdza obecność nowego cennika (99,99 zł / 50 zł), gwarancji (30 dni) i odpowiedniej długości (min. 950 słów, cel 1100-1300)
@@ -1156,7 +1156,7 @@ export function sanitizeAndAuditAntkiPl(
   if (majaTripletRegex.test(text)) {
     text = text.replace(
       majaTripletRegex,
-      'Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, a sprężyste podparcie łuku działa przy każdym kroku jak mała trampolina. Do tego delikatne wypustki sensoryczne na powierzchni cały czas pobudzają mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o twardą podłogę.',
+      'korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, a podparcie łuku stopy działa przy każdym kroku jak sprężyna. Do tego delikatne wypustki sensoryczne na powierzchni cały czas pobudzają mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o twardą podłogę.',
     );
     fixes.push('Zamieniono wyliczankę „Mają... Mają... Mają..." na płynny, naturalny opis działania wkładek.');
   }

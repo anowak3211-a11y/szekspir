@@ -99,21 +99,23 @@ Po powrocie do domu wrzuciłam zdjęcie startej podeszwy na grupę „Mamy z Poz
 
 W ciągu dwóch godzin pod postem pojawiło się ponad 60 komentarzy od mam, które przechodziły to samo i wrzucały zdjęcia pomarańczowo-czarnych wkładek profilowanych Orthomax StepMax.
 
-Pisały, że aparat ruchu najlepiej działa będąc w ruchu i zamiast twardego plastiku potrzebna jest dynamiczna sprężyna.
+Pisały, że aparat ruchu najlepiej działa będąc w ruchu i zamiast twardego plastiku potrzebna jest sprężyna.
 
 Zamówiłam je tej samej nocy, dobierając z dokładnej rozmiarówki na stronie rozmiar pasujący co do centymetra do butów Zosi. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie jak kciuki tamtej kierowniczki.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, w której korytko obejmuje piętę z obu stron i trzyma ją prosto, blokując uciekanie kostki do środka.
 
-Pod spodem podparcie łuku stopy odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie do pracy, a wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka strefa pod piętą tłumi uderzenia o beton.
+Pod śródstopiem znajduje się podparcie łuku stopy, które ugina się i pracuje przy każdym kroku.
+
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje uderzenia o twardy beton.
 
 Od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi - dzięki dokładnej rozmiarówce leżały jak ulał, bez żadnego kombinowania i bez kupowania obuwia o rozmiar większego.
 
 Zmiana przychodziła krok po kroku. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
-Po dwóch tygodniach przestała zrzucać buty z jękiem w przedpokoju i przesypiała całe noce bez bólu łydek. Po miesiącu odwróciłam podeszwę jej nowych butów do światła - obcas był równy jak od linijki!
+Po dwóch tygodniach przestała zrzucać buty z jękiem w przedpokoju i przesypiała całe noce bez bólu łydek. Po miesiącu odwróciłam podeszwę jej nowych butów do światła - obcas był równy jak od linijki.
 
-Tydzień później Zosia wpadła do kuchni z wypiekami i krzyknęła: „Mamo, dzisiaj na WF-ie pierwszy raz nie byłam ostatnia w biegu!".
+Tydzień później Zosia wpadła do kuchni z wypiekami i krzyknęła: „Mamo, dzisiaj na WF-ie pierwszy raz nie byłam ostatnia w biegu.".
 
 Po trzech miesiącach na kontroli kąt koślawości pięty zszedł z 12 do 8 stopni, a kostki stoją stabilnie.
 
@@ -205,7 +207,7 @@ Od tyłu pięty Kasi uciekały do środka pod kątem 12 stopni (przy normie 5-7 
 
 Sąsiadka pokręciła głową i wytłumaczyła mi, dlaczego ból pojawia się w nocy, a rano mija:
 
-- Gosiu, kość nie boli od samego rośnięcia! Gdyby kości bolały od wzrostu, Kasia płakałaby też rano na lekcji. Ją boli mięsień piszczelowy i więzadła, które przez 14 godzin w ciągu dnia na szkolnym betonie i domowych panelach są rozciągane jak guma w procy, bo próbują utrzymać uciekającą do środka kostkę. Dopiero w nocy, kiedy ciało stygnie w łóżku, przeciążone tkanki zaczynają pulsować.
+- Gosiu, kość nie boli od samego rośnięcia. Gdyby kości bolały od wzrostu, Kasia płakałaby też rano na lekcji. Ją boli mięsień piszczelowy i więzadła, które przez 14 godzin w ciągu dnia na szkolnym betonie i domowych panelach są rozciągane jak guma w procy, bo próbują utrzymać uciekającą do środka kostkę. Dopiero w nocy, kiedy ciało stygnie w łóżku, przeciążone tkanki zaczynają pulsować.
 
 Pokazała mi, jak uciekająca pięta ciągnie za sobą całą resztę ciała:
 
@@ -227,19 +229,19 @@ Ostrzegła mnie też, że u dziewczynek okno wzrostowe trwa tylko do około 12-1
 
 Sąsiadka poszła na chwilę do swojego mieszkania i wróciła z butem swojego 9-letniego syna.
 
-Wyjęła ze środka pomarańczowo-czarne wkładki profilowane Orthomax StepMax i pokazała mi pod kciukiem, jak pracuje w nich dynamiczna sprężyna.
+Wyjęła ze środka pomarańczowo-czarne wkładki profilowane Orthomax StepMax i pokazała mi pod kciukiem, jak pracuje w nich sprężyna.
 
 Powiedziała, że twarde skorupy z punktów ortopedycznych unieruchamiają stopę jak gips i rozleniwiają mięśnie, podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie, nie pozwalając kostce uciekać do środka, a elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina, zdejmując napięcie z mięśnia piszczelowego.
+Korytko obejmuje w nich piętę z obu stron i trzyma ją prosto, nie pozwalając kostce uciekać do środka, a podparcie łuku stopy pracuje przy każdym kroku i zdejmuje napięcie z mięśnia piszczelowego.
 
-Do tego delikatne wypustki pobudzające na wierzchu cały czas pobudzają stopę do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o beton.
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje uderzenia o twardy beton.
 
 Zamówiłam je jeszcze tego samego wieczoru, a gdy przyszła paczka, dobrałam z dokładnej rozmiarówki rozmiar pasujący prosto do butów Kasi.
 
 Pierwsze trzy dni córka mówiła po szkole: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
-Po dwóch tygodniach Kasia przespała ciągiem wszystkie czternaście nocy bez ani jednej dawki Nurofenu, bez nacierania Amolem i bez płaczu przed kąpielą!
+Po dwóch tygodniach Kasia przespała ciągiem wszystkie czternaście nocy bez ani jednej dawki Nurofenu, bez nacierania Amolem i bez płaczu przed kąpielą.
 
 Po miesiącu zauważyłam, że na dywanie w salonie sama zaczęła siadać normalnie, a ze szkoły wraca podbiegając po schodach.
 
@@ -339,7 +341,7 @@ Najbardziej uderzyły mnie liczby dotyczące jesieni i zimy.
 
 Od października do kwietnia dzieci nie biegają po trawie ani piasku, tylko spędzają 14 godzin dziennie na płaskim, twardym podłożu - 8 godzin na szkolnym betonie w butach na zmianę i 6 godzin w domu na panelach.
 
-To 7000 kroków dziennie i ponad 200 000 kroków miesięcznie! Żadne piętnastominutowe turlanie woreczka z kaszą czy zbieranie chusteczek palcami po dywanie wieczorem nie wygra z 7000 uderzeń o beton w ciągu dnia.
+To 7000 kroków dziennie i ponad 200 000 kroków miesięcznie. Żadne piętnastominutowe turlanie woreczka z kaszą czy zbieranie chusteczek palcami po dywanie wieczorem nie wygra z 7000 uderzeń o beton w ciągu dnia.
 
 Co gorsza, u 10-letniej dziewczynki zostaje już tylko niewiele czasu przed zamknięciem okna wzrostowego w wieku 12-13 lat - gdy chrząstki stwardnieją, płaskostopie koślawe zostaje na całe życie.
 
@@ -351,7 +353,7 @@ Powiedziała mi, że stopa dziecka potrzebuje sprężystego podparcia, które pr
 
 Zamówiłam je od razu. Kiedy wyjęłam pomarańczowo-czarne wkładki Orthomax StepMax z foliowego opakowania, od pierwszej chwili poczułam pod palcami różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją prosto, blokując uciekanie kostki do środka.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, w której korytko obejmuje piętę z obu stron i trzyma ją prosto, blokując uciekanie kostki do środka.
 
 Pod śródstopiem znajduje się podparcie łuku stopy, które nie wbija się w ciało jak twardy plastik, tylko ugina się i pracuje jak sprężyna przy każdym kroku.
 
@@ -365,7 +367,7 @@ Po dwóch tygodniach przestała zrzucać buty w progu i chodzić po domu na kraw
 
 Po miesiącu wieczorem po kąpieli zawołałam Zosię i poprosiłam, żeby przeszła mokrymi stopami po tych samych ciemnoszarych kafelkach w korytarzu.
 
-Kiedy spojrzałam w dół, aż zakryłam usta dłonią - po wewnętrznej stronie śladu pierwszy raz wyraźnie pojawiło się suche wcięcie łuku, a kropka po opadającej kostce zniknęła!
+Kiedy spojrzałam w dół, aż zakryłam usta dłonią - po wewnętrznej stronie śladu pierwszy raz wyraźnie pojawiło się suche wcięcie łuku, a kropka po opadającej kostce zniknęła.
 
 Po trzech miesiącach na kontroli kąt koślawości pięty zszedł z 12 do 8 stopni, a Zosia znów biega na WF-ie z całą klasą.
 
@@ -425,7 +427,7 @@ Wyszłam wtedy do łazienki, oparłam się o umywalkę i płakałam sama przez p
 
 Na początku rzuciłam się w wir klasycznych rozwiązań i szybko zderzyłam się ze ścianą.
 
-Poszliśmy prywatnie do ortopedy za 250 złotych, zrobiliśmy RTG za 90 złotych i usłyszeliśmy zalecenie: wysokie, sztywne buty korekcyjne z obcasem Thomasa za 340 złotych albo twarde wkładki indywidualne na wymiar z punktu ortopedycznego za 380 złotych (które są sztywne jak gips, nie mieszczą się do normalnych jesiennych butów, a po pół roku trzeba je wyrzucić do kosza, bo dziecku rośnie stopa!).
+Poszliśmy prywatnie do ortopedy za 250 złotych, zrobiliśmy RTG za 90 złotych i usłyszeliśmy zalecenie: wysokie, sztywne buty korekcyjne z obcasem Thomasa za 340 złotych albo twarde wkładki indywidualne na wymiar z punktu ortopedycznego za 380 złotych (które są sztywne jak gips, nie mieszczą się do normalnych jesiennych butów, a po pół roku trzeba je wyrzucić do kosza, bo dziecku rośnie stopa.).
 
 Kupiłam te sztywne buty korekcyjne. Były ciężkie, twarde jak skorupa i wyglądały jak obuwie ze szpitala.
 
@@ -441,13 +443,13 @@ Razem 680 złotych wydanych z domowego budżetu, a kolana Kasi nadal kleiły si�
 
 Dopiero wizyta u poleconego fizjoterapeuty dziecięcego, który rozebrał Kasię do bielizny i spojrzał na postawę całościowo od pięt aż po łopatki, uświadomiła mi, gdzie leży przyczyna tych „iksów".
 
-Wytłumaczył mi, że kolana Kasi są zdrowe, a schodzą do środka wyłącznie dlatego, że na samym dole zawalił się fundament jej stóp!
+Wytłumaczył mi, że kolana Kasi są zdrowe, a schodzą do środka wyłącznie dlatego, że na samym dole zawalił się fundament jej stóp.
 
 Kazał mi kucnąć za Kasią i pokazał, że jej kości piętowe uciekają do środka pod kątem 12 stopni (przy normie 5-7 stopni), przez co cały wewnętrzny brzeg stopy leży spłaszczony na podłodze.
 
 Następnie ujął dłońmi stopy Kasi i delikatnie podniósł jej wewnętrzne łuki o kilka milimetrów w górę.
 
-Na moich oczach, w jednej sekundzie, kolana Kasi odkleiły się od siebie i ustawiły równolegle, miednica cofnęła się na miejsce, a opadający prawy bark ze zdjęcia samoczynnie wrócił do poziomu!
+Na moich oczach, w jednej sekundzie, kolana Kasi odkleiły się od siebie i ustawiły równolegle, miednica cofnęła się na miejsce, a opadający prawy bark ze zdjęcia samoczynnie wrócił do poziomu.
 
 Pokazał mi, jak działa ten łańcuch kompensacji:
 
@@ -469,7 +471,7 @@ Dzieci spędzają wtedy 14 godzin dziennie na płaskim, twardym podłożu - 8 go
 
 Dodał, że u 9-latki mamy jeszcze otwarte okno wzrostowe do 12-13 roku życia - dopóki chrząstki są plastyczne, podparcie łuku może wyprowadzić oś kolan na prostą bez operacji i śrub w kolanach.
 
-Tego samego wieczoru otworzyłam ponownie zdjęcie z wycieczki i olśniło mnie - stojący obok syn koleżanki z klasy Kasi jeszcze w drugiej klasie miał identyczne kolana w X, a na nowym zdjęciu stał prosto!
+Tego samego wieczoru otworzyłam ponownie zdjęcie z wycieczki i olśniło mnie - stojący obok syn koleżanki z klasy Kasi jeszcze w drugiej klasie miał identyczne kolana w X, a na nowym zdjęciu stał prosto.
 
 Napisałam do niej na Messengerze. Odpisała po pięciu minutach i wysłała zdjęcie pomarańczowo-czarnych wkładek profilowanych Orthomax StepMax.
 
@@ -477,9 +479,9 @@ Napisała, że od wiosny jej syn nosi je w każdej parze zwykłych butów.
 
 Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie jak dłonie fizjoterapeuty podczas testu, a podparcie łuku stopy ugina się i sprężyście odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie stopy do pracy i odkręcając rotację kolan.
+Korytko obejmuje w nich piętę z obu stron i trzyma ją prosto jak dłonie fizjoterapeuty podczas testu, a podparcie łuku stopy pracuje przy każdym kroku i odkręca rotację kolan.
 
-Do tego wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych jesiennych butów oraz trampek Kasi.
 
@@ -523,7 +525,7 @@ Do dziś ściska mnie w gardle na myśl, że darłam się na własne dziecko za 
 
 Przez ostatni rok w naszej rodzinie mówiliśmy, że Zosia jest po prostu roztrzepaną niezdarą, która buja w obłokach.
 
-Kiedy w domu po południu obijała się biodrem o meble albo zahaczała stopą o framugę drzwi, rzucaliśmy z kanapy automatyczne: „Zosia, patrz jak chodzisz!".
+Kiedy w domu po południu obijała się biodrem o meble albo zahaczała stopą o framugę drzwi, rzucaliśmy z kanapy automatyczne: „Zosia, patrz jak chodzisz.".
 
 Kiedy na podwórku zaczynała biegać z dzieciakami, dziwnie wyrzucała nogi na boki, jakby miała założone buty za duże o 3 numery, oraz co chwilę lądowała jak długa na chodniku.
 
@@ -551,7 +553,7 @@ Zanim trafiłam na właściwy trop, przeszłam przez serię nietrafionych zakup�
 
 Najpierw kupiłam w drogerii miękkie wkładki żelowe, a potem w aptece zwykłe wkładki piankowe za 75 złotych, które po tygodniu spłaszczyły się pod piętą i latały luźno w bucie.
 
-Z kolei kiedy dowiadywałam się o twarde wkładki indywidualne na wymiar z punktu ortopedycznego za 380 złotych, okazało się, że taka sztywna plastikowa skorupa działa jak szyna gipsowa - wyłącza czucie stopy, nie mieści się do normalnych jesiennych butów (więc trzeba kupować dziecku buty o rozmiar większe, w których potyka się o czubki jeszcze bardziej!), a po pół roku trzeba ją wyrzucić do kosza, bo 8-latce cały czas rośnie stopa.
+Z kolei kiedy dowiadywałam się o twarde wkładki indywidualne na wymiar z punktu ortopedycznego za 380 złotych, okazało się, że taka sztywna plastikowa skorupa działa jak szyna gipsowa - wyłącza czucie stopy, nie mieści się do normalnych jesiennych butów (więc trzeba kupować dziecku buty o rozmiar większe, w których potyka się o czubki jeszcze bardziej.), a po pół roku trzeba ją wyrzucić do kosza, bo 8-latce cały czas rośnie stopa.
 
 Moje wydatki z kilku tygodni wyglądały tak:
 
@@ -569,7 +571,7 @@ Pokazał mi, jak cały wewnętrzny bok stopy Zosi wykrzywia się do środka, sto
 
 Wytłumaczył mi mechanizm, przez który zapadłam się w tym gabinecie pod ziemię ze wstydu:
 
-- Pani Małgosiu, Zosia ma wiotkie stawy i koślawość pięt. Kiedy po 7 godzinach w szkole jej mięśnie są zmęczone, pięta opada do środka i pociąga za sobą kość piszczelową do rotacji wewnętrznej. Skoro piszczel skręca się do środka, to razem z nią skręcają się czubki butów! Pani córka nie potyka się dlatego, że nie patrzy pod nogi - po południu jej własna biomechanika zawija czubek lewego buta prosto pod prawą stopę.
+- Pani Małgosiu, Zosia ma wiotkie stawy i koślawość pięt. Kiedy po 7 godzinach w szkole jej mięśnie są zmęczone, pięta opada do środka i pociąga za sobą kość piszczelową do rotacji wewnętrznej. Skoro piszczel skręca się do środka, to razem z nią skręcają się czubki butów. Pani córka nie potyka się dlatego, że nie patrzy pod nogi - po południu jej własna biomechanika zawija czubek lewego buta prosto pod prawą stopę.
 
 Pokazał mi test podniesienia łuków: kiedy dwoma kciukami uniósł wewnętrzne krawędzie stóp Zosi i ustawił jej pięty w pionie, rotacja piszczeli natychmiast zniknęła, kolana wyprostowały się, a palce stóp skierowały prosto przed siebie.
 
@@ -599,7 +601,7 @@ Wyjęła z buta syna pomarańczowo-czarną wkładkę profilowaną Orthomax StepM
 
 Zamówiłam je jeszcze tego samego wieczoru.
 
-Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie.
+Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie.
 
 Pod śródstopiem znajduje się podparcie łuku stopy, które działa przy każdym kroku jak sprężyna i odbija stopę w górę.
 
@@ -611,7 +613,7 @@ Efekt przyszedł krok po kroku. Przez pierwsze trzy dni Zosia mówiła: „Mamo,
 
 Po dwóch tygodniach złapałam się na tym, że od kilkunastu dni ani razu nie obijała się o meble w salonie, a po schodach schodzi bez trzymania się poręczy.
 
-Po miesiącu Zosia biegła przed nami po alejce w parku, a jej krok był lekki, sprężysty i prosty - ani razu nie zahaczyła czubkiem buta o drugą nogę, a wszystkie spodnie z tego miesiąca miały całe kolana!
+Po miesiącu Zosia biegła przed nami po alejce w parku, a jej krok był lekki, sprężysty i prosty - ani razu nie zahaczyła czubkiem buta o drugą nogę, a wszystkie spodnie z tego miesiąca miały całe kolana.
 
 Po trzech miesiącach na kontroli fizjoterapeuta potwierdził, że kąt koślawości pięty zszedł z 12 do 8 stopni, a kostki stoją stabilnie.
 
@@ -649,7 +651,7 @@ Przez długie tygodnie szukałam przyczyny wyłącznie na górze ciała, bo skor
 
 Kupowałam maści przeciwzapalne, regulowałam wysokość krzesła przy biurku i denerwowałam się, gdy wieczorami widziałam, jak Kasia znów się garbi.
 
-Pamiętam, jak podczas obiadu potrafiłam upominać ją co pięć minut: „Kasia, ściągnij łopatki i siedź prosto, bo będziesz miała garba!".
+Pamiętam, jak podczas obiadu potrafiłam upominać ją co pięć minut: „Kasia, ściągnij łopatki i siedź prosto, bo będziesz miała garba.".
 
 Nie miałam pojęcia, że każąc jej na siłę prostować plecy, zmuszam jej ciało do walki z grawitacją, bo jej kręgosłup wyginał się w łuk tylko po to, żeby utrzymać równowagę nad zapadającymi się kostkami.
 
@@ -671,7 +673,7 @@ Wcześniej próbowałam standardowych rozwiązań i każde kończyło się pora�
 
 Ortopeda w przychodni na NFZ przez trzy minuty obejrzał wyłącznie jeden narząd wpisany na skierowaniu - czyli plecy - nawet nie kazał jej zdjąć butów i zalecił basen.
 
-Zwykłe wkładki żelowe z drogerii spłaszczyły się w tydzień, natomiast gdy zapytałam w punkcie ortopedycznym o twarde wkładki indywidualne na wymiar, usłyszałam cenę 380 złotych za sztywną plastikową skorupę jak szyna gipsowa, która nie mieści się do normalnych jesiennych butów, rozleniwia mięśnie, a po pół roku ląduje w koszu, bo 10-latce cały czas rośnie stopa!
+Zwykłe wkładki żelowe z drogerii spłaszczyły się w tydzień, natomiast gdy zapytałam w punkcie ortopedycznym o twarde wkładki indywidualne na wymiar, usłyszałam cenę 380 złotych za sztywną plastikową skorupę jak szyna gipsowa, która nie mieści się do normalnych jesiennych butów, rozleniwia mięśnie, a po pół roku ląduje w koszu, bo 10-latce cały czas rośnie stopa.
 
 Moje wydatki na „ratowanie pleców" wyglądały tak:
 
@@ -695,7 +697,7 @@ Wtedy fizjoterapeuta kucnął za Kasią i powiedział:
 
 Włożył dłonie pod stopy Kasi i delikatnie podniósł jej wewnętrzne łuki o kilka milimetrów w górę. Wstrzymałam oddech.
 
-W tej samej sekundzie, bez dotykania jej grzbietu, miednica cofnęła się do osi, a plecy i łopatki natychmiast same się wyprostowały!
+W tej samej sekundzie, bez dotykania jej grzbietu, miednica cofnęła się do osi, a plecy i łopatki natychmiast same się wyprostowały.
 
 Pokazał mi, jak działa ten łańcuch kompensacji od samej podłogi:
 
@@ -711,7 +713,7 @@ Barki, łopatki i kark przyjmują całe przeciążenie
 
 Uświadomił mi, że mięśnie między łopatkami Kasi piekły codziennie dlatego, że jesienią i zimą dzieci spędzają 14 godzin dziennie na twardym podłożu - 8 godzin na szkolnym betonie i 6 godzin w domu na panelach, robiąc 7000 kroków dziennie i ponad 200 000 kroków miesięcznie.
 
-Przez te wszystkie godziny mięśnie jej grzbietu musiały jak liny dźwigu trzymać sylwetkę nad zapadającymi się stopami!
+Przez te wszystkie godziny mięśnie jej grzbietu musiały jak liny dźwigu trzymać sylwetkę nad zapadającymi się stopami.
 
 Dodał, że u dziewczynek okno wzrostowe zamyka się około 12-13 roku życia - dopóki kości są plastyczne, podparcie łuku od dołu natychmiast odciąży kręgosłup i zatrzyma utrwalanie wady.
 
@@ -721,9 +723,9 @@ Mamy w komentarzach jednogłośnie poleciły mi pomarańczowo-czarne wkładki pr
 
 Zamówiłam je jeszcze tej samej nocy. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam pod palcami, że są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie, blokując uciekanie kostek do środka, a podparcie łuku stopy działa przy każdym kroku jak mała trampolina, która unosi sklepienie stopy, ustawia miednicę w osi i zdejmuje napięcie z łopatek.
+Korytko obejmuje w nich piętę z obu stron i trzyma ją prosto, blokując uciekanie kostek do środka, a podparcie łuku stopy unosi sklepienie przy każdym kroku i zdejmuje napięcie z pleców.
 
-Jednocześnie wypustki pobudzające na powierzchni pobudzają mięśnie stopy do aktywnej pracy, a miękka strefa pod piętą tłumi uderzenia o szkolny beton.
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do butów zimowych oraz szkolnych Kasi.
 
@@ -731,7 +733,7 @@ Zmiana zachowania przyszła krok po kroku. Przez pierwsze trzy dni Kasia mówił
 
 Po dwóch tygodniach weszłam po południu do salonu i zdałam sobie sprawę, że Kasia od kilku dni nie kładzie się po szkole na dywanie i ani razu nie poprosiła o smarowanie pleców maścią.
 
-Po miesiącu odrabiała lekcje przy biurku z naturalnie prostymi plecami, bez moich upomnień, a wieczorem powiedziała: „Mamo, mnie już w ogóle nie pieką łopatki po szkole!".
+Po miesiącu odrabiała lekcje przy biurku z naturalnie prostymi plecami, bez moich upomnień, a wieczorem powiedziała: „Mamo, mnie już w ogóle nie pieką łopatki po szkole.".
 
 Po trzech miesiącach na wizycie kontrolnej kąt koślawości pięty zszedł z 12 do 8 stopni, a łopatki ustawiły się symetrycznie.
 

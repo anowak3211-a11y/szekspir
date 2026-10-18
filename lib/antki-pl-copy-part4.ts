@@ -13,7 +13,7 @@ Kiedy jednak w połowie października pojechałyśmy we Wrocławiu na kontrolę 
 
 Zamiast poprawy kąt koślawości kolan Zosi powiększył się z ośmiu do dwunastu stopni.
 
-Siedziałam na brzegu krzesła, ściskając w dłoni pasek torebki, aż w końcu wykrztusiłam w całkowitym szoku: „Panie doktorze, ale jak to jest w ogóle możliwe, skoro ona od września zeszłego roku nie opuściła ani jednej korektywy?!".
+Siedziałam na brzegu krzesła, ściskając w dłoni pasek torebki, aż w końcu wykrztusiłam w całkowitym szoku: „Panie doktorze, ale jak to jest w ogóle możliwe, skoro ona od września zeszłego roku nie opuściła ani jednej korektywy?.".
 
 Dopiero wtedy dotarło do mnie, jak bardzo chciałam wierzyć w tę wygodną fikcję.
 
@@ -95,11 +95,11 @@ Pod wpisem było ponad czterdzieści komentarzy innych mam ze zdjęciami prostyc
 
 Weszłam na stronę i od razu zrozumiałam, dlaczego to ma sens. Wkładki Orthomax StepMax są zrobione ze sprężystej, dynamicznej pianki o zmiennej gęstości, a nie ze sztywnego plastiku, który unieruchamia stopę jak gips.
 
-Kiedy kilka dni później wyjęłam charakterystyczne pomarańczowo-czarne wkładki z foliowego opakowania i ścisnęłam je w dłoniach, od razu zobaczyłam, jak są wyprofilowane: wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza w gabinecie, a sprężysty łuk pod spodem działa przy każdym kroku jak mała trampolina, która odbija stopę w górę i zmusza własne mięśnie dziecka do pracy.
+Kiedy kilka dni później wyjęłam charakterystyczne pomarańczowo-czarne wkładki z foliowego opakowania i ścisnęłam je w dłoniach, od razu zobaczyłam, jak są wyprofilowane: korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza w gabinecie, a podparcie łuku stopy działa przy każdym kroku jak sprężyna, która odbija stopę w górę i zmusza własne mięśnie dziecka do pracy.
 
-Do tego delikatne wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje każde uderzenie o szkolny korytarz.
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka warstwa pod piętą amortyzuje każde uderzenie o szkolny korytarz.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania je do jej butów bez kupowania obuwia o rozmiar większego.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do jej butów bez kupowania obuwia o rozmiar większego.
 
 Nie oczekiwałam cudu w jeden dzień. Przez pierwsze trzy dni Zosia mówiła po szkole: „Mamo, trochę dziwnie, czuję taką sprężynkę pod stopą, ale nic mnie nie obciera".
 
@@ -229,9 +229,9 @@ Zamówiłam je jeszcze tej samej nocy. Kiedy otworzyłam paczkę, od razu zrozum
 
 Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która pracuje razem ze stopą w każdej fazie chodu.
 
-Ich wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją stabilnie w pionie, nie pozwalając kostce uciekać do środka, natomiast wyprofilowany łuk pod spodem działa przy każdym kroku jak dynamiczna sprężyna, która unosi sklepienie i zmusza mięśnie do aktywnej pracy.
+Ich korytko obejmuje piętę z obu stron i trzyma ją stabilnie w pionie, nie pozwalając kostce uciekać do środka, natomiast podparcie łuku pod spodem działa przy każdym kroku jak sprężyna, która unosi sklepienie i zmusza mięśnie do aktywnej pracy.
 
-Na powierzchni znajdują się delikatne wypustki pobudzające receptory stopy, a miękka strefa pod piętą pochłania uderzenia o szkolny beton.
+Na powierzchni znajdują się wypustki pobudzające mięśnie stopy, a miękka strefa pod piętą pochłania uderzenia o szkolny beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je do zwykłych butów Kasi.
 
@@ -379,11 +379,11 @@ Mamy wrzucały w komentarzach zdjęcia nóg swoich dzieci z marca i lipca, gdzie
 
 Weszłam w link podany przez dziewczyny i zamówiłam zestaw. Kiedy paczka przyszła do Gdańska i wzięłam wkładki Orthomax StepMax do ręki, od razu poczułam, czym różnią się od twardych wyrobów z punktów medycznych.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej, pomarańczowo-czarnej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie fizjoterapeuty podczas testu.
+Wkładki Orthomax StepMax są zrobione ze sprężystej, pomarańczowo-czarnej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie fizjoterapeuty podczas testu.
 
 Pod spodem podparcie łuku działa przy każdym kroku jak sprężyna, która odbija stopę i zmusza mięśnie do aktywnej pracy przez cały dzień, a delikatne wypustki pobudzają receptory, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam do butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je do butów Kasi.
 
 Pierwsze trzy dni Kasia mówiła: „Mamo, czuję coś pod stopą, trochę dziwnie, ale w ogóle nie boli". W pierwszym tygodniu ramię jeszcze czasem dawało o sobie znać po szkole.
 
@@ -393,7 +393,7 @@ Po miesiącu noszenia wkładek w butach szkolnych i jesiennych zapytałam ją wi
 
 Spojrzała na mnie zdziwiona, poruszyła barkiem i odpowiedziała: „W ogóle nie boli. Wcale".
 
-Po trzech miesiącach pojechałyśmy na kontrolę do dr. Ryciaka i zrobiłyśmy porównawcze badanie. Kąt koślawości kolan zszedł z 12 do 8 stopni - cztery stopnie poprawy w trzy miesiące!
+Po trzech miesiącach pojechałyśmy na kontrolę do dr. Ryciaka i zrobiłyśmy porównawcze badanie. Kąt koślawości kolan zszedł z 12 do 8 stopni - cztery stopnie poprawy w trzy miesiące.
 
 Lekarz uśmiechnął się i powiedział krótko: „Fundamenty są stabilne, stopy nauczyły się właściwej pozycji, więc całe ciało przestało kompensować".
 
@@ -461,7 +461,7 @@ Szóstego dnia w nocy znów obudziła się z płaczem, bo po całym dniu chodzen
 
 Siódmego wieczoru, kiedy zasnęła, siedziałam sama przy kuchennym stole nad jej wykrzywionymi butami i chciało mi się wyć z żalu, że doprowadziłam własne dziecko aż na szpitalny dyżur.
 
-A przecież wydawałam na jej nogi niemałe pieniądze, tyle że cały czas leczyłam zły narząd!
+A przecież wydawałam na jej nogi niemałe pieniądze, tyle że cały czas leczyłam zły narząd.
 
 Zanim wylądowałyśmy na wieczornej izbie przyjęć i zanim trafiłam na właściwe rozwiązanie, przeszłam przez całą serię kosztownych rozczarowań.
 
@@ -529,9 +529,9 @@ Zamówiłam pakiet jeszcze tego samego wieczoru. Kiedy paczka przyszła i wyję�
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która działa pod stopą aktywnie.
 
-wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie jak dłonie lekarza podczas testu w gabinecie, nie pozwalając kostce wykręcać kolana do środka.
+Korytko obejmuje piętę z obu stron i trzyma ją w pionie jak dłonie lekarza podczas testu w gabinecie, nie pozwalając kostce wykręcać kolana do środka.
 
-Z kolei elastyczne podparcie łuku podłużnego pracuje przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki pobudzające na powierzchni cały czas pobudzają mięśnie do pracy, podczas gdy miękka poduszka pod piętą tłumi uderzenia o szkolny beton.
+Z kolei podparcie łuku stopy pracuje przy każdym kroku jak sprężyna, która odbija stopę w górę, a na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka poduszka pod piętą tłumi uderzenia o szkolny beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam jedną parę do jej butów szkolnych, a drugą do jesiennych trzewików.
 
@@ -569,9 +569,9 @@ Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - 
  'pl-23-ryciak-rip3-biodro-i-plecy': {
  headline: 'Upominałam córkę 10 razy dziennie, żeby się nie garbiła. W gabinecie zobaczyłam, dlaczego jej plecy nie mogły być proste',
  description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
- primaryText: `Przez cztery ostatnie miesiące przynajmniej dziesięć razy dziennie powtarzałam mojej dziesięcioletniej córce jak zdarta płyta: „Kasia, nie garb się!
+ primaryText: `Przez cztery ostatnie miesiące przynajmniej dziesięć razy dziennie powtarzałam mojej dziesięcioletniej córce jak zdarta płyta: „Kasia, nie garb się.
 
-Wyprostuj plecy, ściągnij łopatki!". Mówiłam to przy śniadaniu, podczas odrabiania lekcji i na niedzielnych spacerach po Gdyni, aż w końcu Kasia zaczęła na mój głos przewracać oczami i zamykać się w swoim pokoju.
+Wyprostuj plecy, ściągnij łopatki.". Mówiłam to przy śniadaniu, podczas odrabiania lekcji i na niedzielnych spacerach po Gdyni, aż w końcu Kasia zaczęła na mój głos przewracać oczami i zamykać się w swoim pokoju.
 
 Byłam przekonana, że to zwykłe lenistwo i nawyk od patrzenia w ekran telefonu, dopóki wieczorami nie zaczęła skarżyć się na tępy ból w dole pleców i prawym biodrze.
 
@@ -630,7 +630,7 @@ Nigdy nie zapomnę testu, który dr Ryciak zrobił w gabinecie przy pierwszej wi
 
 Dr Ryciak kucnął za Kasią, ujął dłońmi jej obie stopy i podniósł kciukami wewnętrzne łuki od środka. Wstrzymałam oddech.
 
-W jednej sekundzie kostki Kasi wyprostowały się, kolana rozeszły się z pozycji X, miednica cofnęła się na swoje miejsce, a jej kręgosłup i obie łopatki ustawiły się w idealnej symetrii - bez żadnego upominania i bez napinania mięśni!
+W jednej sekundzie kostki Kasi wyprostowały się, kolana rozeszły się z pozycji X, miednica cofnęła się na swoje miejsce, a jej kręgosłup i obie łopatki ustawiły się w idealnej symetrii - bez żadnego upominania i bez napinania mięśni.
 
 Kiedy lekarz puścił stopy, w ułamku sekundy kostki runęły do środka, kolana skleiły się razem, a plecy znów wygięły się w łuk.
 
@@ -662,11 +662,11 @@ Jedna z mam napisała zdanie, które zapamiętałam od razu: „Dziewczyny, po p
 
 Zamówiłam je jeszcze tego samego dnia. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania i ścisnęłam je w dłoniach, od razu zobaczyłam różnicę między nimi a twardym plastikiem czy zwykłą gąbką z apteki.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza podczas testu w gabinecie.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza podczas testu w gabinecie.
 
-Pod spodem wyprofilowany łuk działa przy każdym kroku jak dynamiczna trampolina, która unosi stopę i zmusza mięśnie do aktywnej pracy, a delikatne wypustki pobudzające na powierzchni cały czas stymulują receptory i przypominają ciału o prawidłowej osi, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o szkolny beton.
+Pod spodem wyprofilowany łuk działa przy każdym kroku jak sprężyna, która unosi stopę i zmusza mięśnie do aktywnej pracy, a na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o szkolny beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do zwykłych butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Kasi.
 
 Przez pierwsze trzy dni Kasia mówiła po szkole: „Mamo, trochę dziwnie pod stopą, czuję takie podparcie od środka, ale jest wygodnie".
 
@@ -774,7 +774,7 @@ Kręgosłup wygina się w łuk
 ↓
 Więzadła piszczeli, kolana i plecy przyjmują całe przeciążenie
 
-- Kiedyś dzieci biegały godzinami boso po trawie, piasku i nierównej ziemi, co naturalnie wzmacniało mięśnie stopy - tłumaczył dr Ryciak. - Dzisiaj, szczególnie jesienią i zimą, Zosia spędza 14 godzin dziennie na idealnie płaskim, twardym szkolnym betonie i domowych panelach. Robi 7000 kroków dziennie, czyli 200 000 kroków miesięcznie i ponad dwa miliony kroków rocznie. Przez ostatnie cztery lata, kiedy kazano pani czekać, jej stopa zrobiła ponad 8 milionów kroków w zapadniętej pozycji! Norma kąta kolan to 5 do 7 stopni, a u Zosi na rentgenie mamy już 12 stopni.
+- Kiedyś dzieci biegały godzinami boso po trawie, piasku i nierównej ziemi, co naturalnie wzmacniało mięśnie stopy - tłumaczył dr Ryciak. - Dzisiaj, szczególnie jesienią i zimą, Zosia spędza 14 godzin dziennie na idealnie płaskim, twardym szkolnym betonie i domowych panelach. Robi 7000 kroków dziennie, czyli 200 000 kroków miesięcznie i ponad dwa miliony kroków rocznie. Przez ostatnie cztery lata, kiedy kazano pani czekać, jej stopa zrobiła ponad 8 milionów kroków w zapadniętej pozycji. Norma kąta kolan to 5 do 7 stopni, a u Zosi na rentgenie mamy już 12 stopni.
 
 Wtedy wyjął z szuflady i pokazał mi drugie zdjęcie - piętnastoletniej dziewczynki z wykrzywionymi kolanami zakutymi w ciężkie, metalowo-plastikowe ortezy.
 
@@ -792,13 +792,11 @@ Tego samego wieczoru zamówiłam pakiet do domu. Kiedy wyjęłam wkładki Orthom
 
 Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która nie unieruchamia stopy jak gips, tylko pracuje z nią przy każdym kroku.
 
-Ich wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie dr.
+Ich korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie dr. Ryciaka podczas testu, a podparcie łuku działa jak sprężyna, która odbija stopę w górę i zmusza mięśnie do aktywnej pracy przez wszystkie 7000 kroków dziennie.
 
-Ryciaka podczas testu, a podparcie łuku działa jak sprężyna, która odbija stopę w górę i zmusza mięśnie do aktywnej pracy przez wszystkie 7000 kroków dziennie.
+Na powierzchni znajdują się wypustki pobudzające mięśnie stopy, a miękka warstwa pod piętą tłumi uderzenia o szkolny beton.
 
-Na powierzchni znajdują się delikatne wypustki pobudzające receptory, a miękka warstwa pod piętą tłumi uderzenia o szkolny beton.
-
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do zwykłych butów Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi.
 
 Przez pierwsze trzy dni Zosia mówiła: „Mamo, czuję pod stopą taką poduszeczkę od środka, trochę dziwnie, ale nic nie ciśnie".
 

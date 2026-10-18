@@ -92,9 +92,9 @@ Tego samego wieczoru zamówiłam wkładki Orthomax StepMax. Kiedy dwa dni późn
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej, dynamicznej pianki o zmiennej gęstości, która nie unieruchamia stopy jak gips, tylko pracuje z nią w ruchu.
 
-wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak kciuki fizjoterapeuty przed lustrem, a elastyczny profil pod łukiem podłużnym odbija stopę jak mała trampolina przy każdym z 7000 kroków.
+Korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak kciuki fizjoterapeuty przed lustrem, a podparcie łuku stopy odbija stopę jak sprężyna przy każdym z 7000 kroków.
 
-Na powierzchni są delikatne wypustki pobudzające, które pobudzają mięśnie do pracy, a pod piętą specjalna strefa amortyzacji połyka uderzenia o szkolny beton.
+Na powierzchni są wypustki pobudzające mięśnie stopy do własnej pracy, a pod piętą specjalna strefa amortyzacji połyka uderzenia o szkolny beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania wsunęłam je prosto do butów Zosi - weszły idealnie, bez kupowania obuwia o rozmiar większego.
 
@@ -189,7 +189,7 @@ Kazał Kubie zdjąć spodenki oraz skarpetki i przebiec się boso kilka razy po 
 
 Lekarz kucnął za Kubą, chwycił dłońmi jego pięty i ustawił je w pionie, podpierając palcami łuki podłużne.
 
-W tej samej sekundzie kolana mojego syna odkleiły się od siebie, nogi wyprostowały się jak dwie kolumny, a Kuba zawołał zdziwiony: „Mamo, jak pan doktor tak trzyma, to w ogóle nie ciągnie mnie w pachwinie!".
+W tej samej sekundzie kolana mojego syna odkleiły się od siebie, nogi wyprostowały się jak dwie kolumny, a Kuba zawołał zdziwiony: „Mamo, jak pan doktor tak trzyma, to w ogóle nie ciągnie mnie w pachwinie.".
 
 Ortopeda rozpisał nam na podkładzie kozetki mechanikę tego przeciążenia:
 
@@ -217,9 +217,9 @@ Tak trafiłam na wkładki Orthomax StepMax. Kiedy przyszła paczka i wyjęłam j
 
 Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która zgina się razem ze stopą podczas biegu, ale nie pozwala pięcie uciec na bok.
 
-wyprofilowane korytko obejmuje piętę niczym dłonie ortopedy i trzyma ją w idealnym pionie nawet przy ostrym hamowaniu na boisku, a sprężyste podparcie łuku działa przy każdym odbiciu jak dynamiczna trampolina.
+Korytko obejmuje piętę niczym dłonie ortopedy i trzyma ją w idealnym pionie nawet przy ostrym hamowaniu na boisku, a podparcie łuku stopy działa przy każdym odbiciu jak sprężyna.
 
-Na górze znajdują się wypustki pobudzające, które cały czas zmuszają mięśnie stopy do aktywnej pracy, natomiast strefa amortyzacji pod samą piętą pochłania wstrząsy na betonie i sztucznej murawie.
+Na górze znajdują się wypustki pobudzające mięśnie stopy do własnej pracy, natomiast strefa amortyzacji pod samą piętą pochłania wstrząsy na betonie i sztucznej murawie.
 
 Mają tak dokładną rozmiarówkę i smukły profil, że od razu po wyjęciu z opakowania weszły gładko zarówno do wąskich korków piłkarskich, jak i do butów na zmianę w szkole.
 
@@ -229,7 +229,7 @@ Przez pierwsze 3 dni mówił po szkole, że czuje pod środkiem stopy wyraźne p
 
 Po 2 tygodniach zauważyłam, że Kuba przestał schodzić po schodach trzymając się ściany, a wieczorem na dywanie sam z siebie usiadł po turecku zamiast w literę W.
 
-Prawdziwy przełom nastąpił po miesiącu: w czwartek po pełnym, półtoragodzinnym treningu na orliku Kuba wbiegł do samochodu z czerwonymi policzkami, rzucił torbę na siedzenie i krzyknął: „Mamo, strzeliłem dwie bramki i ani razu nie zabolało mnie biodro ani pięta!".
+Prawdziwy przełom nastąpił po miesiącu: w czwartek po pełnym, półtoragodzinnym treningu na orliku Kuba wbiegł do samochodu z czerwonymi policzkami, rzucił torbę na siedzenie i krzyknął: „Mamo, strzeliłem dwie bramki i ani razu nie zabolało mnie biodro ani pięta.".
 
 Kiedy po 3 miesiącach poszliśmy na kontrolę do naszego ortopedy sportowego, lekarz ponownie zrobił zdjęcie z poziomu podłogi - kąt uciekania pięty zmniejszył się z 12 do 8 stopni, kolana podczas przysiadu i biegu szły prosto nad stopami, a stare zdzieranie podeszwy od środka całkowicie ustało.
 
@@ -299,13 +299,13 @@ W kilka dni wydałam 525 złotych (plus wcześniejsze 380 złotych na twarde wk�
 
 Kiedy weszłyśmy do gabinetu i Kasia podwinęła nogawki spodni, pokazując szare opaski na kolanach, ortopeda aż złapał się za głowę.
 
-- Proszę natychmiast zdjąć jej te opaski, w tej samej sekundzie! - powiedział stanowczo, ale z troską w głosie, po czym przyłożył głowicę USG do kolana Kasi. - Więzadła i łąkotki w kolanie są zdrowe, ale niech pani spojrzy, co ta opaska z apteki robiła pani córce. Kolano to prosty zawias, który zgina się tylko w przód i w tył. Tymczasem u Kasi pięty na samym dole zapadają się do środka pod kątem 12 stopni. Kiedy pięta leci do wewnątrz, kość piszczelowa skręca się jak wykręcany ręcznik i ciągnie rzepkę w bok po kości udowej. Zakładając ciasną opaskę na kolano bez ustawienia stopy na dole, dociskała pani tę przekoszoną rzepkę jeszcze mocniej do chrząstki, dokładnie jak papier ścierny!
+- Proszę natychmiast zdjąć jej te opaski, w tej samej sekundzie. - powiedział stanowczo, ale z troską w głosie, po czym przyłożył głowicę USG do kolana Kasi. - Więzadła i łąkotki w kolanie są zdrowe, ale niech pani spojrzy, co ta opaska z apteki robiła pani córce. Kolano to prosty zawias, który zgina się tylko w przód i w tył. Tymczasem u Kasi pięty na samym dole zapadają się do środka pod kątem 12 stopni. Kiedy pięta leci do wewnątrz, kość piszczelowa skręca się jak wykręcany ręcznik i ciągnie rzepkę w bok po kości udowej. Zakładając ciasną opaskę na kolano bez ustawienia stopy na dole, dociskała pani tę przekoszoną rzepkę jeszcze mocniej do chrząstki, dokładnie jak papier ścierny.
 
 Lekarz kazał Kasi stanąć boso na podłodze, kucnął przed nią i swoimi dłońmi podparł jej wewnętrzne łuki stóp, ustawiając pięty w pionie.
 
 Na moich oczach przekręcone do środka rzepki kolanowe Kasi natychmiast wróciły na sam środek stawu, a szpara między jej kostkami zniknęła.
 
-Kazał jej zrobić przysiad trzymając jej pięty - Kasia zeszła na sam dół i zawołała z niedowierzaniem: „Mamo, nic nie kłuje!".
+Kazał jej zrobić przysiad trzymając jej pięty - Kasia zeszła na sam dół i zawołała z niedowierzaniem: „Mamo, nic nie kłuje.".
 
 Ortopeda rozrysował mi ten mechanizm krok po kroku:
 
@@ -331,9 +331,9 @@ Pod jednym z wątków aż trzy różne mamy niezależnie od siebie pisały o pom
 
 Zamówiłam wkładki Orthomax StepMax od razu. Kiedy otworzyłam przesyłkę i wzięłam je w dłonie, zrozumiałam, na czym polega ich przewaga nad sztywnymi skorupami z punktów medycznych.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie jak klamra, nie pozwalając na rotację piszczeli.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie jak klamra, nie pozwalając na rotację piszczeli.
 
-Jednocześnie elastyczne podparcie łuku podłużnego działa przy każdym kroku jak sprężyna, wypustki pobudzające na wierzchu pobudzają mięśnie stopy do własnej pracy, a miękka poduszka pod piętą amortyzuje uderzenia o schody i szkolny beton.
+Jednocześnie podparcie łuku stopy działa przy każdym kroku jak sprężyna, na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka poduszka pod piętą amortyzuje uderzenia o schody i szkolny beton.
 
 Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Kasi.
 
@@ -341,7 +341,7 @@ Przez pierwsze 3 dni Kasia mówiła, że w bucie czuje pod spodem takie wyraźne
 
 Po 2 tygodniach wracałyśmy razem z zakupów i dopiero pod drzwiami naszego mieszkania na trzecim piętrze zorientowałam się, że Kasia weszła na samą górę bez ani jednego postoju i bez trzymania się poręczy.
 
-Po miesiącu wbiegła po schodach przede mną, odwróciła się na półpiętrze i zawołała z uśmiechem: „Mamo, zobacz, robię przysiady i kolana w ogóle mnie już nie kłują!".
+Po miesiącu wbiegła po schodach przede mną, odwróciła się na półpiętrze i zawołała z uśmiechem: „Mamo, zobacz, robię przysiady i kolana w ogóle mnie już nie kłują.".
 
 Kiedy po 3 miesiącach poszłyśmy na kontrolę do ortopedy, lekarz zmierzył jej postawę i potwierdził, że kąt koślawości pięt spadł z 12 do 8 stopni, rzepki chodzą idealnie w swoim torze, a po stanie zapalnym nie został nawet ślad.
 
@@ -387,7 +387,7 @@ Przez tydzień patrzyłam na nią w łazience, w kuchni i w jej pokoju, odkrywaj
 
 Zauważyłam, że kiedy Zosia stoi boso na kafelkach przed umywalką, jej prawa stopa dosłownie rozlewa się po podłodze do środka znacznie mocniej niż lewa, a kostka prawie dotyka ziemi.
 
-Przez to całe jej prawe biodro uciekało w dół i w bok - dokładnie tam, gdzie na apelu zjeżdżała gumka galowej spódniczki!
+Przez to całe jej prawe biodro uciekało w dół i w bok - dokładnie tam, gdzie na apelu zjeżdżała gumka galowej spódniczki.
 
 Widziałam też, jak po powrocie ze szkoły natychmiast zrzuca buty w przedpokoju i siada na dywanie w literę W, z kolanami złączonymi razem i stopami wykręconymi na zewnątrz, a w jej prawym bucie szkolnym podeszwa od wewnętrznej strony była starta niemal do samej pianki.
 
@@ -409,7 +409,7 @@ Wydaliśmy 549 złotych (nie licząc wyrzuconych wcześniej 380 złotych na twar
 
 Dopiero fizjoterapeuta rozebrał Zosię do bielizny, przyłożył poziomicę lekarską do jej kolców biodrowych i kazał mi kucnąć za jej plecami na wysokości jej bosych stóp.
 
-- Pani Małgosiu, kręgosłup Zosi sam w sobie jest zdrowy i nie ma tu skoliozy wrodzonej - powiedział fizjoterapeuta, pokazując mi jej stopy. - Niech pani spojrzy na jej pięty. Obie uciekają do środka, ale prawa kostka zapada się pod kątem aż 12 stopni i opada o 6 milimetrów niżej niż lewa. Przez to całe ciało pani córki stoi jak szafa, której ktoś podpiłował jedną dolną nóżkę! Żaden pajączek na plecach tego nie wyprostuje, bo gdyby Zosia wyprostowała barki przy tak opadniętej stopie, to przewróciłaby się na bok.
+- Pani Małgosiu, kręgosłup Zosi sam w sobie jest zdrowy i nie ma tu skoliozy wrodzonej - powiedział fizjoterapeuta, pokazując mi jej stopy. - Niech pani spojrzy na jej pięty. Obie uciekają do środka, ale prawa kostka zapada się pod kątem aż 12 stopni i opada o 6 milimetrów niżej niż lewa. Przez to całe ciało pani córki stoi jak szafa, której ktoś podpiłował jedną dolną nóżkę. Żaden pajączek na plecach tego nie wyprostuje, bo gdyby Zosia wyprostowała barki przy tak opadniętej stopie, to przewróciłaby się na bok.
 
 Wtedy podłożył dłonie pod wewnętrzne łuki stóp Zosi i uniósł jej pięty do pionu.
 
@@ -443,7 +443,7 @@ Od razu zamówiłam wkładki Orthomax StepMax. Kiedy wyjęłam je z opakowania i
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która działa pod stopą jak inteligentna sprężyna.
 
-wyprofilowane korytko chwyta piętę z obu stron i trzyma ją w pionie dokładnie na równej wysokości, podparcie łuku stopy unosi wewnętrzny brzeg stopy przy każdym z 7000 kroków, a wypustki pobudzające stymulują mięśnie krótkie stopy, podczas gdy warstwa amortyzująca pod piętą chroni stawy przed betonem.
+Korytko chwyta piętę z obu stron i trzyma ją w pionie dokładnie na równej wysokości, podparcie łuku stopy unosi wewnętrzny brzeg stopy przy każdym z 7000 kroków, a na wierzchu są wypustki pobudzające mięśnie stopy do pracy, podczas gdy warstwa amortyzująca pod piętą chroni stawy przed betonem.
 
 Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z opakowania włożyłam je prosto do butów Zosi.
 
@@ -451,7 +451,7 @@ Pierwsze 3 dni były okresem adaptacji - Zosia mówiła po szkole, że czuje pod
 
 Po 2 tygodniach zauważyłam wieczorem przy kąpieli, że jej wcięcia w talii po obu stronach wyglądają niemal identycznie, a córka przestała opierać cały ciężar ciała na jednej nodze.
 
-Po miesiącu przyszedł listopadowy apel z okazji Święta Niepodległości - Zosia założyła tę samą granatową spódniczkę galową i przez całą godzinę uroczystości ani razu nie musiała poprawiać paska, bo spódniczka leżała idealnie prosto na równych biodrach!
+Po miesiącu przyszedł listopadowy apel z okazji Święta Niepodległości - Zosia założyła tę samą granatową spódniczkę galową i przez całą godzinę uroczystości ani razu nie musiała poprawiać paska, bo spódniczka leżała idealnie prosto na równych biodrach.
 
 Kiedy po 3 miesiącach wróciliśmy na kontrolę z poziomicą do fizjoterapeuty, kąt koślawości pięt zmniejszył się z 12 do 8 stopni, miednica stała w idealnym poziomie, a przy skłonie do przodu po asymetrii łopatek nie było już śladu.
 
@@ -487,7 +487,7 @@ Proszę przyjść w czwartek przed końcem czwartej lekcji pod boczne drzwi sali
 
 Kiedy w czwartek stanęłam w uchylonych drzwiach sali gimnastycznej w naszej szkole w Bydgoszczy i spojrzałam na parkiet, poczułam, jak pali mnie twarz ze wstydu i wyrzutów sumienia.
 
-Przez tyle tygodni uważałam własne dziecko za małą symulantkę!
+Przez tyle tygodni uważałam własne dziecko za małą symulantkę.
 
 Przypomniałam sobie wszystkie te poranki, kiedy pospieszałam ją przy sznurowaniu butów i mówiłam oschle: „Inne dziewczynki jakoś biegają i nie marudzą, weź się w garść".
 
@@ -525,7 +525,7 @@ Wydałam 635 złotych (plus wyrzucone wcześniej 380 złotych na twarde wkładki
 
 Tamtego czwartku pod salą gimnastyczną wuefistka zawołała Zosię na chwilę do szatni, kazała jej stanąć w samych skarpetkach na twardej posadzce i kucnęła razem ze mną za jej plecami.
 
-- Widzi pani, co dzieje się z jej stopami w chwili, gdy przenosi na nie ciężar ciała? - zapytała wuefistka, pokazując mi pięty Zosi. - U niej kość piętowa ucieka do środka pod kątem około 12 stopni, a cały wewnętrzny brzeg stopy leży płasko na ziemi. Kiedy Zosia próbuje biec po twardym parkiecie sali, jej kostki dosłownie łamią się do środka, kolana uderzają o siebie w X, a rozcięgno pod stopą i mięsień piszczelowy są rozciągane przy każdym kroku jak guma w procy. Po dwóch minutach takiego biegu podeszwa stopy i łydka palą ją żywym ogniem!
+- Widzi pani, co dzieje się z jej stopami w chwili, gdy przenosi na nie ciężar ciała? - zapytała wuefistka, pokazując mi pięty Zosi. - U niej kość piętowa ucieka do środka pod kątem około 12 stopni, a cały wewnętrzny brzeg stopy leży płasko na ziemi. Kiedy Zosia próbuje biec po twardym parkiecie sali, jej kostki dosłownie łamią się do środka, kolana uderzają o siebie w X, a rozcięgno pod stopą i mięsień piszczelowy są rozciągane przy każdym kroku jak guma w procy. Po dwóch minutach takiego biegu podeszwa stopy i łydka palą ją żywym ogniem.
 
 Nauczycielka położyła dwa palce pod wewnętrzne łuki stóp Zosi i lekko uniosła jej pięty do pionu.
 
@@ -545,7 +545,7 @@ Mięśnie łydek i piszczeli pieką z przeciążenia już po kilkuset metrach bi
 
 Uświadomiła mi też brutalną matematykę jesieni i zimy: dzieci nie biegają już po miękkiej trawie ani piasku, tylko spędzają 14 godzin dziennie na twardym szkolnym betonie (8 godzin) oraz domowych panelach (6 godzin).
 
-To aż 7000 kroków dziennie i ponad 200 000 kroków miesięcznie!
+To aż 7000 kroków dziennie i ponad 200 000 kroków miesięcznie.
 
 Piętnaście minut ćwiczeń „w pingwinka" wieczorem na dywanie (czyli jakieś 100 powtórzeń) nigdy w życiu nie wygra z 7000 kroków robionych na twardym betonie w płaskich butach.
 
@@ -559,9 +559,9 @@ Kiedy wyjęłam je z paczki i wygięłam w dłoniach, od razu zobaczyłam, dlacz
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która pracuje razem ze stopą w każdej fazie biegu i chodu.
 
-wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie jak w szynach bocznych, nie pozwalając kostce łamać się do środka, natomiast sprężysty łuk podłużny oddaje energię przy każdym odbiciu jak trampolina.
+Korytko obejmuje piętę z obu stron i trzyma ją w pionie jak w szynach bocznych, nie pozwalając kostce łamać się do środka, natomiast podparcie łuku stopy oddaje energię przy każdym odbiciu jak sprężyna.
 
-Delikatne wypustki pobudzające na powierzchni zmuszają mięśnie stopy do naturalnej pracy, a poduszka amortyzująca pod piętą tłumi uderzenia o twardy parkiet sali gimnastycznej.
+Na wierzchu są wypustki pobudzające mięśnie stopy do naturalnej pracy, a poduszka amortyzująca pod piętą tłumi uderzenia o twardy parkiet sali gimnastycznej.
 
 Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z opakowania włożyłam je prosto do butów Zosi na WF oraz do butów zimowych.
 
@@ -569,7 +569,7 @@ Przez pierwsze 3 dni Zosia mówiła po szkole, że czuje pod stopą taką sprę�
 
 Po 2 tygodniach nastał wtorek rano - naszykowałam się w kuchni na kolejną prośbę o zwolnienie z WF-u, a Zosia zjadła płatki, spakowała strój sportowy i wyszła do szkoły bez ani jednego słowa skargi.
 
-Po miesiącu wróciła w czwartek ze szkoły z wypiekami na policzkach, rzuciła mi się na szyję w przedpokoju i zawołała: „Mamo, pani od WF-u zrobiła wyścigi rzędów i pierwszy raz dobiegłam druga i w ogóle nie piekły mnie stopy!".
+Po miesiącu wróciła w czwartek ze szkoły z wypiekami na policzkach, rzuciła mi się na szyję w przedpokoju i zawołała: „Mamo, pani od WF-u zrobiła wyścigi rzędów i pierwszy raz dobiegłam druga i w ogóle nie piekły mnie stopy.".
 
 Po 3 miesiącach sprawdziliśmy jej stopy i buty - podeszwy były równiutkie, a kąt uciekania pięty zmniejszył się z 12 do 8 stopni.
 
@@ -637,7 +637,7 @@ Przełom nastąpił dopiero wtedy, gdy poszłam porozmawiać z młodym fizjotera
 
 Fizjoterapeuta postawił Tomka boso na twardej podłodze, kucnął za nim i pokazał mi jego pięty oraz łuki stóp.
 
-- Pani Małgosiu, niech pani spojrzy na mechanikę jego stopy - powiedział, wskazując na zapadnięte do środka o 12 stopni pięty mojego syna. - Zdrowa stopa ma wysklepiony łuk podłużny, który przy biegu działa jak napięty łuk albo resor w samochodzie: najpierw ugina się, a w ułamku sekundy oddaje energię i wyrzuca dziecko do przodu z palców. U Tomka pięta ucieka do środka, przez co cały łuk leży płasko na ziemi. On stracił swoją naturalną sprężynę wybicia! Dlatego kiedy próbuje biec, nie może odbić się z przodu stopy, tylko odruchowo rozrzuca stopy na boki jak kaczuszka i człapie całą płaską podeszwą, męcząc się trzy razy szybciej niż koledzy.
+- Pani Małgosiu, niech pani spojrzy na mechanikę jego stopy - powiedział, wskazując na zapadnięte do środka o 12 stopni pięty mojego syna. - Zdrowa stopa ma wysklepiony łuk podłużny, który przy biegu działa jak napięty łuk albo resor w samochodzie: najpierw ugina się, a w ułamku sekundy oddaje energię i wyrzuca dziecko do przodu z palców. U Tomka pięta ucieka do środka, przez co cały łuk leży płasko na ziemi. On stracił swoją naturalną sprężynę wybicia. Dlatego kiedy próbuje biec, nie może odbić się z przodu stopy, tylko odruchowo rozrzuca stopy na boki jak kaczuszka i człapie całą płaską podeszwą, męcząc się trzy razy szybciej niż koledzy.
 
 Fizjoterapeuta wsunął dłonie pod wewnętrzne łuki stóp Tomka, wyprostował mu pięty do pionu i poprosił, żeby zrobił kilka podskoków w miejscu.
 
@@ -657,7 +657,7 @@ Dziecko traci szybkość, potyka się i zostaje w tyle za rówieśnikami
 
 Wytłumaczył mi też brutalną matematykę jesieni i zimy, która zdjęła ze mnie poczucie winy za domowe ćwiczenia: jesienią i zimą dzieci spędzają 14 godzin dziennie na twardym szkolnym betonie (8 godzin) oraz domowych panelach (6 godzin).
 
-Robią w tym czasie 7000 kroków dziennie i ponad 200 000 kroków miesięcznie. Pół godziny turlania woreczka z kaszą na korektywie nigdy nie wygra z 200 000 kroków robionych na betonie!
+Robią w tym czasie 7000 kroków dziennie i ponad 200 000 kroków miesięcznie. Pół godziny turlania woreczka z kaszą na korektywie nigdy nie wygra z 200 000 kroków robionych na betonie.
 
 Co więcej, sztywna wkładka z punktu ortopedycznego unieruchamia stopę jak gips i jeszcze bardziej zabiera jej sprężystość.
 
@@ -669,7 +669,7 @@ Od razu zamówiłam wkładki Orthomax StepMax. Kiedy otworzyłam paczkę i wygi�
 
 Wkładki Orthomax StepMax są zrobione z elastycznej, dynamicznej pianki o zmiennej gęstości, która nie blokuje stopy jak twardy plastik, lecz pracuje razem z nią przy każdym kroku i skoku.
 
-wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją sztywno w pionie, sprężysty profil pod łukiem podłużnym unosi sklepienie i działa przy biegu jak mała trampolina oddająca energię wybicia, a wypustki pobudzają mięśnie stopy do własnej pracy, podczas gdy strefa amortyzacji pod piętą chroni przed szkolnym betonem.
+Korytko obejmuje piętę z obu stron i trzyma ją sztywno w pionie, podparcie łuku stopy unosi sklepienie i działa przy biegu jak sprężyna, a wypustki pobudzają mięśnie stopy do własnej pracy, podczas gdy strefa amortyzacji pod piętą chroni przed szkolnym betonem.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do halówek oraz butów zimowych Tomka.
 
@@ -679,9 +679,9 @@ Przez pierwsze 3 dni Tomek mówił po szkole: „Mamo, czuję pod stopą taką s
 
 Po 2 tygodniach przestałam słyszeć w mieszkaniu to ciężkie człapanie po panelach, a Tomek sam z siebie przestał chować buty na WF na dno szafy.
 
-Po miesiącu, w środę po lekcjach, Tomek wpadł do kuchni z rozpiętym plecakiem, oczy świeciły mu się jak dwie latarki i krzyknął od progu: „Mamo!
+Po miesiącu, w środę po lekcjach, Tomek wpadł do kuchni z rozpiętym plecakiem, oczy świeciły mu się jak dwie latarki i krzyknął od progu: „Mamo.
 
-Dzisiaj graliśmy w zbijaka i w piłkę i Maciek wybrał mnie do drużyny jako trzeciego, a pan od WF-u pochwalił mnie przy wszystkich za szybki sprint!".
+Dzisiaj graliśmy w zbijaka i w piłkę i Maciek wybrał mnie do drużyny jako trzeciego, a pan od WF-u pochwalił mnie przy wszystkich za szybki sprint.".
 
 Kiedy po 3 miesiącach fizjoterapeuta sprawdził jego stopy na zajęciach, kąt koślawości pięt zmniejszył się z 12 do 8 stopni, kolana przestały schodzić w X, a ślad stopy wreszcie odzyskał wyraźne wcięcie.
 
