@@ -99,7 +99,7 @@ Kiedy kilka dni później wyjęłam charakterystyczne pomarańczowo-czarne wkła
 
 Do tego delikatne wypustki sensoryczne na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje każde uderzenie o szkolny korytarz.
 
-Docięłam obie pary nożyczkami wzdłuż narysowanych linii w dwie minuty i wsunęłam je do jej butów bez kupowania obuwia o rozmiar większego.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je do jej butów bez kupowania obuwia o rozmiar większego.
 
 Nie oczekiwałam cudu w jeden dzień. Przez pierwsze trzy dni Zosia mówiła po szkole: „Mamo, trochę dziwnie, czuję taką sprężynkę pod stopą, ale nic mnie nie obciera".
 
@@ -121,7 +121,7 @@ Na oficjalnej stronie wkładki Orthomax StepMax kosztują 99,99 zł za parę, al
 
 Dzięki dwóm parom jedną wkładasz na stałe do butów szkolnych w szatni, a drugą do butów zimowych lub jesiennych, więc dziecko ma podparcie przez pełne 14 godzin każdego dnia.
 
-Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu wkładek nożyczkami i miesiącu noszenia możesz je odesłać i odzyskać 100% pieniędzy.
+Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możesz je odesłać i odzyskać 100% pieniędzy.
 
 Sprawdź dostępne rozmiary w pakiecie 1+1 tutaj: https://orthomax.pl/products/stepmax
 
@@ -229,7 +229,7 @@ Ich głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzy
 
 Na powierzchni znajdują się delikatne wypustki sensoryczne pobudzające receptory stopy, a miękka strefa pod piętą pochłania uderzenia o szkolny beton.
 
-W dwie minuty docięłam obie pary nożyczkami wzdłuż wyznaczonych linii i włożyłam je do zwykłych butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka włożyłam je do zwykłych butów Kasi.
 
 Przez pierwsze dwa dni Kasia mówiła po powrocie ze szkoły: „Mamo, czuję pod stopą takie podparcie, jakby coś mnie lekko trzymało od środka, ale jest miękko".
 
@@ -251,7 +251,7 @@ To osiem razy mniej niż jedna para sztywnych wkładek na wymiar, z których dzi
 
 Jedną parę wkładasz do butów na zmianę w szkolnej szatni, a drugą do butów jesiennych lub zimowych, zabezpieczając stopę przez całe 14 godzin dnia.
 
-Zamawiając, niczym nie ryzykujesz, bo masz pełne 30 dni gwarancji zwrotu - nawet po docięciu wkładek nożyczkami i miesiącu testowania w butach dziecka możesz je odesłać i odzyskać 100% wpłaconej kwoty.
+Zamawiając, niczym nie ryzykujesz, bo masz pełne 30 dni gwarancji zwrotu - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możesz je odesłać i odzyskać 100% wpłaconej kwoty.
 
 Sprawdź pakiet 1+1 GRATIS i zabezpiecz stopy dziecka tutaj: https://orthomax.pl/products/stepmax
 
@@ -373,7 +373,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej, pomarańczowo-czarnej pi
 
 Pod spodem dynamiczne podparcie łuku działa przy każdym kroku jak sprężyna, która odbija stopę i zmusza mięśnie do aktywnej pracy przez cały dzień, a delikatne wypustki sensoryczne pobudzają receptory, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o beton.
 
-Docięłam je nożyczkami w dwie minuty i włożyłam do butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka włożyłam do butów Kasi.
 
 Pierwsze trzy dni Kasia mówiła: „Mamo, czuję coś pod stopą, trochę dziwnie, ale w ogóle nie boli". W pierwszym tygodniu ramię jeszcze czasem dawało o sobie znać po szkole.
 
@@ -397,7 +397,7 @@ To mniej niż jedna prywatna wizyta u lekarza i siedem razy mniej niż twarde wk
 
 Jedną parę wkładasz do butów szkolnych na zmianę, drugą do butów codziennych na dwór, dzięki czemu stopy pracują w prawidłowej osi przez wszystkie 7000 kroków dziennie.
 
-Dodatkowo masz 30 dni gwarancji zwrotu bez ryzyka - nawet jeśli dotniesz wkładki nożyczkami i dziecko będzie w nich chodzić przez miesiąc, możesz je zwrócić i odzyskać 100% pieniędzy.
+Dodatkowo masz 30 dni gwarancji zwrotu bez ryzyka - nawet jeśli dziecko będzie w nich normalnie chodzić przez cały miesiąc, możesz je zwrócić i odzyskać 100% pieniędzy.
 
 Zamów pakiet 1+1 GRATIS z 30-dniową gwarancją tutaj: https://orthomax.pl/products/stepmax
 
@@ -517,7 +517,7 @@ Głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma j
 
 Z kolei elastyczne podparcie łuku podłużnego pracuje przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki sensoryczne na powierzchni cały czas pobudzają mięśnie do pracy, podczas gdy miękka poduszka pod piętą tłumi uderzenia o szkolny beton.
 
-Docięłam obie pary nożyczkami wzdłuż linii w dwie minuty i włożyłam jedną parę do jej butów szkolnych, a drugą do jesiennych trzewików.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka włożyłam jedną parę do jej butów szkolnych, a drugą do jesiennych trzewików.
 
 Przez pierwsze trzy dni Kasia mówiła po szkole: „Mamo, dziwnie się chodzi, czuję pod stopą taką górkę, ale nic mnie nie gniecie".
 
@@ -539,7 +539,7 @@ Na oficjalnej stronie wkładki Orthomax StepMax są dostępne w pakiecie 1+1 GRA
 
 Dzięki temu jedną parę wkładasz na stałe do butów na zmianę w szkole, a drugą do butów zimowych lub jesiennych, chroniąc kolana dziecka przez pełne 14 godzin dnia i wszystkie 7000 kroków.
 
-Masz też pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu wkładek nożyczkami i miesiącu noszenia możesz je odesłać i odzyskać 100% pieniędzy.
+Masz też pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możesz je odesłać i odzyskać 100% pieniędzy.
 
 Sprawdź pakiet 1+1 GRATIS i odciąż kolana swojego dziecka tutaj: https://orthomax.pl/products/stepmax
 
@@ -646,7 +646,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Pod spodem wyprofilowany łuk działa przy każdym kroku jak dynamiczna trampolina, która unosi stopę i zmusza mięśnie do aktywnej pracy, a delikatne wypustki sensoryczne na powierzchni cały czas stymulują receptory i przypominają ciału o prawidłowej osi, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o szkolny beton.
 
-Docięłam obie pary nożyczkami w dwie minuty wzdłuż wyznaczonych linii i włożyłam do zwykłych butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  do zwykłych butów Kasi.
 
 Przez pierwsze trzy dni Kasia mówiła po szkole: „Mamo, trochę dziwnie pod stopą, czuję takie podparcie od środka, ale jest wygodnie".
 
@@ -664,7 +664,7 @@ Na oficjalnej stronie wkładki Orthomax StepMax są teraz dostępne w pakiecie 1
 
 Jedną parę wkładasz na stałe do butów na zmianę w szkolnej szatni, a drugą do butów zimowych lub jesiennych, dzięki czemu fundamenty ciała są stabilne przez pełne 14 godzin każdego dnia.
 
-Masz przy tym 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu wkładek nożyczkami i miesiącu noszenia możesz je odesłać i odzyskać 100% pieniędzy.
+Masz przy tym 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możesz je odesłać i odzyskać 100% pieniędzy.
 
 Sprawdź pakiet 1+1 GRATIS i wyrównaj postawę dziecka od fundamentów tutaj: https://orthomax.pl/products/stepmax
 
@@ -772,7 +772,7 @@ Ich głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzy
 
 Na powierzchni znajdują się delikatne wypustki sensoryczne pobudzające receptory, a miękka warstwa pod piętą tłumi uderzenia o szkolny beton.
 
-Docięłam obie pary nożyczkami w dwie minuty wzdłuż narysowanych linii i włożyłam do zwykłych butów Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  do zwykłych butów Zosi.
 
 Przez pierwsze trzy dni Zosia mówiła: „Mamo, czuję pod stopą taką poduszeczkę od środka, trochę dziwnie, ale nic nie ciśnie".
 
@@ -794,7 +794,7 @@ To ułamek ceny twardych wkładek na zamówienie za 380 zł, z których rosnąca
 
 Jedną parę wkładasz na stałe do butów zamiennych w szkolnej szatni, a drugą do butów jesiennych lub zimowych, zapewniając dziecku stabilizację przez pełne 14 godzin każdego dnia.
 
-Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu wkładek nożyczkami i miesiącu noszenia możesz je odesłać i odzyskać 100% pieniędzy.
+Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możesz je odesłać i odzyskać 100% pieniędzy.
 
 Sprawdź pakiet 1+1 GRATIS i zdąż przed zamknięciem okna wzrostowego tutaj: https://orthomax.pl/products/stepmax
 

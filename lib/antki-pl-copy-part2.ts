@@ -4,7 +4,7 @@ export const ANTKI_PL_COPY_PART2: Record<
 > = {
   'pl-07-bol-glowy-i-karku': {
     headline: 'Szukaliśmy przyczyny bólu karku u okulisty i laryngologa. Prawdziwy winowajca był w butach córki',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `W gabinecie prywatnego okulisty w Łodzi zapłaciłam kartą 250 złotych, a lekarz odsunął lampę szczelinową od twarzy mojej dziesięcioletniej Zosi, zdjął okulary i rozłożył ręce.
 
 Powiedział wprost, że wzrok mojej córki jest ostry jak u sokoła, dno oka wygląda idealnie, astygmatyzmu nie ma nawet ułamka dioptrii, więc musimy szukać przyczyny gdzie indziej.
@@ -96,7 +96,7 @@ Głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma j
 
 Na powierzchni są delikatne wypustki sensoryczne, które pobudzają mięśnie do pracy, a pod piętą specjalna strefa amortyzacji połyka uderzenia o szkolny beton.
 
-W dwie minuty docięłam je zwykłymi nożyczkami wzdłuż narysowanych linii i wsunęłam do butów Zosi - weszły idealnie, bez kupowania obuwia o rozmiar większego.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka wsunęłam je prosto do butów Zosi - weszły idealnie, bez kupowania obuwia o rozmiar większego.
 
 Zmiana nie przyszła w jedną noc, ale była tak wyraźna, że zapisywałam ją w kalendarzu.
 
@@ -116,7 +116,7 @@ Na oficjalnej stronie producenta jest teraz pakiet 1+1 GRATIS, w którym za 99,9
 
 Przy jesienno-zimowym trybie życia te dwie pary to absolutne zbawienie - jedną parę włożyliśmy na stałe do butów zimowych, a drugą do butów szkolnych na zmianę, więc Zosia nie musi nic przekładać rano w szatni i jej stopy są chronione przez pełne 14 godzin dnia.
 
-Co najważniejsze, dostajesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz dociąć wkładki nożyczkami pod stopę dziecka, testować je przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz i zwracają 100% pieniędzy.
+Co najważniejsze, dostajesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz założyć dziecku wkładki do butów, testować je przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz i zwracają 100% pieniędzy.
 
 Tutaj zostawiam link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/stepmax
 
@@ -217,7 +217,7 @@ Głębokie korytko w kształcie litery U obejmuje piętę niczym dłonie ortoped
 
 Na górze znajdują się wypustki sensoryczne, które cały czas zmuszają mięśnie stopy do aktywnej pracy, natomiast strefa amortyzacji pod samą piętą pochłania wstrząsy na betonie i sztucznej murawie.
 
-Są tak smukłe, że po docięciu nożyczkami wzdłuż linii w dwie minuty weszły gładko zarówno do wąskich korków piłkarskich, jak i do butów na zmianę w szkole.
+Mają tak dokładną rozmiarówkę i smukły profil, że od razu po wyjęciu z pudełka weszły gładko zarówno do wąskich korków piłkarskich, jak i do butów na zmianę w szkole.
 
 Obserwowałam Kubę dzień po dniu, bez wywierania na nim presji.
 
@@ -235,7 +235,7 @@ Na stronie producenta jest teraz pakiet 1+1 GRATIS, dzięki któremu dwie pary w
 
 U nas ten pakiet dwóch par sprawdził się genialnie, bo jedna para siedzi na stałe w butach szkolnych na zmianę, a druga w butach zimowych i treningowych, więc Kuba ma zabezpieczone stopy przez całe 14 godzin dnia bez ciągłego przekładania wkładek.
 
-Do tego sklep daje pełne 30 dni gwarancji zwrotu - nawet kiedy dotniesz wkładki nożyczkami i dziecko będzie w nich biegać przez miesiąc, możesz je odesłać i odzyskać co do grosza, jeśli nie zobaczysz ulgi.
+Do tego sklep daje pełne 30 dni gwarancji zwrotu - nawet kiedy dziecko będzie w nich normalnie biegać przez cały miesiąc, możesz je odesłać i odzyskać co do grosza, jeśli nie zobaczysz ulgi.
 
 Zostawiam bezpośredni link do pakietu 1+1: https://orthomax.pl/products/stepmax
 
@@ -244,7 +244,7 @@ P.S. W ostatnią sobotę stałam przy linii bocznej na turnieju rocznika i patrz
 
   'pl-09-kolano-na-schodach': {
     headline: 'Założyłam córce opaskę z apteki na bolące kolano. Ortopeda kazał ją zdjąć w tej samej sekundzie',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `Mieszkamy w kamienicy w Szczecinie na trzecim piętrze bez windy i te schody pokonujemy codziennie przynajmniej cztery razy.
 
 W zeszły czwartek po południu, kiedy wracałyśmy razem ze szkoły, moja dziesięcioletnia Kasia nagle zatrzymała się w połowie drugiego piętra, usiadła ciężko na zimnym kamiennym stopniu, złapała się obiema dłońmi za kolana i powiedziała cichutko: „Mamo, poczekaj chwilę, nie idź tak szybko, bo znowu strasznie kłuje mnie pod rzepką przy każdym podniesieniu nogi".
@@ -327,7 +327,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Jednocześnie elastyczne podparcie łuku podłużnego działa przy każdym kroku jak sprężyna, wypustki sensoryczne na wierzchu pobudzają mięśnie stopy do własnej pracy, a miękka poduszka pod piętą amortyzuje uderzenia o schody i szkolny beton.
 
-Docięłam je nożyczkami w dwie minuty wzdłuż linii rozmiarowych i włożyłam do zwykłych butów Kasi.
+Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z pudełka włożyłam je prosto do zwykłych butów Kasi.
 
 Przez pierwsze 3 dni Kasia mówiła, że w bucie czuje pod spodem takie wyraźne „gniazdko", które trzyma jej piętę i nie pozwala kostce uciekać do środka, ale chodzi się miękko i wygodnie.
 
@@ -343,7 +343,7 @@ Na oficjalnej stronie producenta można teraz wziąć pakiet 1+1 GRATIS, w któr
 
 Dwie pary w zestawie to ogromna wygoda jesienią i zimą, bo jedną parę włożyliśmy do butów zimowych na wyjścia, a drugą do butów szkolnych na zmianę, dzięki czemu kolana Kasi są chronione przez pełne 14 godzin każdego dnia.
 
-Co więcej, producent daje 30 dni gwarancji zwrotu bez ryzyka - możesz dociąć wkładki nożyczkami, dać dziecku chodzić w nich przez miesiąc, a jeśli nie przyniosą ulgi, odsyłasz je i dostajesz 100% zwrotu pieniędzy.
+Co więcej, producent daje 30 dni gwarancji zwrotu bez ryzyka - możesz włożyć wkładki do butów,  chodzić w nich przez miesiąc, a jeśli nie przyniosą ulgi, odsyłasz je i dostajesz 100% zwrotu pieniędzy.
 
 Link do oficjalnej strony z pakietem 1+1 zostawiam tutaj: https://orthomax.pl/products/stepmax
 
@@ -352,7 +352,7 @@ P.S. Dwa dni temu wyrzuciłam do kosza te dwie szare opaski na kolana z apteki z
 
   'pl-10-krzywa-spodniczka-apel': {
     headline: 'Myślałam, że krawcowa krzywo uszyła spódniczkę córki. Na bilansie w szkole przeżyłam szok',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka (nawet po docięciu)',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka ( bez ryzyka)',
     primaryText: `Podczas październikowego apelu w szkole podstawowej w Lublinie stałam w rzędzie dla rodziców pod ścianą sali gimnastycznej i chyba pięć razy podchodziłam do mojej dziewięcioletniej Zosi, żeby przekręcić jej granatową spódniczkę galową z powrotem na środek.
 
 Za każdym razem, kiedy Zosia zrobiła kilkanaście kroków albo przestąpiła z nogi na nogę podczas śpiewania hymnu, gumka w pasie zjeżdżała jej w dół po prawej stronie, zamek błyskawiczny wędrował na brzuch, a plisy układały się krzywo nad kolanami.
@@ -433,7 +433,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Głębokie korytko w kształcie litery U chwyta piętę z obu stron i trzyma ją w pionie dokładnie na równej wysokości, dynamiczne podparcie łuku podłużnego unosi wewnętrzny brzeg stopy przy każdym z 7000 kroków, a wypustki sensoryczne stymulują mięśnie krótkie stopy, podczas gdy warstwa amortyzująca pod piętą chroni stawy przed betonem.
 
-Docięłam je nożyczkami w dwie minuty wzdłuż wyznaczonych linii i włożyłam do butów Zosi.
+Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z pudełka włożyłam je prosto do butów Zosi.
 
 Pierwsze 3 dni były okresem adaptacji - Zosia mówiła po szkole, że czuje pod prawą stopą wyraźne podparcie, które nie pozwala jej nodze „kłaść się do środka", ale wkładki są miękkie i wygodne.
 
@@ -449,7 +449,7 @@ Na oficjalnej stronie producenta jest teraz dostępny pakiet 1+1 GRATIS, w któr
 
 Dwie pary w pakiecie rozwiązują cały problem jesieni i zimy, bo jedną parę wkładamy do butów zimowych, a drugą na stałe do butów szkolnych na zmianę, dzięki czemu miednica i kręgosłup dziecka mają prosty fundament przez pełne 14 godzin dnia.
 
-Dodatkowo masz pełne 30 dni gwarancji zwrotu - możesz dociąć wkładki nożyczkami, testować je w butach dziecka przez miesiąc i jeśli nie zobaczysz poprawy postawy, odsyłasz je i odzyskujesz 100% pieniędzy.
+Dodatkowo masz pełne 30 dni gwarancji zwrotu - możesz włożyć wkładki do butów,  w butach dziecka przez miesiąc i jeśli nie zobaczysz poprawy postawy, odsyłasz je i odzyskujesz 100% pieniędzy.
 
 Tutaj wklejam link do pakietu 1+1 na oficjalnej stronie: https://orthomax.pl/products/stepmax
 
@@ -458,7 +458,7 @@ P.S. Ten piszczący pajączek na plecy za 129 złotych leży dziś głęboko na 
 
   'pl-11-telefon-od-wuefistki': {
     headline: 'Myślałam, że córka symuluje, żeby nie ćwiczyć na WF-ie. Telefon od wuefistki wbił mnie w ziemię',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `Przez cały wrzesień i październik byłam święcie przekonana, że moja dziewięcioletnia Zosia po prostu kombinuje i szuka wymówek, żeby nie ćwiczyć na WF-ie.
 
 W każdy wtorek i czwartek rano, dokładnie w te dni, kiedy w planie lekcji miała dwie godziny wychowania fizycznego pod rząd, przy śniadaniu zaczynał się ten sam koncert: „Mamo, kłuje mnie brzuch, bolą mnie nogi, napisz mi proszę zwolnienie chociaż na dzisiaj".
@@ -547,7 +547,7 @@ Głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma j
 
 Delikatne wypustki sensoryczne na powierzchni zmuszają mięśnie stopy do naturalnej pracy, a poduszka amortyzująca pod piętą tłumi uderzenia o twardy parkiet sali gimnastycznej.
 
-Docięłam je nożyczkami w dwie minuty wzdłuż linii i włożyłam do butów Zosi na WF oraz do butów zimowych.
+Dobrałam odpowiedni rozmiar z tabeli i od razu po wyjęciu z pudełka włożyłam je prosto do butów Zosi na WF oraz do butów zimowych.
 
 Przez pierwsze 3 dni Zosia mówiła po szkole, że czuje pod stopą taką sprężystą górkę, która trzyma jej nogę prosto, ale nic jej nie uwiera ani nie obciera podczas chodzenia.
 
@@ -563,7 +563,7 @@ Na oficjalnej stronie producenta jest teraz pakiet 1+1 GRATIS, w którym za 99,9
 
 Dwie pary w pakiecie to strzał w dziesiątkę na jesień i zimę: jedną parę włożyliśmy do butów szkolnych i na WF, a drugą do butów zimowych, więc stopy Zosi są ustawione w pionie przez wszystkie 14 godzin dnia i 7000 kroków.
 
-Na wszystko masz 30 dni gwarancji zwrotu bez żadnego ryzyka - możesz dociąć wkładki nożyczkami, przetestować je w szkole, a jeśli dziecko nie poczuje ulgi, odsyłasz je i dostajesz 100% pieniędzy z powrotem.
+Na wszystko masz 30 dni gwarancji zwrotu bez żadnego ryzyka - możesz włożyć wkładki do butów,  w szkole, a jeśli dziecko nie poczuje ulgi, odsyłasz je i dostajesz 100% pieniędzy z powrotem.
 
 Link do oficjalnej strony z pakietem 1+1 zostawiam tutaj: https://orthomax.pl/products/stepmax
 
@@ -572,7 +572,7 @@ P.S. W zeszłym tygodniu przeprosiłam moją córkę za wszystkie te poranki, ki
 
   'pl-12-wybierany-ostatni-do-druzyny': {
     headline: '„Mamo, załatw mi zwolnienie z WF-u, bo wybierają mnie ostatniego". Te słowa syna złamały mi serce',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `Kiedy w zeszłą środę po powrocie ze szkoły mój dziewięcioletni Tomek zamknął się na klucz w swoim pokoju, podszedł do drzwi i powiedział łamiącym się głosem: „Mamo, załatw mi proszę zwolnienie z WF-u do końca roku, bo chłopaki śmieją się, że biegam jak kaczuszka i kapitanowie zawsze wybierają mnie do drużyny na samym końcu", poczułam, jakby ktoś wymierzył mi cios prosto w brzuch.
 
 Stałam na korytarzu z kubkiem ciepłego kakao w dłoni, trzymałam fason i spokojnym głosem prosiłam go, żeby otworzył drzwi, ale kiedy w końcu zasnął wieczorem, poszłam do łazienki, odkręciłam wodę w kranie i pierwszy raz od dawna rozpłakałam się z bezsilności.
@@ -651,7 +651,7 @@ Wkładki Orthomax StepMax są zrobione z elastycznej, dynamicznej pianki o zmien
 
 Głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją sztywno w pionie, sprężysty profil pod łukiem podłużnym unosi sklepienie i działa przy biegu jak mała trampolina oddająca energię wybicia, a wypustki sensoryczne pobudzają mięśnie stopy do własnej pracy, podczas gdy strefa amortyzacji pod piętą chroni przed szkolnym betonem.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i włożyłam do halówek oraz butów zimowych Tomka.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do halówek oraz butów zimowych Tomka.
 
 Zmiana zachowania mojego syna była najpiękniejszą rzeczą, jaką widziałam tej jesieni.
 
@@ -671,7 +671,7 @@ Na oficjalnej stronie producenta jest teraz pakiet 1+1 GRATIS, w którym dwie pa
 
 Dwie pary w zestawie są jesienią i zimą niezastąpione, bo jedną parę wkładamy na stałe do butów szkolnych i na WF, a drugą do butów zimowych, dzięki czemu stopy dziecka pracują prawidłowo przez pełne 14 godzin dnia.
 
-Do tego otrzymujesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz dociąć wkładki nożyczkami, dać dziecku biegać w nich przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz je i zwracają 100% pieniędzy.
+Do tego otrzymujesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz włożyć wkładki do butów,  biegać w nich przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz je i zwracają 100% pieniędzy.
 
 Zostawiam link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/stepmax
 

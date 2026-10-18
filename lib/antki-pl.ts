@@ -166,9 +166,9 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     hookIdea:
       'Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty za 599 złotych (i to w promocji z 749 zł). Ale Zosia marzyła o tych nowych Nike od wiosny, a ja chciałam, żeby na jesień i zimę miała wreszcie porządne, twarde buty. Po 3 tygodniach wzięłam je wieczorem w przedpokoju do ręki, żeby zetrzeć błoto, odwróciłam podeszwę do światła i zamarłam.',
     sceneBeat:
-      'Z góry buty wyglądały jeszcze całkiem nieźle, ale pod spodem córka niemal bosą nogą po ziemi chodziła - wewnętrzna krawędź obu pięt w butach za 599 zł była starta pod skosem niemal do pianki, a sztywny zapiętek wygięty do środka tak, że po 3 tygodniach wyglądały na noszone co najmniej parę lat. Gosia jedzie wściekła do salonu złożyć reklamację z paragonem w ręku. Kierowniczka zmiany (kobieta po 50-tce, która wcześniej pracowała w sklepie ortopedycznym - NIE zna imienia Gosi!) bierze buta w dłonie, ściska zapiętek, patrzy na stojącą obok Zosię i mówi spokojnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki. Jej wykrzywia się cały wewnętrzny bok stopy do środka, a odległość między kostkami przy złączonych kolanach to już prawie 5 centymetrów. To nie guma w Nike jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i mieli każdego buta jak tarka". Obalenie mitu pediatry o „bólach wzrostowych".',
+      'Z góry wyglądały jeszcze jak nowe, ale od spodu wewnętrzna krawędź obu pięt w butach za 599 zł była już wyraźnie ścięta pod skosem, a sztywny zapiętek wygiął się do środka tak mocno, jakby Zosia chodziła w nich co najmniej od zeszłej zimy. Gosia jedzie wściekła do salonu złożyć reklamację z paragonem w ręku. Kierowniczka zmiany (spokojna kobieta po 50-tce, która, jak Gosia dowiaduje się chwilę później podczas rozmowy, wcześniej przez lata pracowała w sklepie ortopedycznym - NIE zna imienia Gosi!) bierze buta w dłonie, ściska zapiętek, patrzy na stojącą obok Zosię i mówi spokojnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki. Jej wykrzywia się cały wewnętrzny bok stopy do środka, a odległość między kostkami przy złączonych kolanach to już prawie 5 centymetrów. To nie podeszwa w tych butach jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i ściera każdego buta od wewnętrznej strony". Obalenie mitu pediatry o „bólach wzrostowych".',
     failedSolutionsMath:
-      'Buty Nike w promocji 599 zł + wrześniowe trampki do szkoły (zmasakrowane w miesiąc) 180 zł + żel z arniką i magnezem na nocne bóle łydek 45 zł = 824 zł',
+      'Markowe buty kupione w promocji 599 zł + wrześniowe trampki do szkoły (zmasakrowane w miesiąc) 180 zł + żel z arniką i magnezem na nocne bóle łydek 45 zł = 824 zł',
     discoveryBridge:
       'Po powrocie ze sklepu Gosia wrzuca zdjęcie startej podeszwy na grupę „Mamy z Poznania" i forum dla mam z pytaniem, co z tym zrobić, bo przecież nie zostawi nawet butów po starszej dla młodszej, skoro są tak zmasakrowane. W ciągu 2 godzin pod postem pojawia się ponad 60 komentarzy od mam, które przechodziły dokładnie to samo i wrzucają zdjęcia pomarańczowo-czarnych wkładek dynamicznych Orthomax StepMax.',
     defaultHeadline: 'Wydałam 599 zł na wymarzone buty córki. Po 3 tygodniach spojrzałam na podeszwę i zamarłam',
@@ -964,10 +964,9 @@ D) STAGE 4: HIGH STAKES / ŻAL PO OPERACJI (Sofistykacja 4 — Ostateczność):
 Wplataj w narrację autentyczne sformułowania, których polskie matki używają na forach internetowych:
 
 1) SŁOWNIK „MAŁEGO NISZCZYCIELA BUTÓW" (Zdzieranie i wykrzywianie obuwia):
-   - „Jakiekolwiek buty by nie założyła, po 2-3 tygodniach wyglądają na noszone co najmniej parę lat."
-   - „Z góry wyglądały jeszcze całkiem nieźle, ale pod spodem niemal bosą nogą po ziemi chodziła, bo matce nie przyszło do głowy, że w 3 tygodnie tak zedrze podeszwę od środka."
-   - „But jest całkowicie wygięty do środka, zapiętek położony, a obcas ścięty pod skosem jak nożem."
-   - „Nie mam dylematu, czy zostawić buty po starszej dla młodszej, bo po prostu nic nie zostaje - zmasakrowane w błyskawicznym tempie."
+   - „Jakiekolwiek buty by nie założyła, po 2-3 tygodniach są wygięte do środka, jakby chodziła w nich od zeszłej zimy."
+   - „Z góry wyglądały jeszcze jak nowe, ale od spodu wewnętrzna krawędź obu pięt była już wyraźnie ścięta pod skosem, a sztywny zapiętek wygiął się do środka."
+   - „Nie mam dylematu, czy zostawić buty po starszej dla młodszej, bo po prostu nic nie zostaje - wszystko jest zmasakrowane w błyskawicznym tempie."
 
 2) SŁOWNIK WYGLĄDU NÓG I CHODU DZIECKA (Jak matki opisują koślawość i wiotkość):
    - „Wykrzywia jej się cały wewnętrzny bok stopy do środka, stopa robi się spłaszczona, a nóżka jakby łamie się w kostce."
@@ -978,7 +977,7 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
    - „U chłopca nie ma nic gorszego niż nogi w X."
 
 3) SŁOWNIK NOCNYCH „BÓLÓW WZROSTOWYCH" I PANIKI MATKI:
-   - „Ból nóżek (dokładnie kolan, piszczeli i łydek) pojawia się późnym wieczorem, całą noc budzi się z płaczem, a rano około 9:30 nagle mu przechodzi."
+   - „Ból nóżek (dokładnie kolan, piszczeli i łydek) pojawia się późnym wieczorem, całą noc budzi się z płaczem, a rano przed szkołą nagle mu przechodzi."
    - „W nocy masowanie, smarowidła z apteki z arniką i mentolem, ciepły termofor z pestek wiśni i syrop Nurofen albo Apap, bo bez leku nie zaśnie."
    - „Ze strachu przed białaczką i chłoniakiem leciałam rano robić prywatnie morfologię z rozmazem ręcznym, CRP i witaminę D - myślałam, że osiwieję."
    - „Pediatra w przychodni zbywał mnie słowami: 'Nie leczymy wyników, tylko dziecko. Taka jej uroda, to bóle wzrostowe'."
@@ -989,111 +988,63 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
    - „Ćwiczenia w domu to droga przez mękę: chodzenie jak pingwinek na zewnętrznych krawędziach stóp, zbieranie chusteczek i ubranek palcami z podłogi, turlanie woreczka z kaszą - dziecko jest uparte jak osiołek, nudzi się po 3 minutach i kończy się płaczem."
 
 5) SŁOWNIK OBIEKCJI WOBEC WKŁADEK NA ZAMÓWIENIE (300-400 ZŁ) I BUTÓW ORTOPEDYCZNYCH (Aurelka, Memo, Danielki, Obcas Thomasa):
-   - KILER-ARGUMENT BUDŻETOWY (Rosnąca stopa): „Wkładki indywidualne w punkcie kosztują 350-400 zł, a przecież dziecku rośnie stopa! Takie wkładki starczają na pół roku, po czym trzeba je wyrzucić do kosza i znów wydać 4 stówy. Dlatego pakiet 1+1 wkładek Orthomax StepMax za 99,99 zł (50 zł za parę) z liniami do docięcia nożyczkami to zbawienie dla budżetu."
+   - KILER-ARGUMENT BUDŻETOWY (Rosnąca stopa): „Wkładki indywidualne w punkcie kosztują 350-400 zł, a przecież dziecku rośnie stopa! Takie wkładki starczają na pół roku, po czym trzeba je wyrzucić do kosza i znów wydać 4 stówy. Dlatego pakiet 1+1 wkładek Orthomax StepMax za 99,99 zł (50 zł za parę) z dokładną rozmiarówką to zbawienie dla budżetu."
    - KILER-ARGUMENT DOPASOWANIA DO BUTÓW: „Gruba, twarda wkładka z punktu ortopedycznego nie mieści się do żadnych normalnych butów na jesień - trzeba kupować buty o rozmiar większe!"
    - KILER-ARGUMENT PRZECIW SZTYWNYM BUTOM: „Wysokie kapcie ortopedyczne z obcasem Thomasa i podklejanym klinem (typu Danielki, Memo, Aurelka) są ciężkie, sztywne jak gips, dziecko dziwnie w nich chodzi i wstydzi się ich w szatni. Aparat ruchu najlepiej działa będąc w ruchu - dlatego potrzebne są wkładki DYNAMICZNE, które pracują w każdej fazie chodu."
 
-=== 3. TWARDE, NIENEGOCJOWALNE ZASADY JĘZYKOWE, LOGICZNE I REALIZMU SCENY (5 KRYTYCZNYCH ZASAD WŁAŚCICIELA) ===
-1. OBCY LUDZIE W SKLEPIE NIE ZNAJĄ IMIENIA MATKI (ZERO „Pani Małgosiu" OD SPRZEDAWCZYNI!):
-   - Kiedy matka idzie do sklepu obuwniczego reklamować lub zwrócić zdarte buty (np. Nike za 599 zł), kierowniczka zmiany ani ekspedientka NIE ZNA jej imienia!
-   - NIGDY nie pisz: „Pani Małgosiu, ja pani ten wniosek przyjmę". ZAWSZE pisz naturalnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki...".
-   - Po imieniu („Gosiu" / „Pani Małgosiu") może zwrócić się wyłącznie osoba, która ją zna prywatnie (sąsiadka, koleżanka, wychowawczyni) albo lekarz/fizjoterapeuta, który ma przed sobą kartę pacjenta.
-2. ZERO POLICYJNYCH, SZTUCZNYCH GODZIN CO DO MINUTY („o 20:07", „o 19:30 w czwartek"):
-   - Nikt w prawdziwym życiu nie pamięta, że w zeszły czwartek stał w łazience „o 20:07" albo że dziecko płakało „o 19:30"! Taki zapis brzmi jak fałszywy raport policyjny.
-   - Zamiast sztucznych godzin z minutami używaj naturalnych określeń pory dnia: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy", „Kiedy wróciliśmy po południu ze szkoły", „Przed wyjściem do pracy".
-   - Jeśli w tekście wyjątkowo pojawia się godzina (np. budzik rano albo umówiona wizyta), zapisz ją pełną godziną cyframi (np. „o 6:00 rano") i NIGDY nie mieszaj zapisu cyfrowego ze słownym („po siedemnastej"), ani nie wymyślaj dziwnych minut typu „20:07" czy „18:43".
-3. LOGICZNE WEJŚCIE POSTACI DO SCENY (NIKT NIE WCHODZI SAM Z SIEBIE DO CUDZEJ ŁAZIENKI!):
-   - Sąsiadka-fizjoterapeutka NIGDY „nie wchodzi sobie tak o" do cudzej łazienki, kiedy dziecko stoi przed wanną! To kompletnie nie trzyma się kupy.
-   - Jeśli w scenie pojawia się sąsiadka lub znajoma fizjoterapeutka, matka MUSI ją sama wcześniej poprosić o pomoc i zaprosić na chwilę do mieszkania („Kiedy w czwartek wieczorem Kasia po całym dniu w szkole znów popłakiwała przed kąpielą, że palą ją piszczele, nie wytrzymałam - zapukałam do naszej sąsiadki z piętra, która jest fizjoterapeutką dziecięcą, i poprosiłam, żeby zaszła na chwilę spojrzeć na nogi córki"). Ponadto sąsiadka mówi naturalnie: „Gosiu, mogę ci coś pokazać?", a nie oficjalnie „Pani Gosiu".
-4. ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ..." PRZY OPISIE WKŁADEK (PŁYNNA NARRACJA ZAMIAST SUCHYCH PUNKTÓW):
-   - NIGDY nie pisz opisu wkładek jako trzech osobnych, krótkich zdań zaczynających się od tego samego słowa: „Mają głębokie korytko... Mają dynamiczne podparcie łuku... Mają też wypustki sensoryczne...". To brzmi jak ulotka wygenerowana przez bota!
-   - Zamiast tego wpleć budowę wkładek w płynny, obrazowy akapit narracyjny pokazujący, CO dzieje się ze stopą dziecka w bucie: np. „Kiedy wyjęłam je z pudełka i ścisnęłam w dłoniach, od razu poczułam różnicę. Zamiast sztywnego plastiku jest tu sprężysta pianka o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie jak w dłoniach fizjoterapeuty. Pod spodem dynamiczne podparcie łuku działa przy każdym kroku jak mała trampolina, a delikatne wypustki sensoryczne cały czas bodźcują mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o szkolny beton".
-5. LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX:
-   - W języku polskim „wkładki Orthomax StepMax" to ZAWSZE LICZBA MNOGA (rodzaj niemęskoosobowy: ONE / WKŁADKI).
-   - ZAWSZE pisz: „Wkładki Orthomax StepMax są zrobione ze sprężystej pianki", „stabilizują piętę", „pracują przy każdym kroku", „kosztują 99,99 zł".
-   - NIGDY nie pisz w liczbie pojedynczej: „Orthomax StepMax jest zrobiony...", „StepMax ma...", „Orthomax działał...".
-6. STYL MELLOW W OTWARCIU I NAGŁÓWKU (ZERO ZUŻYTYCH SZABLONÓW):
-   - NIGDY nie zaczynaj tekstu od oklepanego zdania „Nie miałam zamiaru tego udostępniać, ponieważ to dość osobiste...". Ten opener jest spalony!
-   - NIGDY nie dawaj w nagłówku (headline) oklepanego „Jeśli Twoje dziecko bolą stopy, przeczytaj to ☝️".
-   - Zamiast tego w 1 zdaniu tekstu i w nagłówku wchodź OD RAZU w środek konkretnej sceny, kwoty lub kontrowersji w stylu Mellow (np. „Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty Nike za 599 złotych...", „Mój 8-letni syn miał tylko nałożyć kaszę do obiadu, a rzucił woreczkiem o ścianę w kuchni i zatrzasnął drzwi...").
-7. REALIZM EMOCJONALNY MATKI (ZERO SZTUCZNEGO PŁACZU RAZEM Z DZIECKIEM):
-   - Matka NIGDY nie siedzi na podłodze i „nie płacze razem z ośmioletnim synem" w trakcie awantury!
-   - Prawdziwa matka w trakcie wybuchu dziecka zastyga, trzyma emocje na wodzy, a pęka i płacze DOPIERO PÓŹNIEJ SAMA w kuchni lub łazience, kiedy dziecko zatrzaśnie drzwi swojego pokoju albo zaśnie.
-8. REALISTYCZNY MOST ODKRYCIA (REVEAL Z GRUPY NA FB / FORUM / OD SĄSIADKI LUB INNEJ MAMY):
-   - NIGDY nie pisz, że „wieczorem wpisałam w telefonie nazwę Orthomax StepMax, którą zapisał mi na kartce fizjoterapeuta" bez rozmowy o tym w gabinecie!
-   - Używaj w 100% naturalnego, ludzkiego mostu odkrycia: wątek na grupie dla mam na Facebooku / forum rodziców ze zdjęciami przed i po, sąsiadka przynosząca but swojego syna z mieszkania obok albo rozmowa z mamą koleżanki z klasy.
-9. ABSOLUTNY ZAKAZ EM-DASHÓW I EN-DASHÓW ORAZ „, i":
-   - NIGDY nie używaj długiego myślnika „—" (U+2014) ani półpauzy „–" (U+2013). Używaj wyłącznie zwykłego krótkiego łącznika „-", kropek, przecinków lub dwukropków.
-   - Nigdy nie stawiaj przecinka przed spójnikiem „i".
-10. ZERO „WORKA Z KAPCIAMI" W SZKOLE:
-   - Współczesne dzieci w szkole nie noszą „worka z kapciami" - mają buty na zmianę w szatni, a jesienią i zimą spędzają cały dzień (14 godzin) pod dachem: 8 godzin na szkolnym betonie i 6 godzin w domu na twardych panelach, bo nikt już nie wychodzi biegać po dworze.
+=== 3. TWARDE, NIENEGOCJOWALNE ZASADY JĘZYKOWE, LOGICZNE I REALIZMU SCENY ===
+1. OBCY LUDZIE W SKLEPIE NIE ZNAJĄ IMIENIA MATKI + WIARYGODNOŚĆ KIEROWNICZKI SKLEPU:
+   - Kiedy matka idzie do sklepu obuwniczego reklamować lub zwrócić zdarte buty, kierowniczka zmiany ani ekspedientka NIE ZNA jej imienia! NIGDY nie pisz: „Pani Małgosiu, ja pani ten wniosek przyjmę". ZAWSZE pisz naturalnie: „Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki...".
+   - Jeśli wspominasz, że kierowniczka zmiany wcześniej pracowała w sklepie ortopedycznym, zaznacz naturalnie: „która, jak dowiedziałam się chwilę później podczas rozmowy, wcześniej przez lata pracowała w sklepie ortopedycznym".
+   - NIE SPAMUJ NAZWĄ MARKI BUTÓW (np. „Nike"): użyj nazwy marki maksymalnie 1 raz na cały tekst (w otwarciu), a dalej pisz po prostu „te buty", „nowe buty", „markowe obuwie".
+2. ZERO PISANIA O DOCINANIU WKŁADEK NOŻYCZKAMI (MAMY DOKŁADNĄ ROZMIARÓWKĘ!):
+   - NIGDY nie pisz, że matka „docięła wkładki nożyczkami wzdłuż linii"! Wkładki Orthomax StepMax mają dokładną rozmiarówkę dopasowaną do długości stopy i po wyjęciu z pudełka od razu wkłada się je prosto do zwykłych butów.
+3. ZERO POLICYJNYCH, SZTUCZNYCH GODZIN CO DO MINUTY („o 20:07", „o 19:30 w czwartek"):
+   - Nikt w prawdziwym życiu nie pamięta, że w zeszły czwartek stał w łazience „o 20:07" albo że dziecko płakało „o 19:30"!
+   - Zamiast sztucznych godzin z minutami używaj naturalnych określeń pory dnia: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy", „Kiedy wróciliśmy po południu ze szkoły".
+4. LOGICZNE WEJŚCIE POSTACI DO SCENY (NIKT NIE WCHODZI SAM Z SIEBIE DO CUDZEJ ŁAZIENKI!):
+   - Sąsiadka-fizjoterapeutka NIGDY „nie wchodzi sobie tak o" do cudzej łazienki! Matka MUSI ją sama wcześniej poprosić o pomoc i zaprosić na chwilę do mieszkania, a sąsiadka mówi naturalnie: „Gosiu, mogę ci coś pokazać?".
+5. ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ..." PRZY OPISIE WKŁADEK (PŁYNNA NARRACJA ZAMIAST SUCHYCH PUNKTÓW):
+   - NIGDY nie pisz opisu wkładek jako trzech osobnych, krótkich zdań zaczynających się od „Mają głębokie korytko... Mają dynamiczne podparcie łuku... Mają też wypustki sensoryczne...". Wpleć budowę wkładek w płynny, obrazowy akapit narracyjny.
+6. LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX:
+   - ZAWSZE pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione ze sprężystej pianki", „stabilizują piętę", „pracują przy każdym kroku", „kosztują 99,99 zł".
+7. STYL MELLOW W OTWARCIU I NAGŁÓWKU (ZERO ZUŻYTYCH SZABLONÓW):
+   - NIGDY nie zaczynaj tekstu od „Nie miałam zamiaru tego udostępniać..." i NIGDY nie dawaj w nagłówku „Jeśli Twoje dziecko bolą stopy, przeczytaj to ☝️".
+8. REALIZM EMOCJONALNY MATKI (ZERO SZTUCZNEGO PŁACZU RAZEM Z DZIECKIEM):
+   - Matka NIGDY nie płacze razem z dzieckiem w trakcie awantury na podłodze - pęka i płacze DOPIERO PÓŹNIEJ SAMA w kuchni lub łazience, kiedy dziecko zamknie drzwi swojego pokoju albo zaśnie.
+9. REALISTYCZNY MOST ODKRYCIA (REVEAL Z GRUPY NA FB / FORUM / OD SĄSIADKI LUB INNEJ MAMY):
+   - Odkrycie wkładek Orthomax StepMax zawsze pochodzi z grupy dla mam na Facebooku / forum rodziców / od sąsiadki lub innej mamy (nigdy z kartki od lekarza bez rozmowy w gabinecie).
+10. ABSOLUTNY ZAKAZ EM-DASHÓW I EN-DASHÓW ORAZ „, i":
+   - NIGDY nie używaj długiego myślnika „—" (U+2014) ani półpauzy „–" (U+2013). Nigdy nie stawiaj przecinka przed spójnikiem „i".
+11. ZERO „WORKA Z KAPCIAMI" W SZKOLE:
+   - Dzieci mają buty na zmianę na półce w szatni, a jesienią i zimą spędzają cały dzień (14 godzin) pod dachem: 8 godzin na szkolnym betonie i 6 godzin w domu na twardych panelach.
 
 === 4. FAKTY O PRODUKCIE I NOWY CENNIK (ORTHOMAX STEPMAX) ===
 - Nazwa produktu: wkładki dynamiczne Orthomax StepMax (w liczbie mnogiej!).
-- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..."): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, głębokie korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, dynamiczne podparcie łuku podłużnego pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Docina się je nożyczkami w 2 minuty wzdłuż wyznaczonych linii i mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
+- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..." i BEZ pisania o docinaniu nożyczkami): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, głębokie korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, dynamiczne podparcie łuku podłużnego pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Dzięki dokładnej rozmiarówce po wyjęciu z pudełka od razu mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
 - NOWY CENNIK I GWARANCJA (OBOWIĄZKOWO W KAŻDYM TEKŚCIE):
   * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!). Dostępny jest też pakiet rodzinny 2+2 GRATIS (4 pary za 154,99 zł).
   * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni (jedna para do butów zimowych, druga do butów szkolnych na zmianę na pełne 14 godzin dnia) ORAZ nie wydajesz 380 zł co pół roku na twarde wkładki na wymiar, z których rosnąca stopa dziecka wyrasta po 5 miesiącach!
-  * GWARANCJA: 30 dni na test bez ryzyka. Nawet po docięciu wkładek nożyczkami i noszeniu ich przez 30 dni można je odesłać i odzyskać 100% pieniędzy.
+  * GWARANCJA: 30 dni na test bez ryzyka. Nawet po miesiącu normalnego noszenia i testowania wkładek w butach można je odesłać i odzyskać 100% pieniędzy.
   * Link docelowy: https://orthomax.pl/products/stepmax
 
-=== 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (DŁUGOŚĆ 1100-1300 SŁÓW — GŁĘBIA EMOCJONALNA I HISTORIA MATKI Z CÓRKĄ/SYNEM!) ===
-KRYTYCZNE: Teksty poniżej 950 słów są ZA KRÓTKIE i nie konwertują, bo brakuje w nich emocji matki, jej myśli, wyrzutów sumienia i historii jej relacji z dzieckiem!
-Nasze największe historyczne winnery (ROAS 3+) mają **1100-1300 słów** (ok. 6800-8500 znaków) i pełnymi, potoczystymi zdaniami budują filmową opowieść. Każdy tekst MUSI zawierać wszystkie 7 poniższych filarów z odpowiednią objętością:
-
-FILAR 1: UDERZENIE W ŚRODKU SCENY (HOOK + KONKRETNY DETAL, 140-180 słów)
-- Wejdź od razu w żywą scenę domową lub szkolną (bez oklepanych wstępów). Pokaż dokładny przedmiot, kwotę, zapach, oświetlenie w przedpokoju/kuchni/łazience i pierwszą myśl matki.
-
-FILAR 2: HISTORIA MATKI I DZIECKA + „NORMALIZOWANIE" + 7 DNI OBSERWACJI (250-350 słów — SERCE EMOCJONALNE TEKSTU!)
-- Tego najbardziej brakuje w krótkich tekstach! Opisz szczerze, co działo się przez ostatnie miesiące między matką a dzieckiem:
-  * Jak matka racjonalizowała i bagatelizowała sygnały („Myślałam, że po prostu szybko rośnie", „Wierzyłam pediatrze, że taka jej uroda", „Byłam zła, że znów marudzi przed wyjściem albo niszczy kolejne drogie buty").
-  * Wyrzuty sumienia i wewnętrzny monolog matki: moment, w którym uświadamia sobie, że krzyczała na dziecko albo załatwiała mu zwolnienie z WF-u, myśląc, że je chroni, a w rzeczywistości pozwalała, by jego ciało po cichu się zapadało.
-  * Zastosuj zabieg **„7 DNI OBSERWACJI"** (z naszych największych winnerów): kiedy matka zaczyna podejrzewać, że coś jest nie tak (albo po rozmowie w sklepie/gabinecie), przez tydzień po cichu obserwuje swoje dziecko w codziennych sytuacjach — widzi, jak po szkole od razu zrzuca buty i siada na kanapie, jak na schodach przytrzymuje się poręczy, jak siada na dywanie w literę W, jak wycofuje się z zabaw z rówieśnikami, bo wstydzi się, że biegnie ostatnie.
-
-FILAR 3: KASKADA NIEUDANYCH PRÓB I DLACZEGO KAŻDA ZAWIODŁA (180-240 słów)
-- Nie wymieniaj suchych kwot w jednym zdaniu! Opisz historię każdej nieudanej próby i rozczarowania:
-  * Zwykłe wkładki żelowe z apteki/drogerii (49-80 zł) -> miękkie poduszki komfortu, które spłaszczyły się pod ciężarem pięty po tygodniu.
-  * Sztywne buty ortopedyczne lub twarde wkładki na zamówienie z punktu ortopedycznego (350-380 zł) -> twarda plastikowa skorupa jak szyna gipsowa, która nie mieściła się do jesiennych butów, obcierała do pęcherzy, rozleniwiała mięśnie, a po 5 miesiącach i tak trzeba było ją wyrzucić do kosza, bo dziecku urosła stopa!
-  * Domowe ćwiczenia na dywanie / maści / syropy -> dlaczego przegrały z codziennością.
-  * Na końcu sekcji podsumuj wydatki linijka po linijce z dokładną sumą co do złotówki.
-
-FILAR 4: WIZUALNY DOWÓD MECHANIZMU + ŁAŃCUCH KOMPENSACJI + OKNO WZROSTOWE (250-300 słów)
-- Rozbudowany dialog z kierowniczką sklepu (która pracowała w ortopedii), sąsiadką-fizjoterapeutką lub specjalistą w gabinecie.
-- Fizyczny test na żywo (np. kucnięcie za dzieckiem, zdjęcie z poziomu podłogi pokazujące odwrócone „V" pięt i kąt 12 stopni zamiast normy 5-7 stopni; test podniesienia łuków stóp dwoma kciukami, po którym kolana natychmiast odklejają się od siebie, a barki wracają do poziomu).
-- Łańcuch kompensacji ze strzałkami pionowymi w osobnych liniach:
-  Stopy zapadają się do środka
-  ↓
-  Kolana schodzą w X
-  ↓
-  Biodra rotują i kompensują
-  ↓
-  Kręgosłup wygina się w łuk
-  ↓
-  Barki / kolana / piszczele przyjmują całe przeciążenie
-- Matematyka jesienno-zimowej ekspozycji: 14 godzin dziennie pod dachem (8 godzin na szkolnym betonie + 6 godzin na panelach w domu) = 7000 kroków dziennie = ponad 200 000 kroków miesięcznie.
-- Stawka czasowa (Okno wzrostowe): do 12-13 roku życia kości i więzadła są plastyczne; po zamknięciu chrząstek wzrostowych zostają już tylko aparaty albo stół operacyjny i śruby w kolanach.
-
-FILAR 5: WIARYGODNY MOST ODKRYCIA + PŁYNNY OPIS MECHANIZMU WKŁADEK (150-200 słów)
-- Naturalna historia, jak matka trafiła na wkładki Orthomax StepMax (przez grupę mam na Facebooku / forum / sąsiadkę pokazującą but swojego syna).
-- Opis pierwszego kontaktu z wkładkami po otwarciu paczki i docięcia ich nożyczkami w 2 minuty — napisany PŁYNNĄ PROZĄ (bez wyliczanki „Mają... Mają... Mają...").
-
-FILAR 6: REALISTYCZNA, POWOLNA TRANSFORMACJA ZACHOWANIA DZIECKA (180-220 słów)
-- Zero cudów w 24 godziny! Pokaż wiarygodną oś czasu przez małe zmiany w zachowaniu dziecka:
-  * Dzień 1-3: Dziecko mówi: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie". Matka pilnuje, by wkładało je codziennie do butów zimowych i szkolnych.
-  * Po 2 tygodniach: Pierwsza cicha zmiana zachowania (nie zrzuca butów z płaczem w przedpokoju, przesypia całe noce bez Nurofenu i smarowania piszczeli, przestaje siadać na schodach).
-  * Po miesiącu: Emocjonalny moment przełomu (np. córka wraca ze szkoły z wypiekami na twarzy: „Mamo, dzisiaj na WF-ie pierwszy raz nie byłam ostatnia w biegu!", albo podeszwa nowych butów po miesiącu jest równa jak od linijki).
-  * Po 3 miesiącach: Spokojne potwierdzenie na kontroli („Kąt koślawości zszedł z 12 do 8 stopni, kostki stoją stabilnie").
-
-FILAR 7: OSOBISTE ZAMKNIĘCIE MATKI + OFERTA 1+1 + P.S. (120-160 słów)
-- Osobista refleksja matki do innych mam (bez tonu ulotki medycznej!).
-- Konkretne wyliczenie oferty: Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę — jedna do butów zimowych, druga do butów szkolnych na zmianę) + 30 dni gwarancji zwrotu nawet po docięciu nożyczkami + link: https://orthomax.pl/products/stepmax
-- Mocny, emocjonalny **P.S.** na samym końcu, który zostaje w głowie czytelniczki.
+=== 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (DŁUGOŚĆ 1100-1300 SŁÓW + KRÓTKIE AKAPITY Z ENTERAMI!) ===
+KRYTYCZNE:
+- Formatuj tekst w krótkich, 1-2 zdaniowych akapitach oddzielonych pustą linią (enterem), żeby lekko i przyjemnie czytało się go na telefonie na Facebooku!
+- Każdy tekst MUSI mieć **1100-1300 słów** i zawierać wszystkie 7 filarów winnera:
+  1. Uderzenie w środku sceny (Hook + konkretny detal, 140-180 słów)
+  2. Historia matki i dziecka + „Normalizowanie" + „7 DNI OBSERWACJI" + moment, gdy matka wieczorem siada sama w kuchni i płacze z poczucia winy (250-350 słów)
+  3. Kaskada nieudanych prób i dlaczego każda zawiodła + wyliczenie kosztów co do złotówki (180-240 słów)
+  4. Wizualny dowód mechanizmu + Łańcuch kompensacji (↓) + 14h na szkolnym betonie i panelach + Okno wzrostowe 12-13 lat (250-300 słów)
+  5. Wiarygodny most odkrycia + Płynny opis mechanizmu wkładek i dokładnej rozmiarówki (150-200 słów)
+  6. Realistyczna, powolna transformacja zachowania dziecka: Dzień 1-3 -> Tydzień 2 -> Miesiąc 1 -> Miesiąc 3 (180-220 słów)
+  7. Osobiste zamknięcie matki + Oferta 1+1 GRATIS (99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + P.S. (120-160 słów)
 
 Zwróć wyłącznie poprawny obiekt JSON:
 {
   "headline": "Świeży, konkretny nagłówek w stylu Mellow dopasowany do historii (zero em-dashów, zero oklepanego 'Jeśli Twoje dziecko bolą stopy')",
   "description": "Krótki opis pod nagłówkiem (np. Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test bez ryzyka)",
-  "primaryText": "Pełny, głęboki emocjonalnie tekst reklamy MSL (1100-1300 słów) gotowy do wklejenia w Menedżerze Reklam Meta"
+  "primaryText": "Pełny, głęboki emocjonalnie tekst reklamy MSL (1100-1300 słów, podzielony enterami na krótkie 1-2 zdaniowe akapity) gotowy do wklejenia w Menedżerze Reklam Meta"
 }`;
 
 /**

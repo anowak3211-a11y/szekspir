@@ -95,7 +95,7 @@ Pod spodem elastyczne podparcie łuku działa przy każdym kroku jak mała tramp
 
 Tego samego wieczoru zamówiłam je dla siebie.
 
-Kiedy przyszła paczka, w dwie minuty docięłam czubki nożyczkami wzdłuż wyznaczonych linii, włożyłam wkładki do moich zeszłorocznych botków w rozmiarze 38 i pociągnęłam za zamek.
+Kiedy przyszła paczka w moim dokładnym rozmiarze 38, od razu wyjęłam wkładki z pudełka, włożyłam je do moich zeszłorocznych botków w rozmiarze 38 i pociągnęłam za zamek.
 
 Suwak przeszedł gładko do samej góry za pierwszym razem!
 
@@ -113,7 +113,7 @@ Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkł
 
 Jedną parę wkładacie do zimowych botków lub kozaków, a drugą do butów w pracy albo domowych kapci na twarde panele.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
@@ -207,7 +207,7 @@ Są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie 
 
 Na środku dynamiczny profil pod łukiem podłużnym działa przy każdym kroku jak sprężyna - utrzymuje sklepienie w górze i nie pozwala stopie opaść na płasko, zdejmując całe brutalne napięcie z rozcięgna, podczas gdy wypustki sensoryczne pobudzają krążenie.
 
-Docięłam obie pary nożyczkami w dwie minuty - jedną włożyłam do pełnych kapci przy łóżku, a drugą do butów do pracy.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka dopasowałam je idealnie do butów - jedną włożyłam do pełnych kapci przy łóżku, a drugą do butów do pracy.
 
 Przez pierwsze 3 dni stopy przyzwyczajały się do sprężystego podparcia, a ja pilnowałam, żeby o 6:00 rano wsuwać stopy prosto w kapcie z wkładkami.
 
@@ -221,7 +221,7 @@ Jeśli zaczynacie każdy poranek od kuśtykania po ścianie do łazienki, nie cz
 
 Jedną parę wkładacie do kapci przy łóżku, żeby chronić rozcięgno od pierwszej sekundy rano, a drugą do butów wyjściowych.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
@@ -312,7 +312,7 @@ Z tyłu głębokie korytko w kształcie litery U pewnie chwyta piętę i trzyma 
 
 Delikatne wypustki sensoryczne na powierzchni przy każdym ruchu pobudzają krążenie krwi i likwidują ołowiany zastój w łydkach, a strefy amortyzujące pod piętą i przodostopiem pochłaniają twardość posadzki.
 
-W dwie minuty docięłam je nożyczkami do swojego rozmiaru i włożyłam do butów roboczych.
+Wybrałam z tabeli swój dokładny rozmiar i od razu po wyjęciu z pudełka włożyłam je do butów roboczych.
 
 Przez pierwsze 2-3 zmiany czułam wyraźnie, jak sprężysty profil podpiera moje podbicie i nie pozwala kostkom uciekać do środka.
 
@@ -328,7 +328,7 @@ Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkł
 
 Jedną parę wkładacie na stałe do butów roboczych w pracy, a drugą do butów codziennych lub kapci domowych na twarde płytki.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - możecie dociąć wkładki nożyczkami, przetestować je przez miesiąc na najcięższych zmianach, a jeśli nie poczujecie ulgi, odsyłacie je i odzyskujecie 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku wkładki do butów i przetestować je przez miesiąc na najcięższych zmianach, a jeśli nie poczujecie ulgi, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
@@ -419,7 +419,7 @@ Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i t
 
 Na środku elastyczne podparcie łuku unosi zapadnięte śródstopie jak sprężyna, odciążając piekące poduszki pod palcami i haluksa, podczas gdy drobne wypustki sensoryczne pobudzają krążenie w stopach.
 
-W dwie minuty docięłam wkładki nożyczkami wzdłuż linii do rozmiaru 39 mamy - jedną parę włożyłam do jej półbutów wyjściowych, a drugą do pełnych kapci domowych.
+Zamówiłam dokładny rozmiar 39 mojej mamy i od razu po wyjęciu z pudełka jedną parę włożyłam do jej półbutów wyjściowych, a drugą do pełnych kapci domowych.
 
 Przez pierwsze 2-3 dni mama mówiła: „Gosiu, czuję pod spodem miękką górkę, która trzyma mi stopę, ale pierwszy raz nic mnie nie gniecie!".
 
@@ -435,7 +435,7 @@ Piszę to dla wszystkich kobiet 55+ i 60+ oraz dla córek, które widzą, jak ic
 
 Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkładek Orthomax StepMax za 99,99 zł (czyli 50 zł za parę), a jest też pakiet rodzinny 2+2 GRATIS dla mamy i dla siebie.
 
-Jedną parę wkładacie mamie do butów na spacery, a drugą do kapci na domowe panele. Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami można je odesłać i odzyskać 100% pieniędzy.
+Jedną parę wkładacie mamie do butów na spacery, a drugą do kapci na domowe panele. Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
@@ -534,7 +534,7 @@ Z tyłu głębokie korytko w kształcie litery U obejmuje piętę i trzyma ją w
 
 Delikatne wypustki sensoryczne pobudzają mięśnie głębokie do trzymania sklepienia, a miękkie strefy pod piętą i palcami tłumią uderzenia o chodnik.
 
-Docięłam wkładki nożyczkami w dwie minuty wzdłuż linii do mojego rozmiaru 38 i włożyłam do botków, których tydzień wcześniej nie mogłam dopiąć.
+Wybrałam z dokładnej rozmiarówki swój rozmiar 38 i od razu po wyjęciu z pudełka włożyłam wkładki do botków, których tydzień wcześniej nie mogłam dopiąć.
 
 Kiedy wsunęłam stopę, zamek zasunął się bez żadnego oporu! Przez pierwsze 2-3 dni czułam pod podbiciem sprężystą pracę profilu, ale boki stóp wreszcie nie były zmiażdżone.
 
@@ -550,7 +550,7 @@ Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkł
 
 Jedną parę wkładacie do zimowych kozaków lub botków, a drugą do butów w pracy albo kapci domowych na twarde panele.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 

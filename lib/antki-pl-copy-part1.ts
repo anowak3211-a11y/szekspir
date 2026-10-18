@@ -21,11 +21,11 @@ Ale moja Zosia marzyła o tych nowych Nike od wiosny, a ja po tym, jak we wrześ
 
 Myślałam, że gdy raz zapłacę za markowe obuwie, problem wykrzywionych pięt zniknie. W zeszły czwartek wieczorem stałam w przedpokoju i wzięłam jej buta do ręki, żeby zetrzeć wilgotną szmatką błoto.
 
-Odwróciłam podeszwę do światła i zamarłam. Minęły trzy tygodnie od zakupu.
+Odwróciłam podeszwę do światła i zamarłam. Minęły dopiero trzy tygodnie od zakupu.
 
-Z góry wyglądały jeszcze całkiem nieźle, ale pod spodem córka niemal bosą nogą po ziemi chodziła.
+Z góry wyglądały jeszcze jak nowe, ale od spodu od razu rzuciło mi się w oczy coś niepokojącego.
 
-Wewnętrzna krawędź obu pięt w butach za 599 złotych była ścięta pod skosem jak nożem i starta niemal do pianki, a sztywny zapiętek leżał wygięty do środka tak, że po trzech tygodniach wyglądały na noszone co najmniej parę lat.
+Wewnętrzna krawędź obu pięt w butach za 599 złotych była już wyraźnie ścięta pod skosem, a sztywny zapiętek wygiął się do środka tak mocno, jakby Zosia chodziła w nich co najmniej od zeszłej zimy.
 
 Przez chwilę stałam w cichym przedpokoju i czułam, jak wzbiera we mnie bezradność. Przez ostatnie pół roku nazywaliśmy Zosię w domu małym niszczycielem butów.
 
@@ -59,19 +59,19 @@ Nie mieściły się do żadnych normalnych butów na jesień, obcierały stopy d
 
 Kiedy podliczyłam ostatnie wydatki, zrobiło mi się słabo:
 
-- Buty Nike kupione w promocji: 599 zł
+- Markowe buty kupione w promocji: 599 zł
 - Wrześniowe trampki do szkoły zmasakrowane w miesiąc: 180 zł
 - Żel z arniką i magnezem na nocne bóle łydek: 45 zł
 
 Razem wydałam 824 złote, a pięty mojej córki uciekały do środka jeszcze bardziej.
 
-W sobotę rano spakowałam zdarte Nike do pudełka, wzięłam paragon, zabrałam Zosię i pojechałam do salonu złożyć reklamację.
+W sobotę rano spakowałam zdarte buty do pudełka, wzięłam paragon, zabrałam Zosię i pojechałam do salonu złożyć reklamację.
 
-Do lady podeszła kierowniczka zmiany - kobieta po pięćdziesiątce, która wcześniej przez lata pracowała w sklepie ortopedycznym.
+Do lady podeszła kierowniczka zmiany - spokojna kobieta po pięćdziesiątce, która, jak dowiedziałam się chwilę później podczas rozmowy, wcześniej przez lata pracowała w sklepie ortopedycznym.
 
 Wzięła buta w dłonie, ścisnęła położony zapiętek, spojrzała na stojącą obok Zosię i powiedziała spokojnie:
 
-- Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki. Jej wykrzywia się cały wewnętrzny bok stopy do środka, a odległość między kostkami przy złączonych kolanach to już prawie 5 centymetrów. To nie guma w Nike jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i mieli każdego buta jak tarka.
+- Przyjmę pani ten zwrot, proszę się nie martwić. Ale niech pani spojrzy na kostki córki. Jej wykrzywia się cały wewnętrzny bok stopy do środka, a odległość między kostkami przy złączonych kolanach to już prawie 5 centymetrów. To nie podeszwa w tych butach jest wadliwa - to pięta pani córki ucieka pod kątem 12 stopni i ściera każdego buta od wewnętrznej strony.
 
 Poprosiła, żeby Zosia stanęła w skarpetkach na posadzce, kucnęła za nią i pokazała mi, że ścięgna Achillesa tworzą odwrócone „V" zamiast normy 5-7 stopni.
 
@@ -101,13 +101,13 @@ W ciągu dwóch godzin pod postem pojawiło się ponad 60 komentarzy od mam, kt�
 
 Pisały, że aparat ruchu najlepiej działa będąc w ruchu i zamiast twardego plastiku potrzebna jest dynamiczna sprężyna.
 
-Zamówiłam je tej samej nocy. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, od razu poczułam różnicę.
+Zamówiłam je tej samej nocy, dobierając z dokładnej rozmiarówki na stronie rozmiar pasujący co do centymetra do butów Zosi. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, od razu poczułam różnicę.
 
 Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie jak kciuki tamtej kierowniczki.
 
 Pod spodem dynamiczne podparcie łuku podłużnego odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie do pracy, a wypustki sensoryczne na powierzchni cały czas bodźcują stopę, podczas gdy miękka strefa pod piętą tłumi uderzenia o beton.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i włożyłam do zwykłych butów Zosi.
+Od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi - dzięki dokładnej rozmiarówce leżały jak ulał, bez żadnego kombinowania i bez kupowania obuwia o rozmiar większego.
 
 Zmiana przychodziła krok po kroku. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -123,7 +123,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładacie do butów zimowych, a drugą do butów szkolnych w szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy stopa urośnie.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia i testowania wkładek w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
@@ -235,7 +235,7 @@ Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i t
 
 Do tego delikatne wypustki sensoryczne na wierzchu cały czas pobudzają stopę do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o beton.
 
-Zamówiłam je jeszcze tego samego wieczoru, a gdy przyszła paczka, w dwie minuty docięłam wkładki nożyczkami wzdłuż linii do rozmiaru Kasi.
+Zamówiłam je jeszcze tego samego wieczoru, a gdy przyszła paczka, dobrałam z dokładnej rozmiarówki rozmiar pasujący prosto do butów Kasi.
 
 Pierwsze trzy dni córka mówiła po szkole: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -251,7 +251,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładasz do butów zimowych, a drugą do butów szkolnych na zmianę w szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy noga urośnie.
 
-Masz 30 dni gwarancji zwrotu - nawet po docięciu wkładek nożyczkami możesz je odesłać i odzyskać 100% pieniędzy.
+Masz 30 dni gwarancji zwrotu - nawet po miesiącu normalnego noszenia w butach możesz je odesłać i odzyskać 100% pieniędzy.
 
 Tutaj zamawiałam nasze wkładki na oficjalnej stronie:
 
@@ -359,7 +359,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Pod śródstopiem znajduje się dynamiczne podparcie łuku podłużnego, które nie wbija się w ciało jak twardy plastik, lecz ugina się i sprężyście odbija przy każdym z 7000 kroków jak mała trampolina, podczas gdy wypustki sensoryczne na powierzchni nieustannie stymulują mięśnie stopy do budowania własnego sklepienia, a miękka strefa pod piętą pochłania wstrząsy z betonu.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i wsunęłam do butów zimowych oraz szkolnych Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do butów zimowych oraz szkolnych Zosi.
 
 Zmiana przyszła naturalnie. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nic nie gniecie".
 
@@ -377,7 +377,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedna para idzie do butów zimowych, a druga do butów szkolnych w szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, kiedy dziecku urośnie stopa.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka, nawet po docięciu wkładek nożyczkami.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam link do oficjalnej strony:
 
@@ -483,7 +483,7 @@ Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i t
 
 Do tego wypustki sensoryczne na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i włożyłam do zwykłych jesiennych butów oraz trampek Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do zwykłych jesiennych butów oraz trampek Kasi.
 
 Transformacja działa się krok po kroku. Przez pierwsze trzy dni Kasia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -499,7 +499,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładacie do butów zimowych, a drugą do obuwia szkolnego w szatni na pełne 14 godzin dnia, bez przekładania i bez wydawania 380 złotych co pół roku na twarde wkładki na wymiar.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
@@ -595,7 +595,7 @@ Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, zobaczyłam, że są zrobi
 
 Pod spodem dynamiczne podparcie łuku podłużnego działa przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki sensoryczne na powierzchni cały czas dają układowi nerwowemu sygnał o ułożeniu stopy, podczas gdy miękka strefa pod piętą amortyzuje twardy beton.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i włożyłam do zwykłych butów Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do zwykłych butów Zosi.
 
 Efekt przyszedł krok po kroku. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -611,7 +611,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedna para idzie do butów zimowych, a druga do butów szkolnych na zmianę w szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy stopa urośnie.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam link do oficjalnej strony:
 
@@ -715,7 +715,7 @@ Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i t
 
 Jednocześnie wypustki sensoryczne na powierzchni pobudzają mięśnie stopy do aktywnej pracy, a miękka strefa pod piętą tłumi uderzenia o szkolny beton.
 
-W dwie minuty docięłam je nożyczkami wzdłuż linii i włożyłam do butów zimowych oraz szkolnych Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do butów zimowych oraz szkolnych Kasi.
 
 Zmiana zachowania przyszła krok po kroku. Przez pierwsze trzy dni Kasia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -731,7 +731,7 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładacie do butów zimowych, a drugą do obuwia na zmianę w szkolnej szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy stopa urośnie.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po docięciu nożyczkami możecie je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam bezpośredni link do oficjalnej strony:
 

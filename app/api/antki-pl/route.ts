@@ -19,7 +19,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v3-argon-airy';
+const STATE_KEY = 'antki-pl-library-v4-argon';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -93,19 +93,20 @@ export function buildAntkiPlUserPrompt(params: {
         productName: 'Orthomax StepMax',
         bundle1plus1: 'Pakiet 1+1 GRATIS: dwie pary za 99,99 zł (wychodzi 50 zł za parę - np. jedna para do butów zimowych, druga do kapci szkolnych lub domowych)',
         bundle2plus2: 'Opcjonalnie pakiet rodzinny 2+2 GRATIS: 4 pary za 154,99 zł (38,75 zł za parę)',
-        guarantee: '30 dni na test bez ryzyka (pełny zwrot pieniędzy nawet po przycięciu i noszeniu wkładek)',
+        guarantee: '30 dni na test bez ryzyka (pełny zwrot pieniędzy nawet po miesiącu normalnego noszenia wkładek w butach)',
         destinationUrl: destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
       },
       strictChecklist: [
-        'DŁUGOŚĆ I GŁĘBIA WINNERA (1100-1300 SŁÓW): Tekst MUSI mieć 1100-1300 słów i zawierać pełną historię matki oraz dziecka (wyrzuty sumienia matki, jak wcześniej bagatelizowała objawy, 7 dni cichej obserwacji dziecka w domu, kaskadę nieudanych prób z wyjaśnieniem dlaczego każda zawiodła, scenę demonstracji mechanizmu, powolną transformację zachowania z tygodnia na tydzień oraz osobiste zamknięcie z P.S.). Krótkie streszczenia poniżej 950 słów są odrzucane!',
-        'OBCY W SKLEPIE NIE ZNAJĄ IMIENIA: Sprzedawczyni ani kierowniczka zmiany w sklepie obuwniczym NIE zna imienia matki! Nigdy nie pisz „Pani Małgosiu, ja pani ten wniosek przyjmę" — pisz „Przyjmę pani ten zwrot, proszę się nie martwić, ale niech pani spojrzy na kostki córki...".',
-        'ZERO SZTUCZNYCH GODZIN CO DO MINUTY: Nigdy nie pisz policyjnych godzin typu „W zeszły czwartek o 20:07" ani „o 19:30 w czwartek" — nikt nie pamięta, o której godzinie stał w łazience! Pisz naturalnie: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy".',
-        'LOGICZNE WEJŚCIE POSTACI DO SCENY: Sąsiadka-fizjoterapeutka nigdy nie wchodzi sama z siebie do cudzej łazienki! Matka musi ją sama poprosić o poradę i zaprosić na chwilę, żeby spojrzała na nogi dziecka.',
-        'ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ...": Nigdy nie wymieniaj cech wkładek w 3 zdaniach zaczynających się od „Mają głębokie korytko... Mają dynamiczne podparcie... Mają też wypustki...". Opisz działanie wkładek płynnym, obrazowym akapitem narracyjnym.',
-        'LICZBA MNOGA DLA WKŁADEK: Zawsze pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione...", „stabilizują piętę", „działają jak sprężyna" (NIGDY w liczbie pojedynczej „Orthomax StepMax jest zrobiony").',
-        'STYL MELLOW W OTWARCIU I NAGŁÓWKU: Nigdy nie zaczynaj od spalonego „Nie miałam zamiaru tego udostępniać..." i nie używaj nagłówka „Jeśli Twoje dziecko bolą stopy...". Wchodź od 1 zdania w środek konkretnej sceny.',
-        'REALIZM EMOCJONALNY: Matka nigdy nie płacze razem z dzieckiem na podłodze w trakcie awantury - pęka dopiero później sama w kuchni lub łazience, gdy dziecko zamknie drzwi.',
-        'ORGANICZNY MOST ODKRYCIA (REVEAL): Odkrycie wkładek Orthomax StepMax zawsze pochodzi z grupy dla mam na Facebooku / forum rodziców / od sąsiadki lub innej mamy.',
+        'DŁUGOŚĆ I GŁĘBIA WINNERA (1100-1300 SŁÓW) + KRÓTKIE AKAPITY Z ENTERAMI: Tekst MUSI mieć 1100-1300 słów, być podzielony enterami na krótkie 1-2 zdaniowe akapity i zawierać pełną historię matki oraz dziecka (wyrzuty sumienia matki, 7 dni cichej obserwacji dziecka w domu, kaskadę nieudanych prób, scenę demonstracji mechanizmu, powolną transformację zachowania oraz osobiste zamknięcie z P.S.).',
+        'OBCY W SKLEPIE NIE ZNAJĄ IMIENIA + WIARYGODNOŚĆ KIEROWNICZKI: Sprzedawczyni ani kierowniczka zmiany w sklepie obuwniczym NIE zna imienia matki! Pisz „Przyjmę pani ten zwrot, proszę się nie martwić...", a o jej doświadczeniu wspomnij: „która, jak dowiedziałam się chwilę później podczas rozmowy, wcześniej pracowała w sklepie ortopedycznym". Nie spamuj nazwą marki butów (użyj maksymalnie 1 raz).',
+        'ZERO DOCINANIA NOŻYCZKAMI: Nigdy nie pisz o docinaniu wkładek nożyczkami! Wkładki Orthomax StepMax mają dokładną rozmiarówkę dopasowaną do buta i od razu po wyjęciu z pudełka wkłada się je do obuwia.',
+        'ZERO SZTUCZNYCH GODZIN CO DO MINUTY: Nigdy nie pisz policyjnych godzin typu „W zeszły czwartek o 20:07". Pisz naturalnie: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy".',
+        'LOGICZNE WEJŚCIE POSTACI DO SCENY: Sąsiadka-fizjoterapeutka nigdy nie wchodzi sama z siebie do cudzej łazienki! Matka musi ją sama poprosić o poradę.',
+        'ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ...": Opisz działanie wkładek płynnym, obrazowym akapitem narracyjnym.',
+        'LICZBA MNOGA DLA WKŁADEK: Zawsze pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione...", „stabilizują piętę", „działają jak sprężyna".',
+        'STYL MELLOW W OTWARCIU I NAGŁÓWKU: Nigdy nie zaczynaj od „Nie miałam zamiaru tego udostępniać..." i nie używaj nagłówka „Jeśli Twoje dziecko bolą stopy...".',
+        'REALIZM EMOCJONALNY: Matka nigdy nie płacze razem z dzieckiem na podłodze w trakcie awantury - pęka dopiero później sama w kuchni lub łazience.',
+        'ORGANICZNY MOST ODKRYCIA (REVEAL): Odkrycie wkładek zawsze pochodzi z grupy dla mam na Facebooku / forum rodziców / od sąsiadki lub innej mamy.',
         'ZERO długich myślników (em-dash — ani en-dash –) oraz ZERO przecinka przed „i" (konstrukcji „, i").',
       ],
       ...(customInstructions?.trim() ? { additionalOwnerInstructions: customInstructions.trim() } : {}),

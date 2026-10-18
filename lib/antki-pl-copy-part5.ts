@@ -1,7 +1,7 @@
 export const ANTKI_PL_COPY_PART5: Record<string, { headline: string; description: string; primaryText: string }> = {
   'pl-25-ryciak-rip3-ojciec-wideo': {
     headline: 'Fizjoterapeuta położył telefon na podłodze i nagrał chód mojej córki w zwolnionym tempie. Zobacz, co dzieje się w 1 sekundzie',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `W zeszły czwartek po południu siedziałam w gabinecie rehabilitacji w Poznaniu z moją 10-letnią córką Kasią, która od dwóch miesięcy skarżyła się na piekący ból prawej łydki i kłucie pod prawą łopatką.
 
 Myślałam, że fizjoterapeuta położy ją na kozetce i rozmasuje spięte mięśnie pleców od noszenia ciężkiego plecaka.
@@ -91,7 +91,7 @@ Z tyłu mają głębokie, wyprofilowane korytko w kształcie litery U, które ob
 
 Pod śródstopiem znajduje się dynamiczne podparcie łuku podłużnego działające jak mała trampolina, a na powierzchni umieszczone są delikatne wypustki sensoryczne, które przy każdym z 7000 kroków bodźcują mięśnie stopy do aktywnej pracy, podczas gdy strefa pod piętą tłumi wstrząsy na szkolnym korytarzu.
 
-Docięłam je nożyczkami wzdłuż narysowanych linii w dwie minuty i wsunęłam do butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  do butów Kasi.
 
 Zmiana nie zadziałała jak magiczna różdżka w jedną dobę, ale przyszła krok po kroku:
 
@@ -108,7 +108,7 @@ Na oficjalnej stronie producenta jest teraz promocja Pakiet 1+1 GRATIS - za 99,9
 
 Jedną parę wkładacie do butów zimowych, a drugą do butów na zmianę w szkole, dzięki czemu stopa dziecka jest chroniona przez pełne 14 godzin każdego dnia.
 
-Dodatkowo macie 30 dni gwarancji zwrotu bez ryzyka - możecie dociąć wkładki nożyczkami, dać dziecku do chodzenia na miesiąc, a jeśli nie zobaczycie różnicy, odsyłacie je i odzyskujecie 100% pieniędzy.
+Dodatkowo macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku wkładki do butów i dać dziecku do chodzenia na miesiąc, a jeśli nie zobaczycie różnicy, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Sprawdźcie dostępność rozmiarów tutaj: https://orthomax.pl/products/stepmax
 
@@ -205,7 +205,7 @@ Wkładki Orthomax StepMax są zrobione z elastycznej pianki o zmiennej gęstośc
 
 Pod spodem sprężyste wyprofilowanie unosi łuk podłużny i poprzeczny, zdejmując cały miażdżący nacisk ze stawu palucha, a delikatne wypustki sensoryczne pobudzają głębokie mięśnie stopy, podczas gdy miękka poduszka pod piętą amortyzuje uderzenia o chodnik.
 
-Docięłam je nożyczkami w dwie minuty dokładnie pod rozmiar moich butów.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka dopasowałam je idealnie do butów - .
 
 Różnicę na obu stopach obserwowałam tydzień po tygodniu:
 
@@ -220,7 +220,7 @@ Na oficjalnej stronie trwa teraz promocja Pakiet 1+1 GRATIS: za 99,99 zł otrzym
 
 Dzięki dwóm parom jedną wkładacie do botków wyjściowych, a drugą do obuwia w pracy lub w domu.
 
-Macie pełne 30 dni gwarancji zwrotu - możecie je dociąć nożyczkami, testować przez miesiąc i jeśli nie poczujecie ulgi, odsyłacie je i dostajecie 100% zwrotu pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wkładki do butów i testować przez miesiąc i jeśli nie poczujecie ulgi, odsyłacie je i dostajecie 100% zwrotu pieniędzy.
 
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/stepmax
 
@@ -314,7 +314,7 @@ Z tyłu głębokie korytko w kształcie litery U obejmuje piętę i trzyma ją s
 
 Pośrodku znajduje się wyprofilowane, sprężyste sklepienie, które unosi łuk podłużny i poprzeczny, zdejmując nacisk z kości przy paluchu, natomiast delikatne wypustki sensoryczne na powierzchni pobudzają mięśnie stopy do pracy przy każdym kroku.
 
-Docięłyśmy je nożyczkami wzdłuż linii w dwie minuty i włożyłyśmy do kozaków oraz domowych kapci.
+Dobrałyśmy z tabeli dokładny rozmiar i od razu po wyjęciu z pudełka włożyłyśmy je do kozaków oraz domowych kapci.
 
 Oto jak wyglądały nasze kolejne tygodnie:
 
@@ -329,7 +329,7 @@ Na oficjalnej stronie producenta jest teraz promocja Pakiet 1+1 GRATIS - za 99,9
 
 Jedną parę wkładacie do butów zimowych, a drugą do kapci po domu lub butów w pracy.
 
-Macie też 30 dni gwarancji zwrotu bez żadnego ryzyka: możecie dociąć wkładki nożyczkami, chodzić w nich przez miesiąc i jeśli nie poczujecie ulgi, odsyłacie je i odzyskujecie 100% pieniędzy.
+Macie też 30 dni gwarancji zwrotu bez żadnego ryzyka: możecie normalnie założyć dziecku wkładki do butów i chodzić w nich przez miesiąc i jeśli nie poczujecie ulgi, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/stepmax
 
@@ -338,7 +338,7 @@ P.S. Moja siostra musiała zapłacić 8100 złotych i przejść przez operację,
 
   'pl-28-zal-operacja-kolan-nastolatki': {
     headline: 'Moja 14-letnia córka ma dziś śruby w kolanach, bo 5 lat temu posłuchałam słów: „Z tego się wyrasta"',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `Późnym wieczorem siedziałam na brzegu łóżka mojej 14-letniej córki Mai w naszym mieszkaniu w Łodzi i zmieniałam jej chłodzący kompres na opuchniętych, zasinionych kolanach.
 
 Na obu nogach od kostek aż po pachwiny miała zapięte ciężkie, czarne ortezy zegarowe, a pod świeżymi szwami w kościach udowych tkwiły tytanowe płytki ósemkowe przykręcone śrubami do chrząstek wzrostowych.
@@ -421,7 +421,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Pod śródstopiem elastyczny łuk działa jak mała trampolina, która przy każdym z 7000 kroków odbija stopę w górę i nie pozwala kolanom zapadać się do środka, a wypustki sensoryczne na powierzchni zmuszają mięśnie stopy do budowania własnej siły.
 
-Docięłam dwie pary nożyczkami wzdłuż linii w dwie minuty - jedną do trzewików zimowych Zosi, drugą do jej butów szkolnych na zmianę.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka włożyłam obie pary prosto do butów - jedną do trzewików zimowych Zosi, drugą do jej butów szkolnych na zmianę.
 
 Zmianę u młodszej córki obserwowałam z ogromnym wzruszeniem:
 
@@ -436,7 +436,7 @@ Na oficjalnej stronie trwa teraz promocja Pakiet 1+1 GRATIS: za 99,99 zł dostaj
 
 Jedna para idzie do butów zimowych, druga do obuwia na zmianę w szkole na pełne 14 godzin ochrony.
 
-Macie 30 dni gwarancji zwrotu - możecie dociąć wkładki nożyczkami, testować je przez miesiąc i jeśli nie zobaczycie różnicy, odsyłacie je i odzyskujecie 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wkładki do butów i testować je przez miesiąc i jeśli nie zobaczycie różnicy, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Zamówcie pakiet dla swojego dziecka tutaj: https://orthomax.pl/products/stepmax
 
@@ -529,7 +529,7 @@ Głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma j
 
 Pod spodem dynamiczne podparcie unosi zapadnięty łuk podłużny i poprzeczny, prostując oś piszczeli i kolana, a delikatne wypustki sensoryczne pobudzają krążenie i mięśnie stóp, podczas gdy strefa amortyzacyjna pod piętą pochłania uderzenia o beton.
 
-Docięłam je nożyczkami wzdłuż wyznaczonych linii w dwie minuty - jedną parę włożyłam do domowych kapci, drugą do jesiennych półbutów.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka dopasowałam je idealnie do butów - jedną parę włożyłam do domowych kapci, drugą do jesiennych półbutów.
 
 To, co działo się z moimi nogami przez kolejne tygodnie, przywróciło mi chęć do życia:
 
@@ -544,7 +544,7 @@ Na oficjalnej stronie trwa teraz promocja Pakiet 1+1 GRATIS: za 99,99 zł otrzym
 
 Jedną parę wkładacie do kapci, w których chodzicie po twardych panelach i płytkach w domu, a drugą do butów wyjściowych.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - możecie dociąć wkładki nożyczkami, chodzić w nich przez miesiąc, a jeśli nie poczujecie różnicy w stopach i kolanach, odsyłacie je i odzyskujecie 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku wkładki do butów i chodzić w nich przez miesiąc, a jeśli nie poczujecie różnicy w stopach i kolanach, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/stepmax
 
@@ -553,7 +553,7 @@ P.S. Wydałam 8750 złotych na zastrzyki w kolana i rehabilitację, które leczy
 
   'pl-30-zal-zastrzyki-sterydowe-pieta': {
     headline: 'Przeszłam 3 bolesne blokady w piętę i 10 zabiegów fali uderzeniowej. Dopiero ten 1 szczegół zatrzymał ból',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu nawet po docięciu',
+    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
     primaryText: `Kto nigdy nie leżał na skórzanej kozetce w gabinecie zabiegowym i nie miał wbitej długiej, grubej igły ze sterydem prosto w żywe, zapalone rozcięgno pod piętą, ten nie ma pojęcia, czym jest ból, przy którym człowiek wgryza się zębami w pasek własnej torebki, żeby nie krzyczeć na cały korytarz.
 
 Mam 47 lat, mieszkam we Wrocławiu i w ciągu ostatniego roku dałam sobie wbić trzy takie blokady sterydowe oraz przeszłam dziesięć zabiegów fali uderzeniowej.
@@ -634,7 +634,7 @@ Z tyłu głębokie korytko w kształcie litery U obejmuje piętę z boków i trz
 
 Najważniejsze dzieje się jednak centymetr dalej: dynamiczne, wyprofilowane podparcie łuku podłużnego przejmuje na siebie ciężar ciała i nie pozwala stopie spłaszczyć się przy kroku, dzięki czemu rozcięgno podeszwowe pozostaje luźne i może się spokojnie goić, podczas gdy wypustki sensoryczne poprawiają ukrwienie tkanek.
 
-Docięłam obie pary nożyczkami w dwie minuty - jedną wsunęłam do kapci stojących przy łóżku, drugą do jesiennych botków.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka dopasowałam je idealnie do butów - jedną wsunęłam do kapci stojących przy łóżku, drugą do jesiennych botków.
 
 Proces gojenia mojego rozcięgna ruszył z miejsca dzień po dniu:
 
@@ -649,7 +649,7 @@ Na oficjalnej stronie producenta jest teraz promocja Pakiet 1+1 GRATIS: za 99,99
 
 To absolutnie kluczowe przy ostrodze, bo jedną parę musicie mieć w kapciach przy łóżku od godziny 6:00 rano, a drugą w butach, w których wychodzicie do pracy.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - możecie dociąć wkładki nożyczkami, chodzić w nich przez miesiąc i jeśli ból pięty nie ustąpi, odsyłacie je i odzyskujecie 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku wkładki do butów i chodzić w nich przez miesiąc i jeśli ból pięty nie ustąpi, odsyłacie je i odzyskujecie 100% pieniędzy.
 
 Zamówcie swój pakiet 1+1 tutaj: https://orthomax.pl/products/stepmax
 
