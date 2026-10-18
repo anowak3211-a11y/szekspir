@@ -1,3 +1,10 @@
+## Reduce repeated Meta requests during bulk uploads — 18 October 2026
+
+- After the owner reported only 5/100 complete, production health showed provider usage at 80% and an active usage-header cooldown. The higher local cap does not remove provider limits.
+- Explicit ACTIVE/PAUSED publication now shares validated campaign status for five minutes, matching existing target/Page validation cache windows; legacy publication without explicit status still checks PAUSED fresh. Archived campaigns are rejected when the cache expires.
+- Exact-byte, same-account confirmed image hashes are reused for 24 hours instead of five minutes, so delayed localized/rewritten pairs do not re-upload the same pixels. This does not reuse unknown writes or different bytes/accounts. A provider rejection of a removed image remains an error for review.
+- Provider cooldowns, serial dispatch and the 180-point local cap are unchanged.
+
 ## Owner-approved uploader throughput increase — 18 October 2026
 
 - Confirmed limited/development access now allows 180 weighted points per rolling five minutes, up from the local 45-point cap. Unknown access remains at 45; confirmed full access is unchanged. These are application guards, not advertised Meta quotas.
