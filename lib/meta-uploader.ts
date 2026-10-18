@@ -3,7 +3,7 @@ import {send} from './account-queue';
 import {mutate,readState} from './store';
 import {graph,graphList,assertUploadTarget,MetaError,cachedMetaResource} from './meta-client';
 import {MetaBudgetWait,assertMetaStageBudget} from './meta-rate-limit';
-import {parseUploadAd,creativePayload,verifyCreative,type UploadBatch,type UploadItem} from './meta-uploader-model';
+import {parseUploadAd,creativePayload,verifyCreative,numericId,type UploadBatch,type UploadItem} from './meta-uploader-model';
 import {itemKey,fingerprint} from './meta-uploader-identity';
 import {startRemoteVideo,uploadImage,transferOriginalChunk,finishOriginalVideo} from './meta-upload-media';
 import {uploaderError} from './meta-upload-http';
@@ -20,6 +20,33 @@ export async function saveUploadBatch(id:string,name:string,raw:unknown[]){
  await mutate<string[],void>('meta-upload-batches',[],s=>{if(!s.includes(id))s.push(id);});return readBatch(id);
 }
 export async function publishUploadBatch(id:string,name:string,raw:unknown[]){await saveUploadBatch(id,name,raw);return startBatch(id);}
+/** Owner-requested Page correction: replace the creative on the same native ad. */
+export async function planPageReplacement(sourceBatchId:string,assignments:unknown){
+ const source=await readBatch(sourceBatchId);
+ if(source.batch.status!=='finished')throw Error('Finish the original upload before changing Pages.');
+ if(!Array.isArray(assignments)||!assignments.length||assignments.length>300)throw Error('Choose 1–300 existing adverts.');
+ const seen=new Set<string>();
+ return assignments.map((entry:{itemId?:unknown;pageId?:unknown})=>{
+  if(!entry||typeof entry.itemId!=='string'||seen.has(entry.itemId))throw Error('Choose each source advert once.');seen.add(entry.itemId);
+  const original=source.items.find(i=>i.id===entry.itemId),pageId=numericId(entry.pageId,'Page');
+  if(!original||original.status!=='complete'||!original.metaAdId||!original.creativeId||!original.verifiedAt)throw Error('Choose a verified advert from this batch.');
+  if(original.pageReplacement)throw Error('Select the original publication batch.');
+  const ad=parseUploadAd({...original.ad,key:`page-fix:${original.id}:${pageId}`,pageId});
+  return {original,ad};
+ });
+}
+export async function replaceUploadPages(sourceBatchId:string,id:string,name:string,assignments:unknown){
+ const plan=await planPageReplacement(sourceBatchId,assignments);
+ for(const ad of new Map(plan.map(p=>[JSON.stringify([p.ad.accountId,p.ad.adSetId,p.ad.pageId]),p.ad])).values())await assertUploadTarget(ad);
+ await saveUploadBatch(id,name,plan.map(p=>p.ad));
+ for(const {original,ad} of plan){await mutate<{item?:UploadItem},void>(key(itemKey(ad))+'-record',{},s=>{
+  const i=s.item;if(!i)throw Error('Page change record missing.');
+  if(i.pageReplacement){if(i.metaAdId!==original.metaAdId||i.pageReplacement.sourceItemId!==original.id)throw Error('Page change target differs.');return;}
+  i.pageReplacement={sourceItemId:original.id,previousCreativeId:original.creativeId!,previousPageId:original.ad.pageId};
+  i.metaAdId=original.metaAdId;i.imageHash=original.imageHash;i.imageHashes=original.imageHashes;i.videoId=original.videoId;i.thumbnailUrl=original.thumbnailUrl;i.phase='creative';
+ });}
+ return startBatch(id);
+}
 /** Read-only support evidence, restricted to an advert already in this batch. */
 export async function inspectUploadCreative(batchId:string,adId:string){
  const {items}=await readBatch(batchId),item=items.find(i=>i.metaAdId===adId);if(!item?.creativeId)throw Error('Advert is not in this batch.');
@@ -92,11 +119,24 @@ async function verify(item:UploadItem){
  const ad=await graph<{id:string;adset_id:string;status:string;creative:{id:string;object_story_spec?:unknown;degrees_of_freedom_spec?:unknown}&Record<string,unknown>}>(item.metaAdId,{fields:'id,adset_id,status,creative{id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags}'});
  if(ad.adset_id!==item.ad.adSetId||ad.creative.id!==item.creativeId||ad.status!==(item.ad.publishStatus||'PAUSED'))throw Error(`Meta ad identity, target or ${item.ad.publishStatus?'publication':'paused'} status did not match.`);
  const creative=ad.creative.object_story_spec&&ad.creative.degrees_of_freedom_spec?ad.creative:await graph(item.creativeId,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});const issues=verifyCreative(item,creative);if(issues.length)throw Error(issues.join(' '));
+ if(item.pageReplacement)await mutate<{item?:UploadItem},void>(key(item.pageReplacement.sourceItemId)+'-record',{},s=>{const source=s.item;if(!source||source.metaAdId!==item.metaAdId||![item.pageReplacement!.previousCreativeId,item.creativeId].includes(source.creativeId))throw Error('Original advert changed during Page correction.');source.ad={...source.ad,pageId:item.ad.pageId};source.fingerprint=fingerprint(source.ad);source.creativeId=item.creativeId;source.verifiedAt=Date.now();source.updated=Date.now();});
 }
 class UnconfirmedResult extends Error {}
 export async function reconcileItem(id:string,batchId?:string){
  if(batchId&&!(await readBatchRecord(batchId)).items.includes(id))throw Error('Advert is not in this batch.');
  let item=await readItem(id);if(!item)throw Error('Item not found.');if(item.leaseUntil&&item.leaseUntil>Date.now())throw Error('This advert is still being processed.');
+ if(item.pageReplacement){
+  if(item.pending==='creative'){
+   const matches=(await graphList(`act_${item.ad.accountId}/adcreatives`,'id,name')).filter(c=>c.name===`szekspir-upload-${item!.id}`);
+   if(matches.length!==1)throw new UnconfirmedResult('Page correction creative is not uniquely confirmed. No replacement was created.');
+   return patchItem(id,{creativeId:String(matches[0].id),phase:'ad',pending:undefined,status:'queued',error:undefined,lease:undefined,leaseUntil:undefined});
+  }
+  // Read the exact existing ad, not an account-wide name match. An unaccepted
+  // update keeps its pending intent, so an unknown write is never replayed.
+  await verify(item);
+  item=await patchItem(id,{status:'complete',phase:'done',verifiedAt:Date.now(),pending:undefined,error:undefined,lease:undefined,leaseUntil:undefined});
+  if(batchId){await batchQueue(batchId);await updateQueue(batchId,item);await markFinished(batchId);await dispatchNext(batchId);}return item;
+ }
  const found=(await graphList(`${item.ad.adSetId}/ads`,'id,name,status,creative{id}')).filter(a=>a.name===item!.ad.name);
  if(found.length>1)throw Error('More than one Meta ad has this name. Resolve the ambiguity in Ads Manager.');
  if(found.length){const creative=(found[0].creative as {id?:string})?.id;if(!creative)throw Error('Existing ad has no creative.');item=await patchItem(id,{metaAdId:String(found[0].id),creativeId:creative,reused:true,phase:'verify',pending:undefined,lease:undefined,leaseUntil:undefined});await verify(item);item=await patchItem(id,{status:'complete',phase:'done',verifiedAt:Date.now(),error:undefined});if(batchId){await batchQueue(batchId);await updateQueue(batchId,item);await markFinished(batchId);await dispatchNext(batchId);}return readItem(id);}
@@ -131,8 +171,15 @@ export async function consumeMetaUpload(id:string,batchId:string,dispatchToken?:
    if(state==='error'||state==='failed')throw Error('Meta could not process the original video.');
    if(state!=='ready'){if(item.attempts++>=30)throw Error('Video processing is taking too long. Retry checks the same video ID.');delay=Math.min(120,20*2**Math.min(3,item.attempts-1));}else{item.thumbnailUrl=media.thumbnails?.data[0]?.uri||media.picture;if(!item.thumbnailUrl)throw Error('Meta did not return the original thumbnail.');item.phase='creative';item.attempts=0;delay=0;}
   }else if(item.phase==='creative'){await assertUploadTarget(item.ad);await pending(item,'creative');const r=await graph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(item),'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the creative ID.');item.creativeId=r.id;item.pending=undefined;item.phase='ad';delay=0;
-  }else if(item.phase==='ad'){await assertUploadTarget(item.ad);await pending(item,'ad');const r=await graph<{id:string}>(`act_${item.ad.accountId}/ads`,{name:item.ad.name,adset_id:item.ad.adSetId,creative:{creative_id:item.creativeId},status:item.ad.publishStatus||'PAUSED'},'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the ad ID.');item.metaAdId=r.id;item.pending=undefined;item.phase='verify';delay=0;
-  }else if(item.phase==='verify'){await verify(item);item.status='complete';item.phase='done';item.verifiedAt=Date.now();item.error=undefined;}
+  }else if(item.phase==='ad'){await assertUploadTarget(item.ad);await pending(item,'ad');if(item.pageReplacement){
+    if(!item.metaAdId)throw Error('Missing existing ad ID.');
+    const current=await graph<{adset_id:string;creative:{id:string}}>(item.metaAdId,{fields:'adset_id,creative{id}'});
+    if(current.adset_id!==item.ad.adSetId||![item.pageReplacement.previousCreativeId,item.creativeId].includes(current.creative.id))throw Error('The existing advert changed outside this Page correction.');
+    if(current.creative.id!==item.creativeId){const r=await graph<{success?:boolean}>(item.metaAdId,{creative:{creative_id:item.creativeId}},'POST');if(r.success!==true)throw Error('Meta did not confirm the Page correction.');}
+   }else{const r=await graph<{id:string}>(`act_${item.ad.accountId}/ads`,{name:item.ad.name,adset_id:item.ad.adSetId,creative:{creative_id:item.creativeId},status:item.ad.publishStatus||'PAUSED'},'POST');if(!/^\d+$/.test(r.id))throw Error('Meta did not confirm the ad ID.');item.metaAdId=r.id;}item.pending=undefined;item.phase='verify';delay=0;
+  }else if(item.phase==='verify'){await verify(item);
+
+   item.status='complete';item.phase='done';item.verifiedAt=Date.now();item.error=undefined;}
   if(item.status!=='complete')item.status=delay?'waiting':'queued';item.nextAttempt=delay?Date.now()+delay*1000:undefined;item.lease=undefined;item.leaseUntil=undefined;item.error=undefined;await patchItem(id,item,lease);
  }catch(error){const saved=(await readItem(id))!;if(error instanceof MetaBudgetWait){delay=error.retryAfterSeconds;await patchItem(id,{status:'waiting',error:error.message,pending:undefined,nextAttempt:Date.now()+delay*1000,lease:undefined,leaseUntil:undefined},lease);}else{const e=error as MetaError;const safeRetry=e instanceof MetaError&&e.transient&&!e.uncertain&&(e.rateLimited||saved.attempts<8);delay=safeRetry?Math.max(e.retryAfterSeconds||0,Math.min(1800,30*2**saved.attempts)):undefined;await patchItem(id,{status:safeRetry?'waiting':'attention',error:uploaderError(e),pending:e instanceof MetaError&&!e.uncertain?undefined:saved.pending,attempts:e.rateLimited?saved.attempts:saved.attempts+1,nextAttempt:delay?Date.now()+delay*1000:undefined,lease:undefined,leaseUntil:undefined},lease);}}
  await updateQueue(batchId,(await readItem(id))!);

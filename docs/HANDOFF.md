@@ -1,3 +1,10 @@
+## Correct Facebook Page identity on existing native ads — 18 October 2026
+
+- Owner corrected the Antki identity: exactly 50% Everyday Parenting UK and 50% Carys Morgan, balanced in both UK variants. The original batch had been sent as Mellow Supplements. Localized must stay active; rewritten was paused before that instruction and must not be silently re-enabled.
+- Added an authenticated, account-scoped Page repair plan/review at /uploader/page-repair and /api/meta/page-replacements. A correction uses verified original adverts and saved media, creates only replacement creatives, and updates the existing native ad ID with the creative field alone. Campaign/adset budgets, status, targeting, copy, images, names and native ad IDs remain unchanged.
+- Each correction has a deterministic source/revision key and durable existing-ad binding. Fresh pre-update read rejects concurrent creative/target changes. Unknown writes stop for reconciliation of the exact native ID; no new ad is created. Verified corrections update the original saved Page/creative only after exact native readback. Immutable retries reuse saved correction records.
+- Offline worker regressions cover preserving native IDs/status/copy, disallowing duplicate/foreign source items, accepted-but-unconfirmed writes and idempotent completion. Live pilot verification is still required before applying the full correction.
+
 ## Reduce repeated Meta requests during bulk uploads — 18 October 2026
 
 - After the owner reported only 5/100 complete, production health showed provider usage at 80% and an active usage-header cooldown. The higher local cap does not remove provider limits.
