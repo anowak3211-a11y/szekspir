@@ -79,23 +79,23 @@ Wytłumaczył mi, że jesienią i zimą spędzamy na twardym podłożu po 14 god
 
 Żel z drogerii zapada się pod tym ciężarem, a twardy plastik ze sklepu medycznego działa jak szyna gipsowa, która miażdży tkanki i rozleniwia mięśnie.
 
-Stopa potrzebuje smukłego, dynamicznego podparcia, które pracuje jak sprężyna przy każdym kroku.
+Stopa potrzebuje smukłego, sprężystego podparcia, które pracuje jak sprężyna przy każdym kroku.
 
 Dwa dni później w pracy w pokoju socjalnym pożaliłam się Beacie z księgowości, która wcześniej latami narzekała na haluksy, a teraz chodziła w zgrabnych sztybletach.
 
 Beata bez słowa rozpięła swojego botka i wyjęła ze środka pomarańczowo-czarną wkładkę.
 
-- Gosia, przestań kupować za duże buty - powiedziała. - Zamówiłam te dynamiczne wkładki Orthomax StepMax z polecenia dziewczyn na grupie na Facebooku. Zobacz, jak one pracują.
+- Gosia, przestań kupować za duże buty - powiedziała. - Zamówiłam te profilowane wkładki Orthomax StepMax z polecenia dziewczyn na grupie na Facebooku. Zobacz, jak one pracują.
 
 Kiedy wzięłam je do ręki, od razu poczułam różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie.
 
-Pod spodem elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina - unosi zapadnięty „namiot" stopy w górę i zbiera rozlane kości śródstopia na miejsce, a delikatne wypustki sensoryczne pobudzają mięśnie do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o chodnik.
+Pod spodem elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina - unosi zapadnięty „namiot" stopy w górę i zbiera rozlane kości śródstopia na miejsce, a delikatne wypustki pobudzają mięśnie do pracy, podczas gdy miękka strefa pod piętą tłumi uderzenia o chodnik.
 
 Tego samego wieczoru zamówiłam je dla siebie.
 
-Kiedy przyszła paczka w moim dokładnym rozmiarze 38, od razu wyjęłam wkładki z pudełka, włożyłam je do moich zeszłorocznych botków w rozmiarze 38 i pociągnęłam za zamek.
+Kiedy przyszła paczka w moim dokładnym rozmiarze 38, od razu wyjęłam wkładki z foliowego opakowania, włożyłam je do moich zeszłorocznych botków w rozmiarze 38 i pociągnęłam za zamek.
 
 Suwak przeszedł gładko do samej góry za pierwszym razem!
 
@@ -117,7 +117,7 @@ Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego 
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Stopa po lecie nie zrobiła się szersza dlatego, że urosły Wam kości - ona straciła podparcie i zapadła się pod ciężarem ciała. Za 50 zł za parę i z 30-dniową gwarancją zwrotu nie ryzykujecie ani grosza, a możecie jeszcze tej zimy znów bez bólu zasunąć zamek w ulubionych butach.`
   },
@@ -199,15 +199,15 @@ Wyjaśnił mi, że jesienią i zimą spędzamy 14 godzin dziennie na twardych po
 
 Tego samego dnia na grupie dla kobiet po czterdziestce na Facebooku trafiłam na wątek o „bólu pierwszego kroku o 6:00 rano".
 
-Dziesiątki kobiet pisały tam o pomarańczowo-czarnych wkładkach dynamicznych Orthomax StepMax i radziły jedno: wziąć pakiet 1+1, żeby jedną parę włożyć do kapci stojących przy samym łóżku i nigdy nie stawać rano boso na płaskiej podłodze, a drugą parę mieć w butach wyjściowych.
+Dziesiątki kobiet pisały tam o pomarańczowo-czarnych wkładkach profilowanych Orthomax StepMax i radziły jedno: wziąć pakiet 1+1, żeby jedną parę włożyć do kapci stojących przy samym łóżku i nigdy nie stawać rano boso na płaskiej podłodze, a drugą parę mieć w butach wyjściowych.
 
-Od razu zamówiłam zestaw. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, od razu poczułam różnicę.
+Od razu zamówiłam zestaw. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam różnicę.
 
-Są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę i trzyma ją prosto, a miękka strefa pod guzem piętowym tłumi wstrząsy jak ochronna poduszka.
+Są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę i trzyma ją prosto, a miękka strefa pod guzem piętowym tłumi wstrząsy jak ochronna poduszka.
 
-Na środku dynamiczny profil pod łukiem podłużnym działa przy każdym kroku jak sprężyna - utrzymuje sklepienie w górze i nie pozwala stopie opaść na płasko, zdejmując całe brutalne napięcie z rozcięgna, podczas gdy wypustki sensoryczne pobudzają krążenie.
+Na środku dynamiczny profil pod łukiem podłużnym działa przy każdym kroku jak sprężyna - utrzymuje sklepienie w górze i nie pozwala stopie opaść na płasko, zdejmując całe brutalne napięcie z rozcięgna, podczas gdy wypustki pobudzają krążenie.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka dopasowałam je idealnie do butów - jedną włożyłam do pełnych kapci przy łóżku, a drugą do butów do pracy.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania dopasowałam je idealnie do butów - jedną włożyłam do pełnych kapci przy łóżku, a drugą do butów do pracy.
 
 Przez pierwsze 3 dni stopy przyzwyczajały się do sprężystego podparcia, a ja pilnowałam, żeby o 6:00 rano wsuwać stopy prosto w kapcie z wkładkami.
 
@@ -225,7 +225,7 @@ Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego 
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Wasze ciało każdej nocy ciężko pracuje, żeby zagoić mikrouszkodzenia pod piętą - nie pozwólcie, by kolejny poranny krok o 6:00 rano na płaskiej stopie znów zniszczył tę pracę w jedną sekundę.`
   },
@@ -298,21 +298,21 @@ Odcinek lędźwiowy kręgosłupa przyjmuje na siebie 100% wstrząsów z betonowe
 
 Powiedział mi wprost: miękkie buty ani płaska gąbka z drogerii nic nie dadzą, bo stopa zapada się w nich jeszcze głębiej.
 
-Żeby odciążyć poduszki pod palcami i lędźwie, łuk stopy musi dostać sprężyste, dynamiczne podparcie przez wszystkie osiem godzin w pracy i kolejne sześć godzin chodzenia po panelach w domu.
+Żeby odciążyć poduszki pod palcami i lędźwie, łuk stopy musi dostać sprężyste podparcie przez wszystkie osiem godzin w pracy i kolejne sześć godzin chodzenia po panelach w domu.
 
 Kilka dni później na grupie facebookowej dla kobiet pracujących na stojąco przeczytałam wpis pielęgniarki z oddziału zabiegowego, która robi po dwanaście godzin dyżuru na szpitalnym korytarzu.
 
-Napisała, że przerobiła każde buty medyczne, a jej nogi i plecy uratowały dopiero pomarańczowo-czarne wkładki dynamiczne Orthomax StepMax.
+Napisała, że przerobiła każde buty medyczne, a jej nogi i plecy uratowały dopiero pomarańczowo-czarne wkładki profilowane Orthomax StepMax.
 
 Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z opakowania, od razu poczułam, że to zupełnie inna technologia niż drogeryjne pianki.
 
 Są zrobione ze sprężystej pianki o zmiennej gęstości, która nie ubija się nawet po całym dniu stania.
 
-Z tyłu głębokie korytko w kształcie litery U pewnie chwyta piętę i trzyma ją w pionie, a na środku dynamiczny profil łuku działa jak elastyczny resor - unosi śródstopie w górę, dzięki czemu ciężar ciała przestaje miażdżyć palące poduszki pod palcami.
+Z tyłu wyprofilowane korytko pewnie chwyta piętę i trzyma ją w pionie, a na środku dynamiczny profil łuku działa jak elastyczny resor - unosi śródstopie w górę, dzięki czemu ciężar ciała przestaje miażdżyć palące poduszki pod palcami.
 
-Delikatne wypustki sensoryczne na powierzchni przy każdym ruchu pobudzają krążenie krwi i likwidują ołowiany zastój w łydkach, a strefy amortyzujące pod piętą i przodostopiem pochłaniają twardość posadzki.
+Delikatne wypustki pobudzające na powierzchni przy każdym ruchu pobudzają krążenie krwi i likwidują ołowiany zastój w łydkach, a strefy amortyzujące pod piętą i przodostopiem pochłaniają twardość posadzki.
 
-Wybrałam z tabeli swój dokładny rozmiar i od razu po wyjęciu z pudełka włożyłam je do butów roboczych.
+Wybrałam z tabeli swój dokładny rozmiar i od razu po wyjęciu z opakowania włożyłam je do butów roboczych.
 
 Przez pierwsze 2-3 zmiany czułam wyraźnie, jak sprężysty profil podpiera moje podbicie i nie pozwala kostkom uciekać do środka.
 
@@ -332,9 +332,9 @@ Macie pełne 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć 
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajecie swoim stopom i lędźwiom dynamiczne podparcie na każdy z 10 000 kroków na zmianie - żebyście po powrocie do domu miały jeszcze siłę cieszyć się życiem.`
+P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajecie swoim stopom i lędźwiom sprężyste podparcie na każdy z 10 000 kroków na zmianie - żebyście po powrocie do domu miały jeszcze siłę cieszyć się życiem.`
   },
   'pl-34-dorosli-moja-62-letnia-mama': {
     headline: 'Moja 62-letnia mama ukrywała przed nami, dlaczego nie chce już wychodzić z wnukami na spacer',
@@ -411,15 +411,15 @@ Kręgosłup lędźwiowy przejmuje każde uderzenie pięty o chodnik i domowe pan
 
 Wyjaśnił, że w wieku 60+ stopa nie znosi twardego plastiku ze sklepu medycznego - potrzebuje jednocześnie miękkiej poduszki pod kośćmi i sprężystego uniesienia łuku przez kilkanaście godzin dziennie, kiedy mama chodzi po mieszkaniu i na zakupy.
 
-Rozwiązanie miałam już sprawdzone we własnym domu i na naszej grupie dla mam. Tego samego wieczoru zamówiłam dla mamy dorosły rozmiar dynamicznych wkładek Orthomax StepMax.
+Rozwiązanie miałam już sprawdzone we własnym domu i na naszej grupie dla mam. Tego samego wieczoru zamówiłam dla mamy dorosły rozmiar profilowanych wkładek Orthomax StepMax.
 
 Kiedy paczka przyszła, dałam charakterystyczne pomarańczowo-czarne wkładki mamie do ręki. Mama ścisnęła je i uśmiechnęła się z niedowierzaniem, bo zamiast twardego plastiku poczuła sprężystą piankę o zmiennej gęstości.
 
-Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją stabilnie na schodach, a miękka strefa pod piętą i przodostopiem działa jak ochronna poduszka dla wrażliwych kości.
+wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją stabilnie na schodach, a miękka strefa pod piętą i przodostopiem działa jak ochronna poduszka dla wrażliwych kości.
 
-Na środku elastyczne podparcie łuku unosi zapadnięte śródstopie jak sprężyna, odciążając piekące poduszki pod palcami i haluksa, podczas gdy drobne wypustki sensoryczne pobudzają krążenie w stopach.
+Na środku elastyczne podparcie łuku unosi zapadnięte śródstopie jak sprężyna, odciążając piekące poduszki pod palcami i haluksa, podczas gdy drobne wypustki pobudzają krążenie w stopach.
 
-Zamówiłam dokładny rozmiar 39 mojej mamy i od razu po wyjęciu z pudełka jedną parę włożyłam do jej półbutów wyjściowych, a drugą do pełnych kapci domowych.
+Zamówiłam dokładny rozmiar 39 mojej mamy i od razu po wyjęciu z opakowania jedną parę włożyłam do jej półbutów wyjściowych, a drugą do pełnych kapci domowych.
 
 Przez pierwsze 2-3 dni mama mówiła: „Gosiu, czuję pod spodem miękką górkę, która trzyma mi stopę, ale pierwszy raz nic mnie nie gniecie!".
 
@@ -439,7 +439,7 @@ Jedną parę wkładacie mamie do butów na spacery, a drugą do kapci na domowe 
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Jeśli Wasza mama coraz częściej mówi, że „woli dziś posiedzieć w domu", spójrzcie w niedzielę na jej buty i zapytajcie, czy nie pieką jej stopy. Za 99,99 zł w pakiecie 1+1 możecie oddać jej radość ze zwykłego spaceru z wnukami bez bólu.`
   },
@@ -520,21 +520,21 @@ Kiedy ukląkł przy mnie i dwoma kciukami uniósł mój łuk stopy od spodu, moj
 
 Wyjaśnił mi, że jesienią i zimą spędzamy w butach i kapciach po 14 godzin dziennie na twardym podłożu, robiąc około 7000 kroków dziennie (ponad 200 000 miesięcznie).
 
-Jedynym sposobem, żeby zatrzymać rozlewanie się stopy, jest postawienie tego „masztu namiotu" z powrotem w górę za pomocą dynamicznych wkładek.
+Jedynym sposobem, żeby zatrzymać rozlewanie się stopy, jest postawienie tego „masztu namiotu" z powrotem w górę za pomocą profilowanych wkładek.
 
 Wieczorem na grupie facebookowej dla kobiet po czterdziestym piątym roku życia znalazłam wątek o kupowaniu coraz szerszych butów zimowych.
 
-Kobiety masowo polecały tam pomarańczowo-czarne wkładki dynamiczne Orthomax StepMax, pisząc, że dzięki nim stopa przestaje rozlewać się na boki i znów wchodzi w zgrabne kozaki.
+Kobiety masowo polecały tam pomarańczowo-czarne wkładki profilowane Orthomax StepMax, pisząc, że dzięki nim stopa przestaje rozlewać się na boki i znów wchodzi w zgrabne kozaki.
 
 Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z paczki, od razu poczułam, jak mądrze są zaprojektowane.
 
 Są zrobione ze sprężystej pianki o zmiennej gęstości, która nie zabiera miejsca w bucie jak gruba skorupa ze sklepu medycznego.
 
-Z tyłu głębokie korytko w kształcie litery U obejmuje piętę i trzyma ją w osi, a na środku sprężysty profil dynamicznie unosi łuk stopy jak mała trampolina, dzięki czemu rozjechane kości śródstopia zbierają się na swoje miejsce i stopa automatycznie staje się węższa.
+Z tyłu wyprofilowane korytko obejmuje piętę i trzyma ją w osi, a na środku sprężysty profil dynamicznie unosi łuk stopy jak mała trampolina, dzięki czemu rozjechane kości śródstopia zbierają się na swoje miejsce i stopa automatycznie staje się węższa.
 
-Delikatne wypustki sensoryczne pobudzają mięśnie głębokie do trzymania sklepienia, a miękkie strefy pod piętą i palcami tłumią uderzenia o chodnik.
+Delikatne wypustki pobudzają mięśnie głębokie do trzymania sklepienia, a miękkie strefy pod piętą i palcami tłumią uderzenia o chodnik.
 
-Wybrałam z dokładnej rozmiarówki swój rozmiar 38 i od razu po wyjęciu z pudełka włożyłam wkładki do botków, których tydzień wcześniej nie mogłam dopiąć.
+Wybrałam z dokładnej rozmiarówki swój rozmiar 38 i od razu po wyjęciu z opakowania włożyłam wkładki do botków, których tydzień wcześniej nie mogłam dopiąć.
 
 Kiedy wsunęłam stopę, zamek zasunął się bez żadnego oporu! Przez pierwsze 2-3 dni czułam pod podbiciem sprężystą pracę profilu, ale boki stóp wreszcie nie były zmiażdżone.
 
@@ -554,7 +554,7 @@ Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego 
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Zanim wydacie tej zimy kolejne 400 zł na następne za duże buty, dajcie swoim stopom podparcie, które uniesie zapadnięty łuk. Za 50 zł za parę i z 30-dniową gwarancją zwrotu możecie odzyskać swój dawny rozmiar buta i lekkość każdego kroku.`
   }

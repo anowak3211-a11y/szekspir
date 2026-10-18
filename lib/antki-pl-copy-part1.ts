@@ -97,15 +97,15 @@ Dopóki chrząstki są plastyczne, stopę można wyprowadzić dynamiczną pracą
 
 Po powrocie do domu wrzuciłam zdjęcie startej podeszwy na grupę „Mamy z Poznania" i forum dla mam z pytaniem, co z tym zrobić.
 
-W ciągu dwóch godzin pod postem pojawiło się ponad 60 komentarzy od mam, które przechodziły to samo i wrzucały zdjęcia pomarańczowo-czarnych wkładek dynamicznych Orthomax StepMax.
+W ciągu dwóch godzin pod postem pojawiło się ponad 60 komentarzy od mam, które przechodziły to samo i wrzucały zdjęcia pomarańczowo-czarnych wkładek profilowanych Orthomax StepMax.
 
 Pisały, że aparat ruchu najlepiej działa będąc w ruchu i zamiast twardego plastiku potrzebna jest dynamiczna sprężyna.
 
-Zamówiłam je tej samej nocy, dobierając z dokładnej rozmiarówki na stronie rozmiar pasujący co do centymetra do butów Zosi. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, od razu poczułam różnicę.
+Zamówiłam je tej samej nocy, dobierając z dokładnej rozmiarówki na stronie rozmiar pasujący co do centymetra do butów Zosi. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie jak kciuki tamtej kierowniczki.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie jak kciuki tamtej kierowniczki.
 
-Pod spodem dynamiczne podparcie łuku podłużnego odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie do pracy, a wypustki sensoryczne na powierzchni cały czas bodźcują stopę, podczas gdy miękka strefa pod piętą tłumi uderzenia o beton.
+Pod spodem podparcie łuku stopy odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie do pracy, a wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka strefa pod piętą tłumi uderzenia o beton.
 
 Od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi - dzięki dokładnej rozmiarówce leżały jak ulał, bez żadnego kombinowania i bez kupowania obuwia o rozmiar większego.
 
@@ -127,7 +127,7 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszeni
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Dziś wieczorem odwróć buty swojego dziecka podeszwą do światła. Jeśli wewnętrzna krawędź pięty jest ścięta pod skosem, nie czekaj - okno wzrostowe do 12 roku życia nie będzie czekać.`,
   },
@@ -227,13 +227,13 @@ Ostrzegła mnie też, że u dziewczynek okno wzrostowe trwa tylko do około 12-1
 
 Sąsiadka poszła na chwilę do swojego mieszkania i wróciła z butem swojego 9-letniego syna.
 
-Wyjęła ze środka pomarańczowo-czarne wkładki dynamiczne Orthomax StepMax i pokazała mi pod kciukiem, jak pracuje w nich dynamiczna sprężyna.
+Wyjęła ze środka pomarańczowo-czarne wkładki profilowane Orthomax StepMax i pokazała mi pod kciukiem, jak pracuje w nich dynamiczna sprężyna.
 
 Powiedziała, że twarde skorupy z punktów ortopedycznych unieruchamiają stopę jak gips i rozleniwiają mięśnie, podczas gdy wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, nie pozwalając kostce uciekać do środka, a elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina, zdejmując napięcie z mięśnia piszczelowego.
+wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie, nie pozwalając kostce uciekać do środka, a elastyczne podparcie łuku działa przy każdym kroku jak mała trampolina, zdejmując napięcie z mięśnia piszczelowego.
 
-Do tego delikatne wypustki sensoryczne na wierzchu cały czas pobudzają stopę do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o beton.
+Do tego delikatne wypustki pobudzające na wierzchu cały czas pobudzają stopę do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o beton.
 
 Zamówiłam je jeszcze tego samego wieczoru, a gdy przyszła paczka, dobrałam z dokładnej rozmiarówki rozmiar pasujący prosto do butów Kasi.
 
@@ -255,7 +255,7 @@ Masz 30 dni gwarancji zwrotu - nawet po miesiącu normalnego noszenia w butach m
 
 Tutaj zamawiałam nasze wkładki na oficjalnej stronie:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Kości nie bolą od samego rośnięcia. Zanim dziś w nocy znów sięgniesz po syrop przeciwbólowy, zrób dziecku zdjęcie pięt z poziomu podłogi - ten jeden kadr może oszczędzić mu miesięcy cichego bólu.`,
   },
@@ -263,17 +263,13 @@ P.S. Kości nie bolą od samego rośnięcia. Zanim dziś w nocy znów sięgniesz
   'pl-03-test-mokrej-stopy': {
     headline: 'Spojrzałam na mokre ślady stóp córki po kąpieli. Ten 10-sekundowy test powinna zrobić każda mama',
     description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Wyszłam z łazienki wieczorem zaraz po kąpieli mojej 10-letniej córki, spojrzałam na mokre ślady jej stóp na ciemnoszarych kafelkach w korytarzu i poczułam, jak robi mi się zimno.
+    primaryText: `Moja 10-letnia Zosia pobiegła wieczorem boso z wanny po piżamę, a ja spojrzałam na mokre ślady jej stóp na ciemnych kafelkach i zamarłam.
 
-Zosia pobiegła boso do swojego pokoju po piżamę, zostawiając za sobą wyraźny, ciemny trop wody.
+Zamiast normalnego wcięcia w kształcie półksiężyca na podłodze odbiły się dwa pełne, płaskie prostokąty jak podeszwa żelazka - u mojej córki łuk stopy nie istniał wcale.
 
-Obok jej śladów odcisnęła się moja własna mokra stopa, na której po wewnętrznej stronie widać było normalne, suche wcięcie w kształcie półksiężyca.
+Obok jej tropu odcisnęła się moja własna mokra stopa i dopiero to porównanie jeden obok drugiego pokazało mi brutalną prawdę, której nie widziałam przez ostatnie dwa lata.
 
-U Zosi tego wcięcia nie było wcale.
-
-Zamiast charakterystycznego łuku na kafelkach odbił się pełny, szeroki, rozlany prostokąt jak stopa żelazka, a tuż obok wewnętrznej krawędzi widniała dodatkowa mokra kropka od wewnętrznej kostki, która niemal dotykała podłogi.
-
-Stałam nad tymi kafelkami z ręcznikiem w dłoni przez dobre pół minuty, zanim woda zaczęła parować, po czym dotarło do mnie, że patrząc na stopy własnego dziecka każdego dnia od dziesięciu lat, nie zauważyłam, że jej sklepienie kompletnie przestało istnieć.
+Stałam nad tymi kafelkami z ręcznikiem w dłoni przez dłuższą chwilę i dotarło do mnie, że patrząc na stopy własnego dziecka każdego dnia od dziesięciu lat, nie zauważyłam, jak jej sklepienie kompletnie się zapadło.
 
 Przez całą noc biłam się z myślami i wracałam pamięcią do ostatnich miesięcy.
 
@@ -349,17 +345,19 @@ Co gorsza, u 10-letniej dziewczynki zostaje już tylko niewiele czasu przed zamk
 
 Wieczorem zrobiłam zdjęcie mokrego śladu na kafelkach i wrzuciłam je na forum mam z Krakowa z pytaniem, jak podnieść ten łuk bez torturowania dziecka twardym plastikiem.
 
-Pod postem odezwała się matka 11-latka z identycznym zdjęciem sprzed pół roku oraz zdjęciem po kilku miesiącach noszenia dynamicznych wkładek Orthomax StepMax.
+Pod postem odezwała się matka 11-latka z identycznym zdjęciem sprzed pół roku oraz zdjęciem po kilku miesiącach noszenia profilowanych wkładek Orthomax StepMax.
 
-Napisała mi, że aparat ruchu najlepiej działa będąc w ruchu i wkładka musi pracować razem ze stopą jak sprężyna.
+Napisała mi, że stopa dziecka potrzebuje sprężystego podparcia, które pracuje razem z nią przy chodzeniu, zamiast sztywnego plastiku.
 
-Zamówiłam je od razu. Kiedy wyjęłam pomarańczowo-czarne wkładki Orthomax StepMax z pudełka, od pierwszej chwili poczułam pod palcami różnicę.
+Zamówiłam je od razu. Kiedy wyjęłam pomarańczowo-czarne wkładki Orthomax StepMax z foliowego opakowania, od pierwszej chwili poczułam pod palcami różnicę.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie, blokując uciekanie kostki do środka.
+Wkładki Orthomax StepMax są zrobione ze sprężystej pianki, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją prosto, blokując uciekanie kostki do środka.
 
-Pod śródstopiem znajduje się dynamiczne podparcie łuku podłużnego, które nie wbija się w ciało jak twardy plastik, lecz ugina się i sprężyście odbija przy każdym z 7000 kroków jak mała trampolina, podczas gdy wypustki sensoryczne na powierzchni nieustannie stymulują mięśnie stopy do budowania własnego sklepienia, a miękka strefa pod piętą pochłania wstrząsy z betonu.
+Pod śródstopiem znajduje się podparcie łuku stopy, które nie wbija się w ciało jak twardy plastik, tylko ugina się i pracuje jak sprężyna przy każdym kroku.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do butów zimowych oraz szkolnych Zosi.
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje uderzenia o twardy beton.
+
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do butów zimowych oraz szkolnych Zosi.
 
 Zmiana przyszła naturalnie. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nic nie gniecie".
 
@@ -381,7 +379,7 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszeni
 
 Zostawiam link do oficjalnej strony:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Od góry każda dziecięca stopa wygląda dobrze. Dopiero mokry ślad na kafelkach po kąpieli pokazuje, czy Twoje dziecko ma jeszcze amortyzację, czy uderza kością o beton 7000 razy dziennie.`,
   },
@@ -469,21 +467,21 @@ Dzieci spędzają wtedy 14 godzin dziennie na płaskim, twardym podłożu - 8 go
 
 Żadne piętnaście minut domowych ćwiczeń na dywanie ani sztywny but, który unieruchamia i rozleniwia mięśnie, nie wygra z 200 000 kroków na betonie.
 
-Dodał, że u 9-latki mamy jeszcze otwarte okno wzrostowe do 12-13 roku życia - dopóki chrząstki są plastyczne, dynamiczne podparcie łuku może wyprowadzić oś kolan na prostą bez operacji i śrub w kolanach.
+Dodał, że u 9-latki mamy jeszcze otwarte okno wzrostowe do 12-13 roku życia - dopóki chrząstki są plastyczne, podparcie łuku może wyprowadzić oś kolan na prostą bez operacji i śrub w kolanach.
 
 Tego samego wieczoru otworzyłam ponownie zdjęcie z wycieczki i olśniło mnie - stojący obok syn koleżanki z klasy Kasi jeszcze w drugiej klasie miał identyczne kolana w X, a na nowym zdjęciu stał prosto!
 
-Napisałam do niej na Messengerze. Odpisała po pięciu minutach i wysłała zdjęcie pomarańczowo-czarnych wkładek dynamicznych Orthomax StepMax.
+Napisałam do niej na Messengerze. Odpisała po pięciu minutach i wysłała zdjęcie pomarańczowo-czarnych wkładek profilowanych Orthomax StepMax.
 
 Napisała, że od wiosny jej syn nosi je w każdej parze zwykłych butów.
 
-Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości.
+Zamówiłam je od razu. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie jak dłonie fizjoterapeuty podczas testu, a dynamiczne podparcie łuku podłużnego ugina się i sprężyście odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie stopy do pracy i odkręcając rotację kolan.
+wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie jak dłonie fizjoterapeuty podczas testu, a podparcie łuku stopy ugina się i sprężyście odbija przy każdym kroku jak mała trampolina, zmuszając mięśnie stopy do pracy i odkręcając rotację kolan.
 
-Do tego wypustki sensoryczne na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
+Do tego wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o szkolny beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do zwykłych jesiennych butów oraz trampek Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych jesiennych butów oraz trampek Kasi.
 
 Transformacja działa się krok po kroku. Przez pierwsze trzy dni Kasia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -503,7 +501,7 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszeni
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Kolana w literę X prawie nigdy nie są winą samych kolan. Zanim okno wzrostowe do 12 roku życia się zamknie, napraw fundament w bucie - za 3 miesiące sama porównasz nowe zdjęcie ze starym.`,
   },
@@ -585,17 +583,17 @@ Na takim betonie wiotka stopa bez dynamicznego wsparcia szybko opada z sił.
 
 Dodał, że musimy działać teraz, bo okno wzrostowe trwa do około 12-13 roku życia - dopóki układ nerwowy i kości są plastyczne, dynamiczna stabilizacja nauczy stopę prawidłowego wzorca chodu.
 
-Wieczorem w domu szukałam na forum mam i grupie rodziców z Katowic opinii o wkładkach dla dziecka, które obija się o meble oraz krzywi kostki, po czym trafiłam na dziesiątki relacji mam stosujących pomarańczowo-czarne wkładki dynamiczne Orthomax StepMax.
+Wieczorem w domu szukałam na forum mam i grupie rodziców z Katowic opinii o wkładkach dla dziecka, które obija się o meble oraz krzywi kostki, po czym trafiłam na dziesiątki relacji mam stosujących pomarańczowo-czarne wkładki profilowane Orthomax StepMax.
 
 Pisały, że mieszczą się w każdym zwykłym bucie i trzymają kostkę bez usztywniania stopy w gipsie.
 
 Zamówiłam je od razu.
 
-Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości, w której głębokie korytko w kształcie litery U obejmuje piętę z obu stron i trzyma ją w pionie, uniemożliwiając kostce załamanie się do środka i skręcenie piszczeli.
+Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie, uniemożliwiając kostce załamanie się do środka i skręcenie piszczeli.
 
-Pod spodem dynamiczne podparcie łuku podłużnego działa przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki sensoryczne na powierzchni cały czas dają układowi nerwowemu sygnał o ułożeniu stopy, podczas gdy miękka strefa pod piętą amortyzuje twardy beton.
+Pod spodem podparcie łuku stopy działa przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki pobudzające na powierzchni cały czas dają układowi nerwowemu sygnał o ułożeniu stopy, podczas gdy miękka strefa pod piętą amortyzuje twardy beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do zwykłych butów Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi.
 
 Efekt przyszedł krok po kroku. Przez pierwsze trzy dni Zosia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -615,7 +613,7 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszeni
 
 Zostawiam link do oficjalnej strony:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Dziecko nie przewraca się na równej drodze z nieuwagi. Kiedy pięta ucieka do środka, czubki butów same skręcają ku sobie - daj jego stopom stabilne korytko i zobacz, jak pewnie zacznie biegać.`,
   },
@@ -703,19 +701,19 @@ Uświadomił mi, że mięśnie między łopatkami Kasi piekły codziennie dlateg
 
 Przez te wszystkie godziny mięśnie jej grzbietu musiały jak liny dźwigu trzymać sylwetkę nad zapadającymi się stopami!
 
-Dodał, że u dziewczynek okno wzrostowe zamyka się około 12-13 roku życia - dopóki kości są plastyczne, dynamiczne podparcie łuku od dołu natychmiast odciąży kręgosłup i zatrzyma utrwalanie wady.
+Dodał, że u dziewczynek okno wzrostowe zamyka się około 12-13 roku życia - dopóki kości są plastyczne, podparcie łuku od dołu natychmiast odciąży kręgosłup i zatrzyma utrwalanie wady.
 
 Wieczorem opisałam ten test z gabinetu na grupie na Facebooku „Wady postawy u dzieci - wsparcie rodziców".
 
-Mamy w komentarzach jednogłośnie poleciły mi pomarańczowo-czarne wkładki dynamiczne Orthomax StepMax jako jedyne, które utrzymują ten łuk stopy przez cały dzień w szkole, pracując jak sprężyna zamiast sztywnego gipsu.
+Mamy w komentarzach jednogłośnie poleciły mi pomarańczowo-czarne wkładki profilowane Orthomax StepMax jako jedyne, które utrzymują ten łuk stopy przez cały dzień w szkole, pracując jak sprężyna zamiast sztywnego gipsu.
 
-Zamówiłam je jeszcze tej samej nocy. Kiedy wyjęłam wkładki Orthomax StepMax z pudełka, od razu poczułam pod palcami, że są zrobione ze sprężystej pianki o zmiennej gęstości.
+Zamówiłam je jeszcze tej samej nocy. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu poczułam pod palcami, że są zrobione ze sprężystej pianki o zmiennej gęstości.
 
-Głębokie korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, blokując uciekanie kostek do środka, a dynamiczne podparcie łuku podłużnego działa przy każdym kroku jak mała trampolina, która unosi sklepienie stopy, ustawia miednicę w osi i zdejmuje napięcie z łopatek.
+wyprofilowane korytko obejmuje w nich piętę z obu stron i trzyma ją w pionie, blokując uciekanie kostek do środka, a podparcie łuku stopy działa przy każdym kroku jak mała trampolina, która unosi sklepienie stopy, ustawia miednicę w osi i zdejmuje napięcie z łopatek.
 
-Jednocześnie wypustki sensoryczne na powierzchni pobudzają mięśnie stopy do aktywnej pracy, a miękka strefa pod piętą tłumi uderzenia o szkolny beton.
+Jednocześnie wypustki pobudzające na powierzchni pobudzają mięśnie stopy do aktywnej pracy, a miękka strefa pod piętą tłumi uderzenia o szkolny beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z pudełka  je prosto do butów zimowych oraz szkolnych Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do butów zimowych oraz szkolnych Kasi.
 
 Zmiana zachowania przyszła krok po kroku. Przez pierwsze trzy dni Kasia mówiła: „Mamo, trochę dziwnie, czuję coś pod stopą, ale nie gniecie".
 
@@ -735,7 +733,7 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszeni
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
-https://orthomax.pl/products/stepmax
+https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Żaden tornister za 420 złotych nie wyprostuje kręgosłupa, jeśli na samym dole fundament stopy zapada się przy każdym z 7000 kroków dziennie. Zacznij od stóp, a plecy wyprostują się same.`,
   },
