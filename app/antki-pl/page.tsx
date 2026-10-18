@@ -12,9 +12,22 @@ type AngleRunStatus = 'idle' | 'queued' | 'generating' | 'done' | 'error';
 
 interface StageMeta {
   label: string;
+  shortLabel?: string;
   badge: string;
+  awareness?: string;
+  sophistication?: string;
   description: string;
 }
+
+const STAGE_ORDER: AntkiPlFunnelStage[] = [
+  'stage1_domowe_odkrycie',
+  'stage2_efekt_domina',
+  'stage2_szkola_wf',
+  'stage3_wypalone_matki',
+  'ryciak_rip3_variations',
+  'zal_po_operacji',
+  'dorosli_jesien_zima',
+];
 
 export default function AntkiPlPage() {
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
@@ -25,9 +38,8 @@ export default function AntkiPlPage() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
-  // Filters & Selection
-  const [stageFilter, setStageFilter] = useState<'all' | AntkiPlFunnelStage>('all');
-  const [segmentFilter, setSegmentFilter] = useState<'all' | AntkiPlSegment>('all');
+  // Domyślnie skupiamy się na dzieciach ("Porady Mamy Gosi"), dorośli są na razie schowani pod przełącznikiem
+  const [stageFilter, setStageFilter] = useState<'all_kids' | 'all' | AntkiPlFunnelStage>('all_kids');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [activeAngleId, setActiveAngleId] = useState<string | null>(null);
@@ -57,13 +69,15 @@ export default function AntkiPlPage() {
   const [customTitle, setCustomTitle] = useState('');
   const [customCode, setCustomCode] = useState('');
   const [customSegment, setCustomSegment] = useState<AntkiPlSegment>('dzieci');
-  const [customStage, setCustomStage] = useState<AntkiPlFunnelStage>('ryciak_rip3_variations');
+  const [customStage, setCustomStage] = useState<AntkiPlFunnelStage>('stage1_domowe_odkrycie');
   const [customNarrator, setCustomNarrator] = useState('Małgorzata (38 lat, Gdańsk)');
   const [customProtagonist, setCustomProtagonist] = useState('Kasia (10 lat)');
   const [customHook, setCustomHook] = useState('');
   const [customScene, setCustomScene] = useState('');
-  const [customMath, setCustomMath] = useState('Maść 35 zł + lekarz 150 zł + fizjoterapeuta 180 zł = 365 zł');
-  const [customBridge, setCustomBridge] = useState('Wieczorne szukanie na forum rodziców i powtarzająca się nazwa Orthomax StepMax.');
+  const [customMath, setCustomMath] = useState('Buty 599 zł + trampki 180 zł + żel 45 zł = 824 zł');
+  const [customBridge, setCustomBridge] = useState(
+    'Post na grupie mam na Facebooku i dziesiątki zdjęć wkładek Orthomax StepMax w komentarzach.',
+  );
 
   const loadInit = useCallback(async () => {
     setLoading(true);
@@ -129,16 +143,19 @@ export default function AntkiPlPage() {
 
   const filteredPresets = useMemo(() => {
     return presets.filter(item => {
-      if (stageFilter !== 'all' && item.funnelStage !== stageFilter) return false;
-      if (segmentFilter !== 'all' && item.segment !== segmentFilter) return false;
+      if (stageFilter === 'all_kids') {
+        if (item.funnelStage === 'dorosli_jesien_zima') return false;
+      } else if (stageFilter !== 'all') {
+        if (item.funnelStage !== stageFilter) return false;
+      }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        const hay = `${item.number} ${item.code} ${item.title} ${item.hookIdea} ${item.sceneBeat} ${item.protagonist}`.toLowerCase();
+        const hay = `${item.number} ${item.code} ${item.title} ${item.hookIdea} ${item.sceneBeat} ${item.protagonist} ${item.awarenessStage} ${item.sophistication}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
     });
-  }, [presets, stageFilter, segmentFilter, searchQuery]);
+  }, [presets, stageFilter, searchQuery]);
 
   const generateSingleAngle = useCallback(
     async (angleId: string) => {
@@ -272,7 +289,7 @@ export default function AntkiPlPage() {
       if (!res.ok) throw new Error(data.error || 'Nie udało się zapisać zmian.');
       setSavedAds(data.savedAds || []);
       setEditDirty(false);
-      setNotice('Zapisano i przefiltrowano tekst (0 em-dashów, pełna walidacja).');
+      setNotice('Zapisano i przefiltrowano tekst (0 em-dashów, liczba mnoga, pełna walidacja).');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Błąd zapisu.');
     } finally {
@@ -284,6 +301,7 @@ export default function AntkiPlPage() {
     e.preventDefault();
     if (!customTitle.trim() || !customHook.trim()) return;
     const newId = `custom-${Date.now()}`;
+    const stageMeta = stages[customStage];
     const newAngle: AntkiPlPresetAngle = {
       id: newId,
       number: presets.length + 1,
@@ -291,19 +309,16 @@ export default function AntkiPlPage() {
       title: customTitle.trim(),
       segment: customSegment,
       funnelStage: customStage,
-      funnelLabel: stages[customStage]?.badge || 'Własny kąt',
-      awarenessStage: 'Własny kąt',
-      sophistication: 'Stage 3/4',
+      funnelLabel: stageMeta?.shortLabel || stageMeta?.badge || 'Własny kąt',
+      awarenessStage: stageMeta?.awareness || 'Stage 2: Problem Aware',
+      sophistication: stageMeta?.sophistication || 'Poziom 3/4',
       narrator: customNarrator,
       protagonist: customProtagonist,
       hookIdea: customHook,
       sceneBeat: customScene,
       failedSolutionsMath: customMath,
       discoveryBridge: customBridge,
-      defaultHeadline:
-        customSegment === 'dorosli'
-          ? 'Zanim zapiszesz się na zabieg lub kupisz kolejną maść, przeczytaj to ☝️'
-          : 'Jeśli Twoje dziecko bolą stopy, przeczytaj to ☝️',
+      defaultHeadline: customTitle.trim(),
     };
 
     setPresets(prev => [newAngle, ...prev]);
@@ -413,112 +428,92 @@ export default function AntkiPlPage() {
     setNotice(`Pobrano plik JSON (${readyAdsForExport.length} reklam) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`);
   };
 
-  const selectGroup = (group: 'first20_kids' | 'ryciak_rip3' | 'zal_operacja' | 'dorosli_zima' | 'all') => {
-    if (group === 'all') {
-      setSelectedIds(presets.map(p => p.id));
-      return;
-    }
-    if (group === 'first20_kids') {
-      setSelectedIds(
-        presets
-          .filter(p =>
-            [
-              'stage1_domowe_odkrycie',
-              'stage2_efekt_domina',
-              'stage2_szkola_wf',
-              'stage3_wypalone_matki',
-            ].includes(p.funnelStage),
-          )
-          .map(p => p.id),
-      );
-      return;
-    }
-    if (group === 'ryciak_rip3') {
-      setSelectedIds(presets.filter(p => p.funnelStage === 'ryciak_rip3_variations').map(p => p.id));
-      return;
-    }
-    if (group === 'zal_operacja') {
-      setSelectedIds(presets.filter(p => p.funnelStage === 'zal_po_operacji').map(p => p.id));
-      return;
-    }
-    if (group === 'dorosli_zima') {
-      setSelectedIds(presets.filter(p => p.funnelStage === 'dorosli_jesien_zima').map(p => p.id));
-      return;
-    }
-  };
-
   const totalGeneratedCount = Object.keys(adByAngleId).length;
+  const activeStageMeta =
+    stageFilter !== 'all' && stageFilter !== 'all_kids' ? stages[stageFilter] : null;
 
   return (
-    <main className="wrap" style={{ maxWidth: 1480, margin: '0 auto', padding: '24px 20px 80px' }}>
+    <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
       <p className="crumb">
         <a href="/">← Home (Szekspir)</a> · <a href="/uploader">Szekspir Ads (Uploader) ↗</a> ·{' '}
-        <a href="/profile">Mózg AI i Klucze ({brain.provider}: {brain.model}) ↗</a>
+        <a href="/profile">
+          Mózg AI ({brain.provider}: {brain.model}) ↗
+        </a>
       </p>
 
+      {/* NAGŁÓWEK Z CZYSTYM KONTRASTEM */}
       <header
         style={{
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'space-between',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           gap: 16,
-          marginBottom: 20,
-          borderBottom: '1px solid rgba(255,255,255,0.1)',
-          paddingBottom: 16,
+          marginBottom: 18,
+          borderBottom: '1px solid var(--border)',
+          paddingBottom: 14,
         }}
       >
         <div>
-          <h1 style={{ margin: '0 0 6px', fontSize: 28 }}>
-            🇵🇱 ANTKI PL · Fabryka MSL Orthomax StepMax (30+/dzień)
+          <h1 style={{ margin: '0 0 4px', fontSize: 24, color: 'var(--text)' }}>
+            🇵🇱 ANTKI PL · Porady Mamy Gosi (Orthomax StepMax)
           </h1>
-          <p className="sub" style={{ margin: 0 }}>
-            Porady Mamy Gosi & Segment Dorosły · Nowy cennik: <strong>99,99 zł (Pakiet 1+1 GRATIS = 50 zł/para)</strong> +{' '}
-            <strong>30 dni gwarancji zwrotu</strong> · Automatyczny audyt (0 em-dashów, Pan/Pani, brak „, i”, most odkrycia).
+          <p className="sub" style={{ margin: 0, fontSize: 13 }}>
+            Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
+            Styl Mellow · Liczba mnoga („wkładki są zrobione”) · Cyfrowe godziny · 0 em-dashów.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
           <button
             type="button"
             onClick={() => setShowCustomModal(true)}
             style={{
-              padding: '10px 16px',
+              padding: '9px 14px',
               borderRadius: 8,
-              border: '1px solid #3864f5',
-              background: 'rgba(56,100,245,0.15)',
-              color: '#fff',
-              fontWeight: 600,
+              border: '1px solid var(--accent)',
+              background: 'var(--card)',
+              color: 'var(--accent)',
+              fontWeight: 700,
+              fontSize: 13,
               cursor: 'pointer',
             }}
           >
-            + Dodaj własny kąt / Hook
+            + Własny kąt / Hook
           </button>
+
           <button
             type="button"
             onClick={exportMarkdownFile}
             disabled={!totalGeneratedCount}
             style={{
-              padding: '10px 16px',
+              padding: '9px 14px',
               borderRadius: 8,
-              border: '1px solid rgba(255,255,255,0.2)',
-              background: 'rgba(255,255,255,0.06)',
-              color: '#fff',
+              border: '1px solid var(--border)',
+              background: 'var(--card)',
+              color: totalGeneratedCount ? 'var(--text)' : 'var(--muted)',
+              fontWeight: 600,
+              fontSize: 13,
+              opacity: totalGeneratedCount ? 1 : 0.55,
               cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
             }}
           >
             ⬇ Pobierz Markdown ({readyAdsForExport.length})
           </button>
+
           <button
             type="button"
             onClick={exportUploaderJson}
             disabled={!totalGeneratedCount}
             style={{
-              padding: '10px 16px',
+              padding: '9px 14px',
               borderRadius: 8,
-              border: '1px solid #10b981',
-              background: 'rgba(16,185,129,0.18)',
-              color: '#fff',
-              fontWeight: 600,
+              border: '1px solid #059669',
+              background: totalGeneratedCount ? '#059669' : 'var(--card)',
+              color: totalGeneratedCount ? '#ffffff' : 'var(--muted)',
+              fontWeight: 700,
+              fontSize: 13,
+              opacity: totalGeneratedCount ? 1 : 0.55,
               cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
             }}
           >
@@ -531,19 +526,24 @@ export default function AntkiPlPage() {
         <div
           role="alert"
           style={{
-            background: 'rgba(239,68,68,0.16)',
+            background: '#fef2f2',
             border: '1px solid #ef4444',
-            color: '#fecaca',
-            padding: '12px 16px',
+            color: '#991b1b',
+            padding: '10px 14px',
             borderRadius: 8,
-            marginBottom: 16,
+            marginBottom: 14,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            fontSize: 13,
+            fontWeight: 600,
           }}
         >
           <span>{error}</span>
-          <button onClick={() => setError('')} style={{ background: 'transparent', border: 0, color: '#fff', cursor: 'pointer' }}>
+          <button
+            onClick={() => setError('')}
+            style={{ background: 'transparent', border: 0, color: '#991b1b', cursor: 'pointer', fontWeight: 700 }}
+          >
             ✕
           </button>
         </div>
@@ -553,145 +553,180 @@ export default function AntkiPlPage() {
         <div
           role="status"
           style={{
-            background: 'rgba(16,185,129,0.14)',
+            background: '#ecfdf5',
             border: '1px solid #10b981',
-            color: '#a7f3d0',
-            padding: '12px 16px',
+            color: '#065f46',
+            padding: '10px 14px',
             borderRadius: 8,
-            marginBottom: 16,
+            marginBottom: 14,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            fontSize: 13,
+            fontWeight: 600,
           }}
         >
           <span>{notice}</span>
-          <button onClick={() => setNotice('')} style={{ background: 'transparent', border: 0, color: '#fff', cursor: 'pointer' }}>
+          <button
+            onClick={() => setNotice('')}
+            style={{ background: 'transparent', border: 0, color: '#065f46', cursor: 'pointer', fontWeight: 700 }}
+          >
             ✕
           </button>
         </div>
       )}
 
-      {/* PANEL STEROWANIA LEJKIEM I GENERATOREM */}
+      {/* CZYSTY PASEK: AWARENESS STAGE & MARKET SOPHISTICATION + AKCJE BATCH */}
       <section
-        className="vopanel"
         style={{
-          padding: 18,
-          borderRadius: 12,
-          marginBottom: 20,
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          padding: '14px 16px',
+          borderRadius: 10,
+          marginBottom: 16,
+          background: 'var(--card)',
+          border: '1px solid var(--border)',
+          display: 'grid',
+          gap: 12,
         }}
       >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: 12,
-            marginBottom: 14,
-          }}
-        >
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
-            <span>Fanpage / Persona</span>
-            <input
-              value={pageName}
-              onChange={e => setPageName(e.target.value)}
-              placeholder="Porady Mamy Gosi"
-              style={{ padding: '8px 10px', borderRadius: 6 }}
-            />
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
-            <span>Link docelowy (Orthomax PL)</span>
-            <input
-              value={destinationUrl}
-              onChange={e => setDestinationUrl(e.target.value)}
-              placeholder="https://orthomax.pl/products/stepmax"
-              style={{ padding: '8px 10px', borderRadius: 6 }}
-            />
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
-            <span>Równoległe wątki AI (Batch)</span>
-            <select
-              value={concurrency}
-              onChange={e => setConcurrency(Number(e.target.value))}
-              style={{ padding: '8px 10px', borderRadius: 6 }}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', marginRight: 4 }}>
+              Awareness Stage / Poziom Sofistykacji:
+            </span>
+
+            <button
+              type="button"
+              onClick={() => setStageFilter('all_kids')}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 6,
+                border: stageFilter === 'all_kids' ? '1px solid var(--accent)' : '1px solid var(--border)',
+                background: stageFilter === 'all_kids' ? 'var(--accent)' : 'var(--bg)',
+                color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
+                fontWeight: 600,
+                fontSize: 12,
+                cursor: 'pointer',
+              }}
             >
-              <option value={1}>1 naraz (najbezpieczniej)</option>
-              <option value={3}>3 naraz (zalecane)</option>
-              <option value={5}>5 naraz (szybka fabryka 30/dzień)</option>
-            </select>
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
-            <span>Domyślny URL grafiki (opcjonalnie pod JSON Uploader)</span>
-            <input
-              value={defaultMediaUrl}
-              onChange={e => setDefaultMediaUrl(e.target.value)}
-              placeholder="https://... (lub dodaj grafiki w Szekspir Ads)"
-              style={{ padding: '8px 10px', borderRadius: 6 }}
-            />
-          </label>
+              Wszystkie Dzieci (30)
+            </button>
+
+            {STAGE_ORDER.map(stageKey => {
+              const meta = stages[stageKey];
+              if (!meta) return null;
+              const isActive = stageFilter === stageKey;
+              const count = presets.filter(p => p.funnelStage === stageKey).length;
+              return (
+                <button
+                  key={stageKey}
+                  type="button"
+                  onClick={() => setStageFilter(stageKey)}
+                  style={{
+                    padding: '6px 11px',
+                    borderRadius: 6,
+                    border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
+                    background: isActive ? 'var(--accent)' : 'var(--bg)',
+                    color: isActive ? '#ffffff' : 'var(--text)',
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: 12,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {meta.shortLabel || meta.badge} ({count})
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, marginBottom: 14 }}>
-          <span>Dodatkowa instrukcja dla całej serii (opcjonalnie)</span>
-          <input
-            value={customInstructions}
-            onChange={e => setCustomInstructions(e.target.value)}
-            placeholder="Np. Wpleć jesienną aurę, deszczowy październik i zmianę butów na zimowe..."
-            style={{ padding: '8px 10px', borderRadius: 6 }}
-          />
-        </label>
+        {/* Opis wybranego Awareness Stage & Sophistication */}
+        {activeStageMeta && (
+          <div
+            style={{
+              padding: '8px 12px',
+              borderRadius: 6,
+              background: 'var(--bg)',
+              border: '1px solid var(--border)',
+              fontSize: 12,
+              color: 'var(--text)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 12,
+              alignItems: 'center',
+            }}
+          >
+            <span>
+              <strong>Awareness:</strong> {activeStageMeta.awareness || activeStageMeta.label}
+            </span>
+            <span>·</span>
+            <span>
+              <strong>Sofistykacja:</strong> {activeStageMeta.sophistication || 'Poziom 3/4'}
+            </span>
+            <span>·</span>
+            <span style={{ color: 'var(--muted)' }}>{activeStageMeta.description}</span>
+          </div>
+        )}
 
-        {/* SZYBKIE PRZYCISKI ETAPÓW LEJKA WG USTALEŃ */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'space-between' }}>
+        {/* Wyszukiwarka + Przyciski Zaznaczania + Generowania + Zwijane Ustawienia */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-            <strong style={{ fontSize: 13, marginRight: 4 }}>Wybierz etap lejka:</strong>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Szukaj kąta (np. 599, kasza, ryciak, beton, operacja)..."
+              style={{
+                padding: '7px 11px',
+                borderRadius: 6,
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontSize: 13,
+                minWidth: 260,
+              }}
+            />
+
             <button
               type="button"
-              onClick={() => selectGroup('first20_kids')}
-              style={{ padding: '7px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
+              onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
+              style={{
+                padding: '7px 11px',
+                borderRadius: 6,
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
             >
-              1. Koszyki 1–4 Dzieci (20 szt.)
+              Zaznacz widok ({filteredPresets.length})
             </button>
-            <button
-              type="button"
-              onClick={() => selectGroup('ryciak_rip3')}
-              style={{ padding: '7px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
-            >
-              2. Ryciak Rip 3 · Nowe Wersje (5 szt.)
-            </button>
-            <button
-              type="button"
-              onClick={() => selectGroup('zal_operacja')}
-              style={{ padding: '7px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
-            >
-              3. Żal po operacji / Wózek (5 szt.)
-            </button>
-            <button
-              type="button"
-              onClick={() => selectGroup('dorosli_zima')}
-              style={{ padding: '7px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
-            >
-              4. Dorośli Jesień/Zima (5 szt.)
-            </button>
-            <button
-              type="button"
-              onClick={() => selectGroup('all')}
-              style={{ padding: '7px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
-            >
-              Zaznacz wszystkie ({presets.length})
-            </button>
+
             {selectedIds.length > 0 && (
               <button
                 type="button"
                 onClick={() => setSelectedIds([])}
-                style={{ padding: '7px 10px', borderRadius: 6, cursor: 'pointer', fontSize: 12, opacity: 0.8 }}
+                style={{
+                  padding: '7px 10px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--muted)',
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
               >
                 Odznacz ({selectedIds.length})
               </button>
             )}
+
+            <span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 4 }}>
+              Gotowe: <strong style={{ color: 'var(--text)' }}>{totalGeneratedCount}</strong> / {presets.length}
+            </span>
           </div>
 
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             {isBatchRunning ? (
               <button
                 type="button"
@@ -699,12 +734,13 @@ export default function AntkiPlPage() {
                   cancelBatchRef.current = true;
                 }}
                 style={{
-                  padding: '10px 18px',
-                  borderRadius: 8,
-                  background: '#ef4444',
-                  color: '#fff',
+                  padding: '8px 16px',
+                  borderRadius: 7,
+                  background: '#dc2626',
+                  color: '#ffffff',
                   border: 0,
                   fontWeight: 700,
+                  fontSize: 13,
                   cursor: 'pointer',
                 }}
               >
@@ -717,17 +753,20 @@ export default function AntkiPlPage() {
                   disabled={!selectedIds.length}
                   onClick={() => void runBatchGeneration(selectedIds)}
                   style={{
-                    padding: '10px 18px',
-                    borderRadius: 8,
-                    background: selectedIds.length ? '#3864f5' : 'rgba(255,255,255,0.1)',
-                    color: '#fff',
-                    border: 0,
+                    padding: '8px 14px',
+                    borderRadius: 7,
+                    background: selectedIds.length ? 'var(--accent)' : 'var(--bg)',
+                    color: selectedIds.length ? '#ffffff' : 'var(--muted)',
+                    border: selectedIds.length ? '1px solid var(--accent)' : '1px solid var(--border)',
                     fontWeight: 700,
+                    fontSize: 13,
+                    opacity: selectedIds.length ? 1 : 0.6,
                     cursor: selectedIds.length ? 'pointer' : 'not-allowed',
                   }}
                 >
                   ⚡ Generuj zaznaczone ({selectedIds.length})
                 </button>
+
                 <button
                   type="button"
                   onClick={() => {
@@ -735,12 +774,13 @@ export default function AntkiPlPage() {
                     void runBatchGeneration(missing.length ? missing : filteredPresets.map(p => p.id));
                   }}
                   style={{
-                    padding: '10px 16px',
-                    borderRadius: 8,
-                    background: 'rgba(16,185,129,0.2)',
-                    border: '1px solid #10b981',
-                    color: '#fff',
-                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: 7,
+                    background: '#059669',
+                    border: '1px solid #059669',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: 13,
                     cursor: 'pointer',
                   }}
                 >
@@ -750,79 +790,124 @@ export default function AntkiPlPage() {
             )}
           </div>
         </div>
+
+        {/* Zwijane ustawienia zaawansowane (żeby nie zaśmiecały widoku) */}
+        <details style={{ fontSize: 12, color: 'var(--muted)' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 600, userSelect: 'none' }}>
+            ⚙️ Ustawienia kampanii (Fanpage, URL, równoległość AI, dodatkowa instrukcja)
+          </summary>
+          <div
+            style={{
+              marginTop: 10,
+              paddingTop: 10,
+              borderTop: '1px solid var(--border)',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 10,
+            }}
+          >
+            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <span>Fanpage / Persona</span>
+              <input
+                value={pageName}
+                onChange={e => setPageName(e.target.value)}
+                style={{
+                  padding: '6px 9px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                }}
+              />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <span>Link docelowy (Orthomax PL)</span>
+              <input
+                value={destinationUrl}
+                onChange={e => setDestinationUrl(e.target.value)}
+                style={{
+                  padding: '6px 9px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                }}
+              />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <span>Równoległe wątki AI (Batch)</span>
+              <select
+                value={concurrency}
+                onChange={e => setConcurrency(Number(e.target.value))}
+                style={{
+                  padding: '6px 9px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                }}
+              >
+                <option value={1}>1 naraz</option>
+                <option value={3}>3 naraz (zalecane)</option>
+                <option value={5}>5 naraz (szybka produkcja)</option>
+              </select>
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <span>Domyślny URL grafiki (pod JSON Uploader)</span>
+              <input
+                value={defaultMediaUrl}
+                onChange={e => setDefaultMediaUrl(e.target.value)}
+                placeholder="https://..."
+                style={{
+                  padding: '6px 9px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                }}
+              />
+            </label>
+            <label style={{ display: 'flex', flexDirection: 'column', gap: 4, gridColumn: '1 / -1' }}>
+              <span>Dodatkowa instrukcja dla bota (opcjonalnie)</span>
+              <input
+                value={customInstructions}
+                onChange={e => setCustomInstructions(e.target.value)}
+                placeholder="Np. Wpleć jesienną aurę, deszczowy październik i zmianę butów..."
+                style={{
+                  padding: '6px 9px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                }}
+              />
+            </label>
+          </div>
+        </details>
       </section>
-
-      {/* FILTRY LISTY */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 10,
-          marginBottom: 16,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-          <select
-            value={stageFilter}
-            onChange={e => setStageFilter(e.target.value as 'all' | AntkiPlFunnelStage)}
-            style={{ padding: '8px 12px', borderRadius: 8 }}
-          >
-            <option value="all">Wszystkie etapy lejka ({presets.length})</option>
-            {Object.entries(stages).map(([key, meta]) => (
-              <option key={key} value={key}>
-                {meta.label}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={segmentFilter}
-            onChange={e => setSegmentFilter(e.target.value as 'all' | AntkiPlSegment)}
-            style={{ padding: '8px 12px', borderRadius: 8 }}
-          >
-            <option value="all">Wszystkie segmenty (Dzieci + Dorośli)</option>
-            <option value="dzieci">Tylko Dzieci (Porady Mamy Gosi)</option>
-            <option value="dorosli">Tylko Dorośli (Haluksy / Ostroga / Zima)</option>
-          </select>
-
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Szukaj po kodzie, hooku, scenie (np. ryciak, buty, kapcie, operacja)..."
-            style={{ padding: '8px 12px', borderRadius: 8, minWidth: 280 }}
-          />
-        </div>
-
-        <div style={{ fontSize: 13, opacity: 0.85 }}>
-          Gotowe w bibliotece: <strong>{totalGeneratedCount}</strong> / {presets.length} kątów
-        </div>
-      </div>
 
       {/* GŁÓWNY UKŁAD DWUKOLUMNOWY: LISTA KĄTÓW PO LEWEJ, EDYTOR I PODGLĄD PO PRAWEJ */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'minmax(380px, 460px) 1fr',
-          gap: 20,
+          gridTemplateColumns: 'minmax(360px, 440px) 1fr',
+          gap: 18,
           alignItems: 'start',
         }}
       >
-        {/* LEWA KOLUMNA: LISTA KĄTÓW W LEJKU */}
+        {/* LEWA KOLUMNA: LISTA KĄTÓW */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             gap: 8,
-            maxHeight: '82vh',
+            maxHeight: '80vh',
             overflowY: 'auto',
-            paddingRight: 6,
+            paddingRight: 4,
           }}
         >
           {loading ? (
-            <p>Wczytywanie matrycy Antków PL...</p>
+            <p style={{ color: 'var(--muted)' }}>Wczytywanie matrycy Antków PL...</p>
           ) : (
             filteredPresets.map(angle => {
               const ad = adByAngleId[angle.id];
@@ -836,22 +921,22 @@ export default function AntkiPlPage() {
                   key={angle.id}
                   onClick={() => setActiveAngleId(angle.id)}
                   style={{
-                    padding: '12px 14px',
-                    borderRadius: 10,
+                    padding: '11px 13px',
+                    borderRadius: 9,
                     cursor: 'pointer',
-                    background: isActive ? 'rgba(56,100,245,0.16)' : 'rgba(255,255,255,0.03)',
+                    background: 'var(--card)',
                     border: isActive
-                      ? '1px solid #3864f5'
+                      ? '2px solid var(--accent)'
                       : ad
-                      ? '1px solid rgba(16,185,129,0.4)'
-                      : '1px solid rgba(255,255,255,0.08)',
-                    transition: 'all 0.15s ease',
+                      ? '1px solid #10b981'
+                      : '1px solid var(--border)',
+                    boxShadow: isActive ? '0 2px 8px rgba(29,78,216,0.12)' : 'none',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 6 }}>
                     <label
                       onClick={e => e.stopPropagation()}
-                      style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, cursor: 'pointer' }}
+                      style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, cursor: 'pointer' }}
                     >
                       <input
                         type="checkbox"
@@ -866,9 +951,9 @@ export default function AntkiPlPage() {
                         style={{
                           padding: '2px 7px',
                           borderRadius: 4,
-                          background: angle.segment === 'dzieci' ? 'rgba(59,130,246,0.2)' : 'rgba(168,85,247,0.2)',
-                          color: angle.segment === 'dzieci' ? '#93c5fd' : '#d8b4fe',
-                          fontWeight: 600,
+                          background: angle.segment === 'dzieci' ? '#dbeafe' : '#f3e8ff',
+                          color: angle.segment === 'dzieci' ? '#1e40af' : '#6b21a8',
+                          fontWeight: 700,
                         }}
                       >
                         {angle.funnelLabel}
@@ -880,47 +965,50 @@ export default function AntkiPlPage() {
                         fontSize: 11,
                         padding: '2px 8px',
                         borderRadius: 99,
-                        fontWeight: 600,
+                        fontWeight: 700,
                         background:
                           runState === 'done'
-                            ? 'rgba(16,185,129,0.2)'
+                            ? '#d1fae5'
                             : runState === 'generating'
-                            ? 'rgba(245,158,11,0.25)'
+                            ? '#fef3c7'
                             : runState === 'queued'
-                            ? 'rgba(59,130,246,0.2)'
+                            ? '#dbeafe'
                             : runState === 'error'
-                            ? 'rgba(239,68,68,0.25)'
-                            : 'rgba(255,255,255,0.07)',
+                            ? '#fee2e2'
+                            : 'var(--bg)',
                         color:
                           runState === 'done'
-                            ? '#6ee7b7'
+                            ? '#065f46'
                             : runState === 'generating'
-                            ? '#fcd34d'
+                            ? '#92400e'
+                            : runState === 'queued'
+                            ? '#1e40af'
                             : runState === 'error'
-                            ? '#fca5a5'
-                            : '#cbd5e1',
+                            ? '#991b1b'
+                            : 'var(--muted)',
+                        border: '1px solid var(--border)',
                       }}
                     >
                       {runState === 'done' && ad
-                        ? `✓ Gotowe (${ad.wordCount} słów)`
+                        ? `✓ Gotowe (${ad.wordCount} sł.)`
                         : runState === 'generating'
                         ? '⏳ Piszę...'
                         : runState === 'queued'
                         ? 'W kolejce'
                         : runState === 'error'
                         ? 'Błąd'
-                        : 'Nie wygenerowano'}
+                        : 'Do napisania'}
                     </span>
                   </div>
 
-                  <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, lineHeight: 1.35 }}>
+                  <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', marginBottom: 4, lineHeight: 1.35 }}>
                     #{angle.number} · {angle.title}
                   </div>
-                  <div style={{ fontSize: 12, opacity: 0.72, lineHeight: 1.4 }}>
-                    <code>{angle.code}</code> · {angle.awarenessStage}
+                  <div style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
+                    <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
                   </div>
                   {errText && (
-                    <div style={{ color: '#fca5a5', fontSize: 12, marginTop: 6 }}>
+                    <div style={{ color: '#dc2626', fontSize: 11.5, fontWeight: 600, marginTop: 4 }}>
                       Błąd: {errText}
                     </div>
                   )}
@@ -932,16 +1020,16 @@ export default function AntkiPlPage() {
 
         {/* PRAWA KOLUMNA: SZCZEGÓŁY KĄTA + PEŁNY EDYTOR TEKSTU + AUDYT */}
         <section
-          className="vopanel"
           style={{
-            padding: 22,
-            borderRadius: 12,
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            padding: 20,
+            borderRadius: 10,
+            background: 'var(--card)',
+            border: '1px solid var(--border)',
+            color: 'var(--text)',
           }}
         >
           {!activeAngle ? (
-            <p>Wybierz kąt z listy po lewej stronie.</p>
+            <p style={{ color: 'var(--muted)' }}>Wybierz kąt z listy po lewej stronie.</p>
           ) : (
             <>
               <div
@@ -951,20 +1039,44 @@ export default function AntkiPlPage() {
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
                   gap: 12,
-                  marginBottom: 16,
-                  paddingBottom: 14,
-                  borderBottom: '1px solid rgba(255,255,255,0.1)',
+                  marginBottom: 14,
+                  paddingBottom: 12,
+                  borderBottom: '1px solid var(--border)',
                 }}
               >
-                <div>
-                  <span style={{ fontSize: 12, opacity: 0.75 }}>
-                    #{activeAngle.number} · <code>{activeAngle.code}</code> · {activeAngle.awarenessStage} ·{' '}
-                    {activeAngle.sophistication}
-                  </span>
-                  <h2 style={{ margin: '4px 0 6px', fontSize: 20 }}>{activeAngle.title}</h2>
-                  <p style={{ margin: 0, fontSize: 13, opacity: 0.85 }}>
-                    <strong>Narratorka:</strong> {activeAngle.narrator} | <strong>Postać:</strong>{' '}
-                    {activeAngle.protagonist}
+                <div style={{ maxWidth: 680 }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center', marginBottom: 6 }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: 4,
+                        background: '#dbeafe',
+                        color: '#1e40af',
+                      }}
+                    >
+                      {activeAngle.awarenessStage}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: 4,
+                        background: '#fef3c7',
+                        color: '#92400e',
+                      }}
+                    >
+                      Sofistykacja: {activeAngle.sophistication}
+                    </span>
+                    <code style={{ fontSize: 11, color: 'var(--muted)' }}>#{activeAngle.number} · {activeAngle.code}</code>
+                  </div>
+                  <h2 style={{ margin: '0 0 4px', fontSize: 19, color: 'var(--text)', lineHeight: 1.3 }}>
+                    {activeAngle.title}
+                  </h2>
+                  <p style={{ margin: 0, fontSize: 12.5, color: 'var(--muted)' }}>
+                    <strong>Narratorka:</strong> {activeAngle.narrator} · <strong>Postać:</strong> {activeAngle.protagonist}
                   </p>
                 </div>
 
@@ -976,10 +1088,11 @@ export default function AntkiPlPage() {
                     style={{
                       padding: '10px 16px',
                       borderRadius: 8,
-                      background: '#3864f5',
-                      color: '#fff',
+                      background: 'var(--accent)',
+                      color: '#ffffff',
                       border: 0,
                       fontWeight: 700,
+                      fontSize: 13,
                       cursor: statuses[activeAngle.id] === 'generating' ? 'wait' : 'pointer',
                     }}
                   >
@@ -1000,9 +1113,11 @@ export default function AntkiPlPage() {
                       style={{
                         padding: '10px 14px',
                         borderRadius: 8,
-                        border: '1px solid rgba(255,255,255,0.2)',
-                        background: 'rgba(255,255,255,0.06)',
-                        color: '#fff',
+                        border: '1px solid var(--border)',
+                        background: 'var(--bg)',
+                        color: 'var(--text)',
+                        fontWeight: 600,
+                        fontSize: 13,
                         cursor: 'pointer',
                       }}
                     >
@@ -1016,20 +1131,21 @@ export default function AntkiPlPage() {
               <details
                 open={!activeAd}
                 style={{
-                  marginBottom: 16,
+                  marginBottom: 14,
                   padding: '12px 14px',
                   borderRadius: 8,
-                  background: 'rgba(0,0,0,0.25)',
-                  border: '1px solid rgba(255,255,255,0.07)',
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
                   fontSize: 13,
+                  color: 'var(--text)',
                 }}
               >
-                <summary style={{ cursor: 'pointer', fontWeight: 600 }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 700 }}>
                   📌 Brief kąta, matematyka kwot i most odkrycia (kliknij, aby zwinąć/rozwinąć)
                 </summary>
                 <div style={{ marginTop: 10, display: 'grid', gap: 8, lineHeight: 1.5 }}>
                   <div>
-                    <strong>Hook / Otwarcie:</strong> {activeAngle.hookIdea}
+                    <strong>Hook / Otwarcie (Mellow style):</strong> {activeAngle.hookIdea}
                   </div>
                   <div>
                     <strong>Scena i mechanizm:</strong> {activeAngle.sceneBeat}
@@ -1038,7 +1154,7 @@ export default function AntkiPlPage() {
                     <strong>Matematyka nieudanych prób (Failed Solutions):</strong> {activeAngle.failedSolutionsMath}
                   </div>
                   <div>
-                    <strong>Most odkrycia (Bridge &rarr; Orthomax StepMax):</strong> {activeAngle.discoveryBridge}
+                    <strong>Most odkrycia (Organiczny Reveal &rarr; Orthomax StepMax):</strong> {activeAngle.discoveryBridge}
                   </div>
                 </div>
               </details>
@@ -1047,18 +1163,19 @@ export default function AntkiPlPage() {
               {activeAd && (
                 <div
                   style={{
-                    marginBottom: 16,
+                    marginBottom: 14,
                     padding: '10px 14px',
                     borderRadius: 8,
-                    background: activeAd.auditPassed ? 'rgba(16,185,129,0.12)' : 'rgba(245,158,11,0.15)',
-                    border: activeAd.auditPassed ? '1px solid rgba(16,185,129,0.4)' : '1px solid rgba(245,158,11,0.4)',
-                    fontSize: 13,
+                    background: activeAd.auditPassed ? '#ecfdf5' : '#fffbeb',
+                    border: activeAd.auditPassed ? '1px solid #10b981' : '1px solid #f59e0b',
+                    color: activeAd.auditPassed ? '#065f46' : '#92400e',
+                    fontSize: 12.5,
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                     <strong>
                       {activeAd.auditPassed
-                        ? '✅ Audyt Checklisty: ZALICZONY (0 em-dashów, brak „, i”, nowy cennik 99,99 zł + 30 dni gwarancji)'
+                        ? '✅ Audyt Checklisty: ZALICZONY (0 em-dashów, liczba mnoga, cyfrowe godziny, 99,99 zł + 30 dni)'
                         : '⚠️ Audyt Checklisty: Sprawdź uwagi poniżej'}
                     </strong>
                     <span>
@@ -1066,12 +1183,12 @@ export default function AntkiPlPage() {
                     </span>
                   </div>
                   {activeAd.auditFixesApplied?.length > 0 && (
-                    <div style={{ marginTop: 4, fontSize: 12, opacity: 0.85 }}>
+                    <div style={{ marginTop: 4, fontSize: 12 }}>
                       Automatyczne poprawki: {activeAd.auditFixesApplied.join(' | ')}
                     </div>
                   )}
                   {activeAd.auditWarnings?.length > 0 && (
-                    <ul style={{ margin: '6px 0 0 18px', padding: 0, color: '#fde68a' }}>
+                    <ul style={{ margin: '6px 0 0 18px', padding: 0, fontWeight: 600 }}>
                       {activeAd.auditWarnings.map((w, i) => (
                         <li key={i}>{w}</li>
                       ))}
@@ -1082,18 +1199,25 @@ export default function AntkiPlPage() {
 
               {/* POLA EDYTORA */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
-                  <span>Nagłówek reklamy (Headline pod grafiką / karuzelą)</span>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+                  <span>Nagłówek reklamy (Headline w stylu Mellow)</span>
                   <input
                     value={editHeadline}
                     onChange={e => {
                       setEditHeadline(e.target.value);
                       setEditDirty(true);
                     }}
-                    style={{ padding: '8px 10px', borderRadius: 6 }}
+                    style={{
+                      padding: '8px 10px',
+                      borderRadius: 6,
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      fontSize: 13,
+                    }}
                   />
                 </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13 }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
                   <span>Opis dodatkowy (Description)</span>
                   <input
                     value={editDescription}
@@ -1101,22 +1225,29 @@ export default function AntkiPlPage() {
                       setEditDescription(e.target.value);
                       setEditDirty(true);
                     }}
-                    style={{ padding: '8px 10px', borderRadius: 6 }}
+                    style={{
+                      padding: '8px 10px',
+                      borderRadius: 6,
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      fontSize: 13,
+                    }}
                   />
                 </label>
               </div>
 
               <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>
                     <strong>Primary Text (Pełny polski MSL na „{pageName}”)</strong>
                   </span>
-                  <span>
+                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>
                     {(editPrimaryText.match(/\p{L}+/gu) || []).length} słów · {editPrimaryText.length} znaków
                   </span>
                 </div>
                 <textarea
-                  rows={26}
+                  rows={24}
                   value={editPrimaryText}
                   onChange={e => {
                     setEditPrimaryText(e.target.value);
@@ -1124,16 +1255,19 @@ export default function AntkiPlPage() {
                   }}
                   placeholder={
                     statuses[activeAngle.id] === 'generating'
-                      ? 'Trwa pisanie pełnego polskiego Antka według zasad Mózgu Antków...'
-                      : 'Kliknij „Wygeneruj ten Antek teraz” powyżej lub zaznacz pakiet po lewej stronie i uruchom serię.'
+                      ? 'Trwa pisanie pełnego polskiego Antka według zasad Awareness Stage i Mózgu Antków...'
+                      : 'Kliknij „Wygeneruj ten Antek teraz” powyżej lub zaznacz kąty po lewej stronie i uruchom serię.'
                   }
                   style={{
                     width: '100%',
                     padding: 14,
                     borderRadius: 8,
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    color: 'var(--text)',
                     fontFamily: 'inherit',
                     fontSize: 14,
-                    lineHeight: 1.55,
+                    lineHeight: 1.6,
                     resize: 'vertical',
                   }}
                 />
@@ -1145,20 +1279,22 @@ export default function AntkiPlPage() {
                   disabled={!editDirty || savingEdit || !editPrimaryText.trim()}
                   onClick={() => void saveEditedAd()}
                   style={{
-                    padding: '10px 18px',
+                    padding: '9px 16px',
                     borderRadius: 8,
-                    background: editDirty ? '#10b981' : 'rgba(255,255,255,0.08)',
-                    color: '#fff',
-                    border: 0,
+                    background: editDirty ? '#059669' : 'var(--bg)',
+                    color: editDirty ? '#ffffff' : 'var(--muted)',
+                    border: editDirty ? '1px solid #059669' : '1px solid var(--border)',
                     fontWeight: 700,
+                    fontSize: 13,
+                    opacity: editDirty ? 1 : 0.6,
                     cursor: editDirty ? 'pointer' : 'not-allowed',
                   }}
                 >
                   {savingEdit ? 'Zapisuję...' : '💾 Zapisz i uruchom audyt polszczyzny'}
                 </button>
 
-                <span style={{ fontSize: 12, opacity: 0.7 }}>
-                  Wszystkie wygenerowane teksty zapisują się automatycznie na Twoim koncie Szekspira.
+                <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                  Zapisywane automatycznie na Twoim koncie Szekspira.
                 </span>
               </div>
             </>
@@ -1172,7 +1308,7 @@ export default function AntkiPlPage() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.75)',
+            background: 'rgba(0,0,0,0.65)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1183,11 +1319,12 @@ export default function AntkiPlPage() {
           <form
             onSubmit={handleGenerateCustomAngle}
             style={{
-              background: '#161922',
-              border: '1px solid rgba(255,255,255,0.15)',
+              background: 'var(--card)',
+              color: 'var(--text)',
+              border: '1px solid var(--border)',
               borderRadius: 12,
-              padding: 24,
-              maxWidth: 680,
+              padding: 22,
+              maxWidth: 660,
               width: '100%',
               maxHeight: '90vh',
               overflowY: 'auto',
@@ -1196,50 +1333,60 @@ export default function AntkiPlPage() {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 20 }}>Nowy kąt Antka PL</h2>
+              <h2 style={{ margin: 0, fontSize: 19 }}>Dodaj własny kąt Antka PL</h2>
               <button
                 type="button"
                 onClick={() => setShowCustomModal(false)}
-                style={{ background: 'transparent', border: 0, color: '#fff', fontSize: 18, cursor: 'pointer' }}
+                style={{ background: 'transparent', border: 0, color: 'var(--text)', fontSize: 18, cursor: 'pointer' }}
               >
                 ✕
               </button>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
-                <span>Tytuł kąta *</span>
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+                <span>Tytuł / Nagłówek w stylu Mellow *</span>
                 <input
                   required
                   value={customTitle}
                   onChange={e => setCustomTitle(e.target.value)}
-                  placeholder="Np. Nauczycielka przedszkola zauważyła jak syn siada w literę W"
+                  placeholder="Np. Kupiłam córce buty za 599 zł. Po 3 tygodniach zamarłam"
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
                 />
               </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
-                <span>Kod roboczy (do nazwy reklamy)</span>
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+                <span>Kod roboczy</span>
                 <input
                   value={customCode}
                   onChange={e => setCustomCode(e.target.value)}
-                  placeholder="np. siad_w_przedszkole"
+                  placeholder="np. nike_599_przedpokoj"
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
                 />
               </label>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
                 <span>Segment</span>
-                <select value={customSegment} onChange={e => setCustomSegment(e.target.value as AntkiPlSegment)}>
+                <select
+                  value={customSegment}
+                  onChange={e => setCustomSegment(e.target.value as AntkiPlSegment)}
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+                >
                   <option value="dzieci">Dzieci (Porady Mamy Gosi)</option>
-                  <option value="dorosli">Dorośli (Haluksy / Ostroga / Zima)</option>
+                  <option value="dorosli">Dorośli (Zapasowy)</option>
                 </select>
               </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
-                <span>Etap lejka</span>
-                <select value={customStage} onChange={e => setCustomStage(e.target.value as AntkiPlFunnelStage)}>
-                  {Object.entries(stages).map(([k, v]) => (
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+                <span>Awareness Stage / Poziom Sofistykacji</span>
+                <select
+                  value={customStage}
+                  onChange={e => setCustomStage(e.target.value as AntkiPlFunnelStage)}
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+                >
+                  {STAGE_ORDER.map(k => (
                     <option key={k} value={k}>
-                      {v.label}
+                      {stages[k]?.label || k}
                     </option>
                   ))}
                 </select>
@@ -1247,62 +1394,87 @@ export default function AntkiPlPage() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
                 <span>Narratorka</span>
-                <input value={customNarrator} onChange={e => setCustomNarrator(e.target.value)} />
+                <input
+                  value={customNarrator}
+                  onChange={e => setCustomNarrator(e.target.value)}
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+                />
               </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
-                <span>Główna postać (dziecko / bliski)</span>
-                <input value={customProtagonist} onChange={e => setCustomProtagonist(e.target.value)} />
+              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+                <span>Główna postać (dziecko)</span>
+                <input
+                  value={customProtagonist}
+                  onChange={e => setCustomProtagonist(e.target.value)}
+                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+                />
               </label>
             </div>
 
-            <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
+            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
               <span>Hook otwierający / Pierwsza scena *</span>
               <textarea
                 required
                 rows={3}
                 value={customHook}
                 onChange={e => setCustomHook(e.target.value)}
-                placeholder="Opisz pierwsze 2-3 zdania lub sytuację otwierającą..."
+                placeholder="Opisz pierwsze 2-3 zdania wchodzące prosto w scenę..."
+                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
               />
             </label>
 
-            <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
+            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
               <span>Rozwinięcie sceny i mechanizm</span>
               <textarea
                 rows={3}
                 value={customScene}
                 onChange={e => setCustomScene(e.target.value)}
-                placeholder="Co pokazał fizjoterapeuta/lekarz lub jaki test wykonano w domu..."
+                placeholder="Co wyszło na jaw i jak działa mechanizm..."
+                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
               />
             </label>
 
-            <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
+            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
               <span>Matematyka wcześniejszych wydatków (Failed Solutions)</span>
-              <input value={customMath} onChange={e => setCustomMath(e.target.value)} />
+              <input
+                value={customMath}
+                onChange={e => setCustomMath(e.target.value)}
+                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+              />
             </label>
 
-            <label style={{ display: 'grid', gap: 4, fontSize: 13 }}>
-              <span>Most odkrycia (skąd dowiedziała się o Orthomax StepMax)</span>
-              <input value={customBridge} onChange={e => setCustomBridge(e.target.value)} />
+            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
+              <span>Most odkrycia (np. grupa mam na Facebooku / forum)</span>
+              <input
+                value={customBridge}
+                onChange={e => setCustomBridge(e.target.value)}
+                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
+              />
             </label>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 6 }}>
               <button
                 type="button"
                 onClick={() => setShowCustomModal(false)}
-                style={{ padding: '10px 16px', borderRadius: 8, cursor: 'pointer' }}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: 7,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  cursor: 'pointer',
+                }}
               >
                 Anuluj
               </button>
               <button
                 type="submit"
                 style={{
-                  padding: '10px 18px',
-                  borderRadius: 8,
-                  background: '#3864f5',
-                  color: '#fff',
+                  padding: '8px 16px',
+                  borderRadius: 7,
+                  background: 'var(--accent)',
+                  color: '#ffffff',
                   border: 0,
                   fontWeight: 700,
                   cursor: 'pointer',

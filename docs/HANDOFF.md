@@ -1,8 +1,9 @@
-## Add ANTKI PL Orthomax StepMax funnel factory tile and API — 18 October 2026
+## Refine ANTKI PL UI readability, Awareness Stage & Sophistication brain rules, and Mellow-style copy — 18 October 2026
 
-- Added home tile **ANTKI PL** (`app/components/home-tiles.tsx`) and `/antki-pl` workspace (`app/antki-pl/page.tsx`, `app/api/antki-pl/route.ts`, `lib/antki-pl.ts`) connected to the existing Szekspir AI Brain (`brainClient` / `accountRoute` + encrypted state persistence).
-- Loaded the complete 35-angle Polish Orthomax StepMax funnel matrix across 7 stages: Koszyki 1–4 Dzieci (20 angles: Stage 1 home discovery, Stage 2 Domino effect, Stage 2/3 School & WF, Stage 3 burned-out mums & slippers), Ryciak Rip 3 new variations (5 angles), Post-surgery regret / "Za późno" / wheelchair (5 angles), and Adults Autumn/Winter (5 angles: winter boots, morning heel pain, 8h standing work, 62-year-old mum).
-- Embedded the updated Polish offer (`99,99 zł` in the `1+1 GRATIS` bundle = `50 zł/para`, `2+2 GRATIS` for `154,99 zł`, and `30 dni gwarancji zwrotu bez ryzyka`) plus automatic Polish copy auditing (`sanitizeAndAuditAntkiPl`: strips em/en-dashes, removes `, i`, upgrades legacy `74,99/75 zł` pricing, verifies Pan/Pani register and discovery bridge) and one-click export to Markdown or Szekspir Ads Uploader JSON.
+- Redesigned `/antki-pl` (`app/antki-pl/page.tsx`) to use Szekspir CSS variables (`var(--card)`, `var(--text)`, `var(--border)`, `var(--accent)`) and high-contrast button/badge styling so light mode and dark mode are 100% legible; simplified top controls with collapsible campaign settings and explicit **Awareness Stage / Poziom Sofistykacji** filter pills defaulting to the 30 children angles ("Wszystkie Dzieci (30)").
+- Upgraded `lib/antki-pl.ts` and `app/api/antki-pl/route.ts` with explicit instructions for the AI model on how to write for each Schwartz **Awareness Stage (Stage 1 Unaware -> Stage 2 Problem Aware -> Stage 3 Solution Aware -> Stage 4 High Stakes)** and **Market Sophistication (Level 3 vs Level 4)**.
+- Replaced overused headlines and openers with Mellow-style scene-first headlines and hooks (including the `599 zł` Nike promo angle `#1` and the `kasza do obiadu / 14h na szkolnym betonie i panelach` angles `#16` and `#17` without any "worek z kapciami").
+- Enforced plural grammar for insoles (`Wkładki Orthomax StepMax są zrobione...`), consistent digital clock times (`o 19:30`, `po 17:00`), realistic maternal emotion (mother cries alone later in the kitchen, not together with the child during the argument), and organic social discovery bridges (Facebook mum groups / forums instead of a doctor's slip of paper).
 
 ## Correct Facebook Page identity on existing native ads — 18 October 2026
 

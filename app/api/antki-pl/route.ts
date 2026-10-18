@@ -84,11 +84,13 @@ export function buildAntkiPlUserPrompt(params: {
       strictChecklist: [
         'ZERO długich myślników (em-dash — ani en-dash –). Używaj wyłącznie zwykłego łącznika -, kropek, przecinków lub dwukropków.',
         'ZERO konstrukcji „, i" — nigdy nie stawiaj przecinka przed „i".',
+        'STYL MELLOW W OTWARCIU I NAGŁÓWKU: Nigdy nie zaczynaj od spalonego „Nie miałam zamiaru tego udostępniać..." i nie używaj nagłówka „Jeśli Twoje dziecko bolą stopy...". Wchodź od 1 zdania w środek konkretnej sceny.',
+        'LICZBA MNOGA DLA WKŁADEK: Zawsze pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione...", „mają głębokie korytko", „działają jak sprężyna" (NIGDY w liczbie pojedynczej „Orthomax StepMax jest zrobiony").',
+        'SPÓJNE CYFRY DLA GODZIN I LICZB: Wszystkie godziny (np. o 19:30, po 17:00, o 6:00), wiek (8-letni), kwoty (599 zł) i czas (14 godzin, 3 tygodnie) zapisuj cyframi. Nigdy nie mieszaj „o 19:30" i „po siedemnastej".',
+        'REALIZM EMOCJONALNY: Matka nigdy nie płacze razem z dzieckiem na podłodze w trakcie awantury - pęka dopiero później sama w kuchni lub łazience, gdy dziecko zamknie drzwi.',
+        'ORGANICZNY MOST ODKRYCIA (REVEAL): Nigdy nie pisz, że „wpisała z kartki od fizjoterapeuty nazwę, o której nie mówił w gabinecie". Odkrycie wkładek Orthomax StepMax zawsze pochodzi z grupy dla mam na Facebooku / forum rodziców / od innej mamy.',
         'W dialogach z lekarzem, fizjoterapeutą, nauczycielem zawsze używaj formy Pan/Pani („Widzi pani?", „Panie doktorze"). Do czytelniczki na końcu pisz bezpośrednio per Ty.',
-        'Zachowaj wizualny łańcuch kompensacji ze strzałkami ↓ w osobnych linijkach.',
-        'Wylicz wydane wcześniej kwoty linijka po linijce tak, aby suma zgadzała się co do złotówki.',
-        'Zanim padnie nazwa Orthomax StepMax, opisz konkretny moment odkrycia (bridge).',
-        'Długość docelowa: 650-950 słów mocnego, emocjonalnego, konkretnego tekstu w krótkich 1-2 zdaniowych akapitach.',
+        'Zachowaj wizualny łańcuch kompensacji ze strzałkami ↓ w osobnych linijkach oraz dokładne wyliczenie wydanych wcześniej kwot.',
       ],
       ...(customInstructions?.trim() ? { additionalOwnerInstructions: customInstructions.trim() } : {}),
     },
@@ -233,6 +235,7 @@ export const POST = accountRoute(async (req: Request) => {
         parsed.primaryText,
         parsed.headline || angle.defaultHeadline,
         parsed.description,
+        angle.defaultHeadline,
       );
 
       const now = Date.now();

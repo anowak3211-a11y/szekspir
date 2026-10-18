@@ -27,11 +27,20 @@ assert.match(antkiPlLib, /dorosli_jesien_zima/, 'Must include dorosli_jesien_zim
 const angleMatches = antkiPlLib.match(/id:\s*'pl-\d+-/g) || [];
 assert.equal(angleMatches.length, 35, `Expected 35 preset angles in lib/antki-pl.ts, found ${angleMatches.length}`);
 
-// Verify new pricing (99,99 zł / 50 zł) and 30-day guarantee rules are present in system prompt
+// Verify Awareness Stage & Sophistication instructions and new copy rules in system prompt
+assert.match(antkiPlLib, /INSTRUKCJA POZIOMÓW ŚWIADOMOŚCI \(AWARENESS STAGE\) I SOFISTYKACJI RYNKU/, 'System prompt must explain Awareness Stages and Market Sophistication');
+assert.match(antkiPlLib, /LICZBA MNOGA DLA WKŁADEK ORTHOMAX STEPMAX/, 'System prompt must enforce plural grammar for Orthomax StepMax');
+assert.match(antkiPlLib, /SPÓJNY ZAPIS GODZIN I LICZB CYFRAMI/, 'System prompt must enforce digital clock hours');
+assert.match(antkiPlLib, /REALIZM EMOCJONALNY MATKI/, 'System prompt must forbid mother crying together with child');
+assert.match(antkiPlLib, /REALISTYCZNY MOST ODKRYCIA/, 'System prompt must enforce organic social discovery bridge');
+assert.match(antkiPlLib, /599\s*zł/, 'Preset #1 must include 599 zł Nike angle');
 assert.match(antkiPlLib, /99,99\s*zł/, 'System prompt must include 99,99 zł pricing');
 assert.match(antkiPlLib, /50\s*zł\s*za\s*parę/, 'System prompt must include 50 zł per pair in 1+1 bundle');
 assert.match(antkiPlLib, /30\s*dni/, 'System prompt must include 30-day guarantee');
 assert.match(antkiPlLib, /ABSOLUTNY ZAKAZ EM-DASHÓW/, 'System prompt must forbid em-dashes');
+
+// Verify no "worek z kapciami" in preset angles
+assert.doesNotMatch(antkiPlLib.slice(0, antkiPlLib.indexOf('export const ANTKI_PL_SYSTEM_PROMPT')), /worek z kapciami|worka z kapciami/i, 'Preset angles must not use worek z kapciami');
 
 // 3. Verify API route and UI page exist and connect to accountBrain
 const apiRoute = read('app/api/antki-pl/route.ts');
@@ -41,6 +50,7 @@ assert.match(apiRoute, /sanitizeAndAuditAntkiPl/, 'API route must sanitize and a
 
 const uiPage = read('app/antki-pl/page.tsx');
 assert.match(uiPage, /\/api\/antki-pl/, 'UI page must call /api/antki-pl');
+assert.match(uiPage, /Awareness Stage \/ Poziom Sofistykacji/, 'UI page must label stages by Awareness Stage / Sophistication');
 assert.match(uiPage, /SZEKSPIR_ADS_ANTKI_PL_/, 'UI page must support exporting JSON for Szekspir Ads uploader');
 
-console.log('tests/antki-pl.cjs passed (35 funnel angles, Home tile, Brain API wiring, and Polish copy auditor verified).');
+console.log('tests/antki-pl.cjs passed (35 funnel angles, Awareness & Sophistication brain rules, plural grammar, and high-contrast UI verified).');
