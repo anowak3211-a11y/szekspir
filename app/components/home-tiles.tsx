@@ -8,6 +8,13 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
         <a className="tile big" href="/uploader"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></svg></span><span className="tile-title">Szekspir Ads</span><span className="tile-sub">Gotowe filmy i obrazy, zatwierdzone teksty oraz publikacja do Meta. Zapisane paczki i postęp każdej reklamy.</span></a>
         <a className="tile big" href="/ads-xray"><span className="tile-title">ADS X-RAY</span><span className="tile-sub">Porównaj skrypty, warianty i tłumaczenia. Różnice słów, mapa zdań, analiza podobieństwa AI i historia.</span></a>
         <a className="tile big" href="/antki"><span className="tile-icon">🐜</span><span className="tile-title">ANTKI</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
+        <a className="tile big" href="/antki-pl">
+          <span className="tile-icon" aria-hidden="true">🇵🇱</span>
+          <span className="tile-title">ANTKI PL</span>
+          <span className="tile-sub">
+            Fabryka polskich Antków / MSL dla Orthomax StepMax (Porady Mamy Gosi &amp; Dorośli). Lejek 35 kątów (Koszyki 1–4, Ryciak Rip 3, Żal po operacji, Zima), cennik 1+1 za 99,99 zł + 30 dni gwarancji i eksport do Szekspir Ads.
+          </span>
+        </a>
         <a className="tile big" href="/image-ripper">
           <span className="tile-icon" aria-hidden="true">🖼️</span>
           <span className="tile-title">IMAGE RIPPER</span>

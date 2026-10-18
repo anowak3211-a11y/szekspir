@@ -1,3 +1,9 @@
+## Add ANTKI PL Orthomax StepMax funnel factory tile and API — 18 October 2026
+
+- Added home tile **ANTKI PL** (`app/components/home-tiles.tsx`) and `/antki-pl` workspace (`app/antki-pl/page.tsx`, `app/api/antki-pl/route.ts`, `lib/antki-pl.ts`) connected to the existing Szekspir AI Brain (`brainClient` / `accountRoute` + encrypted state persistence).
+- Loaded the complete 35-angle Polish Orthomax StepMax funnel matrix across 7 stages: Koszyki 1–4 Dzieci (20 angles: Stage 1 home discovery, Stage 2 Domino effect, Stage 2/3 School & WF, Stage 3 burned-out mums & slippers), Ryciak Rip 3 new variations (5 angles), Post-surgery regret / "Za późno" / wheelchair (5 angles), and Adults Autumn/Winter (5 angles: winter boots, morning heel pain, 8h standing work, 62-year-old mum).
+- Embedded the updated Polish offer (`99,99 zł` in the `1+1 GRATIS` bundle = `50 zł/para`, `2+2 GRATIS` for `154,99 zł`, and `30 dni gwarancji zwrotu bez ryzyka`) plus automatic Polish copy auditing (`sanitizeAndAuditAntkiPl`: strips em/en-dashes, removes `, i`, upgrades legacy `74,99/75 zł` pricing, verifies Pan/Pani register and discovery bridge) and one-click export to Markdown or Szekspir Ads Uploader JSON.
+
 ## Correct Facebook Page identity on existing native ads — 18 October 2026
 
 - Owner corrected the Antki identity: exactly 50% Everyday Parenting UK and 50% Carys Morgan, balanced in both UK variants. The original batch had been sent as Mellow Supplements. Localized must stay active; rewritten was paused before that instruction and must not be silently re-enabled.
