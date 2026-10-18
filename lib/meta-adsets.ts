@@ -1,8 +1,18 @@
 import {createHash} from 'node:crypto';
-import {graph,MetaError,rememberCreatedAdSet} from './meta-client';
+import {graph,MetaError,rememberCreatedAdSet,metaToken,metaProof,META_VERSION} from './meta-client';
 import {MetaBudgetWait} from './meta-rate-limit';
 import {numericId} from './meta-uploader-model';
 import {mutate,readState} from './store';
+async function directGraph<T=Record<string,unknown>>(path:string,params:Record<string,unknown>={},method:'GET'|'POST'='GET'):Promise<T>{
+ const token=await metaToken(),proof=await metaProof(token),url=new URL(`https://graph.facebook.com/${META_VERSION}/${path}`),body=new URLSearchParams();
+ for(const [k,v] of Object.entries(params))if(v!==undefined)body.set(k,typeof v==='string'?v:JSON.stringify(v));
+ if(proof)body.set('appsecret_proof',proof);
+ if(method==='GET')url.search=body.toString();
+ const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(45000)});
+ const data=await r.json() as Record<string,unknown>;
+ if(!r.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;message?:string;error_user_msg?:string}|undefined;throw Error(`Meta (${e?.code||r.status}/${e?.error_subcode||0}): ${e?.error_user_msg||e?.message||'Request failed'}`);}
+ return data as T;
+}
 function canonical(value:unknown):string{if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';return JSON.stringify(value);}
 type Input={accountId:string;campaignId:string;templateId:string;name:string;minimumDaily?:number};
 type Intent={fingerprint?:string;state?:'pending'|'failed'|'uncertain'|'created';id?:string;expected?:Record<string,unknown>};
@@ -42,14 +52,13 @@ export async function updateUploaderAdsStatus(raw:unknown){
  const ids=Array.isArray(a.adIds)?a.adIds.map(id=>numericId(id,'ad')).slice(0,100):[];
  if(!ids.length)throw Error('Provide at least one ad ID.');
  const results:{id:string;ok:boolean;error?:string}[]=[];
- for(const id of ids){
-  for(let attempt=0;attempt<4;attempt++){
-   try{await graph(id,{status},'POST');results.push({id,ok:true});break;}
-   catch(e){
-    if(e instanceof MetaBudgetWait&&attempt<3){await new Promise(r=>setTimeout(r,Math.min(5000,e.retryAfterSeconds*1000)));continue;}
-    results.push({id,ok:false,error:e instanceof Error?e.message:'Failed'});break;
-   }
-  }
+ for(let i=0;i<ids.length;i+=5){
+  const chunk=ids.slice(i,i+5);
+  const res=await Promise.all(chunk.map(async id=>{
+   try{await directGraph(id,{status},'POST');return {id,ok:true};}
+   catch(e){return {id,ok:false,error:e instanceof Error?e.message:'Failed'};}
+  }));
+  results.push(...res);
  }
  return {status,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
 }
@@ -65,26 +74,26 @@ export async function replaceAdsPageInBatch(raw:unknown){
  if(!batch)throw Error('Batch not found.');
  const targets=items.filter(i=>i.metaAdId&&(!filterAdIds||filterAdIds.has(i.metaAdId))&&i.ad.pageId!==pageId);
  const results:{adId:string;name:string;ok:boolean;creativeId?:string;error?:string}[]=[];
- for(const item of targets){
-  for(let attempt=0;attempt<4;attempt++){
+ for(let i=0;i<targets.length;i+=4){
+  const chunk=targets.slice(i,i+4);
+  const res=await Promise.all(chunk.map(async item=>{
    try{
     const updatedItem={...item,ad:{...item.ad,pageId}};
-    const cr=await graph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(updatedItem),'POST');
+    const cr=await directGraph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(updatedItem),'POST');
     if(!/^\d+$/.test(cr.id))throw Error('Creative ID not returned.');
-    await graph(item.metaAdId!,{creative:{creative_id:cr.id}},'POST');
-    const verified=await graph<Record<string,unknown>>(cr.id,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
+    await directGraph(item.metaAdId!,{creative:{creative_id:cr.id}},'POST');
+    const verified=await directGraph<Record<string,unknown>>(cr.id,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
     const issues=verifyCreative(updatedItem,verified);
     if(issues.length)throw Error(issues.join(' '));
     await mutate<{item?:typeof item},void>('meta-upload-item-'+item.id+'-record',{},s=>{if(s.item){s.item.ad={...s.item.ad,pageId};s.item.fingerprint=fingerprint(s.item.ad);s.item.creativeId=cr.id;s.item.verifiedAt=Date.now();s.item.updated=Date.now();}});
-    results.push({adId:item.metaAdId!,name:item.ad.name,ok:true,creativeId:cr.id});
-    break;
+    return {adId:item.metaAdId!,name:item.ad.name,ok:true,creativeId:cr.id};
    }catch(e){
-    if(e instanceof MetaBudgetWait&&attempt<3){await new Promise(r=>setTimeout(r,Math.min(5000,e.retryAfterSeconds*1000)));continue;}
-    results.push({adId:item.metaAdId!,name:item.ad.name,ok:false,error:e instanceof Error?e.message:'Failed'});
-    break;
+    return {adId:item.metaAdId!,name:item.ad.name,ok:false,error:e instanceof Error?e.message:'Failed'};
    }
-  }
+  }));
+  results.push(...res);
  }
  return {batchId,pageId,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
 }
+
 
