@@ -65,27 +65,30 @@ export async function updateUploaderAdsStatus(raw:unknown){
 export async function replaceAdsPageInBatch(raw:unknown){
  const a=raw as Record<string,unknown>;if(!a||typeof a!=='object')throw Error('Invalid request.');
  const batchId=typeof a.batchId==='string'?a.batchId:'';
- const pageId=numericId(a.pageId,'Page');
+ const pageId=a.pageId?numericId(a.pageId,'Page'):undefined;
+ const newUrl=typeof a.url==='string'&&a.url.startsWith('https://')?a.url.trim():undefined;
+ if(!pageId&&!newUrl)throw Error('Provide pageId or url.');
  const filterAdIds=Array.isArray(a.adIds)?new Set(a.adIds.map(id=>numericId(id,'ad'))):null;
  const {readBatch}=await import('./meta-uploader');
  const {creativePayload,verifyCreative}=await import('./meta-uploader-model');
  const {fingerprint}=await import('./meta-uploader-identity');
  const {batch,items}=await readBatch(batchId);
  if(!batch)throw Error('Batch not found.');
- const targets=items.filter(i=>i.metaAdId&&(!filterAdIds||filterAdIds.has(i.metaAdId))&&i.ad.pageId!==pageId);
+ const targets=items.filter(i=>i.metaAdId&&(!filterAdIds||filterAdIds.has(i.metaAdId))&&((pageId&&i.ad.pageId!==pageId)||(newUrl&&i.ad.url!==newUrl)));
  const results:{adId:string;name:string;ok:boolean;creativeId?:string;error?:string}[]=[];
  for(let i=0;i<targets.length;i+=4){
   const chunk=targets.slice(i,i+4);
   const res=await Promise.all(chunk.map(async item=>{
    try{
-    const updatedItem={...item,ad:{...item.ad,pageId}};
+    const nextAd={...item.ad,...(pageId?{pageId}:{}),...(newUrl?{url:newUrl}:{})};
+    const updatedItem={...item,ad:nextAd};
     const cr=await directGraph<{id:string}>(`act_${item.ad.accountId}/adcreatives`,creativePayload(updatedItem),'POST');
     if(!/^\d+$/.test(cr.id))throw Error('Creative ID not returned.');
     await directGraph(item.metaAdId!,{creative:{creative_id:cr.id}},'POST');
     const verified=await directGraph<Record<string,unknown>>(cr.id,{fields:'id,object_story_spec,asset_feed_spec,degrees_of_freedom_spec,contextual_multi_ads,url_tags'});
     const issues=verifyCreative(updatedItem,verified);
     if(issues.length)throw Error(issues.join(' '));
-    await mutate<{item?:typeof item},void>('meta-upload-item-'+item.id+'-record',{},s=>{if(s.item){s.item.ad={...s.item.ad,pageId};s.item.fingerprint=fingerprint(s.item.ad);s.item.creativeId=cr.id;s.item.verifiedAt=Date.now();s.item.updated=Date.now();}});
+    await mutate<{item?:typeof item},void>('meta-upload-item-'+item.id+'-record',{},s=>{if(s.item){s.item.ad=nextAd;s.item.fingerprint=fingerprint(nextAd);s.item.creativeId=cr.id;s.item.verifiedAt=Date.now();s.item.updated=Date.now();}});
     return {adId:item.metaAdId!,name:item.ad.name,ok:true,creativeId:cr.id};
    }catch(e){
     return {adId:item.metaAdId!,name:item.ad.name,ok:false,error:e instanceof Error?e.message:'Failed'};
@@ -93,7 +96,7 @@ export async function replaceAdsPageInBatch(raw:unknown){
   }));
   results.push(...res);
  }
- return {batchId,pageId,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
+ return {batchId,pageId,url:newUrl,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
 }
 
 
