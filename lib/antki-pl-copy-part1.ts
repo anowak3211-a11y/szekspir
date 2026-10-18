@@ -5,17 +5,17 @@
  */
 
 export const ANTKI_PL_COPY_PART1: Record<
-  string,
-  {
-    headline: string;
-    description: string;
-    primaryText: string;
-  }
+ string,
+ {
+ headline: string;
+ description: string;
+ primaryText: string;
+ }
 > = {
-  'pl-01-zdarte-zimowe-buty': {
-    headline: 'Wydałam 599 zł na wymarzone buty córki. Po 3 tygodniach spojrzałam na podeszwę i zamarłam',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty za 599 złotych (w promocji z 749 zł).
+ 'pl-01-zdarte-zimowe-buty': {
+ headline: 'Wydałam 599 zł na wymarzone buty córki. Po 3 tygodniach spojrzałam na podeszwę i zamarłam',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Wiem, co zaraz napiszecie w komentarzach. Że zwariowałam, kupując 10-letniej córce buty za 599 złotych (w promocji z 749 zł).
 
 Ale moja Zosia marzyła o tych nowych Nike od wiosny, a ja po tym, jak we wrześniu w miesiąc zmasakrowała zwykłe trampki do szkoły, chciałam, żeby na jesień i zimę miała wreszcie porządne, twarde buty.
 
@@ -130,12 +130,12 @@ Zostawiam bezpośredni link do oficjalnej strony:
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Dziś wieczorem odwróć buty swojego dziecka podeszwą do światła. Jeśli wewnętrzna krawędź pięty jest ścięta pod skosem, nie czekaj - okno wzrostowe do 12 roku życia nie będzie czekać.`,
-  },
+ },
 
-  'pl-02-mit-bolow-wzrostowych': {
-    headline: 'Przez 4 miesiące wierzyłam pediatrze, że to „bóle wzrostowe". Prawda wyszła na jaw w łazience',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Przez cztery miesiące co parę tygodni przeżywałam w naszym mieszkaniu ten sam nocny koszmar. W środku nocy z pokoju mojej 8-letniej Kasi dobiegał cichy szloch, który po chwili zamieniał się w rozdzierający płacz.
+ 'pl-02-mit-bolow-wzrostowych': {
+ headline: 'Przez 4 miesiące wierzyłam pediatrze, że to „bóle wzrostowe". Prawda wyszła na jaw w łazience',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Przez cztery miesiące co parę tygodni przeżywałam w naszym mieszkaniu ten sam nocny koszmar. W środku nocy z pokoju mojej 8-letniej Kasi dobiegał cichy szloch, który po chwili zamieniał się w rozdzierający płacz.
 
 Kiedy wpadałam do niej na boso, siedziała na łóżku ze skulonymi nogami i trzymała się obiema rączkami za piszczele oraz kolana, powtarzając przez łzy, że w środku kości „wierci ją i pali żywym ogniem".
 
@@ -258,12 +258,12 @@ Tutaj zamawiałam nasze wkładki na oficjalnej stronie:
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Kości nie bolą od samego rośnięcia. Zanim dziś w nocy znów sięgniesz po syrop przeciwbólowy, zrób dziecku zdjęcie pięt z poziomu podłogi - ten jeden kadr może oszczędzić mu miesięcy cichego bólu.`,
-  },
+ },
 
-  'pl-03-test-mokrej-stopy': {
-    headline: 'Spojrzałam na mokre ślady stóp córki po kąpieli. Ten 10-sekundowy test powinna zrobić każda mama',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Moja 10-letnia Zosia pobiegła wieczorem boso z wanny po piżamę, a ja spojrzałam na mokre ślady jej stóp na ciemnych kafelkach i zamarłam.
+ 'pl-03-test-mokrej-stopy': {
+ headline: 'Spojrzałam na mokre ślady stóp córki po kąpieli. Ten 10-sekundowy test powinna zrobić każda mama',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Moja 10-letnia Zosia pobiegła wieczorem boso z wanny po piżamę, a ja spojrzałam na mokre ślady jej stóp na ciemnych kafelkach i zamarłam.
 
 Zamiast normalnego wcięcia w kształcie półksiężyca na podłodze odbiły się dwa pełne, płaskie prostokąty jak podeszwa żelazka - u mojej córki łuk stopy nie istniał wcale.
 
@@ -343,11 +343,11 @@ To 7000 kroków dziennie i ponad 200 000 kroków miesięcznie! Żadne piętnasto
 
 Co gorsza, u 10-letniej dziewczynki zostaje już tylko niewiele czasu przed zamknięciem okna wzrostowego w wieku 12-13 lat - gdy chrząstki stwardnieją, płaskostopie koślawe zostaje na całe życie.
 
-Wieczorem zrobiłam zdjęcie mokrego śladu na kafelkach i wrzuciłam je na forum mam z Krakowa z pytaniem, jak podnieść ten łuk bez torturowania dziecka twardym plastikiem.
+Następnego dnia w pracy pokazałam zdjęcie mokrego śladu stopy Zosi koleżance z biura, której 11-letni syn rok wcześniej miał identyczny problem z płaskostopiem i koślawymi kostkami.
 
-Pod postem odezwała się matka 11-latka z identycznym zdjęciem sprzed pół roku oraz zdjęciem po kilku miesiącach noszenia profilowanych wkładek Orthomax StepMax.
+Otworzyła galerię w telefonie i pokazała mi zdjęcie jego stóp sprzed pół roku oraz drugie zdjęcie zrobione po trzech miesiącach noszenia profilowanych wkładek Orthomax StepMax.
 
-Napisała mi, że stopa dziecka potrzebuje sprężystego podparcia, które pracuje razem z nią przy chodzeniu, zamiast sztywnego plastiku.
+Powiedziała mi, że stopa dziecka potrzebuje sprężystego podparcia, które pracuje razem z nią przy chodzeniu, zamiast sztywnego plastiku.
 
 Zamówiłam je od razu. Kiedy wyjęłam pomarańczowo-czarne wkładki Orthomax StepMax z foliowego opakowania, od pierwszej chwili poczułam pod palcami różnicę.
 
@@ -382,12 +382,12 @@ Zostawiam link do oficjalnej strony:
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Od góry każda dziecięca stopa wygląda dobrze. Dopiero mokry ślad na kafelkach po kąpieli pokazuje, czy Twoje dziecko ma jeszcze amortyzację, czy uderza kością o beton 7000 razy dziennie.`,
-  },
+ },
 
-  'pl-04-zdjecie-z-wycieczki': {
-    headline: 'Powiększyłam zdjęcie córki z wycieczki klasowej. Dopiero wtedy zobaczyłam, co dzieje się z jej nogami',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Wychowawczyni wrzuciła wieczorem na dziennik elektroniczny zdjęcia z październikowej wycieczki klasowej do parku.
+ 'pl-04-zdjecie-z-wycieczki': {
+ headline: 'Powiększyłam zdjęcie córki z wycieczki klasowej. Dopiero wtedy zobaczyłam, co dzieje się z jej nogami',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Wychowawczyni wrzuciła wieczorem na dziennik elektroniczny zdjęcia z październikowej wycieczki klasowej do parku.
 
 Usiadłam z kubkiem herbaty w kuchni, otworzyłam galerię na telefonie i zaczęłam szukać mojej 9-letniej Kasi.
 
@@ -497,19 +497,29 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładacie do butów zimowych, a drugą do obuwia szkolnego w szatni na pełne 14 godzin dnia, bez przekładania i bez wydawania 380 złotych co pół roku na twarde wkładki na wymiar.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Kolana w literę X prawie nigdy nie są winą samych kolan. Zanim okno wzrostowe do 12 roku życia się zamknie, napraw fundament w bucie - za 3 miesiące sama porównasz nowe zdjęcie ze starym.`,
-  },
+ },
 
-  'pl-05-potykanie-sie-o-wlasne-nogi': {
-    headline: 'Krzyczałam na córkę, że ciągle potyka się na prostej drodze. U fizjoterapeuty zapadłam się pod ziemię',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `„Zosia, czy ty naprawdę nie potrafisz patrzeć pod nogi?!" - krzyknęłam po południu przed szkołą, kiedy moja 8-letnia córka trzeci raz w tym miesiącu przewróciła się na prostej drodze i rozdarła na kolanie trzecią parę spodni. Stałam nad nią z jej plecakiem w jednej ręce i siatką zakupów w drugiej, zmęczona po całym dniu pracy, po czym zamiast ją przytulić, zaczęłam robić jej wymówki na oczach innych rodziców. Zosia nawet nie płakała z bólu. Siedziała na zimnej kostce brukowej, patrzyła na dziurę w nowych legginsach oraz starte kolano i powiedziała cicho, z drżącą brodą: „Mamo, przepraszam, ja naprawdę patrzyłam, ale mój lewy but sam zahaczył o prawy". Do dziś ściska mnie w gardle na myśl, że darłam się na własne dziecko za coś, czemu w najmniejszym stopniu nie było winne.
+ 'pl-05-potykanie-sie-o-wlasne-nogi': {
+ headline: 'Krzyczałam na córkę, że ciągle potyka się na prostej drodze. U fizjoterapeuty zapadłam się pod ziemię',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `„Zosia, czy ty naprawdę nie potrafisz patrzeć pod nogi?!" - krzyknęłam po południu przed szkołą, kiedy moja 8-letnia córka przewróciła się na prostej drodze i podarła spodnie na kolanie.
+
+Stałam nad nią z jej plecakiem w jednej ręce i siatką zakupów w drugiej, zmęczona po całym dniu pracy, po czym zamiast ją przytulić, zaczęłam robić jej wymówki na oczach innych rodziców.
+
+Zosia nawet nie płakała z bólu.
+
+Siedziała na zimnej kostce brukowej, patrzyła na dziurę w legginsach oraz starte kolano i powiedziała cicho, z drżącą brodą:
+
+„Mamo, przepraszam, ja naprawdę patrzyłam, ale mój lewy but sam zahaczył o prawy".
+
+Do dziś ściska mnie w gardle na myśl, że darłam się na własne dziecko za coś, czemu w najmniejszym stopniu nie było winne.
 
 Przez ostatni rok w naszej rodzinie mówiliśmy, że Zosia jest po prostu roztrzepaną niezdarą, która buja w obłokach.
 
@@ -583,15 +593,17 @@ Na takim betonie wiotka stopa bez dynamicznego wsparcia szybko opada z sił.
 
 Dodał, że musimy działać teraz, bo okno wzrostowe trwa do około 12-13 roku życia - dopóki układ nerwowy i kości są plastyczne, dynamiczna stabilizacja nauczy stopę prawidłowego wzorca chodu.
 
-Wieczorem w domu szukałam na forum mam i grupie rodziców z Katowic opinii o wkładkach dla dziecka, które obija się o meble oraz krzywi kostki, po czym trafiłam na dziesiątki relacji mam stosujących pomarańczowo-czarne wkładki profilowane Orthomax StepMax.
+Następnego dnia pod szkołą rozmawiałam o tym z mamą chłopca z klasy Zosi, który jeszcze wiosną dokładnie tak samo potykał się na WF-ie i zdzierał buty od wewnętrznej strony.
 
-Pisały, że mieszczą się w każdym zwykłym bucie i trzymają kostkę bez usztywniania stopy w gipsie.
+Wyjęła z buta syna pomarańczowo-czarną wkładkę profilowaną Orthomax StepMax i pokazała mi, jak pracuje pod palcami - mieści się w każdym zwykłym bucie i trzyma kostkę prosto bez usztywniania stopy w gipsie.
 
-Zamówiłam je od razu.
+Zamówiłam je jeszcze tego samego wieczoru.
 
-Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki o zmiennej gęstości, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie, uniemożliwiając kostce załamanie się do środka i skręcenie piszczeli.
+Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, zobaczyłam, że są zrobione ze sprężystej pianki, w której wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie.
 
-Pod spodem podparcie łuku stopy działa przy każdym kroku jak mała trampolina, która odbija stopę w górę, a wypustki pobudzające na powierzchni cały czas dają układowi nerwowemu sygnał o ułożeniu stopy, podczas gdy miękka strefa pod piętą amortyzuje twardy beton.
+Pod śródstopiem znajduje się podparcie łuku stopy, które działa przy każdym kroku jak sprężyna i odbija stopę w górę.
+
+Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, a miękka warstwa pod piętą amortyzuje twardy beton.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi.
 
@@ -609,19 +621,19 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedna para idzie do butów zimowych, a druga do butów szkolnych na zmianę w szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy stopa urośnie.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam link do oficjalnej strony:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Dziecko nie przewraca się na równej drodze z nieuwagi. Kiedy pięta ucieka do środka, czubki butów same skręcają ku sobie - daj jego stopom stabilne korytko i zobacz, jak pewnie zacznie biegać.`,
-  },
+ },
 
-  'pl-06-plecy-i-ciezki-plecak': {
-    headline: 'Wydałam 420 zł na ergonomiczny tornister, a plecy córki bolały dalej. Fizjoterapeuta kazał jej zdjąć buty',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Postawiłam szkolny plecak mojej 10-letniej córki na wadze kuchennej przy chlebaku: wyświetlacz pokazał dokładnie 6,5 kilograma.
+ 'pl-06-plecy-i-ciezki-plecak': {
+ headline: 'Wydałam 420 zł na ergonomiczny tornister, a plecy córki bolały dalej. Fizjoterapeuta kazał jej zdjąć buty',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Postawiłam szkolny plecak mojej 10-letniej córki na wadze kuchennej przy chlebaku: wyświetlacz pokazał dokładnie 6,5 kilograma.
 
 Patrzyłam na ten wynik i byłam pewna, że właśnie odkryłam, dlaczego moja Kasia codziennie po 16:00 kładzie się na dywanie w salonie i mówi, że pieką ją plecy między łopatkami.
 
@@ -729,12 +741,12 @@ Jedna para wkładek kosztuje 99,99 złotych, ale na oficjalnej stronie w pakieci
 
 Jedną parę wkładacie do butów zimowych, a drugą do obuwia na zmianę w szkolnej szatni na pełne 14 godzin dnia, bez wydawania 380 złotych co pół roku, gdy stopa urośnie.
 
-Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam bezpośredni link do oficjalnej strony:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Żaden tornister za 420 złotych nie wyprostuje kręgosłupa, jeśli na samym dole fundament stopy zapada się przy każdym z 7000 kroków dziennie. Zacznij od stóp, a plecy wyprostują się same.`,
-  },
+ },
 };

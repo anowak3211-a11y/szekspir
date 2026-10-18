@@ -1,8 +1,8 @@
 export const ANTKI_PL_COPY_PART6: Record<string, { headline: string; description: string; primaryText: string }> = {
-  'pl-31-dorosli-zimowe-botki': {
-    headline: 'Wyjęłam z szafy zimowe botki z zeszłego roku i nie mogłam zasunąć zamka. Stopa nie urosła - ona się zapadła',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `W zeszły wtorek rano termometr za oknem w kuchni pokazał 5 stopni. Wyciągnęłam z szafy w przedpokoju pudło z moimi ulubionymi skórzanymi botkami, w których przechodziłam całą poprzednią zimę.
+ 'pl-31-dorosli-zimowe-botki': {
+ headline: 'Wyjęłam z szafy zimowe botki z zeszłego roku i nie mogłam zasunąć zamka. Stopa nie urosła - ona się zapadła',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `W zeszły wtorek rano termometr za oknem w kuchni pokazał 5 stopni. Wyciągnęłam z szafy w przedpokoju pudło z moimi ulubionymi skórzanymi botkami, w których przechodziłam całą poprzednią zimę.
 
 Usiadłam na pufie, wsunęłam lewą stopę do środka i pociągnęłam za zamek. Suwak zatrzymał się w połowie podbicia.
 
@@ -113,18 +113,22 @@ Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkł
 
 Jedną parę wkładacie do zimowych botków lub kozaków, a drugą do butów w pracy albo domowych kapci na twarde panele.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Stopa po lecie nie zrobiła się szersza dlatego, że urosły Wam kości - ona straciła podparcie i zapadła się pod ciężarem ciała. Za 50 zł za parę i z 30-dniową gwarancją zwrotu nie ryzykujecie ani grosza, a możecie jeszcze tej zimy znów bez bólu zasunąć zamek w ulubionych butach.`
-  },
-  'pl-32-dorosli-pierwszy-krok-rano': {
-    headline: 'O 6:00 rano szłam do łazienki trzymając się ściany. Myślałam, że to ostroga, a przyczyna była inna',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `Najgorszy moment mojego dnia wcale nie przychodził wieczorem po ośmiu godzinach pracy. Najgorszy koszmar zaczynał się punktualnie o 6:00 rano, kiedy dzwonił budzik, a ja spuszczałam bose stopy z łóżka na podłogę.
+P.S.
+
+Stopa po lecie nie zrobiła się szersza dlatego, że urosły Wam kości - ona straciła podparcie i zapadła się pod ciężarem ciała.
+
+Za 50 zł za parę i z 30-dniową gwarancją zwrotu nie ryzykujecie ani grosza, a możecie jeszcze tej zimy znów bez bólu zasunąć zamek w ulubionych butach.`
+ },
+ 'pl-32-dorosli-pierwszy-krok-rano': {
+ headline: 'O 6:00 rano szłam do łazienki trzymając się ściany. Myślałam, że to ostroga, a przyczyna była inna',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `Najgorszy moment mojego dnia wcale nie przychodził wieczorem po ośmiu godzinach pracy. Najgorszy koszmar zaczynał się punktualnie o 6:00 rano, kiedy dzwonił budzik, a ja spuszczałam bose stopy z łóżka na podłogę.
 
 Kiedy przenosiłam ciężar ciała na nogi, pod obiema piętami - a szczególnie pod prawą - czułam tak przeszywający ból, jakby ktoś rozsypał na dywanie tłuczone szkło albo wbił mi rozżarzony gwóźdź w sam środek kości piętowej.
 
@@ -221,18 +225,18 @@ Jeśli zaczynacie każdy poranek od kuśtykania po ścianie do łazienki, nie cz
 
 Jedną parę wkładacie do kapci przy łóżku, żeby chronić rozcięgno od pierwszej sekundy rano, a drugą do butów wyjściowych.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Wasze ciało każdej nocy ciężko pracuje, żeby zagoić mikrouszkodzenia pod piętą - nie pozwólcie, by kolejny poranny krok o 6:00 rano na płaskiej stopie znów zniszczył tę pracę w jedną sekundę.`
-  },
-  'pl-33-dorosli-praca-stojaca-8h': {
-    headline: 'Wracasz po 8 godzinach pracy na nogach i czujesz żywy ogień pod stopami? Przeczytaj to przed kolejną zmianą',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `Przez ostatni rok każde moje popołudnie po powrocie z pracy w Katowicach wyglądało tak samo.
+ },
+ 'pl-33-dorosli-praca-stojaca-8h': {
+ headline: 'Wracasz po 8 godzinach pracy na nogach i czujesz żywy ogień pod stopami? Przeczytaj to przed kolejną zmianą',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `Przez ostatni rok każde moje popołudnie po powrocie z pracy w Katowicach wyglądało tak samo.
 
 Zrzucałam buty w przedpokoju jeszcze zanim zdjęłam kurtkę, szłam do kuchni po tabletkę przeciwbólową, a potem kładłam się na kanapie z nogami opartymi wysoko o poduszki.
 
@@ -335,11 +339,11 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajecie swoim stopom i lędźwiom sprężyste podparcie na każdy z 10 000 kroków na zmianie - żebyście po powrocie do domu miały jeszcze siłę cieszyć się życiem.`
-  },
-  'pl-34-dorosli-moja-62-letnia-mama': {
-    headline: 'Moja 62-letnia mama ukrywała przed nami, dlaczego nie chce już wychodzić z wnukami na spacer',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `Moja 62-letnia mama Teresa zawsze była w naszej rodzinie wulkanem energii. Jeszcze rok temu to ona dzwoniła do mnie w każdą sobotę rano i wołała: „Gosia, ubieraj dzieciaki, zabieram je na dwie godziny do parku!".
+ },
+ 'pl-34-dorosli-moja-62-letnia-mama': {
+ headline: 'Moja 62-letnia mama ukrywała przed nami, dlaczego nie chce już wychodzić z wnukami na spacer',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `Moja 62-letnia mama Teresa zawsze była w naszej rodzinie wulkanem energii. Jeszcze rok temu to ona dzwoniła do mnie w każdą sobotę rano i wołała: „Gosia, ubieraj dzieciaki, zabieram je na dwie godziny do parku!".
 
 Ale tej jesieni za każdym razem, gdy pytałam, czy wyjdzie z nami na spacer albo odbierze wnuki ze szkoły, słyszałam wymówkę.
 
@@ -435,18 +439,18 @@ Piszę to dla wszystkich kobiet 55+ i 60+ oraz dla córek, które widzą, jak ic
 
 Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkładek Orthomax StepMax za 99,99 zł (czyli 50 zł za parę), a jest też pakiet rodzinny 2+2 GRATIS dla mamy i dla siebie.
 
-Jedną parę wkładacie mamie do butów na spacery, a drugą do kapci na domowe panele. Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Jedną parę wkładacie mamie do butów na spacery, a drugą do kapci na domowe panele. Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Jeśli Wasza mama coraz częściej mówi, że „woli dziś posiedzieć w domu", spójrzcie w niedzielę na jej buty i zapytajcie, czy nie pieką jej stopy. Za 99,99 zł w pakiecie 1+1 możecie oddać jej radość ze zwykłego spaceru z wnukami bez bólu.`
-  },
-  'pl-35-dorosli-buty-o-rozmiar-wieksze': {
-    headline: 'Przez 30 lat nosiłam rozmiar 38, a tej jesieni nie weszłam nawet w 39. Oto co naprawdę dzieje się ze stopą po 40-tce',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `Przez trzydzieści lat kupowanie butów zajmowało mi dziesięć minut - brałam z półki rozmiar 38 i pasował jak ulał. W zeszłą sobotę po południu poszłam do galerii w Krakowie kupić skórzane kozaki na zimę.
+ },
+ 'pl-35-dorosli-buty-o-rozmiar-wieksze': {
+ headline: 'Przez 30 lat nosiłam rozmiar 38, a tej jesieni nie weszłam nawet w 39. Oto co naprawdę dzieje się ze stopą po 40-tce',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `Przez trzydzieści lat kupowanie butów zajmowało mi dziesięć minut - brałam z półki rozmiar 38 i pasował jak ulał. W zeszłą sobotę po południu poszłam do galerii w Krakowie kupić skórzane kozaki na zimę.
 
 Wybrałam klasyczny model, usiadłam na pufie i poprosiłam o moje 38. Nie byłam w stanie nawet dopchnąć stopy do końca, bo przodostopie uwięzło w bucie jak w imadle.
 
@@ -550,12 +554,12 @@ Na oficjalnej stronie producenta w pakiecie 1+1 GRATIS dostajecie dwie pary wkł
 
 Jedną parę wkładacie do zimowych kozaków lub botków, a drugą do butów w pracy albo kapci domowych na twarde panele.
 
-Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach  je odesłać i odzyskać 100% pieniędzy.
+Macie pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach możecie je odesłać i odzyskać 100% pieniędzy.
 
 Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Zanim wydacie tej zimy kolejne 400 zł na następne za duże buty, dajcie swoim stopom podparcie, które uniesie zapadnięty łuk. Za 50 zł za parę i z 30-dniową gwarancją zwrotu możecie odzyskać swój dawny rozmiar buta i lekkość każdego kroku.`
-  }
+ }
 };

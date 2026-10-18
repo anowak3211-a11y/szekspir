@@ -1,8 +1,8 @@
 export const ANTKI_PL_COPY_PART5: Record<string, { headline: string; description: string; primaryText: string }> = {
-  'pl-25-ryciak-rip3-ojciec-wideo': {
-    headline: 'Fizjoterapeuta położył telefon na podłodze i nagrał chód mojej córki w zwolnionym tempie. Zobacz, co dzieje się w 1 sekundzie',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `W zeszły czwartek po południu siedziałam w gabinecie rehabilitacji w Poznaniu z moją 10-letnią córką Kasią, która od dwóch miesięcy skarżyła się na piekący ból prawej łydki i kłucie pod prawą łopatką.
+ 'pl-25-ryciak-rip3-ojciec-wideo': {
+ headline: 'Fizjoterapeuta położył telefon na podłodze i nagrał chód mojej córki w zwolnionym tempie. Zobacz, co dzieje się w 1 sekundzie',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `W zeszły czwartek po południu siedziałam w gabinecie rehabilitacji w Poznaniu z moją 10-letnią córką Kasią, która od dwóch miesięcy skarżyła się na piekący ból prawej łydki i kłucie pod prawą łopatką.
 
 Myślałam, że fizjoterapeuta położy ją na kozetce i rozmasuje spięte mięśnie pleców od noszenia ciężkiego plecaka.
 
@@ -91,7 +91,7 @@ Z tyłu mają głębokie, wyprofilowane wyprofilowane korytko, które obejmuje p
 
 Pod śródstopiem znajduje się podparcie łuku stopy działające jak mała trampolina, a na powierzchni umieszczone są delikatne wypustki pobudzające, które przy każdym z 7000 kroków bodźcują mięśnie stopy do aktywnej pracy, podczas gdy strefa pod piętą tłumi wstrząsy na szkolnym korytarzu.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania  do butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do butów Kasi.
 
 Zmiana nie zadziałała jak magiczna różdżka w jedną dobę, ale przyszła krok po kroku:
 
@@ -112,13 +112,17 @@ Dodatkowo macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założy
 
 Sprawdźcie dostępność rozmiarów tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Dziś wieczorem po kąpieli položcie swój telefon na podłodze w przedpokoju, włączcie nagrywanie w zwolnionym tempie i poproście dziecko, żeby przeszło boso przed kamerą. Jeśli zobaczycie, że pięta ucieka do środka, działajcie od razu - zanim ten kąt utrwali się w kościach na zawsze.`,
-  },
+P.S.
 
-  'pl-26-zal-po-operacji-za-pozno': {
-    headline: 'Na moją lewą stopę było już za późno (8200 zł i 2 śruby w kości). Prawą uratowałam bez skalpela',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `Na moją lewą stopę jest już za późno.
+Dziś wieczorem po kąpieli položcie swój telefon na podłodze w przedpokoju, włączcie nagrywanie w zwolnionym tempie i poproście dziecko, żeby przeszło boso przed kamerą.
+
+Jeśli zobaczycie, że pięta ucieka do środka, działajcie od razu - zanim ten kąt utrwali się w kościach na zawsze.`,
+ },
+
+ 'pl-26-zal-po-operacji-za-pozno': {
+ headline: 'Na moją lewą stopę było już za późno (8200 zł i 2 śruby w kości). Prawą uratowałam bez skalpela',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `Na moją lewą stopę jest już za późno.
 
 Kiedy spojrzę na nią wieczorem po zdjęciu skarpetki, widzę siedmiocentymetrową, sinoczerwoną bliznę biegnącą wzdłuż palucha, pod którą w kości śródstopia tkwią na stałe dwie tytanowe śruby.
 
@@ -225,12 +229,12 @@ Macie pełne 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wk�
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Za operację jednej stopy zapłaciłam 8200 złotych i sześcioma tygodniami łez. Za uratowanie drugiej zapłaciłam 50 złotych za parę wkładek. Gdybym wiedziała o nich dwa lata temu, nigdy nie położyłabym się na stole operacyjnym.`,
-  },
+ },
 
-  'pl-27-zal-haluks-wrocil-po-2-latach': {
-    headline: 'Siostra zapłaciła 8100 zł za operację haluksa. Po 2 latach kość wróciła, bo nikt nie powiedział jej tego 1 faktu',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu',
-    primaryText: `W zeszłą niedzielę po południu moja starsza siostra Ania przyjechała do mnie na obiad, usiadła na ławce w przedpokoju i z grymasem bólu rozpięła zamek w swoich skórzanych kozakach.
+ 'pl-27-zal-haluks-wrocil-po-2-latach': {
+ headline: 'Siostra zapłaciła 8100 zł za operację haluksa. Po 2 latach kość wróciła, bo nikt nie powiedział jej tego 1 faktu',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu',
+ primaryText: `W zeszłą niedzielę po południu moja starsza siostra Ania przyjechała do mnie na obiad, usiadła na ławce w przedpokoju i z grymasem bólu rozpięła zamek w swoich skórzanych kozakach.
 
 Kiedy zdjęła prawy but oraz cienką rajstopę, obie zaniemówiłyśmy na dobre pół minuty. Dwa lata temu Ania wyjęła z oszczędności 8100 złotych i zapłaciła w prywatnej klinice za operację wycięcia haluksa.
 
@@ -334,12 +338,12 @@ Macie też 30 dni gwarancji zwrotu bez żadnego ryzyka: możecie normalnie zało
 Link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Moja siostra musiała zapłacić 8100 złotych i przejść przez operację, żebyśmy obie zrozumiały, że wycięcie skutku bez podparcia łuku stopy nic nie daje. Wy możecie zatrzymać ten proces za 50 złotych za parę wkładek.`,
-  },
+ },
 
-  'pl-28-zal-operacja-kolan-nastolatki': {
-    headline: 'Moja 14-letnia córka ma dziś śruby w kolanach, bo 5 lat temu posłuchałam słów: „Z tego się wyrasta"',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Późnym wieczorem siedziałam na brzegu łóżka mojej 14-letniej córki Mai w naszym mieszkaniu w Łodzi i zmieniałam jej chłodzący kompres na opuchniętych, zasinionych kolanach.
+ 'pl-28-zal-operacja-kolan-nastolatki': {
+ headline: 'Moja 14-letnia córka ma dziś śruby w kolanach, bo 5 lat temu posłuchałam słów: „Z tego się wyrasta"',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Późnym wieczorem siedziałam na brzegu łóżka mojej 14-letniej córki Mai w naszym mieszkaniu w Łodzi i zmieniałam jej chłodzący kompres na opuchniętych, zasinionych kolanach.
 
 Na obu nogach od kostek aż po pachwiny miała zapięte ciężkie, czarne ortezy zegarowe, a pod świeżymi szwami w kościach udowych tkwiły tytanowe płytki ósemkowe przykręcone śrubami do chrząstek wzrostowych.
 
@@ -440,13 +444,19 @@ Macie 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wkładki d
 
 Zamówcie pakiet dla swojego dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Patrzę dziś na blizny na kolanach mojej 14-letniej Mai i oddałabym wszystko, żeby cofnąć czas o pięć lat. U mojej 8-letniej Zosi zdążyłam za 50 złotych za parę wkładek. Sprawdźcie dziś wieczorem bose pięty swoich dzieci - zanim zamknie się ich okno wzrostowe.`,
-  },
+P.S.
 
-  'pl-29-zal-wozek-inwalidzki-beata': {
-    headline: 'Mąż zamontował mi pod prysznicem uchwyt dla niepełnosprawnych. Mam dopiero 52 lata',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
-    primaryText: `W zeszłą sobotę po południu siedziałam na brzegu łóżka w naszej sypialni w Krakowie, a z łazienki za ścianą dochodził przeraźliwy huk udarowej wiertarki.
+Patrzę dziś na blizny na kolanach mojej 14-letniej Mai i oddałabym wszystko, żeby cofnąć czas o pięć lat.
+
+U mojej 8-letniej Zosi zdążyłam za 50 złotych za parę wkładek.
+
+Sprawdźcie dziś wieczorem bose pięty swoich dzieci - zanim zamknie się ich okno wzrostowe.`,
+ },
+
+ 'pl-29-zal-wozek-inwalidzki-beata': {
+ headline: 'Mąż zamontował mi pod prysznicem uchwyt dla niepełnosprawnych. Mam dopiero 52 lata',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni na test bez ryzyka',
+ primaryText: `W zeszłą sobotę po południu siedziałam na brzegu łóżka w naszej sypialni w Krakowie, a z łazienki za ścianą dochodził przeraźliwy huk udarowej wiertarki.
 
 Mój mąż Andrzej wiercił w płytkach pod prysznicem cztery głębokie dziury, żeby przykręcić biały, metalowy uchwyt dla osób niepełnosprawnych i starszych.
 
@@ -548,13 +558,19 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku
 
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wydałam 8750 złotych na zastrzyki w kolana i rehabilitację, które leczyły skutek zamiast przyczyny. Dopiero dwie pary wkładek za 99,99 zł ustawiły moje stopy w pionie i oddały mi sprawność. Nie czekajcie, aż mąż będzie musiał wiercić Wam uchwyt w łazience.`,
-  },
+P.S.
 
-  'pl-30-zal-zastrzyki-sterydowe-pieta': {
-    headline: 'Przeszłam 3 bolesne blokady w piętę i 10 zabiegów fali uderzeniowej. Dopiero ten 1 szczegół zatrzymał ból',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Kto nigdy nie leżał na skórzanej kozetce w gabinecie zabiegowym i nie miał wbitej długiej, grubej igły ze sterydem prosto w żywe, zapalone rozcięgno pod piętą, ten nie ma pojęcia, czym jest ból, przy którym człowiek wgryza się zębami w pasek własnej torebki, żeby nie krzyczeć na cały korytarz.
+Wydałam 8750 złotych na zastrzyki w kolana i rehabilitację, które leczyły skutek zamiast przyczyny.
+
+Dopiero dwie pary wkładek za 99,99 zł ustawiły moje stopy w pionie i oddały mi sprawność.
+
+Nie czekajcie, aż mąż będzie musiał wiercić Wam uchwyt w łazience.`,
+ },
+
+ 'pl-30-zal-zastrzyki-sterydowe-pieta': {
+ headline: 'Przeszłam 3 bolesne blokady w piętę i 10 zabiegów fali uderzeniowej. Dopiero ten 1 szczegół zatrzymał ból',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Kto nigdy nie leżał na skórzanej kozetce w gabinecie zabiegowym i nie miał wbitej długiej, grubej igły ze sterydem prosto w żywe, zapalone rozcięgno pod piętą, ten nie ma pojęcia, czym jest ból, przy którym człowiek wgryza się zębami w pasek własnej torebki, żeby nie krzyczeć na cały korytarz.
 
 Mam 47 lat, mieszkam we Wrocławiu i w ciągu ostatniego roku dałam sobie wbić trzy takie blokady sterydowe oraz przeszłam dziesięć zabiegów fali uderzeniowej.
 
@@ -653,6 +669,12 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku
 
 Zamówcie swój pakiet 1+1 tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Za trzy zastrzyki sterydowe w piętę i dziesięć zabiegów fali uderzeniowej zapłaciłam 1490 złotych, a ból wrócił po sześciu tygodniach. Rozcięgno zagoiło się dopiero wtedy, gdy zdjęłam z niego naciąg dwiema parami wkładek za 99,99 zł. Postawcie jutro rano swój pierwszy krok bez strachu.`,
-  },
+P.S.
+
+Za trzy zastrzyki sterydowe w piętę i dziesięć zabiegów fali uderzeniowej zapłaciłam 1490 złotych, a ból wrócił po sześciu tygodniach.
+
+Rozcięgno zagoiło się dopiero wtedy, gdy zdjęłam z niego naciąg dwiema parami wkładek za 99,99 zł.
+
+Postawcie jutro rano swój pierwszy krok bez strachu.`,
+ },
 };

@@ -1,11 +1,11 @@
 export const ANTKI_PL_COPY_PART2: Record<
-  string,
-  { headline: string; description: string; primaryText: string }
+ string,
+ { headline: string; description: string; primaryText: string }
 > = {
-  'pl-07-bol-glowy-i-karku': {
-    headline: 'Szukaliśmy przyczyny bólu karku u okulisty i laryngologa. Prawdziwy winowajca był w butach córki',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `W gabinecie prywatnego okulisty w Łodzi zapłaciłam kartą 250 złotych, a lekarz odsunął lampę szczelinową od twarzy mojej dziesięcioletniej Zosi, zdjął okulary i rozłożył ręce.
+ 'pl-07-bol-glowy-i-karku': {
+ headline: 'Szukaliśmy przyczyny bólu karku u okulisty i laryngologa. Prawdziwy winowajca był w butach córki',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `W gabinecie prywatnego okulisty w Łodzi zapłaciłam kartą 250 złotych, a lekarz odsunął lampę szczelinową od twarzy mojej dziesięcioletniej Zosi, zdjął okulary i rozłożył ręce.
 
 Powiedział wprost, że wzrok mojej córki jest ostry jak u sokoła, dno oka wygląda idealnie, astygmatyzmu nie ma nawet ułamka dioptrii, więc musimy szukać przyczyny gdzie indziej.
 
@@ -120,13 +120,17 @@ Co najważniejsze, dostajesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możes
 
 Tutaj zostawiam link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wczoraj wieczorem Zosia siedziała przy biurku i rysowała plakat na przyrodę przez dwie godziny bez jednej skargi na bolącą szyję. Kiedy pomyślę, że wydałam 839 złotych na szukanie choroby w jej oczach i zatokach, podczas gdy wystarczyło 50 złotych za parę profilowanych wkładek, żeby zdjąć ten ciężar z jej ramion, żałuję tylko jednego - że nikt nie kazał mi spojrzeć na jej pięty rok wcześniej.`,
-  },
+P.S.
 
-  'pl-08-biodro-po-pilce': {
-    headline: 'Mój 9-letni syn chciał rzucić piłkę przez ból biodra i pięty. Ortopeda nawet nie dotknął jego biodra',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test w korkach i butach szkolnych',
-    primaryText: `Mój dziewięcioletni Kuba kocha piłkę nożną bardziej niż gry na konsoli, słodycze i cokolwiek innego na świecie.
+Wczoraj wieczorem Zosia siedziała przy biurku i rysowała plakat na przyrodę przez dwie godziny bez jednej skargi na bolącą szyję.
+
+Kiedy pomyślę, że wydałam 839 złotych na szukanie choroby w jej oczach i zatokach, podczas gdy wystarczyło 50 złotych za parę profilowanych wkładek, żeby zdjąć ten ciężar z jej ramion, żałuję tylko jednego - że nikt nie kazał mi spojrzeć na jej pięty rok wcześniej.`,
+ },
+
+ 'pl-08-biodro-po-pilce': {
+ headline: 'Mój 9-letni syn chciał rzucić piłkę przez ból biodra i pięty. Ortopeda nawet nie dotknął jego biodra',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test w korkach i butach szkolnych',
+ primaryText: `Mój dziewięcioletni Kuba kocha piłkę nożną bardziej niż gry na konsoli, słodycze i cokolwiek innego na świecie.
 
 Dlatego kiedy w zeszły wtorek pod wieczór zszedł z oświetlonego jupiterami orlika w połowie treningu, usiadł na metalowej ławce rezerwowych i zobaczyłam zza siatki, że chowa twarz w dłoniach i gryzie rękaw brudnej bluzy dresowej, żeby chłopaki z drużyny nie widzieli, jak płacze, serce pękło mi na pół.
 
@@ -239,13 +243,17 @@ Do tego sklep daje pełne 30 dni gwarancji zwrotu - nawet kiedy dziecko będzie 
 
 Zostawiam bezpośredni link do pakietu 1+1: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. W ostatnią sobotę stałam przy linii bocznej na turnieju rocznika i patrzyłam, jak mój syn przez cały mecz biega od bramki do bramki z szerokim uśmiechem, zamiast siedzieć na ławce i gryźć rękaw bluzy z bólu. Te 50 złotych za parę wkładek uratowało nie tylko jego biodra i kolana, ale przede wszystkim jego największą dziecięcą pasję.`,
-  },
+P.S.
 
-  'pl-09-kolano-na-schodach': {
-    headline: 'Założyłam córce opaskę z apteki na bolące kolano. Ortopeda kazał ją zdjąć w tej samej sekundzie',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Mieszkamy w kamienicy w Szczecinie na trzecim piętrze bez windy i te schody pokonujemy codziennie przynajmniej cztery razy.
+W ostatnią sobotę stałam przy linii bocznej na turnieju rocznika i patrzyłam, jak mój syn przez cały mecz biega od bramki do bramki z szerokim uśmiechem, zamiast siedzieć na ławce i gryźć rękaw bluzy z bólu.
+
+Te 50 złotych za parę wkładek uratowało nie tylko jego biodra i kolana, ale przede wszystkim jego największą dziecięcą pasję.`,
+ },
+
+ 'pl-09-kolano-na-schodach': {
+ headline: 'Założyłam córce opaskę z apteki na bolące kolano. Ortopeda kazał ją zdjąć w tej samej sekundzie',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Mieszkamy w kamienicy w Szczecinie na trzecim piętrze bez windy i te schody pokonujemy codziennie przynajmniej cztery razy.
 
 W zeszły czwartek po południu, kiedy wracałyśmy razem ze szkoły, moja dziesięcioletnia Kasia nagle zatrzymała się w połowie drugiego piętra, usiadła ciężko na zimnym kamiennym stopniu, złapała się obiema dłońmi za kolana i powiedziała cichutko: „Mamo, poczekaj chwilę, nie idź tak szybko, bo znowu strasznie kłuje mnie pod rzepką przy każdym podniesieniu nogi".
 
@@ -343,17 +351,21 @@ Na oficjalnej stronie producenta można teraz wziąć pakiet 1+1 GRATIS, w któr
 
 Dwie pary w zestawie to ogromna wygoda jesienią i zimą, bo jedną parę włożyliśmy do butów zimowych na wyjścia, a drugą do butów szkolnych na zmianę, dzięki czemu kolana Kasi są chronione przez pełne 14 godzin każdego dnia.
 
-Co więcej, producent daje 30 dni gwarancji zwrotu bez ryzyka - możesz włożyć wkładki do butów,  chodzić w nich przez miesiąc, a jeśli nie przyniosą ulgi, odsyłasz je i dostajesz 100% zwrotu pieniędzy.
+Co więcej, producent daje 30 dni gwarancji zwrotu bez ryzyka - możesz włożyć wkładki do butów, chodzić w nich przez miesiąc, a jeśli nie przyniosą ulgi, odsyłasz je i dostajesz 100% zwrotu pieniędzy.
 
 Link do oficjalnej strony z pakietem 1+1 zostawiam tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Dwa dni temu wyrzuciłam do kosza te dwie szare opaski na kolana z apteki za 110 złotych. Kiedy widzę, jak moja córka znów zbiega i wbiega na nasze trzecie piętro po dwa schodki naraz i śmieje się, że ja za nią nie nadążam, wiem, że te 50 złotych za parę wkładek to była najlepsza decyzja zdrowotna, jaką podjęłam w tym roku.`,
-  },
+P.S.
 
-  'pl-10-krzywa-spodniczka-apel': {
-    headline: 'Myślałam, że krawcowa krzywo uszyła spódniczkę córki. Na bilansie w szkole przeżyłam szok',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka ( bez ryzyka)',
-    primaryText: `Podczas październikowego apelu w szkole podstawowej w Lublinie stałam w rzędzie dla rodziców pod ścianą sali gimnastycznej i chyba pięć razy podchodziłam do mojej dziewięcioletniej Zosi, żeby przekręcić jej granatową spódniczkę galową z powrotem na środek.
+Dwa dni temu wyrzuciłam do kosza te dwie szare opaski na kolana z apteki za 110 złotych.
+
+Kiedy widzę, jak moja córka znów zbiega i wbiega na nasze trzecie piętro po dwa schodki naraz i śmieje się, że ja za nią nie nadążam, wiem, że te 50 złotych za parę wkładek to była najlepsza decyzja zdrowotna, jaką podjęłam w tym roku.`,
+ },
+
+ 'pl-10-krzywa-spodniczka-apel': {
+ headline: 'Myślałam, że krawcowa krzywo uszyła spódniczkę córki. Na bilansie w szkole przeżyłam szok',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni na test bez ryzyka ( bez ryzyka)',
+ primaryText: `Podczas październikowego apelu w szkole podstawowej w Lublinie stałam w rzędzie dla rodziców pod ścianą sali gimnastycznej i chyba pięć razy podchodziłam do mojej dziewięcioletniej Zosi, żeby przekręcić jej granatową spódniczkę galową z powrotem na środek.
 
 Za każdym razem, kiedy Zosia zrobiła kilkanaście kroków albo przestąpiła z nogi na nogę podczas śpiewania hymnu, gumka w pasie zjeżdżała jej w dół po prawej stronie, zamek błyskawiczny wędrował na brzuch, a plisy układały się krzywo nad kolanami.
 
@@ -449,17 +461,21 @@ Na oficjalnej stronie producenta jest teraz dostępny pakiet 1+1 GRATIS, w któr
 
 Dwie pary w pakiecie rozwiązują cały problem jesieni i zimy, bo jedną parę wkładamy do butów zimowych, a drugą na stałe do butów szkolnych na zmianę, dzięki czemu miednica i kręgosłup dziecka mają prosty fundament przez pełne 14 godzin dnia.
 
-Dodatkowo masz pełne 30 dni gwarancji zwrotu - możesz włożyć wkładki do butów,  w butach dziecka przez miesiąc i jeśli nie zobaczysz poprawy postawy, odsyłasz je i odzyskujesz 100% pieniędzy.
+Dodatkowo masz pełne 30 dni gwarancji zwrotu - możesz włożyć wkładki do butów, w butach dziecka przez miesiąc i jeśli nie zobaczysz poprawy postawy, odsyłasz je i odzyskujesz 100% pieniędzy.
 
 Tutaj wklejam link do pakietu 1+1 na oficjalnej stronie: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Ten piszczący pajączek na plecy za 129 złotych leży dziś głęboko na dnie szuflady. Kiedy patrzę, jak moja Zosia stoi prosto przed lustrem w swojej spódniczce, a jej oba ramiona są wreszcie na jednej wysokości, dziękuję Bogu, że szkolna pielęgniarka i mądry fizjoterapeuta kazali nam spojrzeć na jej stopy, zanim zamknęło się okno wzrostowe.`,
-  },
+P.S.
 
-  'pl-11-telefon-od-wuefistki': {
-    headline: 'Myślałam, że córka symuluje, żeby nie ćwiczyć na WF-ie. Telefon od wuefistki wbił mnie w ziemię',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Przez cały wrzesień i październik byłam święcie przekonana, że moja dziewięcioletnia Zosia po prostu kombinuje i szuka wymówek, żeby nie ćwiczyć na WF-ie.
+Ten piszczący pajączek na plecy za 129 złotych leży dziś głęboko na dnie szuflady.
+
+Kiedy patrzę, jak moja Zosia stoi prosto przed lustrem w swojej spódniczce, a jej oba ramiona są wreszcie na jednej wysokości, dziękuję Bogu, że szkolna pielęgniarka i mądry fizjoterapeuta kazali nam spojrzeć na jej stopy, zanim zamknęło się okno wzrostowe.`,
+ },
+
+ 'pl-11-telefon-od-wuefistki': {
+ headline: 'Myślałam, że córka symuluje, żeby nie ćwiczyć na WF-ie. Telefon od wuefistki wbił mnie w ziemię',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Przez cały wrzesień i październik byłam święcie przekonana, że moja dziewięcioletnia Zosia po prostu kombinuje i szuka wymówek, żeby nie ćwiczyć na WF-ie.
 
 W każdy wtorek i czwartek rano, dokładnie w te dni, kiedy w planie lekcji miała dwie godziny wychowania fizycznego pod rząd, przy śniadaniu zaczynał się ten sam koncert: „Mamo, kłuje mnie brzuch, bolą mnie nogi, napisz mi proszę zwolnienie chociaż na dzisiaj".
 
@@ -563,17 +579,21 @@ Na oficjalnej stronie producenta jest teraz pakiet 1+1 GRATIS, w którym za 99,9
 
 Dwie pary w pakiecie to strzał w dziesiątkę na jesień i zimę: jedną parę włożyliśmy do butów szkolnych i na WF, a drugą do butów zimowych, więc stopy Zosi są ustawione w pionie przez wszystkie 14 godzin dnia i 7000 kroków.
 
-Na wszystko masz 30 dni gwarancji zwrotu bez żadnego ryzyka - możesz włożyć wkładki do butów,  w szkole, a jeśli dziecko nie poczuje ulgi, odsyłasz je i dostajesz 100% pieniędzy z powrotem.
+Na wszystko masz 30 dni gwarancji zwrotu bez żadnego ryzyka - możesz włożyć wkładki do butów, w szkole, a jeśli dziecko nie poczuje ulgi, odsyłasz je i dostajesz 100% pieniędzy z powrotem.
 
 Link do oficjalnej strony z pakietem 1+1 zostawiam tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. W zeszłym tygodniu przeprosiłam moją córkę za wszystkie te poranki, kiedy myślałam, że udaje ból przed WF-em. Kiedy widzę dziś, jak sama wieczorem pakuje spodenki i koszulkę na gimnastykę, cieszę się, że wuefistka zadzwoniła do mnie tamtego dnia, a rozwiązanie okazało się tak proste.`,
-  },
+P.S.
 
-  'pl-12-wybierany-ostatni-do-druzyny': {
-    headline: '„Mamo, załatw mi zwolnienie z WF-u, bo wybierają mnie ostatniego". Te słowa syna złamały mi serce',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Kiedy w zeszłą środę po powrocie ze szkoły mój dziewięcioletni Tomek zamknął się na klucz w swoim pokoju, podszedł do drzwi i powiedział łamiącym się głosem: „Mamo, załatw mi proszę zwolnienie z WF-u do końca roku, bo chłopaki śmieją się, że biegam jak kaczuszka i kapitanowie zawsze wybierają mnie do drużyny na samym końcu", poczułam, jakby ktoś wymierzył mi cios prosto w brzuch.
+W zeszłym tygodniu przeprosiłam moją córkę za wszystkie te poranki, kiedy myślałam, że udaje ból przed WF-em.
+
+Kiedy widzę dziś, jak sama wieczorem pakuje spodenki i koszulkę na gimnastykę, cieszę się, że wuefistka zadzwoniła do mnie tamtego dnia, a rozwiązanie okazało się tak proste.`,
+ },
+
+ 'pl-12-wybierany-ostatni-do-druzyny': {
+ headline: '„Mamo, załatw mi zwolnienie z WF-u, bo wybierają mnie ostatniego". Te słowa syna złamały mi serce',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - 50 zł/para) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Kiedy w zeszłą środę po powrocie ze szkoły mój dziewięcioletni Tomek zamknął się na klucz w swoim pokoju, podszedł do drzwi i powiedział łamiącym się głosem: „Mamo, załatw mi proszę zwolnienie z WF-u do końca roku, bo chłopaki śmieją się, że biegam jak kaczuszka i kapitanowie zawsze wybierają mnie do drużyny na samym końcu", poczułam, jakby ktoś wymierzył mi cios prosto w brzuch.
 
 Stałam na korytarzu z kubkiem ciepłego kakao w dłoni, trzymałam fason i spokojnym głosem prosiłam go, żeby otworzył drzwi, ale kiedy w końcu zasnął wieczorem, poszłam do łazienki, odkręciłam wodę w kranie i pierwszy raz od dawna rozpłakałam się z bezsilności.
 
@@ -671,10 +691,14 @@ Na oficjalnej stronie producenta jest teraz pakiet 1+1 GRATIS, w którym dwie pa
 
 Dwie pary w zestawie są jesienią i zimą niezastąpione, bo jedną parę wkładamy na stałe do butów szkolnych i na WF, a drugą do butów zimowych, dzięki czemu stopy dziecka pracują prawidłowo przez pełne 14 godzin dnia.
 
-Do tego otrzymujesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz włożyć wkładki do butów,  biegać w nich przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz je i zwracają 100% pieniędzy.
+Do tego otrzymujesz 30 dni gwarancji zwrotu bez żadnego ryzyka: możesz włożyć wkładki do butów, biegać w nich przez miesiąc, a jeśli nie zobaczysz różnicy, odsyłasz je i zwracają 100% pieniędzy.
 
 Zostawiam link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wczoraj po południu wyglądałam przez okno kuchni i patrzyłam, jak Tomek sam z siebie woła chłopaków z klatki obok na boisko i biegnie za piłką lekko, równo i bez cienia wstydu. Żadne pieniądze nie są warte tyle, co odzyskane dzieciństwo i uśmiech syna, który nie musi już stać pod ścianą jako ostatni.`,
-  },
+P.S.
+
+Wczoraj po południu wyglądałam przez okno kuchni i patrzyłam, jak Tomek sam z siebie woła chłopaków z klatki obok na boisko i biegnie za piłką lekko, równo i bez cienia wstydu.
+
+Żadne pieniądze nie są warte tyle, co odzyskane dzieciństwo i uśmiech syna, który nie musi już stać pod ścianą jako ostatni.`,
+ },
 };

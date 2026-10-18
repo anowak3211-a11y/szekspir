@@ -1,8 +1,8 @@
 export const ANTKI_PL_COPY_PART3: Record<string, { headline: string; description: string; primaryText: string }> = {
-  'pl-13-odmowa-obozu-zimowego': {
-    headline: 'Wpłaciłam 900 zł zaliczki na wyjazd klasowy. Wieczorem córka powiedziała zdanie, po którym zamarłam',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - wychodzi 50 zł za parę) · 30 dni gwarancji zwrotu bez ryzyka',
-    primaryText: `Wpłaciłam 900 złotych bezzwrotnej zaliczki na zimowy obóz w górach z klasą mojej 10-letniej Zosi. Cały wrzesień i październik żyła tylko tym wyjazdem.
+ 'pl-13-odmowa-obozu-zimowego': {
+ headline: 'Wpłaciłam 900 zł zaliczki na wyjazd klasowy. Wieczorem córka powiedziała zdanie, po którym zamarłam',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł - wychodzi 50 zł za parę) · 30 dni gwarancji zwrotu bez ryzyka',
+ primaryText: `Wpłaciłam 900 złotych bezzwrotnej zaliczki na zimowy obóz w górach z klasą mojej 10-letniej Zosi. Cały wrzesień i październik żyła tylko tym wyjazdem.
 
 Odliczała dni w kalendarzu na ścianie, bo miały jechać jej dwie najlepsze przyjaciółki z ławki i miały spać razem w jednym pokoju w pensjonacie pod Zakopanem.
 
@@ -97,7 +97,21 @@ Kręgosłup wygina się w łuk
 ↓
 Mięśnie piszczelowe, więzadła i kolana przyjmują całe przeciążenie
 
-„Jesienią i zimą dzieci nie biegają już po trawie czy piasku" - kontynuował fizjoterapeuta. „Od października Zosia spędza 14 godzin dziennie na płaskiej, twardej jak skała nawierzchni: 8 godzin na szkolnym betonie i 6 godzin w domu na panelach. Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie. Przy każdym z tych 7000 kroków jej mięsień piszczelowy jest rozciągany jak guma w procy, bo próbuje ratować uciekającą kostkę. Na górskim szlaku pod ciężarem plecaka ten ból robi się nie do zniesienia po czterdziestu minutach. Macie teraz ostatni dzwonek - u dziewczynek okno wzrostowe zamyka się w wieku 12-13 lat. Póki chrząstki są plastyczne, możemy wyprowadzić stopy dynamicznie. Kiedy kości stwardnieją, zostanie tylko stół operacyjny".
+„Jesienią i zimą dzieci nie biegają już po trawie czy piasku" - kontynuował fizjoterapeuta.
+
+„Od października Zosia spędza 14 godzin dziennie na płaskiej, twardej jak skała nawierzchni: 8 godzin na szkolnym betonie i 6 godzin w domu na panelach.
+
+Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie.
+
+Przy każdym z tych 7000 kroków jej mięsień piszczelowy jest rozciągany jak guma w procy, bo próbuje ratować uciekającą kostkę.
+
+Na górskim szlaku pod ciężarem plecaka ten ból robi się nie do zniesienia po czterdziestu minutach.
+
+Macie teraz ostatni dzwonek - u dziewczynek okno wzrostowe zamyka się w wieku 12-13 lat.
+
+Póki chrząstki są plastyczne, możemy wyprowadzić stopy dynamicznie.
+
+Kiedy kości stwardnieją, zostanie tylko stół operacyjny".
 
 Wróciłam do domu przerażona, ale wreszcie wiedziałam, z czym walczę. Do północy siedziałam na forum dla rodziców i na grupie mam z Katowic, szukając profilowanych wkładek, które nie są sztywnym gipsem za 400 złotych.
 
@@ -151,13 +165,19 @@ Zostawiam Wam link do oficjalnej strony z pakietem 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. W zeszłym tygodniu Zosia wróciła z gór. Przysłała mi zdjęcie ze szlaku w Dolinie Kościeliskiej - stoi na samym przodzie grupy z obiema przyjaciółkami, uśmiechnięta od ucha do ucha. Te 99,99 złotych uratowało nie tylko jej kolana i nasze 900 złotych zaliczki, ale przede wszystkim jej dziecięcą pewność siebie.`
-  },
+P.S.
 
-  'pl-14-wstyd-w-szatni-buty': {
-    headline: 'Wydałam 450 zł na buty ortopedyczne dla córki. Wychowawczyni powiedziała mi, co Kasia robi z nimi w szatni',
-    description: 'Niewidzialna korekcja w zwykłych butach · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
-    primaryText: `Wydałam 450 złotych w sklepie medycznym na wysokie, sztywne trzewiki ortopedyczne z obcasem Thomasa i podklejanym od spodu klinem dla mojej 9-letniej Kasi.
+W zeszłym tygodniu Zosia wróciła z gór.
+
+Przysłała mi zdjęcie ze szlaku w Dolinie Kościeliskiej - stoi na samym przodzie grupy z obiema przyjaciółkami, uśmiechnięta od ucha do ucha.
+
+Te 99,99 złotych uratowało nie tylko jej kolana i nasze 900 złotych zaliczki, ale przede wszystkim jej dziecięcą pewność siebie.`
+ },
+
+ 'pl-14-wstyd-w-szatni-buty': {
+ headline: 'Wydałam 450 zł na buty ortopedyczne dla córki. Wychowawczyni powiedziała mi, co Kasia robi z nimi w szatni',
+ description: 'Niewidzialna korekcja w zwykłych butach · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ primaryText: `Wydałam 450 złotych w sklepie medycznym na wysokie, sztywne trzewiki ortopedyczne z obcasem Thomasa i podklejanym od spodu klinem dla mojej 9-letniej Kasi.
 
 Kupiłam je jeszcze tego samego dnia, w którym starszy ortopeda w przychodni na NFZ rzucił okiem na jej pięty przez dwie minuty i postraszył mnie, że jeśli natychmiast nie zamkniemy kostki w wysokim, twardym bucie, to za trzy lata Kasia skończy w gorsecie na skoliozę.
 
@@ -169,7 +189,13 @@ Po dwóch tygodniach poszłam wieczorem na zebranie z rodzicami. Kiedy wszyscy w
 
 Spojrzała na mnie z troską i powiedziała coś, od czego zrobiło mi się gorąco ze wstydu i żalu:
 
-„Pani Małgosiu, nie wiem, czy pani o tym wie... Ale Kasia rano po wejściu do szatni w ogóle nie zakłada tych wysokich butów. Chowa je głęboko za zimowymi kurtkami w swoim boksie i przez 7 godzin chodzi po zimnym szkolnym korytarzu oraz do świetlicy w samych skarpetkach. Kiedy zapytałam ją dzisiaj na przerwie dlaczego, rozpłakała się w łazience".
+„Pani Małgosiu, nie wiem, czy pani o tym wie...
+
+Ale Kasia rano po wejściu do szatni w ogóle nie zakłada tych wysokich butów.
+
+Chowa je głęboko za zimowymi kurtkami w swoim boksie i przez 7 godzin chodzi po zimnym szkolnym korytarzu oraz do świetlicy w samych skarpetkach.
+
+Kiedy zapytałam ją dzisiaj na przerwie dlaczego, rozpłakała się w łazience".
 
 Kiedy wróciłam do domu i weszłam do pokoju córki, Kasia skuliła się na dywanie.
 
@@ -217,7 +243,15 @@ Razem: 830 złotych wydanych z domowego budżetu, a Kasia dalej chodziła z wykr
 
 Przełom nastąpił właśnie w gabinecie tego młodego fizjoterapeuty. Kiedy postawiłam na jego biurku te sztywne trzewiki za 450 złotych, tylko pokiwał głową z politowaniem.
 
-„Pani Małgosiu, niech pani schowa te buciska na dno szafy" - powiedział wprost. „W polskiej ortopedii z czasów PRL-u pokutuje mit, że jak kostka ucieka do środka, to trzeba ją zabetonować w wysokim, sztywnym bucie za kostkę. Tylko że wysoki, twardy trzewik działa na stopę dziecka dokładnie jak but narciarski albo szyna gipsowa! Unieruchamia staw skokowy i całkowicie wyłącza mięśnie z pracy. A aparat ruchu najlepiej działa będąc w ruchu!".
+„Pani Małgosiu, niech pani schowa te buciska na dno szafy" - powiedział wprost.
+
+„W polskiej ortopedii z czasów PRL-u pokutuje mit, że jak kostka ucieka do środka, to trzeba ją zabetonować w wysokim, sztywnym bucie za kostkę.
+
+Tylko że wysoki, twardy trzewik działa na stopę dziecka dokładnie jak but narciarski albo szyna gipsowa!
+
+Unieruchamia staw skokowy i całkowicie wyłącza mięśnie z pracy.
+
+A aparat ruchu najlepiej działa będąc w ruchu!".
 
 Poprosił Kasię, żeby stanęła boso na macie, ukląkł za nią i zrobił zdjęcie jej pięt z poziomu podłogi.
 
@@ -237,7 +271,19 @@ Biodra i miednica uciekają do przodu
 ↓
 Kręgosłup wygina się, powodując asymetrię łopatek i barków
 
-„Jesienią i zimą dzieci nie chodzą boso po trawie ani po piasku" - dodał fizjoterapeuta. „Od października Kasia spędza 14 godzin dziennie na płaskim betonie w szkole i twardych panelach w domu. Robi na tym betonie 7000 kroków dziennie, czyli ponad 200 000 kroków w miesiącu! Jeśli zamknie pani jej stopę w sztywnym bucie, mięśnie zanikną. Jeśli puści ją pani w płaskich kapciach albo skarpetkach, beton zmiażdży jej łuki. Macie czas tylko do 12-13 roku życia, zanim zamkną się chrząstki wzrostowe. Kasia potrzebuje sprężystej wkładki, która schowa się w jej ulubionych, normalnych butach i będzie pracować jak sprężyna przy każdym kroku".
+„Jesienią i zimą dzieci nie chodzą boso po trawie ani po piasku" - dodał fizjoterapeuta.
+
+„Od października Kasia spędza 14 godzin dziennie na płaskim betonie w szkole i twardych panelach w domu.
+
+Robi na tym betonie 7000 kroków dziennie, czyli ponad 200 000 kroków w miesiącu!
+
+Jeśli zamknie pani jej stopę w sztywnym bucie, mięśnie zanikną.
+
+Jeśli puści ją pani w płaskich kapciach albo skarpetkach, beton zmiażdży jej łuki.
+
+Macie czas tylko do 12-13 roku życia, zanim zamkną się chrząstki wzrostowe.
+
+Kasia potrzebuje sprężystej wkładki, która schowa się w jej ulubionych, normalnych butach i będzie pracować jak sprężyna przy każdym kroku".
 
 Tego samego wieczoru napisałam post na grupie facebookowej mam z Torunia. Zapytałam wprost, co wkładają dzieciom do zwykłych butów zamiast tych obciachowych trzewików.
 
@@ -284,12 +330,12 @@ Link do oficjalnej oferty 1+1 zostawiam tutaj:
 👉 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Wczoraj Kasia sama poprosiła mnie, żebym zapisała ją na szkolne zawody w dwa ognie. Widok własnego dziecka, które wbiega do szatni bez wstydu i bez bólu, jest wart każdych pieniędzy - a tutaj kosztował nas dokładnie 50 złotych za parę.`
-  },
+ },
 
-  'pl-15-zwolnienie-z-wf-u-jesien': {
-    headline: 'Poszłam tylko po zwolnienie z WF-u dla córki. Lekarz spojrzał na jej nogi i powiedział zdanie, które mną wstrząsnęło',
-    description: 'Dlaczego zwolnienie z WF-u pogłębia koślawość? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
-    primaryText: `Poszłam w czwartek po południu do naszej przychodni tylko po jedną rzecz: chciałam przedłużyć mojej 9-letniej Zosi zwolnienie z WF-u na cały semestr zimowy.
+ 'pl-15-zwolnienie-z-wf-u-jesien': {
+ headline: 'Poszłam tylko po zwolnienie z WF-u dla córki. Lekarz spojrzał na jej nogi i powiedział zdanie, które mną wstrząsnęło',
+ description: 'Dlaczego zwolnienie z WF-u pogłębia koślawość? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ primaryText: `Poszłam w czwartek po południu do naszej przychodni tylko po jedną rzecz: chciałam przedłużyć mojej 9-letniej Zosi zwolnienie z WF-u na cały semestr zimowy.
 
 Byłam święcie przekonana, że jestem dobrą, troskliwą mamą, która chroni własne dziecko przed bólem kolan i upokorzeniem na sali gimnastycznej.
 
@@ -327,7 +373,11 @@ Jej kostki nie stały prosto - wykrzywiał jej się cały wewnętrzny bok stopy 
 
 Przez to kolana Zosi kleiły się do siebie w wyraźny kształt litery X, a między kostkami przy złączonych kolanach była dziura na trzy palce.
 
-„Proszę na mnie nie gniewać, ale nie podpiszę pani tego zwolnienia" - powiedział lekarz, patrząc mi prosto w oczy. „Sadzanie dziewięciolatki na ławce rezerwowych na całą zimę, podczas gdy jej stopy walą się do środka pod kątem 12 stopni, to nie jest ochrona dziecka. To jest wyrok, który za trzy lata zaprowadzi ją prosto na stół operacyjny na wkręcanie śrub w kolana".
+„Proszę na mnie nie gniewać, ale nie podpiszę pani tego zwolnienia" - powiedział lekarz, patrząc mi prosto w oczy.
+
+„Sadzanie dziewięciolatki na ławce rezerwowych na całą zimę, podczas gdy jej stopy walą się do środka pod kątem 12 stopni, to nie jest ochrona dziecka.
+
+To jest wyrok, który za trzy lata zaprowadzi ją prosto na stół operacyjny na wkręcanie śrub w kolana".
 
 Poczułam, jak pieką mnie policzki. Przez kolejne 7 dni po tej wizycie nie mogłam przestać patrzeć na to, jak Zosia porusza się po domu.
 
@@ -359,7 +409,19 @@ W tamten czwartek w gabinecie młody lekarz zrobił coś, czego nie zrobił nikt
 
 W ułamku sekundy pięty stanęły pionowo, kolana odkleiły się od siebie, a dziura między kostkami zniknęła.
 
-„Widzi pani?" - zapytał. „U Zosi kolana są całkowicie zdrowe na zdjęciu! Kolano boli tylko dlatego, że jest zakładnikiem stopy. Kość nie boli w nocy od samego rośnięcia. Boli mięsień piszczelowy i więzadła rzepki, które przez cały dzień są rozciągane jak guma w procy, bo próbują utrzymać uciekającą pod kątem 12 stopni kostkę. Dopiero w nocy, kiedy ciało dziecka stygnie pod kołdrą, przeciążone tkanki zaczynają pulsować".
+„Widzi pani?"
+
+- zapytał.
+
+„U Zosi kolana są całkowicie zdrowe na zdjęciu!
+
+Kolano boli tylko dlatego, że jest zakładnikiem stopy.
+
+Kość nie boli w nocy od samego rośnięcia.
+
+Boli mięsień piszczelowy i więzadła rzepki, które przez cały dzień są rozciągane jak guma w procy, bo próbują utrzymać uciekającą pod kątem 12 stopni kostkę.
+
+Dopiero w nocy, kiedy ciało dziecka stygnie pod kołdrą, przeciążone tkanki zaczynają pulsować".
 
 Rozrysował mi na recepcie cały łańcuch kompensacji:
 
@@ -373,7 +435,19 @@ Biodra i miednica rotują do przodu
 ↓
 Kręgosłup i kolana przyjmują całe uderzenie o podłoże
 
-„Zwolnienie z WF-u to pułapka" - wytłumaczył mi. „Bo nawet jak posadzi pani Zosię na ławce na 45 minut lekcji, to jesienią i zimą dzieci nie biegają już po trawie i piasku. Od października Zosia spędza 14 godzin dziennie na płaskim betonie w szkole i twardych panelach w domu! Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie. Jeśli przy każdym z tych 7000 kroków stopa nie ma sprężystego podparcia, wada pogłębia się z każdym tygodniem. A u dziewczynek okno wzrostowe zamyka się około 12-13 roku życia. Macie teraz ostatnie dwa lata, kiedy kości i więzadła są plastyczne".
+„Zwolnienie z WF-u to pułapka" - wytłumaczył mi.
+
+„Bo nawet jak posadzi pani Zosię na ławce na 45 minut lekcji, to jesienią i zimą dzieci nie biegają już po trawie i piasku.
+
+Od października Zosia spędza 14 godzin dziennie na płaskim betonie w szkole i twardych panelach w domu!
+
+Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie.
+
+Jeśli przy każdym z tych 7000 kroków stopa nie ma sprężystego podparcia, wada pogłębia się z każdym tygodniem.
+
+A u dziewczynek okno wzrostowe zamyka się około 12-13 roku życia.
+
+Macie teraz ostatnie dwa lata, kiedy kości i więzadła są plastyczne".
 
 Tego samego wieczoru usiadłam do komputera i weszłam na forum ortopedyczne dla rodziców. Szukałam wkładek profilowanych, o których mówił lekarz - takich, które nie unieruchamiają stopy jak gips, tylko pracują w ruchu.
 
@@ -414,12 +488,12 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 👉 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Tamtego papierka ze zwolnieniem z WF-u nigdy nie zaniosłam do szkoły. Dziś Zosia sama pakuje strój gimnastyczny wieczorem przed snem, a ja wiem, że zdążyłyśmy przed zamknięciem okna wzrostowego.`
-  },
+ },
 
-  'pl-16-wojna-o-dywan-19-30': {
-    headline: 'Mój 8-letni syn miał nałożyć kaszę do obiadu, a rzucił nią o ścianę. Prawda o domowych ćwiczeniach stóp',
-    description: 'Dlaczego 15 minut ćwiczeń przegrywa z 14h na betonie? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
-    primaryText: `„Nienawidzę Cię, mamo! Nienawidzę tych głupich ćwiczeń!" - krzyknął mój 8-letni Kuba, rzucił woreczkiem z surową kaszą gryczaną o kafelki nad blatem w kuchni, po czym wybiegł z korytarza i z całej siły zatrzasnął drzwi do swojego pokoju.
+ 'pl-16-wojna-o-dywan-19-30': {
+ headline: 'Mój 8-letni syn miał nałożyć kaszę do obiadu, a rzucił nią o ścianę. Prawda o domowych ćwiczeniach stóp',
+ description: 'Dlaczego 15 minut ćwiczeń przegrywa z 14h na betonie? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ primaryText: `„Nienawidzę Cię, mamo! Nienawidzę tych głupich ćwiczeń!" - krzyknął mój 8-letni Kuba, rzucił woreczkiem z surową kaszą gryczaną o kafelki nad blatem w kuchni, po czym wybiegł z korytarza i z całej siły zatrzasnął drzwi do swojego pokoju.
 
 Miał tylko wyjąć kaszę z szafki i podać mi ją do garnka, kiedy wróciliśmy zmęczeni do domu po pracy i szkole. Ale kiedy zobaczył w dłoni ten biały, foliowy woreczek, puściły mu wszystkie nerwy.
 
@@ -494,7 +568,21 @@ Miednica i biodra rotują do przodu
 ↓
 Mięśnie piszczelowe i kręgosłup przyjmują całe przeciążenie
 
-„A teraz proszę policzyć razem ze mną" - powiedział fizjoterapeuta. „Latem dziecko chociaż godzinę pobiega po trawie, piasku czy korzeniach w lesie. Ale od października do kwietnia dzieci w Polsce nie wychodzą prawie na dwór! Kuba wstaje rano i spędza 14 godzin dziennie na płaskiej, twardej jak skała nawierzchni: 8 godzin na szkolnym betonie i 6 godzin w domu na panelach i kafelkach. Przez te 14 godzin robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie! Nawet gdyby Kuba był aniołem i grzecznie turlał kaszę przez 15 minut wieczorem, to zrobi na dywanie maksymalnie 100 powtórzeń. 100 powtórzeń na dywanie NIGDY nie wygra z 7000 krzywych kroków na betonie! Macie czas do 12-13 roku życia, zanim zamkną się chrząstki wzrostowe. Zamiast walczyć z synem przez 15 minut wieczorem, musi pani sprawić, żeby te 7000 kroków w ciągu dnia samo ćwiczyło jego stopę".
+„A teraz proszę policzyć razem ze mną" - powiedział fizjoterapeuta.
+
+„Latem dziecko chociaż godzinę pobiega po trawie, piasku czy korzeniach w lesie.
+
+Ale od października do kwietnia dzieci w Polsce nie wychodzą prawie na dwór!
+
+Kuba wstaje rano i spędza 14 godzin dziennie na płaskiej, twardej jak skała nawierzchni: 8 godzin na szkolnym betonie i 6 godzin w domu na panelach i kafelkach.
+
+Przez te 14 godzin robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie!
+
+Nawet gdyby Kuba był aniołem i grzecznie turlał kaszę przez 15 minut wieczorem, to zrobi na dywanie maksymalnie 100 powtórzeń. 100 powtórzeń na dywanie NIGDY nie wygra z 7000 krzywych kroków na betonie!
+
+Macie czas do 12-13 roku życia, zanim zamkną się chrząstki wzrostowe.
+
+Zamiast walczyć z synem przez 15 minut wieczorem, musi pani sprawić, żeby te 7000 kroków w ciągu dnia samo ćwiczyło jego stopę".
 
 Tego samego wieczoru weszłam na grupę na Facebooku „Mamy dzieci z koślawością i płaskostopiem" i opisałam to, co usłyszałam w gabinecie.
 
@@ -543,12 +631,12 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 👉 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Dziś kasza gryczana w naszej kuchni służy już wyłącznie do gotowania obiadu. Odzyskałam uśmiech mojego ośmioletniego syna, spokojne wieczory w domu i pewność, że jego nogi prostują się z każdym krokiem, który stawia w szkole.`
-  },
+ },
 
-  'pl-17-worek-ze-szkolnymi-kapciami': {
-    headline: 'Od października nasze dzieci spędzają 14 godzin dziennie na betonie i panelach. Spojrzałam na buty córki w szatni',
-    description: 'Dlaczego zimą koślawość przyspiesza 2x szybciej? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
-    primaryText: `W zeszły piątek po południu podczas wywiadówki zeszłam na chwilę do podziemi naszej szkoły podstawowej, żeby zabrać do wyprania buty zmieniane mojej 9-letniej Zosi.
+ 'pl-17-worek-ze-szkolnymi-kapciami': {
+ headline: 'Od października nasze dzieci spędzają 14 godzin dziennie na betonie i panelach. Spojrzałam na buty córki w szatni',
+ description: 'Dlaczego zimą koślawość przyspiesza 2x szybciej? · Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test',
+ primaryText: `W zeszły piątek po południu podczas wywiadówki zeszłam na chwilę do podziemi naszej szkoły podstawowej, żeby zabrać do wyprania buty zmieniane mojej 9-letniej Zosi.
 
 Podeszłam do jej boksu w szatni, sięgnęłam na dolną półkę i wzięłam te granatowe tenisówki do ręki.
 
@@ -622,7 +710,25 @@ Biodra i miednica rotują do przodu
 ↓
 Kręgosłup i mięśnie piszczelowe przyjmują całe przeciążenie
 
-„Dlaczego jesienią i zimą wada przyspiesza dwa razy szybciej niż latem?" - zapytała mnie fizjoterapeutka. „Bo natura zaprojektowała ludzką stopę do chodzenia po ziemi, trawie i piasku, które delikatnie uginają się i podpierają łuk stopy od spodu. Tymczasem od października do kwietnia nasze dzieci żyją w betonowej klatce. Zosia spędza 8 godzin dziennie na betonowej posadzce w szkole i kolejne 6 godzin w domu na twardych panelach oraz kafelkach. To pełne 14 godzin dziennie na betonie i desce! W tym czasie robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie. Przy każdym z tych 200 000 uderzeń o twardą podłogę jej łuk stopy jest wgniatany w ziemię. Macie czas tylko do 12-13 roku życia, zanim u dziewczynek zamkną się chrząstki wzrostowe. Jeśli nie dacie stopie dynamicznego podłoża w bucie na te 14 godzin, kości utrwalą się w tym skrzywieniu na całe życie".
+„Dlaczego jesienią i zimą wada przyspiesza dwa razy szybciej niż latem?"
+
+- zapytała mnie fizjoterapeutka.
+
+„Bo natura zaprojektowała ludzką stopę do chodzenia po ziemi, trawie i piasku, które delikatnie uginają się i podpierają łuk stopy od spodu.
+
+Tymczasem od października do kwietnia nasze dzieci żyją w betonowej klatce.
+
+Zosia spędza 8 godzin dziennie na betonowej posadzce w szkole i kolejne 6 godzin w domu na twardych panelach oraz kafelkach.
+
+To pełne 14 godzin dziennie na betonie i desce!
+
+W tym czasie robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie.
+
+Przy każdym z tych 200 000 uderzeń o twardą podłogę jej łuk stopy jest wgniatany w ziemię.
+
+Macie czas tylko do 12-13 roku życia, zanim u dziewczynek zamkną się chrząstki wzrostowe.
+
+Jeśli nie dacie stopie dynamicznego podłoża w bucie na te 14 godzin, kości utrwalą się w tym skrzywieniu na całe życie".
 
 Wtedy przypomniałam sobie rozmowę pod szatnią. Tamta mama z trzeciej klasy wyjęła wtedy telefon i pokazała mi post z grupy rodziców w Poznaniu o pakiecie 1+1 profilowanych wkładek Orthomax StepMax.
 
@@ -663,12 +769,12 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 👉 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Wczoraj pierwszy raz w życiu odłożyłam jesienne buty Zosi do szafy dla jej młodszej siostry - po dwóch miesiącach noszenia z wkładkami wyglądają jak nowe. Ale najcenniejsze jest to, że jej stopy i kolana są bezpieczne przez wszystkie 14 godzin dnia.`
-  },
+ },
 
-  'pl-18-mit-gipsu-sztywne-wkladki': {
-    headline: 'Zapłaciłam 380 zł za twarde wkładki na zamówienie. Fizjoterapeuta postukał nimi o biurko i kazał wyrzucić',
-    description: 'Sztywna skorupa za 380 zł co pół roku vs Dynamiczna sprężyna StepMax (50 zł/para) · 30 dni na test',
-    primaryText: `Byłam w jednym miesiącu u dwóch różnych ortopedów z moją 10-letnią Kasią i usłyszałam dwie zupełnie sprzeczne diagnozy.
+ 'pl-18-mit-gipsu-sztywne-wkladki': {
+ headline: 'Zapłaciłam 380 zł za twarde wkładki na zamówienie. Fizjoterapeuta postukał nimi o biurko i kazał wyrzucić',
+ description: 'Sztywna skorupa za 380 zł co pół roku vs Dynamiczna sprężyna StepMax (50 zł/para) · 30 dni na test',
+ primaryText: `Byłam w jednym miesiącu u dwóch różnych ortopedów z moją 10-letnią Kasią i usłyszałam dwie zupełnie sprzeczne diagnozy.
 
 Pierwszy kazał natychmiast jechać do punktu ortopedycznego i wyrabiać twarde wkładki na wymiar za 380 złotych.
 
@@ -723,7 +829,17 @@ Razem: 980 złotych wydanych z domowego budżetu, a moja córka miała krwawe p�
 
 W gabinecie młody fizjoterapeuta wytłumaczył mi wreszcie, skąd bierze się ta odwieczna wojna między lekarzami na polskich forach i dlaczego połowa z nich mówi, że „wkładki rozleniwiają stopę".
 
-„Obaj lekarze mieli po części rację, ale mówili o technologii sprzed trzydziestu lat!" - wyjaśnił mi, pokazując twardą wkładkę z punktu. „Kiedy lekarz mówi, że wkładka rozleniwia mięśnie, ma na myśli właśnie tę sztywną, plastikową deskę. Jeśli podeprze pani łuk stopy twardym plastikiem, który w ogóle się nie ugina, to mięsień nie musi już wykonywać żadnej pracy. Kładzie się na tym plastiku jak na hamaku i po pół roku zanika, dokładnie tak jak ręka po wyjęciu z gipsu! Z kolei zostawienie dziecka całkiem bez wkładek na szkolnym betonie to druga skrajność, która miażdży stawy".
+„Obaj lekarze mieli po części rację, ale mówili o technologii sprzed trzydziestu lat!"
+
+- wyjaśnił mi, pokazując twardą wkładkę z punktu.
+
+„Kiedy lekarz mówi, że wkładka rozleniwia mięśnie, ma na myśli właśnie tę sztywną, plastikową deskę.
+
+Jeśli podeprze pani łuk stopy twardym plastikiem, który w ogóle się nie ugina, to mięsień nie musi już wykonywać żadnej pracy.
+
+Kładzie się na tym plastiku jak na hamaku i po pół roku zanika, dokładnie tak jak ręka po wyjęciu z gipsu!
+
+Z kolei zostawienie dziecka całkiem bez wkładek na szkolnym betonie to druga skrajność, która miażdży stawy".
 
 Kazał Kasi stanąć boso na podłodze, ukląkł za nią i zrobił zdjęcie jej pięt z poziomu podłogi. Pokazał mi na ekranie, że pięty Kasi walą się do środka pod kątem 12 stopni (przy zdrowej normie 5-7 stopni).
 
@@ -741,7 +857,19 @@ Miednica i biodra rotują do przodu
 ↓
 Kręgosłup wygina się w łuk, opuszczając jedno ramię
 
-„Aparat ruchu najlepiej działa będąc w ruchu!" - podkreślił fizjoterapeuta. „Od października do wiosny dzieci nie biegają po trawie ani piasku. Kasia spędza 14 godzin dziennie na płaskim szkolnym betonie i domowych panelach. Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie. U dziewczynek okno wzrostowe zamyka się w wieku 12-13 lat - zostały wam maksymalnie dwa lata, zanim kości stwardnieją na stałe. Kasia nie potrzebuje twardego gipsu za 380 złotych, tylko wkładki profilowaneJ, która ugina się i sprężynuje przy każdym z tych 7000 kroków, zmuszając jej własne mięśnie do pracy".
+„Aparat ruchu najlepiej działa będąc w ruchu!"
+
+- podkreślił fizjoterapeuta.
+
+„Od października do wiosny dzieci nie biegają po trawie ani piasku.
+
+Kasia spędza 14 godzin dziennie na płaskim szkolnym betonie i domowych panelach.
+
+Robi 7000 kroków dziennie, czyli ponad 200 000 kroków miesięcznie.
+
+U dziewczynek okno wzrostowe zamyka się w wieku 12-13 lat - zostały wam maksymalnie dwa lata, zanim kości stwardnieją na stałe.
+
+Kasia nie potrzebuje twardego gipsu za 380 złotych, tylko wkładki profilowaneJ, która ugina się i sprężynuje przy każdym z tych 7000 kroków, zmuszając jej własne mięśnie do pracy".
 
 Tego samego wieczoru weszłam na forum Gazeta.pl (emama) i na grupę rodziców z Trójmiasta. Szukałam dokładnie tego, o czym mówił fizjoterapeuta: profilowanych wkładek ze sprężystej pianki.
 
@@ -786,5 +914,5 @@ Zostawiam Wam link do oficjalnej strony z pakietem 1+1 tutaj:
 👉 https://orthomax.pl/products/orthomax-stepmax
 
 P.S. Tamte twarde skorupy za 380 złotych leżą dziś na dnie szuflady jako najdroższa nauczka w moim życiu. Jeśli u Waszego dziecka okno wzrostowe jest jeszcze otwarte - dajcie jego stopom dynamiczną sprężynę, zanim będzie za późno.`
-  }
+ }
 };

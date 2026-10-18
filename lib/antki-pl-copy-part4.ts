@@ -1,11 +1,11 @@
 export const ANTKI_PL_COPY_PART4: Record<
-  string,
-  { headline: string; description: string; primaryText: string }
+ string,
+ { headline: string; description: string; primaryText: string }
 > = {
-  'pl-19-gimnastyka-korekcyjna-fikcja': {
-    headline: 'Myślałam, że szkolna gimnastyka korekcyjna wystarczy. Na październikowej kontroli u ortopedy zaniemówiłam',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `Przez cały zeszły rok szkolny spałam spokojnie, bo miałam w głowie jedno magiczne zdanie: „Przecież Zosia chodzi na gimnastykę korekcyjną w szkole".
+ 'pl-19-gimnastyka-korekcyjna-fikcja': {
+ headline: 'Myślałam, że szkolna gimnastyka korekcyjna wystarczy. Na październikowej kontroli u ortopedy zaniemówiłam',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `Przez cały zeszły rok szkolny spałam spokojnie, bo miałam w głowie jedno magiczne zdanie: „Przecież Zosia chodzi na gimnastykę korekcyjną w szkole".
 
 Co tydzień w czwartek pakowałam mojej dziewięcioletniej córce strój na zajęcia wyrównawcze, podpisywałam listę obecności na wywiadówkach i czułam dumę, że jestem odpowiedzialną matką, która trzyma rękę na pulsie.
 
@@ -99,7 +99,7 @@ Kiedy kilka dni później wyjęłam charakterystyczne pomarańczowo-czarne wkła
 
 Do tego delikatne wypustki pobudzające na powierzchni cały czas bodźcują stopę, podczas gdy miękka warstwa pod piętą amortyzuje każde uderzenie o szkolny korytarz.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania  je do jej butów bez kupowania obuwia o rozmiar większego.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania je do jej butów bez kupowania obuwia o rozmiar większego.
 
 Nie oczekiwałam cudu w jeden dzień. Przez pierwsze trzy dni Zosia mówiła po szkole: „Mamo, trochę dziwnie, czuję taką sprężynkę pod stopą, ale nic mnie nie obciera".
 
@@ -125,13 +125,17 @@ Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego nos
 
 Sprawdź dostępne rozmiary w pakiecie 1+1 tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Dziś wieczorem, kiedy Twoje dziecko zaśnie, weź do ręki jego buty ze szkolnej szatni i spójrz na piętę od tyłu. Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.`,
-  },
+P.S.
 
-  'pl-20-okno-czasowe-12-lat': {
-    headline: 'Córka szwagierki ma 14 lat i czeka na operację kolan. Nam zostały 2 lata, zanim okno wzrostowe zamknie się na zawsze',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `W zeszłą niedzielę po południu na rodzinnym obiedzie u rodziców moja szwagierka zamknęła się w kuchni nad zlewem i zaczęła cicho płakać.
+Dziś wieczorem, kiedy Twoje dziecko zaśnie, weź do ręki jego buty ze szkolnej szatni i spójrz na piętę od tyłu.
+
+Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.`,
+ },
+
+ 'pl-20-okno-czasowe-12-lat': {
+ headline: 'Córka szwagierki ma 14 lat i czeka na operację kolan. Nam zostały 2 lata, zanim okno wzrostowe zamknie się na zawsze',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `W zeszłą niedzielę po południu na rodzinnym obiedzie u rodziców moja szwagierka zamknęła się w kuchni nad zlewem i zaczęła cicho płakać.
 
 Kiedy weszłam z talerzami i zapytałam, co się stało, wyjęła z torebki złożony na pół wypis z prywatnej kliniki ortopedycznej w Krakowie.
 
@@ -255,13 +259,19 @@ Zamawiając, niczym nie ryzykujesz, bo masz pełne 30 dni gwarancji zwrotu - naw
 
 Sprawdź pakiet 1+1 GRATIS i zabezpiecz stopy dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Czas między 8 a 12 rokiem życia mija jak mrugnięcie okiem. Zrób dziś wieczorem prosty test: postaw dziecko boso na dywanie i podnieś palcami łuki jego stóp. Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.`,
-  },
+P.S.
 
-  'pl-21-ryciak-rip3-ramie-v2': {
-    headline: 'Przez 3 miesiące leczyliśmy bolące ramię mojej 10-letniej córki. Fizjoterapeuta kazał jej zdjąć buty',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `Poszłam z moją dziesięcioletnią córką do fizjoterapeuty, bo od trzech miesięcy po powrocie ze szkoły skarżyła się na piekący ból prawego ramienia, a ja byłam święcie przekonana, że naciągnęła sobie bark od ciężkiego plecaka.
+Czas między 8 a 12 rokiem życia mija jak mrugnięcie okiem.
+
+Zrób dziś wieczorem prosty test: postaw dziecko boso na dywanie i podnieś palcami łuki jego stóp.
+
+Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.`,
+ },
+
+ 'pl-21-ryciak-rip3-ramie-v2': {
+ headline: 'Przez 3 miesiące leczyliśmy bolące ramię mojej 10-letniej córki. Fizjoterapeuta kazał jej zdjąć buty',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `Poszłam z moją dziesięcioletnią córką do fizjoterapeuty, bo od trzech miesięcy po powrocie ze szkoły skarżyła się na piekący ból prawego ramienia, a ja byłam święcie przekonana, że naciągnęła sobie bark od ciężkiego plecaka.
 
 Kiedy weszłyśmy do gabinetu, przygotowałam całą teczkę z historią naszego leczenia i pokazałam dokładnie miejsce przy prawej łopatce, które smarowałam jej dwa razy dziennie maścią przeciwzapalną.
 
@@ -401,13 +411,19 @@ Dodatkowo masz 30 dni gwarancji zwrotu bez ryzyka - nawet jeśli dziecko będzie
 
 Zamów pakiet 1+1 GRATIS z 30-dniową gwarancją tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Zrób ten 10-sekundowy test jeszcze dzisiaj: postaw dziecko boso przed sobą, spójrz na jego kolana i ramiona, a potem podnieś dłońmi łuki jego stóp od środka. Jeśli kolana się rozejdą, a barki wyrównają - już wiesz, że przyczyna jest na samym dole. Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.`,
-  },
+P.S.
 
-  'pl-22-ryciak-rip3-sor-kolano': {
-    headline: 'Pojechałyśmy wieczorem na izbę przyjęć z kolanem córki. Ortopeda dyżurny nawet nie dotknął jej kolana',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `W zeszły wtorek wieczorem siedziałam z moją dziesięcioletnią córką trzy bite godziny na zimnym plastikowym krzesełku wieczornej izby przyjęć w Gdańsku, bo po zupełnie zwykłym dniu w szkole Kasia nie mogła wyprostować prawego kolana.
+Zrób ten 10-sekundowy test jeszcze dzisiaj: postaw dziecko boso przed sobą, spójrz na jego kolana i ramiona, a potem podnieś dłońmi łuki jego stóp od środka.
+
+Jeśli kolana się rozejdą, a barki wyrównają - już wiesz, że przyczyna jest na samym dole.
+
+Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.`,
+ },
+
+ 'pl-22-ryciak-rip3-sor-kolano': {
+ headline: 'Pojechałyśmy wieczorem na izbę przyjęć z kolanem córki. Ortopeda dyżurny nawet nie dotknął jej kolana',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `W zeszły wtorek wieczorem siedziałam z moją dziesięcioletnią córką trzy bite godziny na zimnym plastikowym krzesełku wieczornej izby przyjęć w Gdańsku, bo po zupełnie zwykłym dniu w szkole Kasia nie mogła wyprostować prawego kolana.
 
 Nie spadła ze schodów, nikt nie sfaulował jej na boisku - po prostu wstała od biurka po odrabianiu lekcji, syknęła z bólu i jej noga zablokowała się pod kątem, a pod rzepką pojawił się obrzęk.
 
@@ -543,13 +559,17 @@ Masz też pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normaln
 
 Sprawdź pakiet 1+1 GRATIS i odciąż kolana swojego dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Zanim kupisz kolejną maść albo opaskę na kolano, postaw dziś wieczorem swoje dziecko boso na podłodze i podnieś palcami łuki jego stóp od środka. Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.`,
-  },
+P.S.
 
-  'pl-23-ryciak-rip3-biodro-i-plecy': {
-    headline: 'Upominałam córkę 10 razy dziennie, żeby się nie garbiła. W gabinecie zobaczyłam, dlaczego jej plecy nie mogły być proste',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `Przez cztery ostatnie miesiące przynajmniej dziesięć razy dziennie powtarzałam mojej dziesięcioletniej córce jak zdarta płyta: „Kasia, nie garb się!
+Zanim kupisz kolejną maść albo opaskę na kolano, postaw dziś wieczorem swoje dziecko boso na podłodze i podnieś palcami łuki jego stóp od środka.
+
+Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.`,
+ },
+
+ 'pl-23-ryciak-rip3-biodro-i-plecy': {
+ headline: 'Upominałam córkę 10 razy dziennie, żeby się nie garbiła. W gabinecie zobaczyłam, dlaczego jej plecy nie mogły być proste',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `Przez cztery ostatnie miesiące przynajmniej dziesięć razy dziennie powtarzałam mojej dziesięcioletniej córce jak zdarta płyta: „Kasia, nie garb się!
 
 Wyprostuj plecy, ściągnij łopatki!". Mówiłam to przy śniadaniu, podczas odrabiania lekcji i na niedzielnych spacerach po Gdyni, aż w końcu Kasia zaczęła na mój głos przewracać oczami i zamykać się w swoim pokoju.
 
@@ -646,7 +666,7 @@ Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęsto�
 
 Pod spodem wyprofilowany łuk działa przy każdym kroku jak dynamiczna trampolina, która unosi stopę i zmusza mięśnie do aktywnej pracy, a delikatne wypustki pobudzające na powierzchni cały czas stymulują receptory i przypominają ciału o prawidłowej osi, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o szkolny beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania  do zwykłych butów Kasi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do zwykłych butów Kasi.
 
 Przez pierwsze trzy dni Kasia mówiła po szkole: „Mamo, trochę dziwnie pod stopą, czuję takie podparcie od środka, ale jest wygodnie".
 
@@ -668,13 +688,17 @@ Masz przy tym 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego
 
 Sprawdź pakiet 1+1 GRATIS i wyrównaj postawę dziecka od fundamentów tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Zrób dziś wieczorem po kąpieli ten prosty test: postaw dziecko boso tyłem do siebie, spójrz na jego łopatki i lędźwie, a potem kucnij i podnieś dłońmi łuki jego stóp od środka. Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.`,
-  },
+P.S.
 
-  'pl-24-ryciak-rip3-bilans-10-latka': {
-    headline: 'Przez 4 lata słyszałam w przychodni: „Z płaskostopia się wyrasta". Zdjęcie rentgenowskie odebrało mi mowę',
-    description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
-    primaryText: `Gdy moja Zosia miała sześć lat i na bilansie w przychodni zapytałam z niepokojem o jej uciekające do środka kostki, pediatra nawet nie kazał jej zdjąć skarpetek - uśmiechnął się tylko znad karty i powiedział: „Mamo, z płaskostopia się wyrasta, proszę dać dziecku spokój".
+Zrób dziś wieczorem po kąpieli ten prosty test: postaw dziecko boso tyłem do siebie, spójrz na jego łopatki i lędźwie, a potem kucnij i podnieś dłońmi łuki jego stóp od środka.
+
+Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.`,
+ },
+
+ 'pl-24-ryciak-rip3-bilans-10-latka': {
+ headline: 'Przez 4 lata słyszałam w przychodni: „Z płaskostopia się wyrasta". Zdjęcie rentgenowskie odebrało mi mowę',
+ description: 'Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · 30 dni na test bez ryzyka',
+ primaryText: `Gdy moja Zosia miała sześć lat i na bilansie w przychodni zapytałam z niepokojem o jej uciekające do środka kostki, pediatra nawet nie kazał jej zdjąć skarpetek - uśmiechnął się tylko znad karty i powiedział: „Mamo, z płaskostopia się wyrasta, proszę dać dziecku spokój".
 
 Gdy Zosia miała osiem lat, usłyszałam w tym samym gabinecie: „Taka jej uroda, dziewczynki w tym wieku mają wiotkie stawy, wszystko się samo wyciągnie".
 
@@ -768,11 +792,13 @@ Tego samego wieczoru zamówiłam pakiet do domu. Kiedy wyjęłam wkładki Orthom
 
 Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która nie unieruchamia stopy jak gips, tylko pracuje z nią przy każdym kroku.
 
-Ich wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie dr. Ryciaka podczas testu, a podparcie łuku działa jak sprężyna, która odbija stopę w górę i zmusza mięśnie do aktywnej pracy przez wszystkie 7000 kroków dziennie.
+Ich wyprofilowane korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie dr.
+
+Ryciaka podczas testu, a podparcie łuku działa jak sprężyna, która odbija stopę w górę i zmusza mięśnie do aktywnej pracy przez wszystkie 7000 kroków dziennie.
 
 Na powierzchni znajdują się delikatne wypustki pobudzające receptory, a miękka warstwa pod piętą tłumi uderzenia o szkolny beton.
 
-Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania  do zwykłych butów Zosi.
+Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania do zwykłych butów Zosi.
 
 Przez pierwsze trzy dni Zosia mówiła: „Mamo, czuję pod stopą taką poduszeczkę od środka, trochę dziwnie, ale nic nie ciśnie".
 
@@ -798,6 +824,12 @@ Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego nos
 
 Sprawdź pakiet 1+1 GRATIS i zdąż przed zamknięciem okna wzrostowego tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Nie czekaj na kolejny bilans w przychodni, na którym znów usłyszysz to samo. Postaw dziś wieczorem swoje dziecko boso na dywanie, spójrz na jego pięty i kolana, a potem podnieś dłońmi łuki jego stóp od środka. Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.`,
-  },
+P.S.
+
+Nie czekaj na kolejny bilans w przychodni, na którym znów usłyszysz to samo.
+
+Postaw dziś wieczorem swoje dziecko boso na dywanie, spójrz na jego pięty i kolana, a potem podnieś dłońmi łuki jego stóp od środka.
+
+Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.`,
+ },
 };
