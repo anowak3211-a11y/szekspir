@@ -578,6 +578,8 @@ export default function AntkiPlPage() {
     [presets, pageName, destinationUrl],
   );
 
+  const [arrowKeyTarget, setArrowKeyTarget] = useState<'copy' | 'image'>('copy');
+
   const cycleAngleImage = useCallback(
     (angle: AntkiPlPresetAngle, delta: -1 | 1) => {
       const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
@@ -592,6 +594,71 @@ export default function AntkiPlPage() {
     },
     [imageLibrary, adByAngleId, assignImageToAngles],
   );
+
+  const cycleActiveCopy = useCallback(
+    (delta: -1 | 1) => {
+      if (!filteredPresets.length) return;
+      const idx = activeAngle ? filteredPresets.findIndex(p => p.id === activeAngle.id) : 0;
+      const nextIdx = idx < 0 ? 0 : (idx + delta + filteredPresets.length) % filteredPresets.length;
+      const next = filteredPresets[nextIdx];
+      if (next) {
+        setActiveAngleId(next.id);
+        setTimeout(() => {
+          document.getElementById(`antek-card-${next.id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }, 0);
+      }
+    },
+    [filteredPresets, activeAngle],
+  );
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tag = target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable) {
+          return;
+        }
+      }
+
+      if (lightboxAsset) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          setLightboxAsset(null);
+          return;
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
+          const idx = pool.findIndex(item => item.url === lightboxAsset.url);
+          const delta = e.key === 'ArrowRight' ? 1 : -1;
+          const next = pool[(idx + delta + pool.length) % pool.length];
+          if (next) setLightboxAsset(next);
+          return;
+        }
+      }
+
+      if (!activeAngle) return;
+
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const delta: -1 | 1 = e.key === 'ArrowRight' ? 1 : -1;
+        const switchImage = e.shiftKey ? arrowKeyTarget === 'copy' : arrowKeyTarget === 'image';
+        if (switchImage) {
+          cycleAngleImage(activeAngle, delta);
+        } else {
+          cycleActiveCopy(delta);
+        }
+      } else if (e.key === '[' || e.key === ']') {
+        e.preventDefault();
+        cycleAngleImage(activeAngle, e.key === ']' ? 1 : -1);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [activeAngle, arrowKeyTarget, cycleActiveCopy, cycleAngleImage, imageLibrary, lightboxAsset]);
 
   const syncToMetaCc35 = useCallback(async () => {
     setSyncingMetaCc35(true);
@@ -1691,6 +1758,7 @@ export default function AntkiPlPage() {
 
               return (
                 <article
+                  id={`antek-card-${angle.id}`}
                   key={angle.id}
                   onClick={() => setActiveAngleId(angle.id)}
                   style={{
@@ -2020,7 +2088,7 @@ export default function AntkiPlPage() {
             <p style={{ color: 'var(--muted)' }}>Wybierz kąt z listy po lewej stronie.</p>
           ) : (
             <>
-              {/* PASEK 1-KLIK DO PRZEŁĄCZANIA COPY (#1 - #35) OD RAZU W PODGLĄDZIE PORADY MAMY GOSI */}
+              {/* PASEK 1-KLIK + NAWIGACJA STRZAŁKAMI KLAWIATURY (← / →) */}
               <div
                 style={{
                   marginBottom: 12,
@@ -2028,84 +2096,130 @@ export default function AntkiPlPage() {
                   borderRadius: 8,
                   background: 'var(--bg)',
                   border: '1px solid #bfdbfe',
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: 'grid',
                   gap: 6,
-                  flexWrap: 'wrap',
                 }}
               >
-                <span style={{ fontSize: 11.5, fontWeight: 800, color: '#1e40af', marginRight: 2 }}>
-                  ⚡ Przełącz copy 1-klikiem:
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
-                    if (idx >= 0) {
-                      const prev = filteredPresets[(idx - 1 + filteredPresets.length) % filteredPresets.length];
-                      setActiveAngleId(prev.id);
-                    }
-                  }}
-                  style={{
-                    padding: '4px 9px',
-                    borderRadius: 6,
-                    border: '1px solid #93c5fd',
-                    background: '#eff6ff',
-                    color: '#1d4ed8',
-                    fontWeight: 800,
-                    fontSize: 11.5,
-                    cursor: 'pointer',
-                  }}
-                >
-                  ◀ Poprzednie copy
-                </button>
-                <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', flex: 1 }}>
-                  {filteredPresets.map(p => {
-                    const isCur = p.id === activeAngle.id;
-                    return (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={() => setActiveAngleId(p.id)}
-                        title={`#${p.number} · ${p.title}`}
-                        style={{
-                          padding: '3px 7px',
-                          borderRadius: 5,
-                          border: isCur ? '1.5px solid #1d4ed8' : '1px solid var(--border)',
-                          background: isCur ? '#2563eb' : 'var(--card)',
-                          color: isCur ? '#ffffff' : 'var(--text)',
-                          fontWeight: 800,
-                          fontSize: 11,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        #{p.number}
-                      </button>
-                    );
-                  })}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 800, color: '#1e40af', marginRight: 2 }}>
+                    ⚡ Przełącz copy 1-klikiem:
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => cycleActiveCopy(-1)}
+                    title="Skrót klawiaturowy: Strzałka w lewo (←)"
+                    style={{
+                      padding: '4px 9px',
+                      borderRadius: 6,
+                      border: '1px solid #93c5fd',
+                      background: '#eff6ff',
+                      color: '#1d4ed8',
+                      fontWeight: 800,
+                      fontSize: 11.5,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ◀ Poprzednie copy (←)
+                  </button>
+                  <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', flex: 1 }}>
+                    {filteredPresets.map(p => {
+                      const isCur = p.id === activeAngle.id;
+                      return (
+                        <button
+                          key={p.id}
+                          type="button"
+                          onClick={() => setActiveAngleId(p.id)}
+                          title={`#${p.number} · ${p.title}`}
+                          style={{
+                            padding: '3px 7px',
+                            borderRadius: 5,
+                            border: isCur ? '1.5px solid #1d4ed8' : '1px solid var(--border)',
+                            background: isCur ? '#2563eb' : 'var(--card)',
+                            color: isCur ? '#ffffff' : 'var(--text)',
+                            fontWeight: 800,
+                            fontSize: 11,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          #{p.number}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => cycleActiveCopy(1)}
+                    title="Skrót klawiaturowy: Strzałka w prawo (→)"
+                    style={{
+                      padding: '4px 9px',
+                      borderRadius: 6,
+                      border: '1px solid #93c5fd',
+                      background: '#eff6ff',
+                      color: '#1d4ed8',
+                      fontWeight: 800,
+                      fontSize: 11.5,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Następne copy (→) ▶
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
-                    if (idx >= 0) {
-                      const next = filteredPresets[(idx + 1) % filteredPresets.length];
-                      setActiveAngleId(next.id);
-                    }
-                  }}
+
+                {/* TRYB STRZAŁEK KLAWIATURY (← / →) */}
+                <div
                   style={{
-                    padding: '4px 9px',
-                    borderRadius: 6,
-                    border: '1px solid #93c5fd',
-                    background: '#eff6ff',
-                    color: '#1d4ed8',
-                    fontWeight: 800,
-                    fontSize: 11.5,
-                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: 8,
+                    paddingTop: 5,
+                    borderTop: '1px dashed #cbd5e1',
+                    fontSize: 11,
+                    color: 'var(--muted)',
                   }}
                 >
-                  Następne copy ▶
-                </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                    <strong style={{ color: 'var(--text)' }}>⌨️ Strzałki na klawiaturze (← / →) przełączają:</strong>
+                    <button
+                      type="button"
+                      onClick={() => setArrowKeyTarget('copy')}
+                      style={{
+                        padding: '2px 8px',
+                        borderRadius: 5,
+                        border: arrowKeyTarget === 'copy' ? '1.5px solid #2563eb' : '1px solid var(--border)',
+                        background: arrowKeyTarget === 'copy' ? '#2563eb' : 'var(--card)',
+                        color: arrowKeyTarget === 'copy' ? '#ffffff' : 'var(--text)',
+                        fontWeight: 800,
+                        fontSize: 11,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      📄 Copy (#1–#35)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setArrowKeyTarget('image')}
+                      style={{
+                        padding: '2px 8px',
+                        borderRadius: 5,
+                        border: arrowKeyTarget === 'image' ? '1.5px solid #7c3aed' : '1px solid var(--border)',
+                        background: arrowKeyTarget === 'image' ? '#7c3aed' : 'var(--card)',
+                        color: arrowKeyTarget === 'image' ? '#ffffff' : 'var(--text)',
+                        fontWeight: 800,
+                        fontSize: 11,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      🖼️ Zdjęcie w aktywnym Antku
+                    </button>
+                  </div>
+                  <span>
+                    {arrowKeyTarget === 'copy'
+                      ? 'Tip: ← / → zmienia Copy, a Shift + ← / → (lub [ / ]) zmienia Zdjęcie'
+                      : 'Tip: ← / → zmienia Zdjęcie, a Shift + ← / → zmienia Copy'}
+                  </span>
+                </div>
               </div>
 
               <div
