@@ -269,7 +269,7 @@ export const POST = accountRoute(async (req: Request) => {
           return state.ads;
         },
       );
-      return NextResponse.json({ savedAds });
+      return NextResponse.json({ ok: true, count: savedAds.length });
     }
 
     if (action === 'create-meta-campaign') {

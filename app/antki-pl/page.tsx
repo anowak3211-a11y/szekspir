@@ -57,7 +57,7 @@ export default function AntkiPlPage() {
   const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta'>('all');
   const [lightboxAsset, setLightboxAsset] = useState<AntkiPlImageAsset | null>(null);
   const [assigningImage, setAssigningImage] = useState(false);
-  const [fbPreviewExpanded, setFbPreviewExpanded] = useState(false);
+  const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
   // Domyślnie skupiamy się na dzieciach ("Porady Mamy Gosi"), dorośli są na razie schowani pod przełącznikiem
   const [stageFilter, setStageFilter] = useState<'all_kids' | 'all' | AntkiPlFunnelStage>('all_kids');
@@ -157,15 +157,15 @@ export default function AntkiPlPage() {
       }
       if (data.brain) setBrain(data.brain);
       if (data.defaultUrl) setDestinationUrl(data.defaultUrl);
-      if (data.presets?.length && !activeAngleId) {
-        setActiveAngleId(data.presets[0].id);
+      if (data.presets?.length) {
+        setActiveAngleId(prev => prev || data.presets[0].id);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Nie udało się załadować danych.');
     } finally {
       setLoading(false);
     }
-  }, [activeAngleId]);
+  }, []);
 
   useEffect(() => {
     void loadInit();
@@ -488,37 +488,99 @@ export default function AntkiPlPage() {
     }
   };
 
+  const [inlinePickerAngleId, setInlinePickerAngleId] = useState<string | null>(null);
+
   const assignImageToAngles = useCallback(
     async (targetAngleIds: string[], asset: AntkiPlImageAsset, labelForNotice: string) => {
       if (!targetAngleIds.length) return;
-      setAssigningImage(true);
       setError('');
-      try {
-        const res = await fetch('/api/antki-pl', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'set_image',
-            angleIds: targetAngleIds,
-            imageUrl: asset.url,
-            imageHash: asset.imageHash,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Nie udało się przypisać zdjęcia.');
-        if (data.savedAds) {
-          setSavedAds(data.savedAds);
+      const now = Date.now();
+      const targetSet = new Set(targetAngleIds);
+
+      // 0ms OPTIMISTIC UI UPDATE — natychmiastowa podmiana bez czekania na serwer!
+      setSavedAds(prev => {
+        const next = [...prev];
+        for (const angleId of targetAngleIds) {
+          const idx = next.findIndex(item => item.angleId === angleId);
+          if (idx >= 0) {
+            next[idx] = {
+              ...next[idx],
+              imageUrl: asset.url,
+              imageHash: asset.imageHash,
+              updatedAt: now,
+            };
+          } else {
+            const preset = presets.find(p => p.id === angleId);
+            if (preset) {
+              next.unshift({
+                id: `antek-pl-${preset.code}-${now}`,
+                angleId: preset.id,
+                code: preset.code,
+                title: preset.title,
+                segment: preset.segment,
+                funnelStage: preset.funnelStage,
+                pageName,
+                headline: preset.defaultHeadline,
+                description: '',
+                primaryText: '',
+                destinationUrl,
+                cta: 'LEARN_MORE',
+                imageUrl: asset.url,
+                imageHash: asset.imageHash,
+                wordCount: 0,
+                characterCount: 0,
+                auditPassed: true,
+                auditWarnings: [],
+                auditFixesApplied: [],
+                createdAt: now,
+                updatedAt: now,
+              });
+            }
+          }
         }
-        setNotice(
-          `Przypisano kreację "${asset.label}"${asset.imageHash ? ` (hash: ${asset.imageHash.slice(0, 8)}…)` : ''} do: ${labelForNotice}.`,
-        );
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Błąd przypisywania zdjęcia.');
-      } finally {
-        setAssigningImage(false);
+        return next;
+      });
+
+      setPresets(prev =>
+        prev.map(p =>
+          targetSet.has(p.id)
+            ? { ...p, defaultImageUrl: asset.url, defaultImageHash: asset.imageHash }
+            : p,
+        ),
+      );
+
+      setNotice(
+        `⚡ Podmieniono w 0ms: "${asset.label}" → ${labelForNotice}`,
+      );
+
+      // Zapis w tle (nie blokuje klikania kolejnych zdjęć)
+      void fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'set_image',
+          angleIds: targetAngleIds,
+          imageUrl: asset.url,
+          imageHash: asset.imageHash,
+        }),
+      }).catch(() => {});
+    },
+    [presets, pageName, destinationUrl],
+  );
+
+  const cycleAngleImage = useCallback(
+    (angle: AntkiPlPresetAngle, delta: -1 | 1) => {
+      const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
+      const ad = adByAngleId[angle.id];
+      const currentUrl = ad?.imageUrl || angle.defaultImageUrl || getDefaultImageForAngle(angle.number).url;
+      const currentIdx = pool.findIndex(item => item.url === currentUrl);
+      const nextIdx = currentIdx < 0 ? 0 : (currentIdx + delta + pool.length) % pool.length;
+      const nextAsset = pool[nextIdx];
+      if (nextAsset) {
+        void assignImageToAngles([angle.id], nextAsset, `Antek #${angle.number}`);
       }
     },
-    [],
+    [imageLibrary, adByAngleId, assignImageToAngles],
   );
 
   const syncToMetaCc35 = useCallback(async () => {
@@ -1779,51 +1841,226 @@ export default function AntkiPlPage() {
                   </div>
 
                   <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <div
-                      style={{
-                        position: 'relative',
-                        width: 48,
-                        height: 48,
-                        minWidth: 48,
-                        borderRadius: 7,
-                        overflow: 'hidden',
-                        border: '1px solid var(--border)',
-                        background: '#0f172a',
-                      }}
-                      title={assignedAsset?.label || assignedImgUrl}
-                    >
-                      <img
-                        src={assignedImgUrl}
-                        alt={`Antek #${angle.number}`}
-                        loading="lazy"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
-                      <span
-                        style={{
-                          position: 'absolute',
-                          bottom: 1,
-                          right: 1,
-                          fontSize: 8,
-                          fontWeight: 800,
-                          padding: '1px 3px',
-                          borderRadius: 3,
-                          background: assignedAsset?.source === 'meta' ? '#2563eb' : '#059669',
-                          color: '#ffffff',
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+                      <div
+                        onClick={e => {
+                          e.stopPropagation();
+                          setActiveAngleId(angle.id);
+                          setInlinePickerAngleId(prev => (prev === angle.id ? null : angle.id));
                         }}
+                        style={{
+                          position: 'relative',
+                          width: 54,
+                          height: 54,
+                          minWidth: 54,
+                          borderRadius: 7,
+                          overflow: 'hidden',
+                          border: inlinePickerAngleId === angle.id ? '2px solid #7c3aed' : '1px solid var(--border)',
+                          background: '#0f172a',
+                          cursor: 'pointer',
+                        }}
+                        title="Kliknij miniaturę, aby rozwinąć szybki wybór zdjęcia tutaj na liście"
                       >
-                        {assignedAsset?.source === 'meta' ? 'META' : 'AI'}
-                      </span>
+                        <img
+                          src={assignedImgUrl}
+                          alt={`Antek #${angle.number}`}
+                          loading="lazy"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                        <span
+                          style={{
+                            position: 'absolute',
+                            bottom: 1,
+                            right: 1,
+                            fontSize: 8,
+                            fontWeight: 800,
+                            padding: '1px 3px',
+                            borderRadius: 3,
+                            background: assignedAsset?.source === 'meta' ? '#2563eb' : '#059669',
+                            color: '#ffffff',
+                          }}
+                        >
+                          {assignedAsset?.source === 'meta' ? 'META' : 'AI'}
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', gap: 2, width: 54 }}>
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            cycleAngleImage(angle, -1);
+                          }}
+                          title="Poprzednie zdjęcie (0ms)"
+                          style={{
+                            flex: 1,
+                            padding: '2px 0',
+                            fontSize: 10,
+                            fontWeight: 800,
+                            borderRadius: 4,
+                            border: '1px solid var(--border)',
+                            background: 'var(--bg)',
+                            color: 'var(--text)',
+                            cursor: 'pointer',
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          ◀
+                        </button>
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setActiveAngleId(angle.id);
+                            setInlinePickerAngleId(prev => (prev === angle.id ? null : angle.id));
+                          }}
+                          title="Rozwiń pasek miniaturek pod tym Antkiem"
+                          style={{
+                            flex: 1,
+                            padding: '2px 0',
+                            fontSize: 9,
+                            fontWeight: 800,
+                            borderRadius: 4,
+                            border: '1px solid var(--border)',
+                            background: inlinePickerAngleId === angle.id ? '#7c3aed' : 'var(--bg)',
+                            color: inlinePickerAngleId === angle.id ? '#ffffff' : 'var(--text)',
+                            cursor: 'pointer',
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          ▾
+                        </button>
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            cycleAngleImage(angle, 1);
+                          }}
+                          title="Następne zdjęcie (0ms)"
+                          style={{
+                            flex: 1,
+                            padding: '2px 0',
+                            fontSize: 10,
+                            fontWeight: 800,
+                            borderRadius: 4,
+                            border: '1px solid var(--border)',
+                            background: 'var(--bg)',
+                            color: 'var(--text)',
+                            cursor: 'pointer',
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          ▶
+                        </button>
+                      </div>
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', marginBottom: 3, lineHeight: 1.3 }}>
                         #{angle.number} · {angle.title}
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.3 }}>
-                        <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
-                      </div>
+                      {ad?.primaryText ? (
+                        <div
+                          style={{
+                            fontSize: 11.5,
+                            color: isActive ? '#1d4ed8' : 'var(--muted)',
+                            lineHeight: 1.35,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            fontWeight: isActive ? 600 : 400,
+                          }}
+                        >
+                          „{ad.primaryText.slice(0, 140)}…”
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.3 }}>
+                          <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
+                        </div>
+                      )}
                     </div>
                   </div>
+
+                  {inlinePickerAngleId === angle.id && (
+                    <div
+                      onClick={e => e.stopPropagation()}
+                      style={{
+                        marginTop: 4,
+                        padding: 6,
+                        borderRadius: 7,
+                        background: 'var(--card)',
+                        border: '1px solid #c4b5fd',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: 4,
+                          fontSize: 10.5,
+                          fontWeight: 700,
+                          color: 'var(--muted)',
+                        }}
+                      >
+                        <span>Szybka podmiana zdjęcia (#{angle.number}):</span>
+                        <button
+                          type="button"
+                          onClick={() => setInlinePickerAngleId(null)}
+                          style={{
+                            border: 0,
+                            background: 'transparent',
+                            color: 'var(--muted)',
+                            cursor: 'pointer',
+                            fontWeight: 700,
+                            fontSize: 11,
+                          }}
+                        >
+                          ✕ Zamknij
+                        </button>
+                      </div>
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fill, minmax(46px, 1fr))',
+                          gap: 4,
+                          maxHeight: 165,
+                          overflowY: 'auto',
+                        }}
+                      >
+                        {imageLibrary.map(asset => {
+                          const isSelected = assignedImgUrl === asset.url;
+                          return (
+                            <button
+                              key={asset.id}
+                              type="button"
+                              onClick={() => {
+                                void assignImageToAngles([angle.id], asset, `Antek #${angle.number}`);
+                              }}
+                              title={asset.label}
+                              style={{
+                                position: 'relative',
+                                padding: 0,
+                                height: 46,
+                                borderRadius: 5,
+                                overflow: 'hidden',
+                                border: isSelected ? '2.5px solid #7c3aed' : '1px solid var(--border)',
+                                cursor: 'pointer',
+                                background: '#0f172a',
+                              }}
+                            >
+                              <img
+                                src={asset.url}
+                                alt={asset.label}
+                                loading="lazy"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                   {errText && (
                     <div style={{ color: '#dc2626', fontSize: 11.5, fontWeight: 600, marginTop: 4 }}>
                       Błąd: {errText}
@@ -1849,6 +2086,94 @@ export default function AntkiPlPage() {
             <p style={{ color: 'var(--muted)' }}>Wybierz kąt z listy po lewej stronie.</p>
           ) : (
             <>
+              {/* PASEK 1-KLIK DO PRZEŁĄCZANIA COPY (#1 - #35) OD RAZU W PODGLĄDZIE PORADY MAMY GOSI */}
+              <div
+                style={{
+                  marginBottom: 12,
+                  padding: '8px 10px',
+                  borderRadius: 8,
+                  background: 'var(--bg)',
+                  border: '1px solid #bfdbfe',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span style={{ fontSize: 11.5, fontWeight: 800, color: '#1e40af', marginRight: 2 }}>
+                  ⚡ Przełącz copy 1-klikiem:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
+                    if (idx >= 0) {
+                      const prev = filteredPresets[(idx - 1 + filteredPresets.length) % filteredPresets.length];
+                      setActiveAngleId(prev.id);
+                    }
+                  }}
+                  style={{
+                    padding: '4px 9px',
+                    borderRadius: 6,
+                    border: '1px solid #93c5fd',
+                    background: '#eff6ff',
+                    color: '#1d4ed8',
+                    fontWeight: 800,
+                    fontSize: 11.5,
+                    cursor: 'pointer',
+                  }}
+                >
+                  ◀ Poprzednie copy
+                </button>
+                <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', flex: 1 }}>
+                  {filteredPresets.map(p => {
+                    const isCur = p.id === activeAngle.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setActiveAngleId(p.id)}
+                        title={`#${p.number} · ${p.title}`}
+                        style={{
+                          padding: '3px 7px',
+                          borderRadius: 5,
+                          border: isCur ? '1.5px solid #1d4ed8' : '1px solid var(--border)',
+                          background: isCur ? '#2563eb' : 'var(--card)',
+                          color: isCur ? '#ffffff' : 'var(--text)',
+                          fontWeight: 800,
+                          fontSize: 11,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        #{p.number}
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
+                    if (idx >= 0) {
+                      const next = filteredPresets[(idx + 1) % filteredPresets.length];
+                      setActiveAngleId(next.id);
+                    }
+                  }}
+                  style={{
+                    padding: '4px 9px',
+                    borderRadius: 6,
+                    border: '1px solid #93c5fd',
+                    background: '#eff6ff',
+                    color: '#1d4ed8',
+                    fontWeight: 800,
+                    fontSize: 11.5,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Następne copy ▶
+                </button>
+              </div>
+
               <div
                 style={{
                   display: 'flex',
@@ -1953,7 +2278,7 @@ export default function AntkiPlPage() {
                   background: 'var(--bg)',
                   border: '1px solid #ddd6fe',
                   display: 'grid',
-                  gridTemplateColumns: 'minmax(280px, 370px) 1fr',
+                  gridTemplateColumns: 'minmax(320px, 410px) 1fr',
                   gap: 16,
                   alignItems: 'start',
                 }}
@@ -1962,13 +2287,77 @@ export default function AntkiPlPage() {
                 <div
                   style={{
                     borderRadius: 10,
-                    border: '1px solid #cbd5e1',
+                    border: '2px solid #3b82f6',
                     background: '#ffffff',
                     color: '#0f172a',
                     overflow: 'hidden',
-                    boxShadow: '0 2px 8px rgba(15,23,42,0.06)',
+                    boxShadow: '0 4px 12px rgba(37,99,235,0.12)',
                   }}
                 >
+                  {/* PASEK NAGŁÓWKA WSKAZUJĄCY KTÓRE COPY JEST W PODGLĄDZIE */}
+                  <div
+                    style={{
+                      padding: '6px 10px',
+                      background: '#eff6ff',
+                      borderBottom: '1px solid #bfdbfe',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                  >
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#1d4ed8' }}>
+                      📄 COPY #{activeAngle.number}: {activeAngle.title.slice(0, 38)}
+                      {activeAngle.title.length > 38 ? '…' : ''}
+                    </span>
+                    <div style={{ display: 'flex', gap: 4 }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
+                          if (idx >= 0) {
+                            setActiveAngleId(filteredPresets[(idx - 1 + filteredPresets.length) % filteredPresets.length].id);
+                          }
+                        }}
+                        title="Poprzednie copy"
+                        style={{
+                          padding: '2px 7px',
+                          borderRadius: 4,
+                          border: '1px solid #93c5fd',
+                          background: '#ffffff',
+                          color: '#1d4ed8',
+                          fontWeight: 800,
+                          fontSize: 10.5,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ◀ Copy
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
+                          if (idx >= 0) {
+                            setActiveAngleId(filteredPresets[(idx + 1) % filteredPresets.length].id);
+                          }
+                        }}
+                        title="Następne copy"
+                        style={{
+                          padding: '2px 7px',
+                          borderRadius: 4,
+                          border: '1px solid #93c5fd',
+                          background: '#ffffff',
+                          color: '#1d4ed8',
+                          fontWeight: 800,
+                          fontSize: 10.5,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Copy ▶
+                      </button>
+                    </div>
+                  </div>
+
                   <div style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div
                       style={{
@@ -1994,6 +2383,22 @@ export default function AntkiPlPage() {
                         Sponsorowane · 🌐 · ID: 798916893308685
                       </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setFbPreviewExpanded(v => !v)}
+                      style={{
+                        padding: '3px 8px',
+                        borderRadius: 5,
+                        border: '1px solid #cbd5e1',
+                        background: '#f8fafc',
+                        color: '#334155',
+                        fontWeight: 700,
+                        fontSize: 10.5,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {fbPreviewExpanded ? 'Skróć tekst' : 'Pełne copy'}
+                    </button>
                   </div>
 
                   <div
@@ -2001,17 +2406,20 @@ export default function AntkiPlPage() {
                       padding: '0 12px 10px',
                       fontSize: 12.5,
                       color: '#1e293b',
-                      lineHeight: 1.45,
+                      lineHeight: 1.48,
                       whiteSpace: 'pre-wrap',
+                      maxHeight: fbPreviewExpanded ? 260 : undefined,
+                      overflowY: fbPreviewExpanded ? 'auto' : undefined,
+                      borderBottom: fbPreviewExpanded ? '1px solid #e2e8f0' : undefined,
                     }}
                   >
                     {fbPreviewExpanded
                       ? editPrimaryText
                       : (editPrimaryText || '').slice(0, 230) + ((editPrimaryText || '').length > 230 ? '… ' : '')}
-                    {(editPrimaryText || '').length > 230 && (
+                    {!fbPreviewExpanded && (editPrimaryText || '').length > 230 && (
                       <button
                         type="button"
-                        onClick={() => setFbPreviewExpanded(v => !v)}
+                        onClick={() => setFbPreviewExpanded(true)}
                         style={{
                           background: 'transparent',
                           border: 0,
@@ -2022,7 +2430,7 @@ export default function AntkiPlPage() {
                           padding: 0,
                         }}
                       >
-                        {fbPreviewExpanded ? ' Zwiń' : 'Zobacz więcej'}
+                        Zobacz więcej
                       </button>
                     )}
                   </div>
@@ -2045,6 +2453,62 @@ export default function AntkiPlPage() {
                         alt={activeResolvedImage.label}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       />
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          cycleAngleImage(activeAngle, -1);
+                        }}
+                        title="Poprzednie zdjęcie (0ms)"
+                        style={{
+                          position: 'absolute',
+                          left: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          width: 34,
+                          height: 34,
+                          borderRadius: '50%',
+                          border: '1px solid rgba(255,255,255,0.4)',
+                          background: 'rgba(15,23,42,0.75)',
+                          color: '#ffffff',
+                          fontWeight: 800,
+                          fontSize: 14,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        ◀
+                      </button>
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          cycleAngleImage(activeAngle, 1);
+                        }}
+                        title="Następne zdjęcie (0ms)"
+                        style={{
+                          position: 'absolute',
+                          right: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          width: 34,
+                          height: 34,
+                          borderRadius: '50%',
+                          border: '1px solid rgba(255,255,255,0.4)',
+                          background: 'rgba(15,23,42,0.75)',
+                          color: '#ffffff',
+                          fontWeight: 800,
+                          fontSize: 14,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        ▶
+                      </button>
                     </div>
                   )}
 
@@ -2097,30 +2561,66 @@ export default function AntkiPlPage() {
                 {/* SZYBKI WYBÓR ZDJĘCIA DLA AKTYWNEGO ANTKA */}
                 <div style={{ display: 'grid', gap: 10 }}>
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 800,
-                          padding: '2px 8px',
-                          borderRadius: 4,
-                          background: activeResolvedImage?.source === 'meta' ? '#dbeafe' : '#dcfce7',
-                          color: activeResolvedImage?.source === 'meta' ? '#1e40af' : '#166534',
-                        }}
-                      >
-                        {activeResolvedImage?.source === 'meta' ? '📚 KREACJA Z BIBLIOTEKI META' : '✨ KREACJA AI NATIVE (CZYSTA)'}
-                      </span>
-                      {activeResolvedImage?.imageHash && (
-                        <code style={{ fontSize: 11, color: 'var(--muted)' }}>
-                          image_hash: {activeResolvedImage.imageHash}
-                        </code>
-                      )}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                        <span
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 800,
+                            padding: '2px 8px',
+                            borderRadius: 4,
+                            background: activeResolvedImage?.source === 'meta' ? '#dbeafe' : '#dcfce7',
+                            color: activeResolvedImage?.source === 'meta' ? '#1e40af' : '#166534',
+                          }}
+                        >
+                          {activeResolvedImage?.source === 'meta' ? '📚 KREACJA Z BIBLIOTEKI META' : '✨ KREACJA AI NATIVE (CZYSTA)'}
+                        </span>
+                        {activeResolvedImage?.imageHash && (
+                          <code style={{ fontSize: 11, color: 'var(--muted)' }}>
+                            hash: {activeResolvedImage.imageHash}
+                          </code>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', gap: 5 }}>
+                        <button
+                          type="button"
+                          onClick={() => cycleAngleImage(activeAngle, -1)}
+                          style={{
+                            padding: '4px 10px',
+                            borderRadius: 6,
+                            border: '1px solid var(--border)',
+                            background: 'var(--card)',
+                            color: 'var(--text)',
+                            fontWeight: 800,
+                            fontSize: 11.5,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          ◀ Poprzednie zdj.
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => cycleAngleImage(activeAngle, 1)}
+                          style={{
+                            padding: '4px 10px',
+                            borderRadius: 6,
+                            border: '1px solid var(--border)',
+                            background: 'var(--card)',
+                            color: 'var(--text)',
+                            fontWeight: 800,
+                            fontSize: 11.5,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Następne zdj. ▶
+                        </button>
+                      </div>
                     </div>
                     <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
                       Przypisane zdjęcie: {activeResolvedImage?.label}
                     </div>
                     <p style={{ margin: '2px 0 6px', fontSize: 12, color: 'var(--muted)' }}>
-                      Kliknij dowolną miniaturę poniżej, aby natychmiast podmienić zdjęcie w Antku #{activeAngle.number}:
+                      Kliknij miniaturę (albo użyj strzałek ◀ ▶ przy każdym Antku na liście po lewej), aby podmienić zdjęcie w 0ms:
                     </p>
                     <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       <button
