@@ -108,7 +108,7 @@ export default function AntkiPlPage() {
       status?: string;
     }>;
   } | null>(null);
-  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI PL | Dział Literacki | CC 35 PLN');
+  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI_PL_CC35');
   const [metaCostCapPln, setMetaCostCapPln] = useState(35);
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
@@ -471,9 +471,11 @@ export default function AntkiPlPage() {
     const adsPayload = readyAdsForExport.map(ad => {
       const matchedGroup = campaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
       const cleanDesc = (ad.description || '').trim();
+      const shortNum = ad.angleId.match(/^pl-(\d+)/)?.[1] || ad.code.slice(0, 6);
+      const shortAdName = `ANT_${shortNum}_${matchedGroup?.code || ad.code.slice(0, 8).toUpperCase()}`;
       return {
         key: ad.code,
-        name: `ANT_PL_${ad.code}`,
+        name: shortAdName,
         url: ad.destinationUrl || destinationUrl,
         cta: ad.cta || 'LEARN_MORE',
         primaryTexts: [ad.primaryText],

@@ -84,10 +84,10 @@ export interface AntkiCampaignStructure {
 
 export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSetName' | 'bidAmountMinor' | 'status'>[] = [
  {
-  code: '01_DOMOWE_ODKRYCIE',
-  label: '01 | Domowe Odkrycie - Dzieci (#1-#5)',
+  code: 'S1_DOM',
+  label: 'S1_DOM',
   shortRange: '#1-#5',
-  description: 'Matki odkrywające problem w domu: zdarte zimowe buty po 3 tyg., nocny płacz (mit bólów wzrostowych), mokra stopa na kafelkach, kolana w X na zdjęciu z wycieczki, potykanie się o własne nogi.',
+  description: 'Domowe odkrycie (#1 buty, #2 nocny płacz, #3 mokra stopa, #4 zdjęcie X, #5 potykanie)',
   angleIds: [
    'pl-01-zdarte-zimowe-buty',
    'pl-02-mit-bolow-wzrostowych',
@@ -97,10 +97,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '02_EFEKT_DOMINA',
-  label: '02 | Efekt Domina - Ból Ciała (#6-#10)',
+  code: 'S2_BOL',
+  label: 'S2_BOL',
   shortRange: '#6-#10',
-  description: 'Rodzice leczący skutek wyżej w ciele zamiast przyczyny w stopach: plecy i ciężki plecak, kark i głowa po szkole, biodro po piłce na orliku, kolana na schodach, przekręcająca się spódniczka (miednica).',
+  description: 'Efekt domina / ból ciała (#6 plecy, #7 kark, #8 biodro orlik, #9 kolana schody, #10 miednica)',
   angleIds: [
    'pl-06-plecy-i-ciezki-plecak',
    'pl-07-bol-glowy-i-karku',
@@ -110,10 +110,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '03_SZKOLA_I_WF',
-  label: '03 | Szkoła, WF i Rówieśnicy (#11-#15)',
+  code: 'S3_WF',
+  label: 'S3_WF',
   shortRange: '#11-#15',
-  description: 'Wstyd i wykluczenie rówieśnicze w szkole: telefon od wuefistki, wybierany ostatni do drużyny („biegam jak kaczuszka”), rezygnacja z zimowego obozu w góry, chowanie sztywnych butów w szatni, odmowa zwolnienia z WF-u.',
+  description: 'Szkoła i WF (#11 tel. od WF, #12 wybierany ostatni, #13 obóz góry, #14 szatnia, #15 zwolnienie WF)',
   angleIds: [
    'pl-11-telefon-od-wuefistki',
    'pl-12-wybierany-ostatni-do-druzyny',
@@ -123,10 +123,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '04_WYPALONE_MATKI',
-  label: '04 | Wypalone Matki - Anty-System (#16-#20)',
+  code: 'S4_SYS',
+  label: 'S4_SYS',
   shortRange: '#16-#20',
-  description: 'Matki zmęczone nieskutecznymi metodami: wieczorna wojna o ćwiczenia na dywanie vs 14h na betonie, twarde wkładki za 380 zł jak gips, fikcja szkolnej korektywy w grupie 20 dzieci, zamykające się okno wzrostowe 12 lat.',
+  description: 'Anty-system (#16 dywan, #17 14h beton, #18 gips 380 zł, #19 korektywa, #20 okno 12l)',
   angleIds: [
    'pl-16-wojna-o-dywan-19-30',
    'pl-17-worek-ze-szkolnymi-kapciami',
@@ -136,10 +136,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '05_RYCIAK_RIP3',
-  label: '05 | Ryciak Rip 3 - Test 10s (#21-#25)',
+  code: 'S5_RYC',
+  label: 'S5_RYC',
   shortRange: '#21-#25',
-  description: 'Bezpośrednie wariacje winnera Ryciak Rip 3 z 10-sekundowym testem podniesienia łuków stóp w gabinecie: ból prawego ramienia (V1), SOR i zablokowane kolano (V2), garbienie i łopatki (V3), bilans 10-latka (V4), nagranie wideo w slow-mo (V5).',
+  description: 'Ryciak Rip 3 V1-V5 (#21 ramię, #22 SOR kolano, #23 plecy, #24 bilans, #25 wideo slow-mo)',
   angleIds: [
    'pl-21-ryciak-rip3-ramie-v2',
    'pl-22-ryciak-rip3-sor-kolano',
@@ -149,10 +149,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '06_ZAL_PO_OPERACJI',
-  label: '06 | Żal po Operacji i Strach (#26-#30)',
+  code: 'S6_OPER',
+  label: 'S6_OPER',
   shortRange: '#26-#30',
-  description: 'Najmocniejszy emocjonalnie kąt strachu przed skalpelem i śrubami: lewa stopa po operacji za 8200 zł vs uratowana prawa, nawrót haluksa po 2 latach, 14-latka ze śrubami w kolanach, strach przed wózkiem, 3 blokady sterydowe w piętę.',
+  description: 'Żal po operacji (#26 śruby 8200 zł, #27 nawrót haluksa, #28 kolana 14l, #29 wózek, #30 sterydy)',
   angleIds: [
    'pl-26-zal-po-operacji-za-pozno',
    'pl-27-zal-haluks-wrocil-po-2-latach',
@@ -162,10 +162,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: '07_DOROSLI_JESIEN_ZIMA',
-  label: '07 | Dorośli Jesień-Zima (#31-#35)',
+  code: 'S7_DOR',
+  label: 'S7_DOR',
   shortRange: '#31-#35',
-  description: 'Kobiety 35-65+ jesienią i zimą: rozlana stopa w zimowych botkach, poranny „gwóźdź w piętę” o 6:00 rano (ostroga/rozcięgno), 8h pracy na stojąco, 62-letnia mama unikająca spacerów z wnukami, kupowanie butów o rozmiar większych.',
+  description: 'Dorośli zima (#31 botki, #32 ostroga 6:00, #33 praca 8h, #34 mama 62l, #35 rozmiar +2)',
   angleIds: [
    'pl-31-dorosli-zimowe-botki',
    'pl-32-dorosli-pierwszy-krok-rano',
@@ -176,7 +176,7 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
  },
 ];
 
-const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v1';
+const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v2';
 
 export async function readAntkiCostCapCampaign(): Promise<AntkiCampaignStructure | null> {
  try {
@@ -204,7 +204,7 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  const campaignName =
   typeof a.campaignName === 'string' && a.campaignName.trim()
    ? a.campaignName.trim()
-   : `ANTKI PL | Dział Literacki | CC ${costCapPln} PLN | ${dateTag}`;
+   : `ANTKI_PL_CC${costCapPln}_${dateTag}`;
 
  const forceNew = !!a.forceNew;
  if (!forceNew) {
@@ -325,7 +325,7 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  const perAdSetBudgetMinor = Math.max(5000, Math.round(dailyBudgetMinor / ANTKI_PL_ADSET_BLUEPRINTS.length));
 
  for (const bp of ANTKI_PL_ADSET_BLUEPRINTS) {
-  const adSetName = `${bp.label} | CC ${costCapPln} PLN`;
+  const adSetName = `${bp.code}_CC${costCapPln}`;
   const basePayload: Record<string, unknown> = {
    name: adSetName,
    campaign_id: createdCampaignId,
