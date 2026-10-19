@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type {
-  AntkiPlFunnelStage,
-  AntkiPlGeneratedAd,
-  AntkiPlPresetAngle,
-  AntkiPlSegment,
+import {
+  ANTKI_PL_IMAGE_LIBRARY,
+  getDefaultImageForAngle,
+  type AntkiPlFunnelStage,
+  type AntkiPlGeneratedAd,
+  type AntkiPlImageAsset,
+  type AntkiPlPresetAngle,
+  type AntkiPlSegment,
 } from '@/lib/antki-pl';
 
 type AngleRunStatus = 'idle' | 'queued' | 'generating' | 'done' | 'error';
@@ -29,14 +32,32 @@ const STAGE_ORDER: AntkiPlFunnelStage[] = [
   'dorosli_jesien_zima',
 ];
 
+const GROUP_ANGLE_RANGES: Record<string, { label: string; shortRange: string; numbers: number[] }> = {
+  DOM: { label: 'DOM', shortRange: '#1–#5', numbers: [1, 2, 3, 4, 5] },
+  RUCH: { label: 'RUCH', shortRange: '#6–#10', numbers: [6, 7, 8, 9, 10] },
+  GRUPA: { label: 'GRUPA', shortRange: '#11–#15', numbers: [11, 12, 13, 14, 15] },
+  MIT: { label: 'MIT', shortRange: '#16–#20', numbers: [16, 17, 18, 19, 20] },
+  RYCIAK: { label: 'RYCIAK', shortRange: '#21–#25', numbers: [21, 22, 23, 24, 25] },
+  ZAL: { label: 'ŻAL', shortRange: '#26–#30', numbers: [26, 27, 28, 29, 30] },
+  ZIMA: { label: 'ZIMA', shortRange: '#31–#35', numbers: [31, 32, 33, 34, 35] },
+};
+
 export default function AntkiPlPage() {
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
   const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
+  const [imageLibrary, setImageLibrary] = useState<AntkiPlImageAsset[]>(ANTKI_PL_IMAGE_LIBRARY);
   const [brain, setBrain] = useState<{ provider: string; model: string }>({ provider: 'openai', model: 'gpt-5.4' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+
+  // Image Gallery & Preview state
+  const [showGalleryPanel, setShowGalleryPanel] = useState(true);
+  const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta'>('all');
+  const [lightboxAsset, setLightboxAsset] = useState<AntkiPlImageAsset | null>(null);
+  const [assigningImage, setAssigningImage] = useState(false);
+  const [fbPreviewExpanded, setFbPreviewExpanded] = useState(false);
 
   // Domyślnie skupiamy się na dzieciach ("Porady Mamy Gosi"), dorośli są na razie schowani pod przełącznikiem
   const [stageFilter, setStageFilter] = useState<'all_kids' | 'all' | AntkiPlFunnelStage>('all_kids');
@@ -112,6 +133,7 @@ export default function AntkiPlPage() {
   const [metaCostCapPln, setMetaCostCapPln] = useState(35);
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
+  const [syncingMetaCc35, setSyncingMetaCc35] = useState(false);
   const [showCampaignPanel, setShowCampaignPanel] = useState(true);
 
   const loadInit = useCallback(async () => {
@@ -124,6 +146,9 @@ export default function AntkiPlPage() {
       setPresets(data.presets || []);
       setStages(data.stages || {});
       setSavedAds(data.savedAds || []);
+      if (Array.isArray(data.imageLibrary) && data.imageLibrary.length > 0) {
+        setImageLibrary(data.imageLibrary);
+      }
       if (data.adSetBlueprints) setAdSetBlueprints(data.adSetBlueprints);
       if (data.campaignStructure) {
         setCampaignStructure(data.campaignStructure);
@@ -463,16 +488,84 @@ export default function AntkiPlPage() {
     }
   };
 
+  const assignImageToAngles = useCallback(
+    async (targetAngleIds: string[], asset: AntkiPlImageAsset, labelForNotice: string) => {
+      if (!targetAngleIds.length) return;
+      setAssigningImage(true);
+      setError('');
+      try {
+        const res = await fetch('/api/antki-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'set_image',
+            angleIds: targetAngleIds,
+            imageUrl: asset.url,
+            imageHash: asset.imageHash,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Nie udało się przypisać zdjęcia.');
+        if (data.savedAds) {
+          setSavedAds(data.savedAds);
+        }
+        setNotice(
+          `Przypisano kreację "${asset.label}"${asset.imageHash ? ` (hash: ${asset.imageHash.slice(0, 8)}…)` : ''} do: ${labelForNotice}.`,
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Błąd przypisywania zdjęcia.');
+      } finally {
+        setAssigningImage(false);
+      }
+    },
+    [],
+  );
+
+  const syncToMetaCc35 = useCallback(async () => {
+    setSyncingMetaCc35(true);
+    setError('');
+    setNotice('');
+    try {
+      const res = await fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sync_meta_cc35',
+          pageId: '798916893308685',
+          instagramUserId: '17841473314157729',
+          destinationUrl,
+          updateExisting: true,
+        }),
+        signal: AbortSignal.timeout(290_000),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Błąd synchronizacji z Meta.');
+      setNotice(
+        `Zsynchronizowano kampanię ANTKI CC35 (120249912191200300 · PAUSED) na fanpage „Porady Mamy Gosi” (798916893308685): zaktualizowano ${data.updated || 0} reklam, utworzono ${data.created || 0}.`,
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd synchronizacji z Meta.');
+    } finally {
+      setSyncingMetaCc35(false);
+    }
+  }, [destinationUrl]);
+
   const exportUploaderJson = () => {
     if (!readyAdsForExport.length) {
       setError('Brak gotowych tekstów do eksportu JSON.');
       return;
     }
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
     const adsPayload = readyAdsForExport.map((ad, idx) => {
       const matchedGroup = campaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
       const cleanDesc = (ad.description || '').trim();
       const numMatch = ad.angleId.match(/^pl-0*(\d+)/);
-      const adNumber = numMatch ? numMatch[1] : String(idx + 1);
+      const adNumber = numMatch ? Number(numMatch[1]) : idx + 1;
+      const defaultAsset = getDefaultImageForAngle(adNumber);
+      const rawImgUrl = ad.imageUrl || defaultMediaUrl.trim() || defaultAsset.url;
+      const resolvedUrl = rawImgUrl.startsWith('/') && origin ? `${origin}${rawImgUrl}` : rawImgUrl;
+      const resolvedHash = ad.imageHash || imageLibrary.find(item => item.url === rawImgUrl)?.imageHash || defaultAsset.imageHash;
+
       return {
         key: ad.code,
         name: `ad ${adNumber}`,
@@ -485,11 +578,12 @@ export default function AntkiPlPage() {
         ...(campaignStructure?.accountId ? { accountId: campaignStructure.accountId } : {}),
         ...(campaignStructure?.campaignId ? { campaignId: campaignStructure.campaignId } : {}),
         ...(matchedGroup?.adSetId ? { adSetId: matchedGroup.adSetId } : {}),
-        ...(defaultMediaUrl.trim()
+        ...(resolvedUrl
           ? {
               media: {
                 kind: 'image' as const,
-                url: defaultMediaUrl.trim(),
+                url: resolvedUrl,
+                ...(resolvedHash ? { imageHash: resolvedHash } : {}),
                 filename: `${ad.code}.jpg`,
               },
             }
@@ -508,8 +602,8 @@ export default function AntkiPlPage() {
     URL.revokeObjectURL(url);
     setNotice(
       campaignStructure
-        ? `Pobrano plik JSON (${readyAdsForExport.length} reklam) z przypisaną kampanią ${campaignStructure.campaignId} i 7 Ad Setami Cost Cap ${campaignStructure.costCapPln} PLN.`
-        : `Pobrano plik JSON (${readyAdsForExport.length} reklam) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`,
+        ? `Pobrano plik JSON (${readyAdsForExport.length} reklam ze zdjęciami i image_hash) z przypisaną kampanią ${campaignStructure.campaignId} i 7 Ad Setami Cost Cap ${campaignStructure.costCapPln} PLN.`
+        : `Pobrano plik JSON (${readyAdsForExport.length} reklam ze zdjęciami) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`,
     );
   };
 
@@ -517,6 +611,28 @@ export default function AntkiPlPage() {
   const activeStageMeta =
     stageFilter !== 'all' && stageFilter !== 'all_kids' ? stages[stageFilter] : null;
   const displayedGroups = campaignStructure?.groups?.length ? campaignStructure.groups : adSetBlueprints;
+
+  const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
+  const metaImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'meta').length, [imageLibrary]);
+  const filteredGalleryImages = useMemo(() => {
+    if (galleryTab === 'ai') return imageLibrary.filter(i => i.source === 'ai');
+    if (galleryTab === 'meta') return imageLibrary.filter(i => i.source === 'meta');
+    return imageLibrary;
+  }, [imageLibrary, galleryTab]);
+
+  const activeResolvedImage = useMemo(() => {
+    if (!activeAngle) return imageLibrary[0];
+    const currentUrl = activeAd?.imageUrl || activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
+    return (
+      imageLibrary.find(item => item.url === currentUrl) || {
+        id: 'custom-assigned',
+        url: currentUrl,
+        label: `Przypisana kreacja (#${activeAngle.number})`,
+        source: 'ai' as const,
+        imageHash: activeAd?.imageHash || activeAngle.defaultImageHash,
+      }
+    );
+  }, [activeAngle, activeAd, imageLibrary]);
 
   return (
     <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
@@ -546,11 +662,29 @@ export default function AntkiPlPage() {
           </h1>
           <p className="sub" style={{ margin: 0, fontSize: 13 }}>
             Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
-            Konto: <strong>UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)</strong> · Cost Cap: <strong>35 PLN</strong>.
+            Konto: <strong>UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)</strong> · Fanpage:{' '}
+            <strong>Porady Mamy Gosi (798916893308685)</strong> · Cost Cap: <strong>35 PLN</strong>.
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={() => setShowGalleryPanel(v => !v)}
+            style={{
+              padding: '9px 14px',
+              borderRadius: 8,
+              border: '1px solid #7c3aed',
+              background: showGalleryPanel ? '#f5f3ff' : 'var(--card)',
+              color: '#6d28d9',
+              fontWeight: 700,
+              fontSize: 13,
+              cursor: 'pointer',
+            }}
+          >
+            🖼️ Galeria Kreacji ({imageLibrary.length}: {aiImagesCount} AI + {metaImagesCount} Meta)
+          </button>
+
           <button
             type="button"
             onClick={() => setShowCampaignPanel(v => !v)}
@@ -677,6 +811,315 @@ export default function AntkiPlPage() {
             ✕
           </button>
         </div>
+      )}
+
+      {/* GALERIA KREACJI „PORADY MAMY GOSI” (BIBLIOTEKA META + WYGENEROWANE AI) */}
+      {showGalleryPanel && (
+        <section
+          style={{
+            padding: '16px 18px',
+            borderRadius: 10,
+            marginBottom: 16,
+            background: 'var(--card)',
+            border: '1px solid #ddd6fe',
+            display: 'grid',
+            gap: 14,
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    padding: '3px 8px',
+                    borderRadius: 99,
+                    background: '#ede9fe',
+                    color: '#5b21b6',
+                  }}
+                >
+                  🖼️ BIBLIOTEKA ZDJĘĆ ANTKI PL · act_1109284831182252
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: '3px 8px',
+                    borderRadius: 99,
+                    background: '#dcfce7',
+                    color: '#166534',
+                  }}
+                >
+                  ✨ {aiImagesCount} Czystych Zdjęć AI (bez tekstu) + 📚 {metaImagesCount} Kreacji z Biblioteki Meta
+                </span>
+              </div>
+              <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
+                🖼️ Galeria Kreacji „Porady Mamy Gosi” (Biblioteka Meta + Wygenerowane AI pod 7 grup Antków)
+              </h2>
+              <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
+                Kliknij miniaturę, aby powiększyć (1:1 / 4:5 / 9:16), lub przypisz dowolne zdjęcie jednym kliknięciem do{' '}
+                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej (DOM, RUCH, GRUPA, MIT, RYCIAK, ŻAL, ZIMA). Wszystkie zdjęcia posiadają załadowany <code>image_hash</code> na koncie Meta!
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('all')}
+                style={{
+                  padding: '7px 12px',
+                  borderRadius: 7,
+                  border: galleryTab === 'all' ? '1px solid #6d28d9' : '1px solid var(--border)',
+                  background: galleryTab === 'all' ? '#6d28d9' : 'var(--bg)',
+                  color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                Wszystkie ({imageLibrary.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('ai')}
+                style={{
+                  padding: '7px 12px',
+                  borderRadius: 7,
+                  border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
+                  background: galleryTab === 'ai' ? '#059669' : 'var(--bg)',
+                  color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                ✨ Wygenerowane AI ({aiImagesCount} czystych zdjęć natywnych)
+              </button>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('meta')}
+                style={{
+                  padding: '7px 12px',
+                  borderRadius: 7,
+                  border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
+                  background: galleryTab === 'meta' ? '#2563eb' : 'var(--bg)',
+                  color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                📚 Znalezione w Bibliotece Meta ({metaImagesCount})
+              </button>
+              <button
+                type="button"
+                onClick={syncToMetaCc35}
+                disabled={syncingMetaCc35}
+                style={{
+                  padding: '7px 12px',
+                  borderRadius: 7,
+                  border: '1px solid #0f766e',
+                  background: '#0f766e',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: syncingMetaCc35 ? 'wait' : 'pointer',
+                  opacity: syncingMetaCc35 ? 0.7 : 1,
+                }}
+              >
+                {syncingMetaCc35
+                  ? '⏳ Synchronizacja 35 reklam z Meta (PAUSED)…'
+                  : '🔄 Zapisz kreacje + „Porady Mamy Gosi” w ANTKI CC35 (PAUSED)'}
+              </button>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))',
+              gap: 12,
+              maxHeight: 520,
+              overflowY: 'auto',
+              paddingRight: 4,
+            }}
+          >
+            {filteredGalleryImages.map(asset => {
+              const isAssignedToActive = activeResolvedImage?.url === asset.url;
+              const groupInfo = asset.groupCode ? GROUP_ANGLE_RANGES[asset.groupCode] : undefined;
+              const groupAngleIds = groupInfo
+                ? presets.filter(p => groupInfo.numbers.includes(p.number)).map(p => p.id)
+                : [];
+              const usedByCount = presets.filter(p => {
+                const ad = adByAngleId[p.id];
+                const url = ad?.imageUrl || p.defaultImageUrl || getDefaultImageForAngle(p.number).url;
+                return url === asset.url;
+              }).length;
+
+              return (
+                <div
+                  key={asset.id}
+                  style={{
+                    borderRadius: 9,
+                    border: isAssignedToActive ? '2px solid #7c3aed' : '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: isAssignedToActive ? '0 2px 10px rgba(124,58,237,0.18)' : 'none',
+                  }}
+                >
+                  <div>
+                    <div
+                      onClick={() => setLightboxAsset(asset)}
+                      title="Kliknij, aby powiększyć zdjęcie"
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: 165,
+                        background: '#0f172a',
+                        cursor: 'zoom-in',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <img
+                        src={asset.url}
+                        alt={asset.label}
+                        loading="lazy"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 7,
+                          left: 7,
+                          display: 'flex',
+                          gap: 4,
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 800,
+                            padding: '2px 6px',
+                            borderRadius: 4,
+                            background: asset.source === 'ai' ? '#059669' : '#2563eb',
+                            color: '#ffffff',
+                          }}
+                        >
+                          {asset.source === 'ai' ? '✨ AI NATIVE' : '📚 META LIBRARY'}
+                        </span>
+                        {asset.groupCode && (
+                          <span
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 800,
+                              padding: '2px 6px',
+                              borderRadius: 4,
+                              background: 'rgba(15,23,42,0.82)',
+                              color: '#f8fafc',
+                            }}
+                          >
+                            {asset.groupCode}
+                          </span>
+                        )}
+                      </div>
+                      {usedByCount > 0 && (
+                        <span
+                          style={{
+                            position: 'absolute',
+                            bottom: 7,
+                            right: 7,
+                            fontSize: 10,
+                            fontWeight: 800,
+                            padding: '2px 7px',
+                            borderRadius: 99,
+                            background: '#dcfce7',
+                            color: '#166534',
+                            border: '1px solid #86efac',
+                          }}
+                        >
+                          Używane w {usedByCount} Antkach
+                        </span>
+                      )}
+                    </div>
+
+                    <div style={{ padding: '9px 10px 6px' }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: 4 }}>
+                        {asset.label}
+                      </div>
+                      {asset.imageHash && (
+                        <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace', marginBottom: 4 }}>
+                          hash: {asset.imageHash.slice(0, 12)}…
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '0 10px 10px', display: 'grid', gap: 5 }}>
+                    {activeAngle && (
+                      <button
+                        type="button"
+                        disabled={assigningImage || isAssignedToActive}
+                        onClick={() =>
+                          void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`)
+                        }
+                        style={{
+                          padding: '6px 8px',
+                          borderRadius: 6,
+                          border: isAssignedToActive ? '1px solid #10b981' : '1px solid #7c3aed',
+                          background: isAssignedToActive ? '#ecfdf5' : '#7c3aed',
+                          color: isAssignedToActive ? '#065f46' : '#ffffff',
+                          fontWeight: 700,
+                          fontSize: 11,
+                          cursor: isAssignedToActive ? 'default' : 'pointer',
+                        }}
+                      >
+                        {isAssignedToActive
+                          ? `✓ Aktywne w Antku #${activeAngle.number}`
+                          : `Przypisz do aktywnego Antka (#${activeAngle.number})`}
+                      </button>
+                    )}
+
+                    {groupInfo && groupAngleIds.length > 0 && (
+                      <button
+                        type="button"
+                        disabled={assigningImage}
+                        onClick={() =>
+                          void assignImageToAngles(
+                            groupAngleIds,
+                            asset,
+                            `grupa ${groupInfo.label} (${groupInfo.shortRange})`,
+                          )
+                        }
+                        style={{
+                          padding: '5px 8px',
+                          borderRadius: 6,
+                          border: '1px solid var(--border)',
+                          background: 'var(--card)',
+                          color: 'var(--text)',
+                          fontWeight: 600,
+                          fontSize: 11,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Przypisz do całej grupy ({groupInfo.label} {groupInfo.shortRange})
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
       )}
 
       {/* PANEL ARCHITEKTURY KAMPANII I 7 AD SETÓW COST CAP 35 PLN */}
@@ -1246,6 +1689,9 @@ export default function AntkiPlPage() {
               const isSelected = selectedIds.includes(angle.id);
               const isActive = activeAngleId === angle.id;
               const errText = angleErrors[angle.id];
+              const assignedImgUrl =
+                ad?.imageUrl || angle.defaultImageUrl || getDefaultImageForAngle(angle.number).url;
+              const assignedAsset = imageLibrary.find(item => item.url === assignedImgUrl);
 
               return (
                 <article
@@ -1264,7 +1710,7 @@ export default function AntkiPlPage() {
                     boxShadow: isActive ? '0 2px 8px rgba(29,78,216,0.12)' : 'none',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 7 }}>
                     <label
                       onClick={e => e.stopPropagation()}
                       style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, cursor: 'pointer' }}
@@ -1332,11 +1778,51 @@ export default function AntkiPlPage() {
                     </span>
                   </div>
 
-                  <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', marginBottom: 4, lineHeight: 1.35 }}>
-                    #{angle.number} · {angle.title}
-                  </div>
-                  <div style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
-                    <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: 48,
+                        height: 48,
+                        minWidth: 48,
+                        borderRadius: 7,
+                        overflow: 'hidden',
+                        border: '1px solid var(--border)',
+                        background: '#0f172a',
+                      }}
+                      title={assignedAsset?.label || assignedImgUrl}
+                    >
+                      <img
+                        src={assignedImgUrl}
+                        alt={`Antek #${angle.number}`}
+                        loading="lazy"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: 1,
+                          right: 1,
+                          fontSize: 8,
+                          fontWeight: 800,
+                          padding: '1px 3px',
+                          borderRadius: 3,
+                          background: assignedAsset?.source === 'meta' ? '#2563eb' : '#059669',
+                          color: '#ffffff',
+                        }}
+                      >
+                        {assignedAsset?.source === 'meta' ? 'META' : 'AI'}
+                      </span>
+                    </div>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', marginBottom: 3, lineHeight: 1.3 }}>
+                        #{angle.number} · {angle.title}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.3 }}>
+                        <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
+                      </div>
+                    </div>
                   </div>
                   {errText && (
                     <div style={{ color: '#dc2626', fontSize: 11.5, fontWeight: 600, marginTop: 4 }}>
@@ -1349,7 +1835,7 @@ export default function AntkiPlPage() {
           )}
         </div>
 
-        {/* PRAWA KOLUMNA: SZCZEGÓŁY KĄTA + PEŁNY EDYTOR TEKSTU + AUDYT */}
+        {/* PRAWA KOLUMNA: SZCZEGÓŁY KĄTA + PODGLĄD POSTA FB + PEŁNY EDYTOR TEKSTU + AUDYT */}
         <section
           style={{
             padding: 20,
@@ -1455,6 +1941,247 @@ export default function AntkiPlPage() {
                       📋 Kopiuj tekst
                     </button>
                   )}
+                </div>
+              </div>
+
+              {/* REALISTYCZNY PODGLĄD POSTA „PORADY MAMY GOSI” + SZYBKI PRZEŁĄCZNIK KREACJI */}
+              <div
+                style={{
+                  marginBottom: 16,
+                  padding: 14,
+                  borderRadius: 10,
+                  background: 'var(--bg)',
+                  border: '1px solid #ddd6fe',
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(280px, 370px) 1fr',
+                  gap: 16,
+                  alignItems: 'start',
+                }}
+              >
+                {/* KARTA FACEBOOK FEED PREVIEW */}
+                <div
+                  style={{
+                    borderRadius: 10,
+                    border: '1px solid #cbd5e1',
+                    background: '#ffffff',
+                    color: '#0f172a',
+                    overflow: 'hidden',
+                    boxShadow: '0 2px 8px rgba(15,23,42,0.06)',
+                  }}
+                >
+                  <div style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+                        color: '#ffffff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 800,
+                        fontSize: 14,
+                      }}
+                    >
+                      MG
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 700, fontSize: 13, color: '#0f172a', lineHeight: 1.2 }}>
+                        {pageName || 'Porady Mamy Gosi'}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#64748b' }}>
+                        Sponsorowane · 🌐 · ID: 798916893308685
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      padding: '0 12px 10px',
+                      fontSize: 12.5,
+                      color: '#1e293b',
+                      lineHeight: 1.45,
+                      whiteSpace: 'pre-wrap',
+                    }}
+                  >
+                    {fbPreviewExpanded
+                      ? editPrimaryText
+                      : (editPrimaryText || '').slice(0, 230) + ((editPrimaryText || '').length > 230 ? '… ' : '')}
+                    {(editPrimaryText || '').length > 230 && (
+                      <button
+                        type="button"
+                        onClick={() => setFbPreviewExpanded(v => !v)}
+                        style={{
+                          background: 'transparent',
+                          border: 0,
+                          color: '#2563eb',
+                          fontWeight: 700,
+                          fontSize: 12,
+                          cursor: 'pointer',
+                          padding: 0,
+                        }}
+                      >
+                        {fbPreviewExpanded ? ' Zwiń' : 'Zobacz więcej'}
+                      </button>
+                    )}
+                  </div>
+
+                  {activeResolvedImage && (
+                    <div
+                      onClick={() => setLightboxAsset(activeResolvedImage)}
+                      title="Kliknij, aby powiększyć kreację"
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        aspectRatio: '1 / 1',
+                        background: '#0f172a',
+                        cursor: 'zoom-in',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <img
+                        src={activeResolvedImage.url}
+                        alt={activeResolvedImage.label}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </div>
+                  )}
+
+                  <div
+                    style={{
+                      padding: '10px 12px',
+                      background: '#f1f5f9',
+                      borderTop: '1px solid #e2e8f0',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: 10,
+                    }}
+                  >
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 10.5, color: '#64748b', textTransform: 'uppercase' }}>
+                        orthomax.pl
+                      </div>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 13,
+                          color: '#0f172a',
+                          lineHeight: 1.3,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {editHeadline || activeAngle.defaultHeadline}
+                      </div>
+                    </div>
+                    <span
+                      style={{
+                        padding: '7px 11px',
+                        borderRadius: 6,
+                        background: '#e2e8f0',
+                        color: '#0f172a',
+                        fontWeight: 700,
+                        fontSize: 11.5,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      Więcej informacji
+                    </span>
+                  </div>
+                </div>
+
+                {/* SZYBKI WYBÓR ZDJĘCIA DLA AKTYWNEGO ANTKA */}
+                <div style={{ display: 'grid', gap: 10 }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          padding: '2px 8px',
+                          borderRadius: 4,
+                          background: activeResolvedImage?.source === 'meta' ? '#dbeafe' : '#dcfce7',
+                          color: activeResolvedImage?.source === 'meta' ? '#1e40af' : '#166534',
+                        }}
+                      >
+                        {activeResolvedImage?.source === 'meta' ? '📚 KREACJA Z BIBLIOTEKI META' : '✨ KREACJA AI NATIVE (CZYSTA)'}
+                      </span>
+                      {activeResolvedImage?.imageHash && (
+                        <code style={{ fontSize: 11, color: 'var(--muted)' }}>
+                          image_hash: {activeResolvedImage.imageHash}
+                        </code>
+                      )}
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
+                      Przypisane zdjęcie: {activeResolvedImage?.label}
+                    </div>
+                    <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--muted)' }}>
+                      Kliknij dowolną miniaturę poniżej, aby natychmiast podmienić zdjęcie w Antku #{activeAngle.number}:
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(64px, 1fr))',
+                      gap: 7,
+                      maxHeight: 265,
+                      overflowY: 'auto',
+                      padding: 4,
+                    }}
+                  >
+                    {imageLibrary.map(asset => {
+                      const isCurrent = activeResolvedImage?.url === asset.url;
+                      return (
+                        <button
+                          key={asset.id}
+                          type="button"
+                          disabled={assigningImage}
+                          onClick={() =>
+                            void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`)
+                          }
+                          title={`${asset.label}${asset.imageHash ? ` (hash: ${asset.imageHash})` : ''}`}
+                          style={{
+                            position: 'relative',
+                            padding: 0,
+                            height: 64,
+                            borderRadius: 7,
+                            overflow: 'hidden',
+                            border: isCurrent ? '3px solid #7c3aed' : '1px solid var(--border)',
+                            cursor: 'pointer',
+                            background: '#0f172a',
+                            opacity: isCurrent ? 1 : 0.86,
+                          }}
+                        >
+                          <img
+                            src={asset.url}
+                            alt={asset.label}
+                            loading="lazy"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                          <span
+                            style={{
+                              position: 'absolute',
+                              bottom: 2,
+                              right: 2,
+                              fontSize: 8,
+                              fontWeight: 800,
+                              padding: '1px 3px',
+                              borderRadius: 3,
+                              background: asset.source === 'ai' ? '#059669' : '#2563eb',
+                              color: '#ffffff',
+                            }}
+                          >
+                            {asset.source === 'ai' ? 'AI' : 'META'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -1614,6 +2341,121 @@ export default function AntkiPlPage() {
           )}
         </section>
       </div>
+
+      {/* LIGHTBOX POWIĘKSZENIA ZDJĘCIA */}
+      {lightboxAsset && (
+        <div
+          onClick={() => setLightboxAsset(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15,23,42,0.82)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1100,
+            padding: 20,
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: 'var(--card)',
+              color: 'var(--text)',
+              borderRadius: 12,
+              border: '1px solid var(--border)',
+              maxWidth: 760,
+              width: '100%',
+              maxHeight: '92vh',
+              overflowY: 'auto',
+              padding: 18,
+              display: 'grid',
+              gap: 12,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{lightboxAsset.label}</div>
+                <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+                  Źródło: {lightboxAsset.source === 'ai' ? '✨ Wygenerowane AI (czyste zdjęcie natywne)' : '📚 Biblioteka Meta (act_1109284831182252)'}
+                  {lightboxAsset.imageHash ? ` · image_hash: ${lightboxAsset.imageHash}` : ''}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setLightboxAsset(null)}
+                style={{
+                  background: 'transparent',
+                  border: 0,
+                  color: 'var(--text)',
+                  fontSize: 20,
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div
+              style={{
+                background: '#0f172a',
+                borderRadius: 8,
+                overflow: 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: '70vh',
+              }}
+            >
+              <img
+                src={lightboxAsset.url}
+                alt={lightboxAsset.label}
+                style={{ maxWidth: '100%', maxHeight: '70vh', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+              {activeAngle && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`);
+                    setLightboxAsset(null);
+                  }}
+                  style={{
+                    padding: '8px 14px',
+                    borderRadius: 7,
+                    border: 0,
+                    background: '#7c3aed',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: 12.5,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Przypisz tę kreację do aktywnego Antka (#{activeAngle.number})
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setLightboxAsset(null)}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: 7,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontWeight: 600,
+                  fontSize: 12.5,
+                  cursor: 'pointer',
+                }}
+              >
+                Zamknij podgląd
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MODAL DODAWANIA WŁASNEGO KĄTA */}
       {showCustomModal && (

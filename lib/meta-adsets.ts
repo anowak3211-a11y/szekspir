@@ -29,7 +29,11 @@ async function directGraph<T=Record<string,unknown>>(path:string,params:Record<s
  if(method==='GET')url.search=body.toString();
  const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(45000)});
  const data=await r.json() as Record<string,unknown>;
- if(!r.ok||data.error){const e=data.error as {code?:number;error_subcode?:number;message?:string;error_user_msg?:string}|undefined;throw Error(`Meta (${e?.code||r.status}/${e?.error_subcode||0}): ${e?.error_user_msg||e?.message||'Request failed'}`);}
+ if(!r.ok||data.error){
+  const e=data.error as {code?:number;error_subcode?:number;message?:string;error_user_msg?:string}|undefined;
+  const buc=r.headers.get('x-business-use-case-usage')||r.headers.get('x-ad-account-usage')||'';
+  throw Error(`Meta (${e?.code||r.status}/${e?.error_subcode||0}): ${e?.error_user_msg||e?.message||'Request failed'}${buc?` | usage=${buc}`:''}`);
+ }
  return data as T;
 }
 function canonical(value:unknown):string{if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';return JSON.stringify(value);}
@@ -447,6 +451,244 @@ export async function cleanupDuplicateAntkiCampaigns(keepCampaignId = '120249912
   }
  }
  return { keptCampaignId: keepCampaignId, deletedCount: deleted.filter(d => d.ok).length, deleted };
+}
+
+export const ANTKI_CC35_DEFAULT_ADSETS: Record<string, string> = {
+ DOM: '120249912191690300',
+ RUCH: '120249912192250300',
+ GRUPA: '120249912192790300',
+ MIT: '120249912193360300',
+ RYCIAK: '120249912193940300',
+ ZAL: '120249912194700300',
+ ZIMA: '120249912194980300',
+};
+
+export async function inspectAntkiTargetAssets(accountId = '1109284831182252', campaignId = '120249912191200300') {
+ const [adsRes, pagesRes, imagesRes, campSetsRes] = await Promise.all([
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/ads`,
+   {
+    fields: 'id,name,status,adset_id,campaign_id,creative{id,name,object_story_spec,asset_feed_spec,url_tags,image_hash,thumbnail_url}',
+    limit: 30,
+   },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/promote_pages`,
+   { fields: 'id,name', limit: 25 },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/adimages`,
+   { fields: 'hash,name,url,created_time', limit: 25 },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `${campaignId}/adsets`,
+   { fields: 'id,name,status,bid_amount,bid_strategy', limit: 25 },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+ ]);
+
+ return {
+  accountId,
+  campaignId,
+  campaignAdSets: (campSetsRes as { data?: unknown })?.data || campSetsRes,
+  promotePages: (pagesRes as { data?: unknown })?.data || pagesRes,
+  recentImages: (imagesRes as { data?: unknown })?.data || imagesRes,
+  recentAds: (adsRes as { data?: unknown })?.data || adsRes,
+ };
+}
+
+export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
+ const opts = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const accountId = numericId(String(opts.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
+ const campaignId = numericId(String(opts.campaignId || '120249912191200300'), 'campaign');
+ const filterGroup = typeof opts.group === 'string' && opts.group.trim() ? opts.group.trim().toUpperCase() : null;
+ const publishStatus = opts.status === 'ACTIVE' ? 'ACTIVE' : 'PAUSED';
+ const updateExisting = Boolean(opts.updateExisting);
+
+ let pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : '798916893308685';
+ let instagramUserId =
+  typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
+   ? opts.instagramUserId.trim()
+   : pageId === '798916893308685'
+   ? '17841473314157729'
+   : '';
+ let imageHash = typeof opts.imageHash === 'string' && opts.imageHash.trim() ? opts.imageHash.trim() : '';
+ let url = typeof opts.url === 'string' && opts.url.startsWith('https://') ? opts.url.trim() : 'https://orthomax.pl/products/orthomax-stepmax';
+ let urlTags = typeof opts.urlTags === 'string' ? opts.urlTags.trim() : '';
+ const cta: 'LEARN_MORE' | 'SHOP_NOW' = opts.cta === 'SHOP_NOW' ? 'SHOP_NOW' : 'LEARN_MORE';
+
+ const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
+ const { getDefaultImageForAngle } = await import('./antki-pl');
+ const { value: savedState } = await readState<{ ads?: { angleId?: string; imageHash?: string; primaryText?: string; headline?: string }[] }>('antki-pl-library-v9-argon', { ads: [] });
+ const savedAds = Array.isArray(savedState?.ads) ? savedState.ads : [];
+ const savedByAngleId = new Map(
+  savedAds
+   .filter(a => a && typeof a.angleId === 'string')
+   .map(a => [a.angleId as string, a]),
+ );
+
+ const allAds = buildAllArgonPrewrittenAds(url);
+ const adByAngleId = new Map(allAds.map((ad, idx) => [ad.angleId, { ad, globalIndex: idx + 1 }]));
+
+ // Single GET for all existing ads in the campaign
+ const existingByAdSetAndName = new Map<string, string>();
+ if (!opts.skipExistingCheck) {
+  const existingAdsRes = await directGraph<{ data?: { id?: string; name?: string; adset_id?: string; status?: string }[] }>(
+   `${campaignId}/ads`,
+   { fields: 'id,name,adset_id,status', limit: 100 },
+   'GET',
+  );
+  for (const ea of existingAdsRes.data || []) {
+   if (ea.id && ea.name && ea.adset_id && ea.status !== 'DELETED') {
+    existingByAdSetAndName.set(`${ea.adset_id}:${ea.name.trim()}`, String(ea.id));
+   }
+  }
+ }
+
+ const createdResults: {
+  group: string;
+  adSetId: string;
+  adName: string;
+  angleId: string;
+  imageHash?: string;
+  ok: boolean;
+  skipped?: boolean;
+  updated?: boolean;
+  adId?: string;
+  creativeId?: string;
+  error?: string;
+ }[] = [];
+
+ for (const bp of ANTKI_PL_ADSET_BLUEPRINTS) {
+  if (filterGroup && bp.code !== filterGroup && bp.label !== filterGroup) continue;
+  const adSetId = ANTKI_CC35_DEFAULT_ADSETS[bp.code];
+  if (!adSetId) continue;
+
+  for (const angleId of bp.angleIds) {
+   const entry = adByAngleId.get(angleId);
+   if (!entry) continue;
+   const adName = `ad ${entry.globalIndex}`;
+   const alreadyId = existingByAdSetAndName.get(`${adSetId}:${adName}`);
+   if (alreadyId && !updateExisting) {
+    createdResults.push({
+     group: bp.label,
+     adSetId,
+     adName,
+     angleId,
+     ok: true,
+     skipped: true,
+     adId: alreadyId,
+    });
+    continue;
+   }
+
+   const saved = savedByAngleId.get(angleId);
+   const defaultImg = getDefaultImageForAngle(entry.globalIndex);
+   const resolvedImageHash =
+    imageHash ||
+    (typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
+    defaultImg?.imageHash ||
+    '158deebd0e272662e14182e8f8e3753b';
+   const resolvedPrimaryText =
+    typeof saved?.primaryText === 'string' && saved.primaryText.trim() ? saved.primaryText : entry.ad.primaryText;
+   const resolvedHeadline =
+    typeof saved?.headline === 'string' && saved.headline.trim() ? saved.headline : entry.ad.headline;
+
+   try {
+    const cleanCreative = {
+     name: `antki-cc35-gosi-${entry.globalIndex}`,
+     object_story_spec: {
+      page_id: pageId,
+      ...(instagramUserId ? { instagram_user_id: instagramUserId } : {}),
+      link_data: {
+       link: url,
+       image_hash: resolvedImageHash,
+       message: resolvedPrimaryText,
+       name: resolvedHeadline,
+       call_to_action: { type: cta, value: { link: url } },
+      },
+     },
+     ...(urlTags ? { url_tags: urlTags } : {}),
+    };
+
+    const cr = await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, cleanCreative, 'POST');
+    if (alreadyId && updateExisting) {
+     await directGraph<{ success?: boolean }>(
+      alreadyId,
+      {
+       creative: { creative_id: cr.id },
+      },
+      'POST',
+     );
+     createdResults.push({
+      group: bp.label,
+      adSetId,
+      adName,
+      angleId,
+      imageHash: resolvedImageHash,
+      ok: true,
+      updated: true,
+      adId: alreadyId,
+      creativeId: cr.id,
+     });
+    } else {
+     const createdAd = await directGraph<{ id: string }>(
+      `act_${accountId}/ads`,
+      {
+       name: adName,
+       adset_id: adSetId,
+       creative: { creative_id: cr.id },
+       status: publishStatus,
+      },
+      'POST',
+     );
+
+     createdResults.push({
+      group: bp.label,
+      adSetId,
+      adName,
+      angleId,
+      imageHash: resolvedImageHash,
+      ok: true,
+      adId: createdAd.id,
+      creativeId: cr.id,
+     });
+    }
+    await new Promise(r => setTimeout(r, 1200));
+   } catch (e) {
+    const msg = e instanceof Error ? e.message : 'Failed';
+    createdResults.push({
+     group: bp.label,
+     adSetId,
+     adName,
+     angleId,
+     imageHash: resolvedImageHash,
+     ok: false,
+     error: msg,
+    });
+    if (msg.includes('17/2446079') || msg.includes('too many calls')) {
+     break;
+    }
+   }
+  }
+ }
+
+ return {
+  accountId,
+  campaignId,
+  pageId,
+  imageHash,
+  url,
+  cta,
+  urlTags,
+  createdCount: createdResults.filter(r => r.ok && !r.skipped).length,
+  skippedCount: createdResults.filter(r => r.skipped).length,
+  failedCount: createdResults.filter(r => !r.ok).length,
+  results: createdResults,
+ };
 }
 export async function updateUploaderAdsStatus(raw:unknown){
  const a=raw as Record<string,unknown>;if(!a||typeof a!=='object')throw Error('Invalid request.');

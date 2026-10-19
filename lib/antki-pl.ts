@@ -52,6 +52,8 @@ export interface AntkiPlPresetAngle {
   failedSolutionsMath: string;
   discoveryBridge: string;
   defaultHeadline: string;
+  defaultImageUrl?: string;
+  defaultImageHash?: string;
 }
 
 export interface AntkiPlGeneratedAd {
@@ -67,6 +69,8 @@ export interface AntkiPlGeneratedAd {
   primaryText: string;
   destinationUrl: string;
   cta: 'LEARN_MORE' | 'SHOP_NOW';
+  imageUrl?: string;
+  imageHash?: string;
   wordCount: number;
   characterCount: number;
   auditPassed: boolean;
@@ -74,6 +78,284 @@ export interface AntkiPlGeneratedAd {
   auditFixesApplied: string[];
   createdAt: number;
   updatedAt: number;
+}
+
+export interface AntkiPlImageAsset {
+  id: string;
+  url: string;
+  label: string;
+  source: 'ai' | 'meta';
+  groupCode?: 'DOM' | 'RUCH' | 'GRUPA' | 'MIT' | 'RYCIAK' | 'ZAL' | 'ZIMA';
+  defaultForAngles?: number[];
+  imageHash?: string;
+  aspectRatio?: string;
+  note?: string;
+}
+
+export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
+  // ==================== a) ZDJĘCIA WYGENEROWANE AI POD GRUPY TEMATYCZNE ANTKÓW PL ====================
+  {
+    id: 'ai-dom-01',
+    url: '/antki-pl-images/ai-dom-01-zdarte-buty.jpg',
+    label: 'DOM · Zdarte od wewnątrz buty za 599 zł w przedpokoju + StepMax',
+    source: 'ai',
+    groupCode: 'DOM',
+    defaultForAngles: [1, 2, 5],
+    imageHash: '158deebd0e272662e14182e8f8e3753b',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — idealne pod kąty #1, #2 i #5 (Domowy Detektyw)',
+  },
+  {
+    id: 'ai-dom-03',
+    url: '/antki-pl-images/ai-dom-03-mokra-stopa.jpg',
+    label: 'DOM · Test mokrej stopy na kafelkach w łazience + StepMax',
+    source: 'ai',
+    groupCode: 'DOM',
+    defaultForAngles: [3, 4],
+    imageHash: '000ab29ac8f96038803bb4528042fe5b',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — idealne pod kąty #3 i #4 (Test mokrej stopy / skarpetka)',
+  },
+  {
+    id: 'ai-ruch-06',
+    url: '/antki-pl-images/ai-ruch-06-plecak-postawa.jpg',
+    label: 'RUCH · Efekt Domina: uciekające kostki i łopatki od tyłu + StepMax',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [6, 7, 8, 9, 10],
+    imageHash: '1dd6c391a641ef297aef2e377ce65d20',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy RUCH (#6–#10)',
+  },
+  {
+    id: 'ai-grupa-11',
+    url: '/antki-pl-images/ai-grupa-11-szatnia-wf.jpg',
+    label: 'GRUPA · Szkolna ławka w szatni, halówki na WF i wkładki StepMax',
+    source: 'ai',
+    groupCode: 'GRUPA',
+    defaultForAngles: [11, 12, 13, 14, 15],
+    imageHash: '8f29d5c1d5a8989c02b2aaba6cca5350',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy GRUPA (#11–#15 Szkoła i WF)',
+  },
+  {
+    id: 'ai-mit-16',
+    url: '/antki-pl-images/ai-mit-16-wojna-o-cwiczenia.jpg',
+    label: 'MIT · Jeżyk do ćwiczeń i stare twarde wkładki vs elastyczne StepMax',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [16, 17, 18, 19, 20],
+    imageHash: '92763d9f6dc6e3a0d39b9b3fea07ead3',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy MIT (#16–#20 Wypalone Matki / 14h na betonie)',
+  },
+  {
+    id: 'ai-ryciak-21',
+    url: '/antki-pl-images/ai-ryciak-21-gabinet-test-luku.jpg',
+    label: 'RYCIAK · Gabinet fizjoterapeuty: test podniesienia łuku na podoskopie',
+    source: 'ai',
+    groupCode: 'RYCIAK',
+    defaultForAngles: [21, 22, 23, 24, 25],
+    imageHash: 'b008c4756bf12864312891537820b2e1',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy RYCIAK (#21–#25 Winner Rip 3)',
+  },
+  {
+    id: 'ai-zal-26',
+    url: '/antki-pl-images/ai-zal-26-po-operacji-kule.jpg',
+    label: 'ŻAL · Kule ortopedyczne po operacji vs buty z wkładkami StepMax',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [26, 27, 28, 29, 30],
+    imageHash: '30636b07b16b7515473bd907519d4572',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy ŻAL (#26–#30 Żal po operacji)',
+  },
+  {
+    id: 'ai-zima-31',
+    url: '/antki-pl-images/ai-zima-31-dorosli-zimowe-botki.jpg',
+    label: 'ZIMA · Dorośli: zimowe botki w przedpokoju i wkładki StepMax',
+    source: 'ai',
+    groupCode: 'ZIMA',
+    defaultForAngles: [31, 32, 33, 34, 35],
+    imageHash: 'd74c1a2d24f65a3860b7e0d9f8fa727e',
+    aspectRatio: '1:1',
+    note: 'Czyste natywne zdjęcie bez tekstu — domyślne dla grupy ZIMA (#31–#35 Dorośli Jesień/Zima)',
+  },
+
+  // ==================== b) ZDJĘCIA ZNALEZIONE W BIBLIOTECE META (act_1109284831182252) ====================
+  {
+    id: 'meta-collage-4x5',
+    url: '/antki-pl-images/meta-collage-4x5.jpg',
+    label: 'Kolaż UGC 4x5 — Mamy i dzieci z wkładką Orthomax (bez tekstu)',
+    source: 'meta',
+    imageHash: '6f2fd035503c2fd8b68fbdcc9c724328',
+    aspectRatio: '4:5',
+    note: 'Oryginalna kreacja z głównej kampanii 25.08.2025 | 1 (największy spend)',
+  },
+  {
+    id: 'meta-collage-9x16',
+    url: '/antki-pl-images/meta-collage-9x16.jpg',
+    label: 'Kolaż UGC 9x16 — Mamy i dzieci z wkładką Orthomax',
+    source: 'meta',
+    imageHash: '15aad94b2d0c2fe83d76d09369221d64',
+    aspectRatio: '9:16',
+    note: 'Pionowy wariant kolażu z Biblioteki Meta',
+  },
+  {
+    id: 'meta-podoskop-fizjo-350',
+    url: '/antki-pl-images/meta-podoskop-fizjo-350.jpg',
+    label: 'Natywne 1:1 — Podoskop + tekst: „Zapytałam fizjoterapeutkę, dlaczego wkładki za 350 zł..."',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: 'a3affca893041766dc2249386bf5263d',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Fizjoterapeutka 350 zł)',
+  },
+  {
+    id: 'meta-buty-fizjo-350',
+    url: '/antki-pl-images/meta-buty-fizjo-350.jpg',
+    label: 'Natywne 1:1 — Zdarte buty od tyłu + tekst: „Zapytałam fizjoterapeutkę..."',
+    source: 'meta',
+    groupCode: 'DOM',
+    imageHash: '8198937e728b511428a3d5a5bc8121f8',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Fizjoterapeutka 350 zł)',
+  },
+  {
+    id: 'meta-sor-fizjo-350',
+    url: '/antki-pl-images/meta-sor-fizjo-350.jpg',
+    label: 'Natywne 1:1 — Drzwi SOR + tekst: „Zapytałam fizjoterapeutkę..."',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: '497f1dfedb35d5be286927c191cd8d11',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Fizjoterapeutka 350 zł)',
+  },
+  {
+    id: 'meta-skierowanie-fizjo-350',
+    url: '/antki-pl-images/meta-skierowanie-fizjo-350.jpg',
+    label: 'Natywne 1:1 — Skierowanie Gdańsk + tekst: „Zapytałam fizjoterapeutkę..."',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: '0cfa7e6d12e87eb70f00ca04bd37ff1a',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Fizjoterapeutka 350 zł)',
+  },
+  {
+    id: 'meta-buty-2347-sor',
+    url: '/antki-pl-images/meta-buty-2347-sor.jpg',
+    label: 'Natywne 1:1 — Zdarte buty + tekst: „23:47. Zosia budzi się z płaczem..."',
+    source: 'meta',
+    groupCode: 'DOM',
+    imageHash: '60f4cc5cee257e6a3b79c04d88531716',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria 23:47 Nocny płacz / SOR)',
+  },
+  {
+    id: 'meta-sor-2347',
+    url: '/antki-pl-images/meta-sor-2347.jpg',
+    label: 'Natywne 1:1 — Drzwi SOR + tekst: „23:47. Zosia budzi się z płaczem..."',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: 'd944f8665f5a5a055436e9ee98971a96',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria 23:47 Nocny płacz / SOR)',
+  },
+  {
+    id: 'meta-kostki-2347',
+    url: '/antki-pl-images/meta-kostki-2347.jpg',
+    label: 'Natywne 1:1 — Kostki przed/po + tekst: „23:47. Zosia budzi się z płaczem..."',
+    source: 'meta',
+    groupCode: 'RUCH',
+    imageHash: '4f7683641a1d8801df108f89d20ff8eb',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria 23:47 Nocny płacz / SOR)',
+  },
+  {
+    id: 'meta-podoskop-2347',
+    url: '/antki-pl-images/meta-podoskop-2347.jpg',
+    label: 'Natywne 1:1 — Zielony podoskop + tekst: „23:47. Zosia budzi się z płaczem..."',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: '194fbe0a8357600c510a2fd63106f7e0',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria 23:47 Nocny płacz / SOR)',
+  },
+  {
+    id: 'meta-skierowanie-operacja',
+    url: '/antki-pl-images/meta-skierowanie-operacja.jpg',
+    label: 'Natywne 1:1 — Skierowanie na operację + tekst: „Wyszłam z gabinetu lekarza..."',
+    source: 'meta',
+    groupCode: 'ZAL',
+    imageHash: '132db14a632daf293440bc65541b0b28',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Skierowanie na operację)',
+  },
+  {
+    id: 'meta-buty-operacja',
+    url: '/antki-pl-images/meta-buty-operacja.jpg',
+    label: 'Natywne 1:1 — Zdarte buty + tekst: „Wyszłam z gabinetu lekarza..."',
+    source: 'meta',
+    groupCode: 'ZAL',
+    imageHash: 'a15d37a7e1b3523f1222ab242baef464',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Skierowanie na operację)',
+  },
+  {
+    id: 'meta-podoskop-operacja',
+    url: '/antki-pl-images/meta-podoskop-operacja.jpg',
+    label: 'Natywne 1:1 — Podoskop + tekst: „Wyszłam z gabinetu lekarza..."',
+    source: 'meta',
+    groupCode: 'ZAL',
+    imageHash: '00078eaa29e020b80c1d81af15614914',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Skierowanie na operację)',
+  },
+  {
+    id: 'meta-kostki-operacja',
+    url: '/antki-pl-images/meta-kostki-operacja.jpg',
+    label: 'Natywne 1:1 — Kostki od tyłu + tekst: „Wyszłam z gabinetu lekarza..."',
+    source: 'meta',
+    groupCode: 'ZAL',
+    imageHash: 'e2eaa70a5111891646a88d5096a22a14',
+    aspectRatio: '1:1',
+    note: 'Kreacja z konta Porady Mamy Gosi (seria Skierowanie na operację)',
+  },
+  {
+    id: 'meta-szkolna-szafka-1x1',
+    url: '/antki-pl-images/meta-szkolna-szafka-1x1.jpg',
+    label: 'Grafika 1:1 — Szkolna szafka i buty Nike z wkładkami („Zalicz każdy krok na 6+!")',
+    source: 'meta',
+    groupCode: 'GRUPA',
+    imageHash: 'cd96167a9f27a10676c1cf8e5a7f82db',
+    aspectRatio: '1:1',
+    note: 'Statyczna kreacja szkolna z Biblioteki Meta',
+  },
+  {
+    id: 'meta-male-stopy-1x1',
+    url: '/antki-pl-images/meta-male-stopy-1x1.jpg',
+    label: 'Grafika 1:1 — „Małe stopy = wielka odpowiedzialność"',
+    source: 'meta',
+    groupCode: 'MIT',
+    imageHash: 'd85af880e102029b47198a3f17fbcd4e',
+    aspectRatio: '1:1',
+    note: 'Statyczna kreacja edukacyjna z Biblioteki Meta',
+  },
+];
+
+export function getDefaultImageForAngle(angleNumber: number): AntkiPlImageAsset {
+  const matched = ANTKI_PL_IMAGE_LIBRARY.find(
+    img => img.source === 'ai' && img.defaultForAngles?.includes(angleNumber),
+  );
+  if (matched) return matched;
+  if (angleNumber >= 1 && angleNumber <= 5) return ANTKI_PL_IMAGE_LIBRARY[0];
+  if (angleNumber >= 6 && angleNumber <= 10) return ANTKI_PL_IMAGE_LIBRARY[2];
+  if (angleNumber >= 11 && angleNumber <= 15) return ANTKI_PL_IMAGE_LIBRARY[3];
+  if (angleNumber >= 16 && angleNumber <= 20) return ANTKI_PL_IMAGE_LIBRARY[4];
+  if (angleNumber >= 21 && angleNumber <= 25) return ANTKI_PL_IMAGE_LIBRARY[5];
+  if (angleNumber >= 26 && angleNumber <= 30) return ANTKI_PL_IMAGE_LIBRARY[6];
+  return ANTKI_PL_IMAGE_LIBRARY[7];
 }
 
 export const ORTHOMAX_PL_DEFAULT_URL = 'https://orthomax.pl/products/orthomax-stepmax';

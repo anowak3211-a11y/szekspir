@@ -3,12 +3,14 @@ import { accountRoute } from '@/lib/account-route';
 import { assertBrain, brainClient, brainOptions, brainSettings } from '@/lib/account-brain';
 import { mutate, readState } from '@/lib/store';
 import {
+  ANTKI_PL_IMAGE_LIBRARY,
   ANTKI_PL_PRESET_ANGLES,
   ANTKI_PL_STAGE_LABELS,
   ANTKI_PL_SYSTEM_PROMPT,
   DOROSLI_DEFAULT_HEADLINE,
   ORTHOMAX_PL_DEFAULT_URL,
   PORADY_MAMY_GOSI_HEADLINE,
+  getDefaultImageForAngle,
   sanitizeAndAuditAntkiPl,
   type AntkiPlFunnelStage,
   type AntkiPlGeneratedAd,
@@ -25,58 +27,76 @@ interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
 }
 
+function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
+  if (ad.imageUrl) return ad;
+  const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
+  const defaultImg = getDefaultImageForAngle(preset?.number || 1);
+  return {
+    ...ad,
+    imageUrl: preset?.defaultImageUrl || defaultImg.url,
+    imageHash: ad.imageHash || preset?.defaultImageHash || defaultImg.imageHash,
+  };
+}
+
 async function readLibrary(): Promise<AntkiPlGeneratedAd[]> {
   const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
     const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: defaultArgonAds });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     if (stored.length === 0) {
-      return defaultArgonAds;
+      return defaultArgonAds.map(ensureAdImage);
     }
     // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
     for (const ad of defaultArgonAds) {
-      byAngle.set(ad.angleId, ad);
+      byAngle.set(ad.angleId, ensureAdImage(ad));
     }
     for (const ad of stored) {
-      // Only override code defaults if the user explicitly edited or regenerated this ad
-      if (ad.id.startsWith('antek-pl-argon-') && ad.updatedAt === ad.createdAt) {
+      // Only override code defaults if the user explicitly edited, regenerated, or changed the image
+      if (ad.id.startsWith('antek-pl-argon-') && ad.updatedAt === ad.createdAt && !ad.imageUrl) {
         continue;
       }
       const audited = sanitizeAndAuditAntkiPl(ad.primaryText, ad.headline, ad.description);
-      byAngle.set(ad.angleId, {
-        ...ad,
-        primaryText: audited.primaryText,
-        headline: audited.headline,
-        description: audited.description,
-        destinationUrl:
-          ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
-            ? ORTHOMAX_PL_DEFAULT_URL
-            : ad.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
-      });
+      const baseAd = byAngle.get(ad.angleId);
+      byAngle.set(
+        ad.angleId,
+        ensureAdImage({
+          ...ad,
+          imageUrl: ad.imageUrl || baseAd?.imageUrl,
+          imageHash: ad.imageHash ?? baseAd?.imageHash,
+          primaryText: audited.primaryText,
+          headline: audited.headline,
+          description: audited.description,
+          destinationUrl:
+            ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
+              ? ORTHOMAX_PL_DEFAULT_URL
+              : ad.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
+        }),
+      );
     }
     return Array.from(byAngle.values());
   } catch {
-    return defaultArgonAds;
+    return defaultArgonAds.map(ensureAdImage);
   }
 }
 
 async function upsertAdInLibrary(ad: AntkiPlGeneratedAd): Promise<AntkiPlGeneratedAd[]> {
   const defaultArgonAds = buildAllArgonPrewrittenAds();
+  const normalizedAd = ensureAdImage(ad);
   try {
     return await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: defaultArgonAds }, state => {
       const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
-      const idx = list.findIndex(item => item.id === ad.id || item.angleId === ad.angleId);
+      const idx = list.findIndex(item => item.id === normalizedAd.id || item.angleId === normalizedAd.angleId);
       if (idx >= 0) {
-        list[idx] = ad;
+        list[idx] = normalizedAd;
       } else {
-        list.unshift(ad);
+        list.unshift(normalizedAd);
       }
-      state.ads = list.slice(0, 200);
+      state.ads = list.slice(0, 200).map(ensureAdImage);
       return state.ads;
     });
   } catch {
-    return [ad];
+    return [normalizedAd];
   }
 }
 
@@ -135,9 +155,18 @@ export const GET = accountRoute(async () => {
     const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
     const [savedAds, campaignStructure] = await Promise.all([readLibrary(), readAntkiCostCapCampaign()]);
     const brain = brainSettings();
+    const enrichedPresets = ANTKI_PL_PRESET_ANGLES.map(angle => {
+      const defaultImg = getDefaultImageForAngle(angle.number);
+      return {
+        ...angle,
+        defaultImageUrl: angle.defaultImageUrl || defaultImg.url,
+        defaultImageHash: angle.defaultImageHash || defaultImg.imageHash,
+      };
+    });
     return NextResponse.json({
-      presets: ANTKI_PL_PRESET_ANGLES,
+      presets: enrichedPresets,
       stages: ANTKI_PL_STAGE_LABELS,
+      imageLibrary: ANTKI_PL_IMAGE_LIBRARY,
       savedAds,
       adSetBlueprints: ANTKI_PL_ADSET_BLUEPRINTS,
       campaignStructure,
@@ -168,8 +197,15 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'sync_meta_cc35';
       angleId?: string;
+      angleIds?: string[];
+      imageUrl?: string;
+      imageHash?: string;
+      group?: string;
+      pageId?: string;
+      instagramUserId?: string;
+      updateExisting?: boolean;
       customAngle?: Partial<AntkiPlPresetAngle>;
       customInstructions?: string;
       destinationUrl?: string;
@@ -186,6 +222,50 @@ export const POST = accountRoute(async (req: Request) => {
 
     const action = body.action || 'generate';
 
+    if (action === 'set_image') {
+      const targetAngleIds = Array.isArray(body.angleIds) && body.angleIds.length > 0
+        ? body.angleIds
+        : body.angleId
+        ? [body.angleId]
+        : [];
+      if (!targetAngleIds.length || !body.imageUrl) {
+        return NextResponse.json({ error: 'Brak angleId/angleIds lub imageUrl.' }, { status: 400 });
+      }
+      const defaultArgonAds = buildAllArgonPrewrittenAds();
+      const now = Date.now();
+      const savedAds = await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(
+        STATE_KEY,
+        { ads: defaultArgonAds },
+        state => {
+          const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
+          for (const targetAngleId of targetAngleIds) {
+            const idx = list.findIndex(item => item.angleId === targetAngleId);
+            if (idx >= 0) {
+              list[idx] = {
+                ...list[idx],
+                imageUrl: body.imageUrl,
+                imageHash: body.imageHash || undefined,
+                updatedAt: now,
+              };
+            } else {
+              const fallback = defaultArgonAds.find(a => a.angleId === targetAngleId);
+              if (fallback) {
+                list.unshift({
+                  ...fallback,
+                  imageUrl: body.imageUrl,
+                  imageHash: body.imageHash || undefined,
+                  updatedAt: now,
+                });
+              }
+            }
+          }
+          state.ads = list.map(ensureAdImage);
+          return state.ads;
+        },
+      );
+      return NextResponse.json({ savedAds });
+    }
+
     if (action === 'create-meta-campaign') {
       const { createAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
       const campaignStructure = await createAntkiCostCapCampaign({
@@ -200,7 +280,7 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (action === 'save' && body.ad) {
       const audited = sanitizeAndAuditAntkiPl(body.ad.primaryText, body.ad.headline, body.ad.description);
-      const updatedAd: AntkiPlGeneratedAd = {
+      const updatedAd: AntkiPlGeneratedAd = ensureAdImage({
         ...body.ad,
         primaryText: audited.primaryText,
         headline: audited.headline,
@@ -211,7 +291,7 @@ export const POST = accountRoute(async (req: Request) => {
         auditWarnings: audited.auditWarnings,
         auditFixesApplied: audited.auditFixesApplied,
         updatedAt: Date.now(),
-      };
+      });
       const savedAds = await upsertAdInLibrary(updatedAd);
       return NextResponse.json({ ad: updatedAd, savedAds });
     }
@@ -236,6 +316,7 @@ export const POST = accountRoute(async (req: Request) => {
           rawArgon.description,
           preset.defaultHeadline,
         );
+        const defaultImg = getDefaultImageForAngle(preset.number);
         const now = Date.now();
         const argonAd: AntkiPlGeneratedAd = {
           id: `antek-pl-argon-${preset.code}`,
@@ -250,6 +331,8 @@ export const POST = accountRoute(async (req: Request) => {
           primaryText: audited.primaryText,
           destinationUrl: body.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
           cta: 'LEARN_MORE',
+          imageUrl: body.imageUrl || preset.defaultImageUrl || defaultImg.url,
+          imageHash: body.imageHash || preset.defaultImageHash || defaultImg.imageHash,
           wordCount: audited.wordCount,
           characterCount: audited.characterCount,
           auditPassed: audited.auditPassed,
@@ -351,6 +434,20 @@ export const POST = accountRoute(async (req: Request) => {
 
       const savedAds = await upsertAdInLibrary(generatedAd);
       return NextResponse.json({ ad: generatedAd, savedAds });
+    }
+
+    if (body.action === 'sync_meta_cc35') {
+      const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
+      const result = await populateAntkiAdsInCampaign({
+        group: typeof body.group === 'string' ? body.group : undefined,
+        pageId: typeof body.pageId === 'string' && body.pageId.trim() ? body.pageId.trim() : '798916893308685',
+        instagramUserId: typeof body.instagramUserId === 'string' && body.instagramUserId.trim() ? body.instagramUserId.trim() : '17841473314157729',
+        imageHash: typeof body.imageHash === 'string' && body.imageHash.trim() ? body.imageHash.trim() : undefined,
+        url: typeof body.destinationUrl === 'string' && body.destinationUrl.trim() ? body.destinationUrl.trim() : undefined,
+        status: 'PAUSED',
+        updateExisting: body.updateExisting !== false,
+      });
+      return NextResponse.json(result);
     }
 
     return NextResponse.json({ error: 'Nieznana akcja API Antki PL.' }, { status: 400 });

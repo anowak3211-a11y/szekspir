@@ -7,6 +7,7 @@ import { ANTKI_PL_COPY_PART6 } from './antki-pl-copy-part6';
 import {
   ANTKI_PL_PRESET_ANGLES,
   ORTHOMAX_PL_DEFAULT_URL,
+  getDefaultImageForAngle,
   sanitizeAndAuditAntkiPl,
   type AntkiPlGeneratedAd,
 } from './antki-pl';
@@ -39,6 +40,7 @@ export function buildAllArgonPrewrittenAds(
       raw.description,
       angle.defaultHeadline,
     );
+    const defaultImg = getDefaultImageForAngle(angle.number);
     return {
       id: `antek-pl-argon-${angle.code}`,
       angleId: angle.id,
@@ -52,6 +54,8 @@ export function buildAllArgonPrewrittenAds(
       primaryText: audited.primaryText,
       destinationUrl,
       cta: 'LEARN_MORE',
+      imageUrl: angle.defaultImageUrl || defaultImg.url,
+      imageHash: angle.defaultImageHash || defaultImg.imageHash,
       wordCount: audited.wordCount,
       characterCount: audited.characterCount,
       auditPassed: audited.auditPassed,
