@@ -108,13 +108,13 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   {
     id: 'ai-dom-03',
     url: '/antki-pl-images/ai-dom-03-mokra-stopa.jpg',
-    label: 'DOM · Czysty Native: Test mokrej stopy — oba płaskie ślady „stopa żelazka” (bez wkładki)',
+    label: 'DOM · Czysty Native: Test mokrej stopy dziecka (6 lat) — oba płaskie ślady „stopa żelazka”',
     source: 'ai',
     groupCode: 'DOM',
     defaultForAngles: [3, 4],
-    imageHash: '43419f10ebc8d907300d13b99bf2e22a',
+    imageHash: '430347a6730e7da6d3414707358f41bd',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu: dwie płaskie mokre stopy na kafelkach (zero wkładek) — domyślne dla #3 i #4',
+    note: '100% surowe zdjęcie problemu: małe dziecięce stópki w piżamie i dwa płaskie mokre ślady na kafelku — domyślne dla #3 i #4',
   },
   {
     id: 'ai-ruch-06',

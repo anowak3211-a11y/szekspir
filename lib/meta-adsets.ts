@@ -591,8 +591,9 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
 
    const saved = savedByAngleId.get(angleId);
    const defaultImg = getDefaultImageForAngle(entry.globalIndex);
-   const libMatch = saved?.imageUrl ? ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === saved.imageUrl) : undefined;
-   const resolvedImageHash =
+   const resolvedImageUrl = saved?.imageUrl || defaultImg?.url || '';
+   const libMatch = resolvedImageUrl ? ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === resolvedImageUrl) : undefined;
+   let resolvedImageHash =
     imageHash ||
     (typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
     libMatch?.imageHash ||
@@ -604,6 +605,27 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
     typeof saved?.headline === 'string' && saved.headline.trim() ? saved.headline : entry.ad.headline;
 
    try {
+    if (resolvedImageUrl.startsWith('/antki-pl-images/ai-')) {
+     try {
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+      const localPath = path.join(process.cwd(), 'public', resolvedImageUrl.replace(/^\//, ''));
+      if (fs.existsSync(localPath)) {
+       const bytes = fs.readFileSync(localPath).toString('base64');
+       const fileName = path.basename(localPath);
+       const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+        `act_${accountId}/adimages`,
+        { bytes, name: fileName },
+        'POST',
+       );
+       const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+       if (uploadedHash) resolvedImageHash = uploadedHash;
+      }
+     } catch {
+      // Fallback to existing resolvedImageHash
+     }
+    }
+
     const cleanCreative = {
      name: `antki-cc35-gosi-${entry.globalIndex}`,
      object_story_spec: {
