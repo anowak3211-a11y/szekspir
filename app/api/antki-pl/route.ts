@@ -27,9 +27,20 @@ const STATE_KEY = 'antki-pl-library-v9-argon';
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
   customImages?: AntkiPlImageAsset[];
+  deletedImageIds?: string[];
 }
 
 function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
+  // If an ad previously pointed to one of the removed text-overlay images, reset to clean default
+  if (ad.imageUrl && ad.imageUrl.includes('/lib-antki-napis-')) {
+    const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
+    const defaultImg = getDefaultImageForAngle(preset?.number || 1);
+    return {
+      ...ad,
+      imageUrl: preset?.defaultImageUrl || defaultImg.url,
+      imageHash: preset?.defaultImageHash || defaultImg.imageHash,
+    };
+  }
   if (ad.imageUrl) {
     const matchedLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === ad.imageUrl);
     if (matchedLib?.imageHash && matchedLib.imageHash !== ad.imageHash) {
@@ -46,14 +57,23 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
   };
 }
 
-async function readLibraryState(): Promise<{ ads: AntkiPlGeneratedAd[]; customImages: AntkiPlImageAsset[] }> {
+async function readLibraryState(): Promise<{
+  ads: AntkiPlGeneratedAd[];
+  customImages: AntkiPlImageAsset[];
+  deletedImageIds: string[];
+}> {
   const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
-    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: defaultArgonAds, customImages: [] });
+    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, {
+      ads: defaultArgonAds,
+      customImages: [],
+      deletedImageIds: [],
+    });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    const deletedImageIds = Array.isArray(value?.deletedImageIds) ? value.deletedImageIds : [];
     if (stored.length === 0) {
-      return { ads: defaultArgonAds.map(ensureAdImage), customImages };
+      return { ads: defaultArgonAds.map(ensureAdImage), customImages, deletedImageIds };
     }
     // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
@@ -83,9 +103,9 @@ async function readLibraryState(): Promise<{ ads: AntkiPlGeneratedAd[]; customIm
         }),
       );
     }
-    return { ads: Array.from(byAngle.values()), customImages };
+    return { ads: Array.from(byAngle.values()), customImages, deletedImageIds };
   } catch {
-    return { ads: defaultArgonAds.map(ensureAdImage), customImages: [] };
+    return { ads: defaultArgonAds.map(ensureAdImage), customImages: [], deletedImageIds: [] };
   }
 }
 
@@ -162,10 +182,14 @@ export function buildAntkiPlUserPrompt(params: {
 export const GET = accountRoute(async () => {
   try {
     const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
-    const [{ ads: savedAds, customImages }, campaignStructure] = await Promise.all([
+    const [{ ads: savedAds, customImages, deletedImageIds }, campaignStructure] = await Promise.all([
       readLibraryState(),
       readAntkiCostCapCampaign(),
     ]);
+    const deletedSet = new Set(deletedImageIds);
+    const activeLibrary = [...customImages, ...ANTKI_PL_IMAGE_LIBRARY].filter(
+      img => !deletedSet.has(img.id) && !deletedSet.has(img.url),
+    );
     const brain = brainSettings();
     const enrichedPresets = ANTKI_PL_PRESET_ANGLES.map(angle => {
       const defaultImg = getDefaultImageForAngle(angle.number);
@@ -178,7 +202,7 @@ export const GET = accountRoute(async () => {
     return NextResponse.json({
       presets: enrichedPresets,
       stages: ANTKI_PL_STAGE_LABELS,
-      imageLibrary: [...customImages, ...ANTKI_PL_IMAGE_LIBRARY],
+      imageLibrary: activeLibrary,
       savedAds,
       adSetBlueprints: ANTKI_PL_ADSET_BLUEPRINTS,
       campaignStructure,
@@ -209,9 +233,10 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'upload_custom_image' | 'sync_meta_cc35';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35';
       angleId?: string;
       angleIds?: string[];
+      imageId?: string;
       imageUrl?: string;
       imageHash?: string;
       dataUrl?: string;
@@ -236,6 +261,44 @@ export const POST = accountRoute(async (req: Request) => {
     };
 
     const action = body.action || 'generate';
+
+    if (action === 'delete_image') {
+      const targetId = (body.imageId || body.id || '').trim();
+      const targetUrl = (body.imageUrl || '').trim();
+      if (!targetId && !targetUrl) {
+        return NextResponse.json({ error: 'Brak imageId lub imageUrl do usunięcia.' }, { status: 400 });
+      }
+      const defaultArgonAds = buildAllArgonPrewrittenAds();
+      const updated = await mutate<
+        AntkiPlLibraryState,
+        { customImages: AntkiPlImageAsset[]; deletedImageIds: string[] }
+      >(
+        STATE_KEY,
+        { ads: defaultArgonAds, customImages: [], deletedImageIds: [] },
+        state => {
+          const customList = Array.isArray(state.customImages) ? state.customImages : [];
+          state.customImages = customList.filter(
+            img => img.id !== targetId && (!targetUrl || img.url !== targetUrl),
+          );
+          const delSet = new Set(Array.isArray(state.deletedImageIds) ? state.deletedImageIds : []);
+          if (targetId) delSet.add(targetId);
+          if (targetUrl) delSet.add(targetUrl);
+          state.deletedImageIds = Array.from(delSet);
+          return {
+            customImages: state.customImages,
+            deletedImageIds: state.deletedImageIds,
+          };
+        },
+      );
+      const delSet = new Set(updated.deletedImageIds);
+      const activeLibrary = [...updated.customImages, ...ANTKI_PL_IMAGE_LIBRARY].filter(
+        img => !delSet.has(img.id) && !delSet.has(img.url),
+      );
+      return NextResponse.json({
+        ok: true,
+        imageLibrary: activeLibrary,
+      });
+    }
 
     if (action === 'upload_custom_image') {
       const dataUrl = typeof body.dataUrl === 'string' ? body.dataUrl.trim() : '';

@@ -734,6 +734,32 @@ export default function AntkiPlPage() {
     [activeAngle, compressImageFileToDataUrl],
   );
 
+  const handleDeleteImageFromLibrary = useCallback(
+    async (asset: AntkiPlImageAsset) => {
+      // Natychmiastowe usunięcie z UI (0ms)
+      setImageLibrary(prev => prev.filter(item => item.id !== asset.id && item.url !== asset.url));
+      setNotice(`Usunięto zdjęcie „${asset.label}” z biblioteki.`);
+      try {
+        const res = await fetch('/api/antki-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'delete_image',
+            imageId: asset.id,
+            imageUrl: asset.url,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok && Array.isArray(data.imageLibrary)) {
+          setImageLibrary(data.imageLibrary);
+        }
+      } catch {
+        // Already removed from state
+      }
+    },
+    [],
+  );
+
   const cycleAngleImage = useCallback(
     (angle: AntkiPlPresetAngle, delta: -1 | 1) => {
       const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
@@ -1343,8 +1369,8 @@ export default function AntkiPlPage() {
                     title="Powiększ zdjęcie 1:1"
                     style={{
                       position: 'absolute',
-                      top: 5,
-                      right: 5,
+                      bottom: 5,
+                      left: 5,
                       fontSize: 10,
                       fontWeight: 800,
                       padding: '2px 5px',
@@ -1356,6 +1382,29 @@ export default function AntkiPlPage() {
                     }}
                   >
                     🔍
+                  </button>
+                  <button
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation();
+                      void handleDeleteImageFromLibrary(asset);
+                    }}
+                    title="Usuń to zdjęcie z biblioteki"
+                    style={{
+                      position: 'absolute',
+                      top: 5,
+                      right: 5,
+                      fontSize: 10,
+                      fontWeight: 900,
+                      padding: '2px 6px',
+                      borderRadius: 4,
+                      border: 0,
+                      background: 'rgba(220,38,38,0.88)',
+                      color: '#ffffff',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ✕
                   </button>
                 </div>
               );
@@ -3040,13 +3089,13 @@ export default function AntkiPlPage() {
                     {filteredGalleryImages.map(asset => {
                       const isCurrent = activeResolvedImage?.url === asset.url;
                       return (
-                        <button
+                        <div
                           key={asset.id}
-                          type="button"
-                          disabled={assigningImage}
-                          onClick={() =>
-                            void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`)
-                          }
+                          onClick={() => {
+                            if (!assigningImage) {
+                              void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`);
+                            }
+                          }}
                           title={`${asset.label}${asset.imageHash ? ` (hash: ${asset.imageHash})` : ''}`}
                           style={{
                             position: 'relative',
@@ -3066,6 +3115,30 @@ export default function AntkiPlPage() {
                             loading="lazy"
                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              void handleDeleteImageFromLibrary(asset);
+                            }}
+                            title="Usuń to zdjęcie z biblioteki"
+                            style={{
+                              position: 'absolute',
+                              top: 2,
+                              right: 2,
+                              fontSize: 9,
+                              fontWeight: 900,
+                              padding: '1px 4px',
+                              borderRadius: 3,
+                              border: 0,
+                              background: 'rgba(220,38,38,0.85)',
+                              color: '#ffffff',
+                              cursor: 'pointer',
+                              lineHeight: 1.1,
+                            }}
+                          >
+                            ✕
+                          </button>
                           <span
                             style={{
                               position: 'absolute',
@@ -3086,7 +3159,7 @@ export default function AntkiPlPage() {
                           >
                             {asset.source === 'ai' ? 'AI' : asset.source === 'custom' ? 'WŁASNE' : 'LIB'}
                           </span>
-                        </button>
+                        </div>
                       );
                     })}
                   </div>
