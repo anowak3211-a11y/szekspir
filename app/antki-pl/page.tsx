@@ -682,7 +682,7 @@ export default function AntkiPlPage() {
               cursor: 'pointer',
             }}
           >
-            🖼️ Galeria Kreacji ({imageLibrary.length}: {aiImagesCount} AI + {metaImagesCount} Meta)
+            🖼️ Galeria Kreacji Natywnych ({imageLibrary.length})
           </button>
 
           <button
@@ -813,7 +813,7 @@ export default function AntkiPlPage() {
         </div>
       )}
 
-      {/* GALERIA KREACJI „PORADY MAMY GOSI” (BIBLIOTEKA META + WYGENEROWANE AI) */}
+      {/* GALERIA KREACJI „PORADY MAMY GOSI” */}
       {showGalleryPanel && (
         <section
           style={{
@@ -839,7 +839,7 @@ export default function AntkiPlPage() {
                     color: '#5b21b6',
                   }}
                 >
-                  🖼️ BIBLIOTEKA ZDJĘĆ ANTKI PL · act_1109284831182252
+                  🖼️ ZATWIERDZONE KREACJE NATYWNE ANTKI PL · act_1109284831182252
                 </span>
                 <span
                   style={{
@@ -851,73 +851,25 @@ export default function AntkiPlPage() {
                     color: '#166534',
                   }}
                 >
-                  ✨ {aiImagesCount} Czystych Zdjęć AI (bez tekstu) + 📚 {metaImagesCount} Kreacji z Biblioteki Meta
+                  ✨ 8 Czystych Zdjęć Natywnych (bez napisów) + 1 Kolaż 3-Kafelkowy
                 </span>
               </div>
               <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
-                🖼️ Galeria Kreacji „Porady Mamy Gosi” (Biblioteka Meta + Wygenerowane AI pod 7 grup Antków)
+                🖼️ Galeria Kreacji „Porady Mamy Gosi” (pod 7 grup Antków: DOM, RUCH, GRUPA, MIT, RYCIAK, ŻAL, ZIMA)
               </h2>
               <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
-                Kliknij miniaturę, aby powiększyć (1:1 / 4:5 / 9:16), lub przypisz dowolne zdjęcie jednym kliknięciem do{' '}
-                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej (DOM, RUCH, GRUPA, MIT, RYCIAK, ŻAL, ZIMA). Wszystkie zdjęcia posiadają załadowany <code>image_hash</code> na koncie Meta!
+                Kliknij miniaturę, aby powiększyć (1:1), lub przypisz dowolne zdjęcie jednym kliknięciem do{' '}
+                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej. Wszystkie 9 kreacji posiada załadowany <code>image_hash</code> na koncie Meta!
               </p>
             </div>
 
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={() => setGalleryTab('all')}
-                style={{
-                  padding: '7px 12px',
-                  borderRadius: 7,
-                  border: galleryTab === 'all' ? '1px solid #6d28d9' : '1px solid var(--border)',
-                  background: galleryTab === 'all' ? '#6d28d9' : 'var(--bg)',
-                  color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                Wszystkie ({imageLibrary.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setGalleryTab('ai')}
-                style={{
-                  padding: '7px 12px',
-                  borderRadius: 7,
-                  border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
-                  background: galleryTab === 'ai' ? '#059669' : 'var(--bg)',
-                  color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                ✨ Wygenerowane AI ({aiImagesCount} czystych zdjęć natywnych)
-              </button>
-              <button
-                type="button"
-                onClick={() => setGalleryTab('meta')}
-                style={{
-                  padding: '7px 12px',
-                  borderRadius: 7,
-                  border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
-                  background: galleryTab === 'meta' ? '#2563eb' : 'var(--bg)',
-                  color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                📚 Znalezione w Bibliotece Meta ({metaImagesCount})
-              </button>
-              <button
-                type="button"
                 onClick={syncToMetaCc35}
                 disabled={syncingMetaCc35}
                 style={{
-                  padding: '7px 12px',
+                  padding: '8px 14px',
                   borderRadius: 7,
                   border: '1px solid #0f766e',
                   background: '#0f766e',
