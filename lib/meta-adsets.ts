@@ -624,6 +624,21 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      } catch {
       // Fallback to existing resolvedImageHash
      }
+    } else if (resolvedImageUrl.startsWith('data:image/') && !saved?.imageHash) {
+     try {
+      const m = resolvedImageUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
+      if (m?.[1]) {
+       const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+        `act_${accountId}/adimages`,
+        { bytes: m[1], name: `custom-antek-${entry.globalIndex}-${Date.now()}.jpg` },
+        'POST',
+       );
+       const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+       if (uploadedHash) resolvedImageHash = uploadedHash;
+      }
+     } catch {
+      // Fallback to existing resolvedImageHash
+     }
     }
 
     const cleanCreative = {
@@ -771,5 +786,22 @@ export async function replaceAdsPageInBatch(raw:unknown){
  }
  return {batchId,pageId,url:newUrl,updated:results.filter(r=>r.ok).length,failed:results.filter(r=>!r.ok).length,results};
 }
+
+export async function uploadCustomAntkiImageToMeta(params: {
+ bytes: string;
+ fileName?: string;
+ accountId?: string;
+}): Promise<{ hash?: string; url?: string }> {
+ const accountId = numericId(String(params.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
+ const cleanName = (params.fileName || `custom-antki-${Date.now()}.jpg`).replace(/[^a-zA-Z0-9._-]/g, '_');
+ const upRes = await directGraph<{ images?: Record<string, { hash?: string; url?: string }> }>(
+  `act_${accountId}/adimages`,
+  { bytes: params.bytes, name: cleanName },
+  'POST',
+ );
+ const first = upRes?.images ? Object.values(upRes.images)[0] : undefined;
+ return { hash: first?.hash, url: first?.url };
+}
+
 
 

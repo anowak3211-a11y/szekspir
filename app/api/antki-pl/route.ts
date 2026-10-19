@@ -14,6 +14,7 @@ import {
   sanitizeAndAuditAntkiPl,
   type AntkiPlFunnelStage,
   type AntkiPlGeneratedAd,
+  type AntkiPlImageAsset,
   type AntkiPlPresetAngle,
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
@@ -25,6 +26,7 @@ const STATE_KEY = 'antki-pl-library-v9-argon';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
+  customImages?: AntkiPlImageAsset[];
 }
 
 function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
@@ -44,13 +46,14 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
   };
 }
 
-async function readLibrary(): Promise<AntkiPlGeneratedAd[]> {
+async function readLibraryState(): Promise<{ ads: AntkiPlGeneratedAd[]; customImages: AntkiPlImageAsset[] }> {
   const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
-    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: defaultArgonAds });
+    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, { ads: defaultArgonAds, customImages: [] });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
+    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
     if (stored.length === 0) {
-      return defaultArgonAds.map(ensureAdImage);
+      return { ads: defaultArgonAds.map(ensureAdImage), customImages };
     }
     // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
@@ -80,9 +83,9 @@ async function readLibrary(): Promise<AntkiPlGeneratedAd[]> {
         }),
       );
     }
-    return Array.from(byAngle.values());
+    return { ads: Array.from(byAngle.values()), customImages };
   } catch {
-    return defaultArgonAds.map(ensureAdImage);
+    return { ads: defaultArgonAds.map(ensureAdImage), customImages: [] };
   }
 }
 
@@ -90,7 +93,7 @@ async function upsertAdInLibrary(ad: AntkiPlGeneratedAd): Promise<AntkiPlGenerat
   const defaultArgonAds = buildAllArgonPrewrittenAds();
   const normalizedAd = ensureAdImage(ad);
   try {
-    return await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: defaultArgonAds }, state => {
+    return await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(STATE_KEY, { ads: defaultArgonAds, customImages: [] }, state => {
       const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
       const idx = list.findIndex(item => item.id === normalizedAd.id || item.angleId === normalizedAd.angleId);
       if (idx >= 0) {
@@ -159,7 +162,10 @@ export function buildAntkiPlUserPrompt(params: {
 export const GET = accountRoute(async () => {
   try {
     const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
-    const [savedAds, campaignStructure] = await Promise.all([readLibrary(), readAntkiCostCapCampaign()]);
+    const [{ ads: savedAds, customImages }, campaignStructure] = await Promise.all([
+      readLibraryState(),
+      readAntkiCostCapCampaign(),
+    ]);
     const brain = brainSettings();
     const enrichedPresets = ANTKI_PL_PRESET_ANGLES.map(angle => {
       const defaultImg = getDefaultImageForAngle(angle.number);
@@ -172,7 +178,7 @@ export const GET = accountRoute(async () => {
     return NextResponse.json({
       presets: enrichedPresets,
       stages: ANTKI_PL_STAGE_LABELS,
-      imageLibrary: ANTKI_PL_IMAGE_LIBRARY,
+      imageLibrary: [...customImages, ...ANTKI_PL_IMAGE_LIBRARY],
       savedAds,
       adSetBlueprints: ANTKI_PL_ADSET_BLUEPRINTS,
       campaignStructure,
@@ -198,16 +204,19 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const raw = await req.text();
-    if (raw.length > 2_000_000) {
-      return NextResponse.json({ error: 'Payload przekracza limit 2 MB.' }, { status: 413 });
+    if (raw.length > 20_000_000) {
+      return NextResponse.json({ error: 'Payload przekracza limit 20 MB.' }, { status: 413 });
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'sync_meta_cc35';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'upload_custom_image' | 'sync_meta_cc35';
       angleId?: string;
       angleIds?: string[];
       imageUrl?: string;
       imageHash?: string;
+      dataUrl?: string;
+      fileName?: string;
+      label?: string;
       group?: string;
       pageId?: string;
       instagramUserId?: string;
@@ -227,6 +236,105 @@ export const POST = accountRoute(async (req: Request) => {
     };
 
     const action = body.action || 'generate';
+
+    if (action === 'upload_custom_image') {
+      const dataUrl = typeof body.dataUrl === 'string' ? body.dataUrl.trim() : '';
+      const match = dataUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
+      if (!match?.[1]) {
+        return NextResponse.json({ error: 'Nieprawidłowy format zdjęcia (wymagany obraz JPG/PNG/WEBP).' }, { status: 400 });
+      }
+      const base64Bytes = match[1];
+      const cleanFileName = (body.fileName || `wlasne-zdjecie-${Date.now()}.jpg`).trim();
+      let uploadedHash: string | undefined;
+      try {
+        const { uploadCustomAntkiImageToMeta } = await import('@/lib/meta-adsets');
+        const metaRes = await uploadCustomAntkiImageToMeta({
+          bytes: base64Bytes,
+          fileName: cleanFileName,
+          accountId: body.accountId || '1109284831182252',
+        });
+        uploadedHash = metaRes.hash;
+      } catch {
+        // Non-blocking if Meta token is temporarily unavailable; still saves in Szekspir library
+      }
+
+      const now = Date.now();
+      const newAsset: AntkiPlImageAsset = {
+        id: `custom-img-${now}-${Math.random().toString(36).slice(2, 6)}`,
+        url: dataUrl,
+        label: (body.label || `Twoje zdjęcie: ${cleanFileName}`).trim(),
+        source: 'custom',
+        imageHash: uploadedHash,
+        aspectRatio: '1:1',
+        note: 'Własne zdjęcie wgrane przez użytkownika',
+      };
+
+      const targetAngleIds = Array.isArray(body.angleIds) && body.angleIds.length > 0
+        ? body.angleIds
+        : body.angleId
+        ? [body.angleId]
+        : [];
+
+      const defaultArgonAds = buildAllArgonPrewrittenAds();
+      const updatedState = await mutate<AntkiPlLibraryState, { customImages: AntkiPlImageAsset[]; ads: AntkiPlGeneratedAd[] }>(
+        STATE_KEY,
+        { ads: defaultArgonAds, customImages: [] },
+        state => {
+          const customList = Array.isArray(state.customImages) ? [...state.customImages] : [];
+          customList.unshift(newAsset);
+          state.customImages = customList.slice(0, 80);
+
+          const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
+          for (const targetAngleId of targetAngleIds) {
+            const idx = list.findIndex(item => item.angleId === targetAngleId);
+            if (idx >= 0) {
+              list[idx] = {
+                ...list[idx],
+                imageUrl: newAsset.url,
+                imageHash: newAsset.imageHash || list[idx].imageHash,
+                updatedAt: now,
+              };
+            } else {
+              const fallback = defaultArgonAds.find(a => a.angleId === targetAngleId);
+              if (fallback) {
+                list.unshift({
+                  ...fallback,
+                  imageUrl: newAsset.url,
+                  imageHash: newAsset.imageHash,
+                  updatedAt: now,
+                });
+              }
+            }
+          }
+          state.ads = list.map(ensureAdImage);
+          return { customImages: state.customImages, ads: state.ads };
+        },
+      );
+
+      let metaSynced = 0;
+      if (targetAngleIds.length > 0) {
+        try {
+          const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
+          const syncRes = await populateAntkiAdsInCampaign({
+            angleIds: targetAngleIds,
+            pageId: '798916893308685',
+            instagramUserId: '17841473314157729',
+            status: 'PAUSED',
+            updateExisting: true,
+          });
+          metaSynced = syncRes.createdCount || 0;
+        } catch {
+          // Non-blocking
+        }
+      }
+
+      return NextResponse.json({
+        ok: true,
+        asset: newAsset,
+        imageLibrary: [...updatedState.customImages, ...ANTKI_PL_IMAGE_LIBRARY],
+        metaSynced,
+      });
+    }
 
     if (action === 'set_image') {
       const targetAngleIds = Array.isArray(body.angleIds) && body.angleIds.length > 0

@@ -55,9 +55,11 @@ export default function AntkiPlPage() {
   // Image Gallery & Preview state
   const [showGalleryPanel, setShowGalleryPanel] = useState(false);
   const [showAwarenessPanel, setShowAwarenessPanel] = useState(false);
-  const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta'>('all');
+  const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta' | 'custom'>('all');
   const [lightboxAsset, setLightboxAsset] = useState<AntkiPlImageAsset | null>(null);
   const [assigningImage, setAssigningImage] = useState(false);
+  const [uploadingCustomImage, setUploadingCustomImage] = useState(false);
+  const customImageInputRef = useRef<HTMLInputElement | null>(null);
   const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
   // Domyślnie skupiamy się na dzieciach ("Porady Mamy Gosi"), dorośli są na razie schowani pod przełącznikiem
@@ -580,6 +582,158 @@ export default function AntkiPlPage() {
 
   const [arrowKeyTarget, setArrowKeyTarget] = useState<'copy' | 'image'>('copy');
 
+  const compressImageFileToDataUrl = useCallback((file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('Nie udało się odczytać pliku zdjęcia.'));
+      reader.onload = () => {
+        const rawDataUrl = String(reader.result || '');
+        const img = new Image();
+        img.onerror = () => resolve(rawDataUrl);
+        img.onload = () => {
+          try {
+            const maxDim = 1280;
+            let w = img.naturalWidth || img.width || 1080;
+            let h = img.naturalHeight || img.height || 1080;
+            if (w > maxDim || h > maxDim) {
+              if (w >= h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              resolve(rawDataUrl);
+              return;
+            }
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.86));
+          } catch {
+            resolve(rawDataUrl);
+          }
+        };
+        img.src = rawDataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+  }, []);
+
+  const handleUploadCustomImageFiles = useCallback(
+    async (files: FileList | File[] | null) => {
+      if (!files || files.length === 0) return;
+      const fileArray = Array.from(files).filter(f => f.type.startsWith('image/') || /\.(jpe?g|png|webp|heic)$/i.test(f.name));
+      if (!fileArray.length) {
+        setError('Wybierz plik graficzny (JPG, PNG lub WEBP).');
+        return;
+      }
+
+      setUploadingCustomImage(true);
+      setError('');
+      try {
+        for (let i = 0; i < fileArray.length; i++) {
+          const file = fileArray[i];
+          const dataUrl = await compressImageFileToDataUrl(file);
+          const cleanName = file.name.replace(/\.[^.]+$/, '');
+          const tempAsset: AntkiPlImageAsset = {
+            id: `custom-local-${Date.now()}-${i}`,
+            url: dataUrl,
+            label: `Twoje zdjęcie: ${cleanName}`,
+            source: 'custom',
+            aspectRatio: '1:1',
+          };
+
+          // Natychmiastowe dodanie do galerii (0ms) i przypisanie do aktywnego Antka
+          setImageLibrary(prev => [tempAsset, ...prev]);
+          if (i === 0 && activeAngle) {
+            setSavedAds(prev => {
+              const next = [...prev];
+              const idx = next.findIndex(item => item.angleId === activeAngle.id);
+              if (idx >= 0) {
+                next[idx] = { ...next[idx], imageUrl: dataUrl, updatedAt: Date.now() };
+              }
+              return next;
+            });
+            setPresets(prev =>
+              prev.map(p => (p.id === activeAngle.id ? { ...p, defaultImageUrl: dataUrl } : p)),
+            );
+          }
+
+          setNotice(`Wgrywam "${file.name}" do Szekspira i Biblioteki Meta (act_1109284831182252)...`);
+
+          const res = await fetch('/api/antki-pl', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'upload_custom_image',
+              dataUrl,
+              fileName: file.name,
+              label: `Twoje zdjęcie: ${cleanName}`,
+              angleId: i === 0 && activeAngle ? activeAngle.id : undefined,
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Błąd wgrywania zdjęcia.');
+
+          if (Array.isArray(data.imageLibrary)) {
+            setImageLibrary(data.imageLibrary);
+          } else if (data.asset) {
+            setImageLibrary(prev => [data.asset, ...prev.filter(item => item.id !== tempAsset.id)]);
+          }
+
+          if (i === 0 && activeAngle && data.asset) {
+            const uploadedAsset = data.asset as AntkiPlImageAsset;
+            setSavedAds(prev =>
+              prev.map(item =>
+                item.angleId === activeAngle.id
+                  ? {
+                      ...item,
+                      imageUrl: uploadedAsset.url,
+                      imageHash: uploadedAsset.imageHash || item.imageHash,
+                      updatedAt: Date.now(),
+                    }
+                  : item,
+              ),
+            );
+            setPresets(prev =>
+              prev.map(p =>
+                p.id === activeAngle.id
+                  ? {
+                      ...p,
+                      defaultImageUrl: uploadedAsset.url,
+                      defaultImageHash: uploadedAsset.imageHash || p.defaultImageHash,
+                    }
+                  : p,
+              ),
+            );
+            setNotice(
+              `✓ Wgrano własne zdjęcie "${cleanName}"${
+                uploadedAsset.imageHash ? ` (Meta hash: ${uploadedAsset.imageHash})` : ''
+              } i przypisano na stałe do Antka #${activeAngle.number}${
+                data.metaSynced ? ' (zaktualizowano reklamę w Meta ANTKI CC35)' : ''
+              }!`,
+            );
+          } else {
+            setNotice(`✓ Wgrano własne zdjęcie "${cleanName}" do galerii kreacji!`);
+          }
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Nie udało się wgrać własnego zdjęcia.');
+      } finally {
+        setUploadingCustomImage(false);
+        if (customImageInputRef.current) {
+          customImageInputRef.current.value = '';
+        }
+      }
+    },
+    [activeAngle, compressImageFileToDataUrl],
+  );
+
   const cycleAngleImage = useCallback(
     (angle: AntkiPlPresetAngle, delta: -1 | 1) => {
       const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
@@ -753,9 +907,11 @@ export default function AntkiPlPage() {
 
   const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
   const metaImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'meta').length, [imageLibrary]);
+  const customImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'custom').length, [imageLibrary]);
   const filteredGalleryImages = useMemo(() => {
     if (galleryTab === 'ai') return imageLibrary.filter(i => i.source === 'ai');
     if (galleryTab === 'meta') return imageLibrary.filter(i => i.source === 'meta');
+    if (galleryTab === 'custom') return imageLibrary.filter(i => i.source === 'custom');
     return imageLibrary;
   }, [imageLibrary, galleryTab]);
 
@@ -767,7 +923,7 @@ export default function AntkiPlPage() {
         id: 'custom-assigned',
         url: currentUrl,
         label: `Przypisana kreacja (#${activeAngle.number})`,
-        source: 'ai' as const,
+        source: (currentUrl.startsWith('data:image/') ? 'custom' : 'ai') as 'ai' | 'meta' | 'custom',
         imageHash: activeAd?.imageHash || activeAngle.defaultImageHash,
       }
     );
@@ -775,6 +931,14 @@ export default function AntkiPlPage() {
 
   return (
     <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
+      <input
+        ref={customImageInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        style={{ display: 'none' }}
+        onChange={e => void handleUploadCustomImageFiles(e.target.files)}
+      />
       <p className="crumb">
         <a href="/">← Home (Szekspir)</a> · <a href="/uploader">Szekspir Ads (Uploader) ↗</a> ·{' '}
         <a href="/profile">
@@ -1053,6 +1217,41 @@ export default function AntkiPlPage() {
                 }}
               >
                 ✨ Nowe AI Native ({aiImagesCount})
+              </button>
+              {customImagesCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setGalleryTab('custom')}
+                  style={{
+                    padding: '6px 11px',
+                    borderRadius: 7,
+                    border: galleryTab === 'custom' ? '1px solid #d97706' : '1px solid var(--border)',
+                    background: galleryTab === 'custom' ? '#d97706' : 'var(--bg)',
+                    color: galleryTab === 'custom' ? '#ffffff' : 'var(--text)',
+                    fontWeight: 700,
+                    fontSize: 12,
+                    cursor: 'pointer',
+                  }}
+                >
+                  📤 Twoje zdjęcia ({customImagesCount})
+                </button>
+              )}
+              <button
+                type="button"
+                disabled={uploadingCustomImage}
+                onClick={() => customImageInputRef.current?.click()}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 7,
+                  border: '1.5px solid #059669',
+                  background: '#ecfdf5',
+                  color: '#065f46',
+                  fontWeight: 800,
+                  fontSize: 12,
+                  cursor: uploadingCustomImage ? 'wait' : 'pointer',
+                }}
+              >
+                {uploadingCustomImage ? '⏳ Wgrywanie zdjęcia…' : '📤 + Dodaj swoje zdjęcie'}
               </button>
             </div>
 
@@ -2617,11 +2816,25 @@ export default function AntkiPlPage() {
                             fontWeight: 800,
                             padding: '2px 8px',
                             borderRadius: 4,
-                            background: activeResolvedImage?.source === 'meta' ? '#dbeafe' : '#dcfce7',
-                            color: activeResolvedImage?.source === 'meta' ? '#1e40af' : '#166534',
+                            background:
+                              activeResolvedImage?.source === 'meta'
+                                ? '#dbeafe'
+                                : activeResolvedImage?.source === 'custom'
+                                ? '#fef3c7'
+                                : '#dcfce7',
+                            color:
+                              activeResolvedImage?.source === 'meta'
+                                ? '#1e40af'
+                                : activeResolvedImage?.source === 'custom'
+                                ? '#92400e'
+                                : '#166534',
                           }}
                         >
-                          {activeResolvedImage?.source === 'meta' ? '📚 KREACJA Z BIBLIOTEKI META' : '✨ KREACJA AI NATIVE (CZYSTA)'}
+                          {activeResolvedImage?.source === 'meta'
+                            ? '📚 KREACJA Z BIBLIOTEKI META'
+                            : activeResolvedImage?.source === 'custom'
+                            ? '📤 TWOJE WŁASNE ZDJĘCIE'
+                            : '✨ KREACJA AI NATIVE (CZYSTA)'}
                         </span>
                         {activeResolvedImage?.imageHash && (
                           <code style={{ fontSize: 11, color: 'var(--muted)' }}>
@@ -2629,7 +2842,7 @@ export default function AntkiPlPage() {
                           </code>
                         )}
                       </div>
-                      <div style={{ display: 'flex', gap: 5 }}>
+                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                         <button
                           type="button"
                           onClick={() => cycleAngleImage(activeAngle, -1)}
@@ -2662,13 +2875,30 @@ export default function AntkiPlPage() {
                         >
                           Następne zdj. ▶
                         </button>
+                        <button
+                          type="button"
+                          disabled={uploadingCustomImage}
+                          onClick={() => customImageInputRef.current?.click()}
+                          style={{
+                            padding: '4px 11px',
+                            borderRadius: 6,
+                            border: '1.5px solid #059669',
+                            background: '#ecfdf5',
+                            color: '#065f46',
+                            fontWeight: 800,
+                            fontSize: 11.5,
+                            cursor: uploadingCustomImage ? 'wait' : 'pointer',
+                          }}
+                        >
+                          {uploadingCustomImage ? '⏳ Wgrywanie…' : '📤 + Dodaj swoje zdjęcie'}
+                        </button>
                       </div>
                     </div>
                     <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
                       Przypisane zdjęcie: {activeResolvedImage?.label}
                     </div>
                     <p style={{ margin: '2px 0 6px', fontSize: 12, color: 'var(--muted)' }}>
-                      Kliknij miniaturę (albo użyj strzałek ◀ ▶ przy każdym Antku na liście po lewej), aby podmienić zdjęcie w 0ms:
+                      Kliknij miniaturę, użyj strzałek ◀ ▶ albo wgraj własne zdjęcie z dysku (zapisze się na stałe i podmieni w reklamie w Meta):
                     </p>
                     <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       <button
@@ -2719,10 +2949,56 @@ export default function AntkiPlPage() {
                       >
                         ✨ Nowe AI Native ({aiImagesCount})
                       </button>
+                      {customImagesCount > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setGalleryTab('custom')}
+                          style={{
+                            padding: '4px 9px',
+                            borderRadius: 6,
+                            border: galleryTab === 'custom' ? '1px solid #d97706' : '1px solid var(--border)',
+                            background: galleryTab === 'custom' ? '#d97706' : 'var(--card)',
+                            color: galleryTab === 'custom' ? '#ffffff' : 'var(--text)',
+                            fontWeight: 700,
+                            fontSize: 11,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          📤 Twoje zdjęcia ({customImagesCount})
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        disabled={uploadingCustomImage}
+                        onClick={() => customImageInputRef.current?.click()}
+                        style={{
+                          padding: '4px 10px',
+                          borderRadius: 6,
+                          border: '1.5px dashed #059669',
+                          background: '#f0fdf4',
+                          color: '#15803d',
+                          fontWeight: 800,
+                          fontSize: 11,
+                          cursor: uploadingCustomImage ? 'wait' : 'pointer',
+                        }}
+                      >
+                        {uploadingCustomImage ? '⏳ Wgrywanie…' : '+ Dodaj swoje zdjęcie'}
+                      </button>
                     </div>
                   </div>
 
                   <div
+                    onDragOver={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onDrop={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (e.dataTransfer?.files?.length) {
+                        void handleUploadCustomImageFiles(e.dataTransfer.files);
+                      }
+                    }}
                     style={{
                       display: 'grid',
                       gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))',
@@ -2732,6 +3008,35 @@ export default function AntkiPlPage() {
                       padding: 4,
                     }}
                   >
+                    {/* KAFELEK + DODAJ SWOJE ZDJĘCIE */}
+                    <button
+                      type="button"
+                      disabled={uploadingCustomImage}
+                      onClick={() => customImageInputRef.current?.click()}
+                      title="Wgraj własne zdjęcie z komputera (albo przeciągnij i upuść tutaj)"
+                      style={{
+                        padding: 4,
+                        height: 68,
+                        borderRadius: 7,
+                        border: '2px dashed #059669',
+                        background: '#f0fdf4',
+                        color: '#065f46',
+                        cursor: uploadingCustomImage ? 'wait' : 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 2,
+                        fontWeight: 800,
+                        fontSize: 9.5,
+                        lineHeight: 1.15,
+                        textAlign: 'center',
+                      }}
+                    >
+                      <span style={{ fontSize: 16 }}>📤</span>
+                      <span>{uploadingCustomImage ? 'Wgrywam…' : '+ Dodaj swoje zdj.'}</span>
+                    </button>
+
                     {filteredGalleryImages.map(asset => {
                       const isCurrent = activeResolvedImage?.url === asset.url;
                       return (
@@ -2770,11 +3075,16 @@ export default function AntkiPlPage() {
                               fontWeight: 800,
                               padding: '1px 3px',
                               borderRadius: 3,
-                              background: asset.source === 'ai' ? '#059669' : '#2563eb',
+                              background:
+                                asset.source === 'ai'
+                                  ? '#059669'
+                                  : asset.source === 'custom'
+                                  ? '#d97706'
+                                  : '#2563eb',
                               color: '#ffffff',
                             }}
                           >
-                            {asset.source === 'ai' ? 'AI' : 'LIB'}
+                            {asset.source === 'ai' ? 'AI' : asset.source === 'custom' ? 'WŁASNE' : 'LIB'}
                           </span>
                         </button>
                       );

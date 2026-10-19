@@ -84,7 +84,7 @@ export interface AntkiPlImageAsset {
   id: string;
   url: string;
   label: string;
-  source: 'ai' | 'meta';
+  source: 'ai' | 'meta' | 'custom';
   groupCode?: 'DOM' | 'RUCH' | 'GRUPA' | 'MIT' | 'RYCIAK' | 'ZAL' | 'ZIMA';
   defaultForAngles?: number[];
   imageHash?: string;
