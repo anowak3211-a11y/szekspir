@@ -53,7 +53,8 @@ export default function AntkiPlPage() {
   const [notice, setNotice] = useState('');
 
   // Image Gallery & Preview state
-  const [showGalleryPanel, setShowGalleryPanel] = useState(true);
+  const [showGalleryPanel, setShowGalleryPanel] = useState(false);
+  const [showAwarenessPanel, setShowAwarenessPanel] = useState(false);
   const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta'>('all');
   const [lightboxAsset, setLightboxAsset] = useState<AntkiPlImageAsset | null>(null);
   const [assigningImage, setAssigningImage] = useState(false);
@@ -134,7 +135,7 @@ export default function AntkiPlPage() {
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
   const [syncingMetaCc35, setSyncingMetaCc35] = useState(false);
-  const [showCampaignPanel, setShowCampaignPanel] = useState(true);
+  const [showCampaignPanel, setShowCampaignPanel] = useState(false);
 
   const loadInit = useCallback(async () => {
     setLoading(true);
@@ -550,10 +551,10 @@ export default function AntkiPlPage() {
       );
 
       setNotice(
-        `⚡ Podmieniono w 0ms: "${asset.label}" → ${labelForNotice}`,
+        `⚡ Zapisano na stałe i podpięto do reklamy (${labelForNotice}): "${asset.label}"`,
       );
 
-      // Zapis w tle (nie blokuje klikania kolejnych zdjęć)
+      // Zapis w bazie + automatyczny update reklamy w Meta ANTKI CC35 (w tle, bez blokowania UI)
       void fetch('/api/antki-pl', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -563,7 +564,16 @@ export default function AntkiPlPage() {
           imageUrl: asset.url,
           imageHash: asset.imageHash,
         }),
-      }).catch(() => {});
+      })
+        .then(r => r.json())
+        .then(d => {
+          if (d?.metaSynced) {
+            setNotice(
+              `✓ Zapisano na stałe w Szekspirze i zaktualizowano w Meta (ANTKI CC35 · PAUSED): "${asset.label}" → ${labelForNotice}`,
+            );
+          }
+        })
+        .catch(() => {});
     },
     [presets, pageName, destinationUrl],
   );
@@ -734,47 +744,64 @@ export default function AntkiPlPage() {
             type="button"
             onClick={() => setShowGalleryPanel(v => !v)}
             style={{
-              padding: '9px 14px',
+              padding: '8px 13px',
               borderRadius: 8,
               border: '1px solid #7c3aed',
-              background: showGalleryPanel ? '#f5f3ff' : 'var(--card)',
-              color: '#6d28d9',
+              background: showGalleryPanel ? '#7c3aed' : 'var(--card)',
+              color: showGalleryPanel ? '#ffffff' : '#6d28d9',
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12.5,
               cursor: 'pointer',
             }}
           >
-            🖼️ Galeria Kreacji Natywnych ({imageLibrary.length})
+            🖼️ Galeria Kreacji ({imageLibrary.length}) {showGalleryPanel ? '▴' : '▾'}
           </button>
 
           <button
             type="button"
             onClick={() => setShowCampaignPanel(v => !v)}
             style={{
-              padding: '9px 14px',
+              padding: '8px 13px',
               borderRadius: 8,
               border: '1px solid #2563eb',
-              background: showCampaignPanel ? '#eff6ff' : 'var(--card)',
-              color: '#1d4ed8',
+              background: showCampaignPanel ? '#2563eb' : 'var(--card)',
+              color: showCampaignPanel ? '#ffffff' : '#1d4ed8',
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12.5,
               cursor: 'pointer',
             }}
           >
-            🎯 Struktura 7 Ad Setów (Cost Cap {metaCostCapPln} zł)
+            📅 Work Day Ad Sety ({displayedGroups.length}) {showCampaignPanel ? '▴' : '▾'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowAwarenessPanel(v => !v)}
+            style={{
+              padding: '8px 13px',
+              borderRadius: 8,
+              border: '1px solid #0284c7',
+              background: showAwarenessPanel ? '#0284c7' : 'var(--card)',
+              color: showAwarenessPanel ? '#ffffff' : '#0369a1',
+              fontWeight: 700,
+              fontSize: 12.5,
+              cursor: 'pointer',
+            }}
+          >
+            🧠 Architektura Awareness Stage {showAwarenessPanel ? '▴' : '▾'}
           </button>
 
           <button
             type="button"
             onClick={() => setShowCustomModal(true)}
             style={{
-              padding: '9px 14px',
+              padding: '8px 13px',
               borderRadius: 8,
               border: '1px solid var(--accent)',
               background: 'var(--card)',
               color: 'var(--accent)',
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12.5,
               cursor: 'pointer',
             }}
           >
@@ -786,18 +813,18 @@ export default function AntkiPlPage() {
             onClick={exportMarkdownFile}
             disabled={!totalGeneratedCount}
             style={{
-              padding: '9px 14px',
+              padding: '8px 13px',
               borderRadius: 8,
               border: '1px solid var(--border)',
               background: 'var(--card)',
               color: totalGeneratedCount ? 'var(--text)' : 'var(--muted)',
               fontWeight: 600,
-              fontSize: 13,
+              fontSize: 12.5,
               opacity: totalGeneratedCount ? 1 : 0.55,
               cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
             }}
           >
-            ⬇ Pobierz Markdown ({readyAdsForExport.length})
+            ⬇ Markdown ({readyAdsForExport.length})
           </button>
 
           <button
@@ -805,18 +832,18 @@ export default function AntkiPlPage() {
             onClick={exportUploaderJson}
             disabled={!totalGeneratedCount}
             style={{
-              padding: '9px 14px',
+              padding: '8px 13px',
               borderRadius: 8,
               border: '1px solid #059669',
               background: totalGeneratedCount ? '#059669' : 'var(--card)',
               color: totalGeneratedCount ? '#ffffff' : 'var(--muted)',
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12.5,
               opacity: totalGeneratedCount ? 1 : 0.55,
               cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
             }}
           >
-            🚀 Eksport JSON do Szekspir Ads ({readyAdsForExport.length})
+            🚀 Eksport JSON ({readyAdsForExport.length})
           </button>
         </div>
       </header>
@@ -875,62 +902,48 @@ export default function AntkiPlPage() {
         </div>
       )}
 
-      {/* GALERIA KREACJI „PORADY MAMY GOSI” */}
-      {showGalleryPanel && (
-        <section
+      {/* 1. ROZWIJANA GALERIA KREACJI (SAMA CZYSTA SIATKA MINIATUR) */}
+      <details
+        open={showGalleryPanel}
+        onToggle={e => setShowGalleryPanel((e.currentTarget as HTMLDetailsElement).open)}
+        style={{
+          borderRadius: 10,
+          marginBottom: 10,
+          background: 'var(--card)',
+          border: '1px solid #ddd6fe',
+          overflow: 'hidden',
+        }}
+      >
+        <summary
           style={{
-            padding: '16px 18px',
-            borderRadius: 10,
-            marginBottom: 16,
-            background: 'var(--card)',
-            border: '1px solid #ddd6fe',
-            display: 'grid',
-            gap: 14,
+            padding: '11px 16px',
+            cursor: 'pointer',
+            userSelect: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 10,
+            fontWeight: 800,
+            fontSize: 14,
+            color: 'var(--text)',
           }}
         >
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 800,
-                    padding: '3px 8px',
-                    borderRadius: 99,
-                    background: '#ede9fe',
-                    color: '#5b21b6',
-                  }}
-                >
-                  🖼️ ZATWIERDZONE KREACJE NATYWNE ANTKI PL · act_1109284831182252
-                </span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    padding: '3px 8px',
-                    borderRadius: 99,
-                    background: '#dcfce7',
-                    color: '#166534',
-                  }}
-                >
-                  ✨ {aiImagesCount} Nowych AI Native + 📚 {metaImagesCount} Starych Zdjęć z Biblioteki Antków
-                </span>
-              </div>
-              <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
-                🖼️ Galeria Kreacji „Porady Mamy Gosi” (Wszystkie stare zdjęcia z biblioteki Antków + nowe AI Native)
-              </h2>
-              <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
-                Kliknij miniaturę, aby powiększyć (1:1), lub przypisz dowolne zdjęcie jednym kliknięciem do{' '}
-                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej. Wszystkie {imageLibrary.length} kreacji posiada oryginalny <code>image_hash</code> na koncie Meta!
-              </p>
-            </div>
+          <span>
+            🖼️ Galeria Kreacji ({imageLibrary.length} zdjęć · {aiImagesCount} AI Native + {metaImagesCount} z Biblioteki Antków)
+          </span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#6d28d9' }}>
+            {showGalleryPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
+          </span>
+        </summary>
 
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <button
                 type="button"
                 onClick={() => setGalleryTab('all')}
                 style={{
-                  padding: '7px 11px',
+                  padding: '6px 11px',
                   borderRadius: 7,
                   border: galleryTab === 'all' ? '1px solid #7c3aed' : '1px solid var(--border)',
                   background: galleryTab === 'all' ? '#7c3aed' : 'var(--bg)',
@@ -946,7 +959,7 @@ export default function AntkiPlPage() {
                 type="button"
                 onClick={() => setGalleryTab('meta')}
                 style={{
-                  padding: '7px 11px',
+                  padding: '6px 11px',
                   borderRadius: 7,
                   border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
                   background: galleryTab === 'meta' ? '#2563eb' : 'var(--bg)',
@@ -962,7 +975,7 @@ export default function AntkiPlPage() {
                 type="button"
                 onClick={() => setGalleryTab('ai')}
                 style={{
-                  padding: '7px 11px',
+                  padding: '6px 11px',
                   borderRadius: 7,
                   border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
                   background: galleryTab === 'ai' ? '#059669' : 'var(--bg)',
@@ -974,672 +987,593 @@ export default function AntkiPlPage() {
               >
                 ✨ Nowe AI Native ({aiImagesCount})
               </button>
-              <button
-                type="button"
-                onClick={syncToMetaCc35}
-                disabled={syncingMetaCc35}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: 7,
-                  border: '1px solid #0f766e',
-                  background: '#0f766e',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: syncingMetaCc35 ? 'wait' : 'pointer',
-                  opacity: syncingMetaCc35 ? 0.7 : 1,
-                }}
-              >
-                {syncingMetaCc35
-                  ? '⏳ Synchronizacja 35 reklam z Meta (PAUSED)…'
-                  : '🔄 Zapisz kreacje + „Porady Mamy Gosi” w ANTKI CC35 (PAUSED)'}
-              </button>
             </div>
+
+            <button
+              type="button"
+              onClick={syncToMetaCc35}
+              disabled={syncingMetaCc35}
+              style={{
+                padding: '7px 13px',
+                borderRadius: 7,
+                border: '1px solid #0f766e',
+                background: '#0f766e',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: 12,
+                cursor: syncingMetaCc35 ? 'wait' : 'pointer',
+                opacity: syncingMetaCc35 ? 0.7 : 1,
+              }}
+            >
+              {syncingMetaCc35
+                ? '⏳ Synchronizacja 35 reklam z Meta (PAUSED)…'
+                : '🔄 Zsynchronizuj wszystkie 35 reklam w ANTKI CC35 (PAUSED)'}
+            </button>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))',
-              gap: 12,
-              maxHeight: 520,
+              gridTemplateColumns: 'repeat(auto-fill, minmax(115px, 1fr))',
+              gap: 8,
+              maxHeight: 420,
               overflowY: 'auto',
               paddingRight: 4,
             }}
           >
             {filteredGalleryImages.map(asset => {
               const isAssignedToActive = activeResolvedImage?.url === asset.url;
-              const groupInfo = asset.groupCode ? GROUP_ANGLE_RANGES[asset.groupCode] : undefined;
-              const groupAngleIds = groupInfo
-                ? presets.filter(p => groupInfo.numbers.includes(p.number)).map(p => p.id)
-                : [];
-              const usedByCount = presets.filter(p => {
-                const ad = adByAngleId[p.id];
-                const url = ad?.imageUrl || p.defaultImageUrl || getDefaultImageForAngle(p.number).url;
-                return url === asset.url;
-              }).length;
-
               return (
                 <div
                   key={asset.id}
+                  onClick={() => {
+                    if (activeAngle) {
+                      void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`);
+                    }
+                  }}
+                  title={`Kliknij, aby przypisać do Antka #${activeAngle?.number || 1}: ${asset.label}`}
                   style={{
-                    borderRadius: 9,
-                    border: isAssignedToActive ? '2px solid #7c3aed' : '1px solid var(--border)',
-                    background: 'var(--bg)',
+                    position: 'relative',
+                    aspectRatio: '1 / 1',
+                    borderRadius: 8,
+                    border: isAssignedToActive ? '3px solid #7c3aed' : '1px solid var(--border)',
+                    background: '#0f172a',
                     overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    boxShadow: isAssignedToActive ? '0 2px 10px rgba(124,58,237,0.18)' : 'none',
+                    cursor: 'pointer',
                   }}
                 >
-                  <div>
-                    <div
-                      onClick={() => setLightboxAsset(asset)}
-                      title="Kliknij, aby powiększyć zdjęcie"
-                      style={{
-                        position: 'relative',
-                        width: '100%',
-                        height: 165,
-                        background: '#0f172a',
-                        cursor: 'zoom-in',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <img
-                        src={asset.url}
-                        alt={asset.label}
-                        loading="lazy"
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 7,
-                          left: 7,
-                          display: 'flex',
-                          gap: 4,
-                          flexWrap: 'wrap',
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 10,
-                            fontWeight: 800,
-                            padding: '2px 6px',
-                            borderRadius: 4,
-                            background: asset.source === 'ai' ? '#059669' : '#2563eb',
-                            color: '#ffffff',
-                          }}
-                        >
-                          {asset.source === 'ai' ? '✨ AI NATIVE' : '📚 META LIBRARY'}
-                        </span>
-                        {asset.groupCode && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              fontWeight: 800,
-                              padding: '2px 6px',
-                              borderRadius: 4,
-                              background: 'rgba(15,23,42,0.82)',
-                              color: '#f8fafc',
-                            }}
-                          >
-                            {asset.groupCode}
-                          </span>
-                        )}
-                      </div>
-                      {usedByCount > 0 && (
-                        <span
-                          style={{
-                            position: 'absolute',
-                            bottom: 7,
-                            right: 7,
-                            fontSize: 10,
-                            fontWeight: 800,
-                            padding: '2px 7px',
-                            borderRadius: 99,
-                            background: '#dcfce7',
-                            color: '#166534',
-                            border: '1px solid #86efac',
-                          }}
-                        >
-                          Używane w {usedByCount} Antkach
-                        </span>
-                      )}
-                    </div>
-
-                    <div style={{ padding: '9px 10px 6px' }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: 4 }}>
-                        {asset.label}
-                      </div>
-                      {asset.imageHash && (
-                        <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace', marginBottom: 4 }}>
-                          hash: {asset.imageHash.slice(0, 12)}…
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '0 10px 10px', display: 'grid', gap: 5 }}>
-                    {activeAngle && (
-                      <button
-                        type="button"
-                        disabled={assigningImage || isAssignedToActive}
-                        onClick={() =>
-                          void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`)
-                        }
-                        style={{
-                          padding: '6px 8px',
-                          borderRadius: 6,
-                          border: isAssignedToActive ? '1px solid #10b981' : '1px solid #7c3aed',
-                          background: isAssignedToActive ? '#ecfdf5' : '#7c3aed',
-                          color: isAssignedToActive ? '#065f46' : '#ffffff',
-                          fontWeight: 700,
-                          fontSize: 11,
-                          cursor: isAssignedToActive ? 'default' : 'pointer',
-                        }}
-                      >
-                        {isAssignedToActive
-                          ? `✓ Aktywne w Antku #${activeAngle.number}`
-                          : `Przypisz do aktywnego Antka (#${activeAngle.number})`}
-                      </button>
-                    )}
-
-                    {groupInfo && groupAngleIds.length > 0 && (
-                      <button
-                        type="button"
-                        disabled={assigningImage}
-                        onClick={() =>
-                          void assignImageToAngles(
-                            groupAngleIds,
-                            asset,
-                            `grupa ${groupInfo.label} (${groupInfo.shortRange})`,
-                          )
-                        }
-                        style={{
-                          padding: '5px 8px',
-                          borderRadius: 6,
-                          border: '1px solid var(--border)',
-                          background: 'var(--card)',
-                          color: 'var(--text)',
-                          fontWeight: 600,
-                          fontSize: 11,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Przypisz do całej grupy ({groupInfo.label} {groupInfo.shortRange})
-                      </button>
-                    )}
-                  </div>
+                  <img
+                    src={asset.url}
+                    alt={asset.label}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 5,
+                      left: 5,
+                      fontSize: 9,
+                      fontWeight: 800,
+                      padding: '2px 5px',
+                      borderRadius: 4,
+                      background: asset.source === 'ai' ? '#059669' : '#2563eb',
+                      color: '#ffffff',
+                    }}
+                  >
+                    {asset.source === 'ai' ? 'AI' : 'LIB'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation();
+                      setLightboxAsset(asset);
+                    }}
+                    title="Powiększ zdjęcie 1:1"
+                    style={{
+                      position: 'absolute',
+                      top: 5,
+                      right: 5,
+                      fontSize: 10,
+                      fontWeight: 800,
+                      padding: '2px 5px',
+                      borderRadius: 4,
+                      border: 0,
+                      background: 'rgba(15,23,42,0.75)',
+                      color: '#ffffff',
+                      cursor: 'zoom-in',
+                    }}
+                  >
+                    🔍
+                  </button>
                 </div>
               );
             })}
           </div>
-        </section>
-      )}
+        </div>
+      </details>
 
-      {/* PANEL ARCHITEKTURY KAMPANII I 7 AD SETÓW COST CAP 35 PLN */}
-      {showCampaignPanel && (
-        <section
+      {/* 2. ROZWIJANE WORK DAY AD SETY (POSORTOWANE PO BATCHACH / DNIACH WYTWORZENIA) */}
+      <details
+        open={showCampaignPanel}
+        onToggle={e => setShowCampaignPanel((e.currentTarget as HTMLDetailsElement).open)}
+        style={{
+          borderRadius: 10,
+          marginBottom: 10,
+          background: 'var(--card)',
+          border: '1px solid #bfdbfe',
+          overflow: 'hidden',
+        }}
+      >
+        <summary
           style={{
-            padding: '16px 18px',
-            borderRadius: 10,
-            marginBottom: 16,
-            background: 'var(--card)',
-            border: '1px solid #bfdbfe',
-            display: 'grid',
-            gap: 14,
+            padding: '11px 16px',
+            cursor: 'pointer',
+            userSelect: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 10,
+            fontWeight: 800,
+            fontSize: 14,
+            color: 'var(--text)',
           }}
         >
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-            <div>
+          <span>
+            📅 Work Day Ad Sety (Batche po dniach wytworzenia · {displayedGroups.length} Ad Setów Cost Cap {metaCostCapPln} PLN)
+          </span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#1d4ed8' }}>
+            {showCampaignPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
+          </span>
+        </summary>
+
+        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 14 }}>
+          {/* KARTA BATCHA Z DNIA WYTWORZENIA (NAJNOWSZY NA GÓRZE) */}
+          <div
+            style={{
+              padding: '12px 14px',
+              borderRadius: 9,
+              background: 'var(--bg)',
+              border: '1px solid #93c5fd',
+              display: 'grid',
+              gap: 10,
+            }}
+          >
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                 <span
                   style={{
                     fontSize: 11,
                     fontWeight: 800,
-                    padding: '3px 8px',
+                    padding: '3px 9px',
                     borderRadius: 99,
-                    background: '#dbeafe',
-                    color: '#1e40af',
+                    background: '#1d4ed8',
+                    color: '#ffffff',
                   }}
                 >
-                  UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX · act_1109284831182252
+                  🗓️ BATCH DZIEŃ:{' '}
+                  {new Date(campaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
                 </span>
+                <strong style={{ fontSize: 13.5, color: 'var(--text)' }}>
+                  Kampania: {campaignStructure?.campaignName || metaCampaignName} (ID:{' '}
+                  {campaignStructure?.campaignId || '120249912191200300'})
+                </strong>
                 <span
                   style={{
                     fontSize: 11,
                     fontWeight: 800,
-                    padding: '3px 8px',
+                    padding: '2px 8px',
                     borderRadius: 99,
                     background: '#dcfce7',
                     color: '#166534',
                   }}
                 >
-                  COST_CAP = {metaCostCapPln},00 PLN ({metaCostCapPln * 100} gr)
+                  COST_CAP = {metaCostCapPln} PLN · 7 Ad Setów · 35 Reklam (PAUSED)
                 </span>
-                {campaignStructure?.campaignId && (
-                  <a
-                    href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${campaignStructure.accountId}&selected_campaign_ids=${campaignStructure.campaignId}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
-                  >
-                    Otwórz Kampanię #{campaignStructure.campaignId} w Meta Ads Manager ↗
-                  </a>
-                )}
               </div>
-              <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
-                Architektura 7 Ad Setów do 35 Dzieł Literackich (po 5 kątów na Ad Set · bez kanibalizacji)
-              </h2>
-              <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
-                Kopiuje Pixel, konwersję Purchase, atrybucję i ustawienia EU DSA z głównej kampanii{' '}
-                <strong>25.08.2025 | 1</strong> (historyczne CPA 34,68 zł, ROAS 3.70) i ustawia sztywny{' '}
-                <strong>Cost Per Result Goal (Cost Cap) = {metaCostCapPln} PLN</strong>.
-              </p>
+
+              <a
+                href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${campaignStructure?.accountId || '1109284831182252'}&selected_campaign_ids=${campaignStructure?.campaignId || '120249912191200300'}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
+              >
+                Otwórz w Meta Ads Manager ↗
+              </a>
             </div>
 
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-                Nazwa nowej kampanii
-                <input
-                  type="text"
-                  value={metaCampaignName}
-                  onChange={e => setMetaCampaignName(e.target.value)}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                gap: 8,
+              }}
+            >
+              {displayedGroups.map((group, gIdx) => {
+                const adSetId = 'adSetId' in group ? group.adSetId : undefined;
+                const batchDayStr = new Date(campaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
+                  day: '2-digit',
+                  month: '2-digit',
+                });
+                return (
+                  <div
+                    key={group.code}
+                    style={{
+                      padding: '9px 11px',
+                      borderRadius: 8,
+                      border: adSetId ? '1px solid #86efac' : '1px solid var(--border)',
+                      background: 'var(--card)',
+                      display: 'grid',
+                      gap: 4,
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6 }}>
+                      <strong style={{ fontSize: 12, color: 'var(--text)' }}>
+                        [{batchDayStr} · Batch #{gIdx + 1}] {group.label}
+                      </strong>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          padding: '2px 6px',
+                          borderRadius: 4,
+                          background: adSetId ? '#dcfce7' : '#f1f5f9',
+                          color: adSetId ? '#166534' : '#475569',
+                        }}
+                      >
+                        {adSetId ? `ID: ${adSetId}` : `5 Antków (${group.shortRange})`}
+                      </span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--muted)', lineHeight: 1.35 }}>{group.description}</p>
+                    <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace' }}>
+                      Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#')).join(', ')}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* TWORZENIE KOLEJNEGO WORK DAY BATCHA W META */}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end', paddingTop: 4 }}>
+            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+              Nazwa nowego Work Day Batcha (Kampanii)
+              <input
+                type="text"
+                value={metaCampaignName}
+                onChange={e => setMetaCampaignName(e.target.value)}
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontSize: 12,
+                  width: 240,
+                }}
+              />
+            </label>
+
+            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+              Cost Cap (PLN)
+              <input
+                type="number"
+                min={10}
+                max={200}
+                step={1}
+                value={metaCostCapPln}
+                onChange={e => setMetaCostCapPln(Number(e.target.value) || 35)}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontSize: 12,
+                  width: 72,
+                }}
+              />
+            </label>
+
+            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+              Budżet dzienny (PLN)
+              <input
+                type="number"
+                min={100}
+                max={50000}
+                step={50}
+                value={metaDailyBudgetPln}
+                onChange={e => setMetaDailyBudgetPln(Number(e.target.value) || 1500)}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontSize: 12,
+                  width: 90,
+                }}
+              />
+            </label>
+
+            <button
+              type="button"
+              disabled={creatingMetaCampaign}
+              onClick={() => void handleCreateMetaCampaign(true)}
+              style={{
+                padding: '7px 14px',
+                borderRadius: 8,
+                border: '1px solid #1d4ed8',
+                background: '#2563eb',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: 12,
+                cursor: creatingMetaCampaign ? 'wait' : 'pointer',
+                opacity: creatingMetaCampaign ? 0.7 : 1,
+              }}
+            >
+              {creatingMetaCampaign
+                ? 'Tworzę w Meta Ads...'
+                : `⚡ Utwórz nowy Work Day Batch + 7 Ad Setów (CC ${metaCostCapPln} zł)`}
+            </button>
+          </div>
+        </div>
+      </details>
+
+      {/* 3. ROZWIJANA ARCHITEKTURA AWARENESS STAGE (FILTRY ETAPÓW ŚWIADOMOŚCI + WYSZUKIWARKA + AKCJE BATCH) */}
+      <details
+        open={showAwarenessPanel}
+        onToggle={e => setShowAwarenessPanel((e.currentTarget as HTMLDetailsElement).open)}
+        style={{
+          borderRadius: 10,
+          marginBottom: 14,
+          background: 'var(--card)',
+          border: '1px solid var(--border)',
+          overflow: 'hidden',
+        }}
+      >
+        <summary
+          style={{
+            padding: '11px 16px',
+            cursor: 'pointer',
+            userSelect: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 10,
+            fontWeight: 800,
+            fontSize: 14,
+            color: 'var(--text)',
+          }}
+        >
+          <span>
+            🧠 Architektura Awareness Stage (Poziomy świadomości, wyszukiwarka i akcje batch · Gotowe {totalGeneratedCount}/{presets.length})
+          </span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#0369a1' }}>
+            {showAwarenessPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
+          </span>
+        </summary>
+
+        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 12 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', marginRight: 4 }}>
+                Awareness Stage / Poziom Sofistykacji:
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setStageFilter('all_kids')}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 6,
+                  border: stageFilter === 'all_kids' ? '1px solid var(--accent)' : '1px solid var(--border)',
+                  background: stageFilter === 'all_kids' ? 'var(--accent)' : 'var(--bg)',
+                  color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 600,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                Wszystkie Dzieci (30)
+              </button>
+
+              {STAGE_ORDER.map(stageKey => {
+                const meta = stages[stageKey];
+                if (!meta) return null;
+                const isActive = stageFilter === stageKey;
+                const count = presets.filter(p => p.funnelStage === stageKey).length;
+                return (
+                  <button
+                    key={stageKey}
+                    type="button"
+                    onClick={() => setStageFilter(stageKey)}
+                    style={{
+                      padding: '6px 11px',
+                      borderRadius: 6,
+                      border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
+                      background: isActive ? 'var(--accent)' : 'var(--bg)',
+                      color: isActive ? '#ffffff' : 'var(--text)',
+                      fontWeight: isActive ? 700 : 500,
+                      fontSize: 12,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {meta.shortLabel || meta.badge} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {activeStageMeta && (
+            <div
+              style={{
+                padding: '8px 12px',
+                borderRadius: 6,
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
+                fontSize: 12,
+                color: 'var(--text)',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 12,
+                alignItems: 'center',
+              }}
+            >
+              <span>
+                <strong>Awareness:</strong> {activeStageMeta.awareness || activeStageMeta.label}
+              </span>
+              <span>·</span>
+              <span>
+                <strong>Sofistykacja:</strong> {activeStageMeta.sophistication || 'Poziom 3/4'}
+              </span>
+              <span>·</span>
+              <span style={{ color: 'var(--muted)' }}>{activeStageMeta.description}</span>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Szukaj kąta (np. 599, kasza, ryciak, beton, operacja)..."
+                style={{
+                  padding: '7px 11px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontSize: 13,
+                  minWidth: 260,
+                }}
+              />
+
+              <button
+                type="button"
+                onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
+                style={{
+                  padding: '7px 11px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Zaznacz widok ({filteredPresets.length})
+              </button>
+
+              {selectedIds.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedIds([])}
                   style={{
                     padding: '7px 10px',
                     borderRadius: 6,
                     border: '1px solid var(--border)',
                     background: 'var(--bg)',
-                    color: 'var(--text)',
+                    color: 'var(--muted)',
                     fontSize: 12,
-                    width: 260,
+                    cursor: 'pointer',
                   }}
-                />
-              </label>
+                >
+                  Odznacz ({selectedIds.length})
+                </button>
+              )}
 
-              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-                Cost Cap (PLN)
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <input
-                    type="number"
-                    min={10}
-                    max={200}
-                    step={1}
-                    value={metaCostCapPln}
-                    onChange={e => setMetaCostCapPln(Number(e.target.value) || 35)}
-                    style={{
-                      padding: '7px 8px',
-                      borderRadius: 6,
-                      border: '1px solid var(--border)',
-                      background: 'var(--bg)',
-                      color: 'var(--text)',
-                      fontSize: 12,
-                      width: 68,
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setMetaCostCapPln(30)}
-                    style={{
-                      padding: '6px 8px',
-                      borderRadius: 6,
-                      border: metaCostCapPln === 30 ? '1px solid #2563eb' : '1px solid var(--border)',
-                      background: metaCostCapPln === 30 ? '#dbeafe' : 'var(--bg)',
-                      color: metaCostCapPln === 30 ? '#1e40af' : 'var(--text)',
-                      fontSize: 11,
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    30 zł
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMetaCostCapPln(35)}
-                    style={{
-                      padding: '6px 8px',
-                      borderRadius: 6,
-                      border: metaCostCapPln === 35 ? '1px solid #2563eb' : '1px solid var(--border)',
-                      background: metaCostCapPln === 35 ? '#dbeafe' : 'var(--bg)',
-                      color: metaCostCapPln === 35 ? '#1e40af' : 'var(--text)',
-                      fontSize: 11,
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    35 zł
-                  </button>
-                </div>
-              </label>
+              <span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 4 }}>
+                Gotowe: <strong style={{ color: 'var(--text)' }}>{totalGeneratedCount}</strong> / {presets.length}
+              </span>
+            </div>
 
-              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-                Budżet dzienny (PLN)
-                <input
-                  type="number"
-                  min={100}
-                  max={50000}
-                  step={50}
-                  value={metaDailyBudgetPln}
-                  onChange={e => setMetaDailyBudgetPln(Number(e.target.value) || 1500)}
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              {isBatchRunning ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    cancelBatchRef.current = true;
+                  }}
                   style={{
-                    padding: '7px 8px',
-                    borderRadius: 6,
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg)',
-                    color: 'var(--text)',
-                    fontSize: 12,
-                    width: 90,
+                    padding: '8px 16px',
+                    borderRadius: 7,
+                    background: '#dc2626',
+                    color: '#ffffff',
+                    border: 0,
+                    fontWeight: 700,
+                    fontSize: 13,
+                    cursor: 'pointer',
                   }}
-                />
-              </label>
+                >
+                  ⏹ Zatrzymaj serię
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    disabled={!selectedIds.length}
+                    onClick={() => void runBatchGeneration(selectedIds)}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: 7,
+                      background: selectedIds.length ? 'var(--accent)' : 'var(--bg)',
+                      color: selectedIds.length ? '#ffffff' : 'var(--muted)',
+                      border: selectedIds.length ? '1px solid var(--accent)' : '1px solid var(--border)',
+                      fontWeight: 700,
+                      fontSize: 13,
+                      opacity: selectedIds.length ? 1 : 0.6,
+                      cursor: selectedIds.length ? 'pointer' : 'not-allowed',
+                    }}
+                  >
+                    ⚡ Generuj zaznaczone ({selectedIds.length})
+                  </button>
 
-              <button
-                type="button"
-                disabled={creatingMetaCampaign}
-                onClick={() => void handleCreateMetaCampaign(true)}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: 8,
-                  border: '1px solid #1d4ed8',
-                  background: '#2563eb',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: creatingMetaCampaign ? 'wait' : 'pointer',
-                  opacity: creatingMetaCampaign ? 0.7 : 1,
-                }}
-              >
-                {creatingMetaCampaign
-                  ? 'Tworzę w Meta Ads...'
-                  : campaignStructure?.campaignId
-                  ? `⚡ Utwórz nową kampanię + 7 Ad Setów (CC ${metaCostCapPln} zł)`
-                  : `⚡ Utwórz Kampanię + 7 Ad Setów (Cost Cap ${metaCostCapPln} zł) w Meta`}
-              </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const missing = filteredPresets.filter(p => !adByAngleId[p.id]).map(p => p.id);
+                      void runBatchGeneration(missing.length ? missing : filteredPresets.map(p => p.id));
+                    }}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: 7,
+                      background: '#059669',
+                      border: '1px solid #059669',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: 13,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    🔥 Generuj brakujące w widoku ({filteredPresets.filter(p => !adByAngleId[p.id]).length})
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-              gap: 10,
-            }}
-          >
-            {displayedGroups.map(group => {
-              const adSetId = 'adSetId' in group ? group.adSetId : undefined;
-              return (
-                <div
-                  key={group.code}
-                  style={{
-                    padding: '10px 12px',
-                    borderRadius: 8,
-                    border: adSetId ? '1px solid #86efac' : '1px solid var(--border)',
-                    background: 'var(--bg)',
-                    display: 'grid',
-                    gap: 4,
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6 }}>
-                    <strong style={{ fontSize: 12, color: 'var(--text)' }}>{group.label}</strong>
-                    <span
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 700,
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        background: adSetId ? '#dcfce7' : '#f1f5f9',
-                        color: adSetId ? '#166534' : '#475569',
-                      }}
-                    >
-                      {adSetId ? `ID: ${adSetId} · PAUSED` : `5 Antków (${group.shortRange})`}
-                    </span>
-                  </div>
-                  <p style={{ margin: 0, fontSize: 11, color: 'var(--muted)', lineHeight: 1.4 }}>{group.description}</p>
-                  <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace' }}>
-                    Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#')).join(', ')}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* CZYSTY PASEK: AWARENESS STAGE & MARKET SOPHISTICATION + AKCJE BATCH */}
-      <section
-        style={{
-          padding: '14px 16px',
-          borderRadius: 10,
-          marginBottom: 16,
-          background: 'var(--card)',
-          border: '1px solid var(--border)',
-          display: 'grid',
-          gap: 12,
-        }}
-      >
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', marginRight: 4 }}>
-              Awareness Stage / Poziom Sofistykacji:
-            </span>
-
-            <button
-              type="button"
-              onClick={() => setStageFilter('all_kids')}
-              style={{
-                padding: '6px 12px',
-                borderRadius: 6,
-                border: stageFilter === 'all_kids' ? '1px solid var(--accent)' : '1px solid var(--border)',
-                background: stageFilter === 'all_kids' ? 'var(--accent)' : 'var(--bg)',
-                color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
-                fontWeight: 600,
-                fontSize: 12,
-                cursor: 'pointer',
-              }}
-            >
-              Wszystkie Dzieci (30)
-            </button>
-
-            {STAGE_ORDER.map(stageKey => {
-              const meta = stages[stageKey];
-              if (!meta) return null;
-              const isActive = stageFilter === stageKey;
-              const count = presets.filter(p => p.funnelStage === stageKey).length;
-              return (
-                <button
-                  key={stageKey}
-                  type="button"
-                  onClick={() => setStageFilter(stageKey)}
-                  style={{
-                    padding: '6px 11px',
-                    borderRadius: 6,
-                    border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
-                    background: isActive ? 'var(--accent)' : 'var(--bg)',
-                    color: isActive ? '#ffffff' : 'var(--text)',
-                    fontWeight: isActive ? 700 : 500,
-                    fontSize: 12,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {meta.shortLabel || meta.badge} ({count})
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Opis wybranego Awareness Stage & Sophistication */}
-        {activeStageMeta && (
-          <div
-            style={{
-              padding: '8px 12px',
-              borderRadius: 6,
-              background: 'var(--bg)',
-              border: '1px solid var(--border)',
-              fontSize: 12,
-              color: 'var(--text)',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 12,
-              alignItems: 'center',
-            }}
-          >
-            <span>
-              <strong>Awareness:</strong> {activeStageMeta.awareness || activeStageMeta.label}
-            </span>
-            <span>·</span>
-            <span>
-              <strong>Sofistykacja:</strong> {activeStageMeta.sophistication || 'Poziom 3/4'}
-            </span>
-            <span>·</span>
-            <span style={{ color: 'var(--muted)' }}>{activeStageMeta.description}</span>
-          </div>
-        )}
-
-        {/* Wyszukiwarka + Przyciski Zaznaczania + Generowania + Zwijane Ustawienia */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-            <input
-              type="search"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Szukaj kąta (np. 599, kasza, ryciak, beton, operacja)..."
-              style={{
-                padding: '7px 11px',
-                borderRadius: 6,
-                border: '1px solid var(--border)',
-                background: 'var(--bg)',
-                color: 'var(--text)',
-                fontSize: 13,
-                minWidth: 260,
-              }}
-            />
-
-            <button
-              type="button"
-              onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
-              style={{
-                padding: '7px 11px',
-                borderRadius: 6,
-                border: '1px solid var(--border)',
-                background: 'var(--bg)',
-                color: 'var(--text)',
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Zaznacz widok ({filteredPresets.length})
-            </button>
-
-            {selectedIds.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setSelectedIds([])}
-                style={{
-                  padding: '7px 10px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--muted)',
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                Odznacz ({selectedIds.length})
-              </button>
-            )}
-
-            <span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 4 }}>
-              Gotowe: <strong style={{ color: 'var(--text)' }}>{totalGeneratedCount}</strong> / {presets.length}
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-            {isBatchRunning ? (
-              <button
-                type="button"
-                onClick={() => {
-                  cancelBatchRef.current = true;
-                }}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: 7,
-                  background: '#dc2626',
-                  color: '#ffffff',
-                  border: 0,
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: 'pointer',
-                }}
-              >
-                ⏹ Zatrzymaj serię
-              </button>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  disabled={!selectedIds.length}
-                  onClick={() => void runBatchGeneration(selectedIds)}
-                  style={{
-                    padding: '8px 14px',
-                    borderRadius: 7,
-                    background: selectedIds.length ? 'var(--accent)' : 'var(--bg)',
-                    color: selectedIds.length ? '#ffffff' : 'var(--muted)',
-                    border: selectedIds.length ? '1px solid var(--accent)' : '1px solid var(--border)',
-                    fontWeight: 700,
-                    fontSize: 13,
-                    opacity: selectedIds.length ? 1 : 0.6,
-                    cursor: selectedIds.length ? 'pointer' : 'not-allowed',
-                  }}
-                >
-                  ⚡ Generuj zaznaczone ({selectedIds.length})
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    const missing = filteredPresets.filter(p => !adByAngleId[p.id]).map(p => p.id);
-                    void runBatchGeneration(missing.length ? missing : filteredPresets.map(p => p.id));
-                  }}
-                  style={{
-                    padding: '8px 14px',
-                    borderRadius: 7,
-                    background: '#059669',
-                    border: '1px solid #059669',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: 13,
-                    cursor: 'pointer',
-                  }}
-                >
-                  🔥 Generuj brakujące w widoku ({filteredPresets.filter(p => !adByAngleId[p.id]).length})
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Zwijane ustawienia zaawansowane (żeby nie zaśmiecały widoku) */}
-        <details style={{ fontSize: 12, color: 'var(--muted)' }}>
-          <summary style={{ cursor: 'pointer', fontWeight: 600, userSelect: 'none' }}>
-            ⚙️ Ustawienia kampanii (Fanpage, URL, równoległość AI, dodatkowa instrukcja)
-          </summary>
-          <div
-            style={{
-              marginTop: 10,
               paddingTop: 10,
               borderTop: '1px solid var(--border)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
               gap: 10,
+              fontSize: 12,
+              color: 'var(--muted)',
             }}
           >
             <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -1719,8 +1653,8 @@ export default function AntkiPlPage() {
               />
             </label>
           </div>
-        </details>
-      </section>
+        </div>
+      </details>
 
       {/* GŁÓWNY UKŁAD DWUKOLUMNOWY: LISTA KĄTÓW PO LEWEJ, EDYTOR I PODGLĄD PO PRAWEJ */}
       <div

@@ -505,6 +505,9 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const accountId = numericId(String(opts.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
  const campaignId = numericId(String(opts.campaignId || '120249912191200300'), 'campaign');
  const filterGroup = typeof opts.group === 'string' && opts.group.trim() ? opts.group.trim().toUpperCase() : null;
+ const filterAngleIds = Array.isArray(opts.angleIds)
+  ? new Set(opts.angleIds.map(id => String(id).trim()).filter(Boolean))
+  : null;
  const publishStatus = opts.status === 'ACTIVE' ? 'ACTIVE' : 'PAUSED';
  const updateExisting = Boolean(opts.updateExisting);
 
@@ -521,8 +524,8 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const cta: 'LEARN_MORE' | 'SHOP_NOW' = opts.cta === 'SHOP_NOW' ? 'SHOP_NOW' : 'LEARN_MORE';
 
  const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
- const { getDefaultImageForAngle } = await import('./antki-pl');
- const { value: savedState } = await readState<{ ads?: { angleId?: string; imageHash?: string; primaryText?: string; headline?: string }[] }>('antki-pl-library-v9-argon', { ads: [] });
+ const { ANTKI_PL_IMAGE_LIBRARY, getDefaultImageForAngle } = await import('./antki-pl');
+ const { value: savedState } = await readState<{ ads?: { angleId?: string; imageUrl?: string; imageHash?: string; primaryText?: string; headline?: string }[] }>('antki-pl-library-v9-argon', { ads: [] });
  const savedAds = Array.isArray(savedState?.ads) ? savedState.ads : [];
  const savedByAngleId = new Map(
   savedAds
@@ -568,6 +571,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   if (!adSetId) continue;
 
   for (const angleId of bp.angleIds) {
+   if (filterAngleIds && !filterAngleIds.has(angleId)) continue;
    const entry = adByAngleId.get(angleId);
    if (!entry) continue;
    const adName = `ad ${entry.globalIndex}`;
@@ -587,9 +591,11 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
 
    const saved = savedByAngleId.get(angleId);
    const defaultImg = getDefaultImageForAngle(entry.globalIndex);
+   const libMatch = saved?.imageUrl ? ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === saved.imageUrl) : undefined;
    const resolvedImageHash =
     imageHash ||
     (typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
+    libMatch?.imageHash ||
     defaultImg?.imageHash ||
     '158deebd0e272662e14182e8f8e3753b';
    const resolvedPrimaryText =

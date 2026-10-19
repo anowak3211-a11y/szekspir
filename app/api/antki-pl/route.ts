@@ -269,7 +269,21 @@ export const POST = accountRoute(async (req: Request) => {
           return state.ads;
         },
       );
-      return NextResponse.json({ ok: true, count: savedAds.length });
+      let metaSynced = 0;
+      try {
+        const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
+        const syncRes = await populateAntkiAdsInCampaign({
+          angleIds: targetAngleIds,
+          pageId: '798916893308685',
+          instagramUserId: '17841473314157729',
+          status: 'PAUSED',
+          updateExisting: true,
+        });
+        metaSynced = syncRes.createdCount || 0;
+      } catch {
+        // Non-blocking: Szekspir DB state is already saved
+      }
+      return NextResponse.json({ ok: true, count: savedAds.length, metaSynced });
     }
 
     if (action === 'create-meta-campaign') {
