@@ -418,6 +418,36 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
 
  return structure;
 }
+
+export async function cleanupDuplicateAntkiCampaigns(keepCampaignId = '120249912191200300', accountId = '1109284831182252') {
+ const campaignsRes = await directGraph<{ data?: Record<string, unknown>[] }>(
+  `act_${accountId}/campaigns`,
+  { fields: 'id,name,status', limit: 100 },
+  'GET',
+ );
+ const list = Array.isArray(campaignsRes.data) ? campaignsRes.data : [];
+ const toDelete = list.filter(c => {
+  const id = String(c.id || '');
+  const name = String(c.name || '');
+  if (id === keepCampaignId) return false;
+  return (
+   name === 'ANTKI CC35' ||
+   name.startsWith('ANTKI_PL_CC35') ||
+   name.startsWith('ANTKI PL | Dział Literacki')
+  );
+ });
+ const deleted: { id: string; name: string; ok: boolean; error?: string }[] = [];
+ for (const c of toDelete) {
+  const cid = String(c.id);
+  try {
+   await directGraph(cid, { status: 'DELETED' }, 'POST');
+   deleted.push({ id: cid, name: String(c.name), ok: true });
+  } catch (e) {
+   deleted.push({ id: cid, name: String(c.name), ok: false, error: e instanceof Error ? e.message : 'Failed' });
+  }
+ }
+ return { keptCampaignId: keepCampaignId, deletedCount: deleted.filter(d => d.ok).length, deleted };
+}
 export async function updateUploaderAdsStatus(raw:unknown){
  const a=raw as Record<string,unknown>;if(!a||typeof a!=='object')throw Error('Invalid request.');
  const status=a.status==='ACTIVE'?'ACTIVE':a.status==='PAUSED'?'PAUSED':undefined;

@@ -132,21 +132,8 @@ export function buildAntkiPlUserPrompt(params: {
 
 export const GET = accountRoute(async () => {
   try {
-    const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign, createAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
-    const savedAds = await readLibrary();
-    let campaignStructure = await readAntkiCostCapCampaign();
-    if (!campaignStructure) {
-      try {
-        campaignStructure = await createAntkiCostCapCampaign({
-          accountId: '1109284831182252',
-          costCapPln: 35,
-          dailyBudgetPln: 1500,
-          forceNew: false,
-        });
-      } catch {
-        // If Meta token is not connected in current workspace, allow manual trigger in UI
-      }
-    }
+    const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
+    const [savedAds, campaignStructure] = await Promise.all([readLibrary(), readAntkiCostCapCampaign()]);
     const brain = brainSettings();
     return NextResponse.json({
       presets: ANTKI_PL_PRESET_ANGLES,
