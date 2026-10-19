@@ -28,7 +28,13 @@ interface AntkiPlLibraryState {
 }
 
 function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
-  if (ad.imageUrl) return ad;
+  if (ad.imageUrl) {
+    const matchedLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === ad.imageUrl);
+    if (matchedLib?.imageHash && matchedLib.imageHash !== ad.imageHash) {
+      return { ...ad, imageHash: matchedLib.imageHash };
+    }
+    return ad;
+  }
   const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
   const defaultImg = getDefaultImageForAngle(preset?.number || 1);
   return {
