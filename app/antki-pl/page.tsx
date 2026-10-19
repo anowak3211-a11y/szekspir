@@ -851,19 +851,67 @@ export default function AntkiPlPage() {
                     color: '#166534',
                   }}
                 >
-                  ✨ 8 Czystych Zdjęć Natywnych (bez napisów) + 1 Kolaż 3-Kafelkowy
+                  ✨ {aiImagesCount} Nowych AI Native + 📚 {metaImagesCount} Starych Zdjęć z Biblioteki Antków
                 </span>
               </div>
               <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
-                🖼️ Galeria Kreacji „Porady Mamy Gosi” (pod 7 grup Antków: DOM, RUCH, GRUPA, MIT, RYCIAK, ŻAL, ZIMA)
+                🖼️ Galeria Kreacji „Porady Mamy Gosi” (Wszystkie stare zdjęcia z biblioteki Antków + nowe AI Native)
               </h2>
               <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
                 Kliknij miniaturę, aby powiększyć (1:1), lub przypisz dowolne zdjęcie jednym kliknięciem do{' '}
-                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej. Wszystkie 9 kreacji posiada załadowany <code>image_hash</code> na koncie Meta!
+                <strong>aktywnego Antka {activeAngle ? `(#${activeAngle.number})` : ''}</strong> albo do całej grupy tematycznej. Wszystkie {imageLibrary.length} kreacji posiada oryginalny <code>image_hash</code> na koncie Meta!
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('all')}
+                style={{
+                  padding: '7px 11px',
+                  borderRadius: 7,
+                  border: galleryTab === 'all' ? '1px solid #7c3aed' : '1px solid var(--border)',
+                  background: galleryTab === 'all' ? '#7c3aed' : 'var(--bg)',
+                  color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                Wszystkie ({imageLibrary.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('meta')}
+                style={{
+                  padding: '7px 11px',
+                  borderRadius: 7,
+                  border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
+                  background: galleryTab === 'meta' ? '#2563eb' : 'var(--bg)',
+                  color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                📚 Stare z Biblioteki Antków ({metaImagesCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => setGalleryTab('ai')}
+                style={{
+                  padding: '7px 11px',
+                  borderRadius: 7,
+                  border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
+                  background: galleryTab === 'ai' ? '#059669' : 'var(--bg)',
+                  color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                ✨ Nowe AI Native ({aiImagesCount})
+              </button>
               <button
                 type="button"
                 onClick={syncToMetaCc35}
@@ -2071,22 +2119,72 @@ export default function AntkiPlPage() {
                     <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
                       Przypisane zdjęcie: {activeResolvedImage?.label}
                     </div>
-                    <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--muted)' }}>
+                    <p style={{ margin: '2px 0 6px', fontSize: 12, color: 'var(--muted)' }}>
                       Kliknij dowolną miniaturę poniżej, aby natychmiast podmienić zdjęcie w Antku #{activeAngle.number}:
                     </p>
+                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        onClick={() => setGalleryTab('all')}
+                        style={{
+                          padding: '4px 9px',
+                          borderRadius: 6,
+                          border: galleryTab === 'all' ? '1px solid #7c3aed' : '1px solid var(--border)',
+                          background: galleryTab === 'all' ? '#7c3aed' : 'var(--card)',
+                          color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
+                          fontWeight: 700,
+                          fontSize: 11,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Wszystkie ({imageLibrary.length})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setGalleryTab('meta')}
+                        style={{
+                          padding: '4px 9px',
+                          borderRadius: 6,
+                          border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
+                          background: galleryTab === 'meta' ? '#2563eb' : 'var(--card)',
+                          color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
+                          fontWeight: 700,
+                          fontSize: 11,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        📚 Stare z Biblioteki Antków ({metaImagesCount})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setGalleryTab('ai')}
+                        style={{
+                          padding: '4px 9px',
+                          borderRadius: 6,
+                          border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
+                          background: galleryTab === 'ai' ? '#059669' : 'var(--card)',
+                          color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
+                          fontWeight: 700,
+                          fontSize: 11,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ✨ Nowe AI Native ({aiImagesCount})
+                      </button>
+                    </div>
                   </div>
 
                   <div
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(64px, 1fr))',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))',
                       gap: 7,
-                      maxHeight: 265,
+                      maxHeight: 360,
                       overflowY: 'auto',
                       padding: 4,
                     }}
                   >
-                    {imageLibrary.map(asset => {
+                    {filteredGalleryImages.map(asset => {
                       const isCurrent = activeResolvedImage?.url === asset.url;
                       return (
                         <button
@@ -2100,13 +2198,13 @@ export default function AntkiPlPage() {
                           style={{
                             position: 'relative',
                             padding: 0,
-                            height: 64,
+                            height: 68,
                             borderRadius: 7,
                             overflow: 'hidden',
                             border: isCurrent ? '3px solid #7c3aed' : '1px solid var(--border)',
                             cursor: 'pointer',
                             background: '#0f172a',
-                            opacity: isCurrent ? 1 : 0.86,
+                            opacity: isCurrent ? 1 : 0.9,
                           }}
                         >
                           <img
@@ -2128,7 +2226,7 @@ export default function AntkiPlPage() {
                               color: '#ffffff',
                             }}
                           >
-                            {asset.source === 'ai' ? 'AI' : 'META'}
+                            {asset.source === 'ai' ? 'AI' : 'LIB'}
                           </span>
                         </button>
                       );
