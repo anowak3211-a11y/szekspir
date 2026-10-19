@@ -108,7 +108,7 @@ export default function AntkiPlPage() {
       status?: string;
     }>;
   } | null>(null);
-  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI_PL_CC35');
+  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI CC35');
   const [metaCostCapPln, setMetaCostCapPln] = useState(35);
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
@@ -468,14 +468,14 @@ export default function AntkiPlPage() {
       setError('Brak gotowych tekstów do eksportu JSON.');
       return;
     }
-    const adsPayload = readyAdsForExport.map(ad => {
+    const adsPayload = readyAdsForExport.map((ad, idx) => {
       const matchedGroup = campaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
       const cleanDesc = (ad.description || '').trim();
-      const shortNum = ad.angleId.match(/^pl-(\d+)/)?.[1] || ad.code.slice(0, 6);
-      const shortAdName = `ANT_${shortNum}_${matchedGroup?.code || ad.code.slice(0, 8).toUpperCase()}`;
+      const numMatch = ad.angleId.match(/^pl-0*(\d+)/);
+      const adNumber = numMatch ? numMatch[1] : String(idx + 1);
       return {
         key: ad.code,
-        name: shortAdName,
+        name: `ad ${adNumber}`,
         url: ad.destinationUrl || destinationUrl,
         cta: ad.cta || 'LEARN_MORE',
         primaryTexts: [ad.primaryText],

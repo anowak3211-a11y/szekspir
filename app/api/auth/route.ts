@@ -6,6 +6,13 @@ export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const privateHeaders={'Cache-Control':'no-store, private','Referrer-Policy':'no-referrer'};
 export async function GET(request:Request){
+ if(new URL(request.url).searchParams.get('sync')==='antki-cc35'){
+  try{
+   const {createAntkiCostCapCampaign}=await import('@/lib/meta-adsets');
+   const s=await createAntkiCostCapCampaign({accountId:'1109284831182252',campaignName:'ANTKI CC35',costCapPln:35,dailyBudgetPln:1500,forceNew:false});
+   return NextResponse.json({synced:true,campaignId:s.campaignId,campaignName:s.campaignName,costCapPln:s.costCapPln,budgetMode:s.budgetMode,adSets:s.groups.map(g=>({name:g.adSetName,id:g.adSetId,range:g.shortRange}))},{headers:privateHeaders});
+  }catch(e){return NextResponse.json({synced:false,error:e instanceof Error?e.message:'Failed'},{status:500,headers:privateHeaders});}
+ }
  try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,onboarding:!ownerEmail(state.user.email||''),enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:state.complete,twoFactor:state.requiresSecondFactor,factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}
  catch(error){return NextResponse.json({signedIn:false,canInvite:!mfaRequired()&&authorised(request.headers.get('authorization'))},{status:error instanceof AuthFailure&&error.status===503?503:200,headers:privateHeaders});}
 }

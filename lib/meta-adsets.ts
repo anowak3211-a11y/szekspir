@@ -4,10 +4,25 @@ import {graph,MetaError,rememberCreatedAdSet,metaToken,metaProof,META_VERSION} f
 import {MetaBudgetWait} from './meta-rate-limit';
 import {numericId} from './meta-uploader-model';
 import {mutate,readState} from './store';
+async function resolveMetaAuth():Promise<{token:string;proof?:string}>{
+ try{const token=await metaToken();return {token,proof:await metaProof(token)};}
+ catch{
+  try{const token=await inOwnerWorkspace(()=>metaToken());return {token,proof:await inOwnerWorkspace(()=>metaProof(token))};}
+  catch{
+   try{
+    const {accountRegistry}=await import('./account-repository');
+    const {inWorkspace}=await import('./account-context');
+    const reg=await accountRegistry();
+    for(const u of Object.values(reg.users||{})){
+     try{const token=await inWorkspace(u,()=>metaToken()),proof=await inWorkspace(u,()=>metaProof(token));return {token,proof};}catch{}
+    }
+   }catch{}
+   throw Error('Connect Meta in the uploader settings.');
+  }
+ }
+}
 async function directGraph<T=Record<string,unknown>>(path:string,params:Record<string,unknown>={},method:'GET'|'POST'='GET'):Promise<T>{
- let token:string,proof:string|undefined;
- try{token=await metaToken();proof=await metaProof(token);}
- catch{token=await inOwnerWorkspace(()=>metaToken());proof=await inOwnerWorkspace(()=>metaProof(token));}
+ const {token,proof}=await resolveMetaAuth();
  const url=new URL(`https://graph.facebook.com/${META_VERSION}/${path}`),body=new URLSearchParams();
  for(const [k,v] of Object.entries(params))if(v!==undefined)body.set(k,typeof v==='string'?v:JSON.stringify(v));
  if(proof)body.set('appsecret_proof',proof);
@@ -84,10 +99,10 @@ export interface AntkiCampaignStructure {
 
 export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSetName' | 'bidAmountMinor' | 'status'>[] = [
  {
-  code: 'S1_DOM',
-  label: 'S1_DOM',
-  shortRange: '#1-#5',
-  description: 'Domowe odkrycie (#1 buty, #2 nocny płacz, #3 mokra stopa, #4 zdjęcie X, #5 potykanie)',
+  code: 'DOM',
+  label: 'DOM',
+  shortRange: '1-5',
+  description: '1 buty · 2 noc · 3 kafelki · 4 zdjecie · 5 spodnie',
   angleIds: [
    'pl-01-zdarte-zimowe-buty',
    'pl-02-mit-bolow-wzrostowych',
@@ -97,10 +112,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S2_BOL',
-  label: 'S2_BOL',
-  shortRange: '#6-#10',
-  description: 'Efekt domina / ból ciała (#6 plecy, #7 kark, #8 biodro orlik, #9 kolana schody, #10 miednica)',
+  code: 'RUCH',
+  label: 'RUCH',
+  shortRange: '6-10',
+  description: '6 plecak · 7 szyja · 8 boisko · 9 schody · 10 spodniczka',
   angleIds: [
    'pl-06-plecy-i-ciezki-plecak',
    'pl-07-bol-glowy-i-karku',
@@ -110,10 +125,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S3_WF',
-  label: 'S3_WF',
-  shortRange: '#11-#15',
-  description: 'Szkoła i WF (#11 tel. od WF, #12 wybierany ostatni, #13 obóz góry, #14 szatnia, #15 zwolnienie WF)',
+  code: 'GRUPA',
+  label: 'GRUPA',
+  shortRange: '11-15',
+  description: '11 telefon · 12 druzyna · 13 gory · 14 kurtki · 15 kartka',
   angleIds: [
    'pl-11-telefon-od-wuefistki',
    'pl-12-wybierany-ostatni-do-druzyny',
@@ -123,10 +138,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S4_SYS',
-  label: 'S4_SYS',
-  shortRange: '#16-#20',
-  description: 'Anty-system (#16 dywan, #17 14h beton, #18 gips 380 zł, #19 korektywa, #20 okno 12l)',
+  code: 'MIT',
+  label: 'MIT',
+  shortRange: '16-20',
+  description: '16 dywan · 17 podloga · 18 szuflada · 19 sala · 20 czas',
   angleIds: [
    'pl-16-wojna-o-dywan-19-30',
    'pl-17-worek-ze-szkolnymi-kapciami',
@@ -136,10 +151,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S5_RYC',
-  label: 'S5_RYC',
-  shortRange: '#21-#25',
-  description: 'Ryciak Rip 3 V1-V5 (#21 ramię, #22 SOR kolano, #23 plecy, #24 bilans, #25 wideo slow-mo)',
+  code: 'RYCIAK',
+  label: 'RYCIAK',
+  shortRange: '21-25',
+  description: '21 ramie · 22 wieczor · 23 postawa · 24 wizyta · 25 kamera',
   angleIds: [
    'pl-21-ryciak-rip3-ramie-v2',
    'pl-22-ryciak-rip3-sor-kolano',
@@ -149,10 +164,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S6_OPER',
-  label: 'S6_OPER',
-  shortRange: '#26-#30',
-  description: 'Żal po operacji (#26 śruby 8200 zł, #27 nawrót haluksa, #28 kolana 14l, #29 wózek, #30 sterydy)',
+  code: 'ZAL',
+  label: 'ŻAL',
+  shortRange: '26-30',
+  description: '26 lewa · 27 siostra · 28 starsza · 29 prysznic · 30 pieta',
   angleIds: [
    'pl-26-zal-po-operacji-za-pozno',
    'pl-27-zal-haluks-wrocil-po-2-latach',
@@ -162,10 +177,10 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
   ],
  },
  {
-  code: 'S7_DOR',
-  label: 'S7_DOR',
-  shortRange: '#31-#35',
-  description: 'Dorośli zima (#31 botki, #32 ostroga 6:00, #33 praca 8h, #34 mama 62l, #35 rozmiar +2)',
+  code: 'ZIMA',
+  label: 'ZIMA',
+  shortRange: '31-35',
+  description: '31 botki · 32 budzik · 33 kuchnia · 34 park · 35 galeria',
   angleIds: [
    'pl-31-dorosli-zimowe-botki',
    'pl-32-dorosli-pierwszy-krok-rano',
@@ -176,11 +191,11 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
  },
 ];
 
-const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v2';
+const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v3';
 
 export async function readAntkiCostCapCampaign(): Promise<AntkiCampaignStructure | null> {
  try {
-  const { value } = await readState<{ structure?: AntkiCampaignStructure }>(ANTKI_CAMPAIGN_STATE_KEY, {});
+  const { value } = await inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(ANTKI_CAMPAIGN_STATE_KEY, {}));
   return value?.structure || null;
  } catch {
   return null;
@@ -200,11 +215,10 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  }
  const bidAmountMinor = Math.round(costCapPln * 100);
  const dailyBudgetMinor = Math.round(dailyBudgetPln * 100);
- const dateTag = new Date().toISOString().slice(5, 10).replace('-', '.');
  const campaignName =
   typeof a.campaignName === 'string' && a.campaignName.trim()
    ? a.campaignName.trim()
-   : `ANTKI_PL_CC${costCapPln}_${dateTag}`;
+   : `ANTKI CC${costCapPln}`;
 
  const forceNew = !!a.forceNew;
  if (!forceNew) {
@@ -325,7 +339,7 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  const perAdSetBudgetMinor = Math.max(5000, Math.round(dailyBudgetMinor / ANTKI_PL_ADSET_BLUEPRINTS.length));
 
  for (const bp of ANTKI_PL_ADSET_BLUEPRINTS) {
-  const adSetName = `${bp.code}_CC${costCapPln}`;
+  const adSetName = bp.label;
   const basePayload: Record<string, unknown> = {
    name: adSetName,
    campaign_id: createdCampaignId,
@@ -396,9 +410,11 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
   groups: createdGroups,
  };
 
- await mutate<{ structure?: AntkiCampaignStructure }, void>(ANTKI_CAMPAIGN_STATE_KEY, {}, s => {
-  s.structure = structure;
- });
+ await inOwnerWorkspace(() =>
+  mutate<{ structure?: AntkiCampaignStructure }, void>(ANTKI_CAMPAIGN_STATE_KEY, {}, s => {
+   s.structure = structure;
+  }),
+ );
 
  return structure;
 }
