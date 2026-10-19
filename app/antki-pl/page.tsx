@@ -79,6 +79,41 @@ export default function AntkiPlPage() {
     'Post na grupie mam na Facebooku i dziesiątki zdjęć wkładek Orthomax StepMax w komentarzach.',
   );
 
+  // Meta Cost Cap Campaign & 7 Ad Sets state (UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX · 1109284831182252)
+  const [adSetBlueprints, setAdSetBlueprints] = useState<
+    Array<{ code: string; label: string; shortRange: string; description: string; angleIds: string[] }>
+  >([]);
+  const [campaignStructure, setCampaignStructure] = useState<{
+    accountId: string;
+    accountName: string;
+    campaignId: string;
+    campaignName: string;
+    costCapPln: number;
+    bidAmountMinor: number;
+    dailyBudgetPln: number;
+    budgetMode: 'CBO' | 'ABO';
+    sourceCampaignName: string;
+    sourceAdSetName: string;
+    pixelId?: string;
+    createdAt: number;
+    groups: Array<{
+      code: string;
+      label: string;
+      shortRange: string;
+      description: string;
+      angleIds: string[];
+      adSetId?: string;
+      adSetName?: string;
+      bidAmountMinor?: number;
+      status?: string;
+    }>;
+  } | null>(null);
+  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI PL | Dział Literacki | CC 35 PLN');
+  const [metaCostCapPln, setMetaCostCapPln] = useState(35);
+  const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
+  const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
+  const [showCampaignPanel, setShowCampaignPanel] = useState(true);
+
   const loadInit = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -89,6 +124,12 @@ export default function AntkiPlPage() {
       setPresets(data.presets || []);
       setStages(data.stages || {});
       setSavedAds(data.savedAds || []);
+      if (data.adSetBlueprints) setAdSetBlueprints(data.adSetBlueprints);
+      if (data.campaignStructure) {
+        setCampaignStructure(data.campaignStructure);
+        setMetaCostCapPln(data.campaignStructure.costCapPln || 35);
+        setMetaDailyBudgetPln(data.campaignStructure.dailyBudgetPln || 1500);
+      }
       if (data.brain) setBrain(data.brain);
       if (data.defaultUrl) setDestinationUrl(data.defaultUrl);
       if (data.presets?.length && !activeAngleId) {
@@ -390,31 +431,69 @@ export default function AntkiPlPage() {
     setNotice(`Pobrano plik Markdown z ${readyAdsForExport.length} gotowymi Antkami.`);
   };
 
+  const handleCreateMetaCampaign = async (forceNew = true) => {
+    setCreatingMetaCampaign(true);
+    setError('');
+    setNotice(
+      `Tworzę kampanię "${metaCampaignName}" + 7 zestawów reklam (Cost Cap ${metaCostCapPln} PLN) na koncie UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)...`,
+    );
+    try {
+      const res = await fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'create-meta-campaign',
+          accountId: '1109284831182252',
+          campaignName: metaCampaignName,
+          costCapPln: metaCostCapPln,
+          dailyBudgetPln: metaDailyBudgetPln,
+          forceNew,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Nie udało się utworzyć kampanii w Meta.');
+      setCampaignStructure(data.campaignStructure);
+      setNotice(
+        `Gotowe! Utworzono kampanię "${data.campaignStructure.campaignName}" (ID: ${data.campaignStructure.campaignId}) oraz 7 Ad Setów z Cost Cap ${data.campaignStructure.costCapPln} PLN (PAUSED) na koncie UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX.`,
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd tworzenia kampanii w Meta.');
+    } finally {
+      setCreatingMetaCampaign(false);
+    }
+  };
+
   const exportUploaderJson = () => {
     if (!readyAdsForExport.length) {
       setError('Brak gotowych tekstów do eksportu JSON.');
       return;
     }
-    const adsPayload = readyAdsForExport.map(ad => ({
-      key: ad.code,
-      name: `ANT_PL_${ad.code}`,
-      url: ad.destinationUrl || destinationUrl,
-      cta: ad.cta || 'LEARN_MORE',
-      primaryTexts: [ad.primaryText],
-      headline: ad.headline,
-      headlines: [ad.headline],
-      description: ad.description,
-      descriptions: [ad.description],
-      ...(defaultMediaUrl.trim()
-        ? {
-            media: {
-              kind: 'image' as const,
-              url: defaultMediaUrl.trim(),
-              filename: `${ad.code}.jpg`,
-            },
-          }
-        : {}),
-    }));
+    const adsPayload = readyAdsForExport.map(ad => {
+      const matchedGroup = campaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
+      const cleanDesc = (ad.description || '').trim();
+      return {
+        key: ad.code,
+        name: `ANT_PL_${ad.code}`,
+        url: ad.destinationUrl || destinationUrl,
+        cta: ad.cta || 'LEARN_MORE',
+        primaryTexts: [ad.primaryText],
+        headline: ad.headline,
+        headlines: [ad.headline],
+        ...(cleanDesc ? { description: cleanDesc, descriptions: [cleanDesc] } : { description: '', descriptions: [] }),
+        ...(campaignStructure?.accountId ? { accountId: campaignStructure.accountId } : {}),
+        ...(campaignStructure?.campaignId ? { campaignId: campaignStructure.campaignId } : {}),
+        ...(matchedGroup?.adSetId ? { adSetId: matchedGroup.adSetId } : {}),
+        ...(defaultMediaUrl.trim()
+          ? {
+              media: {
+                kind: 'image' as const,
+                url: defaultMediaUrl.trim(),
+                filename: `${ad.code}.jpg`,
+              },
+            }
+          : {}),
+      };
+    });
 
     const blob = new Blob([JSON.stringify({ ads: adsPayload }, null, 2)], {
       type: 'application/json;charset=utf-8',
@@ -425,12 +504,17 @@ export default function AntkiPlPage() {
     a.download = `SZEKSPIR_ADS_ANTKI_PL_${new Date().toISOString().slice(0, 10)}_${readyAdsForExport.length}_szt.json`;
     a.click();
     URL.revokeObjectURL(url);
-    setNotice(`Pobrano plik JSON (${readyAdsForExport.length} reklam) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`);
+    setNotice(
+      campaignStructure
+        ? `Pobrano plik JSON (${readyAdsForExport.length} reklam) z przypisaną kampanią ${campaignStructure.campaignId} i 7 Ad Setami Cost Cap ${campaignStructure.costCapPln} PLN.`
+        : `Pobrano plik JSON (${readyAdsForExport.length} reklam) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`,
+    );
   };
 
   const totalGeneratedCount = Object.keys(adByAngleId).length;
   const activeStageMeta =
     stageFilter !== 'all' && stageFilter !== 'all_kids' ? stages[stageFilter] : null;
+  const displayedGroups = campaignStructure?.groups?.length ? campaignStructure.groups : adSetBlueprints;
 
   return (
     <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
@@ -460,11 +544,28 @@ export default function AntkiPlPage() {
           </h1>
           <p className="sub" style={{ margin: 0, fontSize: 13 }}>
             Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
-            Styl Mellow · Liczba mnoga („wkładki są zrobione”) · Cyfrowe godziny · 0 em-dashów.
+            Konto: <strong>UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)</strong> · Cost Cap: <strong>35 PLN</strong>.
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={() => setShowCampaignPanel(v => !v)}
+            style={{
+              padding: '9px 14px',
+              borderRadius: 8,
+              border: '1px solid #2563eb',
+              background: showCampaignPanel ? '#eff6ff' : 'var(--card)',
+              color: '#1d4ed8',
+              fontWeight: 700,
+              fontSize: 13,
+              cursor: 'pointer',
+            }}
+          >
+            🎯 Struktura 7 Ad Setów (Cost Cap {metaCostCapPln} zł)
+          </button>
+
           <button
             type="button"
             onClick={() => setShowCustomModal(true)}
@@ -574,6 +675,234 @@ export default function AntkiPlPage() {
             ✕
           </button>
         </div>
+      )}
+
+      {/* PANEL ARCHITEKTURY KAMPANII I 7 AD SETÓW COST CAP 35 PLN */}
+      {showCampaignPanel && (
+        <section
+          style={{
+            padding: '16px 18px',
+            borderRadius: 10,
+            marginBottom: 16,
+            background: 'var(--card)',
+            border: '1px solid #bfdbfe',
+            display: 'grid',
+            gap: 14,
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    padding: '3px 8px',
+                    borderRadius: 99,
+                    background: '#dbeafe',
+                    color: '#1e40af',
+                  }}
+                >
+                  UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX · act_1109284831182252
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    padding: '3px 8px',
+                    borderRadius: 99,
+                    background: '#dcfce7',
+                    color: '#166534',
+                  }}
+                >
+                  COST_CAP = {metaCostCapPln},00 PLN ({metaCostCapPln * 100} gr)
+                </span>
+                {campaignStructure?.campaignId && (
+                  <a
+                    href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${campaignStructure.accountId}&selected_campaign_ids=${campaignStructure.campaignId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
+                  >
+                    Otwórz Kampanię #{campaignStructure.campaignId} w Meta Ads Manager ↗
+                  </a>
+                )}
+              </div>
+              <h2 style={{ margin: '6px 0 2px', fontSize: 16, color: 'var(--text)' }}>
+                Architektura 7 Ad Setów do 35 Dzieł Literackich (po 5 kątów na Ad Set · bez kanibalizacji)
+              </h2>
+              <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
+                Kopiuje Pixel, konwersję Purchase, atrybucję i ustawienia EU DSA z głównej kampanii{' '}
+                <strong>25.08.2025 | 1</strong> (historyczne CPA 34,68 zł, ROAS 3.70) i ustawia sztywny{' '}
+                <strong>Cost Per Result Goal (Cost Cap) = {metaCostCapPln} PLN</strong>.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+                Nazwa nowej kampanii
+                <input
+                  type="text"
+                  value={metaCampaignName}
+                  onChange={e => setMetaCampaignName(e.target.value)}
+                  style={{
+                    padding: '7px 10px',
+                    borderRadius: 6,
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    color: 'var(--text)',
+                    fontSize: 12,
+                    width: 260,
+                  }}
+                />
+              </label>
+
+              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+                Cost Cap (PLN)
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <input
+                    type="number"
+                    min={10}
+                    max={200}
+                    step={1}
+                    value={metaCostCapPln}
+                    onChange={e => setMetaCostCapPln(Number(e.target.value) || 35)}
+                    style={{
+                      padding: '7px 8px',
+                      borderRadius: 6,
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      fontSize: 12,
+                      width: 68,
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setMetaCostCapPln(30)}
+                    style={{
+                      padding: '6px 8px',
+                      borderRadius: 6,
+                      border: metaCostCapPln === 30 ? '1px solid #2563eb' : '1px solid var(--border)',
+                      background: metaCostCapPln === 30 ? '#dbeafe' : 'var(--bg)',
+                      color: metaCostCapPln === 30 ? '#1e40af' : 'var(--text)',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    30 zł
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMetaCostCapPln(35)}
+                    style={{
+                      padding: '6px 8px',
+                      borderRadius: 6,
+                      border: metaCostCapPln === 35 ? '1px solid #2563eb' : '1px solid var(--border)',
+                      background: metaCostCapPln === 35 ? '#dbeafe' : 'var(--bg)',
+                      color: metaCostCapPln === 35 ? '#1e40af' : 'var(--text)',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    35 zł
+                  </button>
+                </div>
+              </label>
+
+              <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
+                Budżet dzienny (PLN)
+                <input
+                  type="number"
+                  min={100}
+                  max={50000}
+                  step={50}
+                  value={metaDailyBudgetPln}
+                  onChange={e => setMetaDailyBudgetPln(Number(e.target.value) || 1500)}
+                  style={{
+                    padding: '7px 8px',
+                    borderRadius: 6,
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    color: 'var(--text)',
+                    fontSize: 12,
+                    width: 90,
+                  }}
+                />
+              </label>
+
+              <button
+                type="button"
+                disabled={creatingMetaCampaign}
+                onClick={() => void handleCreateMetaCampaign(true)}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: 8,
+                  border: '1px solid #1d4ed8',
+                  background: '#2563eb',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  cursor: creatingMetaCampaign ? 'wait' : 'pointer',
+                  opacity: creatingMetaCampaign ? 0.7 : 1,
+                }}
+              >
+                {creatingMetaCampaign
+                  ? 'Tworzę w Meta Ads...'
+                  : campaignStructure?.campaignId
+                  ? `⚡ Utwórz nową kampanię + 7 Ad Setów (CC ${metaCostCapPln} zł)`
+                  : `⚡ Utwórz Kampanię + 7 Ad Setów (Cost Cap ${metaCostCapPln} zł) w Meta`}
+              </button>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+              gap: 10,
+            }}
+          >
+            {displayedGroups.map(group => {
+              const adSetId = 'adSetId' in group ? group.adSetId : undefined;
+              return (
+                <div
+                  key={group.code}
+                  style={{
+                    padding: '10px 12px',
+                    borderRadius: 8,
+                    border: adSetId ? '1px solid #86efac' : '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    display: 'grid',
+                    gap: 4,
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6 }}>
+                    <strong style={{ fontSize: 12, color: 'var(--text)' }}>{group.label}</strong>
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        padding: '2px 6px',
+                        borderRadius: 4,
+                        background: adSetId ? '#dcfce7' : '#f1f5f9',
+                        color: adSetId ? '#166534' : '#475569',
+                      }}
+                    >
+                      {adSetId ? `ID: ${adSetId} · PAUSED` : `5 Antków (${group.shortRange})`}
+                    </span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 11, color: 'var(--muted)', lineHeight: 1.4 }}>{group.description}</p>
+                  <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace' }}>
+                    Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#')).join(', ')}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
       )}
 
       {/* CZYSTY PASEK: AWARENESS STAGE & MARKET SOPHISTICATION + AKCJE BATCH */}

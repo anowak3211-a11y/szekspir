@@ -132,12 +132,28 @@ export function buildAntkiPlUserPrompt(params: {
 
 export const GET = accountRoute(async () => {
   try {
+    const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign, createAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
     const savedAds = await readLibrary();
+    let campaignStructure = await readAntkiCostCapCampaign();
+    if (!campaignStructure) {
+      try {
+        campaignStructure = await createAntkiCostCapCampaign({
+          accountId: '1109284831182252',
+          costCapPln: 35,
+          dailyBudgetPln: 1500,
+          forceNew: false,
+        });
+      } catch {
+        // If Meta token is not connected in current workspace, allow manual trigger in UI
+      }
+    }
     const brain = brainSettings();
     return NextResponse.json({
       presets: ANTKI_PL_PRESET_ANGLES,
       stages: ANTKI_PL_STAGE_LABELS,
       savedAds,
+      adSetBlueprints: ANTKI_PL_ADSET_BLUEPRINTS,
+      campaignStructure,
       brain: {
         provider: 'argon',
         model: brain?.model ? `Argon (35 gotowych) + ${brain.model}` : 'Argon (35 autorskich winnerów 1200+ słów)',
@@ -165,7 +181,7 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign';
       angleId?: string;
       customAngle?: Partial<AntkiPlPresetAngle>;
       customInstructions?: string;
@@ -174,9 +190,26 @@ export const POST = accountRoute(async (req: Request) => {
       ad?: AntkiPlGeneratedAd;
       id?: string;
       forceExternalAi?: boolean;
+      accountId?: string;
+      campaignName?: string;
+      costCapPln?: number;
+      dailyBudgetPln?: number;
+      forceNew?: boolean;
     };
 
     const action = body.action || 'generate';
+
+    if (action === 'create-meta-campaign') {
+      const { createAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
+      const campaignStructure = await createAntkiCostCapCampaign({
+        accountId: body.accountId || '1109284831182252',
+        campaignName: body.campaignName,
+        costCapPln: body.costCapPln ?? 35,
+        dailyBudgetPln: body.dailyBudgetPln ?? 1500,
+        forceNew: body.forceNew ?? true,
+      });
+      return NextResponse.json({ campaignStructure });
+    }
 
     if (action === 'save' && body.ad) {
       const audited = sanitizeAndAuditAntkiPl(body.ad.primaryText, body.ad.headline, body.ad.description);
