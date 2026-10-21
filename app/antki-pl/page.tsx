@@ -42,6 +42,50 @@ const GROUP_ANGLE_RANGES: Record<string, { label: string; shortRange: string; nu
   ZIMA: { label: 'ZIMA', shortRange: '#31–#35', numbers: [31, 32, 33, 34, 35] },
 };
 
+const AVAILABLE_META_FANPAGES: Array<{
+  id: string;
+  name: string;
+  initials: string;
+  instagramUserId?: string;
+  note: string;
+}> = [
+  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'Poradnikowo-ekspercki (Rekomendowany Dorośli)' },
+  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'Codziennik i Historie (Dorośli)' },
+  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'Batch 1 Dzieci (ANTKI CC35)' },
+  { id: '752135021308884', name: 'Orthomax Sklep', initials: 'OS', instagramUserId: '17841472034688013', note: 'Sklep / Brand' },
+  { id: '875160819014767', name: 'Orthomax.pl', initials: 'OP', instagramUserId: '17841478897452356', note: 'Sklep / Domena' },
+  { id: '832791273240857', name: 'Orthomax', initials: 'OM', instagramUserId: '17841476823809834', note: 'Brand' },
+  { id: '1204366092764321', name: 'Dr. Magdalena Rokicińska', initials: 'MR', instagramUserId: '17841439381913725', note: 'Profil ekspercki' },
+  { id: '1339041252618036', name: 'Dr n. med. Janusz Skrzypiński', initials: 'JS', instagramUserId: '17841437463666297', note: 'Profil lekarski' },
+  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'Profil osobowy' },
+];
+
+type CampaignStructureState = {
+  accountId: string;
+  accountName: string;
+  campaignId: string;
+  campaignName: string;
+  costCapPln: number;
+  bidAmountMinor: number;
+  dailyBudgetPln: number;
+  budgetMode: 'CBO' | 'ABO';
+  sourceCampaignName: string;
+  sourceAdSetName: string;
+  pixelId?: string;
+  createdAt: number;
+  groups: Array<{
+    code: string;
+    label: string;
+    shortRange: string;
+    description: string;
+    angleIds: string[];
+    adSetId?: string;
+    adSetName?: string;
+    bidAmountMinor?: number;
+    status?: string;
+  }>;
+};
+
 export default function AntkiPlPage() {
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
@@ -62,15 +106,29 @@ export default function AntkiPlPage() {
   const customImageInputRef = useRef<HTMLInputElement | null>(null);
   const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
-  // Domyślnie skupiamy się na dzieciach ("Porady Mamy Gosi"), dorośli są na razie schowani pod przełącznikiem
-  const [stageFilter, setStageFilter] = useState<'all_kids' | 'all' | AntkiPlFunnelStage>('all_kids');
+  // Domyślnie pokazujemy nowy Batch 2: 35 Copy dla Dorosłych (#36-#70, D01-D35) z łatwym przełącznikiem na Batch 1: Dzieci CC35 (#1-#35)
+  const [stageFilter, setStageFilter] = useState<
+    | 'dorosli_35'
+    | 'dorosli_d1'
+    | 'dorosli_d2'
+    | 'dorosli_d3'
+    | 'dorosli_d4'
+    | 'dorosli_d5'
+    | 'dorosli_d6'
+    | 'dorosli_d7'
+    | 'all_kids'
+    | 'all'
+    | AntkiPlFunnelStage
+  >('dorosli_35');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeAngleId, setActiveAngleId] = useState<string | null>(null);
+  const [activeAngleId, setActiveAngleId] = useState<string | null>('dorosli-01-sor-zablokowane-kolano');
 
-  // Generation settings
+  // Generation & Fanpage settings (domyślnie dla Batch 2 Dorośli: Centrum Dobrego Kroku · 866702399857726)
   const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
-  const [pageName, setPageName] = useState('Porady Mamy Gosi');
+  const [selectedPageId, setSelectedPageId] = useState('866702399857726');
+  const [pageName, setPageName] = useState('Centrum Dobrego Kroku');
+  const [manualPageOverride, setManualPageOverride] = useState(false);
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);
   const [defaultMediaUrl, setDefaultMediaUrl] = useState('');
@@ -107,37 +165,40 @@ export default function AntkiPlPage() {
   const [adSetBlueprints, setAdSetBlueprints] = useState<
     Array<{ code: string; label: string; shortRange: string; description: string; angleIds: string[] }>
   >([]);
-  const [campaignStructure, setCampaignStructure] = useState<{
-    accountId: string;
-    accountName: string;
-    campaignId: string;
-    campaignName: string;
-    costCapPln: number;
-    bidAmountMinor: number;
-    dailyBudgetPln: number;
-    budgetMode: 'CBO' | 'ABO';
-    sourceCampaignName: string;
-    sourceAdSetName: string;
-    pixelId?: string;
-    createdAt: number;
-    groups: Array<{
-      code: string;
-      label: string;
-      shortRange: string;
-      description: string;
-      angleIds: string[];
-      adSetId?: string;
-      adSetName?: string;
-      bidAmountMinor?: number;
-      status?: string;
-    }>;
-  } | null>(null);
-  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI CC35');
-  const [metaCostCapPln, setMetaCostCapPln] = useState(35);
+  const [dorosliAdSetBlueprints, setDorosliAdSetBlueprints] = useState<
+    Array<{ code: string; label: string; shortRange: string; description: string; angleIds: string[] }>
+  >([]);
+  const [campaignStructure, setCampaignStructure] = useState<CampaignStructureState | null>(null);
+  const [dorosliCampaignStructure, setDorosliCampaignStructure] = useState<CampaignStructureState | null>(null);
+  const [metaCampaignName, setMetaCampaignName] = useState('ANTKI DOROSLI CC30');
+  const [metaCostCapPln, setMetaCostCapPln] = useState(30);
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
+  const [updatingCostCap, setUpdatingCostCap] = useState(false);
   const [syncingMetaCc35, setSyncingMetaCc35] = useState(false);
   const [showCampaignPanel, setShowCampaignPanel] = useState(false);
+
+  const isDorosliBatchView = stageFilter.startsWith('dorosli_');
+
+  useEffect(() => {
+    if (manualPageOverride) return;
+    if (isDorosliBatchView) {
+      setSelectedPageId('866702399857726');
+      setPageName('Centrum Dobrego Kroku');
+      setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
+    } else {
+      setSelectedPageId('798916893308685');
+      setPageName('Porady Mamy Gosi');
+      setMetaCampaignName(campaignStructure?.campaignName || 'ANTKI CC35');
+    }
+  }, [isDorosliBatchView, manualPageOverride, dorosliCampaignStructure, campaignStructure]);
+
+  const handleSelectFanpage = useCallback((newPageId: string) => {
+    setManualPageOverride(true);
+    setSelectedPageId(newPageId);
+    const found = AVAILABLE_META_FANPAGES.find(p => p.id === newPageId);
+    if (found) setPageName(found.name);
+  }, []);
 
   const loadInit = useCallback(async () => {
     setLoading(true);
@@ -146,17 +207,51 @@ export default function AntkiPlPage() {
       const res = await fetch('/api/antki-pl', { cache: 'no-store' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Błąd ładowania Antki PL.');
+      let loadedAds: AntkiPlGeneratedAd[] = Array.isArray(data.savedAds) ? data.savedAds : [];
+      try {
+        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v2') : null;
+        if (rawLocal) {
+          const parsedLocal = JSON.parse(rawLocal) as Record<
+            string,
+            {
+              imageUrl?: string;
+              imageHash?: string;
+              secondImageUrl?: string;
+              secondImageHash?: string;
+              updatedAt?: number;
+            }
+          >;
+          loadedAds = loadedAds.map(ad => {
+            const loc = parsedLocal[ad.angleId];
+            if (!loc) return ad;
+            return {
+              ...ad,
+              imageUrl: loc.imageUrl || ad.imageUrl,
+              imageHash: loc.imageHash || ad.imageHash,
+              secondImageUrl: loc.secondImageUrl !== undefined ? loc.secondImageUrl || undefined : ad.secondImageUrl,
+              secondImageHash: loc.secondImageHash !== undefined ? loc.secondImageHash || undefined : ad.secondImageHash,
+              updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
+            };
+          });
+        }
+      } catch {
+        // Ignore localStorage parse errors
+      }
       setPresets(data.presets || []);
       setStages(data.stages || {});
-      setSavedAds(data.savedAds || []);
+      setSavedAds(loadedAds);
       if (Array.isArray(data.imageLibrary) && data.imageLibrary.length > 0) {
         setImageLibrary(data.imageLibrary);
       }
       if (data.adSetBlueprints) setAdSetBlueprints(data.adSetBlueprints);
+      if (data.dorosliAdSetBlueprints) setDorosliAdSetBlueprints(data.dorosliAdSetBlueprints);
       if (data.campaignStructure) {
         setCampaignStructure(data.campaignStructure);
-        setMetaCostCapPln(data.campaignStructure.costCapPln || 35);
+        setMetaCostCapPln(data.campaignStructure.costCapPln || 30);
         setMetaDailyBudgetPln(data.campaignStructure.dailyBudgetPln || 1500);
+      }
+      if (data.dorosliCampaignStructure) {
+        setDorosliCampaignStructure(data.dorosliCampaignStructure);
       }
       if (data.brain) setBrain(data.brain);
       if (data.defaultUrl) setDestinationUrl(data.defaultUrl);
@@ -212,8 +307,24 @@ export default function AntkiPlPage() {
 
   const filteredPresets = useMemo(() => {
     return presets.filter(item => {
-      if (stageFilter === 'all_kids') {
-        if (item.funnelStage === 'dorosli_jesien_zima') return false;
+      if (stageFilter === 'dorosli_35') {
+        if (item.number < 36 || item.number > 70) return false;
+      } else if (stageFilter === 'dorosli_d1') {
+        if (item.number < 36 || item.number > 40) return false;
+      } else if (stageFilter === 'dorosli_d2') {
+        if (item.number < 41 || item.number > 45) return false;
+      } else if (stageFilter === 'dorosli_d3') {
+        if (item.number < 46 || item.number > 50) return false;
+      } else if (stageFilter === 'dorosli_d4') {
+        if (item.number < 51 || item.number > 55) return false;
+      } else if (stageFilter === 'dorosli_d5') {
+        if (item.number < 56 || item.number > 60) return false;
+      } else if (stageFilter === 'dorosli_d6') {
+        if (item.number < 61 || item.number > 65) return false;
+      } else if (stageFilter === 'dorosli_d7') {
+        if (item.number < 66 || item.number > 70) return false;
+      } else if (stageFilter === 'all_kids') {
+        if (item.number > 35 || item.funnelStage === 'dorosli_jesien_zima') return false;
       } else if (stageFilter !== 'all') {
         if (item.funnelStage !== stageFilter) return false;
       }
@@ -419,15 +530,15 @@ export default function AntkiPlPage() {
     }
   };
 
-  // Export functions
+  // Export functions (domyślnie eksportuje zaznaczone lub aktualnie wybrany Batch / widok)
   const readyAdsForExport = useMemo(() => {
     const chosenSet = new Set(selectedIds);
-    const list = presets
-      .filter(p => (chosenSet.size ? chosenSet.has(p.id) : true))
+    const sourcePresets = chosenSet.size ? presets.filter(p => chosenSet.has(p.id)) : filteredPresets;
+    const list = sourcePresets
       .map(p => adByAngleId[p.id])
       .filter((a): a is AntkiPlGeneratedAd => !!a && !!a.primaryText);
     return list;
-  }, [presets, selectedIds, adByAngleId]);
+  }, [presets, filteredPresets, selectedIds, adByAngleId]);
 
   const exportMarkdownFile = () => {
     if (!readyAdsForExport.length) {
@@ -462,8 +573,9 @@ export default function AntkiPlPage() {
   const handleCreateMetaCampaign = async (forceNew = true) => {
     setCreatingMetaCampaign(true);
     setError('');
+    const batchMode = isDorosliBatchView ? 'dorosli' : 'dzieci';
     setNotice(
-      `Tworzę kampanię "${metaCampaignName}" + 7 zestawów reklam (Cost Cap ${metaCostCapPln} PLN) na koncie UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)...`,
+      `Tworzę kampanię "${metaCampaignName}" (${batchMode === 'dorosli' ? 'Batch 2: 35 Dorośli' : 'Batch 1: 35 Dzieci'}) + 7 zestawów reklam (Cost Cap ${metaCostCapPln} PLN) na koncie UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)...`,
     );
     try {
       const res = await fetch('/api/antki-pl', {
@@ -471,6 +583,7 @@ export default function AntkiPlPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'create-meta-campaign',
+          batch: batchMode,
           accountId: '1109284831182252',
           campaignName: metaCampaignName,
           costCapPln: metaCostCapPln,
@@ -480,7 +593,11 @@ export default function AntkiPlPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Nie udało się utworzyć kampanii w Meta.');
-      setCampaignStructure(data.campaignStructure);
+      if (batchMode === 'dorosli') {
+        setDorosliCampaignStructure(data.campaignStructure);
+      } else {
+        setCampaignStructure(data.campaignStructure);
+      }
       setNotice(
         `Gotowe! Utworzono kampanię "${data.campaignStructure.campaignName}" (ID: ${data.campaignStructure.campaignId}) oraz 7 Ad Setów z Cost Cap ${data.campaignStructure.costCapPln} PLN (PAUSED) na koncie UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX.`,
       );
@@ -491,30 +608,145 @@ export default function AntkiPlPage() {
     }
   };
 
+  const handleUpdateCostCap = async (targetPln = metaCostCapPln) => {
+    setUpdatingCostCap(true);
+    setError('');
+    try {
+      const res = await fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_cost_cap',
+          costCapPln: targetPln,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Błąd zmiany Cost Cap.');
+      setMetaCostCapPln(targetPln);
+      setCampaignStructure(prev => (prev ? { ...prev, costCapPln: targetPln, bidAmountMinor: Math.round(targetPln * 100) } : prev));
+      setDorosliCampaignStructure(prev => (prev ? { ...prev, costCapPln: targetPln, bidAmountMinor: Math.round(targetPln * 100) } : prev));
+      setNotice(
+        `✅ Zmieniono Cost Cap na ${targetPln} PLN (${Math.round(targetPln * 100)} gr) w ${data.updatedCount || 0} zestawach reklam w Meta!`,
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Nie udało się zmienić Cost Cap.');
+    } finally {
+      setUpdatingCostCap(false);
+    }
+  };
+
   const [inlinePickerAngleId, setInlinePickerAngleId] = useState<string | null>(null);
+  const [imageSlotTarget, setImageSlotTarget] = useState<1 | 2>(1);
+  const [savingImages, setSavingImages] = useState(false);
+  const [imagesSavedFlash, setImagesSavedFlash] = useState(false);
+
+  const persistAngleImagesLocally = useCallback(
+    (
+      updates: Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt: number;
+        }
+      >,
+    ) => {
+      try {
+        if (typeof window === 'undefined') return;
+        const raw = window.localStorage.getItem('antki_pl_saved_images_v2');
+        const current = raw ? JSON.parse(raw) : {};
+        const merged = { ...current, ...updates };
+        window.localStorage.setItem('antki_pl_saved_images_v2', JSON.stringify(merged));
+      } catch {
+        // Ignore storage errors
+      }
+    },
+    [],
+  );
 
   const assignImageToAngles = useCallback(
-    async (targetAngleIds: string[], asset: AntkiPlImageAsset, labelForNotice: string) => {
+    async (
+      targetAngleIds: string[],
+      asset: AntkiPlImageAsset,
+      labelForNotice: string,
+      explicitSlot?: 1 | 2,
+    ) => {
       if (!targetAngleIds.length) return;
       setError('');
+      setImagesSavedFlash(false);
+      const slot = explicitSlot || imageSlotTarget;
       const now = Date.now();
       const targetSet = new Set(targetAngleIds);
 
-      // 0ms OPTIMISTIC UI UPDATE — natychmiastowa podmiana bez czekania na serwer!
+      const sampleAngleId = targetAngleIds[0];
+      const existingAd = savedAds.find(item => item.angleId === sampleAngleId);
+      const samplePreset = presets.find(p => p.id === sampleAngleId);
+      const fallbackAsset = getDefaultImageForAngle(samplePreset?.number || 1);
+      const currentPrimaryUrl = existingAd?.imageUrl || samplePreset?.defaultImageUrl || fallbackAsset.url;
+      const currentPrimaryHash = existingAd?.imageHash || samplePreset?.defaultImageHash || fallbackAsset.imageHash;
+      const currentSecondUrl = existingAd?.secondImageUrl || '';
+      const currentSecondHash = existingAd?.secondImageHash || '';
+
+      const nextPrimaryUrl = slot === 1 ? asset.url : currentPrimaryUrl;
+      const nextPrimaryHash = slot === 1 ? asset.imageHash : currentPrimaryHash;
+      const nextSecondUrl = slot === 2 ? asset.url : currentSecondUrl;
+      const nextSecondHash = slot === 2 ? asset.imageHash : currentSecondHash;
+
+      const localUpdates: Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt: number;
+        }
+      > = {};
+
+      // 0ms OPTIMISTIC UI UPDATE — 2 osobne zdjęcia na A/B test (bez sklejania w kolaż!)
       setSavedAds(prev => {
         const next = [...prev];
         for (const angleId of targetAngleIds) {
           const idx = next.findIndex(item => item.angleId === angleId);
           if (idx >= 0) {
+            const cur = next[idx];
+            const pUrl = slot === 1 ? asset.url : cur.imageUrl || currentPrimaryUrl;
+            const pHash = slot === 1 ? asset.imageHash : cur.imageHash || currentPrimaryHash;
+            const sUrl = slot === 2 ? asset.url : cur.secondImageUrl;
+            const sHash = slot === 2 ? asset.imageHash : cur.secondImageHash;
+            localUpdates[angleId] = {
+              imageUrl: pUrl,
+              imageHash: pHash,
+              secondImageUrl: sUrl || '',
+              secondImageHash: sHash || '',
+              updatedAt: now,
+            };
             next[idx] = {
-              ...next[idx],
-              imageUrl: asset.url,
-              imageHash: asset.imageHash,
+              ...cur,
+              imageUrl: pUrl,
+              imageHash: pHash,
+              secondImageUrl: sUrl,
+              secondImageHash: sHash,
+              combinedSplitImageUrl: undefined,
+              combinedSplitImageHash: undefined,
               updatedAt: now,
             };
           } else {
             const preset = presets.find(p => p.id === angleId);
             if (preset) {
+              const pUrl = slot === 1 ? asset.url : preset.defaultImageUrl;
+              const pHash = slot === 1 ? asset.imageHash : preset.defaultImageHash;
+              const sUrl = slot === 2 ? asset.url : undefined;
+              const sHash = slot === 2 ? asset.imageHash : undefined;
+              localUpdates[angleId] = {
+                imageUrl: pUrl,
+                imageHash: pHash,
+                secondImageUrl: sUrl || '',
+                secondImageHash: sHash || '',
+                updatedAt: now,
+              };
               next.unshift({
                 id: `antek-pl-${preset.code}-${now}`,
                 angleId: preset.id,
@@ -528,8 +760,10 @@ export default function AntkiPlPage() {
                 primaryText: '',
                 destinationUrl,
                 cta: 'LEARN_MORE',
-                imageUrl: asset.url,
-                imageHash: asset.imageHash,
+                imageUrl: pUrl,
+                imageHash: pHash,
+                secondImageUrl: sUrl,
+                secondImageHash: sHash,
                 wordCount: 0,
                 characterCount: 0,
                 auditPassed: true,
@@ -541,44 +775,191 @@ export default function AntkiPlPage() {
             }
           }
         }
+        persistAngleImagesLocally(localUpdates);
         return next;
       });
 
-      setPresets(prev =>
-        prev.map(p =>
-          targetSet.has(p.id)
-            ? { ...p, defaultImageUrl: asset.url, defaultImageHash: asset.imageHash }
-            : p,
-        ),
-      );
+      if (slot === 1) {
+        setPresets(prev =>
+          prev.map(p =>
+            targetSet.has(p.id)
+              ? { ...p, defaultImageUrl: asset.url, defaultImageHash: asset.imageHash }
+              : p,
+          ),
+        );
+      }
 
       setNotice(
-        `⚡ Zapisano na stałe i podpięto do reklamy (${labelForNotice}): "${asset.label}"`,
+        slot === 2
+          ? `🔥 Ustawiono osobny Obrazek B (Test A/B — 2. osobna reklama w adsecie) dla ${labelForNotice}: "${asset.label}"`
+          : `⚡ Ustawiono Obrazek A (Główny) dla ${labelForNotice}: "${asset.label}"`,
       );
 
-      // Zapis w bazie + automatyczny update reklamy w Meta ANTKI CC35 (w tle, bez blokowania UI)
       void fetch('/api/antki-pl', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'set_image',
           angleIds: targetAngleIds,
-          imageUrl: asset.url,
-          imageHash: asset.imageHash,
+          imageUrl: nextPrimaryUrl,
+          imageHash: nextPrimaryHash,
+          secondImageUrl: nextSecondUrl,
+          secondImageHash: nextSecondHash,
         }),
-      })
-        .then(r => r.json())
-        .then(d => {
-          if (d?.metaSynced) {
-            setNotice(
-              `✓ Zapisano na stałe w Szekspirze i zaktualizowano w Meta (ANTKI CC35 · PAUSED): "${asset.label}" → ${labelForNotice}`,
-            );
-          }
-        })
-        .catch(() => {});
+      }).catch(() => {});
     },
-    [presets, pageName, destinationUrl],
+    [presets, pageName, destinationUrl, imageSlotTarget, savedAds, persistAngleImagesLocally],
   );
+
+  const updateTwoImageConfig = useCallback(
+    async (
+      angleId: string,
+      opts: {
+        imageUrl: string;
+        imageHash?: string;
+        secondImageUrl: string;
+        secondImageHash?: string;
+      },
+      noticeMsg: string,
+    ) => {
+      const now = Date.now();
+      setImagesSavedFlash(false);
+      persistAngleImagesLocally({
+        [angleId]: {
+          imageUrl: opts.imageUrl,
+          imageHash: opts.imageHash || '',
+          secondImageUrl: opts.secondImageUrl || '',
+          secondImageHash: opts.secondImageHash || '',
+          updatedAt: now,
+        },
+      });
+      setSavedAds(prev =>
+        prev.map(item =>
+          item.angleId === angleId
+            ? {
+                ...item,
+                imageUrl: opts.imageUrl,
+                imageHash: opts.imageHash,
+                secondImageUrl: opts.secondImageUrl || undefined,
+                secondImageHash: opts.secondImageHash || undefined,
+                combinedSplitImageUrl: undefined,
+                combinedSplitImageHash: undefined,
+                updatedAt: now,
+              }
+            : item,
+        ),
+      );
+      if (!opts.secondImageUrl) {
+        setImageSlotTarget(1);
+      }
+      setNotice(noticeMsg);
+
+      void fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'set_image',
+          angleIds: [angleId],
+          imageUrl: opts.imageUrl,
+          imageHash: opts.imageHash,
+          secondImageUrl: opts.secondImageUrl,
+          secondImageHash: opts.secondImageHash,
+        }),
+      }).catch(() => {});
+    },
+    [persistAngleImagesLocally],
+  );
+
+  const handleSaveImages = useCallback(async () => {
+    setSavingImages(true);
+    setError('');
+    try {
+      const now = Date.now();
+      const imagesByAngle: Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string | null;
+          secondImageHash?: string | null;
+        }
+      > = {};
+      const localUpdates: Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt: number;
+        }
+      > = {};
+
+      for (const ad of savedAds) {
+        if (!ad.angleId) continue;
+        imagesByAngle[ad.angleId] = {
+          imageUrl: ad.imageUrl,
+          imageHash: ad.imageHash,
+          secondImageUrl: ad.secondImageUrl || null,
+          secondImageHash: ad.secondImageHash || null,
+        };
+        localUpdates[ad.angleId] = {
+          imageUrl: ad.imageUrl,
+          imageHash: ad.imageHash || '',
+          secondImageUrl: ad.secondImageUrl || '',
+          secondImageHash: ad.secondImageHash || '',
+          updatedAt: now,
+        };
+      }
+
+      if (activeAngle) {
+        const curAd = savedAds.find(a => a.angleId === activeAngle.id);
+        const fallback = getDefaultImageForAngle(activeAngle.number);
+        const pUrl = curAd?.imageUrl || activeAngle.defaultImageUrl || fallback.url;
+        const pHash = curAd?.imageHash || activeAngle.defaultImageHash || fallback.imageHash;
+        const sUrl = curAd?.secondImageUrl || null;
+        const sHash = curAd?.secondImageHash || null;
+        imagesByAngle[activeAngle.id] = {
+          imageUrl: pUrl,
+          imageHash: pHash,
+          secondImageUrl: sUrl,
+          secondImageHash: sHash,
+        };
+        localUpdates[activeAngle.id] = {
+          imageUrl: pUrl,
+          imageHash: pHash || '',
+          secondImageUrl: sUrl || '',
+          secondImageHash: sHash || '',
+          updatedAt: now,
+        };
+      }
+
+      persistAngleImagesLocally(localUpdates);
+
+      const res = await fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'save_all_images',
+          imagesByAngle,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Błąd zapisu obrazków.');
+      setImagesSavedFlash(true);
+      const abCount = Object.values(imagesByAngle).filter(v => Boolean(v.secondImageUrl)).length;
+      setNotice(
+        `✅ Zapisano obrazki na stałe! (${Object.keys(imagesByAngle).length} Antków zapisanych w bazie${
+          abCount > 0 ? `, w tym ${abCount} z 2 osobnymi zdjęciami A/B` : ''
+        })`,
+      );
+      setTimeout(() => setImagesSavedFlash(false), 4500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Nie udało się zapisać obrazków.');
+    } finally {
+      setSavingImages(false);
+    }
+  }, [savedAds, activeAngle, persistAngleImagesLocally]);
 
   const [arrowKeyTarget, setArrowKeyTarget] = useState<'copy' | 'image'>('copy');
 
@@ -760,19 +1141,164 @@ export default function AntkiPlPage() {
     [],
   );
 
+  const [generatingKie5AngleId, setGeneratingKie5AngleId] = useState<string | null>(null);
+  const [kieTasksByAngle, setKieTasksByAngle] = useState<
+    Record<
+      string,
+      Array<{
+        index: number;
+        label: string;
+        prompt: string;
+        taskId: string;
+        state: 'generating' | 'success' | 'fail';
+        asset?: AntkiPlImageAsset;
+        error?: string;
+      }>
+    >
+  >({});
+
+  const handleGenerate5KieImagesForActiveAngle = useCallback(async () => {
+    if (!activeAngle) return;
+    const copyText = (editPrimaryText || activeAd?.primaryText || '').trim();
+    const copyHeadline = (editHeadline || activeAd?.headline || activeAngle.defaultHeadline || '').trim();
+    if (!copyText) {
+      setError('Najpierw wygeneruj lub wpisz tekst Antka, aby Kie.ai miało z czego wyciągnąć 5 scen.');
+      return;
+    }
+
+    const targetAngleId = activeAngle.id;
+    const targetAngleNumber = activeAngle.number;
+    setGeneratingKie5AngleId(targetAngleId);
+    setError('');
+    setNotice(
+      `📸 Wyciągam 5 konkretnych scen z tekstu Antka #${targetAngleNumber} i odpalam 5 surowych zdjęć w Kie.ai (Shit Quality / Zero AI Glow)...`,
+    );
+
+    try {
+      const startRes = await fetch('/api/antki-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_5_kie_images',
+          angleId: targetAngleId,
+          primaryText: copyText,
+          headline: copyHeadline,
+          title: activeAngle.title,
+          segment: activeAngle.segment,
+        }),
+      });
+      const startData = await startRes.json();
+      if (!startRes.ok || !Array.isArray(startData.tasks)) {
+        throw new Error(startData.error || 'Nie udało się uruchomić generowania 5 zdjęć w Kie.ai.');
+      }
+
+      const initialTasks = (startData.tasks as Array<{
+        index: number;
+        label: string;
+        prompt: string;
+        taskId: string;
+      }>).map(t => ({
+        ...t,
+        state: 'generating' as const,
+      }));
+
+      setKieTasksByAngle(prev => ({
+        ...prev,
+        [targetAngleId]: initialTasks,
+      }));
+
+      let completedCount = 0;
+      const finishedAssets: AntkiPlImageAsset[] = [];
+
+      await Promise.all(
+        initialTasks.map(async task => {
+          const maxAttempts = 45;
+          for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            await new Promise(r => setTimeout(r, 3500));
+            try {
+              const pollRes = await fetch('/api/antki-pl', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'poll_kie_image',
+                  taskId: task.taskId,
+                  angleId: targetAngleId,
+                  label: task.label,
+                  prompt: task.prompt,
+                }),
+              });
+              const pollData = await pollRes.json();
+              if (pollData.state === 'success' && pollData.asset) {
+                const asset = pollData.asset as AntkiPlImageAsset;
+                completedCount += 1;
+                finishedAssets.push(asset);
+                if (Array.isArray(pollData.imageLibrary)) {
+                  setImageLibrary(pollData.imageLibrary);
+                } else {
+                  setImageLibrary(prev => [asset, ...prev.filter(x => x.id !== asset.id)]);
+                }
+                setKieTasksByAngle(prev => ({
+                  ...prev,
+                  [targetAngleId]: (prev[targetAngleId] || []).map(item =>
+                    item.taskId === task.taskId ? { ...item, state: 'success', asset } : item,
+                  ),
+                }));
+                setNotice(
+                  `📸 Wygenerowano ${completedCount}/5 surowych zdjęć z Antka #${targetAngleNumber} w Kie.ai („${task.label}”)!`,
+                );
+                return;
+              }
+              if (pollData.state === 'fail') {
+                setKieTasksByAngle(prev => ({
+                  ...prev,
+                  [targetAngleId]: (prev[targetAngleId] || []).map(item =>
+                    item.taskId === task.taskId
+                      ? { ...item, state: 'fail', error: pollData.error || 'Błąd Kie.ai' }
+                      : item,
+                  ),
+                }));
+                return;
+              }
+            } catch {
+              // continue polling
+            }
+          }
+        }),
+      );
+
+      if (finishedAssets.length >= 2) {
+        await assignImageToAngles([targetAngleId], finishedAssets[0], `Antek #${targetAngleNumber} (Obrazek A)`, 1);
+        await assignImageToAngles([targetAngleId], finishedAssets[1], `Antek #${targetAngleNumber} (Obrazek B)`, 2);
+        setNotice(
+          `✅ Gotowe! Wygenerowano ${finishedAssets.length}/5 surowych zdjęć z Antka #${targetAngleNumber} (Shit Quality) i przypisano 2 pierwsze jako Obrazek A + Obrazek B. Możesz poniżej kliknąć dowolne z 5 zdjęć, żeby podmienić A lub B!`,
+        );
+      } else if (finishedAssets.length === 1) {
+        await assignImageToAngles([targetAngleId], finishedAssets[0], `Antek #${targetAngleNumber} (Obrazek A)`, 1);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd podczas generowania 5 zdjęć w Kie.ai.');
+    } finally {
+      setGeneratingKie5AngleId(null);
+    }
+  }, [activeAngle, editPrimaryText, activeAd, editHeadline, assignImageToAngles]);
+
   const cycleAngleImage = useCallback(
-    (angle: AntkiPlPresetAngle, delta: -1 | 1) => {
+    (angle: AntkiPlPresetAngle, delta: -1 | 1, explicitSlot?: 1 | 2) => {
+      const slot = explicitSlot || (activeAngle?.id === angle.id ? imageSlotTarget : 1);
       const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
       const ad = adByAngleId[angle.id];
-      const currentUrl = ad?.imageUrl || angle.defaultImageUrl || getDefaultImageForAngle(angle.number).url;
+      const currentUrl =
+        slot === 2
+          ? ad?.secondImageUrl || ''
+          : ad?.imageUrl || angle.defaultImageUrl || getDefaultImageForAngle(angle.number).url;
       const currentIdx = pool.findIndex(item => item.url === currentUrl);
       const nextIdx = currentIdx < 0 ? 0 : (currentIdx + delta + pool.length) % pool.length;
       const nextAsset = pool[nextIdx];
       if (nextAsset) {
-        void assignImageToAngles([angle.id], nextAsset, `Antek #${angle.number}`);
+        void assignImageToAngles([angle.id], nextAsset, `Antek #${angle.number}`, slot);
       }
     },
-    [imageLibrary, adByAngleId, assignImageToAngles],
+    [imageLibrary, adByAngleId, assignImageToAngles, activeAngle, imageSlotTarget],
   );
 
   const cycleActiveCopy = useCallback(
@@ -840,18 +1366,32 @@ export default function AntkiPlPage() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [activeAngle, arrowKeyTarget, cycleActiveCopy, cycleAngleImage, imageLibrary, lightboxAsset]);
 
+  const activeFanpageMeta = useMemo(
+    () => AVAILABLE_META_FANPAGES.find(p => p.id === selectedPageId) || AVAILABLE_META_FANPAGES[0],
+    [selectedPageId],
+  );
+
+  const activeCampaignStructure = isDorosliBatchView ? dorosliCampaignStructure : campaignStructure;
+  const activeAdSetBlueprints = isDorosliBatchView ? dorosliAdSetBlueprints : adSetBlueprints;
+
   const syncToMetaCc35 = useCallback(async () => {
     setSyncingMetaCc35(true);
     setError('');
     setNotice('');
+    const batchMode = isDorosliBatchView ? 'dorosli' : 'dzieci';
     try {
       const res = await fetch('/api/antki-pl', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'sync_meta_cc35',
-          pageId: '798916893308685',
-          instagramUserId: '17841473314157729',
+          batch: batchMode,
+          campaignId: activeCampaignStructure?.campaignId,
+          campaignName: metaCampaignName,
+          costCapPln: metaCostCapPln,
+          dailyBudgetPln: metaDailyBudgetPln,
+          pageId: selectedPageId,
+          instagramUserId: activeFanpageMeta.instagramUserId,
           destinationUrl,
           updateExisting: true,
         }),
@@ -860,14 +1400,14 @@ export default function AntkiPlPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Błąd synchronizacji z Meta.');
       setNotice(
-        `Zsynchronizowano kampanię ANTKI CC35 (120249912191200300 · PAUSED) na fanpage „Porady Mamy Gosi” (798916893308685): zaktualizowano ${data.updated || 0} reklam, utworzono ${data.created || 0}.`,
+        `Zsynchronizowano kampanię ${batchMode === 'dorosli' ? 'ANTKI DOROSLI CC35' : 'ANTKI CC35'} (ID: ${data.campaignId || activeCampaignStructure?.campaignId || '120249912191200300'} · PAUSED) na fanpage „${pageName}” (${selectedPageId}): utworzono/zaktualizowano ${data.createdCount || 0} reklam (błędów: ${data.failedCount || 0}).`,
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Błąd synchronizacji z Meta.');
     } finally {
       setSyncingMetaCc35(false);
     }
-  }, [destinationUrl]);
+  }, [isDorosliBatchView, activeCampaignStructure, metaCampaignName, metaCostCapPln, metaDailyBudgetPln, selectedPageId, activeFanpageMeta, destinationUrl, pageName]);
 
   const exportUploaderJson = () => {
     if (!readyAdsForExport.length) {
@@ -875,61 +1415,98 @@ export default function AntkiPlPage() {
       return;
     }
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const adsPayload = readyAdsForExport.map((ad, idx) => {
-      const matchedGroup = campaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
+    const adsPayload = readyAdsForExport.flatMap((ad, idx) => {
+      const preset = presets.find(p => p.id === ad.angleId);
+      const matchedGroup = activeCampaignStructure?.groups?.find(g => g.angleIds.includes(ad.angleId));
       const cleanDesc = (ad.description || '').trim();
-      const numMatch = ad.angleId.match(/^pl-0*(\d+)/);
-      const adNumber = numMatch ? Number(numMatch[1]) : idx + 1;
+      const adNumber = preset?.number || idx + 1;
       const defaultAsset = getDefaultImageForAngle(adNumber);
-      const rawImgUrl = ad.imageUrl || defaultMediaUrl.trim() || defaultAsset.url;
-      const resolvedUrl = rawImgUrl.startsWith('/') && origin ? `${origin}${rawImgUrl}` : rawImgUrl;
-      const resolvedHash = ad.imageHash || imageLibrary.find(item => item.url === rawImgUrl)?.imageHash || defaultAsset.imageHash;
+      const rawImgUrlA =
+        ad.imageUrl ||
+        defaultMediaUrl.trim() ||
+        preset?.defaultImageUrl ||
+        defaultAsset.url;
+      const resolvedUrlA = rawImgUrlA.startsWith('/') && origin ? `${origin}${rawImgUrlA}` : rawImgUrlA;
+      const resolvedHashA =
+        ad.imageHash ||
+        imageLibrary.find(item => item.url === rawImgUrlA)?.imageHash ||
+        preset?.defaultImageHash ||
+        defaultAsset.imageHash;
 
-      return {
-        key: ad.code,
-        name: `ad ${adNumber}`,
+      const baseName = ad.code.startsWith('D') ? ad.code : `ad ${adNumber}`;
+      const hasSecondAbImage = Boolean(ad.secondImageUrl && ad.secondImageUrl.trim());
+
+      const buildItem = (
+        suffix: '' | '_A' | '_B',
+        nameSuffix: '' | ' A' | ' B',
+        imgUrl: string,
+        imgHash?: string,
+      ) => ({
+        key: `${ad.code}${suffix}`,
+        name: `${baseName}${nameSuffix}`,
         url: ad.destinationUrl || destinationUrl,
         cta: ad.cta || 'LEARN_MORE',
+        pageId: selectedPageId,
+        ...(activeFanpageMeta.instagramUserId ? { instagramUserId: activeFanpageMeta.instagramUserId } : {}),
         primaryTexts: [ad.primaryText],
         headline: ad.headline,
         headlines: [ad.headline],
         ...(cleanDesc ? { description: cleanDesc, descriptions: [cleanDesc] } : { description: '', descriptions: [] }),
-        ...(campaignStructure?.accountId ? { accountId: campaignStructure.accountId } : {}),
-        ...(campaignStructure?.campaignId ? { campaignId: campaignStructure.campaignId } : {}),
+        ...(activeCampaignStructure?.accountId ? { accountId: activeCampaignStructure.accountId } : { accountId: '1109284831182252' }),
+        ...(activeCampaignStructure?.campaignId && matchedGroup ? { campaignId: activeCampaignStructure.campaignId } : {}),
         ...(matchedGroup?.adSetId ? { adSetId: matchedGroup.adSetId } : {}),
-        ...(resolvedUrl
+        ...(imgUrl
           ? {
               media: {
                 kind: 'image' as const,
-                url: resolvedUrl,
-                ...(resolvedHash ? { imageHash: resolvedHash } : {}),
-                filename: `${ad.code}.jpg`,
+                url: imgUrl,
+                ...(imgHash ? { imageHash: imgHash } : {}),
+                filename: `${ad.code}${suffix}.jpg`,
               },
             }
           : {}),
-      };
+      });
+
+      if (!hasSecondAbImage) {
+        return [buildItem('', '', resolvedUrlA, resolvedHashA)];
+      }
+
+      const rawImgUrlB = ad.secondImageUrl!.trim();
+      const resolvedUrlB = rawImgUrlB.startsWith('/') && origin ? `${origin}${rawImgUrlB}` : rawImgUrlB;
+      const resolvedHashB =
+        ad.secondImageHash ||
+        imageLibrary.find(item => item.url === rawImgUrlB)?.imageHash;
+
+      return [
+        buildItem('_A', ' A', resolvedUrlA, resolvedHashA),
+        buildItem('_B', ' B', resolvedUrlB, resolvedHashB),
+      ];
     });
 
+    const isBatch2 = stageFilter.startsWith('dorosli_');
+    const batchSlug = isBatch2 ? 'BATCH2_DOROSLI_35' : 'BATCH1_DZIECI';
     const blob = new Blob([JSON.stringify({ ads: adsPayload }, null, 2)], {
       type: 'application/json;charset=utf-8',
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `SZEKSPIR_ADS_ANTKI_PL_${new Date().toISOString().slice(0, 10)}_${readyAdsForExport.length}_szt.json`;
+    a.download = `SZEKSPIR_ADS_ANTKI_PL_${batchSlug}_${new Date().toISOString().slice(0, 10)}_${adsPayload.length}_szt.json`;
     a.click();
     URL.revokeObjectURL(url);
     setNotice(
-      campaignStructure
-        ? `Pobrano plik JSON (${readyAdsForExport.length} reklam ze zdjęciami i image_hash) z przypisaną kampanią ${campaignStructure.campaignId} i 7 Ad Setami Cost Cap ${campaignStructure.costCapPln} PLN.`
-        : `Pobrano plik JSON (${readyAdsForExport.length} reklam ze zdjęciami) gotowy do wczytania w Szekspir Ads -> Paste table / JSON.`,
+      `Pobrano plik JSON (${adsPayload.length} osobnych kreacji z ${readyAdsForExport.length} kątów · Fanpage: ${pageName} · ${batchSlug}) ze zdjęciami A/B i image_hash, gotowy do wczytania w Szekspir Ads (/uploader).`,
     );
   };
 
   const totalGeneratedCount = Object.keys(adByAngleId).length;
   const activeStageMeta =
-    stageFilter !== 'all' && stageFilter !== 'all_kids' ? stages[stageFilter] : null;
-  const displayedGroups = campaignStructure?.groups?.length ? campaignStructure.groups : adSetBlueprints;
+    stageFilter !== 'all' &&
+    stageFilter !== 'all_kids' &&
+    !stageFilter.startsWith('dorosli_')
+      ? stages[stageFilter]
+      : null;
+  const displayedGroups = activeCampaignStructure?.groups?.length ? activeCampaignStructure.groups : activeAdSetBlueprints;
 
   const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
   const metaImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'meta').length, [imageLibrary]);
@@ -955,6 +1532,20 @@ export default function AntkiPlPage() {
     );
   }, [activeAngle, activeAd, imageLibrary]);
 
+  const activeResolvedSecondImage = useMemo(() => {
+    if (!activeAngle || !activeAd?.secondImageUrl) return null;
+    const secondUrl = activeAd.secondImageUrl;
+    return (
+      imageLibrary.find(item => item.url === secondUrl) || {
+        id: 'custom-assigned-2',
+        url: secondUrl,
+        label: `2. kreacja (#${activeAngle.number})`,
+        source: (secondUrl.startsWith('data:image/') ? 'custom' : 'ai') as 'ai' | 'meta' | 'custom',
+        imageHash: activeAd?.secondImageHash,
+      }
+    );
+  }, [activeAngle, activeAd, imageLibrary]);
+
   return (
     <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
       <input
@@ -972,7 +1563,7 @@ export default function AntkiPlPage() {
         </a>
       </p>
 
-      {/* NAGŁÓWEK Z CZYSTYM KONTRASTEM */}
+      {/* NAGŁÓWEK Z CZYSTYM KONTRASTEM + SZYBKI WYBÓR FANPAGE'A */}
       <header
         style={{
           display: 'flex',
@@ -987,13 +1578,34 @@ export default function AntkiPlPage() {
       >
         <div>
           <h1 style={{ margin: '0 0 4px', fontSize: 24, color: 'var(--text)' }}>
-            🇵🇱 ANTKI PL · Porady Mamy Gosi (Orthomax StepMax)
+            🇵🇱 ANTKI PL · {pageName} (Orthomax StepMax)
           </h1>
-          <p className="sub" style={{ margin: 0, fontSize: 13 }}>
-            Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
-            Konto: <strong>UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)</strong> · Fanpage:{' '}
-            <strong>Porady Mamy Gosi (798916893308685)</strong> · Cost Cap: <strong>35 PLN</strong>.
-          </p>
+          <div className="sub" style={{ margin: 0, fontSize: 13, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+            <span>
+              Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
+              Konto: <strong>1109284831182252</strong> · Fanpage:
+            </span>
+            <select
+              value={selectedPageId}
+              onChange={e => handleSelectFanpage(e.target.value)}
+              style={{
+                padding: '4px 8px',
+                borderRadius: 6,
+                border: '1.5px solid #2563eb',
+                background: '#eff6ff',
+                color: '#1e3a8a',
+                fontWeight: 800,
+                fontSize: 12,
+                cursor: 'pointer',
+              }}
+            >
+              {AVAILABLE_META_FANPAGES.map(fp => (
+                <option key={fp.id} value={fp.id}>
+                  {fp.name} ({fp.id}) — {fp.note}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -1298,8 +1910,8 @@ export default function AntkiPlPage() {
               }}
             >
               {syncingMetaCc35
-                ? '⏳ Synchronizacja 35 reklam z Meta (PAUSED)…'
-                : '🔄 Zsynchronizuj wszystkie 35 reklam w ANTKI CC35 (PAUSED)'}
+                ? `⏳ Synchronizacja 35 reklam (${isDorosliBatchView ? 'Dorośli' : 'Dzieci'}) z Meta (PAUSED)…`
+                : `🔄 Zsynchronizuj 35 reklam w ${isDorosliBatchView ? 'ANTKI DOROSLI CC35' : 'ANTKI CC35'} → ${pageName} (PAUSED)`}
             </button>
           </div>
 
@@ -1440,7 +2052,7 @@ export default function AntkiPlPage() {
           }}
         >
           <span>
-            📅 Work Day Ad Sety (Batche po dniach wytworzenia · {displayedGroups.length} Ad Setów Cost Cap {metaCostCapPln} PLN)
+            📅 Work Day Ad Sety ({isDorosliBatchView ? 'Batch 2: Dorośli #36–#70' : 'Batch 1: Dzieci #1–#35'} · {displayedGroups.length} Ad Setów Cost Cap {metaCostCapPln} PLN)
           </span>
           <span style={{ fontSize: 12, fontWeight: 700, color: '#1d4ed8' }}>
             {showCampaignPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
@@ -1472,15 +2084,15 @@ export default function AntkiPlPage() {
                   }}
                 >
                   🗓️ BATCH DZIEŃ:{' '}
-                  {new Date(campaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
+                  {new Date(activeCampaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
                   })}
                 </span>
                 <strong style={{ fontSize: 13.5, color: 'var(--text)' }}>
-                  Kampania: {campaignStructure?.campaignName || metaCampaignName} (ID:{' '}
-                  {campaignStructure?.campaignId || '120249912191200300'})
+                  Kampania: {activeCampaignStructure?.campaignName || metaCampaignName} (ID:{' '}
+                  {activeCampaignStructure?.campaignId || (isDorosliBatchView ? 'nowa po utworzeniu' : '120249912191200300')})
                 </strong>
                 <span
                   style={{
@@ -1492,18 +2104,20 @@ export default function AntkiPlPage() {
                     color: '#166534',
                   }}
                 >
-                  COST_CAP = {metaCostCapPln} PLN · 7 Ad Setów · 35 Reklam (PAUSED)
+                  COST_CAP = {metaCostCapPln} PLN · 7 Ad Setów · 35 Reklam · Fanpage: {pageName} ({selectedPageId})
                 </span>
               </div>
 
-              <a
-                href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${campaignStructure?.accountId || '1109284831182252'}&selected_campaign_ids=${campaignStructure?.campaignId || '120249912191200300'}`}
-                target="_blank"
-                rel="noreferrer"
-                style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
-              >
-                Otwórz w Meta Ads Manager ↗
-              </a>
+              {activeCampaignStructure?.campaignId && (
+                <a
+                  href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${activeCampaignStructure.accountId || '1109284831182252'}&selected_campaign_ids=${activeCampaignStructure.campaignId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
+                >
+                  Otwórz w Meta Ads Manager ↗
+                </a>
+              )}
             </div>
 
             <div
@@ -1515,7 +2129,7 @@ export default function AntkiPlPage() {
             >
               {displayedGroups.map((group, gIdx) => {
                 const adSetId = 'adSetId' in group ? group.adSetId : undefined;
-                const batchDayStr = new Date(campaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
+                const batchDayStr = new Date(activeCampaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
                   day: '2-digit',
                   month: '2-digit',
                 });
@@ -1550,7 +2164,7 @@ export default function AntkiPlPage() {
                     </div>
                     <p style={{ margin: 0, fontSize: 11, color: 'var(--muted)', lineHeight: 1.35 }}>{group.description}</p>
                     <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace' }}>
-                      Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#')).join(', ')}
+                      Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#').replace(/^dorosli-/, 'D')).join(', ')}
                     </div>
                   </div>
                 );
@@ -1586,7 +2200,7 @@ export default function AntkiPlPage() {
                 max={200}
                 step={1}
                 value={metaCostCapPln}
-                onChange={e => setMetaCostCapPln(Number(e.target.value) || 35)}
+                onChange={e => setMetaCostCapPln(Number(e.target.value) || 30)}
                 style={{
                   padding: '6px 8px',
                   borderRadius: 6,
@@ -1619,6 +2233,27 @@ export default function AntkiPlPage() {
                 }}
               />
             </label>
+
+            <button
+              type="button"
+              disabled={updatingCostCap}
+              onClick={() => void handleUpdateCostCap(metaCostCapPln)}
+              style={{
+                padding: '7px 14px',
+                borderRadius: 8,
+                border: '1px solid #059669',
+                background: '#059669',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: 12,
+                cursor: updatingCostCap ? 'wait' : 'pointer',
+                opacity: updatingCostCap ? 0.7 : 1,
+              }}
+            >
+              {updatingCostCap
+                ? 'Aktualizuję w Meta...'
+                : `💰 Zmień Cost Cap na ${metaCostCapPln} zł w aktywnych Ad Setach`}
+            </button>
 
             <button
               type="button"
@@ -1971,6 +2606,129 @@ export default function AntkiPlPage() {
         </div>
       </details>
 
+      {/* PASEK PRZEŁĄCZANIA PAKIETÓW: BATCH 2 DOROŚLI 35 (#36-#70) vs BATCH 1 DZIECI CC35 (#1-#35) */}
+      <div
+        style={{
+          marginBottom: 14,
+          padding: '12px 14px',
+          borderRadius: 10,
+          border: '1px solid var(--border)',
+          background: 'var(--card)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 10,
+        }}
+      >
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+            <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', textTransform: 'uppercase' }}>
+              Wybierz pakiet Copy:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setStageFilter('dorosli_35');
+                const firstAdult = presets.find(p => p.number === 36);
+                if (firstAdult) setActiveAngleId(firstAdult.id);
+              }}
+              style={{
+                padding: '7px 14px',
+                borderRadius: 8,
+                border: stageFilter.startsWith('dorosli_') ? '2px solid #7c3aed' : '1px solid var(--border)',
+                background: stageFilter.startsWith('dorosli_') ? '#7c3aed' : 'var(--bg)',
+                color: stageFilter.startsWith('dorosli_') ? '#ffffff' : 'var(--text)',
+                fontWeight: 800,
+                fontSize: 12.5,
+                cursor: 'pointer',
+              }}
+            >
+              👵 Batch 2: DOROŚLI 35 NOWE (#36–#70 · D01–D35)
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setStageFilter('all_kids');
+                const firstKid = presets.find(p => p.number === 1);
+                if (firstKid) setActiveAngleId(firstKid.id);
+              }}
+              style={{
+                padding: '7px 14px',
+                borderRadius: 8,
+                border: stageFilter === 'all_kids' ? '2px solid #2563eb' : '1px solid var(--border)',
+                background: stageFilter === 'all_kids' ? '#2563eb' : 'var(--bg)',
+                color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
+                fontWeight: 700,
+                fontSize: 12.5,
+                cursor: 'pointer',
+              }}
+            >
+              👶 Batch 1: DZIECI CC35 (#1–#30)
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setStageFilter('all')}
+              style={{
+                padding: '7px 12px',
+                borderRadius: 8,
+                border: stageFilter === 'all' ? '2px solid #059669' : '1px solid var(--border)',
+                background: stageFilter === 'all' ? '#059669' : 'var(--bg)',
+                color: stageFilter === 'all' ? '#ffffff' : 'var(--text)',
+                fontWeight: 700,
+                fontSize: 12.5,
+                cursor: 'pointer',
+              }}
+            >
+              📚 Wszystkie ({presets.length})
+            </button>
+          </div>
+
+          <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+            Widoczne w liście: <strong style={{ color: 'var(--text)' }}>{filteredPresets.length}</strong> kątów
+          </span>
+        </div>
+
+        {stageFilter.startsWith('dorosli_') && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center', paddingTop: 6, borderTop: '1px dashed var(--border)' }}>
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#6d28d9', marginRight: 4 }}>
+              7 Grup Dorośli (po 5 reklam):
+            </span>
+            {[
+              { id: 'dorosli_35', label: 'Wszystkie 35 Dorośli (D01–D35)' },
+              { id: 'dorosli_d1', label: 'D1: SOR i Nagła Blokada (D01–D05)' },
+              { id: 'dorosli_d2', label: 'D2: M_Jakuba · O Mamie/Tacie (D06–D10)' },
+              { id: 'dorosli_d3', label: 'D3: Ryciak Dorośli · 10-Sek Test (D11–D15)' },
+              { id: 'dorosli_d4', label: 'D4: Ostroga i 6:00 Rano (D16–D20)' },
+              { id: 'dorosli_d5', label: 'D5: Haluks i Rozmiar 40 (D21–D25)' },
+              { id: 'dorosli_d6', label: 'D6: Żal po Operacji i Skalpel (D26–D30)' },
+              { id: 'dorosli_d7', label: 'D7: Praca Stojąca i 4 Kroki (D31–D35)' },
+            ].map(tab => {
+              const active = stageFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setStageFilter(tab.id as typeof stageFilter)}
+                  style={{
+                    padding: '5px 10px',
+                    borderRadius: 6,
+                    border: active ? '1px solid #7c3aed' : '1px solid var(--border)',
+                    background: active ? '#ede9fe' : 'var(--bg)',
+                    color: active ? '#5b21b6' : 'var(--text)',
+                    fontWeight: active ? 800 : 500,
+                    fontSize: 11.5,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
       {/* GŁÓWNY UKŁAD DWUKOLUMNOWY: LISTA KĄTÓW PO LEWEJ, EDYTOR I PODGLĄD PO PRAWEJ */}
       <div
         style={{
@@ -2099,39 +2857,86 @@ export default function AntkiPlPage() {
                           setInlinePickerAngleId(prev => (prev === angle.id ? null : angle.id));
                         }}
                         style={{
-                          position: 'relative',
-                          width: 54,
-                          height: 54,
-                          minWidth: 54,
-                          borderRadius: 7,
-                          overflow: 'hidden',
-                          border: inlinePickerAngleId === angle.id ? '2px solid #7c3aed' : '1px solid var(--border)',
-                          background: '#0f172a',
+                          display: 'flex',
+                          gap: 3,
                           cursor: 'pointer',
                         }}
                         title="Kliknij miniaturę, aby rozwinąć szybki wybór zdjęcia tutaj na liście"
                       >
-                        <img
-                          src={assignedImgUrl}
-                          alt={`Antek #${angle.number}`}
-                          loading="lazy"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        />
-                        <span
+                        <div
                           style={{
-                            position: 'absolute',
-                            bottom: 1,
-                            right: 1,
-                            fontSize: 8,
-                            fontWeight: 800,
-                            padding: '1px 3px',
-                            borderRadius: 3,
-                            background: assignedAsset?.source === 'meta' ? '#2563eb' : '#059669',
-                            color: '#ffffff',
+                            position: 'relative',
+                            width: ad?.secondImageUrl ? 46 : 54,
+                            height: ad?.secondImageUrl ? 46 : 54,
+                            minWidth: ad?.secondImageUrl ? 46 : 54,
+                            borderRadius: 7,
+                            overflow: 'hidden',
+                            border: inlinePickerAngleId === angle.id ? '2px solid #7c3aed' : '1px solid var(--border)',
+                            background: '#0f172a',
                           }}
                         >
-                          {assignedAsset?.source === 'meta' ? 'META' : 'AI'}
-                        </span>
+                          <img
+                            src={assignedImgUrl}
+                            alt={`Antek #${angle.number} (A)`}
+                            loading="lazy"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                          <span
+                            style={{
+                              position: 'absolute',
+                              bottom: 1,
+                              right: 1,
+                              fontSize: 8,
+                              fontWeight: 800,
+                              padding: '1px 3px',
+                              borderRadius: 3,
+                              background: ad?.secondImageUrl
+                                ? '#2563eb'
+                                : assignedAsset?.source === 'meta'
+                                ? '#2563eb'
+                                : '#059669',
+                              color: '#ffffff',
+                            }}
+                          >
+                            {ad?.secondImageUrl ? 'A' : assignedAsset?.source === 'meta' ? 'META' : 'AI'}
+                          </span>
+                        </div>
+                        {ad?.secondImageUrl && (
+                          <div
+                            style={{
+                              position: 'relative',
+                              width: 46,
+                              height: 46,
+                              minWidth: 46,
+                              borderRadius: 7,
+                              overflow: 'hidden',
+                              border: '2px solid #ea580c',
+                              background: '#0f172a',
+                            }}
+                          >
+                            <img
+                              src={ad.secondImageUrl}
+                              alt={`Antek #${angle.number} (B)`}
+                              loading="lazy"
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            />
+                            <span
+                              style={{
+                                position: 'absolute',
+                                bottom: 1,
+                                right: 1,
+                                fontSize: 8,
+                                fontWeight: 800,
+                                padding: '1px 3px',
+                                borderRadius: 3,
+                                background: '#ea580c',
+                                color: '#ffffff',
+                              }}
+                            >
+                              B
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div style={{ display: 'flex', gap: 2, width: 54 }}>
                         <button
@@ -2666,17 +3471,17 @@ export default function AntkiPlPage() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontWeight: 800,
-                        fontSize: 14,
+                        fontSize: 13,
                       }}
                     >
-                      MG
+                      {activeFanpageMeta.initials}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 700, fontSize: 13, color: '#0f172a', lineHeight: 1.2 }}>
-                        {pageName || 'Porady Mamy Gosi'}
+                        {pageName || 'Centrum Dobrego Kroku'}
                       </div>
                       <div style={{ fontSize: 11, color: '#64748b' }}>
-                        Sponsorowane · 🌐 · ID: 798916893308685
+                        Sponsorowane · 🌐 · ID: {selectedPageId}
                       </div>
                     </div>
                     <button
@@ -2732,79 +3537,248 @@ export default function AntkiPlPage() {
                   </div>
 
                   {activeResolvedImage && (
-                    <div
-                      onClick={() => setLightboxAsset(activeResolvedImage)}
-                      title="Kliknij, aby powiększyć kreację"
-                      style={{
-                        position: 'relative',
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        background: '#0f172a',
-                        cursor: 'zoom-in',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <img
-                        src={activeResolvedImage.url}
-                        alt={activeResolvedImage.label}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
-                      <button
-                        type="button"
-                        onClick={e => {
-                          e.stopPropagation();
-                          cycleAngleImage(activeAngle, -1);
-                        }}
-                        title="Poprzednie zdjęcie (0ms)"
-                        style={{
-                          position: 'absolute',
-                          left: 8,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          width: 34,
-                          height: 34,
-                          borderRadius: '50%',
-                          border: '1px solid rgba(255,255,255,0.4)',
-                          background: 'rgba(15,23,42,0.75)',
-                          color: '#ffffff',
-                          fontWeight: 800,
-                          fontSize: 14,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        ◀
-                      </button>
-                      <button
-                        type="button"
-                        onClick={e => {
-                          e.stopPropagation();
-                          cycleAngleImage(activeAngle, 1);
-                        }}
-                        title="Następne zdjęcie (0ms)"
-                        style={{
-                          position: 'absolute',
-                          right: 8,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          width: 34,
-                          height: 34,
-                          borderRadius: '50%',
-                          border: '1px solid rgba(255,255,255,0.4)',
-                          background: 'rgba(15,23,42,0.75)',
-                          color: '#ffffff',
-                          fontWeight: 800,
-                          fontSize: 14,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        ▶
-                      </button>
+                    <div style={{ display: 'grid', gap: 8 }}>
+                      {activeResolvedSecondImage ? (
+                        <div
+                          style={{
+                            padding: 8,
+                            background: '#fff7ed',
+                            borderTop: '1px solid #fed7aa',
+                            borderBottom: '1px solid #fed7aa',
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: 11,
+                              fontWeight: 800,
+                              color: '#9a3412',
+                              marginBottom: 6,
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              gap: 6,
+                            }}
+                          >
+                            <span>🔥 A/B TEST: 2 OSOBNE OBRAZKI W ADSECIE (pełny kwadrat 1:1 każdy)</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span style={{ fontWeight: 700, fontSize: 10.5 }}>Kliknij A lub B, aby wybrać edytowany wariant</span>
+                              <button
+                                type="button"
+                                disabled={savingImages}
+                                onClick={() => void handleSaveImages()}
+                                style={{
+                                  padding: '4px 10px',
+                                  borderRadius: 6,
+                                  border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
+                                  background: imagesSavedFlash ? '#15803d' : '#16a34a',
+                                  color: '#ffffff',
+                                  fontWeight: 900,
+                                  fontSize: 11,
+                                  cursor: savingImages ? 'wait' : 'pointer',
+                                  boxShadow: '0 1px 3px rgba(0,0,0,0.14)',
+                                }}
+                              >
+                                {savingImages
+                                  ? '⏳ Zapisywanie...'
+                                  : imagesSavedFlash
+                                  ? '✅ Obrazki zapisane!'
+                                  : '💾 Zapisz obrazki'}
+                              </button>
+                            </div>
+                          </div>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                            <div
+                              onClick={() => setImageSlotTarget(1)}
+                              style={{
+                                position: 'relative',
+                                width: '100%',
+                                aspectRatio: '1 / 1',
+                                borderRadius: 8,
+                                overflow: 'hidden',
+                                border: imageSlotTarget === 1 ? '3px solid #2563eb' : '1px solid #cbd5e1',
+                                background: '#0f172a',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <img
+                                src={activeResolvedImage.url}
+                                alt={activeResolvedImage.label}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                              />
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: 6,
+                                  left: 6,
+                                  fontSize: 10,
+                                  fontWeight: 800,
+                                  padding: '2px 8px',
+                                  borderRadius: 99,
+                                  background: imageSlotTarget === 1 ? '#2563eb' : 'rgba(15,23,42,0.8)',
+                                  color: '#ffffff',
+                                }}
+                              >
+                                Kreacja A (Zdj. 1) {imageSlotTarget === 1 ? '●' : ''}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  setLightboxAsset(activeResolvedImage);
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  bottom: 6,
+                                  right: 6,
+                                  fontSize: 10,
+                                  fontWeight: 800,
+                                  padding: '2px 6px',
+                                  borderRadius: 4,
+                                  border: 0,
+                                  background: 'rgba(15,23,42,0.75)',
+                                  color: '#ffffff',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                🔍 Powiększ A
+                              </button>
+                            </div>
+
+                            <div
+                              onClick={() => setImageSlotTarget(2)}
+                              style={{
+                                position: 'relative',
+                                width: '100%',
+                                aspectRatio: '1 / 1',
+                                borderRadius: 8,
+                                overflow: 'hidden',
+                                border: imageSlotTarget === 2 ? '3px solid #ea580c' : '1px solid #cbd5e1',
+                                background: '#0f172a',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <img
+                                src={activeResolvedSecondImage.url}
+                                alt={activeResolvedSecondImage.label}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                              />
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: 6,
+                                  left: 6,
+                                  fontSize: 10,
+                                  fontWeight: 800,
+                                  padding: '2px 8px',
+                                  borderRadius: 99,
+                                  background: imageSlotTarget === 2 ? '#ea580c' : 'rgba(15,23,42,0.8)',
+                                  color: '#ffffff',
+                                }}
+                              >
+                                Kreacja B (Zdj. 2) {imageSlotTarget === 2 ? '●' : ''}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  setLightboxAsset(activeResolvedSecondImage);
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  bottom: 6,
+                                  right: 6,
+                                  fontSize: 10,
+                                  fontWeight: 800,
+                                  padding: '2px 6px',
+                                  borderRadius: 4,
+                                  border: 0,
+                                  background: 'rgba(15,23,42,0.75)',
+                                  color: '#ffffff',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                🔍 Powiększ B
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => setLightboxAsset(activeResolvedImage)}
+                          title="Kliknij, aby powiększyć kreację"
+                          style={{
+                            position: 'relative',
+                            width: '100%',
+                            aspectRatio: '1 / 1',
+                            background: '#0f172a',
+                            cursor: 'zoom-in',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <img
+                            src={activeResolvedImage.url}
+                            alt={activeResolvedImage.label}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              cycleAngleImage(activeAngle, -1);
+                            }}
+                            title="Poprzednie zdjęcie (0ms)"
+                            style={{
+                              position: 'absolute',
+                              left: 8,
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: 34,
+                              height: 34,
+                              borderRadius: '50%',
+                              border: '1px solid rgba(255,255,255,0.4)',
+                              background: 'rgba(15,23,42,0.75)',
+                              color: '#ffffff',
+                              fontWeight: 800,
+                              fontSize: 14,
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            ◀
+                          </button>
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              cycleAngleImage(activeAngle, 1);
+                            }}
+                            title="Następne zdjęcie (0ms)"
+                            style={{
+                              position: 'absolute',
+                              right: 8,
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: 34,
+                              height: 34,
+                              borderRadius: '50%',
+                              border: '1px solid rgba(255,255,255,0.4)',
+                              background: 'rgba(15,23,42,0.75)',
+                              color: '#ffffff',
+                              fontWeight: 800,
+                              fontSize: 14,
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            ▶
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -2854,9 +3828,155 @@ export default function AntkiPlPage() {
                   </div>
                 </div>
 
-                {/* SZYBKI WYBÓR ZDJĘCIA DLA AKTYWNEGO ANTKA */}
+                {/* SZYBKI WYBÓR ZDJĘCIA DLA AKTYWNEGO ANTKA + TEST A/B 2 OSOBNYCH ZDJĘĆ */}
                 <div style={{ display: 'grid', gap: 10 }}>
                   <div>
+                    {/* PASEK TESTU A/B 2 OSOBNYCH ZDJĘĆ */}
+                    <div
+                      style={{
+                        padding: '8px 10px',
+                        marginBottom: 8,
+                        borderRadius: 8,
+                        border: activeResolvedSecondImage ? '1.5px solid #ea580c' : '1px dashed #94a3b8',
+                        background: activeResolvedSecondImage ? '#fff7ed' : 'var(--bg)',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 6,
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 11.5, fontWeight: 800, color: '#9a3412' }}>
+                          🔥 Test A/B 2 osobnych zdjęć:
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setImageSlotTarget(1)}
+                          style={{
+                            padding: '4px 9px',
+                            borderRadius: 6,
+                            border: imageSlotTarget === 1 ? '1.5px solid #2563eb' : '1px solid var(--border)',
+                            background: imageSlotTarget === 1 ? '#2563eb' : '#ffffff',
+                            color: imageSlotTarget === 1 ? '#ffffff' : '#0f172a',
+                            fontWeight: 800,
+                            fontSize: 11,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          🖼️ Obrazek A (Kreacja 1)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setImageSlotTarget(2);
+                            if (!activeResolvedSecondImage && activeAngle) {
+                              const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
+                              const curIdx = pool.findIndex(i => i.url === activeResolvedImage?.url);
+                              const secondCandidate = pool[(curIdx + 1) % pool.length];
+                              if (secondCandidate) {
+                                void assignImageToAngles([activeAngle.id], secondCandidate, `Antek #${activeAngle.number}`, 2);
+                              }
+                            }
+                          }}
+                          style={{
+                            padding: '4px 10px',
+                            borderRadius: 6,
+                            border: imageSlotTarget === 2 ? '1.5px solid #ea580c' : '1.5px solid #fdba74',
+                            background: imageSlotTarget === 2 ? '#ea580c' : '#ffedd5',
+                            color: imageSlotTarget === 2 ? '#ffffff' : '#9a3412',
+                            fontWeight: 800,
+                            fontSize: 11,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {activeResolvedSecondImage ? '🖼️ Obrazek B (2. osobna kreacja A/B)' : '🔥 + Dodaj 2. osobny obrazek (A/B Test)'}
+                        </button>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+                        {activeResolvedSecondImage && activeAngle && (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                void updateTwoImageConfig(
+                                  activeAngle.id,
+                                  {
+                                    imageUrl: activeResolvedSecondImage.url,
+                                    imageHash: activeResolvedSecondImage.imageHash,
+                                    secondImageUrl: activeResolvedImage?.url || '',
+                                    secondImageHash: activeResolvedImage?.imageHash,
+                                  },
+                                  'Zamieniono miejscami Obrazek A ↔ Obrazek B.',
+                                )
+                              }
+                              style={{
+                                padding: '3px 8px',
+                                borderRadius: 5,
+                                border: '1px solid #cbd5e1',
+                                background: '#ffffff',
+                                color: '#0f172a',
+                                fontWeight: 800,
+                                fontSize: 10.5,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              ⇄ Zamień A↔B
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                void updateTwoImageConfig(
+                                  activeAngle.id,
+                                  {
+                                    imageUrl: activeResolvedImage?.url || '',
+                                    imageHash: activeResolvedImage?.imageHash,
+                                    secondImageUrl: '',
+                                    secondImageHash: '',
+                                  },
+                                  'Usunięto Obrazek B — powrót do pojedynczej kreacji.',
+                                )
+                              }
+                              style={{
+                                padding: '3px 8px',
+                                borderRadius: 5,
+                                border: '1px solid #fca5a5',
+                                background: '#fef2f2',
+                                color: '#b91c1c',
+                                fontWeight: 800,
+                                fontSize: 10.5,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              ✕ Usuń Obrazek B
+                            </button>
+                          </>
+                        )}
+                        <button
+                          type="button"
+                          disabled={savingImages}
+                          onClick={() => void handleSaveImages()}
+                          style={{
+                            padding: '4px 11px',
+                            borderRadius: 6,
+                            border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
+                            background: imagesSavedFlash ? '#15803d' : '#16a34a',
+                            color: '#ffffff',
+                            fontWeight: 900,
+                            fontSize: 11,
+                            cursor: savingImages ? 'wait' : 'pointer',
+                          }}
+                        >
+                          {savingImages
+                            ? '⏳ Zapisywanie...'
+                            : imagesSavedFlash
+                            ? '✅ Zapisano obrazki!'
+                            : '💾 Zapisz obrazki'}
+                        </button>
+                      </div>
+                    </div>
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                         <span
@@ -2887,7 +4007,8 @@ export default function AntkiPlPage() {
                         </span>
                         {activeResolvedImage?.imageHash && (
                           <code style={{ fontSize: 11, color: 'var(--muted)' }}>
-                            hash: {activeResolvedImage.imageHash}
+                            hash A: {activeResolvedImage.imageHash}
+                            {activeResolvedSecondImage?.imageHash ? ` · hash B: ${activeResolvedSecondImage.imageHash}` : ''}
                           </code>
                         )}
                       </div>
@@ -2906,7 +4027,7 @@ export default function AntkiPlPage() {
                             cursor: 'pointer',
                           }}
                         >
-                          ◀ Poprzednie zdj.
+                          ◀ Poprzednie zdj. ({imageSlotTarget === 2 ? 'Obrazek B' : 'Obrazek A'})
                         </button>
                         <button
                           type="button"
@@ -2922,7 +4043,7 @@ export default function AntkiPlPage() {
                             cursor: 'pointer',
                           }}
                         >
-                          Następne zdj. ▶
+                          Następne zdj. ({imageSlotTarget === 2 ? 'Obrazek B' : 'Obrazek A'}) ▶
                         </button>
                         <button
                           type="button"
@@ -2941,13 +4062,37 @@ export default function AntkiPlPage() {
                         >
                           {uploadingCustomImage ? '⏳ Wgrywanie…' : '📤 + Dodaj swoje zdjęcie'}
                         </button>
+                        <button
+                          type="button"
+                          disabled={savingImages}
+                          onClick={() => void handleSaveImages()}
+                          style={{
+                            padding: '4px 12px',
+                            borderRadius: 6,
+                            border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
+                            background: imagesSavedFlash ? '#15803d' : '#16a34a',
+                            color: '#ffffff',
+                            fontWeight: 900,
+                            fontSize: 11.5,
+                            cursor: savingImages ? 'wait' : 'pointer',
+                          }}
+                        >
+                          {savingImages
+                            ? '⏳ Zapisywanie...'
+                            : imagesSavedFlash
+                            ? '✅ Zapisano obrazki!'
+                            : '💾 Zapisz obrazki'}
+                        </button>
                       </div>
                     </div>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
-                      Przypisane zdjęcie: {activeResolvedImage?.label}
+                    <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
+                      Obrazek A: {activeResolvedImage?.label}
+                      {activeResolvedSecondImage ? `  ·  Obrazek B: ${activeResolvedSecondImage.label}` : ''}
                     </div>
                     <p style={{ margin: '2px 0 6px', fontSize: 12, color: 'var(--muted)' }}>
-                      Kliknij miniaturę, użyj strzałek ◀ ▶ albo wgraj własne zdjęcie z dysku (zapisze się na stałe i podmieni w reklamie w Meta):
+                      {imageSlotTarget === 2
+                        ? '🔥 Wybierasz teraz OBRAZEK B (2. osobna kreacja A/B w adsecie) — kliknij dowolną miniaturę poniżej:'
+                        : 'Kliknij miniaturę (aby ustawić Obrazek A) lub przełącz wyżej na „+ Dodaj 2. osobny obrazek (A/B Test)”, aby przetestować 2 osobne zdjęcia 1:1 w adsecie:'}
                     </p>
                     <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       <button
@@ -3018,6 +4163,27 @@ export default function AntkiPlPage() {
                       )}
                       <button
                         type="button"
+                        disabled={Boolean(generatingKie5AngleId)}
+                        onClick={() => void handleGenerate5KieImagesForActiveAngle()}
+                        title="Wyciąga 5 konkretnych scen z treści tego Antka i generuje w Kie.ai 5 surowych, lekko rozmytych zdjęć z telefonu (shit quality, zero AI glow)"
+                        style={{
+                          padding: '5px 11px',
+                          borderRadius: 6,
+                          border: '1.5px solid #dc2626',
+                          background: generatingKie5AngleId === activeAngle.id ? '#991b1b' : '#dc2626',
+                          color: '#ffffff',
+                          fontWeight: 900,
+                          fontSize: 11,
+                          cursor: generatingKie5AngleId ? 'wait' : 'pointer',
+                          boxShadow: '0 2px 6px rgba(220,38,38,0.28)',
+                        }}
+                      >
+                        {generatingKie5AngleId === activeAngle.id
+                          ? '⏳ Kie.ai generuje 5 surowych zdjęć z tego Antka…'
+                          : '📸 Wygeneruj 5 zdjęć z tego Antka (Kie.ai — Shit Quality)'}
+                      </button>
+                      <button
+                        type="button"
                         disabled={uploadingCustomImage}
                         onClick={() => customImageInputRef.current?.click()}
                         style={{
@@ -3035,6 +4201,250 @@ export default function AntkiPlPage() {
                       </button>
                     </div>
                   </div>
+
+                  {/* DEDYKOWANY PASEK 5 SUROWYCH ZDJĘĆ Z KIE.AI DLA AKTYWNEGO ANTKA */}
+                  {(() => {
+                    const activeKieTasks = kieTasksByAngle[activeAngle.id] || [];
+                    const persistedAngleAssets = imageLibrary.filter(item => item.angleId === activeAngle.id);
+                    if (activeKieTasks.length === 0 && persistedAngleAssets.length === 0) return null;
+                    return (
+                      <div
+                        style={{
+                          marginBottom: 10,
+                          padding: '10px 12px',
+                          borderRadius: 8,
+                          background: '#fef2f2',
+                          border: '1.5px solid #fca5a5',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            flexWrap: 'wrap',
+                            gap: 6,
+                            marginBottom: 8,
+                          }}
+                        >
+                          <span style={{ fontSize: 11.5, fontWeight: 900, color: '#991b1b' }}>
+                            📸 5 surowych zdjęć wygenerowanych w Kie.ai pod Antka #{activeAngle.number} (Shit Quality · Zero AI Glow) — wybierz 2 najlepsze jako Obrazek A i B:
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))',
+                            gap: 8,
+                          }}
+                        >
+                          {activeKieTasks.length > 0
+                            ? activeKieTasks.map(task => {
+                                const asset = task.asset;
+                                const isSlotA = Boolean(asset && activeResolvedImage?.url === asset.url);
+                                const isSlotB = Boolean(asset && activeResolvedSecondImage?.url === asset.url);
+                                return (
+                                  <div
+                                    key={task.taskId}
+                                    style={{
+                                      borderRadius: 8,
+                                      border: isSlotB
+                                        ? '2.5px solid #ea580c'
+                                        : isSlotA
+                                        ? '2.5px solid #7c3aed'
+                                        : '1px solid #fecaca',
+                                      background: '#ffffff',
+                                      padding: 6,
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      gap: 5,
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        position: 'relative',
+                                        width: '100%',
+                                        aspectRatio: '1 / 1',
+                                        borderRadius: 6,
+                                        overflow: 'hidden',
+                                        background: '#0f172a',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#ffffff',
+                                        fontSize: 11,
+                                        fontWeight: 700,
+                                        textAlign: 'center',
+                                      }}
+                                    >
+                                      {asset ? (
+                                        <img
+                                          src={asset.url}
+                                          alt={task.label}
+                                          onClick={() => setLightboxAsset(asset)}
+                                          style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
+                                        />
+                                      ) : task.state === 'fail' ? (
+                                        <span style={{ color: '#fca5a5', padding: 6 }}>❌ {task.error || 'Błąd'}</span>
+                                      ) : (
+                                        <span style={{ padding: 6 }}>⏳ Kie.ai renderuje #{task.index}…</span>
+                                      )}
+                                    </div>
+                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#1e293b', lineHeight: 1.25 }}>
+                                      {task.label}
+                                    </div>
+                                    {asset && (
+                                      <div style={{ display: 'flex', gap: 4 }}>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            void assignImageToAngles(
+                                              [activeAngle.id],
+                                              asset,
+                                              `Antek #${activeAngle.number} (Obrazek A)`,
+                                              1,
+                                            )
+                                          }
+                                          style={{
+                                            flex: 1,
+                                            padding: '3px 5px',
+                                            borderRadius: 5,
+                                            border: '1px solid #7c3aed',
+                                            background: isSlotA ? '#7c3aed' : '#f5f3ff',
+                                            color: isSlotA ? '#ffffff' : '#6d28d9',
+                                            fontWeight: 800,
+                                            fontSize: 9.5,
+                                            cursor: 'pointer',
+                                          }}
+                                        >
+                                          {isSlotA ? '✓ Obrazek A' : 'Ustaw A'}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            void assignImageToAngles(
+                                              [activeAngle.id],
+                                              asset,
+                                              `Antek #${activeAngle.number} (Obrazek B)`,
+                                              2,
+                                            )
+                                          }
+                                          style={{
+                                            flex: 1,
+                                            padding: '3px 5px',
+                                            borderRadius: 5,
+                                            border: '1px solid #ea580c',
+                                            background: isSlotB ? '#ea580c' : '#fff7ed',
+                                            color: isSlotB ? '#ffffff' : '#c2410c',
+                                            fontWeight: 800,
+                                            fontSize: 9.5,
+                                            cursor: 'pointer',
+                                          }}
+                                        >
+                                          {isSlotB ? '✓ Obrazek B' : 'Ustaw B'}
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })
+                            : persistedAngleAssets.slice(0, 5).map(asset => {
+                                const isSlotA = activeResolvedImage?.url === asset.url;
+                                const isSlotB = activeResolvedSecondImage?.url === asset.url;
+                                return (
+                                  <div
+                                    key={asset.id}
+                                    style={{
+                                      borderRadius: 8,
+                                      border: isSlotB
+                                        ? '2.5px solid #ea580c'
+                                        : isSlotA
+                                        ? '2.5px solid #7c3aed'
+                                        : '1px solid #fecaca',
+                                      background: '#ffffff',
+                                      padding: 6,
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      gap: 5,
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        position: 'relative',
+                                        width: '100%',
+                                        aspectRatio: '1 / 1',
+                                        borderRadius: 6,
+                                        overflow: 'hidden',
+                                        background: '#0f172a',
+                                      }}
+                                    >
+                                      <img
+                                        src={asset.url}
+                                        alt={asset.label}
+                                        onClick={() => setLightboxAsset(asset)}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
+                                      />
+                                    </div>
+                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#1e293b', lineHeight: 1.25 }}>
+                                      {asset.label}
+                                    </div>
+                                    <div style={{ display: 'flex', gap: 4 }}>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          void assignImageToAngles(
+                                            [activeAngle.id],
+                                            asset,
+                                            `Antek #${activeAngle.number} (Obrazek A)`,
+                                            1,
+                                          )
+                                        }
+                                        style={{
+                                          flex: 1,
+                                          padding: '3px 5px',
+                                          borderRadius: 5,
+                                          border: '1px solid #7c3aed',
+                                          background: isSlotA ? '#7c3aed' : '#f5f3ff',
+                                          color: isSlotA ? '#ffffff' : '#6d28d9',
+                                          fontWeight: 800,
+                                          fontSize: 9.5,
+                                          cursor: 'pointer',
+                                        }}
+                                      >
+                                        {isSlotA ? '✓ Obrazek A' : 'Ustaw A'}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          void assignImageToAngles(
+                                            [activeAngle.id],
+                                            asset,
+                                            `Antek #${activeAngle.number} (Obrazek B)`,
+                                            2,
+                                          )
+                                        }
+                                        style={{
+                                          flex: 1,
+                                          padding: '3px 5px',
+                                          borderRadius: 5,
+                                          border: '1px solid #ea580c',
+                                          background: isSlotB ? '#ea580c' : '#fff7ed',
+                                          color: isSlotB ? '#ffffff' : '#c2410c',
+                                          fontWeight: 800,
+                                          fontSize: 9.5,
+                                          cursor: 'pointer',
+                                        }}
+                                      >
+                                        {isSlotB ? '✓ Obrazek B' : 'Ustaw B'}
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   <div
                     onDragOver={e => {
@@ -3087,13 +4497,15 @@ export default function AntkiPlPage() {
                     </button>
 
                     {filteredGalleryImages.map(asset => {
-                      const isCurrent = activeResolvedImage?.url === asset.url;
+                      const isCurrent1 = activeResolvedImage?.url === asset.url;
+                      const isCurrent2 = activeResolvedSecondImage?.url === asset.url;
+                      const isCurrent = isCurrent1 || isCurrent2;
                       return (
                         <div
                           key={asset.id}
                           onClick={() => {
                             if (!assigningImage) {
-                              void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`);
+                              void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, imageSlotTarget);
                             }
                           }}
                           title={`${asset.label}${asset.imageHash ? ` (hash: ${asset.imageHash})` : ''}`}
@@ -3103,7 +4515,11 @@ export default function AntkiPlPage() {
                             height: 68,
                             borderRadius: 7,
                             overflow: 'hidden',
-                            border: isCurrent ? '3px solid #7c3aed' : '1px solid var(--border)',
+                            border: isCurrent2
+                              ? '3px solid #ea580c'
+                              : isCurrent1
+                              ? '3px solid #7c3aed'
+                              : '1px solid var(--border)',
                             cursor: 'pointer',
                             background: '#0f172a',
                             opacity: isCurrent ? 1 : 0.9,
@@ -3115,6 +4531,23 @@ export default function AntkiPlPage() {
                             loading="lazy"
                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
+                          {(isCurrent1 || isCurrent2) && (
+                            <span
+                              style={{
+                                position: 'absolute',
+                                top: 2,
+                                left: 2,
+                                fontSize: 8.5,
+                                fontWeight: 900,
+                                padding: '1px 4px',
+                                borderRadius: 3,
+                                background: isCurrent2 ? '#ea580c' : '#7c3aed',
+                                color: '#ffffff',
+                              }}
+                            >
+                              {isCurrent1 && isCurrent2 ? '1+2' : isCurrent2 ? 'ZDJ 2' : 'ZDJ 1'}
+                            </span>
+                          )}
                           <button
                             type="button"
                             onClick={e => {

@@ -24,6 +24,8 @@
  *    - Realistyczny Most Odkrycia (Reveal): NIGDY "wpisałam z kartki od fizjoterapeuty, który w gabinecie nic nie powiedział"; zawsze organiczne odkrycie z grupy na FB / forum mam / od innej matki
  */
 
+import { ANTKI_DOROSLI_PRESET_ANGLES } from './antki-dorosli-presets';
+
 export type AntkiPlFunnelStage =
   | 'stage1_domowe_odkrycie'
   | 'stage2_efekt_domina'
@@ -71,6 +73,11 @@ export interface AntkiPlGeneratedAd {
   cta: 'LEARN_MORE' | 'SHOP_NOW';
   imageUrl?: string;
   imageHash?: string;
+  secondImageUrl?: string;
+  secondImageHash?: string;
+  twoImageLayout?: 'side_by_side' | 'top_bottom';
+  combinedSplitImageUrl?: string;
+  combinedSplitImageHash?: string;
   wordCount: number;
   characterCount: number;
   auditPassed: boolean;
@@ -87,6 +94,8 @@ export interface AntkiPlImageAsset {
   source: 'ai' | 'meta' | 'custom';
   groupCode?: 'DOM' | 'RUCH' | 'GRUPA' | 'MIT' | 'RYCIAK' | 'ZAL' | 'ZIMA';
   defaultForAngles?: number[];
+  angleId?: string;
+  kiePrompt?: string;
   imageHash?: string;
   aspectRatio?: string;
   note?: string;
@@ -100,10 +109,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'DOM · Czysty Native: Zdarte od wewnątrz podeszwy w przedpokoju (bez wkładki)',
     source: 'ai',
     groupCode: 'DOM',
-    defaultForAngles: [1, 2, 5],
+    defaultForAngles: [1, 5, 9],
     imageHash: '12429338c7ae40326e42571f072b8b12',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu z telefonu (zero wkładki w kadrze) — domyślne dla #1, #2 i #5',
+    note: '100% surowe zdjęcie problemu z telefonu (zero wkładki w kadrze) — domyślne dla #1, #5 i #9',
   },
   {
     id: 'ai-dom-03',
@@ -111,10 +120,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'DOM · Czysty Native: Test mokrej stopy dziecka (6 lat) — oba płaskie ślady „stopa żelazka”',
     source: 'ai',
     groupCode: 'DOM',
-    defaultForAngles: [3, 4],
-    imageHash: '430347a6730e7da6d3414707358f41bd',
+    defaultForAngles: [3],
+    imageHash: 'defde39b914a26c57835cbbea04d0329',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu: małe dziecięce stópki w piżamie i dwa płaskie mokre ślady na kafelku — domyślne dla #3 i #4',
+    note: '100% surowe zdjęcie problemu: małe dziecięce stópki w piżamie i dwa płaskie mokre ślady na kafelku — domyślne dla #3',
   },
   {
     id: 'ai-ruch-06',
@@ -122,10 +131,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'RUCH · Czysty Native: Efekt Domina — uciekające kostki i łopatki od tyłu (bez wkładki)',
     source: 'ai',
     groupCode: 'RUCH',
-    defaultForAngles: [6, 7, 8, 9, 10],
+    defaultForAngles: [6],
     imageHash: '59544f10083d13cecde0bf42871f06f9',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu w korytarzu (bez wkładki) — domyślne dla grupy RUCH (#6–#10)',
+    note: '100% surowe zdjęcie problemu w korytarzu (bez wkładki) — domyślne dla #6',
   },
   {
     id: 'ai-grupa-11',
@@ -133,10 +142,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'GRUPA · Czysty Native: Wykoślawione halówki i worek na WF w korytarzu (bez wkładki)',
     source: 'ai',
     groupCode: 'GRUPA',
-    defaultForAngles: [11, 12, 13, 14, 15],
+    defaultForAngles: [14],
     imageHash: '8b5f96b3a3b381fea42dab4e6a3fc6c1',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu (bez wkładki) — domyślne dla grupy GRUPA (#11–#15 Szkoła i WF)',
+    note: '100% surowe zdjęcie problemu (bez wkładki) — domyślne dla #14 (Wstyd w szatni)',
   },
   {
     id: 'ai-mit-16',
@@ -144,10 +153,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'MIT · Czysty Native: Sztywne wkładki na wymiar wyjęte z butów + beret z kolcami i mata',
     source: 'ai',
     groupCode: 'MIT',
-    defaultForAngles: [16, 17, 18, 19, 20],
+    defaultForAngles: [16],
     imageHash: 'c4abad24b27fa0e2c917603955cd2805',
     aspectRatio: '1:1',
-    note: 'Prawdziwe sztywne wkładki ortopedyczne wyjęte z dziecięcych butów obok beretu sensorycznego i maty — domyślne dla grupy MIT (#16–#20)',
+    note: 'Prawdziwe sztywne wkładki ortopedyczne wyjęte z dziecięcych butów obok beretu sensorycznego i maty — domyślne dla #16 (Wojna o dywan)',
   },
   {
     id: 'ai-ryciak-21',
@@ -155,10 +164,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'RYCIAK · Czysty Native z Biblioteki: Podoskop i miarka (goniometr 4FIZJO) na pięcie',
     source: 'ai',
     groupCode: 'RYCIAK',
-    defaultForAngles: [21, 22, 23, 24, 25],
+    defaultForAngles: [23],
     imageHash: 'f39f4f6fe7839d3634d55fea7a121d80',
     aspectRatio: '1:1',
-    note: 'Zdjęcie z naszej biblioteki (podoskop + okrągła miarka 4FIZJO na pięcie) oczyszczone z napisów i przyciemnienia — domyślne dla grupy RYCIAK (#21–#25)',
+    note: 'Zdjęcie z naszej biblioteki (podoskop + okrągła miarka 4FIZJO na pięcie) — domyślne dla #23 (Ryciak Plecy)',
   },
   {
     id: 'ai-zal-26',
@@ -166,10 +175,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'ŻAL · Czysty Native: Dziecko na kanapie w salonie z nogą w gipsie na poduszce i kulami obok',
     source: 'ai',
     groupCode: 'ZAL',
-    defaultForAngles: [26, 27, 28, 29, 30],
+    defaultForAngles: [28],
     imageHash: '22629f2d8b1f0a4926db2574412fd2a4',
     aspectRatio: '1:1',
-    note: 'Naturalne zdjęcie z perspektywy mamy w salonie (dziecko z nogą w gipsie na poduszce i kule oparte o kanapę) — domyślne dla grupy ŻAL (#26–#30)',
+    note: 'Naturalne zdjęcie z perspektywy mamy w salonie (dziecko z nogą w gipsie na poduszce i kule oparte o kanapę) — domyślne dla #28 (Operacja kolan 14-latki)',
   },
   {
     id: 'ai-zima-31',
@@ -177,10 +186,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: 'ZIMA · Czysty Native: Zimowe botki ze zdartym obcasem i obolała pięta (bez wkładki)',
     source: 'ai',
     groupCode: 'ZIMA',
-    defaultForAngles: [31, 32, 33, 34, 35],
+    defaultForAngles: [31],
     imageHash: 'd9c54511f796aee02e13531f56dcd366',
     aspectRatio: '1:1',
-    note: '100% surowe zdjęcie problemu (bez pomarańczowej wkładki) — domyślne dla grupy ZIMA (#31–#35 Dorośli)',
+    note: '100% surowe zdjęcie problemu (bez pomarańczowej wkładki) — domyślne dla #31 (Zimowe botki)',
   },
 
   // ==================== ZATWIERDZONY KOLAŻ 3-KAFELKOWY (DZIECI: ZDARTE PODESZWY + WKŁADKA + SELFIE MAMY) ====================
@@ -202,9 +211,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Podoskop FOOT + Miarka 4FIZJO Goniometr (jasny oryginał 2048x2048)',
     source: 'meta',
     groupCode: 'RYCIAK',
+    defaultForAngles: [7],
     imageHash: '8ec6badff8e90f7f881e1f3b0b6ffd12',
     aspectRatio: '1:1',
-    note: 'Oryginalne czyste zdjęcie z kampanii G Orthomax 2 MSL (cybu rip / sor sol a)',
+    note: 'Oryginalne czyste zdjęcie z kampanii G Orthomax 2 MSL — domyślne dla #7 (Ból głowy i karku)',
   },
   {
     id: 'lib-antki-podoskop-zielony',
@@ -212,9 +222,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Zielony Podoskop FOOT + Miarka 4FIZJO Goniometr (zmianaformatuwfistka)',
     source: 'meta',
     groupCode: 'RYCIAK',
+    defaultForAngles: [2],
     imageHash: '82b1871a7a3dee01f6286c3472c1074a',
     aspectRatio: '1:1',
-    note: 'Oryginalne czyste zdjęcie zielonego podoskopu z miarką bez napisów',
+    note: 'Oryginalne czyste zdjęcie zielonego podoskopu z miarką — domyślne dla #2 (Mit bólów wzrostowych)',
   },
   {
     id: 'lib-antki-zdarte-buty-tnf',
@@ -222,9 +233,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Zdarte od tyłu podeszwy butów The North Face (bez tekstu)',
     source: 'meta',
     groupCode: 'DOM',
+    defaultForAngles: [17],
     imageHash: '408c8703e99f1d803463c30b92362fc8',
     aspectRatio: '1:1',
-    note: 'Oryginalne czyste zdjęcie zdartych butów z kampanii G Orthomax 2 MSL (1-copy / noname 2)',
+    note: 'Oryginalne czyste zdjęcie zdartych butów z kampanii G Orthomax 2 MSL — domyślne dla #17 (14h na szkolnym betonie)',
   },
   {
     id: 'lib-antki-koslawe-kostki-dziecko',
@@ -232,9 +244,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Koślawe pięty i kostki dziecka od tyłu na płytkach (bez tekstu)',
     source: 'meta',
     groupCode: 'RUCH',
+    defaultForAngles: [19],
     imageHash: '7d5adc16d1f260583c7dd06237949172',
     aspectRatio: '1:1',
-    note: 'Oryginalne czyste zdjęcie z kampanii G Orthomax 2 MSL & orth 2 old msl (1-copy / RR 3 / SOR 5 / wuefistka / fizjo 2)',
+    note: 'Oryginalne czyste zdjęcie z kampanii G Orthomax 2 MSL — domyślne dla #19 (Fikcja gimnastyki korekcyjnej)',
   },
   {
     id: 'lib-antki-stare-szare-wkladki',
@@ -242,9 +255,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Stare, zużyte szare wkładki ortopedyczne wyjęte z butów',
     source: 'meta',
     groupCode: 'MIT',
+    defaultForAngles: [18],
     imageHash: 'e1fcc551ec20c08475788629588bcd8a',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie z kampanii G Orthomax 2 MSL (cybu rip / Wfistka adam / jakuba 3 2 / RR 3 5 / operacja 3 / fizjo 2)',
+    note: 'Oryginalne zdjęcie z kampanii G Orthomax 2 MSL — domyślne dla #18 (Mit gipsu / sztywne wkładki za 380 zł)',
   },
   {
     id: 'lib-antki-drzwi-sor-pl',
@@ -252,9 +266,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Drzwi SZPITALNY ODDZIAŁ RATUNKOWY (oryginał bez napisów)',
     source: 'meta',
     groupCode: 'ZAL',
+    defaultForAngles: [15, 22],
     imageHash: '69a46c3803572f10b92b292bb3991967',
     aspectRatio: '4:5',
-    note: 'Oryginalne czyste zdjęcie polskich drzwi SOR bez nałożonego tekstu',
+    note: 'Oryginalne czyste zdjęcie polskich drzwi SOR — domyślne dla #15 (Zwolnienie z WF-u) oraz #22 (Ryciak SOR Kolano)',
   },
   {
     id: 'lib-antki-korytarz-sor-wozek',
@@ -262,9 +277,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Korytarz szpitalny / SOR z łóżkiem i wózkiem inwalidzkim',
     source: 'meta',
     groupCode: 'ZAL',
+    defaultForAngles: [29],
     imageHash: 'e878449307e17f8bb97770ae78bd1937',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie z kampanii G Orthomax 2 MSL (RR 3 / SOR 5 | 19 / wuefistka)',
+    note: 'Oryginalne zdjęcie z kampanii G Orthomax 2 MSL — domyślne dla #29 (Strach przed wózkiem inwalidzkim)',
   },
   {
     id: 'lib-antki-skierowanie-gdansk',
@@ -272,9 +288,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Skierowanie Gdańsk: BADANIE OBRAZOWE 88.721 - PORADA ORTOPEDYCZNA',
     source: 'meta',
     groupCode: 'ZAL',
+    defaultForAngles: [21],
     imageHash: '0c6548e5c3e92f2cb80469653819323f',
     aspectRatio: '1:1',
-    note: 'Czyste polskie skierowanie ortopedyczne z Gdańska bez nałożonego tekstu',
+    note: 'Czyste polskie skierowanie ortopedyczne z Gdańska — domyślne dla #21 (Ryciak Rip 3 V1)',
   },
   {
     id: 'lib-antki-paragon-rehabilitacja-226zl',
@@ -282,9 +299,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Paragon z Centrum Rehabilitacji INREMED na 226,00 PLN (Ketonal, Maść, Plastry)',
     source: 'meta',
     groupCode: 'MIT',
+    defaultForAngles: [34],
     imageHash: 'a9b6357c7660912a00fc09324f4ed1a3',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie paragonu z kampanii G Orthomax 2 MSL (jakuba 3 2)',
+    note: 'Oryginalne zdjęcie paragonu z kampanii G Orthomax 2 MSL — domyślne dla #34 (62-letnia mama Teresa)',
   },
   {
     id: 'lib-antki-przed-po-kostki-stol',
@@ -292,9 +310,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Przed/Po od tyłu: zapadnięte kostki vs wyprostowane pięty (2 wfistka i adam)',
     source: 'meta',
     groupCode: 'RYCIAK',
+    defaultForAngles: [20],
     imageHash: 'b8bd16faef5cd817a28cd78571fcd705',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie Przed/Po z kampanii MSL (ryciak rip / pielęgniarka / fizjo)',
+    note: 'Oryginalne zdjęcie Przed/Po z kampanii MSL — domyślne dla #20 (Okno czasowe 12 lat)',
   },
   {
     id: 'lib-antki-przed-po-luk-bok',
@@ -302,9 +321,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Przed/Po z boku: płaska stopa na podłodze vs podparty łuk stopy',
     source: 'meta',
     groupCode: 'DOM',
+    defaultForAngles: [35],
     imageHash: '29ba838c47dc168e943859f08f4e3c63',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie Przed/Po z kampanii G Orthomax 2 MSL (wiecej lekarzy)',
+    note: 'Oryginalne zdjęcie Przed/Po z kampanii G Orthomax 2 MSL — domyślne dla #35 (Stopa rozlana o rozmiar większa)',
   },
   {
     id: 'lib-antki-przed-po-wkladka-bok',
@@ -362,9 +382,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Badanie chodu dziecka boso na bieżni (nagrywanie telefonem na statywie)',
     source: 'meta',
     groupCode: 'RUCH',
+    defaultForAngles: [25],
     imageHash: '8aae4e1c3b5a0e2e2585d289ec07d8b4',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie analizy chodu z biblioteki Antków',
+    note: 'Oryginalne zdjęcie analizy chodu z biblioteki Antków — domyślne dla #25 (Nagranie chodu telefonem)',
   },
   {
     id: 'lib-antki-ultradzwieki-zel-pieta',
@@ -372,9 +393,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Zabieg fali uderzeniowej / ultradźwięków z żelem na pięcie (jakuba 3)',
     source: 'meta',
     groupCode: 'MIT',
+    defaultForAngles: [30],
     imageHash: '0e39eaf8cec0b6058714ca26f4da8e5f',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie z kampanii orth 2 old msl (jakuba 3 2 / 3 4 / 3 5)',
+    note: 'Oryginalne zdjęcie z kampanii orth 2 old msl — domyślne dla #30 (Fala uderzeniowa i blokady w piętę)',
   },
   {
     id: 'lib-antki-zamrozona-butelka-stopa',
@@ -382,9 +404,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Stopa rolowana na zamrożonej butelce wody (domowy sposób na ból pięty)',
     source: 'meta',
     groupCode: 'ZIMA',
+    defaultForAngles: [32],
     imageHash: '7c23f360dc0cc433a4cd580e7b9f753a',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie z biblioteki Antków (lipiec 2026)',
+    note: 'Oryginalne zdjęcie z biblioteki Antków — domyślne dla #32 (Poranny ból pięty o 6:00 rano)',
   },
   {
     id: 'lib-antki-rtg-kolan',
@@ -392,9 +415,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Zdjęcie RTG kolan (3wfistka)',
     source: 'meta',
     groupCode: 'RUCH',
+    defaultForAngles: [24],
     imageHash: '798de84bd37c6b1dc43ba1e89354a242',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie RTG kolan z biblioteki Antków (3wfistka.png)',
+    note: 'Oryginalne zdjęcie RTG kolan z biblioteki Antków — domyślne dla #24 (Bilans 10-latka i RTG)',
   },
   {
     id: 'lib-antki-wykres-podobarograf',
@@ -452,9 +476,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Karta badania ortopedycznego dziecka 88.721 na stole (IMG_1958)',
     source: 'meta',
     groupCode: 'ZAL',
+    defaultForAngles: [26],
     imageHash: '059765c4a79a678c5eeafb0c36834d0d',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie dokumentacji medycznej z biblioteki Meta (IMG_1958.jpg)',
+    note: 'Oryginalne zdjęcie dokumentacji medycznej z biblioteki Meta — domyślne dla #26 (Żal po operacji V1)',
   },
   {
     id: 'lib-antki-27-dokument-biomechanika',
@@ -472,39 +497,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (Czyste) · Paragon z apteki za maści i leki przeciwbólowe trzymany w dłoni',
     source: 'meta',
     groupCode: 'MIT',
+    defaultForAngles: [27],
     imageHash: 'd53dee133cac3d52992ac78ed43dc5b2',
     aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie paragonu z apteki z biblioteki Meta',
-  },
-  {
-    id: 'lib-antki-29-karetka-szpital-noc',
-    url: '/antki-pl-images/lib-antki-29-karetka-szpital-noc.jpg',
-    label: '📚 STARE ANTKI (Czyste) · Karetka i ratownicy przed wejściem na oddział ratunkowy w nocy',
-    source: 'meta',
-    groupCode: 'ZAL',
-    imageHash: 'c284a657e3486229ea1203766b189b1e',
-    aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie sprzed oddziału ratunkowego z biblioteki Meta',
-  },
-  {
-    id: 'lib-antki-30-drzwi-oddzial-ratunkowy',
-    url: '/antki-pl-images/lib-antki-30-drzwi-oddzial-ratunkowy.jpg',
-    label: '📚 STARE ANTKI (Czyste) · Wejście i podjazd na oddział ratunkowy (ujęcie dzienne)',
-    source: 'meta',
-    groupCode: 'ZAL',
-    imageHash: '028fa0e2022ce9974e28e33d1fbfba17',
-    aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie wejścia na oddział ratunkowy z biblioteki Meta',
-  },
-  {
-    id: 'lib-antki-31-karetka-wejscie-sor',
-    url: '/antki-pl-images/lib-antki-31-karetka-wejscie-sor.jpg',
-    label: '📚 STARE ANTKI (Czyste) · Karetka zaparkowana pod wejściem na oddział ratunkowy',
-    source: 'meta',
-    groupCode: 'ZAL',
-    imageHash: '23b26cb866d40f2bbf75c8d67e5b344b',
-    aspectRatio: '1:1',
-    note: 'Oryginalne zdjęcie karetki pod szpitalem z biblioteki Meta',
+    note: 'Oryginalne zdjęcie paragonu z apteki z biblioteki Meta — domyślne dla #27 (Haluks wrócił po 2 latach)',
   },
   {
     id: 'lib-antki-32-review-srebrne-buciki',
@@ -512,9 +508,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (UGC Review) · Srebrne buciki dziecięce z wkładką Orthomax w środku (zdjęcie mamy)',
     source: 'meta',
     groupCode: 'DOM',
+    defaultForAngles: [13],
     imageHash: '033dc30cbef3fc0c86c4571391cb3023',
     aspectRatio: '4:5',
-    note: 'Surowe zdjęcie z opinii klientki z folderu ORTHOMAX / REVIEW IMAGES',
+    note: 'Surowe zdjęcie z opinii klientki — domyślne dla #13 (Odmowa obozu zimowego)',
   },
   {
     id: 'lib-antki-33-review-czerwony-but',
@@ -522,9 +519,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (UGC Review) · Czerwony bucik dziecięcy z wkładką Orthomax trzymany w dłoni',
     source: 'meta',
     groupCode: 'DOM',
+    defaultForAngles: [12],
     imageHash: '05596b8a592924831d20df3ec39ede42',
     aspectRatio: '4:5',
-    note: 'Surowe zdjęcie z opinii klientki z folderu ORTHOMAX / REVIEW IMAGES',
+    note: 'Surowe zdjęcie z opinii klientki — domyślne dla #12 (Wybierany ostatni do drużyny)',
   },
   {
     id: 'lib-antki-34-review-wkladka-dywan',
@@ -542,9 +540,10 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     label: '📚 STARE ANTKI (UGC Review) · Wkładka Orthomax w opakowaniu na drewnianym stole w domu',
     source: 'meta',
     groupCode: 'ZIMA',
+    defaultForAngles: [33],
     imageHash: '99e6f88ef6085f702d2556c2c790afe4',
     aspectRatio: '4:5',
-    note: 'Surowe zdjęcie z opinii klientki z folderu ORTHOMAX / REVIEW IMAGES',
+    note: 'Surowe zdjęcie z opinii klientki — domyślne dla #33 (8 godzin na nogach w pracy)',
   },
 ];
 
@@ -1267,7 +1266,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Stage 4 · Żal po operacji',
     awarenessStage: 'Stage 3/4: Kobiety 45-65 lat (Strach przed utratą samodzielności)',
     sophistication: 'Poziom 4 (Adaptacja winnera 9.5/10 „Beata: Wózek" pod nowy cennik 99,99 zł)',
-    narrator: 'Beata (52 lata, Kraków)',
+    narrator: 'Małgorzata (52 lata, Kraków)',
     protagonist: 'Beata i mąż Andrzej',
     hookIdea:
       'Kiedy w zeszłą sobotę o 14:00 mój mąż Andrzej wiercił w kafelkach pod prysznicem dziury pod metalowy uchwyt dla niepełnosprawnych, zamknęłam się w sypialni i płakałam w poduszkę. Moja mama miała dokładnie 56 lat, kiedy przez zdeformowane stopy i zniszczone kolana przestała wychodzić z mieszkania. Ja mam 52 lata. Zostały mi 4 lata.',
@@ -1413,6 +1412,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
       'Wątek na grupie facebookowej kobiet po 45 roku życia o kupowaniu coraz szerszych butów zimowych i polecenie wkładek Orthomax StepMax.',
     defaultHeadline: 'Przez 30 lat nosiłam rozmiar 38, a tej jesieni nie weszłam nawet w 39. Oto co naprawdę dzieje się ze stopą po 40-tce',
   },
+  ...ANTKI_DOROSLI_PRESET_ANGLES,
 ];
 
 export const ANTKI_PL_SYSTEM_PROMPT = `Jesteś elitarnym polskim copywriterem direct-response piszącym natywne długie posty sprzedażowe (MSL / Antki) na Facebooka pod markę Orthomax (profilowane wkładki dynamiczne StepMax, sklep: orthomax.pl).

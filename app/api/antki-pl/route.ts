@@ -30,31 +30,56 @@ interface AntkiPlLibraryState {
   deletedImageIds?: string[];
 }
 
+const LEGACY_GROUP_PLACEHOLDER_URLS = new Set([
+  '/antki-pl-images/ai-mit-16-wojna-o-cwiczenia.jpg',
+  '/antki-pl-images/ai-ryciak-21-gabinet-test-luku.jpg',
+  '/antki-pl-images/ai-zal-26-po-operacji-kule.jpg',
+  '/antki-pl-images/ai-zima-31-dorosli-zimowe-botki.jpg',
+]);
+const LEARNED_DIVERSIFIED_ANGLES = new Set([18, 20, 22, 25, 26, 27, 29, 30, 32, 33, 34, 35]);
+
 function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
-  // If an ad previously pointed to one of the removed text-overlay images, reset to clean default
-  if (ad.imageUrl && ad.imageUrl.includes('/lib-antki-napis-')) {
-    const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
-    const defaultImg = getDefaultImageForAngle(preset?.number || 1);
-    return {
-      ...ad,
+  const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
+  const angleNum = preset?.number || 1;
+  let nextAd = { ...ad };
+  if (
+    nextAd.imageUrl === '/antki-pl-images/lib-antki-30-drzwi-oddzial-ratunkowy.jpg' ||
+    nextAd.imageHash === '028fa0e2022ce9974e28e33d1fbfba17'
+  ) {
+    nextAd = {
+      ...nextAd,
+      imageUrl: '/antki-pl-images/lib-antki-drzwi-sor-pl.jpg',
+      imageHash: '69a46c3803572f10b92b292bb3991967',
+    };
+  }
+  if (nextAd.imageUrl && nextAd.imageUrl.includes('/lib-antki-napis-')) {
+    const defaultImg = getDefaultImageForAngle(angleNum);
+    nextAd = {
+      ...nextAd,
       imageUrl: preset?.defaultImageUrl || defaultImg.url,
       imageHash: preset?.defaultImageHash || defaultImg.imageHash,
     };
   }
-  if (ad.imageUrl) {
-    const matchedLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === ad.imageUrl);
-    if (matchedLib?.imageHash && matchedLib.imageHash !== ad.imageHash) {
-      return { ...ad, imageHash: matchedLib.imageHash };
+  if (!nextAd.imageUrl) {
+    const defaultImg = getDefaultImageForAngle(angleNum);
+    nextAd = {
+      ...nextAd,
+      imageUrl: preset?.defaultImageUrl || defaultImg.url,
+      imageHash: nextAd.imageHash || preset?.defaultImageHash || defaultImg.imageHash,
+    };
+  } else {
+    const matchedLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === nextAd.imageUrl);
+    if (matchedLib?.imageHash && matchedLib.imageHash !== nextAd.imageHash) {
+      nextAd = { ...nextAd, imageHash: matchedLib.imageHash };
     }
-    return ad;
   }
-  const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === ad.angleId);
-  const defaultImg = getDefaultImageForAngle(preset?.number || 1);
-  return {
-    ...ad,
-    imageUrl: preset?.defaultImageUrl || defaultImg.url,
-    imageHash: ad.imageHash || preset?.defaultImageHash || defaultImg.imageHash,
-  };
+  if (nextAd.secondImageUrl) {
+    const matchedSecondLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === nextAd.secondImageUrl);
+    if (matchedSecondLib?.imageHash && matchedSecondLib.imageHash !== nextAd.secondImageHash) {
+      nextAd = { ...nextAd, secondImageHash: matchedSecondLib.imageHash };
+    }
+  }
+  return nextAd;
 }
 
 async function readLibraryState(): Promise<{
@@ -81,21 +106,32 @@ async function readLibraryState(): Promise<{
       byAngle.set(ad.angleId, ensureAdImage(ad));
     }
     for (const ad of stored) {
-      // Only override code defaults if the user explicitly edited, regenerated, or changed the image
-      if (ad.id.startsWith('antek-pl-argon-') && ad.updatedAt === ad.createdAt && !ad.imageUrl) {
-        continue;
-      }
-      const audited = sanitizeAndAuditAntkiPl(ad.primaryText, ad.headline, ad.description);
       const baseAd = byAngle.get(ad.angleId);
+      const isUnmodifiedArgonCopy = ad.id.startsWith('antek-pl-argon-');
+      const rawPrimaryText = isUnmodifiedArgonCopy && baseAd ? baseAd.primaryText : ad.primaryText;
+      const rawHeadline = isUnmodifiedArgonCopy && baseAd ? baseAd.headline : ad.headline;
+      const rawDescription = isUnmodifiedArgonCopy && baseAd ? baseAd.description : ad.description;
+      const audited = sanitizeAndAuditAntkiPl(rawPrimaryText, rawHeadline, rawDescription);
       byAngle.set(
         ad.angleId,
         ensureAdImage({
+          ...(baseAd || ad),
           ...ad,
           imageUrl: ad.imageUrl || baseAd?.imageUrl,
           imageHash: ad.imageHash ?? baseAd?.imageHash,
+          secondImageUrl: ad.secondImageUrl,
+          secondImageHash: ad.secondImageHash,
+          twoImageLayout: ad.twoImageLayout,
+          combinedSplitImageUrl: ad.combinedSplitImageUrl,
+          combinedSplitImageHash: ad.combinedSplitImageHash,
           primaryText: audited.primaryText,
           headline: audited.headline,
           description: audited.description,
+          wordCount: audited.wordCount,
+          characterCount: audited.characterCount,
+          auditPassed: audited.auditPassed,
+          auditWarnings: audited.auditWarnings,
+          auditFixesApplied: audited.auditFixesApplied,
           destinationUrl:
             ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
               ? ORTHOMAX_PL_DEFAULT_URL
@@ -181,10 +217,11 @@ export function buildAntkiPlUserPrompt(params: {
 
 export const GET = accountRoute(async () => {
   try {
-    const { ANTKI_PL_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
-    const [{ ads: savedAds, customImages, deletedImageIds }, campaignStructure] = await Promise.all([
+    const { ANTKI_PL_ADSET_BLUEPRINTS, ANTKI_DOROSLI_ADSET_BLUEPRINTS, readAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
+    const [{ ads: savedAds, customImages, deletedImageIds }, campaignStructure, dorosliCampaignStructure] = await Promise.all([
       readLibraryState(),
-      readAntkiCostCapCampaign(),
+      readAntkiCostCapCampaign('dzieci'),
+      readAntkiCostCapCampaign('dorosli'),
     ]);
     const deletedSet = new Set(deletedImageIds);
     const activeLibrary = [...customImages, ...ANTKI_PL_IMAGE_LIBRARY].filter(
@@ -205,10 +242,12 @@ export const GET = accountRoute(async () => {
       imageLibrary: activeLibrary,
       savedAds,
       adSetBlueprints: ANTKI_PL_ADSET_BLUEPRINTS,
+      dorosliAdSetBlueprints: ANTKI_DOROSLI_ADSET_BLUEPRINTS,
       campaignStructure,
+      dorosliCampaignStructure,
       brain: {
         provider: 'argon',
-        model: brain?.model ? `Argon (35 gotowych) + ${brain.model}` : 'Argon (35 autorskich winnerów 1200+ słów)',
+        model: brain?.model ? `Argon (70 gotowych) + ${brain.model}` : 'Argon (70 autorskich winnerów 1200+ słów)',
       },
       defaultUrl: ORTHOMAX_PL_DEFAULT_URL,
     });
@@ -219,6 +258,171 @@ export const GET = accountRoute(async () => {
     );
   }
 });
+
+function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRef: boolean): string {
+  const antiAiWrapper = [
+    'RAW, UGLY, SHIT QUALITY AMATEUR PHONE SNAPSHOT. Taken hastily by a Polish woman with an old low-end smartphone camera (iPhone 8 or cheap Android) in a real Polish apartment or public corridor.',
+    'MANDATORY IMPERFECTIONS (LITERAL): shit quality, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and color noise, subtle JPEG compression artifacts, slightly crooked off-center framing, harsh ugly overhead fluorescent tube light or dim yellow 2700K ceiling bulb, flat unretouched colors, muddy shadows, zero staging.',
+    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO bokeh or shallow depth-of-field background blur, ZERO skin smoothing, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO text overlays, ZERO watermarks, ZERO logos.',
+    includeProductRef
+      ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying naturally in the messy home scene — NOT posed like a commercial packshot.'
+      : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the raw real-life problem scene from the story.',
+  ].join('\n');
+
+  return `${antiAiWrapper}\n\nEXACT SCENE FROM THE STORY:\n${sceneDescription}`;
+}
+
+interface KiePlannedScene {
+  label: string;
+  scenePrompt: string;
+  includeProductRef: boolean;
+}
+
+function buildFallbackFiveScenesFromCopy(params: {
+  primaryText: string;
+  headline: string;
+  title: string;
+  segment?: string;
+}): KiePlannedScene[] {
+  const text = `${params.headline}\n${params.primaryText}`.toLowerCase();
+  const isDorosli = params.segment === 'dorosli' || text.includes('wnucz') || text.includes('emeryt') || text.includes('55 ') || text.includes('60 ') || text.includes('poznańskim sor') || text.includes('koszem mokrego prania');
+  const hasSor = text.includes('sor') || text.includes('szpital') || text.includes('izb') || text.includes('gabinet');
+  const hasStairs = text.includes('schod') || text.includes('prani');
+  const hasWetFoot = text.includes('mokr') || text.includes('łazien') || text.includes('żelazk');
+  const hasPeWf = text.includes('wf') || text.includes('szatni') || text.includes('halówk');
+
+  if (isDorosli) {
+    return [
+      {
+        label: hasSor ? '1. Nocny korytarz SOR / plastikowe krzesełko i spuchnięte kolano' : '1. Wieczorny ból kolana i stopy po całym dniu na nogach',
+        includeProductRef: false,
+        scenePrompt: hasSor
+          ? 'First-person POV amateur phone snapshot looking down while sitting on a cheap blue plastic chair in a sterile Polish hospital emergency room (SOR) hallway late at night under harsh cold green-white fluorescent tube lighting. A 56-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, scuff-marked grey hospital linoleum floor below, closed white clinic door in background. Blurry, shit quality, grainy phone photo.'
+          : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on an old patterned couch rubbing her swollen bare ankle and knee under a yellow ceiling bulb. Blurry, shit quality, grainy phone camera.',
+      },
+      {
+        label: hasStairs ? '2. Drewniane schody w domu i wiklinowy kosz z praniem' : '2. Szafka w przedpokoju pełna zużytych maści i żeli z apteki',
+        includeProductRef: false,
+        scenePrompt: hasStairs
+          ? 'Candid, slightly blurry amateur phone photo taken from the top of steep wooden indoor stairs in an older Polish house in the evening. At the bottom of the stairs on the floor sits a full wicker laundry basket with damp clothes and a wooden handrail on the side. Dim yellow hallway bulb, harsh shadows, crooked framing, shit quality phone photo.'
+          : 'Ugly, cluttered amateur phone photo of a Polish bathroom shelf or hallway cabinet showing 4 half-squeezed tubes of pharmacy pain relief gels and knee ointments next to a crumpled paper receipt. Harsh indoor light, slight blur, grainy sensor noise.',
+      },
+      {
+        label: '3. Surowe zbliżenie z góry na płaską stopę i uciekającą kostkę',
+        includeProductRef: false,
+        scenePrompt: 'Raw top-down first-person POV smartphone photo of a middle-aged Polish woman standing barefoot on worn beige ceramic floor tiles in a cramped apartment hallway, showing her bare feet flattening inward at the arches with tired, slightly swollen ankles and a reddened heel. Ugly harsh overhead light, slight motion blur, zero beauty filter, shit quality.',
+      },
+      {
+        label: '4. Zdarte od wewnątrz codzienne buty w polskim przedpokoju',
+        includeProductRef: false,
+        scenePrompt: 'Amateur phone snapshot in a narrow Polish apartment hallway (przedpokój) at night. A woman’s hand holding an everyday worn leather walking shoe upside down close to the camera, showing the inner edge of the rubber heel visibly ground down at an uneven slant from pronation. Cluttered shoe rack in background, harsh flash/bulb glare, slightly out of focus, shit quality.',
+      },
+      {
+        label: '5. Wkładki Orthomax StepMax na kuchennym stole obok butów',
+        includeProductRef: true,
+        scenePrompt: 'Unstaged amateur phone photo taken at a Polish kitchen table under a dim warm lamp at night. A pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying next to an everyday pair of women’s walking shoes and a half-drunk mug of tea, looking like a quick photo snapped to send to a friend on Messenger. Slight blur, grainy phone camera quality.',
+      },
+    ];
+  }
+
+  return [
+    {
+      label: hasPeWf
+        ? '1. Wykoślawione halówki i worek na WF rzucone w przedpokoju'
+        : '1. Zdarte od wewnątrz dziecięce buty trzymane w dłoni w przedpokoju',
+      includeProductRef: false,
+      scenePrompt: hasPeWf
+        ? 'Raw, slightly blurry amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) lying next to a crumpled drawstring PE bag, with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light, grainy, shit quality.'
+        : 'Raw first-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Cluttered shoe mat below, harsh indoor bulb light, slight motion blur, shit quality.',
+    },
+    {
+      label: hasWetFoot
+        ? '2. Mokre płaskie ślady stóp dziecka na kafelkach w łazience'
+        : '2. Koślawe kostki dziecka od tyłu na panelach w domu',
+      includeProductRef: false,
+      scenePrompt: hasWetFoot
+        ? 'Amateur top-down smartphone photo taken in a small Polish apartment bathroom right after a bath under harsh fluorescent mirror light. On dark grey matte floor tiles are two small 8-year-old child wet footprints side by side — both footprints are completely flat and wide like an iron ("stopa żelazka") with zero arch curve, child’s bare heels stepping onto a crumpled towel at top edge. Grainy, slight blur, shit quality.'
+        : 'Raw, unretouched amateur phone photo taken from behind at floor level in a Polish living room on wooden laminate panels. A 9-year-old child standing barefoot in cotton shorts, showing both ankles collapsing inward ("odwrócone V" / valgus ankles). Dim evening indoor lighting, crooked framing, grainy sensor noise, shit quality.',
+    },
+    {
+      label: hasSor
+        ? '3. Korytarz poradni / SOR i plastikowe krzesełka wieczorem'
+        : '3. Nocny ból nóg dziecka — ręka matki masująca łydkę w łóżku',
+      includeProductRef: false,
+      scenePrompt: hasSor
+        ? 'Hastily taken, slightly blurry smartphone photo from a plastic chair in a Polish clinic/hospital hallway at night under harsh cold fluorescent tube lights, showing scuffed linoleum floor, a child’s legs in sweatpants dangling from the chair, and a closed examination room door. Ugly lighting, high ISO grain, shit quality.'
+        : 'Dim, grainy late-night smartphone photo in a child’s bedroom in Poland. A 9-year-old child’s lower legs on a rumpled duvet under a weak bedside lamp while a mother’s hand rubs the child’s aching calf and ankle at night. High ISO noise, slight motion blur, zero AI glow, shit quality.',
+    },
+    {
+      label: '4. Rzucone w kąt stare sztywne wkładki / wałek do ćwiczeń stóp',
+      includeProductRef: false,
+      scenePrompt: 'Cluttered, candid amateur phone photo on a Polish apartment living room floor in the evening. A pair of stiff, uncomfortable old grey medical shoe insoles kicked aside next to a children’s sneaker and an unused rubber foot massage roller under the edge of a sofa. Flat indoor lighting, slightly out of focus, shit quality.',
+    },
+    {
+      label: '5. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
+      includeProductRef: true,
+      scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker on a wooden hallway bench. Dim warm indoor bulb light, slight camera shake, grainy phone sensor, shit quality.',
+    },
+  ];
+}
+
+async function extractFiveRawScenesFromAntekCopy(params: {
+  primaryText: string;
+  headline: string;
+  title: string;
+  segment?: string;
+}): Promise<KiePlannedScene[]> {
+  const fallback = buildFallbackFiveScenesFromCopy(params);
+  try {
+    const settings = brainSettings();
+    if (!settings) return fallback;
+    const client = brainClient(brainOptions(35_000));
+    const completion = await client.chat.completions.create({
+      model: 'gpt-4.1-mini',
+      temperature: 0.4,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki).
+Read the provided Polish ad copy and extract EXACTLY 5 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
+Rules for the 5 scenes:
+- Scene 1: The exact opening hook scene from paragraph 1 (e.g., sitting on a plastic chair in a Poznań hospital SOR hallway at night holding a swollen knee, OR holding worn-out sneakers in a hallway). NO product/insole in Scene 1 (includeProductRef: false).
+- Scene 2: A specific domestic trigger or prop mentioned in the story (e.g., wooden home stairs with a wicker laundry basket at the bottom, OR wet flat footprints on bathroom tiles, OR pharmacy gel tubes). NO product/insole in Scene 2 (includeProductRef: false).
+- Scene 3: A raw close-up POV shot of the physical foot/ankle/knee/shoe problem described in the copy (e.g., bare flat foot/collapsing ankle on floor tiles, OR unevenly worn inner shoe heel). NO product/insole in Scene 3 (includeProductRef: false).
+- Scene 4: Unboxed bright orange contoured Orthomax StepMax insoles lying on a real Polish kitchen table or hallway bench next to everyday shoes from the story (includeProductRef: true).
+- Scene 5: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a cramped Polish apartment hallway (includeProductRef: true).
+
+CRITICAL STYLE FOR EVERY scenePrompt (in English):
+- Describe it as an UGLY, HASTY, SHIT QUALITY amateur smartphone photo (slight motion blur, slightly out of focus, harsh fluorescent tube light or dim yellow indoor bulb, high-ISO sensor grain, crooked framing, zero AI glow, zero bokeh, zero text overlays).
+- Never include people's full faces looking at the camera like models — prefer first-person POV looking down at knees/feet/shoes/stairs/hands, or from behind/cropped angles so it looks 100% real.
+
+Return JSON:
+{
+  "scenes": [
+    { "label": "Short Polish title (max 65 chars)", "scenePrompt": "Detailed English scene description with ugly amateur phone camera details", "includeProductRef": false }
+  ]
+}`,
+        },
+        {
+          role: 'user',
+          content: `TYTUŁ KĄTA: ${params.title}\nSEGMENT: ${params.segment || 'dzieci'}\nNAGŁÓWEK: ${params.headline}\nTEKST REKLAMY:\n${params.primaryText.slice(0, 5500)}`,
+        },
+      ],
+    });
+    const rawContent = completion.choices?.[0]?.message?.content;
+    if (!rawContent) return fallback;
+    const parsed = JSON.parse(rawContent) as { scenes?: KiePlannedScene[] };
+    if (!Array.isArray(parsed.scenes) || parsed.scenes.length < 5) return fallback;
+    return parsed.scenes.slice(0, 5).map((s, idx) => ({
+      label: (s.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
+      scenePrompt: (s.scenePrompt || fallback[idx]?.scenePrompt || '').trim(),
+      includeProductRef: idx >= 3 ? Boolean(s.includeProductRef ?? true) : false,
+    }));
+  } catch {
+    return fallback;
+  }
+}
 
 export const POST = accountRoute(async (req: Request) => {
   try {
@@ -233,12 +437,34 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'set_image' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'update_cost_cap' | 'set_image' | 'save_all_images' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35' | 'generate_5_kie_images' | 'poll_kie_image';
+      batch?: 'dzieci' | 'dorosli';
+      campaignId?: string;
       angleId?: string;
       angleIds?: string[];
+      primaryText?: string;
+      headline?: string;
+      title?: string;
+      segment?: string;
+      taskId?: string;
+      prompt?: string;
+      imagesByAngle?: Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string | null;
+          secondImageHash?: string | null;
+        }
+      >;
       imageId?: string;
       imageUrl?: string;
       imageHash?: string;
+      secondImageUrl?: string | null;
+      secondImageHash?: string | null;
+      twoImageLayout?: 'side_by_side' | 'top_bottom';
+      combinedSplitImageUrl?: string | null;
+      combinedSplitImageHash?: string | null;
       dataUrl?: string;
       fileName?: string;
       label?: string;
@@ -261,6 +487,152 @@ export const POST = accountRoute(async (req: Request) => {
     };
 
     const action = body.action || 'generate';
+
+    if (action === 'generate_5_kie_images') {
+      const {
+        buildKieCreateTaskPayload,
+        submitKieRipperTask,
+        uploadPublicReferenceToKie,
+      } = await import('@/lib/image-ripper');
+
+      const angleId = (body.angleId || '').trim();
+      const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
+      const primaryText = (body.primaryText || '').trim();
+      const headline = (body.headline || preset?.defaultHeadline || '').trim();
+      const title = (body.title || preset?.title || angleId || 'Antek PL').trim();
+      const segment = body.segment || preset?.segment || 'dzieci';
+
+      if (!primaryText) {
+        return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 5 zdjęć.' }, { status: 400 });
+      }
+
+      const scenes = await extractFiveRawScenesFromAntekCopy({
+        primaryText,
+        headline,
+        title,
+        segment,
+      });
+
+      let productRefKieUrl: string | undefined;
+      try {
+        productRefKieUrl = await uploadPublicReferenceToKie('/antki-pl-images/meta-collage-4x5.jpg');
+      } catch {
+        productRefKieUrl = undefined;
+      }
+
+      const tasks = await Promise.all(
+        scenes.map(async (scene, idx) => {
+          const fullPrompt = buildRawShitQualityKiePrompt(scene.scenePrompt, scene.includeProductRef);
+          const payload = buildKieCreateTaskPayload({
+            model: 'nano-banana-pro',
+            prompt: fullPrompt,
+            imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+            aspectRatio: '1:1',
+            resolution: '1K',
+          });
+          const taskId = await submitKieRipperTask(payload);
+          return {
+            index: idx + 1,
+            label: scene.label,
+            prompt: fullPrompt,
+            includeProductRef: scene.includeProductRef,
+            taskId,
+          };
+        }),
+      );
+
+      return NextResponse.json({
+        ok: true,
+        angleId,
+        tasks,
+      });
+    }
+
+    if (action === 'poll_kie_image') {
+      const { pollKieRipperTask } = await import('@/lib/image-ripper');
+      const { safeDownload } = await import('@/lib/safe-fetch');
+
+      const taskId = (body.taskId || '').trim();
+      if (!taskId) {
+        return NextResponse.json({ error: 'Brak taskId do sprawdzenia statusu Kie.ai.' }, { status: 400 });
+      }
+
+      const status = await pollKieRipperTask(taskId);
+      if (status.state !== 'success' || !status.resultUrl) {
+        return NextResponse.json(status);
+      }
+
+      const angleId = (body.angleId || '').trim();
+      const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
+      const label = (body.label || `Kie.ai Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
+      const assetId = `kie-raw-${taskId}`;
+
+      let uploadedHash: string | undefined;
+      try {
+        const { buffer } = await safeDownload(status.resultUrl, 15 * 1024 * 1024);
+        const base64Bytes = Buffer.from(buffer).toString('base64');
+        const { uploadCustomAntkiImageToMeta } = await import('@/lib/meta-adsets');
+        const metaRes = await uploadCustomAntkiImageToMeta({
+          bytes: base64Bytes,
+          fileName: `${assetId}.jpg`,
+          accountId: body.accountId || '1109284831182252',
+        });
+        uploadedHash = metaRes.hash;
+      } catch {
+        // Non-blocking if Meta token is temporarily unavailable; still saves Kie CDN URL in library
+      }
+
+      const newAsset: AntkiPlImageAsset = {
+        id: assetId,
+        url: status.resultUrl,
+        label: preset ? `#${preset.number} · ${label}` : label,
+        source: 'ai',
+        angleId: angleId || undefined,
+        kiePrompt: body.prompt || undefined,
+        imageHash: uploadedHash,
+        aspectRatio: '1:1',
+        note: 'Surowe zdjęcie z telefonu (Kie.ai — Shit Quality / Zero AI Glow)',
+      };
+
+      const defaultArgonAds = buildAllArgonPrewrittenAds();
+      const updated = await mutate<
+        AntkiPlLibraryState,
+        { customImages: AntkiPlImageAsset[]; deletedImageIds: string[] }
+      >(
+        STATE_KEY,
+        { ads: defaultArgonAds, customImages: [], deletedImageIds: [] },
+        state => {
+          const customList = Array.isArray(state.customImages) ? state.customImages : [];
+          const existingIdx = customList.findIndex(item => item.id === assetId);
+          if (existingIdx >= 0) {
+            customList[existingIdx] = {
+              ...customList[existingIdx],
+              ...newAsset,
+              imageHash: newAsset.imageHash || customList[existingIdx].imageHash,
+            };
+          } else {
+            customList.unshift(newAsset);
+          }
+          state.customImages = customList;
+          return {
+            customImages: state.customImages,
+            deletedImageIds: Array.isArray(state.deletedImageIds) ? state.deletedImageIds : [],
+          };
+        },
+      );
+
+      const delSet = new Set(updated.deletedImageIds);
+      const activeLibrary = [...updated.customImages, ...ANTKI_PL_IMAGE_LIBRARY].filter(
+        img => !delSet.has(img.id) && !delSet.has(img.url),
+      );
+
+      return NextResponse.json({
+        state: 'success',
+        resultUrl: status.resultUrl,
+        asset: newAsset,
+        imageLibrary: activeLibrary,
+      });
+    }
 
     if (action === 'delete_image') {
       const targetId = (body.imageId || body.id || '').trim();
@@ -374,28 +746,11 @@ export const POST = accountRoute(async (req: Request) => {
         },
       );
 
-      let metaSynced = 0;
-      if (targetAngleIds.length > 0) {
-        try {
-          const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
-          const syncRes = await populateAntkiAdsInCampaign({
-            angleIds: targetAngleIds,
-            pageId: '798916893308685',
-            instagramUserId: '17841473314157729',
-            status: 'PAUSED',
-            updateExisting: true,
-          });
-          metaSynced = syncRes.createdCount || 0;
-        } catch {
-          // Non-blocking
-        }
-      }
-
       return NextResponse.json({
         ok: true,
         asset: newAsset,
         imageLibrary: [...updatedState.customImages, ...ANTKI_PL_IMAGE_LIBRARY],
-        metaSynced,
+        metaSynced: 0,
       });
     }
 
@@ -405,9 +760,10 @@ export const POST = accountRoute(async (req: Request) => {
         : body.angleId
         ? [body.angleId]
         : [];
-      if (!targetAngleIds.length || !body.imageUrl) {
-        return NextResponse.json({ error: 'Brak angleId/angleIds lub imageUrl.' }, { status: 400 });
+      if (!targetAngleIds.length) {
+        return NextResponse.json({ error: 'Brak angleId/angleIds.' }, { status: 400 });
       }
+
       const defaultArgonAds = buildAllArgonPrewrittenAds();
       const now = Date.now();
       const savedAds = await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(
@@ -417,52 +773,126 @@ export const POST = accountRoute(async (req: Request) => {
           const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
           for (const targetAngleId of targetAngleIds) {
             const idx = list.findIndex(item => item.angleId === targetAngleId);
+            const baseItem = idx >= 0 ? list[idx] : defaultArgonAds.find(a => a.angleId === targetAngleId);
+            if (!baseItem) continue;
+
+            const nextSecondUrl =
+              body.secondImageUrl === null || body.secondImageUrl === ''
+                ? undefined
+                : body.secondImageUrl !== undefined
+                ? body.secondImageUrl
+                : baseItem.secondImageUrl;
+            const nextSecondHash =
+              body.secondImageUrl === null || body.secondImageUrl === ''
+                ? undefined
+                : body.secondImageHash !== undefined
+                ? body.secondImageHash || undefined
+                : baseItem.secondImageHash;
+
+            const updatedEntry: AntkiPlGeneratedAd = {
+              ...baseItem,
+              ...(body.imageUrl ? { imageUrl: body.imageUrl } : {}),
+              ...(body.imageUrl ? { imageHash: body.imageHash || undefined } : {}),
+              secondImageUrl: nextSecondUrl,
+              secondImageHash: nextSecondHash,
+              combinedSplitImageUrl: undefined,
+              combinedSplitImageHash: undefined,
+              updatedAt: now,
+            };
+
             if (idx >= 0) {
-              list[idx] = {
-                ...list[idx],
-                imageUrl: body.imageUrl,
-                imageHash: body.imageHash || undefined,
-                updatedAt: now,
-              };
+              list[idx] = updatedEntry;
             } else {
-              const fallback = defaultArgonAds.find(a => a.angleId === targetAngleId);
-              if (fallback) {
-                list.unshift({
-                  ...fallback,
-                  imageUrl: body.imageUrl,
-                  imageHash: body.imageHash || undefined,
-                  updatedAt: now,
-                });
-              }
+              list.unshift(updatedEntry);
             }
           }
           state.ads = list.map(ensureAdImage);
           return state.ads;
         },
       );
-      let metaSynced = 0;
-      try {
-        const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
-        const syncRes = await populateAntkiAdsInCampaign({
-          angleIds: targetAngleIds,
-          pageId: '798916893308685',
-          instagramUserId: '17841473314157729',
-          status: 'PAUSED',
-          updateExisting: true,
-        });
-        metaSynced = syncRes.createdCount || 0;
-      } catch {
-        // Non-blocking: Szekspir DB state is already saved
+      return NextResponse.json({
+        ok: true,
+        count: savedAds.length,
+        ads: savedAds,
+        metaSynced: 0,
+      });
+    }
+
+    if (action === 'save_all_images') {
+      const imagesByAngle = body.imagesByAngle || {};
+      const entries = Object.entries(imagesByAngle);
+      if (!entries.length) {
+        return NextResponse.json({ error: 'Brak danych obrazków do zapisu.' }, { status: 400 });
       }
-      return NextResponse.json({ ok: true, count: savedAds.length, metaSynced });
+      const defaultArgonAds = buildAllArgonPrewrittenAds();
+      const now = Date.now();
+      const savedAds = await mutate<AntkiPlLibraryState, AntkiPlGeneratedAd[]>(
+        STATE_KEY,
+        { ads: defaultArgonAds },
+        state => {
+          const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
+          for (const [targetAngleId, cfg] of entries) {
+            if (!cfg) continue;
+            const idx = list.findIndex(item => item.angleId === targetAngleId);
+            const baseItem = idx >= 0 ? list[idx] : defaultArgonAds.find(a => a.angleId === targetAngleId);
+            if (!baseItem) continue;
+
+            const nextSecondUrl =
+              cfg.secondImageUrl === null || cfg.secondImageUrl === ''
+                ? undefined
+                : cfg.secondImageUrl !== undefined
+                ? cfg.secondImageUrl
+                : baseItem.secondImageUrl;
+            const nextSecondHash =
+              cfg.secondImageUrl === null || cfg.secondImageUrl === ''
+                ? undefined
+                : cfg.secondImageHash !== undefined
+                ? cfg.secondImageHash || undefined
+                : baseItem.secondImageHash;
+
+            const updatedEntry: AntkiPlGeneratedAd = {
+              ...baseItem,
+              ...(cfg.imageUrl ? { imageUrl: cfg.imageUrl } : {}),
+              ...(cfg.imageUrl ? { imageHash: cfg.imageHash || undefined } : {}),
+              secondImageUrl: nextSecondUrl,
+              secondImageHash: nextSecondHash,
+              combinedSplitImageUrl: undefined,
+              combinedSplitImageHash: undefined,
+              updatedAt: now,
+            };
+
+            if (idx >= 0) {
+              list[idx] = updatedEntry;
+            } else {
+              list.unshift(updatedEntry);
+            }
+          }
+          state.ads = list.map(ensureAdImage);
+          return state.ads;
+        },
+      );
+      return NextResponse.json({
+        ok: true,
+        count: entries.length,
+        ads: savedAds,
+      });
+    }
+
+    if (action === 'update_cost_cap') {
+      const { updateAntkiCampaignCostCap } = await import('@/lib/meta-adsets');
+      const res = await updateAntkiCampaignCostCap({
+        costCapPln: body.costCapPln ?? 30,
+      });
+      return NextResponse.json(res);
     }
 
     if (action === 'create-meta-campaign') {
       const { createAntkiCostCapCampaign } = await import('@/lib/meta-adsets');
       const campaignStructure = await createAntkiCostCapCampaign({
+        batch: body.batch === 'dorosli' ? 'dorosli' : 'dzieci',
         accountId: body.accountId || '1109284831182252',
         campaignName: body.campaignName,
-        costCapPln: body.costCapPln ?? 35,
+        costCapPln: body.costCapPln ?? 30,
         dailyBudgetPln: body.dailyBudgetPln ?? 1500,
         forceNew: body.forceNew ?? true,
       });
@@ -629,10 +1059,18 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (body.action === 'sync_meta_cc35') {
       const { populateAntkiAdsInCampaign } = await import('@/lib/meta-adsets');
+      const isDorosli = body.batch === 'dorosli';
+      const defaultPageId = isDorosli ? '866702399857726' : '798916893308685';
+      const resolvedPageId = typeof body.pageId === 'string' && body.pageId.trim() ? body.pageId.trim() : defaultPageId;
       const result = await populateAntkiAdsInCampaign({
+        batch: isDorosli ? 'dorosli' : 'dzieci',
+        campaignId: typeof body.campaignId === 'string' && body.campaignId.trim() ? body.campaignId.trim() : undefined,
+        campaignName: typeof body.campaignName === 'string' && body.campaignName.trim() ? body.campaignName.trim() : undefined,
+        costCapPln: body.costCapPln ?? 30,
+        dailyBudgetPln: body.dailyBudgetPln ?? 1500,
         group: typeof body.group === 'string' ? body.group : undefined,
-        pageId: typeof body.pageId === 'string' && body.pageId.trim() ? body.pageId.trim() : '798916893308685',
-        instagramUserId: typeof body.instagramUserId === 'string' && body.instagramUserId.trim() ? body.instagramUserId.trim() : '17841473314157729',
+        pageId: resolvedPageId,
+        instagramUserId: typeof body.instagramUserId === 'string' && body.instagramUserId.trim() ? body.instagramUserId.trim() : undefined,
         imageHash: typeof body.imageHash === 'string' && body.imageHash.trim() ? body.imageHash.trim() : undefined,
         url: typeof body.destinationUrl === 'string' && body.destinationUrl.trim() ? body.destinationUrl.trim() : undefined,
         status: 'PAUSED',
