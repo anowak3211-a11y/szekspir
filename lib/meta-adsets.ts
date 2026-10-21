@@ -195,23 +195,221 @@ export const ANTKI_PL_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSet
  },
 ];
 
-const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v3';
+export const ANTKI_DOROSLI_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | 'adSetName' | 'bidAmountMinor' | 'status'>[] = [
+ {
+  code: 'D1_SOR',
+  label: 'D1 SOR',
+  shortRange: '36-40 (D01-D05)',
+  description: 'D01 kolano · D02 lędźwie · D03 biodro · D04 wesele · D05 kostka',
+  angleIds: [
+   'dorosli-01-sor-zablokowane-kolano',
+   'dorosli-02-sor-rwa-kulszowa-kregoslup',
+   'dorosli-03-sor-biodro-blokada-schody',
+   'dorosli-04-sor-piekacy-nerwiak-przodostopie',
+   'dorosli-05-sor-skrecona-kostka-niestabilnosc',
+  ],
+ },
+ {
+  code: 'D2_MAMA',
+  label: 'D2 MAMA',
+  shortRange: '41-45 (D06-D10)',
+  description: 'D06 miska · D07 szafka · D08 ławka · D09 działka · D10 urodziny',
+  angleIds: [
+   'dorosli-06-m-jakuba-miska-z-woda',
+   'dorosli-07-m-jakuba-szuflada-lekow',
+   'dorosli-08-m-jakuba-spacer-lawka',
+   'dorosli-09-m-jakuba-ojciec-dzialka',
+   'dorosli-10-m-jakuba-wesele-buty-w-reku',
+  ],
+ },
+ {
+  code: 'D3_RYCIAK',
+  label: 'D3 RYCIAK',
+  shortRange: '46-50 (D11-D15)',
+  description: 'D11 bark · D12 dyskopatia · D13 kwas · D14 asymetria · D15 bieżnia',
+  angleIds: [
+   'dorosli-11-ryciak-dorosli-bark-i-kark',
+   'dorosli-12-ryciak-dorosli-ledzwie-dyskopatia',
+   'dorosli-13-ryciak-dorosli-kolano-zwyrodnienie',
+   'dorosli-14-ryciak-dorosli-biodro-asymetria',
+   'dorosli-15-ryciak-dorosli-slow-mo-bieznia',
+  ],
+ },
+ {
+  code: 'D4_OSTROGA',
+  label: 'D4 OSTROGA',
+  shortRange: '51-55 (D16-D20)',
+  description: 'D16 6:00 rano · D17 fala · D18 butelka · D19 podpiętki · D20 biurko',
+  angleIds: [
+   'dorosli-16-ostroga-pierwszy-krok-6-rano',
+   'dorosli-17-ostroga-fala-uderzeniowa-1500zl',
+   'dorosli-18-ostroga-zamrozona-butelka',
+   'dorosli-19-ostroga-zelowe-podpietki-mit',
+   'dorosli-20-ostroga-strach-po-postoju',
+  ],
+ },
+ {
+  code: 'D5_HALUKS',
+  label: 'D5 HALUKS',
+  shortRange: '56-60 (D21-D25)',
+  description: 'D21 botki · D22 rozmiar 40 · D23 kliny · D24 obcasy · D25 prysznic',
+  angleIds: [
+   'dorosli-21-haluks-zimowe-botki-zamek',
+   'dorosli-22-haluks-wstyd-rozmiar-40',
+   'dorosli-23-haluks-separatory-i-szyny-mit',
+   'dorosli-24-haluks-zdarte-buty-od-srodka',
+   'dorosli-25-haluks-mokry-slad-w-lazience',
+  ],
+ },
+ {
+  code: 'D6_ZAL',
+  label: 'D6 ŻAL',
+  shortRange: '61-65 (D26-D30)',
+  description: 'D26 śruby · D27 siostra · D28 uchwyt · D29 za 5 lat · D30 artroskopia',
+  angleIds: [
+   'dorosli-26-zal-lewa-stopa-sruby-8200zl',
+   'dorosli-27-zal-haluks-siostry-wrocil',
+   'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata',
+   'dorosli-29-zal-za-5-lat-endoproteza',
+   'dorosli-30-zal-artroskopia-kolana-powrot-bolu',
+  ],
+ },
+ {
+  code: 'D7_PRACA',
+  label: 'D7 PRACA',
+  shortRange: '66-70 (D31-D35)',
+  description: 'D31 kuchnia 8h · D32 420 zł · D33 dyżur 12h · D34 4 kroki · D35 powrót 14h',
+  angleIds: [
+   'dorosli-31-praca-8h-na-nogach-kuchnia',
+   'dorosli-32-praca-mit-twardych-wkladek-400zl',
+   'dorosli-33-praca-12h-dyzur-szpitalny-beton',
+   'dorosli-34-praca-mechanizm-4-kroki',
+   'dorosli-35-powrot-dorosli-14h-w-domu-i-pracy',
+  ],
+ },
+];
 
-export async function readAntkiCostCapCampaign(): Promise<AntkiCampaignStructure | null> {
+const ANTKI_CAMPAIGN_STATE_KEY = 'antki-pl-campaign-structure-v3';
+const ANTKI_DOROSLI_CAMPAIGN_STATE_KEY = 'antki-dorosli-campaign-structure-v1';
+
+export async function readAntkiCostCapCampaign(batch: 'dzieci' | 'dorosli' = 'dzieci'): Promise<AntkiCampaignStructure | null> {
+ const stateKey = batch === 'dorosli' ? ANTKI_DOROSLI_CAMPAIGN_STATE_KEY : ANTKI_CAMPAIGN_STATE_KEY;
  try {
-  const { value } = await inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(ANTKI_CAMPAIGN_STATE_KEY, {}));
-  return value?.structure || null;
+  const { value } = await inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(stateKey, {}));
+  if (!value?.structure) return null;
+  const s = value.structure;
+  if (!s.costCapPln || s.costCapPln === 35) {
+   void updateAntkiCampaignCostCap({ costCapPln: 30 }).catch(() => {});
+   return {
+    ...s,
+    costCapPln: 30,
+    bidAmountMinor: 3000,
+    groups: Array.isArray(s.groups) ? s.groups.map(g => ({ ...g, bidAmountMinor: 3000 })) : [],
+   };
+  }
+  return s;
  } catch {
   return null;
  }
 }
 
+export async function updateAntkiCampaignCostCap(raw: unknown = {}) {
+ const a = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const costCapPln = Number(a.costCapPln ?? 30);
+ if (!Number.isFinite(costCapPln) || costCapPln < 5 || costCapPln > 500) {
+  throw Error('Podaj prawidłowy Cost Per Result Goal (np. 30 PLN).');
+ }
+ const bidAmountMinor = Math.round(costCapPln * 100);
+ const updatedAdSets: { batch: string; group: string; adSetId: string; bidAmountMinor: number; ok: boolean; error?: string }[] = [];
+
+ const [dzieciRaw, dorosliRaw] = await Promise.all([
+  inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(ANTKI_CAMPAIGN_STATE_KEY, {})).catch(() => ({ value: {} as { structure?: AntkiCampaignStructure } })),
+  inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(ANTKI_DOROSLI_CAMPAIGN_STATE_KEY, {})).catch(() => ({ value: {} as { structure?: AntkiCampaignStructure } })),
+ ]);
+ const dzieciStruct = dzieciRaw.value?.structure || null;
+ const dorosliStruct = dorosliRaw.value?.structure || null;
+
+ const dzieciAdSets: Record<string, string> = {
+  ...ANTKI_CC35_DEFAULT_ADSETS,
+  ...Object.fromEntries((dzieciStruct?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!])),
+ };
+
+ for (const [code, adSetId] of Object.entries(dzieciAdSets)) {
+  if (!adSetId) continue;
+  try {
+   await directGraph(adSetId, { bid_amount: bidAmountMinor }, 'POST');
+   updatedAdSets.push({ batch: 'dzieci', group: code, adSetId, bidAmountMinor, ok: true });
+  } catch (e) {
+   updatedAdSets.push({
+    batch: 'dzieci',
+    group: code,
+    adSetId,
+    bidAmountMinor,
+    ok: false,
+    error: e instanceof Error ? e.message : 'Failed',
+   });
+  }
+ }
+
+ if (dorosliStruct?.groups?.length) {
+  for (const g of dorosliStruct.groups) {
+   if (!g.adSetId) continue;
+   try {
+    await directGraph(g.adSetId, { bid_amount: bidAmountMinor }, 'POST');
+    updatedAdSets.push({ batch: 'dorosli', group: g.code, adSetId: g.adSetId, bidAmountMinor, ok: true });
+   } catch (e) {
+    updatedAdSets.push({
+     batch: 'dorosli',
+     group: g.code,
+     adSetId: g.adSetId,
+     bidAmountMinor,
+     ok: false,
+     error: e instanceof Error ? e.message : 'Failed',
+    });
+   }
+  }
+ }
+
+ await Promise.all([
+  inOwnerWorkspace(() =>
+   mutate<{ structure?: AntkiCampaignStructure }, void>(ANTKI_CAMPAIGN_STATE_KEY, {}, s => {
+    if (s.structure) {
+     s.structure.costCapPln = costCapPln;
+     s.structure.bidAmountMinor = bidAmountMinor;
+     s.structure.groups = (s.structure.groups || []).map(g => ({ ...g, bidAmountMinor }));
+    }
+   }),
+  ).catch(() => {}),
+  inOwnerWorkspace(() =>
+   mutate<{ structure?: AntkiCampaignStructure }, void>(ANTKI_DOROSLI_CAMPAIGN_STATE_KEY, {}, s => {
+    if (s.structure) {
+     s.structure.costCapPln = costCapPln;
+     s.structure.bidAmountMinor = bidAmountMinor;
+     s.structure.groups = (s.structure.groups || []).map(g => ({ ...g, bidAmountMinor }));
+    }
+   }),
+  ).catch(() => {}),
+ ]);
+
+ return {
+  ok: true,
+  costCapPln,
+  bidAmountMinor,
+  updatedCount: updatedAdSets.filter(x => x.ok).length,
+  failedCount: updatedAdSets.filter(x => !x.ok).length,
+  updatedAdSets,
+ };
+}
+
 export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<AntkiCampaignStructure> {
  const a = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const batch: 'dzieci' | 'dorosli' = a.batch === 'dorosli' ? 'dorosli' : 'dzieci';
+ const blueprints = batch === 'dorosli' ? ANTKI_DOROSLI_ADSET_BLUEPRINTS : ANTKI_PL_ADSET_BLUEPRINTS;
+ const stateKey = batch === 'dorosli' ? ANTKI_DOROSLI_CAMPAIGN_STATE_KEY : ANTKI_CAMPAIGN_STATE_KEY;
  const accountId = numericId(String(a.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
- const costCapPln = Number(a.costCapPln ?? 35);
+ const costCapPln = Number(a.costCapPln ?? 30);
  if (!Number.isFinite(costCapPln) || costCapPln < 5 || costCapPln > 500) {
-  throw Error('Podaj prawidłowy Cost Per Result Goal (np. 30 lub 35 PLN).');
+  throw Error('Podaj prawidłowy Cost Per Result Goal (np. 30 PLN).');
  }
  const dailyBudgetPln = Number(a.dailyBudgetPln ?? 1500);
  if (!Number.isFinite(dailyBudgetPln) || dailyBudgetPln < 50 || dailyBudgetPln > 100000) {
@@ -222,11 +420,13 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  const campaignName =
   typeof a.campaignName === 'string' && a.campaignName.trim()
    ? a.campaignName.trim()
+   : batch === 'dorosli'
+   ? `ANTKI DOROSLI CC${costCapPln}`
    : `ANTKI CC${costCapPln}`;
 
  const forceNew = !!a.forceNew;
  if (!forceNew) {
-  const existing = await readAntkiCostCapCampaign();
+  const existing = await readAntkiCostCapCampaign(batch);
   if (existing && existing.accountId === accountId && existing.groups.every(g => g.adSetId)) {
    return existing;
   }
@@ -340,9 +540,9 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
 
  // 3. Create the 7 Thematic Cost Cap Ad Sets
  const createdGroups: AntkiAdSetGroup[] = [];
- const perAdSetBudgetMinor = Math.max(5000, Math.round(dailyBudgetMinor / ANTKI_PL_ADSET_BLUEPRINTS.length));
+ const perAdSetBudgetMinor = Math.max(5000, Math.round(dailyBudgetMinor / blueprints.length));
 
- for (const bp of ANTKI_PL_ADSET_BLUEPRINTS) {
+ for (const bp of blueprints) {
   const adSetName = bp.label;
   const basePayload: Record<string, unknown> = {
    name: adSetName,
@@ -415,7 +615,7 @@ export async function createAntkiCostCapCampaign(raw: unknown = {}): Promise<Ant
  };
 
  await inOwnerWorkspace(() =>
-  mutate<{ structure?: AntkiCampaignStructure }, void>(ANTKI_CAMPAIGN_STATE_KEY, {}, s => {
+  mutate<{ structure?: AntkiCampaignStructure }, void>(stateKey, {}, s => {
    s.structure = structure;
   }),
  );
@@ -463,47 +663,181 @@ export const ANTKI_CC35_DEFAULT_ADSETS: Record<string, string> = {
  ZIMA: '120249912194980300',
 };
 
+type SavedAntkiAdEntry = {
+ id?: string;
+ angleId?: string;
+ code?: string;
+ title?: string;
+ imageUrl?: string;
+ imageHash?: string;
+ secondImageUrl?: string;
+ secondImageHash?: string;
+ twoImageLayout?: 'side_by_side' | 'top_bottom';
+ combinedSplitImageUrl?: string;
+ combinedSplitImageHash?: string;
+ primaryText?: string;
+ headline?: string;
+ updatedAt?: number;
+ createdAt?: number;
+};
+
+type SavedAntkiState = {
+ ads?: SavedAntkiAdEntry[];
+ customImages?: { id: string; url: string; label: string; imageHash?: string }[];
+ deletedImageIds?: string[];
+};
+
+async function readAntkiSavedLibraryState(): Promise<SavedAntkiState> {
+ const candidates: SavedAntkiState[] = [];
+ try {
+  const { value } = await readState<SavedAntkiState>('antki-pl-library-v9-argon', {});
+  if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
+ } catch {}
+ try {
+  const { value } = await inOwnerWorkspace(() => readState<SavedAntkiState>('antki-pl-library-v9-argon', {}));
+  if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
+ } catch {}
+ try {
+  const { accountRegistry } = await import('./account-repository');
+  const { inWorkspace } = await import('./account-context');
+  const reg = await accountRegistry();
+  for (const u of Object.values(reg.users || {})) {
+   try {
+    const { value } = await inWorkspace(u, () => readState<SavedAntkiState>('antki-pl-library-v9-argon', {}));
+    if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
+   } catch {}
+  }
+ } catch {}
+ if (!candidates.length) return { ads: [], customImages: [], deletedImageIds: [] };
+ candidates.sort((a, b) => {
+  const aMax = Math.max(0, ...(a.ads || []).map(x => x.updatedAt || 0));
+  const bMax = Math.max(0, ...(b.ads || []).map(x => x.updatedAt || 0));
+  return bMax - aMax;
+ });
+ return candidates[0];
+}
+
 export async function inspectAntkiTargetAssets(accountId = '1109284831182252', campaignId = '120249912191200300') {
- const [adsRes, pagesRes, imagesRes, campSetsRes] = await Promise.all([
+ const { ANTKI_PL_IMAGE_LIBRARY, ANTKI_PL_PRESET_ANGLES, getDefaultImageForAngle } = await import('./antki-pl');
+ const savedState = await readAntkiSavedLibraryState();
+ const savedByAngle = new Map((savedState.ads || []).filter(a => a?.angleId).map(a => [a.angleId as string, a]));
+ const customImages = savedState.customImages || [];
+ const allLibrary = [...customImages, ...ANTKI_PL_IMAGE_LIBRARY];
+
+ const angleImageAssignments = ANTKI_PL_PRESET_ANGLES.map(preset => {
+  const saved = savedByAngle.get(preset.id);
+  const defaultImg = getDefaultImageForAngle(preset.number);
+  const imageUrl = saved?.imageUrl || preset.defaultImageUrl || defaultImg.url;
+  const libItem = allLibrary.find(i => i.url === imageUrl);
+  const imageHash =
+   saved?.imageHash ||
+   libItem?.imageHash ||
+   preset.defaultImageHash ||
+   defaultImg.imageHash;
+  return {
+   adNumber: preset.number,
+   adName: preset.code.startsWith('D') ? preset.code : `ad ${preset.number}`,
+   angleId: preset.id,
+   title: preset.title,
+   imageUrl: imageUrl?.startsWith('data:') ? 'custom-data-url' : imageUrl,
+   secondImageUrl: saved?.secondImageUrl,
+   imageLabel: libItem?.label || (imageUrl?.startsWith('data:') ? 'Custom uploaded image' : imageUrl),
+   imageHash,
+   wasCustomized: Boolean(saved?.imageUrl && saved.imageUrl !== defaultImg.url),
+   updatedAt: saved?.updatedAt || saved?.createdAt || 0,
+  };
+ });
+
+ const [campAdsRes, acc1AdsPages, acc2AdsPages] = await Promise.all([
   directGraph<{ data?: Record<string, unknown>[] }>(
-   `act_${accountId}/ads`,
+   `${campaignId}/ads`,
    {
-    fields: 'id,name,status,adset_id,campaign_id,creative{id,name,object_story_spec,asset_feed_spec,url_tags,image_hash,thumbnail_url}',
-    limit: 30,
+    fields: 'id,name,status,adset_id,creative{id,name,object_story_spec,image_hash,thumbnail_url}',
+    limit: 100,
    },
    'GET',
   ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
   directGraph<{ data?: Record<string, unknown>[] }>(
-   `act_${accountId}/promote_pages`,
-   { fields: 'id,name', limit: 25 },
+   'act_1109284831182252/adcreatives',
+   {
+    fields: 'id,name,object_story_spec',
+    limit: 100,
+   },
    'GET',
   ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
   directGraph<{ data?: Record<string, unknown>[] }>(
-   `act_${accountId}/adimages`,
-   { fields: 'hash,name,url,created_time', limit: 25 },
-   'GET',
-  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
-  directGraph<{ data?: Record<string, unknown>[] }>(
-   `${campaignId}/adsets`,
-   { fields: 'id,name,status,bid_amount,bid_strategy', limit: 25 },
+   'act_991993289421136/adcreatives',
+   {
+    fields: 'id,name,object_story_spec',
+    limit: 100,
+   },
    'GET',
   ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
  ]);
 
+ const summarizeAccountPages = (list: Record<string, unknown>[]) => {
+  const map = new Map<string, { count: number; igIds: Set<string>; sampleCreative: string }>();
+  for (const c of list) {
+   const spec = c?.object_story_spec as { page_id?: string; instagram_user_id?: string; instagram_actor_id?: string } | undefined;
+   const pid = spec?.page_id ? String(spec.page_id) : '';
+   if (!pid) continue;
+   if (!map.has(pid)) map.set(pid, { count: 0, igIds: new Set(), sampleCreative: String(c.name || '') });
+   const entry = map.get(pid)!;
+   entry.count++;
+   const ig = spec?.instagram_user_id || spec?.instagram_actor_id;
+   if (ig) entry.igIds.add(String(ig));
+  }
+  return Array.from(map.entries()).map(([pageId, v]) => ({
+   pageId,
+   creativesCount: v.count,
+   instagramUserIds: [...v.igIds],
+   sampleCreative: v.sampleCreative,
+  }));
+ };
+
  return {
   accountId,
   campaignId,
-  campaignAdSets: (campSetsRes as { data?: unknown })?.data || campSetsRes,
-  promotePages: (pagesRes as { data?: unknown })?.data || pagesRes,
-  recentImages: (imagesRes as { data?: unknown })?.data || imagesRes,
-  recentAds: (adsRes as { data?: unknown })?.data || adsRes,
+  acc1Pages: summarizeAccountPages((acc1AdsPages as { data?: Record<string, unknown>[] })?.data || []),
+  acc2Pages: summarizeAccountPages((acc2AdsPages as { data?: Record<string, unknown>[] })?.data || []),
+  customImagesCount: customImages.length,
+  customImages: customImages.map(c => ({ id: c.id, label: c.label, imageHash: c.imageHash })),
+  deletedImageIds: savedState.deletedImageIds || [],
+  angleImageAssignments,
+  campaignAds: (campAdsRes as { data?: unknown })?.data || campAdsRes,
  };
 }
 
 export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const opts = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const batch: 'dzieci' | 'dorosli' = opts.batch === 'dorosli' ? 'dorosli' : 'dzieci';
  const accountId = numericId(String(opts.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
- const campaignId = numericId(String(opts.campaignId || '120249912191200300'), 'campaign');
+
+ let dorosliStructure: AntkiCampaignStructure | null = null;
+ if (batch === 'dorosli') {
+  dorosliStructure = await readAntkiCostCapCampaign('dorosli');
+  if ((!dorosliStructure || dorosliStructure.accountId !== accountId) && opts.autoCreateCampaign !== false) {
+   dorosliStructure = await createAntkiCostCapCampaign({
+    batch: 'dorosli',
+    accountId,
+    campaignName: typeof opts.campaignName === 'string' && opts.campaignName.trim() ? opts.campaignName.trim() : 'ANTKI DOROSLI CC30',
+    costCapPln: Number(opts.costCapPln ?? 30),
+    dailyBudgetPln: Number(opts.dailyBudgetPln ?? 1500),
+    forceNew: false,
+   });
+  }
+ }
+
+ const targetCostCapPln = Number(opts.costCapPln ?? 30);
+ const targetBidMinor = Math.round((Number.isFinite(targetCostCapPln) && targetCostCapPln > 0 ? targetCostCapPln : 30) * 100);
+
+ const campaignId = numericId(
+  String(
+   opts.campaignId ||
+    (batch === 'dorosli' && dorosliStructure?.campaignId ? dorosliStructure.campaignId : '120249912191200300'),
+  ),
+  'campaign',
+ );
  const filterGroup = typeof opts.group === 'string' && opts.group.trim() ? opts.group.trim().toUpperCase() : null;
  const filterAngleIds = Array.isArray(opts.angleIds)
   ? new Set(opts.angleIds.map(id => String(id).trim()).filter(Boolean))
@@ -511,22 +845,35 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const publishStatus = opts.status === 'ACTIVE' ? 'ACTIVE' : 'PAUSED';
  const updateExisting = Boolean(opts.updateExisting);
 
- let pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : '798916893308685';
- let instagramUserId =
+ const defaultPageId = batch === 'dorosli' ? '866702399857726' : '798916893308685';
+ const pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : defaultPageId;
+ const KNOWN_PAGE_IG_MAP: Record<string, string> = {
+  '866702399857726': '17841477743222560', // Centrum Dobrego Kroku
+  '945290751994002': '17841446201609005', // Dziennik Zdrowego Ciała
+  '798916893308685': '17841473314157729', // Porady Mamy Gosi
+  '752135021308884': '17841472034688013', // Orthomax Sklep
+  '832791273240857': '17841476823809834', // Orthomax
+  '875160819014767': '17841478897452356', // Orthomax.pl
+  '869142929609188': '17841477981501699', // Ortomax
+  '1204366092764321': '17841439381913725', // Dr. Magdalena Rokicińska
+  '1339041252618036': '17841437463666297', // Dr n. med. Janusz Skrzypiński
+  '1194345203770949': '17841412233487287', // Iwona Kożuchowska
+ };
+ const instagramUserId =
   typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
    ? opts.instagramUserId.trim()
-   : pageId === '798916893308685'
-   ? '17841473314157729'
-   : '';
- let imageHash = typeof opts.imageHash === 'string' && opts.imageHash.trim() ? opts.imageHash.trim() : '';
- let url = typeof opts.url === 'string' && opts.url.startsWith('https://') ? opts.url.trim() : 'https://orthomax.pl/products/orthomax-stepmax';
- let urlTags = typeof opts.urlTags === 'string' ? opts.urlTags.trim() : '';
+   : KNOWN_PAGE_IG_MAP[pageId] || '';
+ const imageHash = typeof opts.imageHash === 'string' && opts.imageHash.trim() ? opts.imageHash.trim() : '';
+ const url = typeof opts.url === 'string' && opts.url.startsWith('https://') ? opts.url.trim() : 'https://orthomax.pl/products/orthomax-stepmax';
+ const urlTags = typeof opts.urlTags === 'string' ? opts.urlTags.trim() : '';
  const cta: 'LEARN_MORE' | 'SHOP_NOW' = opts.cta === 'SHOP_NOW' ? 'SHOP_NOW' : 'LEARN_MORE';
 
  const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
  const { ANTKI_PL_IMAGE_LIBRARY, getDefaultImageForAngle } = await import('./antki-pl');
- const { value: savedState } = await readState<{ ads?: { angleId?: string; imageUrl?: string; imageHash?: string; primaryText?: string; headline?: string }[] }>('antki-pl-library-v9-argon', { ads: [] });
+ const savedState = await readAntkiSavedLibraryState();
  const savedAds = Array.isArray(savedState?.ads) ? savedState.ads : [];
+ const customImages = Array.isArray(savedState?.customImages) ? savedState.customImages : [];
+ const allLibrary = [...customImages, ...ANTKI_PL_IMAGE_LIBRARY];
  const savedByAngleId = new Map(
   savedAds
    .filter(a => a && typeof a.angleId === 'string')
@@ -536,18 +883,61 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const allAds = buildAllArgonPrewrittenAds(url);
  const adByAngleId = new Map(allAds.map((ad, idx) => [ad.angleId, { ad, globalIndex: idx + 1 }]));
 
- // Single GET for all existing ads in the campaign
- const existingByAdSetAndName = new Map<string, string>();
- if (!opts.skipExistingCheck) {
-  const existingAdsRes = await directGraph<{ data?: { id?: string; name?: string; adset_id?: string; status?: string }[] }>(
-   `${campaignId}/ads`,
-   { fields: 'id,name,adset_id,status', limit: 100 },
-   'GET',
-  );
-  for (const ea of existingAdsRes.data || []) {
-   if (ea.id && ea.name && ea.adset_id && ea.status !== 'DELETED') {
-    existingByAdSetAndName.set(`${ea.adset_id}:${ea.name.trim()}`, String(ea.id));
+ // Pre-populate with known ANTKI CC35 ad IDs so updates work even when GET campaign/ads is rate-limited
+ const ANTKI_CC35_KNOWN_ADS: Record<string, string> = {
+  '120249912191690300:ad 1': '120249912257300300',
+  '120249912191690300:ad 2': '120249912257410300',
+  '120249912191690300:ad 3': '120249912257660300',
+  '120249912191690300:ad 4': '120249912258250300',
+  '120249912191690300:ad 5': '120249912258470300',
+  '120249912192250300:ad 6': '120249912260070300',
+  '120249912192250300:ad 7': '120249912260150300',
+  '120249912192250300:ad 8': '120249912260550300',
+  '120249912192250300:ad 9': '120249912260640300',
+  '120249912192250300:ad 10': '120249912260750300',
+  '120249912192790300:ad 11': '120249912270960300',
+  '120249912192790300:ad 12': '120249912271160300',
+  '120249912192790300:ad 13': '120249912271350300',
+  '120249912192790300:ad 14': '120249912272110300',
+  '120249912192790300:ad 15': '120249912272490300',
+  '120249912193360300:ad 16': '120249912272610300',
+  '120249912193360300:ad 17': '120249912272900300',
+  '120249912193360300:ad 18': '120249912273250300',
+  '120249912193360300:ad 19': '120249912273760300',
+  '120249912193360300:ad 20': '120249912274450300',
+  '120249912193940300:ad 21': '120249912275060300',
+  '120249912193940300:ad 22': '120249912275730300',
+  '120249912193940300:ad 23': '120249912276570300',
+  '120249912193940300:ad 24': '120249912276700300',
+  '120249912193940300:ad 25': '120249912276880300',
+  '120249912194700300:ad 26': '120249912278840300',
+  '120249912194700300:ad 27': '120249912279230300',
+  '120249912194700300:ad 28': '120249912279470300',
+  '120249912194700300:ad 29': '120249912279810300',
+  '120249912194700300:ad 30': '120249912280140300',
+  '120249912194980300:ad 31': '120249912281980300',
+  '120249912194980300:ad 32': '120249912282920300',
+  '120249912194980300:ad 33': '120249912283460300',
+  '120249912194980300:ad 34': '120249912283990300',
+  '120249912194980300:ad 35': '120249912284630300',
+ };
+ const existingByAdSetAndName = new Map<string, string>(
+  campaignId === '120249912191200300' ? Object.entries(ANTKI_CC35_KNOWN_ADS) : [],
+ );
+ if (!opts.skipExistingCheck && existingByAdSetAndName.size === 0) {
+  try {
+   const existingAdsRes = await directGraph<{ data?: { id?: string; name?: string; adset_id?: string; status?: string }[] }>(
+    `${campaignId}/ads`,
+    { fields: 'id,name,adset_id,status', limit: 100 },
+    'GET',
+   );
+   for (const ea of existingAdsRes.data || []) {
+    if (ea.id && ea.name && ea.adset_id && ea.status !== 'DELETED') {
+     existingByAdSetAndName.set(`${ea.adset_id}:${ea.name.trim()}`, String(ea.id));
+    }
    }
+  } catch {
+   // Fallback to known ad IDs
   }
  }
 
@@ -556,6 +946,8 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   adSetId: string;
   adName: string;
   angleId: string;
+  imageUrl?: string;
+  imageLabel?: string;
   imageHash?: string;
   ok: boolean;
   skipped?: boolean;
@@ -565,16 +957,28 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   error?: string;
  }[] = [];
 
- for (const bp of ANTKI_PL_ADSET_BLUEPRINTS) {
+ const activeBlueprints = batch === 'dorosli' ? ANTKI_DOROSLI_ADSET_BLUEPRINTS : ANTKI_PL_ADSET_BLUEPRINTS;
+ const adSetIdMap: Record<string, string> =
+  batch === 'dorosli'
+   ? Object.fromEntries((dorosliStructure?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!]))
+   : ANTKI_CC35_DEFAULT_ADSETS;
+
+ for (const bp of activeBlueprints) {
   if (filterGroup && bp.code !== filterGroup && bp.label !== filterGroup) continue;
-  const adSetId = ANTKI_CC35_DEFAULT_ADSETS[bp.code];
+  const adSetId = adSetIdMap[bp.code];
   if (!adSetId) continue;
+
+  try {
+   await directGraph(adSetId, { bid_amount: targetBidMinor }, 'POST');
+  } catch {
+   // Continue even if adset bid update is skipped
+  }
 
   for (const angleId of bp.angleIds) {
    if (filterAngleIds && !filterAngleIds.has(angleId)) continue;
    const entry = adByAngleId.get(angleId);
    if (!entry) continue;
-   const adName = `ad ${entry.globalIndex}`;
+   const adName = batch === 'dorosli' ? entry.ad.code : `ad ${entry.globalIndex}`;
    const alreadyId = existingByAdSetAndName.get(`${adSetId}:${adName}`);
    if (alreadyId && !updateExisting) {
     createdResults.push({
@@ -591,40 +995,43 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
 
    const saved = savedByAngleId.get(angleId);
    const defaultImg = getDefaultImageForAngle(entry.globalIndex);
-   const resolvedImageUrl = saved?.imageUrl || defaultImg?.url || '';
-   const libMatch = resolvedImageUrl ? ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === resolvedImageUrl) : undefined;
+   const isLegacyGroupPlaceholder =
+    [18, 20, 22, 25, 26, 27, 29, 30, 32, 33, 34, 35].includes(entry.globalIndex) &&
+    typeof saved?.imageUrl === 'string' &&
+    [
+     '/antki-pl-images/ai-mit-16-wojna-o-cwiczenia.jpg',
+     '/antki-pl-images/ai-ryciak-21-gabinet-test-luku.jpg',
+     '/antki-pl-images/ai-zal-26-po-operacji-kule.jpg',
+     '/antki-pl-images/ai-zima-31-dorosli-zimowe-botki.jpg',
+    ].includes(saved.imageUrl);
+   const rawResolvedImageUrl = (!isLegacyGroupPlaceholder && saved?.imageUrl) || defaultImg?.url || '';
+   const resolvedImageUrl =
+    rawResolvedImageUrl === '/antki-pl-images/lib-antki-30-drzwi-oddzial-ratunkowy.jpg' ||
+    saved?.imageHash === '028fa0e2022ce9974e28e33d1fbfba17'
+     ? '/antki-pl-images/lib-antki-drzwi-sor-pl.jpg'
+     : rawResolvedImageUrl;
+   const libMatch = resolvedImageUrl ? allLibrary.find(i => i.url === resolvedImageUrl) : undefined;
    let resolvedImageHash =
     imageHash ||
-    (typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
     libMatch?.imageHash ||
+    (!isLegacyGroupPlaceholder && typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
     defaultImg?.imageHash ||
     '158deebd0e272662e14182e8f8e3753b';
+   if (resolvedImageHash === '028fa0e2022ce9974e28e33d1fbfba17') {
+    resolvedImageHash = '69a46c3803572f10b92b292bb3991967';
+   }
+   const isUnmodifiedArgonCopy = !saved?.id || saved.id.startsWith('antek-pl-argon-');
    const resolvedPrimaryText =
-    typeof saved?.primaryText === 'string' && saved.primaryText.trim() ? saved.primaryText : entry.ad.primaryText;
+    !isUnmodifiedArgonCopy && typeof saved?.primaryText === 'string' && saved.primaryText.trim()
+     ? saved.primaryText
+     : entry.ad.primaryText;
    const resolvedHeadline =
-    typeof saved?.headline === 'string' && saved.headline.trim() ? saved.headline : entry.ad.headline;
+    !isUnmodifiedArgonCopy && typeof saved?.headline === 'string' && saved.headline.trim()
+     ? saved.headline
+     : entry.ad.headline;
 
    try {
-    if (resolvedImageUrl.startsWith('/antki-pl-images/ai-')) {
-     try {
-      const fs = await import('node:fs');
-      const path = await import('node:path');
-      const localPath = path.join(process.cwd(), 'public', resolvedImageUrl.replace(/^\//, ''));
-      if (fs.existsSync(localPath)) {
-       const bytes = fs.readFileSync(localPath).toString('base64');
-       const fileName = path.basename(localPath);
-       const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
-        `act_${accountId}/adimages`,
-        { bytes, name: fileName },
-        'POST',
-       );
-       const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
-       if (uploadedHash) resolvedImageHash = uploadedHash;
-      }
-     } catch {
-      // Fallback to existing resolvedImageHash
-     }
-    } else if (resolvedImageUrl.startsWith('data:image/') && !saved?.imageHash) {
+    if (!libMatch?.imageHash && resolvedImageUrl.startsWith('data:image/') && !saved?.imageHash) {
      try {
       const m = resolvedImageUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
       if (m?.[1]) {
@@ -641,23 +1048,51 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      }
     }
 
-    const cleanCreative = {
-     name: `antki-cc35-gosi-${entry.globalIndex}`,
+    const buildSpec = (hash: string, withIg = true) => ({
+     name: `antki-cc35-gosi-${entry.globalIndex}-${Date.now()}`,
      object_story_spec: {
       page_id: pageId,
-      ...(instagramUserId ? { instagram_user_id: instagramUserId } : {}),
+      ...(withIg && instagramUserId ? { instagram_user_id: instagramUserId } : {}),
       link_data: {
        link: url,
-       image_hash: resolvedImageHash,
+       image_hash: hash,
        message: resolvedPrimaryText,
        name: resolvedHeadline,
        call_to_action: { type: cta, value: { link: url } },
       },
      },
      ...(urlTags ? { url_tags: urlTags } : {}),
-    };
+    });
 
-    const cr = await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, cleanCreative, 'POST');
+    let cr: { id: string };
+    try {
+     cr = await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, buildSpec(resolvedImageHash, true), 'POST');
+    } catch (firstErr) {
+     const errText = firstErr instanceof Error ? firstErr.message : '';
+     if (resolvedImageUrl.startsWith('/antki-pl-images/')) {
+      try {
+       const fs = await import('node:fs');
+       const path = await import('node:path');
+       const localPath = path.join(process.cwd(), 'public', resolvedImageUrl.replace(/^\//, ''));
+       if (fs.existsSync(localPath)) {
+        const bytes = fs.readFileSync(localPath).toString('base64');
+        const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+         `act_${accountId}/adimages`,
+         { bytes, name: path.basename(localPath) },
+         'POST',
+        );
+        const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+        if (uploadedHash) resolvedImageHash = uploadedHash;
+       }
+      } catch {}
+     }
+     cr = await directGraph<{ id: string }>(
+      `act_${accountId}/adcreatives`,
+      buildSpec(resolvedImageHash, !errText.includes('Instagram')),
+      'POST',
+     );
+    }
+
     if (alreadyId && updateExisting) {
      await directGraph<{ success?: boolean }>(
       alreadyId,
@@ -671,6 +1106,8 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
       adSetId,
       adName,
       angleId,
+      imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
+      imageLabel: libMatch?.label || resolvedImageUrl,
       imageHash: resolvedImageHash,
       ok: true,
       updated: true,
@@ -694,11 +1131,68 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
       adSetId,
       adName,
       angleId,
+      imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
+      imageLabel: libMatch?.label || resolvedImageUrl,
       imageHash: resolvedImageHash,
       ok: true,
       adId: createdAd.id,
       creativeId: cr.id,
      });
+    }
+
+    // If a 2nd separate A/B test image (secondImageUrl) is configured on this angle, create/update a 2nd separate ad ("ad N B") in the same AdSet
+    if (saved?.secondImageUrl && saved.secondImageUrl.trim()) {
+     const secondUrl = saved.secondImageUrl.trim();
+     const secondLibMatch = allLibrary.find(i => i.url === secondUrl);
+     const secondHash = secondLibMatch?.imageHash || saved.secondImageHash?.trim();
+     if (secondHash) {
+      const adNameB = `${adName} B`;
+      const alreadyIdB = existingByAdSetAndName.get(`${adSetId}:${adNameB}`);
+      const crB = await directGraph<{ id: string }>(
+       `act_${accountId}/adcreatives`,
+       buildSpec(secondHash, true),
+       'POST',
+      );
+      if (alreadyIdB && updateExisting) {
+       await directGraph<{ success?: boolean }>(alreadyIdB, { creative: { creative_id: crB.id } }, 'POST');
+       createdResults.push({
+        group: bp.label,
+        adSetId,
+        adName: adNameB,
+        angleId,
+        imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
+        imageLabel: secondLibMatch?.label || secondUrl,
+        imageHash: secondHash,
+        ok: true,
+        updated: true,
+        adId: alreadyIdB,
+        creativeId: crB.id,
+       });
+      } else if (!alreadyIdB) {
+       const createdAdB = await directGraph<{ id: string }>(
+        `act_${accountId}/ads`,
+        {
+         name: adNameB,
+         adset_id: adSetId,
+         creative: { creative_id: crB.id },
+         status: publishStatus,
+        },
+        'POST',
+       );
+       createdResults.push({
+        group: bp.label,
+        adSetId,
+        adName: adNameB,
+        angleId,
+        imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
+        imageLabel: secondLibMatch?.label || secondUrl,
+        imageHash: secondHash,
+        ok: true,
+        adId: createdAdB.id,
+        creativeId: crB.id,
+       });
+      }
+     }
     }
     await new Promise(r => setTimeout(r, 1200));
    } catch (e) {
@@ -802,6 +1296,4 @@ export async function uploadCustomAntkiImageToMeta(params: {
  const first = upRes?.images ? Object.values(upRes.images)[0] : undefined;
  return { hash: first?.hash, url: first?.url };
 }
-
-
 

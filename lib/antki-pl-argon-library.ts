@@ -4,6 +4,12 @@ import { ANTKI_PL_COPY_PART3 } from './antki-pl-copy-part3';
 import { ANTKI_PL_COPY_PART4 } from './antki-pl-copy-part4';
 import { ANTKI_PL_COPY_PART5 } from './antki-pl-copy-part5';
 import { ANTKI_PL_COPY_PART6 } from './antki-pl-copy-part6';
+import { ANTKI_DOROSLI_COPY_PART1 } from './antki-dorosli-copy-part1';
+import { ANTKI_DOROSLI_COPY_PART2 } from './antki-dorosli-copy-part2';
+import { ANTKI_DOROSLI_COPY_PART3 } from './antki-dorosli-copy-part3';
+import { ANTKI_DOROSLI_COPY_PART4 } from './antki-dorosli-copy-part4';
+import { ANTKI_DOROSLI_COPY_PART5 } from './antki-dorosli-copy-part5';
+import { ANTKI_DOROSLI_COPY_PART6 } from './antki-dorosli-copy-part6';
 import {
   ANTKI_PL_PRESET_ANGLES,
   ORTHOMAX_PL_DEFAULT_URL,
@@ -22,6 +28,12 @@ export const ANTKI_PL_ARGON_AUTHORED_COPY: Record<
   ...ANTKI_PL_COPY_PART4,
   ...ANTKI_PL_COPY_PART5,
   ...ANTKI_PL_COPY_PART6,
+  ...ANTKI_DOROSLI_COPY_PART1,
+  ...ANTKI_DOROSLI_COPY_PART2,
+  ...ANTKI_DOROSLI_COPY_PART3,
+  ...ANTKI_DOROSLI_COPY_PART4,
+  ...ANTKI_DOROSLI_COPY_PART5,
+  ...ANTKI_DOROSLI_COPY_PART6,
 };
 
 export function buildAllArgonPrewrittenAds(
@@ -56,6 +68,8 @@ export function buildAllArgonPrewrittenAds(
       cta: 'LEARN_MORE',
       imageUrl: angle.defaultImageUrl || defaultImg.url,
       imageHash: angle.defaultImageHash || defaultImg.imageHash,
+      secondImageUrl: angle.defaultSecondImageUrl,
+      secondImageHash: angle.defaultSecondImageHash,
       wordCount: audited.wordCount,
       characterCount: audited.characterCount,
       auditPassed: audited.auditPassed,

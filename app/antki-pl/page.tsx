@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
   getDefaultImageForAngle,
@@ -87,6 +88,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
+  const [activeBrand, setActiveBrand] = useState<'feliora' | 'orthomax'>('feliora');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
   const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
@@ -209,7 +211,7 @@ export default function AntkiPlPage() {
       if (!res.ok) throw new Error(data.error || 'Błąd ładowania Antki PL.');
       let loadedAds: AntkiPlGeneratedAd[] = Array.isArray(data.savedAds) ? data.savedAds : [];
       try {
-        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v2') : null;
+        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v3_kie_dorosli') : null;
         if (rawLocal) {
           const parsedLocal = JSON.parse(rawLocal) as Record<
             string,
@@ -655,10 +657,10 @@ export default function AntkiPlPage() {
     ) => {
       try {
         if (typeof window === 'undefined') return;
-        const raw = window.localStorage.getItem('antki_pl_saved_images_v2');
+        const raw = window.localStorage.getItem('antki_pl_saved_images_v3_kie_dorosli');
         const current = raw ? JSON.parse(raw) : {};
         const merged = { ...current, ...updates };
-        window.localStorage.setItem('antki_pl_saved_images_v2', JSON.stringify(merged));
+        window.localStorage.setItem('antki_pl_saved_images_v3_kie_dorosli', JSON.stringify(merged));
       } catch {
         // Ignore storage errors
       }
@@ -1533,18 +1535,23 @@ export default function AntkiPlPage() {
   }, [activeAngle, activeAd, imageLibrary]);
 
   const activeResolvedSecondImage = useMemo(() => {
-    if (!activeAngle || !activeAd?.secondImageUrl) return null;
-    const secondUrl = activeAd.secondImageUrl;
+    if (!activeAngle) return null;
+    const secondUrl = activeAd?.secondImageUrl ?? activeAngle.defaultSecondImageUrl;
+    if (!secondUrl) return null;
     return (
       imageLibrary.find(item => item.url === secondUrl) || {
         id: 'custom-assigned-2',
         url: secondUrl,
         label: `2. kreacja (#${activeAngle.number})`,
         source: (secondUrl.startsWith('data:image/') ? 'custom' : 'ai') as 'ai' | 'meta' | 'custom',
-        imageHash: activeAd?.secondImageHash,
+        imageHash: activeAd?.secondImageHash || activeAngle.defaultSecondImageHash,
       }
     );
   }, [activeAngle, activeAd, imageLibrary]);
+
+  if (activeBrand === 'feliora') {
+    return <FelioraPlWorkspace onSwitchToOrthomax={() => setActiveBrand('orthomax')} />;
+  }
 
   return (
     <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
@@ -1556,11 +1563,28 @@ export default function AntkiPlPage() {
         style={{ display: 'none' }}
         onChange={e => void handleUploadCustomImageFiles(e.target.files)}
       />
-      <p className="crumb">
+      <p className="crumb" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <a href="/">← Home (Szekspir)</a> · <a href="/uploader">Szekspir Ads (Uploader) ↗</a> ·{' '}
         <a href="/profile">
           Mózg AI ({brain.provider}: {brain.model}) ↗
         </a>
+        <button
+          type="button"
+          onClick={() => setActiveBrand('feliora')}
+          style={{
+            marginLeft: 'auto',
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '7px 14px',
+            fontSize: 13,
+            fontWeight: 800,
+            cursor: 'pointer',
+          }}
+        >
+          🐾 Przełącz na FELIORA PL (Batch 1: 25 Antków Koty — 5 Stages) →
+        </button>
       </p>
 
       {/* NAGŁÓWEK Z CZYSTYM KONTRASTEM + SZYBKI WYBÓR FANPAGE'A */}

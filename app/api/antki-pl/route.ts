@@ -60,6 +60,20 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
       imageHash: preset?.defaultImageHash || defaultImg.imageHash,
     };
   }
+  if (
+    angleNum >= 36 &&
+    preset?.defaultImageUrl?.includes('/kie-dorosli-') &&
+    nextAd.imageUrl &&
+    !nextAd.imageUrl.includes('/kie-dorosli-') &&
+    !nextAd.imageUrl.startsWith('data:image/') &&
+    !nextAd.imageUrl.startsWith('http')
+  ) {
+    nextAd = {
+      ...nextAd,
+      imageUrl: preset.defaultImageUrl,
+      imageHash: preset.defaultImageHash,
+    };
+  }
   if (!nextAd.imageUrl) {
     const defaultImg = getDefaultImageForAngle(angleNum);
     nextAd = {
@@ -73,7 +87,13 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
       nextAd = { ...nextAd, imageHash: matchedLib.imageHash };
     }
   }
-  if (nextAd.secondImageUrl) {
+  if (!nextAd.secondImageUrl && preset?.defaultSecondImageUrl) {
+    nextAd = {
+      ...nextAd,
+      secondImageUrl: preset.defaultSecondImageUrl,
+      secondImageHash: preset.defaultSecondImageHash,
+    };
+  } else if (nextAd.secondImageUrl) {
     const matchedSecondLib = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === nextAd.secondImageUrl);
     if (matchedSecondLib?.imageHash && matchedSecondLib.imageHash !== nextAd.secondImageHash) {
       nextAd = { ...nextAd, secondImageHash: matchedSecondLib.imageHash };
@@ -515,7 +535,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       let productRefKieUrl: string | undefined;
       try {
-        productRefKieUrl = await uploadPublicReferenceToKie('/antki-pl-images/meta-collage-4x5.jpg');
+        productRefKieUrl = await uploadPublicReferenceToKie('/antki-pl-images/lib-antki-kolaz-ugc-4x5.jpg');
       } catch {
         productRefKieUrl = undefined;
       }
