@@ -6,11 +6,35 @@ export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const privateHeaders={'Cache-Control':'no-store, private','Referrer-Policy':'no-referrer'};
 export async function GET(request:Request){
- const sync=new URL(request.url).searchParams.get('sync');
+ const u=new URL(request.url);
+ const sync=u.searchParams.get('sync');
  if(sync==='cleanup-antki'){
   try{
    const {cleanupDuplicateAntkiCampaigns}=await import('@/lib/meta-adsets');
    return NextResponse.json(await cleanupDuplicateAntkiCampaigns('120249912191200300','1109284831182252'),{headers:privateHeaders});
+  }catch(e){return NextResponse.json({ok:false,error:e instanceof Error?e.message:'Failed'},{status:500,headers:privateHeaders});}
+ }
+ if(sync==='inspect-antki'){
+  try{
+   const {inspectAntkiTargetAssets}=await import('@/lib/meta-adsets');
+   return NextResponse.json(await inspectAntkiTargetAssets('1109284831182252','120249912191200300'),{headers:privateHeaders});
+  }catch(e){return NextResponse.json({ok:false,error:e instanceof Error?e.message:'Failed'},{status:500,headers:privateHeaders});}
+ }
+ if(sync==='populate-antki'){
+  try{
+   const {populateAntkiAdsInCampaign}=await import('@/lib/meta-adsets');
+   return NextResponse.json(await populateAntkiAdsInCampaign({
+    group:u.searchParams.get('group')||undefined,
+    pageId:u.searchParams.get('pageId')||'798916893308685',
+    instagramUserId:u.searchParams.get('instagramUserId')||'17841473314157729',
+    imageHash:u.searchParams.get('imageHash')||undefined,
+    url:u.searchParams.get('url')||undefined,
+    cta:u.searchParams.get('cta')||undefined,
+    status:u.searchParams.get('status')||undefined,
+    urlTags:u.searchParams.get('urlTags')||undefined,
+    updateExisting:u.searchParams.get('updateExisting')!=='0',
+    skipExistingCheck:u.searchParams.get('skipCheck')==='1',
+   }),{headers:privateHeaders});
   }catch(e){return NextResponse.json({ok:false,error:e instanceof Error?e.message:'Failed'},{status:500,headers:privateHeaders});}
  }
  try{const state=await checkedSession(request.headers.get('cookie'),false);return NextResponse.json({signedIn:true,onboarding:!ownerEmail(state.user.email||''),enforced:mfaRequired(),email:state.user.email,needsPassword:state.needsPassword&&(!hasMfa(state.user)||state.aal==='aal2'),complete:state.complete,twoFactor:state.requiresSecondFactor,factorId:state.user.factors?.find(f=>f.factor_type==='totp'&&f.status==='verified')?.id},{headers:{...privateHeaders,...(state.changed?{'Set-Cookie':sessionCookie(tokens(state.session),state.until,state.needsPassword)}:{})}});}

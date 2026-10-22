@@ -87,6 +87,20 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
       nextAd = { ...nextAd, imageHash: matchedLib.imageHash };
     }
   }
+  if (
+    angleNum >= 36 &&
+    preset?.defaultSecondImageUrl?.includes('/kie-dorosli-') &&
+    nextAd.secondImageUrl &&
+    !nextAd.secondImageUrl.includes('/kie-dorosli-') &&
+    !nextAd.secondImageUrl.startsWith('data:image/') &&
+    !nextAd.secondImageUrl.startsWith('http')
+  ) {
+    nextAd = {
+      ...nextAd,
+      secondImageUrl: preset.defaultSecondImageUrl,
+      secondImageHash: preset.defaultSecondImageHash,
+    };
+  }
   if (!nextAd.secondImageUrl && preset?.defaultSecondImageUrl) {
     nextAd = {
       ...nextAd,
