@@ -38,9 +38,10 @@ const STAGE_ORDER: FelioraAwarenessStageId[] = [
 
 interface FelioraPlWorkspaceProps {
   onSwitchToOrthomax?: () => void;
+  onSwitchToStryde?: () => void;
 }
 
-export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWorkspaceProps) {
+export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryde }: FelioraPlWorkspaceProps) {
   const [presets, setPresets] = useState<FelioraAnglePreset[]>(FELIORA_PRESET_ANGLES);
   const [ads, setAds] = useState<FelioraPlGeneratedAd[]>(() => buildAllFelioraPrewrittenAds());
   const [imageLibrary, setImageLibrary] = useState<FelioraImageAsset[]>(FELIORA_IMAGE_LIBRARY);
@@ -485,8 +486,27 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               padding: '4px',
               borderRadius: '10px',
               border: '1px solid #5c2f14',
+              gap: '4px',
             }}
           >
+            {onSwitchToStryde && (
+              <button
+                type="button"
+                onClick={onSwitchToStryde}
+                style={{
+                  background: '#09090b',
+                  color: '#34d399',
+                  border: '1px solid #27272a',
+                  borderRadius: '7px',
+                  padding: '7px 14px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                🦿 OPASKA PL · Stryde 1:1 (15 Antków)
+              </button>
+            )}
             <button
               type="button"
               style={{

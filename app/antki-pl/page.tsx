@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
+import StrydePlWorkspace from '@/app/components/stryde-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
   getDefaultImageForAngle,
@@ -88,7 +89,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'feliora' | 'orthomax'>('feliora');
+  const [activeBrand, setActiveBrand] = useState<'stryde' | 'feliora' | 'orthomax'>('stryde');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
   const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
@@ -1557,7 +1558,7 @@ export default function AntkiPlPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const b = params.get("brand");
-    if (b === "orthomax" || b === "feliora") {
+    if (b === "orthomax" || b === "feliora" || b === "stryde") {
       setActiveBrand(b);
     }
   }, []);
@@ -1611,8 +1612,22 @@ export default function AntkiPlPage() {
     return t ? t.split(/\s+/).length : 0;
   }, [editPrimaryText, activeAd]);
 
+  if (activeBrand === "stryde") {
+    return (
+      <StrydePlWorkspace
+        onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
+      />
+    );
+  }
+
   if (activeBrand === "feliora") {
-    return <FelioraPlWorkspace onSwitchToOrthomax={() => setActiveBrand("orthomax")} />;
+    return (
+      <FelioraPlWorkspace
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
+        onSwitchToStryde={() => setActiveBrand("stryde")}
+      />
+    );
   }
 
   return (
@@ -1672,7 +1687,7 @@ export default function AntkiPlPage() {
             {/* BRAND SWITCHER PILLS */}
             <div
               style={{
-                display: " inline-flex",
+                display: "inline-flex",
                 background: "#160b04",
                 padding: 4,
                 borderRadius: 10,
@@ -1680,6 +1695,22 @@ export default function AntkiPlPage() {
                 gap: 4,
               }}
             >
+              <button
+                type="button"
+                onClick={() => setActiveBrand("stryde")}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 7,
+                  border: "1px solid #27272a",
+                  background: "#09090b",
+                  color: "#34d399",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                🦿 OPASKA PL · Stryde 1:1 (15 Antków)
+              </button>
               <button
                 type="button"
                 onClick={() => setActiveBrand("feliora")}
