@@ -119,11 +119,13 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
+P.S. Stopa po lecie nie zrobiła się szersza dlatego, że urosły Wam kości - ona straciła podparcie i zapadła się pod ciężarem ciała.
 
-Stopa po lecie nie zrobiła się szersza dlatego, że urosły Wam kości - ona straciła podparcie i zapadła się pod ciężarem ciała.
+Za 50 zł za parę i z 30-dniową gwarancją zwrotu nie ryzykujecie ani grosza, a możecie jeszcze tej zimy znów bez bólu zasunąć zamek w ulubionych butach.
 
-Za 50 zł za parę i z 30-dniową gwarancją zwrotu nie ryzykujecie ani grosza, a możecie jeszcze tej zimy znów bez bólu zasunąć zamek w ulubionych butach.`
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
  'pl-32-dorosli-pierwszy-krok-rano': {
  headline: 'O 6:00 rano szłam do łazienki trzymając się ściany. Myślałam, że to ostroga, a przyczyna była inna',
@@ -231,7 +233,11 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wasze ciało każdej nocy ciężko pracuje, żeby zagoić mikrouszkodzenia pod piętą - nie pozwólcie, by kolejny poranny krok o 6:00 rano na płaskiej stopie znów zniszczył tę pracę w jedną sekundę.`
+P.S. Wasze ciało każdej nocy ciężko pracuje, żeby zagoić mikrouszkodzenia pod piętą - nie pozwólcie, by kolejny poranny krok o 6:00 rano na płaskiej stopie znów zniszczył tę pracę w jedną sekundę.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
  'pl-33-dorosli-praca-stojaca-8h': {
  headline: 'Wracasz po 8 godzinach pracy na nogach i czujesz żywy ogień pod stopami? Przeczytaj to przed kolejną zmianą',
@@ -338,7 +344,13 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajecie swoim stopom i lędźwiom sprężyste podparcie na każdy z 10 000 kroków na zmianie - żebyście po powrocie do domu miały jeszcze siłę cieszyć się życiem.`
+P.S. Jedne buty do pracy kosztują 250-300 zł, a tutaj za 50 zł za parę dajecie swoim stopom i lędźwiom sprężyste podparcie na każdy z 10 000 kroków na zmianie - żebyście po powrocie do domu miały jeszcze siłę cieszyć się życiem.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`
  },
  'pl-34-dorosli-moja-62-letnia-mama': {
  headline: 'Moja 62-letnia mama ukrywała przed nami, dlaczego nie chce już wychodzić z wnukami na spacer',
@@ -445,7 +457,11 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Jeśli Wasza mama coraz częściej mówi, że „woli dziś posiedzieć w domu", spójrzcie w niedzielę na jej buty i zapytajcie, czy nie pieką jej stopy. Za 99,99 zł w pakiecie 1+1 możecie oddać jej radość ze zwykłego spaceru z wnukami bez bólu.`
+P.S. Jeśli Wasza mama coraz częściej mówi, że „woli dziś posiedzieć w domu", spójrzcie w niedzielę na jej buty i zapytajcie, czy nie pieką jej stopy. Za 99,99 zł w pakiecie 1+1 możecie oddać jej radość ze zwykłego spaceru z wnukami bez bólu.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
  'pl-35-dorosli-buty-o-rozmiar-wieksze': {
  headline: 'Przez 30 lat nosiłam rozmiar 38, a tej jesieni nie weszłam nawet w 39. Oto co naprawdę dzieje się ze stopą po 40-tce',
@@ -560,6 +576,10 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 GRATIS tutaj:
 
 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Zanim wydacie tej zimy kolejne 400 zł na następne za duże buty, dajcie swoim stopom podparcie, które uniesie zapadnięty łuk. Za 50 zł za parę i z 30-dniową gwarancją zwrotu możecie odzyskać swój dawny rozmiar buta i lekkość każdego kroku.`
+P.S. Zanim wydacie tej zimy kolejne 400 zł na następne za duże buty, dajcie swoim stopom podparcie, które uniesie zapadnięty łuk. Za 50 zł za parę i z 30-dniową gwarancją zwrotu możecie odzyskać swój dawny rozmiar buta i lekkość każdego kroku.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  }
 };

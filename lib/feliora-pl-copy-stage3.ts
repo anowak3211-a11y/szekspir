@@ -123,7 +123,13 @@ Zbadałem szyję Leona. Czerwona pręga po obróżce zniknęła bez śladu, a mi
 Zanim kolejny raz zapniesz na szyi swojego kota pachnący pasek ze sklepu zoologicznego, pamiętaj o jednym:
 
 Twój kot ma 200 milionów receptorów węchowych i serce, które bije ze strachu.
-Nie duś go zapachem lawendy - daj mu w powietrzu cichy sygnał matczynego spokoju.`
+Nie duś go zapachem lawendy - daj mu w powietrzu cichy sygnał matczynego spokoju.
+
+P.S. Jeśli Twój kot nosi teraz na szyi pachnącą obróżkę z zoologicznego z olejkiem lawendowym lub mięte, zdejmij ją jeszcze dziś. Dla kociego nosa z 200 milionami receptorów to tortura węchowa, która tylko nasila sikanie poza kuwetą.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   },
 
   'fel-12-dlaczego-spray-brzmi-jak-syczenie': {
@@ -259,7 +265,15 @@ Poklepał Maję delikatnie po grzbiecie i powiedział zdanie, które powinien us
 Dziś, kiedy widzę w sklepie zoologicznym ludzi stojących przy półce ze sprayami „na uspokojenie”, mam ochotę podejść i powiedzieć im tylko jedno:
 
 Twój kot nie potrzebuje kolejnego syczącego dźwięku, który przypomina mu atak wroga.
-Potrzebuje ciszy i niewidzialnego sygnału, że jego dom jest bezpiecznym gniazdem.`
+Potrzebuje ciszy i niewidzialnego sygnału, że jego dom jest bezpiecznym gniazdem.
+
+P.S. Odstaw aerozolowe spraye na alkoholowym nośniku, które brzmią dla kota jak syczenie obcego drapieżnika i parują po 20 minutach. Układ nerwowy potrzebuje cichej, bezwonnej emisji 24 godziny na dobę.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`
   },
 
   'fel-13-behawiorystka-350zl-i-psychotropy': {
@@ -402,7 +416,13 @@ Doktor pokiwał głową i powiedział cicho:
 Dziś, kiedy widzę na forach zrozpaczone dziewczyny, którym po nieudanych zabawach wędką wypisano receptę na kocie psychotropy, zawsze piszę im to samo:
 
 Twój kot nie jest zepsutą zabawką, którą trzeba wyciszyć chemicznym młotkiem.
-Zanim odbierzesz mu jego charakter tabletkami, pozwól mu odetchnąć powietrzem, w którym czuje się bezpieczny.`
+Zanim odbierzesz mu jego charakter tabletkami, pozwól mu odetchnąć powietrzem, w którym czuje się bezpieczny.
+
+P.S. Feliora nie jest lekiem psychotropowym ani środkiem usypiającym. Nie trafia do krwiobiegu, nie obciąża wątroby ani nerek i nie zmienia charakteru kota - po prostu zdejmuje z niego paraliżujący lęk.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   },
 
   'fel-14-eksperyment-20-pudelek-w-lecznicy': {
@@ -537,7 +557,13 @@ Gdy pani Beata przyszła po miesiącu po zapasowe wkłady, uśmiechnęła się o
 Pokiwałem głową i odpowiedziałem jej zdaniem, które powtarzam dziś każdemu opiekunowi:
 
 To nie kocia biologia zawiodła w Twoim mieszkaniu - zawiodły podróbki, które udawały feromony.
-Kiedy wreszcie dasz swojemu kotu prawdziwy, czysty sygnał M.A.P. i F3, odzyskasz spokój szybciej, niż myślisz.`
+Kiedy wreszcie dasz swojemu kotu prawdziwy, czysty sygnał M.A.P. i F3, odzyskasz spokój szybciej, niż myślisz.
+
+P.S. Jeśli kiedyś kupiłaś wtyczkę albo krople z napisem „uspokajające” i nie widziałaś efektu, sprawdź skład na pudełku. Ziołowe olejki i pojedyncze F3 nie zastąpią pełnego 5% kompleksu M.A.P. + F3.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   },
 
   'fel-15-blad-z-octem-i-chlorem': {
@@ -675,6 +701,14 @@ Po miesiącu zadzwoniłam do naszego weterynarza, żeby podziękować mu za tamt
 Dziś, kiedy widzę w internecie porady w stylu „zalej zasikaną kanapę octem albo chlorem”, mam przed oczami tylko jedno:
 
 Nie walcz z przerażonym kotem za pomocą kwasu i szczotki ryżowej.
-Wypełnij swój dom niewidzialnym sygnałem bezpieczeństwa, a Twój kot sam wróci do kuwety.`
+Wypełnij swój dom niewidzialnym sygnałem bezpieczeństwa, a Twój kot sam wróci do kuwety.
+
+P.S. Nigdy nie myj zasikanych miejsc octem, Domestosem ani płynami z amoniakiem. Dla narządu Jacobsona u kota to sygnał obcego moczu, który zmusza go do natychmiastowego nadpisania plamy.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`
   }
 };

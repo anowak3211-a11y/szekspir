@@ -169,7 +169,15 @@ Doktor pokiwał głową i pogłaskał Rysia po głowie.
 Dziś, kiedy patrzę, jak Rysio śpi rozciągnięty na plecach w plamie słońca na dywanie, myślę tylko o jednym:
 
 Żaden antybiotyk na świecie nie uleczy kociego pęcherza, jeśli koci mózg każdego dnia tonie w cichym strachu.
-Czasem największym lekarstwem nie jest kolejna strzykawka w pyszczku, tylko oddanie kotu domu, w którym wreszcie nie musi się bać.`,
+Czasem największym lekarstwem nie jest kolejna strzykawka w pyszczku, tylko oddanie kotu domu, w którym wreszcie nie musi się bać.
+
+P.S. Jeśli w badaniu moczu nie ma bakterii, a kot nadal kropelkuje na różowo i wchodzi do kuwety 20 razy na godzinę, to klasyczne idiopatyczne zapalenie pęcherza (FIC) wywołane stresem. Żaden antybiotyk nie zastąpi wyciszenia osi mózg-pęcherz.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`,
   },
 
   'fel-07-lysy-brzuch-alergia-ktorej-nie-ma': {
@@ -323,7 +331,13 @@ Lekarz postawił Tosię na stole, pogłaskał jej puszysty, biały brzuch i uśm
 Dziś, kiedy patrzę na śpiącą na fotelu Tosię, wiem jedno:
 
 Kot, który wylizuje sobie brzuch do gołej skóry, nie walczy ze swędzeniem.
-Walczy z cichym lękiem, o którym nie potrafi opowiedzieć ci w żaden inny sposób.`,
+Walczy z cichym lękiem, o którym nie potrafi opowiedzieć ci w żaden inny sposób.
+
+P.S. Spójrz dziś wieczorem na brzuch i wewnętrzną stronę ud swojego kota. Jeśli futro jest tam wytarte do różowej skóry, a zmiana karmy nic nie dała, Twój kot próbuje językiem rozładować napięcie terytorialne.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`,
   },
 
   'fel-08-cmentarzysko-4-kuwet-w-bloku': {
@@ -471,7 +485,13 @@ Po miesiącu zadzwoniłem do doktora Newelskiego, żeby zdać mu relację.
 Dziś, kiedy patrzę na moje buty stojące spokojnie na wycieraczce i Leona śpiącego na oparciu kanapy, wiem jedno:
 
 Kiedy kot sika obok czystej kuwety, nie wystawia oceny twojemu żwirkowi.
-Wystawia ocenę temu, jak bardzo boi się w miejscu, w którym każesz mu być bezbronnym.`,
+Wystawia ocenę temu, jak bardzo boi się w miejscu, w którym każesz mu być bezbronnym.
+
+P.S. Dostawienie piątej kuwety i dziewiątego worka żwirku w mieszkaniu w bloku nie pomoże, jeśli kot czuje się w drodze do łazienki jak na odsłoniętym polu bitwy. Wepnij dyfuzor w strefie przedpokoju i salonu.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`,
   },
 
   'fel-09-izolacja-siatka-w-drzwiach-dokocenie': {
@@ -627,7 +647,15 @@ Doktor pogłaskał Borysa po zagojonym uchu i pokiwał głową.
 Dziś, kiedy patrzę na ślad po bliźnie na ręce i na dwa koty wtulone w siebie na kanapie, wiem jedno:
 
 Koty nie walczą ze sobą dlatego, że mają złe charaktery.
-Walczą wtedy, gdy ich mózgi nie wiedzą jeszcze, że należą do jednej rodziny.`,
+Walczą wtedy, gdy ich mózgi nie wiedzą jeszcze, że należą do jednej rodziny.
+
+P.S. Przy dokoceniu pojedyncza cząsteczka F3 to za mało. Dopiero matczyny feromon kojący M.A.P. wysyła obu kotom biologiczny sygnał jednego gniazda i pozwala zdjąć siatkę z futryny.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`,
   },
 
   'fel-10-nowa-komoda-skasowana-mapa-wechowa': {
@@ -781,6 +809,12 @@ Lekarz spojrzał na ekran i uśmiechnął się ciepło.
 Dziś, kiedy patrzę na nasz nowy salon i mruczącego na kanapie Maksa, myślę o jednym:
 
 Dla ciebie nowy mebel to tylko kawałek drewna i materiału.
-Dla twojego kota dom nie składa się z rzeczy, które widać oczami - składa się z niewidzialnej pewności, że wciąż jest u siebie.`,
+Dla twojego kota dom nie składa się z rzeczy, które widać oczami - składa się z niewidzialnej pewności, że wciąż jest u siebie.
+
+P.S. Jeśli planujesz remont, malowanie ścian, przeprowadzkę albo zakup nowej kanapy, wepnij Feliorę do gniazdka na 48 godzin przed zmianą, żeby kot nie stracił swojej mapy węchowej.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`,
   },
 };

@@ -701,6 +701,26 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     note: 'Oryginalne zdjęcie paragonu z apteki z biblioteki Meta — domyślne dla #27 (Haluks wrócił po 2 latach)',
   },
   {
+    id: 'lib-antki-29-karetka-szpital-noc',
+    url: '/antki-pl-images/lib-antki-29-karetka-szpital-noc.jpg',
+    label: '📚 STARE ANTKI (Czyste) · Karetka pod szpitalnym SOR-em w nocy (ostry dyżur / nocny wyjazd)',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: '22003ba04d9bd1726658038839a1983f',
+    aspectRatio: '1:1',
+    note: 'Oryginalne zdjęcie nocnego SOR-u z biblioteki Meta',
+  },
+  {
+    id: 'lib-antki-31-karetka-wejscie-sor',
+    url: '/antki-pl-images/lib-antki-31-karetka-wejscie-sor.jpg',
+    label: '📚 STARE ANTKI (Czyste) · Wejście na nocny ostry dyżur / SOR i światła ambulansu',
+    source: 'meta',
+    groupCode: 'RYCIAK',
+    imageHash: '22003ba04d9bd1726658038839a1983f',
+    aspectRatio: '1:1',
+    note: 'Oryginalne zdjęcie wejścia na SOR z biblioteki Meta',
+  },
+  {
     id: 'lib-antki-32-review-srebrne-buciki',
     url: '/antki-pl-images/lib-antki-32-review-srebrne-buciki.jpg',
     label: '📚 STARE ANTKI (UGC Review) · Srebrne buciki dziecięce z wkładką Orthomax w środku (zdjęcie mamy)',
@@ -1716,7 +1736,7 @@ KRYTYCZNE:
   4. Wizualny dowód mechanizmu + Łańcuch kompensacji (↓) + 14h na szkolnym betonie i panelach + Okno wzrostowe 12-13 lat (250-300 słów)
   5. Wiarygodny most odkrycia + Płynny opis mechanizmu wkładek i dokładnej rozmiarówki (150-200 słów)
   6. Realistyczna, powolna transformacja zachowania dziecka: Dzień 1-3 -> Tydzień 2 -> Miesiąc 1 -> Miesiąc 3 (180-220 słów)
-  7. Osobiste zamknięcie matki + Oferta 1+1 GRATIS (99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + P.S. (120-160 słów)
+  7. Osobiste zamknięcie matki + Oferta 1+1 GRATIS (99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + OBOWIĄZKOWO od 2 do 4 dopisków P.S. na samym końcu (P.S., P.P.S., P.P.P.S., a czasami P.P.P.P.S. - każdy w osobnym akapicie: 1) praktyczny tip o 2 parach do dwóch par butów bez przekładania rano, 2) 30 dni testu w butach nawet ze śladami chodzenia, 3) ostrzeżenie o znikających popularnych rozmiarach lub darmowej dostawie, 4) ciepły emocjonalny detal z życia po zmianie) (160-220 słów)
 
 Zwróć wyłącznie poprawny obiekt JSON:
 {

@@ -129,7 +129,15 @@ Po miesiącu przyszli do mojego gabinetu razem na kontrolę. Spośród wszystkic
 
 Dziś powtarzam każdemu opiekunowi w gabinecie jedno:
 
-Czasami między wyrokiem oddania kota do schroniska a pełnym spokojem w domu stoi tylko kawałek zasłony, zakręt polskiego przedpokoju i wtyczka, która wreszcie daje zwierzęciu matczyny sygnał bezpieczeństwa przez pełne 30 dni.`
+Czasami między wyrokiem oddania kota do schroniska a pełnym spokojem w domu stoi tylko kawałek zasłony, zakręt polskiego przedpokoju i wtyczka, która wreszcie daje zwierzęciu matczyny sygnał bezpieczeństwa przez pełne 30 dni.
+
+P.S. Najważniejsza zasada montażu z mojego gabinetu: nigdy nie wpinaj dyfuzora za ciężką zasłoną, za kanapą ani pod niską szafką. Nad wtyczką musi być minimum 1,2 metra wolnej przestrzeni, żeby ciepłe powietrze rozprowadziło feromony po całym pokoju.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`
   },
 
   'fel-17-dlaczego-zwykly-dyfuzor-dziala-tylko-7-dni': {
@@ -263,7 +271,13 @@ Doktor wyjął go z transportera, pogłaskał po lśniącej sierści i uśmiechn
 
 Pokiwał głową i powiedział zdanie, które pamiętam do dziś:
 
-„Kiedy pierwszy tydzień działa, to znaczy, że kot błaga o pomoc feromonową. Trzeba mu tylko dać technologię, która nie gaśnie w połowie drogi”.`
+„Kiedy pierwszy tydzień działa, to znaczy, że kot błaga o pomoc feromonową. Trzeba mu tylko dać technologię, która nie gaśnie w połowie drogi”.
+
+P.S. Stabilizowany rdzeń ceramiczny 5W w dyfuzorze Feliora nie przegrzewa i nie przypala płynu w pierwszym tygodniu, dzięki czemu Twój kot dostaje równe stężenie feromonów od 1. do 30. dnia.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   },
 
   'fel-18-pojedynczy-f3-vs-kompleks-matczyny-map': {
@@ -393,7 +407,15 @@ Doktor popatrzył na nie, potem na moje oczy i uśmiechnął się ciepło.
 
 Dziś, kiedy widzę je splecione ogonami na kanapie, myślę sobie tylko jedno:
 
-Byłam o jedno kliknięcie od oddania niewinnego, przerażonego zwierzęcia, bo przez miesiąc wierzyłam, że jednoskładnikowa wtyczka na drapanie mebli wystarczy, by uleczyć złamane kocie poczucie bezpieczeństwa.`
+Byłam o jedno kliknięcie od oddania niewinnego, przerażonego zwierzęcia, bo przez miesiąc wierzyłam, że jednoskładnikowa wtyczka na drapanie mebli wystarczy, by uleczyć złamane kocie poczucie bezpieczeństwa.
+
+P.S. Pamiętaj o różnicy pokoleniowej: zwykła cząsteczka policzkowa F3 służyła do ochrony mebli przed drapaniem, natomiast sikanie na łóżko, FIC i walki kotów wymagają matczynego feromonu kojącego M.A.P.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.
+
+P.P.P.P.S. Pamiętaj po odebraniu paczki o dwóch prostych zasadach: wepnij dyfuzor do otwartego gniazdka (minimum 1,2 m wolnej przestrzeni nad wtyczką, nigdy za zasłoną ani pod komodą) i zostaw go włączonego 24 godziny na dobę przez pełne 30 dni.`
   },
 
   'fel-19-zasada-1-pokoj-1-strefa-miau-pl': {
@@ -534,7 +556,13 @@ Wyjął Leona z transportera, przyłożył słuchawkę do jego klatki piersiowej
 
 Dziś mówię każdemu właścicielowi kota w polskim bloku jedno:
 
-Gdyby nie tamta kartka papieru i zrozumienie, że feromony nie przechodzą przez betonowe ściany i zakręty przedpokoju, pewnie do dziś prałabym kołdrę o północy, święcie przekonana, że „na mojego kota nic nie działa”.`
+Gdyby nie tamta kartka papieru i zrozumienie, że feromony nie przechodzą przez betonowe ściany i zakręty przedpokoju, pewnie do dziś prałabym kołdrę o północy, święcie przekonana, że „na mojego kota nic nie działa”.
+
+P.S. Cząsteczki lipidowe feromonów nie przenikają przez ściany działowe i nie skręcają o 90 stopni w polskim przedpokoju. Jeden dyfuzor w salonie daje w sypialni za korytarzem stężenie równe zeru.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   },
 
   'fel-20-oddalem-wklady-z-internetu-do-badania': {
@@ -653,6 +681,12 @@ Po miesiącu zrobiłem Borysowi kontrolne USG pęcherza w mojej lecznicy. Pogrub
 
 Dziś dyfuzory Feliora pracują bez przerwy w obu gabinetach mojej kliniki oraz w moim własnym mieszkaniu, a ja powtarzam każdemu opiekunowi jedno:
 
-Zanim zwątpisz w swojego kota i uznasz, że „feromony na niego nie działają”, upewnij się, że w Twoim kontakcie naprawdę pracuje 5% matczynego kompleksu bezpieczeństwa, a nie rozwodniona parafina z internetu.`
+Zanim zwątpisz w swojego kota i uznasz, że „feromony na niego nie działają”, upewnij się, że w Twoim kontakcie naprawdę pracuje 5% matczynego kompleksu bezpieczeństwa, a nie rozwodniona parafina z internetu.
+
+P.S. Każdy wkład Feliora ma pełne 48 ml pojemności i 5% stężenia bio-identycznego kompleksu M.A.P. + F3, co wystarcza na pełne 720 godzin ciągłej pracy w kontakcie.
+
+P.P.S. Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 Pokoje (189,99 zł, czyli 94,99 zł za sztukę) lub Pakiet 3 Pokoje (254,99 zł, czyli 84,99 zł za sztukę)? Ponieważ feromony nie przechodzą przez ściany ani korytarze, więc jednoczesne obstawienie salonu oraz sypialni lub strefy kuwety daje najszybszy i najpewniejszy efekt. Do każdego pakietu wielopokojowego otrzymujesz gratis poradnik e-book „Co Twój Kot Próbuje Ci Powiedzieć?”. Sprawdź pakiety tutaj: https://feliora.pl/pages/2-dyfuzory
+
+P.P.P.S. Niczym nie ryzykujesz: zamówienie chroni pełna 30-dniowa Gwarancja Spokojnego Kota. Możesz wpiąć dyfuzory do kontaktu, zużyć wkłady do samego dna, a jeśli kołdra i kanapa nie pozostaną suche, zwrócimy Ci 100% pieniędzy jednym przelewem.`
   }
 };

@@ -230,7 +230,8 @@ export function buildAntkiPlUserPrompt(params: {
         destinationUrl: destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
       },
       strictChecklist: [
-        'DŁUGOŚĆ I GŁĘBIA WINNERA (1100-1300 SŁÓW) + KRÓTKIE AKAPITY Z ENTERAMI: Tekst MUSI mieć 1100-1300 słów, być podzielony enterami na krótkie 1-2 zdaniowe akapity i zawierać pełną historię matki oraz dziecka (wyrzuty sumienia matki, 7 dni cichej obserwacji dziecka w domu, kaskadę nieudanych prób, scenę demonstracji mechanizmu, powolną transformację zachowania oraz osobiste zamknięcie z P.S.).',
+        'DŁUGOŚĆ I GŁĘBIA WINNERA (1100-1350 SŁÓW) + KRÓTKIE AKAPITY Z ENTERAMI: Tekst MUSI mieć 1100-1350 słów, być podzielony enterami na krótkie 1-2 zdaniowe akapity i zawierać pełną historię matki oraz dziecka (wyrzuty sumienia matki, 7 dni cichej obserwacji dziecka w domu, kaskadę nieudanych prób, scenę demonstracji mechanizmu, powolną transformację zachowania oraz osobiste zamknięcie z 3-4 dopiskami P.S.).',
+        'OBOWIĄZKOWE 2-4 DOPISKI P.S. NA KOŃCU (P.S., P.P.S., P.P.P.S., P.P.P.P.S.): Na samym końcu tekstu po linku ZAWSZE dodaj minimum 2-3 (optymalnie 3 lub 4) osobne akapity zaczynające się od „P.S.", „P.P.S.", „P.P.P.S." oraz „P.P.P.P.S." (1: dlaczego pakiet 1+1 GRATIS z dwiema parami pozwala nie przekładać wkładek rano w szatni między butami a kapciami; 2: 30 dni na test w brudnych butach z gwarancją zwrotu 100% pieniędzy; 3: informacja o najszybciej znikających rozmiarach i darmowej wysyłce od 100 zł; 4: krótka, ludzka myśl dająca ulgę drugiemu rodzicowi lub seniorowi).',
         'OBCY W SKLEPIE NIE ZNAJĄ IMIENIA + WIARYGODNOŚĆ KIEROWNICZKI: Sprzedawczyni ani kierowniczka zmiany w sklepie obuwniczym NIE zna imienia matki! Pisz „Przyjmę pani ten zwrot, proszę się nie martwić...", a o jej doświadczeniu wspomnij: „która, jak dowiedziałam się chwilę później podczas rozmowy, wcześniej pracowała w sklepie ortopedycznym". Nie spamuj nazwą marki butów (użyj maksymalnie 1 raz).',
         'ZERO DOCINANIA NOŻYCZKAMI: Nigdy nie pisz o docinaniu wkładek nożyczkami! Wkładki Orthomax StepMax mają dokładną rozmiarówkę dopasowaną do buta i od razu po wyjęciu z pudełka wkłada się je do obuwia.',
         'ZERO SZTUCZNYCH GODZIN CO DO MINUTY: Nigdy nie pisz policyjnych godzin typu „W zeszły czwartek o 20:07". Pisz naturalnie: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy".',
@@ -312,7 +313,7 @@ interface KiePlannedScene {
   includeProductRef: boolean;
 }
 
-function buildFallbackFiveScenesFromCopy(params: {
+function buildFallbackTenScenesFromCopy(params: {
   primaryText: string;
   headline: string;
   title: string;
@@ -352,9 +353,34 @@ function buildFallbackFiveScenesFromCopy(params: {
         scenePrompt: 'Amateur phone snapshot in a narrow Polish apartment hallway (przedpokój) at night. A woman’s hand holding an everyday worn leather walking shoe upside down close to the camera, showing the inner edge of the rubber heel visibly ground down at an uneven slant from pronation. Cluttered shoe rack in background, harsh flash/bulb glare, slightly out of focus, shit quality.',
       },
       {
-        label: '5. Wkładki Orthomax StepMax na kuchennym stole obok butów',
+        label: '5. Miska z ciepłą wodą i solą na kafelkach w łazience wieczorem',
+        includeProductRef: false,
+        scenePrompt: 'First-person POV ugly amateur smartphone photo looking down in a small Polish apartment bathroom at night. A middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water on old ceramic tiles next to a crumpled towel and a washing machine. Harsh fluorescent bathroom mirror light, high ISO noise, shit quality.',
+      },
+      {
+        label: '6. Pudełka po lekach przeciwbólowych i paragon na kuchennym blacie',
+        includeProductRef: false,
+        scenePrompt: 'Raw, crooked amateur smartphone photo of a cluttered Polish kitchen counter under a yellow bulb at night: empty blister packs of painkiller pills, two squeezed tubes of diclofenac/heparin gel, and a long crumpled Polish pharmacy receipt next to a glass of water. Slightly out of focus, grainy sensor, shit quality.',
+      },
+      {
+        label: '7. Ciasny przedpokój — siedzenie na stołku przy zdejmowaniu butów',
+        includeProductRef: false,
+        scenePrompt: 'First-person POV amateur phone snapshot taken while sitting on a low wooden stool in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light, slight motion blur, shit quality.',
+      },
+      {
+        label: '8. Wkładki Orthomax StepMax na kuchennym stole obok kubka herbaty',
         includeProductRef: true,
         scenePrompt: 'Unstaged amateur phone photo taken at a Polish kitchen table under a dim warm lamp at night. A pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying next to an everyday pair of women’s walking shoes and a half-drunk mug of tea, looking like a quick photo snapped to send to a friend on Messenger. Slight blur, grainy phone camera quality.',
+      },
+      {
+        label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
+        includeProductRef: true,
+        scenePrompt: 'Candid first-person POV amateur phone snapshot in a cramped Polish apartment hallway. A middle-aged woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe on a wooden bench. Harsh indoor bulb light, slight camera shake, grainy phone sensor, shit quality.',
+      },
+      {
+        label: '10. Dwie pary butów w przedpokoju z widocznymi wkładkami Orthomax (Pakiet 1+1)',
+        includeProductRef: true,
+        scenePrompt: 'Raw top-down amateur smartphone snapshot of a rubber shoe mat in a Polish apartment hallway showing two pairs of everyday shoes (outdoor walking shoes and house slippers) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs. Ugly overhead hallway light, crooked angle, grainy, shit quality.',
       },
     ];
   }
@@ -393,39 +419,71 @@ function buildFallbackFiveScenesFromCopy(params: {
       scenePrompt: 'Cluttered, candid amateur phone photo on a Polish apartment living room floor in the evening. A pair of stiff, uncomfortable old grey medical shoe insoles kicked aside next to a children’s sneaker and an unused rubber foot massage roller under the edge of a sofa. Flat indoor lighting, slightly out of focus, shit quality.',
     },
     {
-      label: '5. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
+      label: '5. Trzy pary dziecięcych butów w przedpokoju starte po wewnętrznej stronie',
+      includeProductRef: false,
+      scenePrompt: 'Ugly amateur smartphone photo on a hallway floor in a Polish flat: three pairs of a 9-year-old child’s shoes (winter boots, school indoor sneakers, everyday trainers) lined up from behind, all showing the exact same inward tilt and worn-down inner heel edge. Harsh hallway ceiling bulb, crooked framing, grainy sensor noise, shit quality.',
+    },
+    {
+      label: '6. Dziecko siedzące na schodach / krawężniku i trzymające się za piętę',
+      includeProductRef: false,
+      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on concrete steps in tracksuits holding his aching heel and ankle after school PE class, refusing to walk further. Overcast flat light, slight motion blur, off-center framing, shit quality phone photo.',
+    },
+    {
+      label: '7. Cienka fabryczna wkładka wyjęta z drogiego dziecięcego buta',
+      includeProductRef: false,
+      scenePrompt: 'Raw first-person POV phone snapshot in a Polish kitchen at night: a mother’s hand holding up a paper-thin, completely flat, squashed factory foam liner pulled out of an expensive children’s sneaker on the table. Harsh overhead light, slightly blurry, grainy phone camera, shit quality.',
+    },
+    {
+      label: '8. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
       includeProductRef: true,
       scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker on a wooden hallway bench. Dim warm indoor bulb light, slight camera shake, grainy phone sensor, shit quality.',
+    },
+    {
+      label: '9. Porównanie na stole: płaska fabryczna tekturka vs profilowana wkładka Orthomax',
+      includeProductRef: true,
+      scenePrompt: 'Unstaged amateur phone photo on a Polish kitchen table under a yellow ceiling lamp: side-by-side comparison of a squashed flat grey factory shoe liner next to a bright orange 3D-contoured Orthomax StepMax insole with deep heel cup and arch support domes. Crooked angle, slight blur, grainy sensor, shit quality.',
+    },
+    {
+      label: '10. Buty zimowe i kapcie szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
+      includeProductRef: true,
+      scenePrompt: 'Raw top-down smartphone snapshot of a hallway doormat in a Polish apartment showing a child’s winter boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside so the child does not have to swap them at school. Harsh hallway light, grainy, shit quality.',
     },
   ];
 }
 
-async function extractFiveRawScenesFromAntekCopy(params: {
+async function extractTenRawScenesFromAntekCopy(params: {
   primaryText: string;
   headline: string;
   title: string;
   segment?: string;
 }): Promise<KiePlannedScene[]> {
-  const fallback = buildFallbackFiveScenesFromCopy(params);
+  const fallback = buildFallbackTenScenesFromCopy(params);
   try {
     const settings = brainSettings();
     if (!settings) return fallback;
-    const client = brainClient(brainOptions(35_000));
+    const client = brainClient(brainOptions(40_000));
     const completion = await client.chat.completions.create({
       model: 'gpt-4.1-mini',
-      temperature: 0.4,
+      temperature: 0.45,
       response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
           content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki).
-Read the provided Polish ad copy and extract EXACTLY 5 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
-Rules for the 5 scenes:
-- Scene 1: The exact opening hook scene from paragraph 1 (e.g., sitting on a plastic chair in a Poznań hospital SOR hallway at night holding a swollen knee, OR holding worn-out sneakers in a hallway). NO product/insole in Scene 1 (includeProductRef: false).
-- Scene 2: A specific domestic trigger or prop mentioned in the story (e.g., wooden home stairs with a wicker laundry basket at the bottom, OR wet flat footprints on bathroom tiles, OR pharmacy gel tubes). NO product/insole in Scene 2 (includeProductRef: false).
-- Scene 3: A raw close-up POV shot of the physical foot/ankle/knee/shoe problem described in the copy (e.g., bare flat foot/collapsing ankle on floor tiles, OR unevenly worn inner shoe heel). NO product/insole in Scene 3 (includeProductRef: false).
-- Scene 4: Unboxed bright orange contoured Orthomax StepMax insoles lying on a real Polish kitchen table or hallway bench next to everyday shoes from the story (includeProductRef: true).
-- Scene 5: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a cramped Polish apartment hallway (includeProductRef: true).
+Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
+Rules for the 10 scenes:
+- Scenes 1 to 7 (7 scenes WITHOUT product, includeProductRef: false):
+  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR holding worn-out sneakers in a hallway, OR child sitting down refusing to walk).
+  * Scene 2: A specific domestic trigger or prop mentioned in the story (e.g. wooden home stairs with a wicker laundry basket, OR wet flat footprints on bathroom tiles, OR pharmacy gel tubes and receipts).
+  * Scene 3: A raw close-up POV shot of the physical foot/ankle/knee posture problem described in the copy (e.g. bare flat foot/collapsing valgus ankles "odwrócone V" on laminate panels or bathroom tiles).
+  * Scene 4: Close-up of the unevenly worn-down inner heel edge of everyday shoes / PE sneakers held in hand in a cramped Polish hallway.
+  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, unused foot roller, basin with warm salt water, or pile of painkiller gel tubes on a shelf).
+  * Scene 6: Late-night emotional/pain moment from the story (e.g. rubbing aching calf/heel in bed under a dim lamp, or paper-thin flat factory liner pulled out of an expensive shoe).
+  * Scene 7: Another specific visual moment or prop unique to this exact story angle.
+- Scenes 8 to 10 (3 scenes WITH product, includeProductRef: true):
+  * Scene 8: Unboxed bright orange contoured Orthomax StepMax insoles lying on a real Polish kitchen table next to a mug of tea or everyday shoes.
+  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a cramped Polish apartment hallway.
+  * Scene 10: Two pairs of shoes (e.g. outdoor boots + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
 
 CRITICAL STYLE FOR EVERY scenePrompt (in English):
 - Describe it as an UGLY, HASTY, SHIT QUALITY amateur smartphone photo (slight motion blur, slightly out of focus, harsh fluorescent tube light or dim yellow indoor bulb, high-ISO sensor grain, crooked framing, zero AI glow, zero bokeh, zero text overlays).
@@ -448,11 +506,14 @@ Return JSON:
     if (!rawContent) return fallback;
     const parsed = JSON.parse(rawContent) as { scenes?: KiePlannedScene[] };
     if (!Array.isArray(parsed.scenes) || parsed.scenes.length < 5) return fallback;
-    return parsed.scenes.slice(0, 5).map((s, idx) => ({
-      label: (s.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
-      scenePrompt: (s.scenePrompt || fallback[idx]?.scenePrompt || '').trim(),
-      includeProductRef: idx >= 3 ? Boolean(s.includeProductRef ?? true) : false,
-    }));
+    return Array.from({ length: 10 }, (_, idx) => {
+      const s = parsed.scenes?.[idx];
+      return {
+        label: (s?.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
+        scenePrompt: (s?.scenePrompt || fallback[idx]?.scenePrompt || '').trim(),
+        includeProductRef: idx >= 7 ? Boolean(s?.includeProductRef ?? true) : false,
+      };
+    });
   } catch {
     return fallback;
   }
@@ -471,7 +532,7 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'update_cost_cap' | 'set_image' | 'save_all_images' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35' | 'generate_5_kie_images' | 'poll_kie_image';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'update_cost_cap' | 'set_image' | 'save_all_images' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35' | 'generate_5_kie_images' | 'generate_10_kie_images' | 'poll_kie_image';
       batch?: 'dzieci' | 'dorosli';
       campaignId?: string;
       angleId?: string;
@@ -522,7 +583,7 @@ export const POST = accountRoute(async (req: Request) => {
 
     const action = body.action || 'generate';
 
-    if (action === 'generate_5_kie_images') {
+    if (action === 'generate_5_kie_images' || action === 'generate_10_kie_images') {
       const {
         buildKieCreateTaskPayload,
         submitKieRipperTask,
@@ -537,10 +598,10 @@ export const POST = accountRoute(async (req: Request) => {
       const segment = body.segment || preset?.segment || 'dzieci';
 
       if (!primaryText) {
-        return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 5 zdjęć.' }, { status: 400 });
+        return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 10 zdjęć.' }, { status: 400 });
       }
 
-      const scenes = await extractFiveRawScenesFromAntekCopy({
+      const scenes = await extractTenRawScenesFromAntekCopy({
         primaryText,
         headline,
         title,

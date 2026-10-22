@@ -1316,23 +1316,28 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
 
                   {/* Crisp, High-Contrast Paragraphs */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
-                    {paragraphs.map((para, idx) => (
-                      <p
-                        key={idx}
-                        style={{
-                          margin: 0,
-                          fontSize: '15px',
-                          lineHeight: 1.62,
-                          color: '#1e293b',
-                          fontWeight: idx === 0 ? 700 : 400,
-                          background: idx === 0 ? '#fef3c7' : 'transparent',
-                          padding: idx === 0 ? '8px 12px' : 0,
-                          borderRadius: idx === 0 ? '7px' : 0,
-                        }}
-                      >
-                        {para}
-                      </p>
-                    ))}
+                    {paragraphs.map((para, idx) => {
+                      const isPs = /^P\.+S\./.test(para);
+                      return (
+                        <p
+                          key={idx}
+                          style={{
+                            margin: 0,
+                            fontSize: '15px',
+                            lineHeight: 1.62,
+                            color: '#1e293b',
+                            fontWeight: idx === 0 || isPs ? 700 : 400,
+                            background: idx === 0 ? '#fef3c7' : isPs ? '#f5f3ff' : 'transparent',
+                            borderLeft: isPs ? '3px solid #8b5cf6' : 'none',
+                            padding: idx === 0 ? '8px 12px' : isPs ? '6px 10px' : 0,
+                            borderRadius: idx === 0 || isPs ? '7px' : 0,
+                            whiteSpace: 'pre-line',
+                          }}
+                        >
+                          {para}
+                        </p>
+                      );
+                    })}
                   </div>
                 </article>
               ) : (

@@ -1165,7 +1165,7 @@ export default function AntkiPlPage() {
     const copyText = (editPrimaryText || activeAd?.primaryText || '').trim();
     const copyHeadline = (editHeadline || activeAd?.headline || activeAngle.defaultHeadline || '').trim();
     if (!copyText) {
-      setError('Najpierw wygeneruj lub wpisz tekst Antka, aby Kie.ai miało z czego wyciągnąć 5 scen.');
+      setError('Najpierw wygeneruj lub wpisz tekst Antka, aby Kie.ai miało z czego wyciągnąć 10 scen.');
       return;
     }
 
@@ -1174,7 +1174,7 @@ export default function AntkiPlPage() {
     setGeneratingKie5AngleId(targetAngleId);
     setError('');
     setNotice(
-      `📸 Wyciągam 5 konkretnych scen z tekstu Antka #${targetAngleNumber} i odpalam 5 surowych zdjęć w Kie.ai (Shit Quality / Zero AI Glow)...`,
+      `📸 Wyciągam 10 konkretnych scen z tekstu Antka #${targetAngleNumber} i odpalam 10 surowych zdjęć w Kie.ai (Shit Quality / Zero AI Glow)...`,
     );
 
     try {
@@ -1182,7 +1182,7 @@ export default function AntkiPlPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'generate_5_kie_images',
+          action: 'generate_10_kie_images',
           angleId: targetAngleId,
           primaryText: copyText,
           headline: copyHeadline,
@@ -1192,7 +1192,7 @@ export default function AntkiPlPage() {
       });
       const startData = await startRes.json();
       if (!startRes.ok || !Array.isArray(startData.tasks)) {
-        throw new Error(startData.error || 'Nie udało się uruchomić generowania 5 zdjęć w Kie.ai.');
+        throw new Error(startData.error || 'Nie udało się uruchomić generowania 10 zdjęć w Kie.ai.');
       }
 
       const initialTasks = (startData.tasks as Array<{
@@ -1211,6 +1211,7 @@ export default function AntkiPlPage() {
       }));
 
       let completedCount = 0;
+      const totalTasksCount = initialTasks.length || 10;
       const finishedAssets: AntkiPlImageAsset[] = [];
 
       await Promise.all(
@@ -1247,7 +1248,7 @@ export default function AntkiPlPage() {
                   ),
                 }));
                 setNotice(
-                  `📸 Wygenerowano ${completedCount}/5 surowych zdjęć z Antka #${targetAngleNumber} w Kie.ai („${task.label}”)!`,
+                  `📸 Wygenerowano ${completedCount}/${totalTasksCount} surowych zdjęć z Antka #${targetAngleNumber} w Kie.ai („${task.label}”)!`,
                 );
                 return;
               }
@@ -1273,13 +1274,13 @@ export default function AntkiPlPage() {
         await assignImageToAngles([targetAngleId], finishedAssets[0], `Antek #${targetAngleNumber} (Obrazek A)`, 1);
         await assignImageToAngles([targetAngleId], finishedAssets[1], `Antek #${targetAngleNumber} (Obrazek B)`, 2);
         setNotice(
-          `✅ Gotowe! Wygenerowano ${finishedAssets.length}/5 surowych zdjęć z Antka #${targetAngleNumber} (Shit Quality) i przypisano 2 pierwsze jako Obrazek A + Obrazek B. Możesz poniżej kliknąć dowolne z 5 zdjęć, żeby podmienić A lub B!`,
+          `✅ Gotowe! Wygenerowano ${finishedAssets.length}/${totalTasksCount} surowych zdjęć z Antka #${targetAngleNumber} (Shit Quality) i przypisano 2 pierwsze jako Obrazek A + Obrazek B. Możesz poniżej kliknąć dowolne z 10 zdjęć, żeby podmienić A lub B!`,
         );
       } else if (finishedAssets.length === 1) {
         await assignImageToAngles([targetAngleId], finishedAssets[0], `Antek #${targetAngleNumber} (Obrazek A)`, 1);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Błąd podczas generowania 5 zdjęć w Kie.ai.');
+      setError(err instanceof Error ? err.message : 'Błąd podczas generowania 10 zdjęć w Kie.ai.');
     } finally {
       setGeneratingKie5AngleId(null);
     }
@@ -1552,7 +1553,7 @@ export default function AntkiPlPage() {
 
 
   const [isEditingCopy, setIsEditingCopy] = useState(false);
-  const [showAngleDetails, setShowAngleDetails] = useState(true);
+  const [showAngleDetails, setShowAngleDetails] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -2481,246 +2482,290 @@ export default function AntkiPlPage() {
             )}
           </div>
         </div>
+      </div>
 
-        {/* MAIN 3-COLUMN WORKSPACE (IDENTICAL LAYOUT TO FELIORA PL, BRAND ORANGE THEME) */}
-        <div
+      {/* MAIN 3-COLUMN WORKSPACE (IDENTICAL 1:1 LAYOUT TO FELIORA PL, BRAND ORANGE THEME) */}
+      <div
+        style={{
+          marginTop: 10,
+          borderTop: "1px solid #4a2610",
+          display: "grid",
+          gridTemplateColumns: "320px minmax(420px, 600px) minmax(440px, 1fr)",
+          flex: 1,
+          minHeight: "calc(100vh - 135px)",
+          overflow: "hidden",
+        }}
+      >
+        {/* LEFT COLUMN: SORTED & GROUPED LIST OF 70 ANGLES */}
+        <aside
           style={{
-            marginTop: 16,
-            display: "grid",
-            gridTemplateColumns: "320px minmax(420px, 620px) minmax(480px, 1fr)",
-            gap: 18,
-            alignItems: "start",
+            borderRight: "1px solid #4a2610",
+            background: "#160b04",
+            display: "flex",
+            flexDirection: "column",
+            height: "calc(100vh - 135px)",
+            overflowY: "auto",
           }}
         >
-          {/* COLUMN 1: ANGLE LIST (320px) */}
           <div
             style={{
-              background: "#241207",
-              borderRadius: 14,
-              border: "1px solid #4a2610",
-              overflow: "hidden",
-              position: "sticky",
-              top: 14,
-              maxHeight: "calc(100vh - 28px)",
+              padding: "10px 12px",
+              borderBottom: "1px solid #4a2610",
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "#241207",
+              position: "sticky",
+              top: 0,
+              zIndex: 10,
             }}
           >
-            <div
-              style={{
-                padding: "11px 14px",
-                borderBottom: "1px solid #4a2610",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                background: "#160b04",
-              }}
-            >
-              <span style={{ fontSize: 12.5, fontWeight: 800, color: "#ffedd5" }}>
-                📋 Kąty Reklamowe ({filteredPresets.length})
-              </span>
-              <div style={{ display: "flex", gap: 6 }}>
+            <span style={{ fontSize: 12, fontWeight: 800, color: "#ffedd5" }}>
+              KĄTY ({filteredPresets.length} / {presets.length || 70})
+            </span>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button
+                type="button"
+                onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
+                style={{
+                  padding: "4px 8px",
+                  borderRadius: 6,
+                  border: "1px solid #5c2d10",
+                  background: "#361b0b",
+                  color: "#fdba74",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                {selectedIds.length > 0 ? `Zaznaczono (${selectedIds.length})` : "Zaznacz wszystkie"}
+              </button>
+              {selectedIds.length > 0 && (
                 <button
                   type="button"
-                  onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
+                  onClick={() => setSelectedIds([])}
                   style={{
-                    padding: "3px 8px",
+                    padding: "4px 8px",
                     borderRadius: 6,
-                    border: "1px solid #4a2610",
+                    border: "1px solid #5c2d10",
                     background: "#241207",
-                    color: "#fdba74",
+                    color: "#fca5a5",
                     fontSize: 11,
                     cursor: "pointer",
                   }}
                 >
-                  Zaznacz ({selectedIds.length || 0})
+                  Wyczyść
                 </button>
-                {selectedIds.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setSelectedIds([])}
-                    style={{
-                      padding: "3px 8px",
-                      borderRadius: 6,
-                      border: "1px solid #4a2610",
-                      background: "#241207",
-                      color: "#fca5a5",
-                      fontSize: 11,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Wyczyść
-                  </button>
-                )}
-              </div>
-            </div>
-
-            <div style={{ overflowY: "auto", padding: 8, display: "flex", flexDirection: "column", gap: 10 }}>
-              {loading && (
-                <div style={{ padding: 24, textAlign: "center", color: "#fdba74", fontSize: 13 }}>
-                  Ładowanie 70 polskich Antków Orthomax StepMax...
-                </div>
               )}
-              {groupedPresetsForSidebar.map(group => (
-                <div key={group.key}>
-                  <div
-                    style={{
-                      padding: "6px 10px",
-                      borderRadius: 8,
-                      background: "rgba(22, 11, 4, 0.9)",
-                      borderLeft: `3px solid ${group.color}`,
-                      marginBottom: 6,
-                    }}
-                  >
-                    <div style={{ fontSize: 10.5, fontWeight: 800, color: "#fb923c" }}>{group.badge}</div>
-                    <div style={{ fontSize: 11.5, fontWeight: 700, color: "#ffedd5" }}>{group.label}</div>
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                    {group.items.map(angle => {
-                      const isActive = angle.id === activeAngleId;
-                      const isChecked = selectedIds.includes(angle.id);
-                      const ad = adByAngleId[angle.id];
-                      const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
-                      const status = statuses[angle.id] || "idle";
-
-                      return (
-                        <div
-                          key={angle.id}
-                          id={`antek-card-${angle.id}`}
-                          onClick={() => setActiveAngleId(angle.id)}
-                          style={{
-                            padding: "9px 10px",
-                            borderRadius: 10,
-                            background: isActive ? "rgba(234, 88, 12, 0.24)" : "#160b04",
-                            border: isActive ? "1.5px solid #f97316" : "1px solid #3b1d0a",
-                            cursor: "pointer",
-                            transition: "all 0.12s ease",
-                          }}
-                        >
-                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={e => {
-                                  e.stopPropagation();
-                                  setSelectedIds(prev =>
-                                    prev.includes(angle.id) ? prev.filter(x => x !== angle.id) : [...prev, angle.id],
-                                  );
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: 10.5,
-                                  fontWeight: 900,
-                                  padding: "2px 6px",
-                                  borderRadius: 5,
-                                  background: group.color,
-                                  color: "#ffffff",
-                                }}
-                              >
-                                #{angle.number} · {angle.code.slice(0, 6).toUpperCase()}
-                              </span>
-                              <span
-                                style={{
-                                  fontSize: 10,
-                                  fontWeight: 700,
-                                  padding: "2px 6px",
-                                  borderRadius: 5,
-                                  background: "rgba(249, 115, 22, 0.15)",
-                                  color: "#fdba74",
-                                }}
-                              >
-                                {angle.number >= 36 ? "Dorośli" : "Dzieci"}
-                              </span>
-                            </div>
-                            <span
-                              style={{
-                                fontSize: 10.5,
-                                fontWeight: 700,
-                                color: status === "generating" ? "#fbbf24" : words >= 1200 ? "#4ade80" : "#fdba74",
-                              }}
-                            >
-                              {status === "generating" ? "⏳ Generuję..." : `${words} sł. ✓`}
-                            </span>
-                          </div>
-
-                          <div
-                            style={{
-                              fontSize: 12.5,
-                              fontWeight: 700,
-                              color: isActive ? "#ffffff" : "#ffedd5",
-                              marginTop: 5,
-                              lineHeight: 1.32,
-                            }}
-                          >
-                            {angle.title}
-                          </div>
-
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 5, flexWrap: "wrap" }}>
-                            <span
-                              style={{
-                                fontSize: 10,
-                                color: "#fdba74",
-                                background: "#241207",
-                                padding: "2px 6px",
-                                borderRadius: 4,
-                              }}
-                            >
-                              🗣️ {angle.narrator}
-                            </span>
-                            {ad?.secondImageUrl && (
-                              <span
-                                style={{
-                                  fontSize: 9.5,
-                                  fontWeight: 800,
-                                  color: "#fde68a",
-                                  background: "rgba(217, 119, 6, 0.25)",
-                                  padding: "2px 5px",
-                                  borderRadius: 4,
-                                }}
-                              >
-                                A/B 2 ZDJĘCIA
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
 
-          {/* COLUMN 2: CENTER COPY READER / EDITOR (minmax(420px, 620px)) */}
+          <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 14 }}>
+            {loading && (
+              <div style={{ padding: 24, textAlign: "center", color: "#fdba74", fontSize: 13 }}>
+                Ładowanie 70 polskich Antków Orthomax StepMax...
+              </div>
+            )}
+            {groupedPresetsForSidebar.map(group => (
+              <div key={group.key} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div
+                  style={{
+                    padding: "6px 9px",
+                    borderRadius: 7,
+                    background: "rgba(234, 88, 12, 0.16)",
+                    borderLeft: `4px solid ${group.color}`,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#fb923c", textTransform: "uppercase" }}>
+                    {group.badge}
+                  </div>
+                  <div style={{ fontSize: 11.5, fontWeight: 700, color: "#ffedd5" }}>{group.label}</div>
+                </div>
+
+                {group.items.map(angle => {
+                  const isActive = angle.id === activeAngleId;
+                  const isChecked = selectedIds.includes(angle.id);
+                  const ad = adByAngleId[angle.id];
+                  const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
+                  const status = statuses[angle.id] || "idle";
+
+                  return (
+                    <div
+                      key={angle.id}
+                      id={`antek-card-${angle.id}`}
+                      onClick={() => setActiveAngleId(angle.id)}
+                      style={{
+                        padding: "9px 10px",
+                        borderRadius: 9,
+                        background: isActive ? "rgba(234, 88, 12, 0.24)" : "#1f0f05",
+                        border: isActive ? "2px solid #f97316" : "1px solid #3b1d0a",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={e => {
+                              e.stopPropagation();
+                              setSelectedIds(prev =>
+                                prev.includes(angle.id) ? prev.filter(x => x !== angle.id) : [...prev, angle.id],
+                              );
+                            }}
+                            onClick={e => e.stopPropagation()}
+                            style={{ cursor: "pointer", width: 13, height: 13 }}
+                          />
+                          <span
+                            style={{
+                              fontSize: 10.5,
+                              fontWeight: 800,
+                              padding: "1px 6px",
+                              borderRadius: 4,
+                              background: group.color,
+                              color: "#ffffff",
+                            }}
+                          >
+                            #{String(angle.number).padStart(2, "0")}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: 10.5,
+                              fontWeight: 700,
+                              padding: "1px 6px",
+                              borderRadius: 4,
+                              background: "#261308",
+                              color: "#fed7aa",
+                              border: "1px solid #5c2d10",
+                            }}
+                          >
+                            {angle.narrator}
+                          </span>
+                        </div>
+                        <span
+                          style={{
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            color: status === "generating" ? "#fbbf24" : words >= 1150 ? "#34d399" : "#fdba74",
+                          }}
+                        >
+                          {status === "generating" ? "⏳..." : `${words} sł. ✓`}
+                        </span>
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: 12.5,
+                          fontWeight: 700,
+                          color: isActive ? "#ffffff" : "#ffedd5",
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {angle.title}
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 600,
+                            color: "#fdba74",
+                            background: "rgba(249, 115, 22, 0.14)",
+                            border: "1px solid rgba(249, 115, 22, 0.35)",
+                            padding: "1px 5px",
+                            borderRadius: 4,
+                          }}
+                        >
+                          {angle.number >= 36 ? "Dorośli · " : "Dzieci · "}
+                          {angle.code.toUpperCase()}
+                        </span>
+                        {ad?.secondImageUrl && (
+                          <span
+                            style={{
+                              fontSize: 9.5,
+                              fontWeight: 800,
+                              color: "#fde68a",
+                              background: "rgba(217, 119, 6, 0.25)",
+                              padding: "1px 5px",
+                              borderRadius: 4,
+                            }}
+                          >
+                            A/B 2 ZDJĘCIA
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </aside>
+
+        {/* CENTER COLUMN: COMPACT STICKY BAR + CLEAN WHITE PAPER READER (IDENTICAL TO FELIORA PL) */}
+        <main
+          style={{
+            background: "#140a04",
+            height: "calc(100vh - 135px)",
+            overflowY: "auto",
+            padding: "12px 16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
           {activeAngle && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <>
               {/* COMPACT STICKY CONTROL BAR */}
               <div
                 style={{
                   background: "#241207",
-                  borderRadius: 14,
                   border: "1px solid #4a2610",
-                  padding: "12px 16px",
+                  borderRadius: 10,
+                  padding: "10px 12px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 15,
                 }}
               >
-                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0, flex: 1 }}>
                     <span
                       style={{
-                        fontSize: 11.5,
-                        fontWeight: 900,
-                        padding: "3px 9px",
-                        borderRadius: 6,
                         background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                         color: "#ffffff",
+                        fontWeight: 800,
+                        fontSize: 11,
+                        padding: "3px 7px",
+                        borderRadius: 5,
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      #{activeAngle.number} · {activeAngle.code.toUpperCase()}
+                      #{String(activeAngle.number).padStart(2, "0")} · {activeAngle.code.toUpperCase()}
                     </span>
-                    <span style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>{activeAngle.title}</span>
+                    <span
+                      style={{
+                        fontSize: 13.5,
+                        fontWeight: 800,
+                        color: "#ffffff",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      title={activeAngle.title}
+                    >
+                      {activeAngle.title}
+                    </span>
                   </div>
 
                   <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
@@ -2728,83 +2773,86 @@ export default function AntkiPlPage() {
                       type="button"
                       onClick={() => cycleActiveCopy(-1)}
                       style={{
-                        padding: "5px 10px",
-                        borderRadius: 7,
+                        padding: "4px 8px",
+                        borderRadius: 6,
                         border: "1px solid #4a2610",
                         background: "#160b04",
                         color: "#fed7aa",
-                        fontSize: 11.5,
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      ← Poprzedni
+                      ←
                     </button>
                     <button
                       type="button"
                       onClick={() => cycleActiveCopy(1)}
                       style={{
-                        padding: "5px 10px",
-                        borderRadius: 7,
+                        padding: "4px 8px",
+                        borderRadius: 6,
                         border: "1px solid #4a2610",
                         background: "#160b04",
                         color: "#fed7aa",
-                        fontSize: 11.5,
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      Następny →
+                      →
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowAngleDetails(prev => !prev)}
                       style={{
-                        padding: "5px 10px",
-                        borderRadius: 7,
-                        border: "1px solid #4a2610",
-                        background: showAngleDetails ? "rgba(234, 88, 12, 0.25)" : "#160b04",
+                        background: showAngleDetails ? "#3b1d0a" : "#160b04",
                         color: "#fdba74",
-                        fontSize: 11.5,
+                        border: "1px solid #5c2d10",
+                        borderRadius: 6,
+                        padding: "4px 8px",
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      {showAngleDetails ? "▲ Ukryj Scenę / Hook" : "▼ Scena & Hook"}
+                      {showAngleDetails ? "▲ Ukryj Scenę / Hook" : "▼ Pokaż Scenę / Hook"}
                     </button>
+
                     <button
                       type="button"
                       onClick={() => setIsEditingCopy(prev => !prev)}
                       style={{
-                        padding: "5px 11px",
-                        borderRadius: 7,
+                        padding: "4px 9px",
+                        borderRadius: 6,
                         border: "1px solid #f97316",
-                        background: isEditingCopy ? "#ea580c" : "rgba(249, 115, 22, 0.15)",
+                        background: isEditingCopy ? "#ea580c" : "#160b04",
                         color: "#ffffff",
-                        fontSize: 11.5,
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      {isEditingCopy ? "📖 Tryb Czytania" : "✏️ Edytuj tekst"}
+                      {isEditingCopy ? "📖 Czytaj" : "✏️ Edytuj"}
                     </button>
+
                     <button
                       type="button"
                       disabled={statuses[activeAngle.id] === "generating"}
                       onClick={() => void generateSingleAngle(activeAngle.id)}
                       style={{
-                        padding: "5px 11px",
-                        borderRadius: 7,
+                        padding: "4px 9px",
+                        borderRadius: 6,
                         border: "1px solid #fb923c",
                         background: "rgba(249, 115, 22, 0.2)",
                         color: "#ffedd5",
-                        fontSize: 11.5,
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      {statuses[activeAngle.id] === "generating" ? "⏳ Piszę..." : "✨ Przepisz z AI"}
+                      {statuses[activeAngle.id] === "generating" ? "⏳..." : "✨ AI"}
                     </button>
+
                     <button
                       type="button"
                       onClick={() => {
@@ -2812,304 +2860,321 @@ export default function AntkiPlPage() {
                         setNotice(`Skopiowano tekst kąta #${activeAngle.number} do schowka.`);
                       }}
                       style={{
-                        padding: "5px 10px",
-                        borderRadius: 7,
-                        border: "1px solid #4a2610",
-                        background: "#160b04",
-                        color: "#f8fafc",
-                        fontSize: 11.5,
+                        background: "#10b981",
+                        color: "#ffffff",
+                        border: "none",
+                        borderRadius: 6,
+                        padding: "4px 10px",
+                        fontSize: 11,
                         fontWeight: 700,
                         cursor: "pointer",
                       }}
                     >
-                      📋 Kopiuj
+                      📋 Kopiuj ({activeWordCount} sł.)
                     </button>
+
                     {editDirty && (
                       <button
                         type="button"
                         disabled={savingEdit}
                         onClick={() => void saveEditedAd()}
                         style={{
-                          padding: "5px 12px",
-                          borderRadius: 7,
-                          border: 0,
-                          background: "#16a34a",
-                          color: "#ffffff",
-                          fontSize: 11.5,
+                          background: "#f59e0b",
+                          color: "#0f172a",
+                          border: "none",
+                          borderRadius: 6,
+                          padding: "4px 10px",
+                          fontSize: 11,
                           fontWeight: 800,
                           cursor: "pointer",
                         }}
                       >
-                        {savingEdit ? "Zapisuję..." : "💾 Zapisz"}
+                        {savingEdit ? "..." : "💾 Zapisz"}
                       </button>
                     )}
                   </div>
                 </div>
 
-                {/* HEADLINE & LP ROW */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 8, marginTop: 10 }}>
-                  <input
-                    type="text"
-                    value={editHeadline}
-                    onChange={e => {
-                      setEditHeadline(e.target.value);
-                      setEditDirty(true);
-                    }}
-                    placeholder="Nagłówek (Headline w reklamie FB)"
-                    style={{
-                      padding: "7px 11px",
-                      borderRadius: 8,
-                      border: "1px solid #4a2610",
-                      background: "#160b04",
-                      color: "#ffffff",
-                      fontSize: 13,
-                      fontWeight: 700,
-                    }}
-                  />
+                {/* Row 2: Compact Headline Input + LP Input */}
+                <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 8, alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ fontSize: 10.5, fontWeight: 700, color: "#fdba74", whiteSpace: "nowrap" }}>Nagłówek:</span>
+                    <input
+                      type="text"
+                      value={editHeadline}
+                      onChange={e => {
+                        setEditHeadline(e.target.value);
+                        setEditDirty(true);
+                      }}
+                      style={{
+                        width: "100%",
+                        background: "#160b04",
+                        color: "#ffffff",
+                        border: "1px solid #4a2610",
+                        borderRadius: 6,
+                        padding: "5px 8px",
+                        fontSize: 12,
+                        fontWeight: 700,
+                      }}
+                    />
+                  </div>
                   <input
                     type="text"
                     value={destinationUrl}
                     onChange={e => setDestinationUrl(e.target.value)}
                     placeholder="Destination LP URL"
                     style={{
-                      padding: "7px 10px",
-                      borderRadius: 8,
-                      border: "1px solid #4a2610",
+                      width: "100%",
                       background: "#160b04",
                       color: "#fb923c",
+                      border: "1px solid #4a2610",
+                      borderRadius: 6,
+                      padding: "5px 8px",
                       fontSize: 11.5,
                     }}
                   />
                 </div>
 
-                {/* COLLAPSIBLE SCENE / HOOK / BRIDGE BOX */}
+                {/* Collapsible Scene / Hook details */}
                 {showAngleDetails && (
                   <div
                     style={{
-                      marginTop: 10,
-                      padding: 12,
-                      borderRadius: 10,
-                      background: "#160b04",
-                      border: "1px solid #3b1d0a",
-                      fontSize: 12,
-                      display: "grid",
+                      display: "flex",
+                      flexDirection: "column",
                       gap: 6,
+                      paddingTop: 6,
+                      borderTop: "1px solid #4a2610",
+                      fontSize: 12,
                     }}
                   >
-                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap", color: "#fdba74" }}>
-                      <span>🗣️ <strong>Narrator:</strong> {activeAngle.narrator}</span>
-                      <span>🎯 <strong>Bohater:</strong> {activeAngle.protagonist}</span>
-                      <span>🧠 <strong>Etap:</strong> {activeAngle.awarenessStage}</span>
-                    </div>
                     <div style={{ color: "#ffedd5" }}>
-                      <strong style={{ color: "#fb923c" }}>Scena otwierająca:</strong> {activeAngle.sceneBeat}
+                      <strong style={{ color: "#fb923c" }}>🎬 Scena:</strong> {activeAngle.sceneBeat}
                     </div>
                     <div style={{ color: "#fde68a" }}>
-                      <strong>Matematyka wydatków:</strong> {activeAngle.failedSolutionsMath}
+                      <strong>💸 Matematyka:</strong> {activeAngle.failedSolutionsMath}
                     </div>
                     <div style={{ color: "#fed7aa" }}>
-                      <strong>Most odkrycia:</strong> {activeAngle.discoveryBridge}
+                      <strong>🌉 Most:</strong> {activeAngle.discoveryBridge}
                     </div>
                     <div
                       style={{
-                        marginTop: 2,
-                        padding: "7px 10px",
-                        borderRadius: 7,
-                        background: "rgba(249, 115, 22, 0.14)",
-                        borderLeft: "3px solid #f97316",
-                        color: "#ffedd5",
-                        fontStyle: "italic",
+                        background: "rgba(245, 158, 11, 0.12)",
+                        border: "1px solid rgba(245, 158, 11, 0.35)",
+                        borderRadius: 6,
+                        padding: "6px 10px",
+                        color: "#fef3c7",
+                        fontWeight: 600,
                       }}
                     >
-                      <strong>Hook:</strong> „{activeAngle.hookIdea}”
+                      ⚡ Hook: {activeAngle.hookIdea}
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* FULL LONG-FORM COPY CARD (CLEAN WHITE PAPER READER OR TEXTAREA EDITOR) */}
-              <div
-                style={{
-                  background: "#241207",
-                  borderRadius: 14,
-                  border: "1px solid #4a2610",
-                  padding: 16,
-                }}
-              >
-                <div
+              {/* BODY: CLEAN WHITE PAPER READER OR FULL TEXTAREA EDITOR (1:1 FELIORA STYLE) */}
+              {!isEditingCopy ? (
+                <article
+                  onClick={() => setIsEditingCopy(true)}
+                  title="Kliknij w tekst, aby przejść do edycji"
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 12,
-                    flexWrap: "wrap",
-                    gap: 8,
+                    background: "#ffffff",
+                    color: "#0f172a",
+                    borderRadius: 12,
+                    padding: "20px 24px",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+                    width: "100%",
+                    cursor: "text",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: "#ffedd5" }}>
-                      📄 Pełny Tekst Główny (Primary Text — {activeWordCount} słów)
-                    </span>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderBottom: "1px solid #e2e8f0",
+                      paddingBottom: 10,
+                      marginBottom: 16,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: "50%",
+                          background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                          color: "#ffffff",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 800,
+                          fontSize: 12,
+                        }}
+                      >
+                        {activeFanpageMeta.initials}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: 14, color: "#0f172a" }}>{pageName}</div>
+                        <div style={{ fontSize: 11, color: "#64748b" }}>
+                          Sponsorowane · {activeAngle.narrator} · {activeAngle.awarenessStage}
+                        </div>
+                      </div>
+                    </div>
                     <span
                       style={{
+                        background: "#f1f5f9",
+                        color: "#334155",
+                        padding: "4px 8px",
+                        borderRadius: 6,
                         fontSize: 11,
                         fontWeight: 700,
-                        padding: "2px 8px",
-                        borderRadius: 999,
-                        background: activeWordCount >= 1200 ? "rgba(34, 197, 94, 0.18)" : "rgba(245, 158, 11, 0.2)",
-                        color: activeWordCount >= 1200 ? "#4ade80" : "#fcd34d",
                       }}
                     >
-                      {activeWordCount >= 1200 ? "✓ 1200+ słów · 0 em-dash" : `${activeWordCount} słów`}
+                      {(editPrimaryText || activeAd?.primaryText || "").split(/\n\s*\n/).filter(Boolean).length} akapitów ·{" "}
+                      {activeWordCount} słów ✓
                     </span>
                   </div>
-                  <span style={{ fontSize: 11.5, color: "#fdba74" }}>
-                    Strzałki <strong>← / →</strong> przełączają kolejne Antki
-                  </span>
-                </div>
 
-                {isEditingCopy ? (
+                  {/* Crisp High-Contrast Paragraphs with P.S. Highlight */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 13 }}>
+                    {(editPrimaryText || activeAd?.primaryText || "")
+                      .split(/\n\s*\n/)
+                      .map(p => p.trim())
+                      .filter(Boolean)
+                      .map((para, idx) => {
+                        const isPs = /^P\.+S\./.test(para);
+                        return (
+                          <p
+                            key={idx}
+                            style={{
+                              margin: 0,
+                              fontSize: 15,
+                              lineHeight: 1.62,
+                              color: "#1e293b",
+                              fontWeight: idx === 0 || isPs ? 700 : 400,
+                              background: idx === 0 ? "#fef3c7" : isPs ? "#fff7ed" : "transparent",
+                              borderLeft: isPs ? "3px solid #f97316" : "none",
+                              padding: idx === 0 ? "8px 12px" : isPs ? "6px 10px" : 0,
+                              borderRadius: idx === 0 || isPs ? 7 : 0,
+                              whiteSpace: "pre-line",
+                            }}
+                          >
+                            {para}
+                          </p>
+                        );
+                      })}
+                  </div>
+                </article>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <textarea
                     value={editPrimaryText}
                     onChange={e => {
                       setEditPrimaryText(e.target.value);
                       setEditDirty(true);
                     }}
-                    rows={38}
+                    rows={32}
                     style={{
                       width: "100%",
-                      padding: "22px 24px",
-                      borderRadius: 12,
-                      border: "2px solid #f97316",
                       background: "#ffffff",
                       color: "#0f172a",
-                      fontSize: 15.5,
-                      lineHeight: 1.75,
-                      fontFamily: "Georgia, \"Times New Roman\", serif",
+                      border: "2px solid #f97316",
+                      borderRadius: 12,
+                      padding: 18,
+                      fontSize: 14.5,
+                      lineHeight: 1.6,
+                      fontFamily: "inherit",
                       resize: "vertical",
                     }}
                   />
-                ) : (
-                  <article
-                    onClick={() => setIsEditingCopy(true)}
-                    title="Kliknij, aby przejść do edycji tekstu"
-                    style={{
-                      background: "#ffffff",
-                      color: "#0f172a",
-                      borderRadius: 12,
-                      padding: "28px 32px",
-                      fontFamily: "Georgia, \"Times New Roman\", serif",
-                      fontSize: 16,
-                      lineHeight: 1.78,
-                      boxShadow: "0 6px 24px rgba(0, 0, 0, 0.28)",
-                      cursor: "text",
-                    }}
-                  >
-                    {(editPrimaryText || activeAd?.primaryText || "")
-                      .split(/\n\s*\n/)
-                      .filter(Boolean)
-                      .map((para, idx) => (
-                        <p
-                          key={idx}
-                          style={{
-                            margin: idx === 0 ? "0 0 16px 0" : "0 0 16px 0",
-                            padding: idx === 0 ? "12px 16px" : 0,
-                            borderRadius: idx === 0 ? 8 : 0,
-                            background: idx === 0 ? "#fef3c7" : "transparent",
-                            borderLeft: idx === 0 ? "4px solid #ea580c" : "none",
-                            fontWeight: idx === 0 ? 700 : 400,
-                            color: "#0f172a",
-                            whiteSpace: "pre-line",
-                          }}
-                        >
-                          {para}
-                        </p>
-                      ))}
-                  </article>
-                )}
-              </div>
-            </div>
+                </div>
+              )}
+            </>
           )}
+        </main>
 
-          {/* COLUMN 3: RIGHT CREATIVES + KIE.AI 5 PHOTOS + FB PREVIEW + META SYNC (minmax(480px, 1fr)) */}
+        {/* RIGHT COLUMN: ENLARGED CREATIVE A/B + 10 SHIT IMAGES KIE.AI + CONNECTED OLD PHOTO LIBRARY + FB PREVIEW */}
+        <aside
+          style={{
+            borderLeft: "1px solid #4a2610",
+            background: "#160b04",
+            height: "calc(100vh - 135px)",
+            overflowY: "auto",
+            padding: 16,
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+          }}
+        >
           {activeAngle && (
-            <div
-              style={{
-                position: "sticky",
-                top: 14,
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-              }}
-            >
-              {/* CREATIVE PICKER & KIE.AI 5-PHOTO GENERATOR */}
+            <>
               <div
                 style={{
                   background: "#241207",
-                  borderRadius: 14,
                   border: "1px solid #4a2610",
-                  padding: 16,
+                  borderRadius: 12,
+                  padding: 14,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>
-                      🖼️ Kreacje do Kąta #{activeAngle.number} ({activeAngle.code.toUpperCase()})
-                    </div>
-                    <div style={{ fontSize: 11.5, color: "#fdba74" }}>
-                      Wybierz 1 lub 2 najlepsze zdjęcia (Kreacja A i Kreacja B tworzą 2 osobne reklamy w adsecie)
-                    </div>
-                  </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, color: "#ffedd5", textTransform: "uppercase" }}>
+                    🖼️ Kreacje do Kąta #{activeAngle.number} (Kliknij zdjęcie, aby powiększyć 🔍)
+                  </span>
                   <button
                     type="button"
                     onClick={() => customImageInputRef.current?.click()}
+                    disabled={uploadingCustomImage}
                     style={{
-                      padding: "6px 11px",
-                      borderRadius: 8,
+                      background: "#361b0b",
+                      color: "#fdba74",
                       border: "1px solid #f97316",
-                      background: "rgba(249, 115, 22, 0.16)",
-                      color: "#ffedd5",
-                      fontSize: 11.5,
+                      borderRadius: 6,
+                      padding: "4px 9px",
+                      fontSize: 11,
                       fontWeight: 700,
                       cursor: "pointer",
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    {uploadingCustomImage ? "⏳ Wgrywam..." : "+ Wgraj własne"}
+                    {uploadingCustomImage ? "Wgrywanie..." : "+ Wgraj własne"}
                   </button>
                 </div>
 
-                {/* KIE.AI 5 RAW PHOTOS BUTTON */}
+                {/* KIE.AI 10 RAW SHIT QUALITY PHOTOS BUTTON */}
                 <button
                   type="button"
                   disabled={generatingKie5AngleId === activeAngle.id}
                   onClick={() => void handleGenerate5KieImagesForActiveAngle()}
                   style={{
                     width: "100%",
-                    padding: "10px 14px",
-                    borderRadius: 10,
-                    border: "1px solid #fb923c",
                     background:
                       generatingKie5AngleId === activeAngle.id
                         ? "#431407"
-                        : "linear-gradient(135deg, #ea580c 0%, #c2410c 100%)",
+                        : "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                     color: "#ffffff",
-                    fontWeight: 800,
+                    border: "1px solid #fb923c",
+                    borderRadius: 8,
+                    padding: "10px 12px",
                     fontSize: 12.5,
+                    fontWeight: 800,
                     cursor: generatingKie5AngleId === activeAngle.id ? "wait" : "pointer",
-                    marginBottom: 12,
-                    boxShadow: "0 4px 14px rgba(234, 88, 12, 0.35)",
+                    textAlign: "center",
+                    boxShadow: "0 2px 10px rgba(234, 88, 12, 0.35)",
                   }}
                 >
                   {generatingKie5AngleId === activeAngle.id
-                    ? `⏳ Generuję 5 surowych zdjęć w Kie.ai z treści Antka #${activeAngle.number}...`
-                    : `📸 Wygeneruj 5 surowych zdjęć z tego Antka (Kie.ai — Shit Quality)`}
+                    ? `⏳ Generuję 10 surowych zdjęć w Kie.ai z treści Antka #${activeAngle.number}...`
+                    : `📸 Generuj 10 surowych zdjęć z telefonu (Kie.ai — Shit Quality)`}
                 </button>
 
-                {/* LIVE 5 KIE.AI TASKS STATUS IF PRESENT */}
+                {/* LIVE 10 KIE.AI TASKS STATUS IF PRESENT */}
                 {kieTasksByAngle[activeAngle.id] && kieTasksByAngle[activeAngle.id].length > 0 && (
                   <div
                     style={{
-                      marginBottom: 12,
                       padding: 10,
                       borderRadius: 10,
                       background: "#160b04",
@@ -3117,7 +3182,7 @@ export default function AntkiPlPage() {
                     }}
                   >
                     <div style={{ fontSize: 11.5, fontWeight: 800, color: "#fdba74", marginBottom: 8 }}>
-                      📸 5 zdjęć wygenerowanych w Kie.ai z treści Antka #{activeAngle.number}:
+                      📸 10 surowych zdjęć z Kie.ai dla Antka #{activeAngle.number}:
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
                       {kieTasksByAngle[activeAngle.id].map(task => (
@@ -3143,7 +3208,7 @@ export default function AntkiPlPage() {
                                   aspectRatio: "1/1",
                                   objectFit: "cover",
                                   borderRadius: 5,
-                                  cursor: "pointer",
+                                  cursor: "zoom-in",
                                 }}
                               />
                               <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
@@ -3208,21 +3273,23 @@ export default function AntkiPlPage() {
                   </div>
                 )}
 
-                {/* SIDE-BY-SIDE KREACJA A & KREACJA B */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
-                  {/* KREACJA A */}
+                {/* SIDE-BY-SIDE KREACJA A & KREACJA B (IDENTICAL TO FELIORA PL) */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  {/* Kreacja A */}
                   <div
                     onClick={() => setImageSlotTarget(1)}
                     style={{
+                      background: "#160b04",
+                      border: imageSlotTarget === 1 ? "2px solid #f97316" : "1px solid #5c2d10",
                       borderRadius: 10,
                       padding: 10,
-                      background: "#160b04",
-                      border: imageSlotTarget === 1 ? "2px solid #f97316" : "1px solid #4a2610",
-                      cursor: "pointer",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c" }}>KREACJA A (GŁÓWNA)</span>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fb923c" }}>Kreacja A (Główna)</span>
                       {activeResolvedImage && (
                         <button
                           type="button"
@@ -3231,12 +3298,13 @@ export default function AntkiPlPage() {
                             setLightboxAsset(activeResolvedImage);
                           }}
                           style={{
-                            padding: "2px 7px",
+                            background: "rgba(249, 115, 22, 0.18)",
+                            color: "#fdba74",
+                            border: "1px solid rgba(249, 115, 22, 0.45)",
                             borderRadius: 5,
-                            border: "1px solid #4a2610",
-                            background: "#241207",
-                            color: "#fed7aa",
+                            padding: "2px 7px",
                             fontSize: 10.5,
+                            fontWeight: 700,
                             cursor: "pointer",
                           }}
                         >
@@ -3245,17 +3313,30 @@ export default function AntkiPlPage() {
                       )}
                     </div>
                     {activeResolvedImage && (
-                      <div style={{ aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", background: "#090d16" }}>
+                      <div
+                        onClick={e => {
+                          e.stopPropagation();
+                          setLightboxAsset(activeResolvedImage);
+                        }}
+                        title="Kliknij, aby powiększyć na cały ekran"
+                        style={{ position: "relative", cursor: "zoom-in" }}
+                      >
                         <img
                           src={activeResolvedImage.url}
                           alt={activeResolvedImage.label}
-                          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                          style={{
+                            width: "100%",
+                            aspectRatio: "1 / 1",
+                            objectFit: "cover",
+                            borderRadius: 8,
+                            background: "#261308",
+                            display: "block",
+                          }}
                         />
                       </div>
                     )}
                     <div
                       style={{
-                        marginTop: 6,
                         fontSize: 11,
                         color: "#ffedd5",
                         fontWeight: 600,
@@ -3268,39 +3349,44 @@ export default function AntkiPlPage() {
                     </div>
                   </div>
 
-                  {/* KREACJA B */}
+                  {/* Kreacja B */}
                   <div
                     onClick={() => setImageSlotTarget(2)}
                     style={{
+                      background: "#160b04",
+                      border: imageSlotTarget === 2 ? "2px solid #fbbf24" : "1px solid #5c2d10",
                       borderRadius: 10,
                       padding: 10,
-                      background: "#160b04",
-                      border: imageSlotTarget === 2 ? "2px solid #fbbf24" : "1px solid #4a2610",
-                      cursor: "pointer",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, color: "#fbbf24" }}>KREACJA B (TEST A/B)</span>
-                      {activeResolvedSecondImage && (
-                        <div style={{ display: "flex", gap: 4 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fbbf24" }}>Kreacja B (Split A/B)</span>
+                      <div style={{ display: "flex", gap: 4 }}>
+                        {(activeResolvedSecondImage || activeResolvedImage) && (
                           <button
                             type="button"
                             onClick={e => {
                               e.stopPropagation();
-                              setLightboxAsset(activeResolvedSecondImage);
+                              setLightboxAsset(activeResolvedSecondImage || activeResolvedImage || null);
                             }}
                             style={{
-                              padding: "2px 6px",
+                              background: "rgba(251, 191, 36, 0.16)",
+                              color: "#fde68a",
+                              border: "1px solid rgba(251, 191, 36, 0.4)",
                               borderRadius: 5,
-                              border: "1px solid #4a2610",
-                              background: "#241207",
-                              color: "#fed7aa",
-                              fontSize: 10,
+                              padding: "2px 7px",
+                              fontSize: 10.5,
+                              fontWeight: 700,
                               cursor: "pointer",
                             }}
                           >
-                            🔍
+                            🔍 Powiększ
                           </button>
+                        )}
+                        {activeResolvedSecondImage && (
                           <button
                             type="button"
                             onClick={e => {
@@ -3318,32 +3404,46 @@ export default function AntkiPlPage() {
                               );
                             }}
                             style={{
-                              padding: "2px 6px",
-                              borderRadius: 5,
-                              border: "1px solid #7f1d1d",
                               background: "rgba(239, 68, 68, 0.18)",
                               color: "#fca5a5",
+                              border: "1px solid #7f1d1d",
+                              borderRadius: 5,
+                              padding: "2px 6px",
                               fontSize: 10,
+                              fontWeight: 700,
                               cursor: "pointer",
                             }}
                           >
-                            ✕ Usuń B
+                            ✕
                           </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                     {activeResolvedSecondImage ? (
                       <>
-                        <div style={{ aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", background: "#090d16" }}>
+                        <div
+                          onClick={e => {
+                            e.stopPropagation();
+                            setLightboxAsset(activeResolvedSecondImage);
+                          }}
+                          title="Kliknij, aby powiększyć na cały ekran"
+                          style={{ position: "relative", cursor: "zoom-in" }}
+                        >
                           <img
                             src={activeResolvedSecondImage.url}
                             alt={activeResolvedSecondImage.label}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                            style={{
+                              width: "100%",
+                              aspectRatio: "1 / 1",
+                              objectFit: "cover",
+                              borderRadius: 8,
+                              background: "#261308",
+                              display: "block",
+                            }}
                           />
                         </div>
                         <div
                           style={{
-                            marginTop: 6,
                             fontSize: 11,
                             color: "#fde68a",
                             fontWeight: 600,
@@ -3358,7 +3458,7 @@ export default function AntkiPlPage() {
                     ) : (
                       <div
                         style={{
-                          aspectRatio: "1/1",
+                          aspectRatio: "1 / 1",
                           borderRadius: 8,
                           border: "1px dashed #5c2d10",
                           display: "flex",
@@ -3370,131 +3470,219 @@ export default function AntkiPlPage() {
                           color: "#fdba74",
                         }}
                       >
-                        Kliknij „Ustaw B” pod dowolnym zdjęciem poniżej, aby dodać 2. kreację do testu A/B
+                        Kliknij „Ustaw B” pod dowolnym zdjęciem z biblioteki poniżej
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* 3-COLUMN RAW PHOTO GRID */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ fontSize: 11.5, fontWeight: 700, color: "#fed7aa" }}>
-                    📸 Biblioteka zdjęć ({imageLibrary.length}) — kliknij Ustaw A lub Ustaw B:
-                  </span>
-                  <button
-                    type="button"
-                    disabled={savingImages}
-                    onClick={() => void handleSaveImages()}
-                    style={{
-                      padding: "4px 10px",
-                      borderRadius: 6,
-                      border: 0,
-                      background: imagesSavedFlash ? "#16a34a" : "#ea580c",
-                      color: "#ffffff",
-                      fontSize: 11,
-                      fontWeight: 800,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {savingImages ? "Zapisuję..." : imagesSavedFlash ? "✓ Zapisano!" : "💾 Zapisz wybór zdjęć"}
-                  </button>
-                </div>
-
+                {/* CONNECTED PHOTO LIBRARY WITH FILTER TABS (STARE ZDJĘCIA Z META + SUROWE KIE.AI + WŁASNE) */}
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
+                    background: "#160b04",
+                    border: "1px solid #4a2610",
+                    borderRadius: 10,
+                    padding: 10,
+                    display: "flex",
+                    flexDirection: "column",
                     gap: 8,
-                    maxHeight: 285,
-                    overflowY: "auto",
-                    paddingRight: 4,
                   }}
                 >
-                  {imageLibrary.map(asset => {
-                    const isA = activeResolvedImage?.url === asset.url;
-                    const isB = activeResolvedSecondImage?.url === asset.url;
-                    return (
-                      <div
-                        key={asset.id}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 6 }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fdba74" }}>
+                      📚 Biblioteka Zdjęć ({filteredGalleryImages.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
+                    </span>
+                    <button
+                      type="button"
+                      disabled={savingImages}
+                      onClick={() => void handleSaveImages()}
+                      style={{
+                        padding: "3px 9px",
+                        borderRadius: 6,
+                        border: 0,
+                        background: imagesSavedFlash ? "#16a34a" : "#ea580c",
+                        color: "#ffffff",
+                        fontSize: 10.5,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {savingImages ? "Zapisuję..." : imagesSavedFlash ? "✓ Zapisano!" : "💾 Zapisz wybór"}
+                    </button>
+                  </div>
+
+                  {/* Filter tabs: Wszystkie | Stare Zdjęcia z Meta | Surowe Kie.ai | Własne */}
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {(
+                      [
+                        { id: "all", label: `Wszystkie (${imageLibrary.length})` },
+                        { id: "meta", label: `📚 Stare z Meta (${metaImagesCount})` },
+                        { id: "ai", label: `📸 Surowe Kie.ai (${aiImagesCount})` },
+                        { id: "custom", label: `Własne (${customImagesCount})` },
+                      ] as const
+                    ).map(tab => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setGalleryTab(tab.id)}
                         style={{
-                          borderRadius: 8,
-                          overflow: "hidden",
-                          background: "#160b04",
-                          border: isA
-                            ? "2px solid #f97316"
-                            : isB
-                            ? "2px solid #fbbf24"
-                            : "1px solid #3b1d0a",
-                          display: "flex",
-                          flexDirection: "column",
+                          padding: "4px 9px",
+                          borderRadius: 6,
+                          border: galleryTab === tab.id ? "1px solid #fb923c" : "1px solid #3b1d0a",
+                          background: galleryTab === tab.id ? "#ea580c" : "#241207",
+                          color: galleryTab === tab.id ? "#ffffff" : "#fed7aa",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          cursor: "pointer",
                         }}
                       >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* 3-Column Enlarged Photo Grid */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                      gap: 10,
+                    }}
+                  >
+                    {filteredGalleryImages.map(asset => {
+                      const isA = activeResolvedImage?.url === asset.url;
+                      const isB = activeResolvedSecondImage?.url === asset.url;
+                      return (
                         <div
-                          style={{ position: "relative", aspectRatio: "1/1", cursor: "pointer" }}
-                          onClick={() => setLightboxAsset(asset)}
+                          key={asset.id}
+                          style={{
+                            position: "relative",
+                            borderRadius: 8,
+                            overflow: "hidden",
+                            background: "#241207",
+                            border: isA
+                              ? "2px solid #f97316"
+                              : isB
+                              ? "2px solid #fbbf24"
+                              : "1px solid #4a2610",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
                         >
-                          <img
-                            src={asset.url}
-                            alt={asset.label}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                          />
-                          {(isA || isB) && (
+                          <div
+                            onClick={() => setLightboxAsset(asset)}
+                            title={`${asset.label} — Kliknij, aby powiększyć na cały ekran`}
+                            style={{ position: "relative", cursor: "zoom-in" }}
+                          >
+                            <img
+                              src={asset.url}
+                              alt={asset.label}
+                              style={{
+                                width: "100%",
+                                aspectRatio: "1 / 1",
+                                objectFit: "cover",
+                                display: "block",
+                              }}
+                            />
                             <span
                               style={{
                                 position: "absolute",
                                 top: 4,
-                                left: 4,
-                                padding: "1px 5px",
-                                borderRadius: 4,
+                                right: 4,
+                                background: asset.source === "meta" ? "rgba(2, 132, 199, 0.88)" : "rgba(0,0,0,0.72)",
+                                color: "#fff",
                                 fontSize: 9.5,
                                 fontWeight: 800,
-                                background: isA ? "#ea580c" : "#d97706",
-                                color: "#ffffff",
+                                padding: "2px 5px",
+                                borderRadius: 4,
                               }}
                             >
-                              {isA ? "A" : "B"}
+                              {asset.source === "meta" ? "📚 META" : "🔍"}
                             </span>
-                          )}
-                        </div>
-                        <div style={{ padding: 5, display: "flex", gap: 4 }}>
-                          <button
-                            type="button"
-                            onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)}
+                            {(isA || isB) && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: 4,
+                                  left: 4,
+                                  padding: "2px 5px",
+                                  borderRadius: 4,
+                                  fontSize: 9.5,
+                                  fontWeight: 800,
+                                  background: isA ? "#ea580c" : "#d97706",
+                                  color: "#ffffff",
+                                }}
+                              >
+                                {isA ? "KREACJA A" : "KREACJA B"}
+                              </span>
+                            )}
+                          </div>
+
+                          <div
                             style={{
+                              padding: "5px 6px",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 4,
                               flex: 1,
-                              padding: "3px 0",
-                              borderRadius: 4,
-                              border: 0,
-                              background: isA ? "#ea580c" : "#2d1606",
-                              color: "#ffffff",
-                              fontSize: 10,
-                              fontWeight: 700,
-                              cursor: "pointer",
+                              justifyContent: "space-between",
                             }}
                           >
-                            Ustaw A
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)}
-                            style={{
-                              flex: 1,
-                              padding: "3px 0",
-                              borderRadius: 4,
-                              border: 0,
-                              background: isB ? "#d97706" : "#2d1606",
-                              color: "#fed7aa",
-                              fontSize: 10,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                            }}
-                          >
-                            Ustaw B
-                          </button>
+                            <div
+                              style={{
+                                fontSize: 10,
+                                color: "#ffedd5",
+                                lineHeight: 1.25,
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                              }}
+                              title={asset.label}
+                            >
+                              {asset.label}
+                            </div>
+                            <div style={{ display: "flex", gap: 4 }}>
+                              <button
+                                type="button"
+                                onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)}
+                                style={{
+                                  flex: 1,
+                                  padding: "3px 0",
+                                  borderRadius: 4,
+                                  border: 0,
+                                  background: isA ? "#ea580c" : "#361b0b",
+                                  color: "#ffffff",
+                                  fontSize: 10,
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {isA ? "✓ A" : "Ustaw A"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)}
+                                style={{
+                                  flex: 1,
+                                  padding: "3px 0",
+                                  borderRadius: 4,
+                                  border: 0,
+                                  background: isB ? "#d97706" : "#361b0b",
+                                  color: "#fed7aa",
+                                  fontSize: 10,
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {isB ? "✓ B" : "Ustaw B"}
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -3560,7 +3748,7 @@ export default function AntkiPlPage() {
                 {activeResolvedImage && (
                   <div
                     onClick={() => setLightboxAsset(activeResolvedImage)}
-                    style={{ aspectRatio: "1/1", background: "#090d16", cursor: "pointer" }}
+                    style={{ aspectRatio: "1/1", background: "#090d16", cursor: "zoom-in" }}
                   >
                     <img
                       src={activeResolvedImage.url}
@@ -3667,9 +3855,9 @@ export default function AntkiPlPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </>
           )}
-        </div>
+        </aside>
       </div>
 
       {/* LIGHTBOX MODAL */}

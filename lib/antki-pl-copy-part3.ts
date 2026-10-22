@@ -165,13 +165,15 @@ Zostawiam Wam link do oficjalnej strony z pakietem 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-W zeszłym tygodniu Zosia wróciła z gór.
+P.S. W zeszłym tygodniu Zosia wróciła z gór.
 
 Przysłała mi zdjęcie ze szlaku w Dolinie Kościeliskiej - stoi na samym przodzie grupy z obiema przyjaciółkami, uśmiechnięta od ucha do ucha.
 
-Te 99,99 złotych uratowało nie tylko jej kolana i nasze 900 złotych zaliczki, ale przede wszystkim jej dziecięcą pewność siebie.`
+Te 99,99 złotych uratowało nie tylko jej kolana i nasze 900 złotych zaliczki, ale przede wszystkim jej dziecięcą pewność siebie.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
 
  'pl-14-wstyd-w-szatni-buty': {
@@ -329,7 +331,11 @@ Link do oficjalnej oferty 1+1 zostawiam tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wczoraj Kasia sama poprosiła mnie, żebym zapisała ją na szkolne zawody w dwa ognie. Widok własnego dziecka, które wbiega do szatni bez wstydu i bez bólu, jest wart każdych pieniędzy - a tutaj kosztował nas dokładnie 50 złotych za parę.`
+P.S. Wczoraj Kasia sama poprosiła mnie, żebym zapisała ją na szkolne zawody w dwa ognie. Widok własnego dziecka, które wbiega do szatni bez wstydu i bez bólu, jest wart każdych pieniędzy - a tutaj kosztował nas dokładnie 50 złotych za parę.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
 
  'pl-15-zwolnienie-z-wf-u-jesien': {
@@ -487,7 +493,13 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Tamtego papierka ze zwolnieniem z WF-u nigdy nie zaniosłam do szkoły. Dziś Zosia sama pakuje strój gimnastyczny wieczorem przed snem, a ja wiem, że zdążyłyśmy przed zamknięciem okna wzrostowego.`
+P.S. Tamtego papierka ze zwolnieniem z WF-u nigdy nie zaniosłam do szkoły. Dziś Zosia sama pakuje strój gimnastyczny wieczorem przed snem, a ja wiem, że zdążyłyśmy przed zamknięciem okna wzrostowego.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`
  },
 
  'pl-16-wojna-o-dywan-19-30': {
@@ -630,7 +642,13 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Dziś kasza gryczana w naszej kuchni służy już wyłącznie do gotowania obiadu. Odzyskałam uśmiech mojego ośmioletniego syna, spokojne wieczory w domu i pewność, że jego nogi prostują się z każdym krokiem, który stawia w szkole.`
+P.S. Dziś kasza gryczana w naszej kuchni służy już wyłącznie do gotowania obiadu. Odzyskałam uśmiech mojego ośmioletniego syna, spokojne wieczory w domu i pewność, że jego nogi prostują się z każdym krokiem, który stawia w szkole.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`
  },
 
  'pl-17-worek-ze-szkolnymi-kapciami': {
@@ -768,7 +786,11 @@ Zostawiam Wam bezpośredni link do pakietu 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Wczoraj pierwszy raz w życiu odłożyłam jesienne buty Zosi do szafy dla jej młodszej siostry - po dwóch miesiącach noszenia z wkładkami wyglądają jak nowe. Ale najcenniejsze jest to, że jej stopy i kolana są bezpieczne przez wszystkie 14 godzin dnia.`
+P.S. Wczoraj pierwszy raz w życiu odłożyłam jesienne buty Zosi do szafy dla jej młodszej siostry - po dwóch miesiącach noszenia z wkładkami wyglądają jak nowe. Ale najcenniejsze jest to, że jej stopy i kolana są bezpieczne przez wszystkie 14 godzin dnia.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`
  },
 
  'pl-18-mit-gipsu-sztywne-wkladki': {
@@ -913,6 +935,12 @@ Zostawiam Wam link do oficjalnej strony z pakietem 1+1 tutaj:
 
 👉 https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Tamte twarde skorupy za 380 złotych leżą dziś na dnie szuflady jako najdroższa nauczka w moim życiu. Jeśli u Waszego dziecka okno wzrostowe jest jeszcze otwarte - dajcie jego stopom dynamiczną sprężynę, zanim będzie za późno.`
+P.S. Tamte twarde skorupy za 380 złotych leżą dziś na dnie szuflady jako najdroższa nauczka w moim życiu. Jeśli u Waszego dziecka okno wzrostowe jest jeszcze otwarte - dajcie jego stopom dynamiczną sprężynę, zanim będzie za późno.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`
  }
 };

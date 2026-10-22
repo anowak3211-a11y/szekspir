@@ -112,11 +112,13 @@ Dodatkowo macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założy
 
 Sprawdźcie dostępność rozmiarów tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
+P.S. Dziś wieczorem po kąpieli položcie swój telefon na podłodze w przedpokoju, włączcie nagrywanie w zwolnionym tempie i poproście dziecko, żeby przeszło boso przed kamerą.
 
-Dziś wieczorem po kąpieli položcie swój telefon na podłodze w przedpokoju, włączcie nagrywanie w zwolnionym tempie i poproście dziecko, żeby przeszło boso przed kamerą.
+Jeśli zobaczycie, że pięta ucieka do środka, działajcie od razu - zanim ten kąt utrwali się w kościach na zawsze.
 
-Jeśli zobaczycie, że pięta ucieka do środka, działajcie od razu - zanim ten kąt utrwali się w kościach na zawsze.`,
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-26-zal-po-operacji-za-pozno': {
@@ -228,7 +230,13 @@ Macie pełne 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wk�
 
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Za operację jednej stopy zapłaciłam 8200 złotych i sześcioma tygodniami łez. Za uratowanie drugiej zapłaciłam 50 złotych za parę wkładek. Gdybym wiedziała o nich dwa lata temu, nigdy nie położyłabym się na stole operacyjnym.`,
+P.S. Za operację jednej stopy zapłaciłam 8200 złotych i sześcioma tygodniami łez. Za uratowanie drugiej zapłaciłam 50 złotych za parę wkładek. Gdybym wiedziała o nich dwa lata temu, nigdy nie położyłabym się na stole operacyjnym.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
  },
 
  'pl-27-zal-haluks-wrocil-po-2-latach': {
@@ -337,7 +345,13 @@ Macie też 30 dni gwarancji zwrotu bez żadnego ryzyka: możecie normalnie zało
 
 Link do oficjalnej strony z pakietem 1+1: https://orthomax.pl/products/orthomax-stepmax
 
-P.S. Moja siostra musiała zapłacić 8100 złotych i przejść przez operację, żebyśmy obie zrozumiały, że wycięcie skutku bez podparcia łuku stopy nic nie daje. Wy możecie zatrzymać ten proces za 50 złotych za parę wkładek.`,
+P.S. Moja siostra musiała zapłacić 8100 złotych i przejść przez operację, żebyśmy obie zrozumiały, że wycięcie skutku bez podparcia łuku stopy nic nie daje. Wy możecie zatrzymać ten proces za 50 złotych za parę wkładek.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
  },
 
  'pl-28-zal-operacja-kolan-nastolatki': {
@@ -444,13 +458,15 @@ Macie 30 dni gwarancji zwrotu - możecie normalnie założyć dziecku wkładki d
 
 Zamówcie pakiet dla swojego dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Patrzę dziś na blizny na kolanach mojej 14-letniej Mai i oddałabym wszystko, żeby cofnąć czas o pięć lat.
+P.S. Patrzę dziś na blizny na kolanach mojej 14-letniej Mai i oddałabym wszystko, żeby cofnąć czas o pięć lat.
 
 U mojej 8-letniej Zosi zdążyłam za 50 złotych za parę wkładek.
 
-Sprawdźcie dziś wieczorem bose pięty swoich dzieci - zanim zamknie się ich okno wzrostowe.`,
+Sprawdźcie dziś wieczorem bose pięty swoich dzieci - zanim zamknie się ich okno wzrostowe.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-29-zal-wozek-inwalidzki-beata': {
@@ -558,13 +574,15 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku
 
 Zamówcie swój pakiet tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Wydałam 8750 złotych na zastrzyki w kolana i rehabilitację, które leczyły skutek zamiast przyczyny.
+P.S. Wydałam 8750 złotych na zastrzyki w kolana i rehabilitację, które leczyły skutek zamiast przyczyny.
 
 Dopiero dwie pary wkładek za 99,99 zł ustawiły moje stopy w pionie i oddały mi sprawność.
 
-Nie czekajcie, aż mąż będzie musiał wiercić Wam uchwyt w łazience.`,
+Nie czekajcie, aż mąż będzie musiał wiercić Wam uchwyt w łazience.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-30-zal-zastrzyki-sterydowe-pieta': {
@@ -669,12 +687,16 @@ Macie 30 dni gwarancji zwrotu bez ryzyka - możecie normalnie założyć dziecku
 
 Zamówcie swój pakiet 1+1 tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Za trzy zastrzyki sterydowe w piętę i dziesięć zabiegów fali uderzeniowej zapłaciłam 1490 złotych, a ból wrócił po sześciu tygodniach.
+P.S. Za trzy zastrzyki sterydowe w piętę i dziesięć zabiegów fali uderzeniowej zapłaciłam 1490 złotych, a ból wrócił po sześciu tygodniach.
 
 Rozcięgno zagoiło się dopiero wtedy, gdy zdjęłam z niego naciąg dwiema parami wkładek za 99,99 zł.
 
-Postawcie jutro rano swój pierwszy krok bez strachu.`,
+Postawcie jutro rano swój pierwszy krok bez strachu.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
  },
 };

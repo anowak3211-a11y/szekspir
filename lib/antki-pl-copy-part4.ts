@@ -125,11 +125,13 @@ Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego nos
 
 Sprawdź dostępne rozmiary w pakiecie 1+1 tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
+P.S. Dziś wieczorem, kiedy Twoje dziecko zaśnie, weź do ręki jego buty ze szkolnej szatni i spójrz na piętę od tyłu.
 
-Dziś wieczorem, kiedy Twoje dziecko zaśnie, weź do ręki jego buty ze szkolnej szatni i spójrz na piętę od tyłu.
+Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.
 
-Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.`,
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-20-okno-czasowe-12-lat': {
@@ -259,13 +261,15 @@ Zamawiając, niczym nie ryzykujesz, bo masz pełne 30 dni gwarancji zwrotu - naw
 
 Sprawdź pakiet 1+1 GRATIS i zabezpiecz stopy dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Czas między 8 a 12 rokiem życia mija jak mrugnięcie okiem.
+P.S. Czas między 8 a 12 rokiem życia mija jak mrugnięcie okiem.
 
 Zrób dziś wieczorem prosty test: postaw dziecko boso na dywanie i podnieś palcami łuki jego stóp.
 
-Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.`,
+Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-21-ryciak-rip3-ramie-v2': {
@@ -411,13 +415,17 @@ Dodatkowo masz 30 dni gwarancji zwrotu bez ryzyka - nawet jeśli dziecko będzie
 
 Zamów pakiet 1+1 GRATIS z 30-dniową gwarancją tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Zrób ten 10-sekundowy test jeszcze dzisiaj: postaw dziecko boso przed sobą, spójrz na jego kolana i ramiona, a potem podnieś dłońmi łuki jego stóp od środka.
+P.S. Zrób ten 10-sekundowy test jeszcze dzisiaj: postaw dziecko boso przed sobą, spójrz na jego kolana i ramiona, a potem podnieś dłońmi łuki jego stóp od środka.
 
 Jeśli kolana się rozejdą, a barki wyrównają - już wiesz, że przyczyna jest na samym dole.
 
-Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.`,
+Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
  },
 
  'pl-22-ryciak-rip3-sor-kolano': {
@@ -559,11 +567,13 @@ Masz też pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normaln
 
 Sprawdź pakiet 1+1 GRATIS i odciąż kolana swojego dziecka tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
+P.S. Zanim kupisz kolejną maść albo opaskę na kolano, postaw dziś wieczorem swoje dziecko boso na podłodze i podnieś palcami łuki jego stóp od środka.
 
-Zanim kupisz kolejną maść albo opaskę na kolano, postaw dziś wieczorem swoje dziecko boso na podłodze i podnieś palcami łuki jego stóp od środka.
+Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.
 
-Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.`,
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-23-ryciak-rip3-biodro-i-plecy': {
@@ -688,11 +698,13 @@ Masz przy tym 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego
 
 Sprawdź pakiet 1+1 GRATIS i wyrównaj postawę dziecka od fundamentów tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
+P.S. Zrób dziś wieczorem po kąpieli ten prosty test: postaw dziecko boso tyłem do siebie, spójrz na jego łopatki i lędźwie, a potem kucnij i podnieś dłońmi łuki jego stóp od środka.
 
-Zrób dziś wieczorem po kąpieli ten prosty test: postaw dziecko boso tyłem do siebie, spójrz na jego łopatki i lędźwie, a potem kucnij i podnieś dłońmi łuki jego stóp od środka.
+Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.
 
-Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.`,
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
  },
 
  'pl-24-ryciak-rip3-bilans-10-latka': {
@@ -822,12 +834,16 @@ Masz też 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego nos
 
 Sprawdź pakiet 1+1 GRATIS i zdąż przed zamknięciem okna wzrostowego tutaj: https://orthomax.pl/products/orthomax-stepmax
 
-P.S.
-
-Nie czekaj na kolejny bilans w przychodni, na którym znów usłyszysz to samo.
+P.S. Nie czekaj na kolejny bilans w przychodni, na którym znów usłyszysz to samo.
 
 Postaw dziś wieczorem swoje dziecko boso na dywanie, spójrz na jego pięty i kolana, a potem podnieś dłońmi łuki jego stóp od środka.
 
-Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.`,
+Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.
+
+P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
+
+P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
+
+P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
  },
 };
