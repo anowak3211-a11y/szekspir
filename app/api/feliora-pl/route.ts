@@ -22,7 +22,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v4-act3-catharsis';
+const STATE_KEY = 'feliora-pl-library-v5-all25-rewritten';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];
