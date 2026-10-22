@@ -9,7 +9,7 @@ export const FELIORA_PL_COPY_STAGE3: Record<
   'fel-11-pulapka-obrozki-z-lawenda': {
     headline: 'Pierwsze co robię w gabinecie, to rozcinam tę obróżkę nożyczkami',
     description: '200 milionów receptorów kontra tanie olejki z zoologicznego. Sprawdź protokół VNO (M.A.P. + F3) bez stresu',
-    primaryText: `„Panie Doktorze, kupiłam mu tę fioletową obróżkę uspokajającą w sklepie zoologicznym za 45 zł. Miało być lepiej po 2 dniach, a on od środy sika na łóżko 2 razy częściej, syczy na własny cień i wydrapał sobie krwawą łysinę na karku!”
+    primaryText: `Kiedy widzę w gabinecie kota w fioletowej „obróżce uspokajającej” ze sklepu zoologicznego, pierwsze co robię przed badaniem, to biorę nożyczki chirurgiczne i natychmiast ją rozcinam. „Panie Doktorze, kupiłam mu tę obróżkę za 45 zł, miało być lepiej po 2 dniach, a on od środy sika na łóżko 2 razy częściej, syczy na własny cień i wydrapał sobie krwawą łysinę na karku!”
 
 Kiedy pani Marta postawiła transporter na moim metalowym stole zabiegowym i otworzyła kratkę, w całym gabinecie natychmiast zapachniało jak w taniej drogerii.
 
@@ -87,7 +87,7 @@ Kliknij poniżej, wybierz zestaw dopasowany do metrażu Twojego mieszkania i uwo
   'fel-12-dlaczego-spray-brzmi-jak-syczenie': {
     headline: 'Dlaczego „uspokajający” spray brzmi dla kota jak syczenie wroga?',
     description: 'Dźwięk zaworu aerozolowego i etanol niszczą efekt w 3 sekundy. Zobacz cichą dyfuzję VNO 24/7 od Feliora',
-    primaryText: `Wydajesz 79 zł na małą buteleczkę „sprayu uspokajającego” z zoologicznego. Wracasz do domu z nadzieją, że wreszcie skończy się sikanie na kanapę, drapanie oparcia fotela i nocne walki między kotami.
+    primaryText: `Każde naciśnięcie „uspokajającego” sprayu z zoologicznego brzmi dla uszu Twojego kota dokładnie tak samo, jak agresywne syczenie obcego kocura gotowego do ataku. Wydajesz 79 zł na małą buteleczkę z nadzieją, że wreszcie skończy się sikanie na kanapę, drapanie oparcia fotela i nocne walki między kotami.
 
 Podchodzisz do narożnika w salonie, naciskasz plastikowy atomizer i słyszysz krótkie: „Psssst! Psssst!”.
 
@@ -162,7 +162,7 @@ Niczym nie ryzykujesz - chroni Cię nasza pełna 30-dniowa Gwarancja Satysfakcji
   'fel-13-behawiorystka-350zl-i-psychotropy': {
     headline: 'Behawiorystka wzięła 700 zł, a potem kazali dawać kotu psychotropy',
     description: 'Zanim zrobisz z kota przymulone zombie na tabletkach, poznaj biologiczny sygnał VNO (M.A.P. + F3) bez chemii we krwi',
-    primaryText: `Pierwsza wizyta behawiorystki w naszym mieszkaniu kosztowała 350 zł za 60 minut rozmowy przy kawie. Druga wizyta 2 tygodnie później - kolejne 350 zł.
+    primaryText: `700 zł za dwie godziny rozmowy przy kawie z behawiorystką, a na koniec recepta na silne psychotropy, po których mój kot siedział pod ścianą ze śliną cieknącą z pyszczka i patrzył tępo w podłogę. Pierwsza wizyta w naszym mieszkaniu kosztowała 350 zł za 60 minut, a druga 2 tygodnie później - kolejne 350 zł.
 
 Razem 700 zł wydane tylko po to, żebym dostała na maila 4 strony zaleceń w pliku PDF, z których wynikało, że to wszystko moja wina.
 
@@ -230,7 +230,7 @@ Pamiętaj, że Twoje zamówienie chroni 30-dniowa Gwarancja Satysfakcji. Wpinasz
   'fel-14-eksperyment-20-pudelek-w-lecznicy': {
     headline: 'Poprosiłem 20 właścicieli kotów, by przynieśli „feromony” z domu',
     description: 'Analiza 27 pudełek z zoologicznego na stole w lecznicy. Zobacz, dlaczego u 18 z 20 kotów zadziałała dopiero Feliora',
-    primaryText: `„Panie Doktorze, niech Pan nawet nie zaczyna tematu dyfuzorów i feromonów! Kupiłam już 2 takie wtyczki do kontaktu i obróżkę w sklepie zoologicznym, wydałam prawie 250 zł i to jest zwykłe naciąganie ludzi. Mój kot dalej leje na dywan w przedpokoju i tłucze młodszą kotkę!”
+    primaryText: `16 z 27 „preparatów uspokajających dla kotów”, które moi pacjenci przynieśli z domu do lecznicy, nie zawierało w składzie ani jednego miligrama kocich feromonów. Nic dziwnego, że od progu słyszałem: „Panie Doktorze, niech Pan nawet nie zaczyna tematu feromonów! Wydałam prawie 250 zł w sklepie zoologicznym, a mój kot dalej leje na dywan w przedpokoju i tłucze młodszą kotkę!”
 
 Przez ostatnie lata w moim gabinecie weterynaryjnym słyszałem to zdanie przynajmniej 3 razy w tygodniu.
 
@@ -298,7 +298,7 @@ Tak jak moim pacjentom w lecznicy, dajemy Ci pełną 30-dniową Gwarancję Satys
   'fel-15-blad-z-octem-i-chlorem': {
     headline: 'Im mocniej szorujesz kanapę octem, tym szybciej kot nasika tam znów',
     description: 'Chemiczna pułapka octu, sody i chloru. Zobacz 2-etapowy sposób na przerwanie błędnego koła sikania z Feliora VNO',
-    primaryText: `Wchodzisz po pracy do mieszkania, bierzesz pierwszy wdech w przedpokoju i już wiesz. Ten ostry, słodkawo-kwaśny odór kociego moczu uderza Cię w nozdrza, zanim jeszcze zdążysz zdjąć buty i odłożyć klucze.
+    primaryText: `Im dokładniej szorujesz zasikaną kanapę wodą z octem, sodą albo płynem z chlorem, tym mocniejszy sygnał chemiczny wysyłasz swojemu kotu, żeby jeszcze dziś w nocy nasikał dokładnie w to samo miejsce. Wchodzisz po pracy do mieszkania, bierzesz pierwszy wdech w przedpokoju i ten ostry, słodkawo-kwaśny odór kociego moczu znów uderza Cię w nozdrza, zanim zdążysz zdjąć buty.
 
 Idziesz po zapachu do salonu. Na środku poduszki Twojej kanapy (albo na dywanie czy materacu w sypialni) znów widnieje mokra, ciemna plama. Już 3. raz w tym tygodniu!
 

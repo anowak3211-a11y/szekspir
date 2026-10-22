@@ -9,7 +9,7 @@ export const FELIORA_PL_COPY_STAGE2: Record<
   'fel-06-piate-czyste-badanie-moczu-fic': {
     headline: 'Piąte czyste badanie moczu a kot znów sika krwią na dywan? Dr Newelski wyjaśnia oś mózg-pęcherz (FIC)',
     description: 'Zero bakterii w posiewie, zero kryształów w USG, a rachunki u weterynarza przekroczyły już 2 850 zł. Poznaj biologiczną przyczynę idiopatycznego zapalenia pęcherza.',
-    primaryText: `Cztery badania ogólne moczu. Dwa posiewy bakteriologiczne z antybiogramem. Dwa dokładne badania USG jamy brzusznej z oceną grubości ścian pęcherza.
+    primaryText: `2 850 zł zostawione w klinice, piąty sterylny wynik badania moczu, a mój kot właśnie znów kuca na dywanie w salonie i płacze z bólu, zostawiając różowe kropelki krwi. Cztery badania ogólne, dwa posiewy z antybiogramem i dwa dokładne badania USG jamy brzusznej nie wykazały ani jednej bakterii.
 
 Patrzysz na wydruk z laboratorium weterynaryjnego i masz ochotę roztrzaskać telefon o ścianę. Wynik jest po raz kolejny sterylny. Zero bakterii, zero struwitów, zero szczawianów, idealne pH 6,2.
 
@@ -83,7 +83,7 @@ Nie czekaj na kolejny piątkowy wieczór, kiedy Twój kot znów zacznie wchodzi�
   'fel-07-lysy-brzuch-alergia-ktorej-nie-ma': {
     headline: 'Przez 10 miesięcy leczyliśmy naszą kotkę na „alergię pokarmową”. Prawdziwy powód jej łysego brzucha złamał nam serce',
     description: '6 drogich karm hipoalergicznych, sterydy co 3 tygodnie i kołnierz ochronny nie zatrzymały nocnego wylizywania sierści. Przełom nastąpił po odkryciu łysienia psychogennego.',
-    primaryText: `Najgorszy był ten dźwięk o 3:00 nad ranem.
+    primaryText: `Wylizała sobie brzuch i wewnętrzną stronę ud aż do gołej, krwistoczerwonej skóry, a weterynarze przez 10 miesięcy wmawiali mi, że to alergia na kurczaka. Najgorszy był ten dźwięk, który budził mnie co noc o 3:00 nad ranem.
 
 W całym mieszkaniu panowała absolutna cisza, a z fotela w rogu sypialni dobiegało miarowe, szorstkie, wilgotne mlaskanie. Szur, szur, mlask. Szur, szur, mlask.
 
@@ -151,7 +151,7 @@ Kliknij poniżej, wybierz swój zestaw Feliora i pozwól swojemu kotu wreszcie p
   'fel-08-cmentarzysko-4-kuwet-w-bloku': {
     headline: 'Mieliśmy już 4 kuwety i 8 rodzajów żwirku w 48-metrowym mieszkaniu. A nasz kot i tak sikał na dywanik i buty',
     description: 'Zasada „liczba kotów + 1 kuweta” zamieniła nasze M3 w plastikowy tor przeszkód. Zobacz, dlaczego problemem nigdy nie był żwirek, tylko brak sygnału F3 + M.A.P.',
-    primaryText: `Każdy, kto kiedykolwiek wpisał w wyszukiwarkę hasło „dlaczego kot sika poza kuwetą”, zna tę złotą zasadę powtarzaną jak mantra na każdej grupie na Facebooku:
+    primaryText: `Cztery plastikowe kuwety rozstawione na 48 metrach kwadratowych w bloku i 8 przetestowanych worków żwirku za ponad 600 zł - a mój kot dziś rano znów powąchał czysty piasek, wyszedł z łazienki i nasikał prosto na moje buty. Każdy, kto wpisał w wyszukiwarkę „dlaczego kot sika poza kuwetą”, zna tę radę powtarzaną na każdej grupie na Facebooku:
 
 „Masz za mało kuwet! Złota reguła behawiorystów to liczba kotów plus jeden. Zdejmij górną pokrywę, wyjmij drzwiczki, kup większą kuwetę XL i zmień żwirek na drobny bentonit!”.
 
@@ -219,7 +219,7 @@ Kliknij link poniżej, zamów swój zestaw Feliora i odzyskaj podłogę oraz spo
   'fel-09-izolacja-siatka-w-drzwiach-dokocenie': {
     headline: 'Drugi kot miał być towarzyszem dla pierwszego. Zamiast tego przez 7 miesięcy żyliśmy z siatką w drzwiach jak w więzieniu',
     description: 'Wymiana kocyków, karmienie po dwóch stronach drzwi i blizna na ręce po jednej sekundzie nieuwagi. Zobacz, jak feromon M.A.P. zakończył wojnę terytorialną w 12 dni.',
-    primaryText: `„Weźcie drugiego kota! Koty to zwierzęta stadne, rezydent nie będzie się nudził, kiedy jesteście przez 9 godzin w pracy, będą się razem bawić i myć sobie uszy!”.
+    primaryText: `8-centymetrowa blizna na moim przedramieniu, rachunek za szycie kociego ucha pod narkozą i drewniana rama z siatką wstawiona w futrynę sypialni na 7 miesięcy. Tak w praktyce skończyła się złota rada z internetu: „Weźcie drugiego kota, rezydent nie będzie się nudził, kiedy jesteście przez 9 godzin w pracy, będą się razem bawić i myć sobie uszy!”.
 
 Gdybym dzisiaj spotkała osobę, która napisała ten komentarz na forum, wręczyłabym jej rachunek za 3 wizyty u behawiorysty, fakturę za szycie ucha naszego starszego kocura oraz pokazała 8-centymetrową bliznę na moim własnym przedramieniu.
 
@@ -289,7 +289,7 @@ Kliknij poniżej i zakończ stan wojenny w swoim mieszkaniu.`,
   'fel-10-nowa-komoda-skasowana-mapa-wechowa': {
     headline: 'Dla Ciebie to tylko nowa komoda z IKEI. Dla Twojego kota to skasowanie 5 lat poczucia bezpieczeństwa w 10 minut',
     description: 'Przez 5 lat był idealnym kotem, a po weekendowym przemeblowaniu zaczął sikać na zasłony i drapać kanapę? Dr Newelski wyjaśnia, jak działa kocia mapa węchowa F3.',
-    primaryText: `„Panie doktorze, ktoś nam podmienił kota w ten weekend. Przez 5 lat był aniołem - nigdy nie załatwił się poza kuwetą, nie zniszczył ani jednego mebla. A w poniedziałek rano wstajemy, a nowa szara kanapa jest zdarta pazurami do gąbki, a na zasłonie przy oknie i na dywanie są dwie wielkie plamy moczu!”.
+    primaryText: `Nowa szara kanapa zdarta pazurami aż do białej gąbki i dwie wielkie plamy moczu na zasłonie w ciągu 48 godzin od weekendowego przemeblowania. „Panie doktorze, ktoś nam podmienił kota! Przez 5 lat był aniołem - nigdy nie załatwił się poza kuwetą i nie zniszczył ani jednego mebla!” - usłyszałem w poniedziałek rano w gabinecie.
 
 Jako lekarz weterynarii z 22-letnim stażem mogę niemal z zegarkiem w ręku przewidzieć dwie pory roku, kiedy mój gabinet pęka w szwach od takich właśnie zgłoszeń. Pierwsza to wiosenne remonty i przemeblowania, a druga to okres przedświątecznych porządków i przeprowadzek.
 

@@ -9,7 +9,7 @@ export const FELIORA_PL_COPY_STAGE4: Record<
   'fel-16-polecilem-62-klientom-u-17-nie-zadzialal': {
     headline: 'Poleciłem dyfuzor 62 klientom. U 17 nie zadziałał - pojechałem sprawdzić ich mieszkania',
     description: 'Dr wet. Edmund Newelski: 3 błędy w polskich mieszkaniach, przez które zwykłe wtyczki nie działają.',
-    primaryText: `W ciągu jednego jesiennego kwartału poleciłem dyfuzory feromonowe dokładnie 62 opiekunom kotów, którzy przyszli do mojego gabinetu z tym samym dramatycznym problemem: sikanie poza kuwetą, nocne wycie pod drzwiami albo krwawe walki dwóch kotów w jednym domu.
+    primaryText: `Poleciłem dyfuzor feromonowy 62 właścicielom kotów sikających poza kuwetą - u 45 zadziałał w tydzień, a u 17 nie dał absolutnie nic, dopóki nie pojechałem sprawdzić ich mieszkań. Wszyscy ci opiekunowie przyszli do mojego gabinetu z tym samym dramatycznym problemem: sikanie na łóżko, nocne wycie pod drzwiami albo krwawe walki dwóch kotów w jednym domu.
 
 U 45 osób poprawa przyszła niemal jak za dotknięciem czarodziejskiej różdżki. Dzwonili po 6 lub 8 dniach z ulgą w głosie, mówiąc, że kot wreszcie śpi na plecach z odsłoniętym brzuchem, przestał zalewać kanapę i spokojnie wchodzi do kuwety.
 
@@ -90,7 +90,7 @@ Kliknij poniżej, dobierz pakiet do liczby pokoi w swoim mieszkaniu i daj swojem
   'fel-17-dlaczego-zwykly-dyfuzor-dziala-tylko-7-dni': {
     headline: 'Dlaczego zwykły dyfuzor działa tylko przez pierwsze 7 dni, a potem sikanie wraca?',
     description: 'Zjawisko utleniania termicznego i efekt odbicia w tanich wtyczkach vs rdzeń ceramiczny 5W Feliora.',
-    primaryText: `Wejdź na dowolne polskie forum kociarzy, na grupę na Facebooku albo w sekcję opinii pod popularnymi dyfuzorami feromonowymi na Allegro i Ceneo. Zobaczysz tam setki komentarzy, które brzmią niemal słowo w słowo tak samo:
+    primaryText: `„Przez pierwsze 6 dni po wpięciu wtyczki kot był jak anioł, a w drugim tygodniu znów zaczął sikać na łóżko, chociaż w buteleczce została jeszcze połowa płynu!” - to najczęstsza skarga, jaką przeczytasz na polskich forach kociarzy, grupach na Facebooku oraz w opiniach pod popularnymi dyfuzorami starej generacji na Allegro i Ceneo:
 
 "Przez pierwsze 5-7 dni po wpięciu wtyczki mój kot był jak anioł! Przestał sikać na łóżko, nie wył pod drzwiami o 4:00 nad ranem i przestał gonić drugiego kota. Myślałam, że zdarzył się cud. A w drugim tygodniu wszystko nagle wróciło ze zdwojoną siłą, chociaż w buteleczce była jeszcze ponad połowa płynu!".
 
@@ -163,7 +163,7 @@ Pamiętaj: chroni Cię nasza 30-dniowa Gwarancja "Czysta Kuweta albo Zwrot Pieni
   'fel-18-pojedynczy-f3-vs-kompleks-matczyny-map': {
     headline: 'Pojedyncza cząsteczka F3 vs Kompleks Matczyny M.A.P. Dlaczego stare wtyczki przegrywają z sikaniem?',
     description: 'Poznaj różnicę między I a II generacją feromonoterapii przy walkach kotów i sikaniu na łóżko.',
-    primaryText: `Zadaj sobie jedno ważne pytanie: dlaczego tak wielu opiekunów kotów mówi, że klasyczny dyfuzor feromonowy pomógł, gdy kot drapał bok nowego fotela, ale okazał się całkowicie bezradny, gdy ten sam kot zaczął sikać na kołdrę w sypialni, dostał krwiomoczu ze stresu (FIC) albo rzucił się z pazurami na drugiego kota w przedpokoju?
+    primaryText: `Zwykła wtyczka z pojedynczą cząsteczką F3 z lat 90. może powstrzymać kota przed drapaniem fotela, ale przy sikaniu na kołdrę w sypialni, krwawym zapaleniu pęcherza (FIC) i walkach dwóch kotów jest po prostu biologicznie za słaba. Właśnie dlatego tak wielu opiekunów dziwi się, dlaczego klasyczny dyfuzor starej generacji okazał się w ich domu całkowicie bezradny.
 
 Przez lata właścicielom wmawiano, że "widocznie stres jest zbyt silny na feromony".
 
@@ -240,7 +240,7 @@ Testujesz bez żadnego ryzyka: masz pełne 30 dni Gwarancji "Czysta Kuweta albo 
   'fel-19-zasada-1-pokoj-1-strefa-miau-pl': {
     headline: 'Wpięłam dyfuzor w salonie, a kot dalej sikał w sypialni. Jeden rysunek wyjaśnił mi dlaczego',
     description: 'Dlaczego w polskim mieszkaniu w bloku zasięg 70 m² z pudełka to fikcja i jak działa Zasada 1 Pokój = 1 Strefa.',
-    primaryText: `Przez bite trzy tygodnie uważałam, że dyfuzory feromonowe dla kotów to największe oszustwo, na jakie dałam się nabrać w internecie.
+    primaryText: `Wpięłam dyfuzor w salonie przy telewizorze, a mój kocur Leon jeszcze tej samej nocy nasikał prosto na kołdrę w sypialni za korytarzem. Przez bite trzy tygodnie uważałam, że dyfuzory feromonowe dla kotów to największe oszustwo, na jakie dałam się nabrać w internecie.
 
 Mam zwykłe, 54-metrowe mieszkanie w bloku na trzecim piętrze: salon z aneksem kuchennym, wąski przedpokój w kształcie litery L, osobna sypialnia i łazienka, w której stoi kuweta mojego 4-letniego kocura Leona.
 
@@ -326,7 +326,7 @@ Każde zamówienie chroni 30-dniowa Gwarancja "Czysta Kuweta albo Zwrot Pienięd
   'fel-20-oddalem-wklady-z-internetu-do-badania': {
     headline: 'Kupiłem 4 popularne wkłady feromonowe z internetu dla własnego kota. Potem oddałem je do analizy',
     description: 'Dr wet. Edmund Newelski ujawnia wyniki badań laboratoryjnych tanich wkładów i skład 5% w Feliorze.',
-    primaryText: `Mówi się, że szewc bez butów chodzi, ale kiedy problem sikania poza kuwetą dotknął mojego własnego domu, dostałem najcenniejszą lekcję w mojej 24-letniej karierze lekarza weterynarii.
+    primaryText: `Kupiłem 4 najpopularniejsze wkłady feromonowe z internetu dla mojego własnego kocura, a kiedy żaden nie zatrzymał sikania poza kuwetą, oddałem próbki ich płynów do laboratorium analitycznego. To, co zobaczyłem na wydruku z chromatografu, było najcenniejszą lekcją w mojej 24-letniej karierze lekarza weterynarii.
 
 Mam w domu 6-letniego kocura rasy europejskiej o imieniu Borys. Przygarnąłem go jako poturbowane kocię ze schroniska. Przez 6 lat Borys był okazem zdrowia i spokoju, aż do zeszłej zimy, kiedy administracja naszej kamienicy rozpoczęła trwający miesiąc remont klatki schodowej połączony z wymianą pionów wodociągowych za ścianą naszej łazienki.
 

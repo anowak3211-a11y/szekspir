@@ -11,7 +11,7 @@ export const FELIORA_PL_COPY_STAGE5: Record<
       'Myślałam, że 94,99 zł za dyfuzor to dużo. Potem podliczyłam na kartce, ile wydałam przez 6 miesięcy na oszczędzanie',
     description:
       'Twarda matematyka życia z zestresowanym kotem: 1 960 zł wydane na pranie kanapy, enzymy oraz badania kontra 3,16 zł dziennie za biologiczny spokój z pakietem Feliora.',
-    primaryText: `Usiadłam w niedzielny wieczór przy kuchennym stole z kubkiem zimnej herbaty, czystą kartką w kratkę oraz otwartą aplikacją bankową w telefonie.
+    primaryText: `1 960 zł wydane w gotówce i zniszczona kanapa za 4 500 zł - dokładnie tyle kosztowało mnie 6 miesięcy „oszczędzania” 189,99 zł na porządnym zestawie dyfuzorów feromonowych. Usiadłam w niedzielny wieczór przy kuchennym stole z czystą kartką w kratkę oraz otwartą aplikacją bankową w telefonie.
 
 Przez ostatnie 6 miesięcy powtarzałam sobie jedno zdanie, które brzmiało bardzo rozsądnie w mojej głowie: "Nie będę wydawać prawie 190 złotych na jakieś wtyczki do kontaktu, poradzę sobie domowymi sposobami albo kupię coś tańszego w promocji".
 
@@ -93,7 +93,7 @@ Kliknij poniżej, zabezpiecz swoje mieszkanie za ułamek ceny jednego prania tap
       'Dlaczego 78% polskich opiekunów wybiera od razu Pakiet 2 lub 3 Pokoje? Praktyczny przewodnik rozmieszczenia w bloku',
     description:
       'Dr wet. Edmund Newelski wyjaśnia 5 złotych zasad podłączania dyfuzora Feliora w polskim mieszkaniu, aby pokryć Strefę Przebywania oraz Strefę Kuwety od 1. godziny.',
-    primaryText: `W moim gabinecie weterynaryjnym niemal każdego tygodnia widzę ten sam scenariusz, który łamie serce zarówno opiekunowi, jak i samemu zwierzęciu.
+    primaryText: `Wpięcie pojedynczego dyfuzora za ciężką zasłoną w salonie albo pod szafką RTV sprawia, że 80% feromonów osiada na tkaninie w promieniu 30 centymetrów zamiast dotrzeć do nosa Twojego kota. W moim gabinecie weterynaryjnym niemal każdego tygodnia widzę ten sam błąd, który sabotuje całą terapię w polskich mieszkaniach.
 
 Właściciel kupuje pojedynczy dyfuzor feromonowy, wpina go do jedynego wolnego gniazdka w mieszkaniu - najczęściej głęboko za ciężką zasłoną w rogu salonu albo pod niską szafką RTV - a po 14 dniach rozkłada ręce i mówi: "Panie doktorze, w salonie kot faktycznie zrobił się spokojniejszy, ale w przedpokoju pod drzwiami wejściowymi oraz w sypialni na kołdrze nadal pojawiają się mokre plamy".
 
@@ -146,7 +146,7 @@ Każdy pakiet obejmuje 30-dniową Gwarancję Spokojnego Kota. Wybierz swój wari
       'Co dokładnie dzieje się z mózgiem Twojego kota między 1. a 14. dniem po wpięciu Feliory do gniazdka?',
     description:
       'Poznaj biologiczną oś czasu dzień po dniu: od nasycenia powietrza kompleksem M.A.P. + F3 w pierwszych 24 godzinach, przez spadek kortyzolu w 4. dniu, aż po głęboki sen w 14. dniu.',
-    primaryText: `Bądźmy ze sobą całkowicie szczerzy już w pierwszym zdaniu: jeżeli szukasz magicznej różdżki, którą wepniesz do gniazdka o godzinie 18:00, a o godzinie 18:15 Twój zestresowany kot nagle przestanie sikać na łóżko, drapać framugi i gonić drugiego kota po korytarzu, to nie zamawiaj Feliory.
+    primaryText: `W 24 godziny nasyca powietrze w pokoju, w 4 dni obniża wyrzut kortyzolu, a między 7. a 14. dniem wyłącza odruch obsikiwania kołdry i nocne wycie pod drzwiami. Bądźmy jednak ze sobą całkowicie szczerzy: jeżeli szukasz magicznej różdżki, która zadziała w 15 minut między godziną 18:00 a 18:15, to nie zamawiaj Feliory.
 
 Żaden bezpieczny, biologiczny preparat na świecie nie działa w 15 minut - chyba że podasz zwierzęciu silny lek psychotropowy lub żel sedacyjny w strzykawce, który dosłownie odetnie mu świadomość i zmieni go w bezwładną kukiełkę na dywanie.
 
@@ -212,7 +212,7 @@ A ponieważ dajemy Ci pełne 30 dni Gwarancji Spokojnego Kota, masz ponad dwukro
       'Czy dyfuzor nie otumani mojego kota i czy mogę zostawić go w gniazdku, gdy wychodzę na 9 godzin do pracy?',
     description:
       'Odpowiadamy na 2 najważniejsze pytania opiekunów przed pierwszym zamówieniem: zero efektu sedacji, zero obciążenia wątroby i certyfikowana obudowa V-0 do pracy 24/7.',
-    primaryText: `Zanim opiekun kota zdecyduje się wpiąć do kontaktu w swoim domu jakiekolwiek urządzenie działające przez 24 godziny na dobę, w jego głowie niemal zawsze pojawiają się dwa całkowicie naturalne, odpowiedzialne pytania.
+    primaryText: `Zero psychotropów we krwi, zero otumanienia kota i bezpieczny rdzeń ceramiczny 5W, który możesz bez obaw zostawić w gniazdku, gdy wychodzisz na 9 godzin do pracy. Zanim jednak wepniesz do kontaktu urządzenie działające przez 24 godziny na dobę, poznaj konkretną odpowiedź na 2 najważniejsze pytania opiekunów.
 
 Przeczytaliśmy setki wiadomości od naszych klientów oraz tysiące komentarzy na polskich grupach kociarzy i forach internetowych.
 
@@ -278,7 +278,7 @@ Wybierz swój zestaw na stronie (Pakiet 1 Pokój za 119,99 zł, najczęściej wy
       'Weź Feliorę na 30 dni próby. Jeśli Twoja kanapa nie zostanie sucha, a w domu nie zapadnie cisza - oddamy Ci 100% pieniędzy',
     description:
       'List od zespołu Feliora oraz dr. wet. Edmunda Newelskiego: dlaczego bierzemy całe ryzyko finansowe na siebie i dajemy pełne 30 dni gwarancji nawet po zużyciu wkładu.',
-    primaryText: `Jeżeli czytasz te słowa, to istnieje ogromne prawdopodobieństwo, że masz już za sobą długą listę rozczarowań i wydanych na marne pieniędzy.
+    primaryText: `Wepnij Feliorę do gniazdka na 30 dni próby: jeśli Twoja kołdra i kanapa nie pozostaną w 100% suche, a w domu nie zapadnie cisza - zwrócimy Ci każdą złotówkę na konto, nawet jeśli zużyjesz cały wkład do samego dna. Wiemy bowiem doskonale, że prawdopodobnie masz już za sobą długą listę rozczarowań i wydanych na marne pieniędzy.
 
 Być może w Twojej szafce w łazience stoi już napoczęta butelka ziołowego sprayu ze sklepu zoologicznego, który nie zrobił absolutnie nic.
 

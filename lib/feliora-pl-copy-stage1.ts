@@ -9,7 +9,7 @@ export const FELIORA_PL_COPY_STAGE1: Record<
   'fel-01-koldra-pachnaca-toba': {
     headline: 'Twój kot nie sika na łóżko ze złośliwości. Oto co naprawdę próbuje Ci powiedzieć',
     description: 'Weterynarz z 34-letnim stażem tłumaczy biologię kociego lęku i prosty sposób na suchą pościel',
-    primaryText: `Stałam w drzwiach sypialni o 23:30 z kubkiem herbaty w dłoni i patrzyłam, jak mój 5-letni kocur Borys kuca na samym środku świeżo przebranej kołdry.
+    primaryText: `Nasikał na sam środek świeżo przebranej kołdry, patrząc mi prosto w oczy. Stałam w drzwiach sypialni o 23:30 z kubkiem herbaty w dłoni, a mój 5-letni kocur Borys nawet nie drgnął.
 
 Nie uciekał. Nie chował uszu.
 
@@ -103,7 +103,7 @@ Kliknij link poniżej i sprawdź Pakiet 2 Pokoje Feliora za 189,99 zł (94,99 z�
   'fel-02-folia-malarska-na-kanapie': {
     headline: 'Przez 9 miesięcy kłamałam mamie, że mam remont, żeby nie weszła do mojego mieszkania',
     description: 'Folia malarska na kanapie za 4 500 zł i koniec wstydu przed gośćmi dzięki odkryciu biologii VNO',
-    primaryText: `Przez 9 miesięcy okłamywałam własną mamę, że w moim mieszkaniu trwa remont łazienki, potem że mam awarię rur, a w końcu że złapałam zaraźliwą grypę.
+    primaryText: `Moja kanapa za 4 500 zł przez 9 miesięcy była owinięta grubą folią malarską z Castoramy i oklejona szarą taśmą, bo własny kot zamienił mój salon w kuwetę. Okłamywałam nawet własną mamę, że mam remont łazienki, awarię rur albo zaraźliwą grypę.
 
 Wszystko po to, żeby nie przyjechała na niedzielną kawę i nie przekroczyła progu mojego przedpokoju.
 
@@ -195,7 +195,7 @@ Zamów Pakiet 2 Pokoje Feliora za 189,99 zł (94,99 zł/szt.) z linku poniżej. 
   },
 
   'fel-03-duch-pod-lozkiem': {
-    headline: 'Od 7 miesięcy nie dotknęłam własnego kota. Mieszkamy razem w 2 pokojach',
+    headline: 'Od 7 miesięcy nie dotknęłam własnego kota, chociaż śpimy co noc w tym samym pokoju. Przez 210 dni widziałam tylko parę przerażonych źrenic wciśniętych w ciemną szczelinę między skrzynią łóżka a ścianą. Mieszkamy razem w 2 pokojach',
     description: 'Historia o cichym paraliżu lękowym u kotów i o tym, jak w 9 dni wyłączyłam u niej „tryb oblężenia”',
     primaryText: `Od 7 miesięcy nie dotknęłam własnego kota.
 
@@ -291,7 +291,7 @@ Sprawdź Pakiet 2 Pokoje Feliora za 189,99 zł (94,99 zł za sztukę) w linku po
   'fel-04-ultimatum-meza-transporter': {
     headline: '„Albo ten kot znika do niedzieli, albo wyprowadzam się ja”. Historia, o której bałam się mówić',
     description: '11 miesięcy walki o dom i małżeństwo oraz 1 wiadomość prywatna, która uratowała mojego kota',
-    primaryText: `Mój mąż Tomek nie należy do ludzi, którzy krzyczą, trzaskają drzwiami albo rzucają słowami na wiatr.
+    primaryText: `„Albo ten kot znika z naszego domu do niedzieli, albo w poniedziałek wyprowadzam się ja” - powiedział mój mąż Tomek, podnosząc z podłogi skórzaną torbę na laptopa, z której kapał koci mocz. A Tomek nigdy nie rzuca słów na wiatr.
 
 Dlatego w tamtą środę o 7:15 rano, kiedy zobaczyłam go w przedpokoju, jak w milczeniu podnosi z podłogi swoją skórzaną torbę na laptopa, z której na dębowy parkiet kapał żółty, gryzący koci mocz - wiedziałam, że to koniec.
 
@@ -385,7 +385,7 @@ Zanim podejmiesz ostateczną decyzję, kliknij link poniżej i zamów Pakiet 2 P
   'fel-05-nocne-wycie-3-15': {
     headline: 'Od 8 miesięcy mój budzik nie musiał dzwonić. Punktualnie o 3:15 zaczynało się piekło pod drzwiami',
     description: 'Dlaczego kot wyje i drapie drzwi sypialni nad ranem oraz jak przespałam pełne 8 godzin po 6 dniach',
-    primaryText: `Od 8 miesięcy mój budzik w telefonie ustawiony na 6:45 był całkowicie bezużyteczny.
+    primaryText: `Punktualnie o 3:15 nad ranem pod drzwiami sypialni zaczynało się gardłowe, rozdzierające wycie i drapanie płyty MDF aż do białych wiórów. Przez 8 miesięcy mój budzik ustawiony na 6:45 był całkowicie bezużyteczny.
 
 Nie musiał dzwonić ani razu, bo każdego dnia - w poniedziałek, w środę i w niedzielę - budziłam się z bijącym sercem dokładnie o godzinie 3:15 nad ranem.
 
