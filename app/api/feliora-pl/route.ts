@@ -22,7 +22,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v3-inverse-hooks';
+const STATE_KEY = 'feliora-pl-library-v4-act3-catharsis';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];
