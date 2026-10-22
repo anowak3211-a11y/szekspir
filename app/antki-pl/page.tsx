@@ -1549,3536 +1549,2269 @@ export default function AntkiPlPage() {
     );
   }, [activeAngle, activeAd, imageLibrary]);
 
-  if (activeBrand === 'feliora') {
-    return <FelioraPlWorkspace onSwitchToOrthomax={() => setActiveBrand('orthomax')} />;
+
+  const [isEditingCopy, setIsEditingCopy] = useState(false);
+  const [showAngleDetails, setShowAngleDetails] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const b = params.get("brand");
+    if (b === "orthomax" || b === "feliora") {
+      setActiveBrand(b);
+    }
+  }, []);
+
+  const groupedPresetsForSidebar = useMemo(() => {
+    const groups: Array<{
+      key: string;
+      badge: string;
+      label: string;
+      color: string;
+      items: AntkiPlPresetAngle[];
+    }> = [
+      { key: "d1", badge: "GRUPA D1 · #36–#40", label: "Zablokowane kolano, schody i SOR (Wariant 19)", color: "#ea580c", items: [] },
+      { key: "d2", badge: "GRUPA D2 · #41–#45", label: "Moja 64-letnia mama i szafka z maściami (M_Jakuba)", color: "#d97706", items: [] },
+      { key: "d3", badge: "GRUPA D3 · #46–#50", label: "Fizjoterapeuta i test podniesienia łuku u dorosłych", color: "#0284c7", items: [] },
+      { key: "d4", badge: "GRUPA D4 · #51–#55", label: "6:00 rano, ostroga piętowa i zamrożona butelka", color: "#dc2626", items: [] },
+      { key: "d5", badge: "GRUPA D5 · #56–#60", label: "Haluks, zimowe botki i test mokrej stopy", color: "#ea580c", items: [] },
+      { key: "d6", badge: "GRUPA D6 · #61–#65", label: "Żal po operacji jednej stopy vs druga stopa", color: "#be123c", items: [] },
+      { key: "d7", badge: "GRUPA D7 · #66–#70", label: "8–12h na nogach w pracy (pielęgniarka, nauczycielka)", color: "#16a34a", items: [] },
+      { key: "dom", badge: "DOM · #1–#5", label: "Stage 1: Domowe odkrycie (zdarte buty, mokra stopa)", color: "#f97316", items: [] },
+      { key: "ruch", badge: "RUCH · #6–#10", label: "Stage 2: Efekt Domina (plecak, kolana, kostki)", color: "#d97706", items: [] },
+      { key: "grupa", badge: "GRUPA · #11–#15", label: "Stage 2: Szkoła, WF i rówieśnicy", color: "#0284c7", items: [] },
+      { key: "mit", badge: "MIT · #16–#20", label: "Stage 3: Wypalone matki i wojna o ćwiczenia", color: "#dc2626", items: [] },
+      { key: "ryciak", badge: "RYCIAK · #21–#25", label: "Stage 4: Gabinet fizjoterapeuty i test łuku", color: "#ea580c", items: [] },
+      { key: "zal", badge: "ŻAL · #26–#30", label: "Stage 4: Żal po operacji i skierowanie na zabieg", color: "#be123c", items: [] },
+      { key: "zima", badge: "ZIMA · #31–#35", label: "Stage 5: Zimowe botki i dorośli (Batch 1)", color: "#16a34a", items: [] },
+    ];
+
+    for (const item of filteredPresets) {
+      if (item.number >= 36 && item.number <= 40) groups[0].items.push(item);
+      else if (item.number >= 41 && item.number <= 45) groups[1].items.push(item);
+      else if (item.number >= 46 && item.number <= 50) groups[2].items.push(item);
+      else if (item.number >= 51 && item.number <= 55) groups[3].items.push(item);
+      else if (item.number >= 56 && item.number <= 60) groups[4].items.push(item);
+      else if (item.number >= 61 && item.number <= 65) groups[5].items.push(item);
+      else if (item.number >= 66 && item.number <= 70) groups[6].items.push(item);
+      else if (item.funnelStage === "stage1_domowe_odkrycie") groups[7].items.push(item);
+      else if (item.funnelStage === "stage2_efekt_domina") groups[8].items.push(item);
+      else if (item.funnelStage === "stage2_szkola_wf") groups[9].items.push(item);
+      else if (item.funnelStage === "stage3_wypalone_matki") groups[10].items.push(item);
+      else if (item.funnelStage === "ryciak_rip3_variations") groups[11].items.push(item);
+      else if (item.funnelStage === "zal_po_operacji") groups[12].items.push(item);
+      else groups[13].items.push(item);
+    }
+
+    return groups.filter(g => g.items.length > 0);
+  }, [filteredPresets]);
+
+  const activeWordCount = useMemo(() => {
+    const t = (editPrimaryText || activeAd?.primaryText || "").trim();
+    return t ? t.split(/\s+/).length : 0;
+  }, [editPrimaryText, activeAd]);
+
+  if (activeBrand === "feliora") {
+    return <FelioraPlWorkspace onSwitchToOrthomax={() => setActiveBrand("orthomax")} />;
   }
 
   return (
-    <main className="wrap" style={{ maxWidth: 1460, margin: '0 auto', padding: '20px 20px 80px' }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #1f1006 0%, #140a04 100%)",
+        color: "#f8fafc",
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        paddingBottom: 60,
+      }}
+    >
       <input
         ref={customImageInputRef}
         type="file"
         accept="image/*"
         multiple
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         onChange={e => void handleUploadCustomImageFiles(e.target.files)}
       />
-      <p className="crumb" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-        <a href="/">← Home (Szekspir)</a> · <a href="/uploader">Szekspir Ads (Uploader) ↗</a> ·{' '}
-        <a href="/profile">
-          Mózg AI ({brain.provider}: {brain.model}) ↗
-        </a>
-        <button
-          type="button"
-          onClick={() => setActiveBrand('feliora')}
-          style={{
-            marginLeft: 'auto',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: 8,
-            padding: '7px 14px',
-            fontSize: 13,
-            fontWeight: 800,
-            cursor: 'pointer',
-          }}
-        >
-          🐾 Przełącz na FELIORA PL (Batch 1: 25 Antków Koty — 5 Stages) →
-        </button>
-      </p>
 
-      {/* NAGŁÓWEK Z CZYSTYM KONTRASTEM + SZYBKI WYBÓR FANPAGE'A */}
-      <header
+      {/* TOP BAR WITH BRAND SWITCHER */}
+      <div
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 16,
-          marginBottom: 18,
-          borderBottom: '1px solid var(--border)',
-          paddingBottom: 14,
+          background: "linear-gradient(135deg, #2d1606 0%, #431407 55%, #1c0d04 100%)",
+          borderBottom: "1px solid #5c2d10",
+          padding: "14px 24px",
         }}
       >
-        <div>
-          <h1 style={{ margin: '0 0 4px', fontSize: 24, color: 'var(--text)' }}>
-            🇵🇱 ANTKI PL · {pageName} (Orthomax StepMax)
-          </h1>
-          <div className="sub" style={{ margin: 0, fontSize: 13, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-            <span>
-              Pakiet <strong>1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para)</strong> + <strong>30 dni gwarancji</strong> ·
-              Konto: <strong>1109284831182252</strong> · Fanpage:
-            </span>
-            <select
-              value={selectedPageId}
-              onChange={e => handleSelectFanpage(e.target.value)}
+        <div
+          style={{
+            maxWidth: 1680,
+            margin: "0 auto",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <a
+              href="/"
               style={{
-                padding: '4px 8px',
-                borderRadius: 6,
-                border: '1.5px solid #2563eb',
-                background: '#eff6ff',
-                color: '#1e3a8a',
-                fontWeight: 800,
-                fontSize: 12,
-                cursor: 'pointer',
+                color: "#fdba74",
+                textDecoration: "none",
+                fontSize: 13,
+                fontWeight: 600,
+                padding: "6px 10px",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.06)",
               }}
             >
-              {AVAILABLE_META_FANPAGES.map(fp => (
-                <option key={fp.id} value={fp.id}>
-                  {fp.name} ({fp.id}) — {fp.note}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+              ← Szekspir
+            </a>
 
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-          <button
-            type="button"
-            onClick={() => setShowGalleryPanel(v => !v)}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid #7c3aed',
-              background: showGalleryPanel ? '#7c3aed' : 'var(--card)',
-              color: showGalleryPanel ? '#ffffff' : '#6d28d9',
-              fontWeight: 700,
-              fontSize: 12.5,
-              cursor: 'pointer',
-            }}
-          >
-            🖼️ Galeria Kreacji ({imageLibrary.length}) {showGalleryPanel ? '▴' : '▾'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowCampaignPanel(v => !v)}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid #2563eb',
-              background: showCampaignPanel ? '#2563eb' : 'var(--card)',
-              color: showCampaignPanel ? '#ffffff' : '#1d4ed8',
-              fontWeight: 700,
-              fontSize: 12.5,
-              cursor: 'pointer',
-            }}
-          >
-            📅 Work Day Ad Sety ({displayedGroups.length}) {showCampaignPanel ? '▴' : '▾'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowAwarenessPanel(v => !v)}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid #0284c7',
-              background: showAwarenessPanel ? '#0284c7' : 'var(--card)',
-              color: showAwarenessPanel ? '#ffffff' : '#0369a1',
-              fontWeight: 700,
-              fontSize: 12.5,
-              cursor: 'pointer',
-            }}
-          >
-            🧠 Architektura Awareness Stage {showAwarenessPanel ? '▴' : '▾'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowCustomModal(true)}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid var(--accent)',
-              background: 'var(--card)',
-              color: 'var(--accent)',
-              fontWeight: 700,
-              fontSize: 12.5,
-              cursor: 'pointer',
-            }}
-          >
-            + Własny kąt / Hook
-          </button>
-
-          <button
-            type="button"
-            onClick={exportMarkdownFile}
-            disabled={!totalGeneratedCount}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid var(--border)',
-              background: 'var(--card)',
-              color: totalGeneratedCount ? 'var(--text)' : 'var(--muted)',
-              fontWeight: 600,
-              fontSize: 12.5,
-              opacity: totalGeneratedCount ? 1 : 0.55,
-              cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
-            }}
-          >
-            ⬇ Markdown ({readyAdsForExport.length})
-          </button>
-
-          <button
-            type="button"
-            onClick={exportUploaderJson}
-            disabled={!totalGeneratedCount}
-            style={{
-              padding: '8px 13px',
-              borderRadius: 8,
-              border: '1px solid #059669',
-              background: totalGeneratedCount ? '#059669' : 'var(--card)',
-              color: totalGeneratedCount ? '#ffffff' : 'var(--muted)',
-              fontWeight: 700,
-              fontSize: 12.5,
-              opacity: totalGeneratedCount ? 1 : 0.55,
-              cursor: totalGeneratedCount ? 'pointer' : 'not-allowed',
-            }}
-          >
-            🚀 Eksport JSON ({readyAdsForExport.length})
-          </button>
-        </div>
-      </header>
-
-      {error && (
-        <div
-          role="alert"
-          style={{
-            background: '#fef2f2',
-            border: '1px solid #ef4444',
-            color: '#991b1b',
-            padding: '10px 14px',
-            borderRadius: 8,
-            marginBottom: 14,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            fontSize: 13,
-            fontWeight: 600,
-          }}
-        >
-          <span>{error}</span>
-          <button
-            onClick={() => setError('')}
-            style={{ background: 'transparent', border: 0, color: '#991b1b', cursor: 'pointer', fontWeight: 700 }}
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {notice && (
-        <div
-          role="status"
-          style={{
-            background: '#ecfdf5',
-            border: '1px solid #10b981',
-            color: '#065f46',
-            padding: '10px 14px',
-            borderRadius: 8,
-            marginBottom: 14,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            fontSize: 13,
-            fontWeight: 600,
-          }}
-        >
-          <span>{notice}</span>
-          <button
-            onClick={() => setNotice('')}
-            style={{ background: 'transparent', border: 0, color: '#065f46', cursor: 'pointer', fontWeight: 700 }}
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {/* 1. ROZWIJANA GALERIA KREACJI (SAMA CZYSTA SIATKA MINIATUR) */}
-      <details
-        open={showGalleryPanel}
-        onToggle={e => setShowGalleryPanel((e.currentTarget as HTMLDetailsElement).open)}
-        style={{
-          borderRadius: 10,
-          marginBottom: 10,
-          background: 'var(--card)',
-          border: '1px solid #ddd6fe',
-          overflow: 'hidden',
-        }}
-      >
-        <summary
-          style={{
-            padding: '11px 16px',
-            cursor: 'pointer',
-            userSelect: 'none',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 10,
-            fontWeight: 800,
-            fontSize: 14,
-            color: 'var(--text)',
-          }}
-        >
-          <span>
-            🖼️ Galeria Kreacji ({imageLibrary.length} zdjęć · {aiImagesCount} AI Native + {metaImagesCount} z Biblioteki Antków)
-          </span>
-          <span style={{ fontSize: 12, fontWeight: 700, color: '#6d28d9' }}>
-            {showGalleryPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
-          </span>
-        </summary>
-
-        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 12 }}>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {/* BRAND SWITCHER PILLS */}
+            <div
+              style={{
+                display: " inline-flex",
+                background: "#160b04",
+                padding: 4,
+                borderRadius: 10,
+                border: "1px solid #4a2610",
+                gap: 4,
+              }}
+            >
               <button
                 type="button"
-                onClick={() => setGalleryTab('all')}
+                onClick={() => setActiveBrand("feliora")}
                 style={{
-                  padding: '6px 11px',
+                  padding: "7px 14px",
                   borderRadius: 7,
-                  border: galleryTab === 'all' ? '1px solid #7c3aed' : '1px solid var(--border)',
-                  background: galleryTab === 'all' ? '#7c3aed' : 'var(--bg)',
-                  color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
+                  border: 0,
+                  background: "transparent",
+                  color: "#fed7aa",
                   fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
+                  fontSize: 13,
+                  cursor: "pointer",
                 }}
               >
-                Wszystkie ({imageLibrary.length})
+                🐾 FELIORA PL · Batch 1: Koty (25 Antków)
               </button>
               <button
                 type="button"
-                onClick={() => setGalleryTab('meta')}
                 style={{
-                  padding: '6px 11px',
+                  padding: "7px 14px",
                   borderRadius: 7,
-                  border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
-                  background: galleryTab === 'meta' ? '#2563eb' : 'var(--bg)',
-                  color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                📚 Stare z Biblioteki Antków ({metaImagesCount})
-              </button>
-              <button
-                type="button"
-                onClick={() => setGalleryTab('ai')}
-                style={{
-                  padding: '6px 11px',
-                  borderRadius: 7,
-                  border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
-                  background: galleryTab === 'ai' ? '#059669' : 'var(--bg)',
-                  color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                ✨ Nowe AI Native ({aiImagesCount})
-              </button>
-              {customImagesCount > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setGalleryTab('custom')}
-                  style={{
-                    padding: '6px 11px',
-                    borderRadius: 7,
-                    border: galleryTab === 'custom' ? '1px solid #d97706' : '1px solid var(--border)',
-                    background: galleryTab === 'custom' ? '#d97706' : 'var(--bg)',
-                    color: galleryTab === 'custom' ? '#ffffff' : 'var(--text)',
-                    fontWeight: 700,
-                    fontSize: 12,
-                    cursor: 'pointer',
-                  }}
-                >
-                  📤 Twoje zdjęcia ({customImagesCount})
-                </button>
-              )}
-              <button
-                type="button"
-                disabled={uploadingCustomImage}
-                onClick={() => customImageInputRef.current?.click()}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 7,
-                  border: '1.5px solid #059669',
-                  background: '#ecfdf5',
-                  color: '#065f46',
+                  border: 0,
+                  background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                  color: "#ffffff",
                   fontWeight: 800,
-                  fontSize: 12,
-                  cursor: uploadingCustomImage ? 'wait' : 'pointer',
+                  fontSize: 13,
+                  cursor: "pointer",
+                  boxShadow: "0 2px 10px rgba(234, 88, 12, 0.45)",
                 }}
               >
-                {uploadingCustomImage ? '⏳ Wgrywanie zdjęcia…' : '📤 + Dodaj swoje zdjęcie'}
+                🦶 ORTHOMAX PL · StepMax (70 Antków)
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={syncToMetaCc35}
-              disabled={syncingMetaCc35}
-              style={{
-                padding: '7px 13px',
-                borderRadius: 7,
-                border: '1px solid #0f766e',
-                background: '#0f766e',
-                color: '#ffffff',
-                fontWeight: 700,
-                fontSize: 12,
-                cursor: syncingMetaCc35 ? 'wait' : 'pointer',
-                opacity: syncingMetaCc35 ? 0.7 : 1,
-              }}
-            >
-              {syncingMetaCc35
-                ? `⏳ Synchronizacja 35 reklam (${isDorosliBatchView ? 'Dorośli' : 'Dzieci'}) z Meta (PAUSED)…`
-                : `🔄 Zsynchronizuj 35 reklam w ${isDorosliBatchView ? 'ANTKI DOROSLI CC35' : 'ANTKI CC35'} → ${pageName} (PAUSED)`}
-            </button>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(115px, 1fr))',
-              gap: 8,
-              maxHeight: 420,
-              overflowY: 'auto',
-              paddingRight: 4,
-            }}
-          >
-            {filteredGalleryImages.map(asset => {
-              const isAssignedToActive = activeResolvedImage?.url === asset.url;
-              return (
-                <div
-                  key={asset.id}
-                  onClick={() => {
-                    if (activeAngle) {
-                      void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`);
-                    }
-                  }}
-                  title={`Kliknij, aby przypisać do Antka #${activeAngle?.number || 1}: ${asset.label}`}
-                  style={{
-                    position: 'relative',
-                    aspectRatio: '1 / 1',
-                    borderRadius: 8,
-                    border: isAssignedToActive ? '3px solid #7c3aed' : '1px solid var(--border)',
-                    background: '#0f172a',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <img
-                    src={asset.url}
-                    alt={asset.label}
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block',
-                    }}
-                  />
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: 5,
-                      left: 5,
-                      fontSize: 9,
-                      fontWeight: 800,
-                      padding: '2px 5px',
-                      borderRadius: 4,
-                      background: asset.source === 'ai' ? '#059669' : '#2563eb',
-                      color: '#ffffff',
-                    }}
-                  >
-                    {asset.source === 'ai' ? 'AI' : 'LIB'}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={e => {
-                      e.stopPropagation();
-                      setLightboxAsset(asset);
-                    }}
-                    title="Powiększ zdjęcie 1:1"
-                    style={{
-                      position: 'absolute',
-                      bottom: 5,
-                      left: 5,
-                      fontSize: 10,
-                      fontWeight: 800,
-                      padding: '2px 5px',
-                      borderRadius: 4,
-                      border: 0,
-                      background: 'rgba(15,23,42,0.75)',
-                      color: '#ffffff',
-                      cursor: 'zoom-in',
-                    }}
-                  >
-                    🔍
-                  </button>
-                  <button
-                    type="button"
-                    onClick={e => {
-                      e.stopPropagation();
-                      void handleDeleteImageFromLibrary(asset);
-                    }}
-                    title="Usuń to zdjęcie z biblioteki"
-                    style={{
-                      position: 'absolute',
-                      top: 5,
-                      right: 5,
-                      fontSize: 10,
-                      fontWeight: 900,
-                      padding: '2px 6px',
-                      borderRadius: 4,
-                      border: 0,
-                      background: 'rgba(220,38,38,0.88)',
-                      color: '#ffffff',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </details>
-
-      {/* 2. ROZWIJANE WORK DAY AD SETY (POSORTOWANE PO BATCHACH / DNIACH WYTWORZENIA) */}
-      <details
-        open={showCampaignPanel}
-        onToggle={e => setShowCampaignPanel((e.currentTarget as HTMLDetailsElement).open)}
-        style={{
-          borderRadius: 10,
-          marginBottom: 10,
-          background: 'var(--card)',
-          border: '1px solid #bfdbfe',
-          overflow: 'hidden',
-        }}
-      >
-        <summary
-          style={{
-            padding: '11px 16px',
-            cursor: 'pointer',
-            userSelect: 'none',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 10,
-            fontWeight: 800,
-            fontSize: 14,
-            color: 'var(--text)',
-          }}
-        >
-          <span>
-            📅 Work Day Ad Sety ({isDorosliBatchView ? 'Batch 2: Dorośli #36–#70' : 'Batch 1: Dzieci #1–#35'} · {displayedGroups.length} Ad Setów Cost Cap {metaCostCapPln} PLN)
-          </span>
-          <span style={{ fontSize: 12, fontWeight: 700, color: '#1d4ed8' }}>
-            {showCampaignPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
-          </span>
-        </summary>
-
-        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 14 }}>
-          {/* KARTA BATCHA Z DNIA WYTWORZENIA (NAJNOWSZY NA GÓRZE) */}
-          <div
-            style={{
-              padding: '12px 14px',
-              borderRadius: 9,
-              background: 'var(--bg)',
-              border: '1px solid #93c5fd',
-              display: 'grid',
-              gap: 10,
-            }}
-          >
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 800,
-                    padding: '3px 9px',
-                    borderRadius: 99,
-                    background: '#1d4ed8',
-                    color: '#ffffff',
-                  }}
-                >
-                  🗓️ BATCH DZIEŃ:{' '}
-                  {new Date(activeCampaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 18, fontWeight: 900, color: "#ffffff", letterSpacing: "-0.02em" }}>
+                  ANTKI PL · Orthomax StepMax ({isDorosliBatchView ? "Batch 2: 35 Dorośli #36–#70" : "Batch 1: 35 Dzieci #1–#35"})
                 </span>
-                <strong style={{ fontSize: 13.5, color: 'var(--text)' }}>
-                  Kampania: {activeCampaignStructure?.campaignName || metaCampaignName} (ID:{' '}
-                  {activeCampaignStructure?.campaignId || (isDorosliBatchView ? 'nowa po utworzeniu' : '120249912191200300')})
-                </strong>
                 <span
                   style={{
                     fontSize: 11,
                     fontWeight: 800,
-                    padding: '2px 8px',
-                    borderRadius: 99,
-                    background: '#dcfce7',
-                    color: '#166534',
+                    padding: "3px 8px",
+                    borderRadius: 999,
+                    background: "rgba(249, 115, 22, 0.22)",
+                    color: "#fdba74",
+                    border: "1px solid rgba(249, 115, 22, 0.45)",
                   }}
                 >
-                  COST_CAP = {metaCostCapPln} PLN · 7 Ad Setów · 35 Reklam · Fanpage: {pageName} ({selectedPageId})
+                  7 GRUP TEMATYCZNYCH · {totalGeneratedCount}/{presets.length || 70} GOTOWYCH (1300+ SŁÓW)
                 </span>
               </div>
-
-              {activeCampaignStructure?.campaignId && (
-                <a
-                  href={`https://adsmanager.facebook.com/adsmanager/manage/adsets?act=${activeCampaignStructure.accountId || '1109284831182252'}&selected_campaign_ids=${activeCampaignStructure.campaignId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ fontSize: 12, fontWeight: 700, color: '#2563eb' }}
-                >
-                  Otwórz w Meta Ads Manager ↗
-                </a>
-              )}
-            </div>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: 8,
-              }}
-            >
-              {displayedGroups.map((group, gIdx) => {
-                const adSetId = 'adSetId' in group ? group.adSetId : undefined;
-                const batchDayStr = new Date(activeCampaignStructure?.createdAt || Date.now()).toLocaleDateString('pl-PL', {
-                  day: '2-digit',
-                  month: '2-digit',
-                });
-                return (
-                  <div
-                    key={group.code}
-                    style={{
-                      padding: '9px 11px',
-                      borderRadius: 8,
-                      border: adSetId ? '1px solid #86efac' : '1px solid var(--border)',
-                      background: 'var(--card)',
-                      display: 'grid',
-                      gap: 4,
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6 }}>
-                      <strong style={{ fontSize: 12, color: 'var(--text)' }}>
-                        [{batchDayStr} · Batch #{gIdx + 1}] {group.label}
-                      </strong>
-                      <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 700,
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          background: adSetId ? '#dcfce7' : '#f1f5f9',
-                          color: adSetId ? '#166534' : '#475569',
-                        }}
-                      >
-                        {adSetId ? `ID: ${adSetId}` : `5 Antków (${group.shortRange})`}
-                      </span>
-                    </div>
-                    <p style={{ margin: 0, fontSize: 11, color: 'var(--muted)', lineHeight: 1.35 }}>{group.description}</p>
-                    <div style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'monospace' }}>
-                      Kąty: {group.angleIds.map(id => id.replace(/^pl-/, '#').replace(/^dorosli-/, 'D')).join(', ')}
-                    </div>
-                  </div>
-                );
-              })}
+              <div style={{ fontSize: 12, color: "#fdba74", marginTop: 2 }}>
+                Fanpage: <strong>{pageName}</strong> ({selectedPageId}) · Pakiet 1+1 GRATIS (2 pary za 99,99 zł) · LP:{" "}
+                <span style={{ color: "#fb923c" }}>{destinationUrl}</span>
+              </div>
             </div>
           </div>
 
-          {/* TWORZENIE KOLEJNEGO WORK DAY BATCHA W META */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end', paddingTop: 4 }}>
-            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-              Nazwa nowego Work Day Batcha (Kampanii)
-              <input
-                type="text"
-                value={metaCampaignName}
-                onChange={e => setMetaCampaignName(e.target.value)}
-                style={{
-                  padding: '6px 10px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontSize: 12,
-                  width: 240,
-                }}
-              />
-            </label>
-
-            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-              Cost Cap (PLN)
-              <input
-                type="number"
-                min={10}
-                max={200}
-                step={1}
-                value={metaCostCapPln}
-                onChange={e => setMetaCostCapPln(Number(e.target.value) || 30)}
-                style={{
-                  padding: '6px 8px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontSize: 12,
-                  width: 72,
-                }}
-              />
-            </label>
-
-            <label style={{ display: 'grid', gap: 3, fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>
-              Budżet dzienny (PLN)
-              <input
-                type="number"
-                min={100}
-                max={50000}
-                step={50}
-                value={metaDailyBudgetPln}
-                onChange={e => setMetaDailyBudgetPln(Number(e.target.value) || 1500)}
-                style={{
-                  padding: '6px 8px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontSize: 12,
-                  width: 90,
-                }}
-              />
-            </label>
-
+          {/* RIGHT ACTIONS */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <button
               type="button"
-              disabled={updatingCostCap}
-              onClick={() => void handleUpdateCostCap(metaCostCapPln)}
+              onClick={() => setShowCampaignPanel(prev => !prev)}
               style={{
-                padding: '7px 14px',
+                padding: "8px 13px",
                 borderRadius: 8,
-                border: '1px solid #059669',
-                background: '#059669',
-                color: '#ffffff',
+                border: "1px solid #7c2d12",
+                background: showCampaignPanel ? "#ea580c" : "rgba(234, 88, 12, 0.16)",
+                color: "#ffedd5",
                 fontWeight: 700,
-                fontSize: 12,
-                cursor: updatingCostCap ? 'wait' : 'pointer',
-                opacity: updatingCostCap ? 0.7 : 1,
+                fontSize: 12.5,
+                cursor: "pointer",
               }}
             >
-              {updatingCostCap
-                ? 'Aktualizuję w Meta...'
-                : `💰 Zmień Cost Cap na ${metaCostCapPln} zł w aktywnych Ad Setach`}
+              📅 Kampania Meta & 7 Ad Setów
             </button>
-
             <button
               type="button"
-              disabled={creatingMetaCampaign}
-              onClick={() => void handleCreateMetaCampaign(true)}
+              onClick={() => setShowGalleryPanel(prev => !prev)}
               style={{
-                padding: '7px 14px',
+                padding: "8px 13px",
                 borderRadius: 8,
-                border: '1px solid #1d4ed8',
-                background: '#2563eb',
-                color: '#ffffff',
+                border: "1px solid #4a2610",
+                background: showGalleryPanel ? "#ea580c" : "#241207",
+                color: "#ffedd5",
                 fontWeight: 700,
-                fontSize: 12,
-                cursor: creatingMetaCampaign ? 'wait' : 'pointer',
-                opacity: creatingMetaCampaign ? 0.7 : 1,
+                fontSize: 12.5,
+                cursor: "pointer",
               }}
             >
-              {creatingMetaCampaign
-                ? 'Tworzę w Meta Ads...'
-                : `⚡ Utwórz nowy Work Day Batch + 7 Ad Setów (CC ${metaCostCapPln} zł)`}
+              🖼️ Pełna Galeria Kreacji ({imageLibrary.length})
             </button>
-          </div>
-        </div>
-      </details>
-
-      {/* 3. ROZWIJANA ARCHITEKTURA AWARENESS STAGE (FILTRY ETAPÓW ŚWIADOMOŚCI + WYSZUKIWARKA + AKCJE BATCH) */}
-      <details
-        open={showAwarenessPanel}
-        onToggle={e => setShowAwarenessPanel((e.currentTarget as HTMLDetailsElement).open)}
-        style={{
-          borderRadius: 10,
-          marginBottom: 14,
-          background: 'var(--card)',
-          border: '1px solid var(--border)',
-          overflow: 'hidden',
-        }}
-      >
-        <summary
-          style={{
-            padding: '11px 16px',
-            cursor: 'pointer',
-            userSelect: 'none',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 10,
-            fontWeight: 800,
-            fontSize: 14,
-            color: 'var(--text)',
-          }}
-        >
-          <span>
-            🧠 Architektura Awareness Stage (Poziomy świadomości, wyszukiwarka i akcje batch · Gotowe {totalGeneratedCount}/{presets.length})
-          </span>
-          <span style={{ fontSize: 12, fontWeight: 700, color: '#0369a1' }}>
-            {showAwarenessPanel ? 'Zwiń ▴' : 'Rozwiń ▾'}
-          </span>
-        </summary>
-
-        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gap: 12 }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', marginRight: 4 }}>
-                Awareness Stage / Poziom Sofistykacji:
-              </span>
-
-              <button
-                type="button"
-                onClick={() => setStageFilter('all_kids')}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 6,
-                  border: stageFilter === 'all_kids' ? '1px solid var(--accent)' : '1px solid var(--border)',
-                  background: stageFilter === 'all_kids' ? 'var(--accent)' : 'var(--bg)',
-                  color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
-                  fontWeight: 600,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                Wszystkie Dzieci (30)
-              </button>
-
-              {STAGE_ORDER.map(stageKey => {
-                const meta = stages[stageKey];
-                if (!meta) return null;
-                const isActive = stageFilter === stageKey;
-                const count = presets.filter(p => p.funnelStage === stageKey).length;
-                return (
-                  <button
-                    key={stageKey}
-                    type="button"
-                    onClick={() => setStageFilter(stageKey)}
-                    style={{
-                      padding: '6px 11px',
-                      borderRadius: 6,
-                      border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
-                      background: isActive ? 'var(--accent)' : 'var(--bg)',
-                      color: isActive ? '#ffffff' : 'var(--text)',
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: 12,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {meta.shortLabel || meta.badge} ({count})
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {activeStageMeta && (
-            <div
-              style={{
-                padding: '8px 12px',
-                borderRadius: 6,
-                background: 'var(--bg)',
-                border: '1px solid var(--border)',
-                fontSize: 12,
-                color: 'var(--text)',
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 12,
-                alignItems: 'center',
-              }}
-            >
-              <span>
-                <strong>Awareness:</strong> {activeStageMeta.awareness || activeStageMeta.label}
-              </span>
-              <span>·</span>
-              <span>
-                <strong>Sofistykacja:</strong> {activeStageMeta.sophistication || 'Poziom 3/4'}
-              </span>
-              <span>·</span>
-              <span style={{ color: 'var(--muted)' }}>{activeStageMeta.description}</span>
-            </div>
-          )}
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Szukaj kąta (np. 599, kasza, ryciak, beton, operacja)..."
-                style={{
-                  padding: '7px 11px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontSize: 13,
-                  minWidth: 260,
-                }}
-              />
-
-              <button
-                type="button"
-                onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
-                style={{
-                  padding: '7px 11px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
-              >
-                Zaznacz widok ({filteredPresets.length})
-              </button>
-
-              {selectedIds.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setSelectedIds([])}
-                  style={{
-                    padding: '7px 10px',
-                    borderRadius: 6,
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg)',
-                    color: 'var(--muted)',
-                    fontSize: 12,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Odznacz ({selectedIds.length})
-                </button>
-              )}
-
-              <span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 4 }}>
-                Gotowe: <strong style={{ color: 'var(--text)' }}>{totalGeneratedCount}</strong> / {presets.length}
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-              {isBatchRunning ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    cancelBatchRef.current = true;
-                  }}
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: 7,
-                    background: '#dc2626',
-                    color: '#ffffff',
-                    border: 0,
-                    fontWeight: 700,
-                    fontSize: 13,
-                    cursor: 'pointer',
-                  }}
-                >
-                  ⏹ Zatrzymaj serię
-                </button>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    disabled={!selectedIds.length}
-                    onClick={() => void runBatchGeneration(selectedIds)}
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: 7,
-                      background: selectedIds.length ? 'var(--accent)' : 'var(--bg)',
-                      color: selectedIds.length ? '#ffffff' : 'var(--muted)',
-                      border: selectedIds.length ? '1px solid var(--accent)' : '1px solid var(--border)',
-                      fontWeight: 700,
-                      fontSize: 13,
-                      opacity: selectedIds.length ? 1 : 0.6,
-                      cursor: selectedIds.length ? 'pointer' : 'not-allowed',
-                    }}
-                  >
-                    ⚡ Generuj zaznaczone ({selectedIds.length})
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const missing = filteredPresets.filter(p => !adByAngleId[p.id]).map(p => p.id);
-                      void runBatchGeneration(missing.length ? missing : filteredPresets.map(p => p.id));
-                    }}
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: 7,
-                      background: '#059669',
-                      border: '1px solid #059669',
-                      color: '#ffffff',
-                      fontWeight: 700,
-                      fontSize: 13,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    🔥 Generuj brakujące w widoku ({filteredPresets.filter(p => !adByAngleId[p.id]).length})
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div
-            style={{
-              paddingTop: 10,
-              borderTop: '1px solid var(--border)',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 10,
-              fontSize: 12,
-              color: 'var(--muted)',
-            }}
-          >
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span>Fanpage / Persona</span>
-              <input
-                value={pageName}
-                onChange={e => setPageName(e.target.value)}
-                style={{
-                  padding: '6px 9px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                }}
-              />
-            </label>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span>Link docelowy (Orthomax PL)</span>
-              <input
-                value={destinationUrl}
-                onChange={e => setDestinationUrl(e.target.value)}
-                style={{
-                  padding: '6px 9px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                }}
-              />
-            </label>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span>Równoległe wątki AI (Batch)</span>
-              <select
-                value={concurrency}
-                onChange={e => setConcurrency(Number(e.target.value))}
-                style={{
-                  padding: '6px 9px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                }}
-              >
-                <option value={1}>1 naraz</option>
-                <option value={3}>3 naraz (zalecane)</option>
-                <option value={5}>5 naraz (szybka produkcja)</option>
-              </select>
-            </label>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span>Domyślny URL grafiki (pod JSON Uploader)</span>
-              <input
-                value={defaultMediaUrl}
-                onChange={e => setDefaultMediaUrl(e.target.value)}
-                placeholder="https://..."
-                style={{
-                  padding: '6px 9px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                }}
-              />
-            </label>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4, gridColumn: '1 / -1' }}>
-              <span>Dodatkowa instrukcja dla bota (opcjonalnie)</span>
-              <input
-                value={customInstructions}
-                onChange={e => setCustomInstructions(e.target.value)}
-                placeholder="Np. Wpleć jesienną aurę, deszczowy październik i zmianę butów..."
-                style={{
-                  padding: '6px 9px',
-                  borderRadius: 6,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                }}
-              />
-            </label>
-          </div>
-        </div>
-      </details>
-
-      {/* PASEK PRZEŁĄCZANIA PAKIETÓW: BATCH 2 DOROŚLI 35 (#36-#70) vs BATCH 1 DZIECI CC35 (#1-#35) */}
-      <div
-        style={{
-          marginBottom: 14,
-          padding: '12px 14px',
-          borderRadius: 10,
-          border: '1px solid var(--border)',
-          background: 'var(--card)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 10,
-        }}
-      >
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', textTransform: 'uppercase' }}>
-              Wybierz pakiet Copy:
-            </span>
             <button
               type="button"
-              onClick={() => {
-                setStageFilter('dorosli_35');
-                const firstAdult = presets.find(p => p.number === 36);
-                if (firstAdult) setActiveAngleId(firstAdult.id);
-              }}
+              onClick={() => setShowCustomModal(true)}
               style={{
-                padding: '7px 14px',
+                padding: "8px 13px",
                 borderRadius: 8,
-                border: stageFilter.startsWith('dorosli_') ? '2px solid #7c3aed' : '1px solid var(--border)',
-                background: stageFilter.startsWith('dorosli_') ? '#7c3aed' : 'var(--bg)',
-                color: stageFilter.startsWith('dorosli_') ? '#ffffff' : 'var(--text)',
+                border: "1px solid #4a2610",
+                background: "#241207",
+                color: "#fed7aa",
+                fontWeight: 700,
+                fontSize: 12.5,
+                cursor: "pointer",
+              }}
+            >
+              + Własny kąt / Hook
+            </button>
+            <button
+              type="button"
+              onClick={exportMarkdownFile}
+              style={{
+                padding: "8px 13px",
+                borderRadius: 8,
+                border: "1px solid #4a2610",
+                background: "#241207",
+                color: "#f8fafc",
+                fontWeight: 700,
+                fontSize: 12.5,
+                cursor: "pointer",
+              }}
+            >
+              ⬇ Markdown ({readyAdsForExport.length})
+            </button>
+            <button
+              type="button"
+              onClick={exportUploaderJson}
+              style={{
+                padding: "8px 14px",
+                borderRadius: 8,
+                border: 0,
+                background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                color: "#ffffff",
                 fontWeight: 800,
                 fontSize: 12.5,
-                cursor: 'pointer',
+                cursor: "pointer",
+                boxShadow: "0 2px 10px rgba(234, 88, 12, 0.4)",
               }}
             >
-              👵 Batch 2: DOROŚLI 35 NOWE (#36–#70 · D01–D35)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setStageFilter('all_kids');
-                const firstKid = presets.find(p => p.number === 1);
-                if (firstKid) setActiveAngleId(firstKid.id);
-              }}
-              style={{
-                padding: '7px 14px',
-                borderRadius: 8,
-                border: stageFilter === 'all_kids' ? '2px solid #2563eb' : '1px solid var(--border)',
-                background: stageFilter === 'all_kids' ? '#2563eb' : 'var(--bg)',
-                color: stageFilter === 'all_kids' ? '#ffffff' : 'var(--text)',
-                fontWeight: 700,
-                fontSize: 12.5,
-                cursor: 'pointer',
-              }}
-            >
-              👶 Batch 1: DZIECI CC35 (#1–#30)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setStageFilter('all')}
-              style={{
-                padding: '7px 12px',
-                borderRadius: 8,
-                border: stageFilter === 'all' ? '2px solid #059669' : '1px solid var(--border)',
-                background: stageFilter === 'all' ? '#059669' : 'var(--bg)',
-                color: stageFilter === 'all' ? '#ffffff' : 'var(--text)',
-                fontWeight: 700,
-                fontSize: 12.5,
-                cursor: 'pointer',
-              }}
-            >
-              📚 Wszystkie ({presets.length})
+              🚀 Eksport JSON ({readyAdsForExport.length})
             </button>
           </div>
-
-          <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-            Widoczne w liście: <strong style={{ color: 'var(--text)' }}>{filteredPresets.length}</strong> kątów
-          </span>
         </div>
 
-        {stageFilter.startsWith('dorosli_') && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center', paddingTop: 6, borderTop: '1px dashed var(--border)' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#6d28d9', marginRight: 4 }}>
-              7 Grup Dorośli (po 5 reklam):
-            </span>
-            {[
-              { id: 'dorosli_35', label: 'Wszystkie 35 Dorośli (D01–D35)' },
-              { id: 'dorosli_d1', label: 'D1: SOR i Nagła Blokada (D01–D05)' },
-              { id: 'dorosli_d2', label: 'D2: M_Jakuba · O Mamie/Tacie (D06–D10)' },
-              { id: 'dorosli_d3', label: 'D3: Ryciak Dorośli · 10-Sek Test (D11–D15)' },
-              { id: 'dorosli_d4', label: 'D4: Ostroga i 6:00 Rano (D16–D20)' },
-              { id: 'dorosli_d5', label: 'D5: Haluks i Rozmiar 40 (D21–D25)' },
-              { id: 'dorosli_d6', label: 'D6: Żal po Operacji i Skalpel (D26–D30)' },
-              { id: 'dorosli_d7', label: 'D7: Praca Stojąca i 4 Kroki (D31–D35)' },
-            ].map(tab => {
-              const active = stageFilter === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setStageFilter(tab.id as typeof stageFilter)}
-                  style={{
-                    padding: '5px 10px',
-                    borderRadius: 6,
-                    border: active ? '1px solid #7c3aed' : '1px solid var(--border)',
-                    background: active ? '#ede9fe' : 'var(--bg)',
-                    color: active ? '#5b21b6' : 'var(--text)',
-                    fontWeight: active ? 800 : 500,
-                    fontSize: 11.5,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* GŁÓWNY UKŁAD DWUKOLUMNOWY: LISTA KĄTÓW PO LEWEJ, EDYTOR I PODGLĄD PO PRAWEJ */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(360px, 440px) 1fr',
-          gap: 18,
-          alignItems: 'start',
-        }}
-      >
-        {/* LEWA KOLUMNA: LISTA KĄTÓW */}
+        {/* OFFER CALLOUT BAR */}
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-            maxHeight: '80vh',
-            overflowY: 'auto',
-            paddingRight: 4,
+            maxWidth: 1680,
+            margin: "10px auto 0",
+            padding: "8px 14px",
+            borderRadius: 10,
+            background: "rgba(22, 11, 4, 0.72)",
+            border: "1px solid rgba(249, 115, 22, 0.32)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 10,
+            fontSize: 12,
+            color: "#fed7aa",
           }}
         >
-          {loading ? (
-            <p style={{ color: 'var(--muted)' }}>Wczytywanie matrycy Antków PL...</p>
-          ) : (
-            filteredPresets.map(angle => {
-              const ad = adByAngleId[angle.id];
-              const runState = statuses[angle.id] || (ad ? 'done' : 'idle');
-              const isSelected = selectedIds.includes(angle.id);
-              const isActive = activeAngleId === angle.id;
-              const errText = angleErrors[angle.id];
-              const assignedImgUrl =
-                ad?.imageUrl || angle.defaultImageUrl || getDefaultImageForAngle(angle.number).url;
-              const assignedAsset = imageLibrary.find(item => item.url === assignedImgUrl);
+          <div>
+            🦶 <strong>Oferta Orthomax StepMax (PL):</strong> Dynamiczne wkładki ortopedyczne z wypustkami sensorycznymi ·{" "}
+            <strong style={{ color: "#fdba74" }}>Pakiet 1+1 GRATIS (2 pary za 99,99 zł · 50 zł/para)</strong> · 30 dni na test · 0 myślników em-dash
+          </div>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <span style={{ color: "#fb923c", fontWeight: 700 }}>
+              Konto Meta: UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)
+            </span>
+          </div>
+        </div>
+      </div>
 
-              return (
-                <article
-                  id={`antek-card-${angle.id}`}
-                  key={angle.id}
-                  onClick={() => setActiveAngleId(angle.id)}
+      {/* NOTICES & ERRORS */}
+      <div style={{ maxWidth: 1680, margin: "0 auto", padding: "0 24px" }}>
+        {error && (
+          <div
+            style={{
+              marginTop: 12,
+              padding: "10px 14px",
+              borderRadius: 10,
+              background: "rgba(239, 68, 68, 0.16)",
+              border: "1px solid rgba(239, 68, 68, 0.4)",
+              color: "#fecaca",
+              fontSize: 13,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span>⚠️ {error}</span>
+            <button
+              type="button"
+              onClick={() => setError("")}
+              style={{ background: "transparent", border: 0, color: "#fecaca", cursor: "pointer", fontWeight: 700 }}
+            >
+              ✕
+            </button>
+          </div>
+        )}
+        {notice && (
+          <div
+            style={{
+              marginTop: 12,
+              padding: "10px 14px",
+              borderRadius: 10,
+              background: "rgba(249, 115, 22, 0.18)",
+              border: "1px solid rgba(249, 115, 22, 0.45)",
+              color: "#ffedd5",
+              fontSize: 13,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span>🔥 {notice}</span>
+            <button
+              type="button"
+              onClick={() => setNotice("")}
+              style={{ background: "transparent", border: 0, color: "#ffedd5", cursor: "pointer", fontWeight: 700 }}
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* COLLAPSIBLE META CAMPAIGN & 7 AD SETS PANEL */}
+        {showCampaignPanel && (
+          <div
+            style={{
+              marginTop: 14,
+              padding: 18,
+              borderRadius: 14,
+              background: "#241207",
+              border: "1px solid #7c2d12",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "#ffedd5" }}>
+                  📅 Struktura Kampanii Meta ({isDorosliBatchView ? "Batch 2: ANTKI DOROSLI CC30" : "Batch 1: ANTKI CC35"}) — 7 Zestawów Reklam (PAUSED)
+                </h3>
+                <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "#fdba74" }}>
+                  Konto reklamowe: <strong>1109284831182252</strong> · Każdy zestaw reklam zawiera 5 Antków z danej grupy tematycznej · Wszystkie kreacje lądują jako <strong>PAUSED</strong>.
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <input
+                  type="text"
+                  value={metaCampaignName}
+                  onChange={e => setMetaCampaignName(e.target.value)}
+                  placeholder="Nazwa kampanii"
                   style={{
-                    padding: '11px 13px',
-                    borderRadius: 9,
-                    cursor: 'pointer',
-                    background: 'var(--card)',
-                    border: isActive
-                      ? '2px solid var(--accent)'
-                      : ad
-                      ? '1px solid #10b981'
-                      : '1px solid var(--border)',
-                    boxShadow: isActive ? '0 2px 8px rgba(29,78,216,0.12)' : 'none',
+                    padding: "7px 10px",
+                    borderRadius: 8,
+                    border: "1px solid #4a2610",
+                    background: "#160b04",
+                    color: "#f8fafc",
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    width: 210,
+                  }}
+                />
+                <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#fed7aa" }}>
+                  Cost Cap (PLN):
+                  <input
+                    type="number"
+                    value={metaCostCapPln}
+                    onChange={e => setMetaCostCapPln(Number(e.target.value) || 30)}
+                    style={{
+                      width: 68,
+                      padding: "6px 8px",
+                      borderRadius: 7,
+                      border: "1px solid #4a2610",
+                      background: "#160b04",
+                      color: "#ffffff",
+                      fontWeight: 700,
+                    }}
+                  />
+                </label>
+                <button
+                  type="button"
+                  disabled={updatingCostCap}
+                  onClick={() => void handleUpdateCostCap(metaCostCapPln)}
+                  style={{
+                    padding: "7px 12px",
+                    borderRadius: 8,
+                    border: "1px solid #ea580c",
+                    background: "rgba(234, 88, 12, 0.2)",
+                    color: "#fdba74",
+                    fontWeight: 700,
+                    fontSize: 12,
+                    cursor: "pointer",
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 7 }}>
-                    <label
-                      onClick={e => e.stopPropagation()}
-                      style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, cursor: 'pointer' }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={e =>
-                          setSelectedIds(prev =>
-                            e.target.checked ? [...prev, angle.id] : prev.filter(id => id !== angle.id),
-                          )
-                        }
-                      />
-                      <span
-                        style={{
-                          padding: '2px 7px',
-                          borderRadius: 4,
-                          background: angle.segment === 'dzieci' ? '#dbeafe' : '#f3e8ff',
-                          color: angle.segment === 'dzieci' ? '#1e40af' : '#6b21a8',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {angle.funnelLabel}
-                      </span>
-                    </label>
+                  {updatingCostCap ? "Aktualizuję..." : `Zmień Cost Cap (${metaCostCapPln} zł)`}
+                </button>
+                <button
+                  type="button"
+                  disabled={creatingMetaCampaign}
+                  onClick={() => void handleCreateMetaCampaign(true)}
+                  style={{
+                    padding: "7px 13px",
+                    borderRadius: 8,
+                    border: 0,
+                    background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                    color: "#ffffff",
+                    fontWeight: 800,
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  {creatingMetaCampaign ? "Tworzę w Meta..." : "🚀 Utwórz 7 Ad Setów w Meta (PAUSED)"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCampaignPanel(false)}
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: 7,
+                    border: "1px solid #4a2610",
+                    background: "#160b04",
+                    color: "#fdba74",
+                    cursor: "pointer",
+                    fontSize: 12,
+                  }}
+                >
+                  Zamknij
+                </button>
+              </div>
+            </div>
 
-                    <span
-                      style={{
-                        fontSize: 11,
-                        padding: '2px 8px',
-                        borderRadius: 99,
-                        fontWeight: 700,
-                        background:
-                          runState === 'done'
-                            ? '#d1fae5'
-                            : runState === 'generating'
-                            ? '#fef3c7'
-                            : runState === 'queued'
-                            ? '#dbeafe'
-                            : runState === 'error'
-                            ? '#fee2e2'
-                            : 'var(--bg)',
-                        color:
-                          runState === 'done'
-                            ? '#065f46'
-                            : runState === 'generating'
-                            ? '#92400e'
-                            : runState === 'queued'
-                            ? '#1e40af'
-                            : runState === 'error'
-                            ? '#991b1b'
-                            : 'var(--muted)',
-                        border: '1px solid var(--border)',
-                      }}
-                    >
-                      {runState === 'done' && ad
-                        ? `✓ Gotowe (${ad.wordCount} sł.)`
-                        : runState === 'generating'
-                        ? '⏳ Piszę...'
-                        : runState === 'queued'
-                        ? 'W kolejce'
-                        : runState === 'error'
-                        ? 'Błąd'
-                        : 'Do napisania'}
-                    </span>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+              {displayedGroups.map(group => (
+                <div
+                  key={group.code}
+                  style={{
+                    padding: 12,
+                    borderRadius: 10,
+                    background: "#160b04",
+                    border: "1px solid #4a2610",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c" }}>{group.code}</span>
+                    <span style={{ fontSize: 10.5, color: "#fdba74", fontWeight: 700 }}>{group.shortRange}</span>
                   </div>
-
-                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-                      <div
-                        onClick={e => {
-                          e.stopPropagation();
-                          setActiveAngleId(angle.id);
-                          setInlinePickerAngleId(prev => (prev === angle.id ? null : angle.id));
-                        }}
-                        style={{
-                          display: 'flex',
-                          gap: 3,
-                          cursor: 'pointer',
-                        }}
-                        title="Kliknij miniaturę, aby rozwinąć szybki wybór zdjęcia tutaj na liście"
-                      >
-                        <div
-                          style={{
-                            position: 'relative',
-                            width: ad?.secondImageUrl ? 46 : 54,
-                            height: ad?.secondImageUrl ? 46 : 54,
-                            minWidth: ad?.secondImageUrl ? 46 : 54,
-                            borderRadius: 7,
-                            overflow: 'hidden',
-                            border: inlinePickerAngleId === angle.id ? '2px solid #7c3aed' : '1px solid var(--border)',
-                            background: '#0f172a',
-                          }}
-                        >
-                          <img
-                            src={assignedImgUrl}
-                            alt={`Antek #${angle.number} (A)`}
-                            loading="lazy"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                          />
-                          <span
-                            style={{
-                              position: 'absolute',
-                              bottom: 1,
-                              right: 1,
-                              fontSize: 8,
-                              fontWeight: 800,
-                              padding: '1px 3px',
-                              borderRadius: 3,
-                              background: ad?.secondImageUrl
-                                ? '#2563eb'
-                                : assignedAsset?.source === 'meta'
-                                ? '#2563eb'
-                                : '#059669',
-                              color: '#ffffff',
-                            }}
-                          >
-                            {ad?.secondImageUrl ? 'A' : assignedAsset?.source === 'meta' ? 'META' : 'AI'}
-                          </span>
-                        </div>
-                        {ad?.secondImageUrl && (
-                          <div
-                            style={{
-                              position: 'relative',
-                              width: 46,
-                              height: 46,
-                              minWidth: 46,
-                              borderRadius: 7,
-                              overflow: 'hidden',
-                              border: '2px solid #ea580c',
-                              background: '#0f172a',
-                            }}
-                          >
-                            <img
-                              src={ad.secondImageUrl}
-                              alt={`Antek #${angle.number} (B)`}
-                              loading="lazy"
-                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                            />
-                            <span
-                              style={{
-                                position: 'absolute',
-                                bottom: 1,
-                                right: 1,
-                                fontSize: 8,
-                                fontWeight: 800,
-                                padding: '1px 3px',
-                                borderRadius: 3,
-                                background: '#ea580c',
-                                color: '#ffffff',
-                              }}
-                            >
-                              B
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ display: 'flex', gap: 2, width: 54 }}>
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation();
-                            cycleAngleImage(angle, -1);
-                          }}
-                          title="Poprzednie zdjęcie (0ms)"
-                          style={{
-                            flex: 1,
-                            padding: '2px 0',
-                            fontSize: 10,
-                            fontWeight: 800,
-                            borderRadius: 4,
-                            border: '1px solid var(--border)',
-                            background: 'var(--bg)',
-                            color: 'var(--text)',
-                            cursor: 'pointer',
-                            lineHeight: 1.1,
-                          }}
-                        >
-                          ◀
-                        </button>
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation();
-                            setActiveAngleId(angle.id);
-                            setInlinePickerAngleId(prev => (prev === angle.id ? null : angle.id));
-                          }}
-                          title="Rozwiń pasek miniaturek pod tym Antkiem"
-                          style={{
-                            flex: 1,
-                            padding: '2px 0',
-                            fontSize: 9,
-                            fontWeight: 800,
-                            borderRadius: 4,
-                            border: '1px solid var(--border)',
-                            background: inlinePickerAngleId === angle.id ? '#7c3aed' : 'var(--bg)',
-                            color: inlinePickerAngleId === angle.id ? '#ffffff' : 'var(--text)',
-                            cursor: 'pointer',
-                            lineHeight: 1.1,
-                          }}
-                        >
-                          ▾
-                        </button>
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation();
-                            cycleAngleImage(angle, 1);
-                          }}
-                          title="Następne zdjęcie (0ms)"
-                          style={{
-                            flex: 1,
-                            padding: '2px 0',
-                            fontSize: 10,
-                            fontWeight: 800,
-                            borderRadius: 4,
-                            border: '1px solid var(--border)',
-                            background: 'var(--bg)',
-                            color: 'var(--text)',
-                            cursor: 'pointer',
-                            lineHeight: 1.1,
-                          }}
-                        >
-                          ▶
-                        </button>
-                      </div>
-                    </div>
-
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', marginBottom: 3, lineHeight: 1.3 }}>
-                        #{angle.number} · {angle.title}
-                      </div>
-                      {ad?.primaryText ? (
-                        <div
-                          style={{
-                            fontSize: 11.5,
-                            color: isActive ? '#1d4ed8' : 'var(--muted)',
-                            lineHeight: 1.35,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                            fontWeight: isActive ? 600 : 400,
-                          }}
-                        >
-                          „{ad.primaryText.slice(0, 140)}…”
-                        </div>
-                      ) : (
-                        <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.3 }}>
-                          <strong>{angle.awarenessStage}</strong> · {angle.sophistication}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {inlinePickerAngleId === angle.id && (
-                    <div
-                      onClick={e => e.stopPropagation()}
-                      style={{
-                        marginTop: 4,
-                        padding: 6,
-                        borderRadius: 7,
-                        background: 'var(--card)',
-                        border: '1px solid #c4b5fd',
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          marginBottom: 4,
-                          fontSize: 10.5,
-                          fontWeight: 700,
-                          color: 'var(--muted)',
-                        }}
-                      >
-                        <span>Szybka podmiana zdjęcia (#{angle.number}):</span>
-                        <button
-                          type="button"
-                          onClick={() => setInlinePickerAngleId(null)}
-                          style={{
-                            border: 0,
-                            background: 'transparent',
-                            color: 'var(--muted)',
-                            cursor: 'pointer',
-                            fontWeight: 700,
-                            fontSize: 11,
-                          }}
-                        >
-                          ✕ Zamknij
-                        </button>
-                      </div>
-                      <div
-                        style={{
-                          display: 'grid',
-                          gridTemplateColumns: 'repeat(auto-fill, minmax(46px, 1fr))',
-                          gap: 4,
-                          maxHeight: 165,
-                          overflowY: 'auto',
-                        }}
-                      >
-                        {imageLibrary.map(asset => {
-                          const isSelected = assignedImgUrl === asset.url;
-                          return (
-                            <button
-                              key={asset.id}
-                              type="button"
-                              onClick={() => {
-                                void assignImageToAngles([angle.id], asset, `Antek #${angle.number}`);
-                              }}
-                              title={asset.label}
-                              style={{
-                                position: 'relative',
-                                padding: 0,
-                                height: 46,
-                                borderRadius: 5,
-                                overflow: 'hidden',
-                                border: isSelected ? '2.5px solid #7c3aed' : '1px solid var(--border)',
-                                cursor: 'pointer',
-                                background: '#0f172a',
-                              }}
-                            >
-                              <img
-                                src={asset.url}
-                                alt={asset.label}
-                                loading="lazy"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                              />
-                            </button>
-                          );
-                        })}
-                      </div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#f8fafc", marginBottom: 4 }}>{group.label}</div>
+                  <div style={{ fontSize: 11.5, color: "#d6d3d1", lineHeight: 1.4 }}>{group.description}</div>
+                  {typeof (group as { adSetId?: string }).adSetId === "string" && (group as { adSetId?: string }).adSetId && (
+                    <div style={{ marginTop: 6, fontSize: 10.5, color: "#86efac", fontFamily: "monospace" }}>
+                      AdSet ID: {(group as { adSetId?: string }).adSetId}
                     </div>
                   )}
-                  {errText && (
-                    <div style={{ color: '#dc2626', fontSize: 11.5, fontWeight: 600, marginTop: 4 }}>
-                      Błąd: {errText}
-                    </div>
-                  )}
-                </article>
-              );
-            })
-          )}
-        </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* PRAWA KOLUMNA: SZCZEGÓŁY KĄTA + PODGLĄD POSTA FB + PEŁNY EDYTOR TEKSTU + AUDYT */}
-        <section
-          style={{
-            padding: 20,
-            borderRadius: 10,
-            background: 'var(--card)',
-            border: '1px solid var(--border)',
-            color: 'var(--text)',
-          }}
-        >
-          {!activeAngle ? (
-            <p style={{ color: 'var(--muted)' }}>Wybierz kąt z listy po lewej stronie.</p>
-          ) : (
-            <>
-              {/* PASEK 1-KLIK + NAWIGACJA STRZAŁKAMI KLAWIATURY (← / →) */}
-              <div
-                style={{
-                  marginBottom: 12,
-                  padding: '8px 10px',
-                  borderRadius: 8,
-                  background: 'var(--bg)',
-                  border: '1px solid #bfdbfe',
-                  display: 'grid',
-                  gap: 6,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 11.5, fontWeight: 800, color: '#1e40af', marginRight: 2 }}>
-                    ⚡ Przełącz copy 1-klikiem:
-                  </span>
+        {/* COLLAPSIBLE FULL GALLERY PANEL */}
+        {showGalleryPanel && (
+          <div
+            style={{
+              marginTop: 14,
+              padding: 18,
+              borderRadius: 14,
+              background: "#241207",
+              border: "1px solid #5c2d10",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#ffedd5" }}>
+                  🖼️ Biblioteka Kreacji Orthomax StepMax ({imageLibrary.length} zdjęć — kliknij, aby przypisać do #{activeAngle?.number || 36})
+                </h3>
+                <p style={{ margin: "3px 0 0", fontSize: 12, color: "#fdba74" }}>
+                  Surowe zdjęcia z telefonu (Kie.ai Shit Quality) + biblioteka natywna. Możesz przypisać osobne zdjęcie A i osobne zdjęcie B (Test A/B).
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                {(["all", "ai", "meta", "custom"] as const).map(tab => (
                   <button
+                    key={tab}
                     type="button"
-                    onClick={() => cycleActiveCopy(-1)}
-                    title="Skrót klawiaturowy: Strzałka w lewo (←)"
+                    onClick={() => setGalleryTab(tab)}
                     style={{
-                      padding: '4px 9px',
-                      borderRadius: 6,
-                      border: '1px solid #93c5fd',
-                      background: '#eff6ff',
-                      color: '#1d4ed8',
-                      fontWeight: 800,
+                      padding: "6px 11px",
+                      borderRadius: 7,
+                      border: "1px solid #4a2610",
+                      background: galleryTab === tab ? "#ea580c" : "#160b04",
+                      color: galleryTab === tab ? "#ffffff" : "#fed7aa",
                       fontSize: 11.5,
-                      cursor: 'pointer',
+                      fontWeight: 700,
+                      cursor: "pointer",
                     }}
                   >
-                    ◀ Poprzednie copy (←)
+                    {tab === "all"
+                      ? `Wszystkie (${imageLibrary.length})`
+                      : tab === "ai"
+                      ? `Surowe AI / Kie (${aiImagesCount})`
+                      : tab === "meta"
+                      ? `Meta Library (${metaImagesCount})`
+                      : `Własne (${customImagesCount})`}
                   </button>
-                  <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', flex: 1 }}>
-                    {filteredPresets.map(p => {
-                      const isCur = p.id === activeAngle.id;
-                      return (
-                        <button
-                          key={p.id}
-                          type="button"
-                          onClick={() => setActiveAngleId(p.id)}
-                          title={`#${p.number} · ${p.title}`}
+                ))}
+                <button
+                  type="button"
+                  onClick={() => customImageInputRef.current?.click()}
+                  style={{
+                    padding: "7px 12px",
+                    borderRadius: 8,
+                    border: "1px solid #f97316",
+                    background: "rgba(249, 115, 22, 0.18)",
+                    color: "#ffedd5",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  + Wgraj własne zdjęcia
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowGalleryPanel(false)}
+                  style={{
+                    padding: "7px 12px",
+                    borderRadius: 8,
+                    border: "1px solid #4a2610",
+                    background: "#160b04",
+                    color: "#fdba74",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  Zamknij
+                </button>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(175px, 1fr))",
+                gap: 10,
+                maxHeight: 420,
+                overflowY: "auto",
+                paddingRight: 4,
+              }}
+            >
+              {filteredGalleryImages.map(asset => {
+                const isPrimary = activeResolvedImage?.url === asset.url;
+                const isSecond = activeResolvedSecondImage?.url === asset.url;
+                return (
+                  <div
+                    key={asset.id}
+                    style={{
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      background: "#160b04",
+                      border: isPrimary
+                        ? "2px solid #f97316"
+                        : isSecond
+                        ? "2px solid #fbbf24"
+                        : "1px solid #4a2610",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <div
+                      style={{ position: "relative", aspectRatio: "1/1", background: "#090d16", cursor: "pointer" }}
+                      onClick={() => setLightboxAsset(asset)}
+                    >
+                      <img
+                        src={asset.url}
+                        alt={asset.label}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      />
+                      {(isPrimary || isSecond) && (
+                        <span
                           style={{
-                            padding: '3px 7px',
-                            borderRadius: 5,
-                            border: isCur ? '1.5px solid #1d4ed8' : '1px solid var(--border)',
-                            background: isCur ? '#2563eb' : 'var(--card)',
-                            color: isCur ? '#ffffff' : 'var(--text)',
+                            position: "absolute",
+                            top: 6,
+                            left: 6,
+                            padding: "2px 7px",
+                            borderRadius: 6,
+                            fontSize: 10,
                             fontWeight: 800,
-                            fontSize: 11,
-                            cursor: 'pointer',
+                            background: isPrimary ? "#ea580c" : "#d97706",
+                            color: "#ffffff",
                           }}
                         >
-                          #{p.number}
+                          {isPrimary ? "KREACJA A" : "KREACJA B"}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: "#ffedd5",
+                          fontWeight: 600,
+                          lineHeight: 1.3,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {asset.label}
+                      </div>
+                      <div style={{ display: "flex", gap: 4, marginTop: "auto" }}>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            activeAngle && void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)
+                          }
+                          style={{
+                            flex: 1,
+                            padding: "4px 6px",
+                            borderRadius: 5,
+                            border: 0,
+                            background: isPrimary ? "#ea580c" : "#3b1d0a",
+                            color: "#ffffff",
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Ustaw A
                         </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            activeAngle && void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)
+                          }
+                          style={{
+                            flex: 1,
+                            padding: "4px 6px",
+                            borderRadius: 5,
+                            border: 0,
+                            background: isSecond ? "#d97706" : "#3b1d0a",
+                            color: "#fed7aa",
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Ustaw B
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* FILTER & BATCH SELECTOR BAR */}
+        <div
+          style={{
+            marginTop: 14,
+            padding: "12px 16px",
+            borderRadius: 12,
+            background: "#241207",
+            border: "1px solid #4a2610",
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+          {/* ROW 1: BATCH PILLS + FANPAGE + SEARCH */}
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("dorosli_35");
+                  const first = presets.find(p => p.number === 36);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter.startsWith("dorosli_") ? "1px solid #fb923c" : "1px solid #4a2610",
+                  background: stageFilter.startsWith("dorosli_")
+                    ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+                    : "#160b04",
+                  color: stageFilter.startsWith("dorosli_") ? "#ffffff" : "#fed7aa",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter.startsWith("dorosli_") ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
+                }}
+              >
+                👵 Batch 2: DOROŚLI 35 NOWE (#36–#70 · D01–D35)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("all_kids");
+                  const first = presets.find(p => p.number === 1);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
+                    ? "1px solid #fb923c"
+                    : "1px solid #4a2610",
+                  background:
+                    stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
+                      ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+                      : "#160b04",
+                  color:
+                    stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
+                      ? "#ffffff"
+                      : "#fed7aa",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                👶 Batch 1: DZIECI CC35 (#1–#35)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setStageFilter("all")}
+                style={{
+                  padding: "7px 12px",
+                  borderRadius: 8,
+                  border: stageFilter === "all" ? "1px solid #fb923c" : "1px solid #4a2610",
+                  background: stageFilter === "all" ? "#ea580c" : "#160b04",
+                  color: stageFilter === "all" ? "#ffffff" : "#fdba74",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                📚 Wszystkie ({presets.length || 70})
+              </button>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <select
+                value={selectedPageId}
+                onChange={e => handleSelectFanpage(e.target.value)}
+                style={{
+                  padding: "7px 11px",
+                  borderRadius: 8,
+                  border: "1px solid #4a2610",
+                  background: "#160b04",
+                  color: "#ffedd5",
+                  fontSize: 12,
+                  fontWeight: 700,
+                }}
+              >
+                {AVAILABLE_META_FANPAGES.map(fp => (
+                  <option key={fp.id} value={fp.id}>
+                    Fanpage: {fp.name} ({fp.note})
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="search"
+                placeholder="Szukaj kąta, hooka, kodu D01..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{
+                  padding: "7px 12px",
+                  borderRadius: 8,
+                  border: "1px solid #4a2610",
+                  background: "#160b04",
+                  color: "#f8fafc",
+                  fontSize: 12.5,
+                  minWidth: 230,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* ROW 2: SUB-GROUP FILTER PILLS */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+            {stageFilter.startsWith("dorosli_") ? (
+              <>
+                {(
+                  [
+                    { id: "dorosli_35", label: "Wszystkie Dorośli (35)" },
+                    { id: "dorosli_d1", label: "D1: SOR & Kolano (#36–#40)" },
+                    { id: "dorosli_d2", label: "D2: 64-letnia Mama (#41–#45)" },
+                    { id: "dorosli_d3", label: "D3: Fizjo Test Łuku (#46–#50)" },
+                    { id: "dorosli_d4", label: "D4: Ostroga 6:00 Rano (#51–#55)" },
+                    { id: "dorosli_d5", label: "D5: Haluks & Botki (#56–#60)" },
+                    { id: "dorosli_d6", label: "D6: Żal po Operacji (#61–#65)" },
+                    { id: "dorosli_d7", label: "D7: 8–12h w Pracy (#66–#70)" },
+                  ] as const
+                ).map(item => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setStageFilter(item.id)}
+                    style={{
+                      padding: "5px 11px",
+                      borderRadius: 7,
+                      border: stageFilter === item.id ? "1px solid #fb923c" : "1px solid #3b1d0a",
+                      background: stageFilter === item.id ? "rgba(234, 88, 12, 0.28)" : "#160b04",
+                      color: stageFilter === item.id ? "#ffffff" : "#fdba74",
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setStageFilter("all_kids")}
+                  style={{
+                    padding: "5px 11px",
+                    borderRadius: 7,
+                    border: stageFilter === "all_kids" ? "1px solid #fb923c" : "1px solid #3b1d0a",
+                    background: stageFilter === "all_kids" ? "rgba(234, 88, 12, 0.28)" : "#160b04",
+                    color: stageFilter === "all_kids" ? "#ffffff" : "#fdba74",
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  Wszystkie Dzieci (35)
+                </button>
+                {STAGE_ORDER.map(stKey => {
+                  const meta = stages[stKey];
+                  if (!meta) return null;
+                  const active = stageFilter === stKey;
+                  return (
+                    <button
+                      key={stKey}
+                      type="button"
+                      onClick={() => setStageFilter(stKey)}
+                      style={{
+                        padding: "5px 11px",
+                        borderRadius: 7,
+                        border: active ? "1px solid #fb923c" : "1px solid #3b1d0a",
+                        background: active ? "rgba(234, 88, 12, 0.28)" : "#160b04",
+                        color: active ? "#ffffff" : "#fdba74",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {meta.shortLabel || meta.badge}
+                    </button>
+                  );
+                })}
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* MAIN 3-COLUMN WORKSPACE (IDENTICAL LAYOUT TO FELIORA PL, BRAND ORANGE THEME) */}
+        <div
+          style={{
+            marginTop: 16,
+            display: "grid",
+            gridTemplateColumns: "320px minmax(420px, 620px) minmax(480px, 1fr)",
+            gap: 18,
+            alignItems: "start",
+          }}
+        >
+          {/* COLUMN 1: ANGLE LIST (320px) */}
+          <div
+            style={{
+              background: "#241207",
+              borderRadius: 14,
+              border: "1px solid #4a2610",
+              overflow: "hidden",
+              position: "sticky",
+              top: 14,
+              maxHeight: "calc(100vh - 28px)",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                padding: "11px 14px",
+                borderBottom: "1px solid #4a2610",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                background: "#160b04",
+              }}
+            >
+              <span style={{ fontSize: 12.5, fontWeight: 800, color: "#ffedd5" }}>
+                📋 Kąty Reklamowe ({filteredPresets.length})
+              </span>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button
+                  type="button"
+                  onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
+                  style={{
+                    padding: "3px 8px",
+                    borderRadius: 6,
+                    border: "1px solid #4a2610",
+                    background: "#241207",
+                    color: "#fdba74",
+                    fontSize: 11,
+                    cursor: "pointer",
+                  }}
+                >
+                  Zaznacz ({selectedIds.length || 0})
+                </button>
+                {selectedIds.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIds([])}
+                    style={{
+                      padding: "3px 8px",
+                      borderRadius: 6,
+                      border: "1px solid #4a2610",
+                      background: "#241207",
+                      color: "#fca5a5",
+                      fontSize: 11,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Wyczyść
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div style={{ overflowY: "auto", padding: 8, display: "flex", flexDirection: "column", gap: 10 }}>
+              {loading && (
+                <div style={{ padding: 24, textAlign: "center", color: "#fdba74", fontSize: 13 }}>
+                  Ładowanie 70 polskich Antków Orthomax StepMax...
+                </div>
+              )}
+              {groupedPresetsForSidebar.map(group => (
+                <div key={group.key}>
+                  <div
+                    style={{
+                      padding: "6px 10px",
+                      borderRadius: 8,
+                      background: "rgba(22, 11, 4, 0.9)",
+                      borderLeft: `3px solid ${group.color}`,
+                      marginBottom: 6,
+                    }}
+                  >
+                    <div style={{ fontSize: 10.5, fontWeight: 800, color: "#fb923c" }}>{group.badge}</div>
+                    <div style={{ fontSize: 11.5, fontWeight: 700, color: "#ffedd5" }}>{group.label}</div>
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {group.items.map(angle => {
+                      const isActive = angle.id === activeAngleId;
+                      const isChecked = selectedIds.includes(angle.id);
+                      const ad = adByAngleId[angle.id];
+                      const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
+                      const status = statuses[angle.id] || "idle";
+
+                      return (
+                        <div
+                          key={angle.id}
+                          id={`antek-card-${angle.id}`}
+                          onClick={() => setActiveAngleId(angle.id)}
+                          style={{
+                            padding: "9px 10px",
+                            borderRadius: 10,
+                            background: isActive ? "rgba(234, 88, 12, 0.24)" : "#160b04",
+                            border: isActive ? "1.5px solid #f97316" : "1px solid #3b1d0a",
+                            cursor: "pointer",
+                            transition: "all 0.12s ease",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={e => {
+                                  e.stopPropagation();
+                                  setSelectedIds(prev =>
+                                    prev.includes(angle.id) ? prev.filter(x => x !== angle.id) : [...prev, angle.id],
+                                  );
+                                }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: 10.5,
+                                  fontWeight: 900,
+                                  padding: "2px 6px",
+                                  borderRadius: 5,
+                                  background: group.color,
+                                  color: "#ffffff",
+                                }}
+                              >
+                                #{angle.number} · {angle.code.slice(0, 6).toUpperCase()}
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: 10,
+                                  fontWeight: 700,
+                                  padding: "2px 6px",
+                                  borderRadius: 5,
+                                  background: "rgba(249, 115, 22, 0.15)",
+                                  color: "#fdba74",
+                                }}
+                              >
+                                {angle.number >= 36 ? "Dorośli" : "Dzieci"}
+                              </span>
+                            </div>
+                            <span
+                              style={{
+                                fontSize: 10.5,
+                                fontWeight: 700,
+                                color: status === "generating" ? "#fbbf24" : words >= 1200 ? "#4ade80" : "#fdba74",
+                              }}
+                            >
+                              {status === "generating" ? "⏳ Generuję..." : `${words} sł. ✓`}
+                            </span>
+                          </div>
+
+                          <div
+                            style={{
+                              fontSize: 12.5,
+                              fontWeight: 700,
+                              color: isActive ? "#ffffff" : "#ffedd5",
+                              marginTop: 5,
+                              lineHeight: 1.32,
+                            }}
+                          >
+                            {angle.title}
+                          </div>
+
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 5, flexWrap: "wrap" }}>
+                            <span
+                              style={{
+                                fontSize: 10,
+                                color: "#fdba74",
+                                background: "#241207",
+                                padding: "2px 6px",
+                                borderRadius: 4,
+                              }}
+                            >
+                              🗣️ {angle.narrator}
+                            </span>
+                            {ad?.secondImageUrl && (
+                              <span
+                                style={{
+                                  fontSize: 9.5,
+                                  fontWeight: 800,
+                                  color: "#fde68a",
+                                  background: "rgba(217, 119, 6, 0.25)",
+                                  padding: "2px 5px",
+                                  borderRadius: 4,
+                                }}
+                              >
+                                A/B 2 ZDJĘCIA
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => cycleActiveCopy(1)}
-                    title="Skrót klawiaturowy: Strzałka w prawo (→)"
-                    style={{
-                      padding: '4px 9px',
-                      borderRadius: 6,
-                      border: '1px solid #93c5fd',
-                      background: '#eff6ff',
-                      color: '#1d4ed8',
-                      fontWeight: 800,
-                      fontSize: 11.5,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Następne copy (→) ▶
-                  </button>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                {/* TRYB STRZAŁEK KLAWIATURY (← / →) */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: 8,
-                    paddingTop: 5,
-                    borderTop: '1px dashed #cbd5e1',
-                    fontSize: 11,
-                    color: 'var(--muted)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                    <strong style={{ color: 'var(--text)' }}>⌨️ Strzałki na klawiaturze (← / →) przełączają:</strong>
-                    <button
-                      type="button"
-                      onClick={() => setArrowKeyTarget('copy')}
-                      style={{
-                        padding: '2px 8px',
-                        borderRadius: 5,
-                        border: arrowKeyTarget === 'copy' ? '1.5px solid #2563eb' : '1px solid var(--border)',
-                        background: arrowKeyTarget === 'copy' ? '#2563eb' : 'var(--card)',
-                        color: arrowKeyTarget === 'copy' ? '#ffffff' : 'var(--text)',
-                        fontWeight: 800,
-                        fontSize: 11,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      📄 Copy (#1–#35)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setArrowKeyTarget('image')}
-                      style={{
-                        padding: '2px 8px',
-                        borderRadius: 5,
-                        border: arrowKeyTarget === 'image' ? '1.5px solid #7c3aed' : '1px solid var(--border)',
-                        background: arrowKeyTarget === 'image' ? '#7c3aed' : 'var(--card)',
-                        color: arrowKeyTarget === 'image' ? '#ffffff' : 'var(--text)',
-                        fontWeight: 800,
-                        fontSize: 11,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🖼️ Zdjęcie w aktywnym Antku
-                    </button>
-                  </div>
-                  <span>
-                    {arrowKeyTarget === 'copy'
-                      ? 'Tip: ← / → zmienia Copy, a Shift + ← / → (lub [ / ]) zmienia Zdjęcie'
-                      : 'Tip: ← / → zmienia Zdjęcie, a Shift + ← / → zmienia Copy'}
-                  </span>
-                </div>
-              </div>
-
+          {/* COLUMN 2: CENTER COPY READER / EDITOR (minmax(420px, 620px)) */}
+          {activeAngle && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {/* COMPACT STICKY CONTROL BAR */}
               <div
                 style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  gap: 12,
-                  marginBottom: 14,
-                  paddingBottom: 12,
-                  borderBottom: '1px solid var(--border)',
+                  background: "#241207",
+                  borderRadius: 14,
+                  border: "1px solid #4a2610",
+                  padding: "12px 16px",
                 }}
               >
-                <div style={{ maxWidth: 680 }}>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center', marginBottom: 6 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     <span
                       style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        padding: '2px 8px',
-                        borderRadius: 4,
-                        background: '#dbeafe',
-                        color: '#1e40af',
+                        fontSize: 11.5,
+                        fontWeight: 900,
+                        padding: "3px 9px",
+                        borderRadius: 6,
+                        background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                        color: "#ffffff",
                       }}
                     >
-                      {activeAngle.awarenessStage}
+                      #{activeAngle.number} · {activeAngle.code.toUpperCase()}
                     </span>
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        padding: '2px 8px',
-                        borderRadius: 4,
-                        background: '#fef3c7',
-                        color: '#92400e',
-                      }}
-                    >
-                      Sofistykacja: {activeAngle.sophistication}
-                    </span>
-                    <code style={{ fontSize: 11, color: 'var(--muted)' }}>#{activeAngle.number} · {activeAngle.code}</code>
+                    <span style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>{activeAngle.title}</span>
                   </div>
-                  <h2 style={{ margin: '0 0 4px', fontSize: 19, color: 'var(--text)', lineHeight: 1.3 }}>
-                    {activeAngle.title}
-                  </h2>
-                  <p style={{ margin: 0, fontSize: 12.5, color: 'var(--muted)' }}>
-                    <strong>Narratorka:</strong> {activeAngle.narrator} · <strong>Postać:</strong> {activeAngle.protagonist}
-                  </p>
-                </div>
 
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    disabled={statuses[activeAngle.id] === 'generating'}
-                    onClick={() => void generateSingleAngle(activeAngle.id)}
-                    style={{
-                      padding: '10px 16px',
-                      borderRadius: 8,
-                      background: 'var(--accent)',
-                      color: '#ffffff',
-                      border: 0,
-                      fontWeight: 700,
-                      fontSize: 13,
-                      cursor: statuses[activeAngle.id] === 'generating' ? 'wait' : 'pointer',
-                    }}
-                  >
-                    {statuses[activeAngle.id] === 'generating'
-                      ? '⏳ Generuję MSL...'
-                      : activeAd
-                      ? '🔄 Wygeneruj nową wersję'
-                      : '✨ Wygeneruj ten Antek teraz'}
-                  </button>
-
-                  {editPrimaryText && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    <button
+                      type="button"
+                      onClick={() => cycleActiveCopy(-1)}
+                      style={{
+                        padding: "5px 10px",
+                        borderRadius: 7,
+                        border: "1px solid #4a2610",
+                        background: "#160b04",
+                        color: "#fed7aa",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      ← Poprzedni
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => cycleActiveCopy(1)}
+                      style={{
+                        padding: "5px 10px",
+                        borderRadius: 7,
+                        border: "1px solid #4a2610",
+                        background: "#160b04",
+                        color: "#fed7aa",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Następny →
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowAngleDetails(prev => !prev)}
+                      style={{
+                        padding: "5px 10px",
+                        borderRadius: 7,
+                        border: "1px solid #4a2610",
+                        background: showAngleDetails ? "rgba(234, 88, 12, 0.25)" : "#160b04",
+                        color: "#fdba74",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {showAngleDetails ? "▲ Ukryj Scenę / Hook" : "▼ Scena & Hook"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingCopy(prev => !prev)}
+                      style={{
+                        padding: "5px 11px",
+                        borderRadius: 7,
+                        border: "1px solid #f97316",
+                        background: isEditingCopy ? "#ea580c" : "rgba(249, 115, 22, 0.15)",
+                        color: "#ffffff",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {isEditingCopy ? "📖 Tryb Czytania" : "✏️ Edytuj tekst"}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={statuses[activeAngle.id] === "generating"}
+                      onClick={() => void generateSingleAngle(activeAngle.id)}
+                      style={{
+                        padding: "5px 11px",
+                        borderRadius: 7,
+                        border: "1px solid #fb923c",
+                        background: "rgba(249, 115, 22, 0.2)",
+                        color: "#ffedd5",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {statuses[activeAngle.id] === "generating" ? "⏳ Piszę..." : "✨ Przepisz z AI"}
+                    </button>
                     <button
                       type="button"
                       onClick={() => {
-                        void navigator.clipboard.writeText(editPrimaryText);
-                        setNotice('Skopiowano Primary Text do schowka!');
+                        navigator.clipboard.writeText(editPrimaryText || activeAd?.primaryText || "");
+                        setNotice(`Skopiowano tekst kąta #${activeAngle.number} do schowka.`);
                       }}
                       style={{
-                        padding: '10px 14px',
-                        borderRadius: 8,
-                        border: '1px solid var(--border)',
-                        background: 'var(--bg)',
-                        color: 'var(--text)',
-                        fontWeight: 600,
-                        fontSize: 13,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      📋 Kopiuj tekst
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* REALISTYCZNY PODGLĄD POSTA „PORADY MAMY GOSI” + SZYBKI PRZEŁĄCZNIK KREACJI */}
-              <div
-                style={{
-                  marginBottom: 16,
-                  padding: 14,
-                  borderRadius: 10,
-                  background: 'var(--bg)',
-                  border: '1px solid #ddd6fe',
-                  display: 'grid',
-                  gridTemplateColumns: 'minmax(320px, 410px) 1fr',
-                  gap: 16,
-                  alignItems: 'start',
-                }}
-              >
-                {/* KARTA FACEBOOK FEED PREVIEW */}
-                <div
-                  style={{
-                    borderRadius: 10,
-                    border: '2px solid #3b82f6',
-                    background: '#ffffff',
-                    color: '#0f172a',
-                    overflow: 'hidden',
-                    boxShadow: '0 4px 12px rgba(37,99,235,0.12)',
-                  }}
-                >
-                  {/* PASEK NAGŁÓWKA WSKAZUJĄCY KTÓRE COPY JEST W PODGLĄDZIE */}
-                  <div
-                    style={{
-                      padding: '6px 10px',
-                      background: '#eff6ff',
-                      borderBottom: '1px solid #bfdbfe',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: 6,
-                    }}
-                  >
-                    <span style={{ fontSize: 11, fontWeight: 800, color: '#1d4ed8' }}>
-                      📄 COPY #{activeAngle.number}: {activeAngle.title.slice(0, 38)}
-                      {activeAngle.title.length > 38 ? '…' : ''}
-                    </span>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
-                          if (idx >= 0) {
-                            setActiveAngleId(filteredPresets[(idx - 1 + filteredPresets.length) % filteredPresets.length].id);
-                          }
-                        }}
-                        title="Poprzednie copy"
-                        style={{
-                          padding: '2px 7px',
-                          borderRadius: 4,
-                          border: '1px solid #93c5fd',
-                          background: '#ffffff',
-                          color: '#1d4ed8',
-                          fontWeight: 800,
-                          fontSize: 10.5,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        ◀ Copy
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const idx = filteredPresets.findIndex(p => p.id === activeAngle.id);
-                          if (idx >= 0) {
-                            setActiveAngleId(filteredPresets[(idx + 1) % filteredPresets.length].id);
-                          }
-                        }}
-                        title="Następne copy"
-                        style={{
-                          padding: '2px 7px',
-                          borderRadius: 4,
-                          border: '1px solid #93c5fd',
-                          background: '#ffffff',
-                          color: '#1d4ed8',
-                          fontWeight: 800,
-                          fontSize: 10.5,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Copy ▶
-                      </button>
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
-                        color: '#ffffff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontWeight: 800,
-                        fontSize: 13,
-                      }}
-                    >
-                      {activeFanpageMeta.initials}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: 13, color: '#0f172a', lineHeight: 1.2 }}>
-                        {pageName || 'Centrum Dobrego Kroku'}
-                      </div>
-                      <div style={{ fontSize: 11, color: '#64748b' }}>
-                        Sponsorowane · 🌐 · ID: {selectedPageId}
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setFbPreviewExpanded(v => !v)}
-                      style={{
-                        padding: '3px 8px',
-                        borderRadius: 5,
-                        border: '1px solid #cbd5e1',
-                        background: '#f8fafc',
-                        color: '#334155',
+                        padding: "5px 10px",
+                        borderRadius: 7,
+                        border: "1px solid #4a2610",
+                        background: "#160b04",
+                        color: "#f8fafc",
+                        fontSize: 11.5,
                         fontWeight: 700,
-                        fontSize: 10.5,
-                        cursor: 'pointer',
+                        cursor: "pointer",
                       }}
                     >
-                      {fbPreviewExpanded ? 'Skróć tekst' : 'Pełne copy'}
+                      📋 Kopiuj
                     </button>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: '0 12px 10px',
-                      fontSize: 12.5,
-                      color: '#1e293b',
-                      lineHeight: 1.48,
-                      whiteSpace: 'pre-wrap',
-                      maxHeight: fbPreviewExpanded ? 260 : undefined,
-                      overflowY: fbPreviewExpanded ? 'auto' : undefined,
-                      borderBottom: fbPreviewExpanded ? '1px solid #e2e8f0' : undefined,
-                    }}
-                  >
-                    {fbPreviewExpanded
-                      ? editPrimaryText
-                      : (editPrimaryText || '').slice(0, 230) + ((editPrimaryText || '').length > 230 ? '… ' : '')}
-                    {!fbPreviewExpanded && (editPrimaryText || '').length > 230 && (
+                    {editDirty && (
                       <button
                         type="button"
-                        onClick={() => setFbPreviewExpanded(true)}
+                        disabled={savingEdit}
+                        onClick={() => void saveEditedAd()}
                         style={{
-                          background: 'transparent',
+                          padding: "5px 12px",
+                          borderRadius: 7,
                           border: 0,
-                          color: '#2563eb',
-                          fontWeight: 700,
-                          fontSize: 12,
-                          cursor: 'pointer',
-                          padding: 0,
+                          background: "#16a34a",
+                          color: "#ffffff",
+                          fontSize: 11.5,
+                          fontWeight: 800,
+                          cursor: "pointer",
                         }}
                       >
-                        Zobacz więcej
+                        {savingEdit ? "Zapisuję..." : "💾 Zapisz"}
                       </button>
                     )}
                   </div>
-
-                  {activeResolvedImage && (
-                    <div style={{ display: 'grid', gap: 8 }}>
-                      {activeResolvedSecondImage ? (
-                        <div
-                          style={{
-                            padding: 8,
-                            background: '#fff7ed',
-                            borderTop: '1px solid #fed7aa',
-                            borderBottom: '1px solid #fed7aa',
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: 11,
-                              fontWeight: 800,
-                              color: '#9a3412',
-                              marginBottom: 6,
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              flexWrap: 'wrap',
-                              gap: 6,
-                            }}
-                          >
-                            <span>🔥 A/B TEST: 2 OSOBNE OBRAZKI W ADSECIE (pełny kwadrat 1:1 każdy)</span>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                              <span style={{ fontWeight: 700, fontSize: 10.5 }}>Kliknij A lub B, aby wybrać edytowany wariant</span>
-                              <button
-                                type="button"
-                                disabled={savingImages}
-                                onClick={() => void handleSaveImages()}
-                                style={{
-                                  padding: '4px 10px',
-                                  borderRadius: 6,
-                                  border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
-                                  background: imagesSavedFlash ? '#15803d' : '#16a34a',
-                                  color: '#ffffff',
-                                  fontWeight: 900,
-                                  fontSize: 11,
-                                  cursor: savingImages ? 'wait' : 'pointer',
-                                  boxShadow: '0 1px 3px rgba(0,0,0,0.14)',
-                                }}
-                              >
-                                {savingImages
-                                  ? '⏳ Zapisywanie...'
-                                  : imagesSavedFlash
-                                  ? '✅ Obrazki zapisane!'
-                                  : '💾 Zapisz obrazki'}
-                              </button>
-                            </div>
-                          </div>
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                            <div
-                              onClick={() => setImageSlotTarget(1)}
-                              style={{
-                                position: 'relative',
-                                width: '100%',
-                                aspectRatio: '1 / 1',
-                                borderRadius: 8,
-                                overflow: 'hidden',
-                                border: imageSlotTarget === 1 ? '3px solid #2563eb' : '1px solid #cbd5e1',
-                                background: '#0f172a',
-                                cursor: 'pointer',
-                              }}
-                            >
-                              <img
-                                src={activeResolvedImage.url}
-                                alt={activeResolvedImage.label}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                              />
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: 6,
-                                  left: 6,
-                                  fontSize: 10,
-                                  fontWeight: 800,
-                                  padding: '2px 8px',
-                                  borderRadius: 99,
-                                  background: imageSlotTarget === 1 ? '#2563eb' : 'rgba(15,23,42,0.8)',
-                                  color: '#ffffff',
-                                }}
-                              >
-                                Kreacja A (Zdj. 1) {imageSlotTarget === 1 ? '●' : ''}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setLightboxAsset(activeResolvedImage);
-                                }}
-                                style={{
-                                  position: 'absolute',
-                                  bottom: 6,
-                                  right: 6,
-                                  fontSize: 10,
-                                  fontWeight: 800,
-                                  padding: '2px 6px',
-                                  borderRadius: 4,
-                                  border: 0,
-                                  background: 'rgba(15,23,42,0.75)',
-                                  color: '#ffffff',
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                🔍 Powiększ A
-                              </button>
-                            </div>
-
-                            <div
-                              onClick={() => setImageSlotTarget(2)}
-                              style={{
-                                position: 'relative',
-                                width: '100%',
-                                aspectRatio: '1 / 1',
-                                borderRadius: 8,
-                                overflow: 'hidden',
-                                border: imageSlotTarget === 2 ? '3px solid #ea580c' : '1px solid #cbd5e1',
-                                background: '#0f172a',
-                                cursor: 'pointer',
-                              }}
-                            >
-                              <img
-                                src={activeResolvedSecondImage.url}
-                                alt={activeResolvedSecondImage.label}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                              />
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: 6,
-                                  left: 6,
-                                  fontSize: 10,
-                                  fontWeight: 800,
-                                  padding: '2px 8px',
-                                  borderRadius: 99,
-                                  background: imageSlotTarget === 2 ? '#ea580c' : 'rgba(15,23,42,0.8)',
-                                  color: '#ffffff',
-                                }}
-                              >
-                                Kreacja B (Zdj. 2) {imageSlotTarget === 2 ? '●' : ''}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setLightboxAsset(activeResolvedSecondImage);
-                                }}
-                                style={{
-                                  position: 'absolute',
-                                  bottom: 6,
-                                  right: 6,
-                                  fontSize: 10,
-                                  fontWeight: 800,
-                                  padding: '2px 6px',
-                                  borderRadius: 4,
-                                  border: 0,
-                                  background: 'rgba(15,23,42,0.75)',
-                                  color: '#ffffff',
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                🔍 Powiększ B
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          onClick={() => setLightboxAsset(activeResolvedImage)}
-                          title="Kliknij, aby powiększyć kreację"
-                          style={{
-                            position: 'relative',
-                            width: '100%',
-                            aspectRatio: '1 / 1',
-                            background: '#0f172a',
-                            cursor: 'zoom-in',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          <img
-                            src={activeResolvedImage.url}
-                            alt={activeResolvedImage.label}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                          />
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation();
-                              cycleAngleImage(activeAngle, -1);
-                            }}
-                            title="Poprzednie zdjęcie (0ms)"
-                            style={{
-                              position: 'absolute',
-                              left: 8,
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              width: 34,
-                              height: 34,
-                              borderRadius: '50%',
-                              border: '1px solid rgba(255,255,255,0.4)',
-                              background: 'rgba(15,23,42,0.75)',
-                              color: '#ffffff',
-                              fontWeight: 800,
-                              fontSize: 14,
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            ◀
-                          </button>
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation();
-                              cycleAngleImage(activeAngle, 1);
-                            }}
-                            title="Następne zdjęcie (0ms)"
-                            style={{
-                              position: 'absolute',
-                              right: 8,
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              width: 34,
-                              height: 34,
-                              borderRadius: '50%',
-                              border: '1px solid rgba(255,255,255,0.4)',
-                              background: 'rgba(15,23,42,0.75)',
-                              color: '#ffffff',
-                              fontWeight: 800,
-                              fontSize: 14,
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            ▶
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div
-                    style={{
-                      padding: '10px 12px',
-                      background: '#f1f5f9',
-                      borderTop: '1px solid #e2e8f0',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: 10,
-                    }}
-                  >
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 10.5, color: '#64748b', textTransform: 'uppercase' }}>
-                        orthomax.pl
-                      </div>
-                      <div
-                        style={{
-                          fontWeight: 700,
-                          fontSize: 13,
-                          color: '#0f172a',
-                          lineHeight: 1.3,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {editHeadline || activeAngle.defaultHeadline}
-                      </div>
-                    </div>
-                    <span
-                      style={{
-                        padding: '7px 11px',
-                        borderRadius: 6,
-                        background: '#e2e8f0',
-                        color: '#0f172a',
-                        fontWeight: 700,
-                        fontSize: 11.5,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      Więcej informacji
-                    </span>
-                  </div>
                 </div>
 
-                {/* SZYBKI WYBÓR ZDJĘCIA DLA AKTYWNEGO ANTKA + TEST A/B 2 OSOBNYCH ZDJĘĆ */}
-                <div style={{ display: 'grid', gap: 10 }}>
-                  <div>
-                    {/* PASEK TESTU A/B 2 OSOBNYCH ZDJĘĆ */}
-                    <div
-                      style={{
-                        padding: '8px 10px',
-                        marginBottom: 8,
-                        borderRadius: 8,
-                        border: activeResolvedSecondImage ? '1.5px solid #ea580c' : '1px dashed #94a3b8',
-                        background: activeResolvedSecondImage ? '#fff7ed' : 'var(--bg)',
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: 6,
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 11.5, fontWeight: 800, color: '#9a3412' }}>
-                          🔥 Test A/B 2 osobnych zdjęć:
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setImageSlotTarget(1)}
-                          style={{
-                            padding: '4px 9px',
-                            borderRadius: 6,
-                            border: imageSlotTarget === 1 ? '1.5px solid #2563eb' : '1px solid var(--border)',
-                            background: imageSlotTarget === 1 ? '#2563eb' : '#ffffff',
-                            color: imageSlotTarget === 1 ? '#ffffff' : '#0f172a',
-                            fontWeight: 800,
-                            fontSize: 11,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          🖼️ Obrazek A (Kreacja 1)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setImageSlotTarget(2);
-                            if (!activeResolvedSecondImage && activeAngle) {
-                              const pool = imageLibrary.length > 0 ? imageLibrary : ANTKI_PL_IMAGE_LIBRARY;
-                              const curIdx = pool.findIndex(i => i.url === activeResolvedImage?.url);
-                              const secondCandidate = pool[(curIdx + 1) % pool.length];
-                              if (secondCandidate) {
-                                void assignImageToAngles([activeAngle.id], secondCandidate, `Antek #${activeAngle.number}`, 2);
-                              }
-                            }
-                          }}
-                          style={{
-                            padding: '4px 10px',
-                            borderRadius: 6,
-                            border: imageSlotTarget === 2 ? '1.5px solid #ea580c' : '1.5px solid #fdba74',
-                            background: imageSlotTarget === 2 ? '#ea580c' : '#ffedd5',
-                            color: imageSlotTarget === 2 ? '#ffffff' : '#9a3412',
-                            fontWeight: 800,
-                            fontSize: 11,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          {activeResolvedSecondImage ? '🖼️ Obrazek B (2. osobna kreacja A/B)' : '🔥 + Dodaj 2. osobny obrazek (A/B Test)'}
-                        </button>
-                      </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
-                        {activeResolvedSecondImage && activeAngle && (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                void updateTwoImageConfig(
-                                  activeAngle.id,
-                                  {
-                                    imageUrl: activeResolvedSecondImage.url,
-                                    imageHash: activeResolvedSecondImage.imageHash,
-                                    secondImageUrl: activeResolvedImage?.url || '',
-                                    secondImageHash: activeResolvedImage?.imageHash,
-                                  },
-                                  'Zamieniono miejscami Obrazek A ↔ Obrazek B.',
-                                )
-                              }
-                              style={{
-                                padding: '3px 8px',
-                                borderRadius: 5,
-                                border: '1px solid #cbd5e1',
-                                background: '#ffffff',
-                                color: '#0f172a',
-                                fontWeight: 800,
-                                fontSize: 10.5,
-                                cursor: 'pointer',
-                              }}
-                            >
-                              ⇄ Zamień A↔B
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                void updateTwoImageConfig(
-                                  activeAngle.id,
-                                  {
-                                    imageUrl: activeResolvedImage?.url || '',
-                                    imageHash: activeResolvedImage?.imageHash,
-                                    secondImageUrl: '',
-                                    secondImageHash: '',
-                                  },
-                                  'Usunięto Obrazek B — powrót do pojedynczej kreacji.',
-                                )
-                              }
-                              style={{
-                                padding: '3px 8px',
-                                borderRadius: 5,
-                                border: '1px solid #fca5a5',
-                                background: '#fef2f2',
-                                color: '#b91c1c',
-                                fontWeight: 800,
-                                fontSize: 10.5,
-                                cursor: 'pointer',
-                              }}
-                            >
-                              ✕ Usuń Obrazek B
-                            </button>
-                          </>
-                        )}
-                        <button
-                          type="button"
-                          disabled={savingImages}
-                          onClick={() => void handleSaveImages()}
-                          style={{
-                            padding: '4px 11px',
-                            borderRadius: 6,
-                            border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
-                            background: imagesSavedFlash ? '#15803d' : '#16a34a',
-                            color: '#ffffff',
-                            fontWeight: 900,
-                            fontSize: 11,
-                            cursor: savingImages ? 'wait' : 'pointer',
-                          }}
-                        >
-                          {savingImages
-                            ? '⏳ Zapisywanie...'
-                            : imagesSavedFlash
-                            ? '✅ Zapisano obrazki!'
-                            : '💾 Zapisz obrazki'}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                        <span
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 800,
-                            padding: '2px 8px',
-                            borderRadius: 4,
-                            background:
-                              activeResolvedImage?.source === 'meta'
-                                ? '#dbeafe'
-                                : activeResolvedImage?.source === 'custom'
-                                ? '#fef3c7'
-                                : '#dcfce7',
-                            color:
-                              activeResolvedImage?.source === 'meta'
-                                ? '#1e40af'
-                                : activeResolvedImage?.source === 'custom'
-                                ? '#92400e'
-                                : '#166534',
-                          }}
-                        >
-                          {activeResolvedImage?.source === 'meta'
-                            ? '📚 KREACJA Z BIBLIOTEKI META'
-                            : activeResolvedImage?.source === 'custom'
-                            ? '📤 TWOJE WŁASNE ZDJĘCIE'
-                            : '✨ KREACJA AI NATIVE (CZYSTA)'}
-                        </span>
-                        {activeResolvedImage?.imageHash && (
-                          <code style={{ fontSize: 11, color: 'var(--muted)' }}>
-                            hash A: {activeResolvedImage.imageHash}
-                            {activeResolvedSecondImage?.imageHash ? ` · hash B: ${activeResolvedSecondImage.imageHash}` : ''}
-                          </code>
-                        )}
-                      </div>
-                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                        <button
-                          type="button"
-                          onClick={() => cycleAngleImage(activeAngle, -1)}
-                          style={{
-                            padding: '4px 10px',
-                            borderRadius: 6,
-                            border: '1px solid var(--border)',
-                            background: 'var(--card)',
-                            color: 'var(--text)',
-                            fontWeight: 800,
-                            fontSize: 11.5,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          ◀ Poprzednie zdj. ({imageSlotTarget === 2 ? 'Obrazek B' : 'Obrazek A'})
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => cycleAngleImage(activeAngle, 1)}
-                          style={{
-                            padding: '4px 10px',
-                            borderRadius: 6,
-                            border: '1px solid var(--border)',
-                            background: 'var(--card)',
-                            color: 'var(--text)',
-                            fontWeight: 800,
-                            fontSize: 11.5,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Następne zdj. ({imageSlotTarget === 2 ? 'Obrazek B' : 'Obrazek A'}) ▶
-                        </button>
-                        <button
-                          type="button"
-                          disabled={uploadingCustomImage}
-                          onClick={() => customImageInputRef.current?.click()}
-                          style={{
-                            padding: '4px 11px',
-                            borderRadius: 6,
-                            border: '1.5px solid #059669',
-                            background: '#ecfdf5',
-                            color: '#065f46',
-                            fontWeight: 800,
-                            fontSize: 11.5,
-                            cursor: uploadingCustomImage ? 'wait' : 'pointer',
-                          }}
-                        >
-                          {uploadingCustomImage ? '⏳ Wgrywanie…' : '📤 + Dodaj swoje zdjęcie'}
-                        </button>
-                        <button
-                          type="button"
-                          disabled={savingImages}
-                          onClick={() => void handleSaveImages()}
-                          style={{
-                            padding: '4px 12px',
-                            borderRadius: 6,
-                            border: imagesSavedFlash ? '1.5px solid #15803d' : '1.5px solid #16a34a',
-                            background: imagesSavedFlash ? '#15803d' : '#16a34a',
-                            color: '#ffffff',
-                            fontWeight: 900,
-                            fontSize: 11.5,
-                            cursor: savingImages ? 'wait' : 'pointer',
-                          }}
-                        >
-                          {savingImages
-                            ? '⏳ Zapisywanie...'
-                            : imagesSavedFlash
-                            ? '✅ Zapisano obrazki!'
-                            : '💾 Zapisz obrazki'}
-                        </button>
-                      </div>
-                    </div>
-                    <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
-                      Obrazek A: {activeResolvedImage?.label}
-                      {activeResolvedSecondImage ? `  ·  Obrazek B: ${activeResolvedSecondImage.label}` : ''}
-                    </div>
-                    <p style={{ margin: '2px 0 6px', fontSize: 12, color: 'var(--muted)' }}>
-                      {imageSlotTarget === 2
-                        ? '🔥 Wybierasz teraz OBRAZEK B (2. osobna kreacja A/B w adsecie) — kliknij dowolną miniaturę poniżej:'
-                        : 'Kliknij miniaturę (aby ustawić Obrazek A) lub przełącz wyżej na „+ Dodaj 2. osobny obrazek (A/B Test)”, aby przetestować 2 osobne zdjęcia 1:1 w adsecie:'}
-                    </p>
-                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                      <button
-                        type="button"
-                        onClick={() => setGalleryTab('all')}
-                        style={{
-                          padding: '4px 9px',
-                          borderRadius: 6,
-                          border: galleryTab === 'all' ? '1px solid #7c3aed' : '1px solid var(--border)',
-                          background: galleryTab === 'all' ? '#7c3aed' : 'var(--card)',
-                          color: galleryTab === 'all' ? '#ffffff' : 'var(--text)',
-                          fontWeight: 700,
-                          fontSize: 11,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Wszystkie ({imageLibrary.length})
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setGalleryTab('meta')}
-                        style={{
-                          padding: '4px 9px',
-                          borderRadius: 6,
-                          border: galleryTab === 'meta' ? '1px solid #2563eb' : '1px solid var(--border)',
-                          background: galleryTab === 'meta' ? '#2563eb' : 'var(--card)',
-                          color: galleryTab === 'meta' ? '#ffffff' : 'var(--text)',
-                          fontWeight: 700,
-                          fontSize: 11,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        📚 Stare z Biblioteki Antków ({metaImagesCount})
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setGalleryTab('ai')}
-                        style={{
-                          padding: '4px 9px',
-                          borderRadius: 6,
-                          border: galleryTab === 'ai' ? '1px solid #059669' : '1px solid var(--border)',
-                          background: galleryTab === 'ai' ? '#059669' : 'var(--card)',
-                          color: galleryTab === 'ai' ? '#ffffff' : 'var(--text)',
-                          fontWeight: 700,
-                          fontSize: 11,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        ✨ Nowe AI Native ({aiImagesCount})
-                      </button>
-                      {customImagesCount > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setGalleryTab('custom')}
-                          style={{
-                            padding: '4px 9px',
-                            borderRadius: 6,
-                            border: galleryTab === 'custom' ? '1px solid #d97706' : '1px solid var(--border)',
-                            background: galleryTab === 'custom' ? '#d97706' : 'var(--card)',
-                            color: galleryTab === 'custom' ? '#ffffff' : 'var(--text)',
-                            fontWeight: 700,
-                            fontSize: 11,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          📤 Twoje zdjęcia ({customImagesCount})
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        disabled={Boolean(generatingKie5AngleId)}
-                        onClick={() => void handleGenerate5KieImagesForActiveAngle()}
-                        title="Wyciąga 5 konkretnych scen z treści tego Antka i generuje w Kie.ai 5 surowych, lekko rozmytych zdjęć z telefonu (shit quality, zero AI glow)"
-                        style={{
-                          padding: '5px 11px',
-                          borderRadius: 6,
-                          border: '1.5px solid #dc2626',
-                          background: generatingKie5AngleId === activeAngle.id ? '#991b1b' : '#dc2626',
-                          color: '#ffffff',
-                          fontWeight: 900,
-                          fontSize: 11,
-                          cursor: generatingKie5AngleId ? 'wait' : 'pointer',
-                          boxShadow: '0 2px 6px rgba(220,38,38,0.28)',
-                        }}
-                      >
-                        {generatingKie5AngleId === activeAngle.id
-                          ? '⏳ Kie.ai generuje 5 surowych zdjęć z tego Antka…'
-                          : '📸 Wygeneruj 5 zdjęć z tego Antka (Kie.ai — Shit Quality)'}
-                      </button>
-                      <button
-                        type="button"
-                        disabled={uploadingCustomImage}
-                        onClick={() => customImageInputRef.current?.click()}
-                        style={{
-                          padding: '4px 10px',
-                          borderRadius: 6,
-                          border: '1.5px dashed #059669',
-                          background: '#f0fdf4',
-                          color: '#15803d',
-                          fontWeight: 800,
-                          fontSize: 11,
-                          cursor: uploadingCustomImage ? 'wait' : 'pointer',
-                        }}
-                      >
-                        {uploadingCustomImage ? '⏳ Wgrywanie…' : '+ Dodaj swoje zdjęcie'}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* DEDYKOWANY PASEK 5 SUROWYCH ZDJĘĆ Z KIE.AI DLA AKTYWNEGO ANTKA */}
-                  {(() => {
-                    const activeKieTasks = kieTasksByAngle[activeAngle.id] || [];
-                    const persistedAngleAssets = imageLibrary.filter(item => item.angleId === activeAngle.id);
-                    if (activeKieTasks.length === 0 && persistedAngleAssets.length === 0) return null;
-                    return (
-                      <div
-                        style={{
-                          marginBottom: 10,
-                          padding: '10px 12px',
-                          borderRadius: 8,
-                          background: '#fef2f2',
-                          border: '1.5px solid #fca5a5',
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            flexWrap: 'wrap',
-                            gap: 6,
-                            marginBottom: 8,
-                          }}
-                        >
-                          <span style={{ fontSize: 11.5, fontWeight: 900, color: '#991b1b' }}>
-                            📸 5 surowych zdjęć wygenerowanych w Kie.ai pod Antka #{activeAngle.number} (Shit Quality · Zero AI Glow) — wybierz 2 najlepsze jako Obrazek A i B:
-                          </span>
-                        </div>
-                        <div
-                          style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))',
-                            gap: 8,
-                          }}
-                        >
-                          {activeKieTasks.length > 0
-                            ? activeKieTasks.map(task => {
-                                const asset = task.asset;
-                                const isSlotA = Boolean(asset && activeResolvedImage?.url === asset.url);
-                                const isSlotB = Boolean(asset && activeResolvedSecondImage?.url === asset.url);
-                                return (
-                                  <div
-                                    key={task.taskId}
-                                    style={{
-                                      borderRadius: 8,
-                                      border: isSlotB
-                                        ? '2.5px solid #ea580c'
-                                        : isSlotA
-                                        ? '2.5px solid #7c3aed'
-                                        : '1px solid #fecaca',
-                                      background: '#ffffff',
-                                      padding: 6,
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                      gap: 5,
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        position: 'relative',
-                                        width: '100%',
-                                        aspectRatio: '1 / 1',
-                                        borderRadius: 6,
-                                        overflow: 'hidden',
-                                        background: '#0f172a',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: '#ffffff',
-                                        fontSize: 11,
-                                        fontWeight: 700,
-                                        textAlign: 'center',
-                                      }}
-                                    >
-                                      {asset ? (
-                                        <img
-                                          src={asset.url}
-                                          alt={task.label}
-                                          onClick={() => setLightboxAsset(asset)}
-                                          style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
-                                        />
-                                      ) : task.state === 'fail' ? (
-                                        <span style={{ color: '#fca5a5', padding: 6 }}>❌ {task.error || 'Błąd'}</span>
-                                      ) : (
-                                        <span style={{ padding: 6 }}>⏳ Kie.ai renderuje #{task.index}…</span>
-                                      )}
-                                    </div>
-                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#1e293b', lineHeight: 1.25 }}>
-                                      {task.label}
-                                    </div>
-                                    {asset && (
-                                      <div style={{ display: 'flex', gap: 4 }}>
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            void assignImageToAngles(
-                                              [activeAngle.id],
-                                              asset,
-                                              `Antek #${activeAngle.number} (Obrazek A)`,
-                                              1,
-                                            )
-                                          }
-                                          style={{
-                                            flex: 1,
-                                            padding: '3px 5px',
-                                            borderRadius: 5,
-                                            border: '1px solid #7c3aed',
-                                            background: isSlotA ? '#7c3aed' : '#f5f3ff',
-                                            color: isSlotA ? '#ffffff' : '#6d28d9',
-                                            fontWeight: 800,
-                                            fontSize: 9.5,
-                                            cursor: 'pointer',
-                                          }}
-                                        >
-                                          {isSlotA ? '✓ Obrazek A' : 'Ustaw A'}
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            void assignImageToAngles(
-                                              [activeAngle.id],
-                                              asset,
-                                              `Antek #${activeAngle.number} (Obrazek B)`,
-                                              2,
-                                            )
-                                          }
-                                          style={{
-                                            flex: 1,
-                                            padding: '3px 5px',
-                                            borderRadius: 5,
-                                            border: '1px solid #ea580c',
-                                            background: isSlotB ? '#ea580c' : '#fff7ed',
-                                            color: isSlotB ? '#ffffff' : '#c2410c',
-                                            fontWeight: 800,
-                                            fontSize: 9.5,
-                                            cursor: 'pointer',
-                                          }}
-                                        >
-                                          {isSlotB ? '✓ Obrazek B' : 'Ustaw B'}
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })
-                            : persistedAngleAssets.slice(0, 5).map(asset => {
-                                const isSlotA = activeResolvedImage?.url === asset.url;
-                                const isSlotB = activeResolvedSecondImage?.url === asset.url;
-                                return (
-                                  <div
-                                    key={asset.id}
-                                    style={{
-                                      borderRadius: 8,
-                                      border: isSlotB
-                                        ? '2.5px solid #ea580c'
-                                        : isSlotA
-                                        ? '2.5px solid #7c3aed'
-                                        : '1px solid #fecaca',
-                                      background: '#ffffff',
-                                      padding: 6,
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                      gap: 5,
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        position: 'relative',
-                                        width: '100%',
-                                        aspectRatio: '1 / 1',
-                                        borderRadius: 6,
-                                        overflow: 'hidden',
-                                        background: '#0f172a',
-                                      }}
-                                    >
-                                      <img
-                                        src={asset.url}
-                                        alt={asset.label}
-                                        onClick={() => setLightboxAsset(asset)}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
-                                      />
-                                    </div>
-                                    <div style={{ fontSize: 10, fontWeight: 700, color: '#1e293b', lineHeight: 1.25 }}>
-                                      {asset.label}
-                                    </div>
-                                    <div style={{ display: 'flex', gap: 4 }}>
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          void assignImageToAngles(
-                                            [activeAngle.id],
-                                            asset,
-                                            `Antek #${activeAngle.number} (Obrazek A)`,
-                                            1,
-                                          )
-                                        }
-                                        style={{
-                                          flex: 1,
-                                          padding: '3px 5px',
-                                          borderRadius: 5,
-                                          border: '1px solid #7c3aed',
-                                          background: isSlotA ? '#7c3aed' : '#f5f3ff',
-                                          color: isSlotA ? '#ffffff' : '#6d28d9',
-                                          fontWeight: 800,
-                                          fontSize: 9.5,
-                                          cursor: 'pointer',
-                                        }}
-                                      >
-                                        {isSlotA ? '✓ Obrazek A' : 'Ustaw A'}
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          void assignImageToAngles(
-                                            [activeAngle.id],
-                                            asset,
-                                            `Antek #${activeAngle.number} (Obrazek B)`,
-                                            2,
-                                          )
-                                        }
-                                        style={{
-                                          flex: 1,
-                                          padding: '3px 5px',
-                                          borderRadius: 5,
-                                          border: '1px solid #ea580c',
-                                          background: isSlotB ? '#ea580c' : '#fff7ed',
-                                          color: isSlotB ? '#ffffff' : '#c2410c',
-                                          fontWeight: 800,
-                                          fontSize: 9.5,
-                                          cursor: 'pointer',
-                                        }}
-                                      >
-                                        {isSlotB ? '✓ Obrazek B' : 'Ustaw B'}
-                                      </button>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  <div
-                    onDragOver={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    onDrop={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (e.dataTransfer?.files?.length) {
-                        void handleUploadCustomImageFiles(e.dataTransfer.files);
-                      }
-                    }}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))',
-                      gap: 7,
-                      maxHeight: 360,
-                      overflowY: 'auto',
-                      padding: 4,
-                    }}
-                  >
-                    {/* KAFELEK + DODAJ SWOJE ZDJĘCIE */}
-                    <button
-                      type="button"
-                      disabled={uploadingCustomImage}
-                      onClick={() => customImageInputRef.current?.click()}
-                      title="Wgraj własne zdjęcie z komputera (albo przeciągnij i upuść tutaj)"
-                      style={{
-                        padding: 4,
-                        height: 68,
-                        borderRadius: 7,
-                        border: '2px dashed #059669',
-                        background: '#f0fdf4',
-                        color: '#065f46',
-                        cursor: uploadingCustomImage ? 'wait' : 'pointer',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 2,
-                        fontWeight: 800,
-                        fontSize: 9.5,
-                        lineHeight: 1.15,
-                        textAlign: 'center',
-                      }}
-                    >
-                      <span style={{ fontSize: 16 }}>📤</span>
-                      <span>{uploadingCustomImage ? 'Wgrywam…' : '+ Dodaj swoje zdj.'}</span>
-                    </button>
-
-                    {filteredGalleryImages.map(asset => {
-                      const isCurrent1 = activeResolvedImage?.url === asset.url;
-                      const isCurrent2 = activeResolvedSecondImage?.url === asset.url;
-                      const isCurrent = isCurrent1 || isCurrent2;
-                      return (
-                        <div
-                          key={asset.id}
-                          onClick={() => {
-                            if (!assigningImage) {
-                              void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, imageSlotTarget);
-                            }
-                          }}
-                          title={`${asset.label}${asset.imageHash ? ` (hash: ${asset.imageHash})` : ''}`}
-                          style={{
-                            position: 'relative',
-                            padding: 0,
-                            height: 68,
-                            borderRadius: 7,
-                            overflow: 'hidden',
-                            border: isCurrent2
-                              ? '3px solid #ea580c'
-                              : isCurrent1
-                              ? '3px solid #7c3aed'
-                              : '1px solid var(--border)',
-                            cursor: 'pointer',
-                            background: '#0f172a',
-                            opacity: isCurrent ? 1 : 0.9,
-                          }}
-                        >
-                          <img
-                            src={asset.url}
-                            alt={asset.label}
-                            loading="lazy"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                          />
-                          {(isCurrent1 || isCurrent2) && (
-                            <span
-                              style={{
-                                position: 'absolute',
-                                top: 2,
-                                left: 2,
-                                fontSize: 8.5,
-                                fontWeight: 900,
-                                padding: '1px 4px',
-                                borderRadius: 3,
-                                background: isCurrent2 ? '#ea580c' : '#7c3aed',
-                                color: '#ffffff',
-                              }}
-                            >
-                              {isCurrent1 && isCurrent2 ? '1+2' : isCurrent2 ? 'ZDJ 2' : 'ZDJ 1'}
-                            </span>
-                          )}
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation();
-                              void handleDeleteImageFromLibrary(asset);
-                            }}
-                            title="Usuń to zdjęcie z biblioteki"
-                            style={{
-                              position: 'absolute',
-                              top: 2,
-                              right: 2,
-                              fontSize: 9,
-                              fontWeight: 900,
-                              padding: '1px 4px',
-                              borderRadius: 3,
-                              border: 0,
-                              background: 'rgba(220,38,38,0.85)',
-                              color: '#ffffff',
-                              cursor: 'pointer',
-                              lineHeight: 1.1,
-                            }}
-                          >
-                            ✕
-                          </button>
-                          <span
-                            style={{
-                              position: 'absolute',
-                              bottom: 2,
-                              right: 2,
-                              fontSize: 8,
-                              fontWeight: 800,
-                              padding: '1px 3px',
-                              borderRadius: 3,
-                              background:
-                                asset.source === 'ai'
-                                  ? '#059669'
-                                  : asset.source === 'custom'
-                                  ? '#d97706'
-                                  : '#2563eb',
-                              color: '#ffffff',
-                            }}
-                          >
-                            {asset.source === 'ai' ? 'AI' : asset.source === 'custom' ? 'WŁASNE' : 'LIB'}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* BRIEF KĄTA */}
-              <details
-                open={!activeAd}
-                style={{
-                  marginBottom: 14,
-                  padding: '12px 14px',
-                  borderRadius: 8,
-                  background: 'var(--bg)',
-                  border: '1px solid var(--border)',
-                  fontSize: 13,
-                  color: 'var(--text)',
-                }}
-              >
-                <summary style={{ cursor: 'pointer', fontWeight: 700 }}>
-                  📌 Brief kąta, matematyka kwot i most odkrycia (kliknij, aby zwinąć/rozwinąć)
-                </summary>
-                <div style={{ marginTop: 10, display: 'grid', gap: 8, lineHeight: 1.5 }}>
-                  <div>
-                    <strong>Hook / Otwarcie (Mellow style):</strong> {activeAngle.hookIdea}
-                  </div>
-                  <div>
-                    <strong>Scena i mechanizm:</strong> {activeAngle.sceneBeat}
-                  </div>
-                  <div>
-                    <strong>Matematyka nieudanych prób (Failed Solutions):</strong> {activeAngle.failedSolutionsMath}
-                  </div>
-                  <div>
-                    <strong>Most odkrycia (Organiczny Reveal &rarr; Orthomax StepMax):</strong> {activeAngle.discoveryBridge}
-                  </div>
-                </div>
-              </details>
-
-              {/* STATUS AUDYTU POLSZCZYZNY I CHECKLISTY */}
-              {activeAd && (
-                <div
-                  style={{
-                    marginBottom: 14,
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    background: activeAd.auditPassed ? '#ecfdf5' : '#fffbeb',
-                    border: activeAd.auditPassed ? '1px solid #10b981' : '1px solid #f59e0b',
-                    color: activeAd.auditPassed ? '#065f46' : '#92400e',
-                    fontSize: 12.5,
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                    <strong>
-                      {activeAd.auditPassed
-                        ? '✅ Audyt Checklisty: ZALICZONY (0 em-dashów, liczba mnoga, cyfrowe godziny, 99,99 zł + 30 dni)'
-                        : '⚠️ Audyt Checklisty: Sprawdź uwagi poniżej'}
-                    </strong>
-                    <span>
-                      <strong>{activeAd.wordCount}</strong> słów · <strong>{activeAd.characterCount}</strong> znaków
-                    </span>
-                  </div>
-                  {activeAd.auditFixesApplied?.length > 0 && (
-                    <div style={{ marginTop: 4, fontSize: 12 }}>
-                      Automatyczne poprawki: {activeAd.auditFixesApplied.join(' | ')}
-                    </div>
-                  )}
-                  {activeAd.auditWarnings?.length > 0 && (
-                    <ul style={{ margin: '6px 0 0 18px', padding: 0, fontWeight: 600 }}>
-                      {activeAd.auditWarnings.map((w, i) => (
-                        <li key={i}>{w}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
-
-              {/* POLA EDYTORA */}
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                  <span>Nagłówek reklamy (Headline w stylu Mellow)</span>
+                {/* HEADLINE & LP ROW */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 8, marginTop: 10 }}>
                   <input
+                    type="text"
                     value={editHeadline}
                     onChange={e => {
                       setEditHeadline(e.target.value);
                       setEditDirty(true);
                     }}
+                    placeholder="Nagłówek (Headline w reklamie FB)"
                     style={{
-                      padding: '8px 10px',
-                      borderRadius: 6,
-                      border: '1px solid var(--border)',
-                      background: 'var(--bg)',
-                      color: 'var(--text)',
+                      padding: "7px 11px",
+                      borderRadius: 8,
+                      border: "1px solid #4a2610",
+                      background: "#160b04",
+                      color: "#ffffff",
                       fontSize: 13,
+                      fontWeight: 700,
                     }}
                   />
-                </label>
+                  <input
+                    type="text"
+                    value={destinationUrl}
+                    onChange={e => setDestinationUrl(e.target.value)}
+                    placeholder="Destination LP URL"
+                    style={{
+                      padding: "7px 10px",
+                      borderRadius: 8,
+                      border: "1px solid #4a2610",
+                      background: "#160b04",
+                      color: "#fb923c",
+                      fontSize: 11.5,
+                    }}
+                  />
+                </div>
+
+                {/* COLLAPSIBLE SCENE / HOOK / BRIDGE BOX */}
+                {showAngleDetails && (
+                  <div
+                    style={{
+                      marginTop: 10,
+                      padding: 12,
+                      borderRadius: 10,
+                      background: "#160b04",
+                      border: "1px solid #3b1d0a",
+                      fontSize: 12,
+                      display: "grid",
+                      gap: 6,
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap", color: "#fdba74" }}>
+                      <span>🗣️ <strong>Narrator:</strong> {activeAngle.narrator}</span>
+                      <span>🎯 <strong>Bohater:</strong> {activeAngle.protagonist}</span>
+                      <span>🧠 <strong>Etap:</strong> {activeAngle.awarenessStage}</span>
+                    </div>
+                    <div style={{ color: "#ffedd5" }}>
+                      <strong style={{ color: "#fb923c" }}>Scena otwierająca:</strong> {activeAngle.sceneBeat}
+                    </div>
+                    <div style={{ color: "#fde68a" }}>
+                      <strong>Matematyka wydatków:</strong> {activeAngle.failedSolutionsMath}
+                    </div>
+                    <div style={{ color: "#fed7aa" }}>
+                      <strong>Most odkrycia:</strong> {activeAngle.discoveryBridge}
+                    </div>
+                    <div
+                      style={{
+                        marginTop: 2,
+                        padding: "7px 10px",
+                        borderRadius: 7,
+                        background: "rgba(249, 115, 22, 0.14)",
+                        borderLeft: "3px solid #f97316",
+                        color: "#ffedd5",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      <strong>Hook:</strong> „{activeAngle.hookIdea}”
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>
-                    <strong>Primary Text (Pełny polski MSL na „{pageName}”)</strong>
-                  </span>
-                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-                    {(editPrimaryText.match(/\p{L}+/gu) || []).length} słów · {editPrimaryText.length} znaków
-                  </span>
-                </div>
-                <textarea
-                  rows={24}
-                  value={editPrimaryText}
-                  onChange={e => {
-                    setEditPrimaryText(e.target.value);
-                    setEditDirty(true);
-                  }}
-                  placeholder={
-                    statuses[activeAngle.id] === 'generating'
-                      ? 'Trwa pisanie pełnego polskiego Antka według zasad Awareness Stage i Mózgu Antków...'
-                      : 'Kliknij „Wygeneruj ten Antek teraz” powyżej lub zaznacz kąty po lewej stronie i uruchom serię.'
-                  }
+              {/* FULL LONG-FORM COPY CARD (CLEAN WHITE PAPER READER OR TEXTAREA EDITOR) */}
+              <div
+                style={{
+                  background: "#241207",
+                  borderRadius: 14,
+                  border: "1px solid #4a2610",
+                  padding: 16,
+                }}
+              >
+                <div
                   style={{
-                    width: '100%',
-                    padding: 14,
-                    borderRadius: 8,
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg)',
-                    color: 'var(--text)',
-                    fontFamily: 'inherit',
-                    fontSize: 14,
-                    lineHeight: 1.6,
-                    resize: 'vertical',
-                  }}
-                />
-              </label>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
-                <button
-                  type="button"
-                  disabled={!editDirty || savingEdit || !editPrimaryText.trim()}
-                  onClick={() => void saveEditedAd()}
-                  style={{
-                    padding: '9px 16px',
-                    borderRadius: 8,
-                    background: editDirty ? '#059669' : 'var(--bg)',
-                    color: editDirty ? '#ffffff' : 'var(--muted)',
-                    border: editDirty ? '1px solid #059669' : '1px solid var(--border)',
-                    fontWeight: 700,
-                    fontSize: 13,
-                    opacity: editDirty ? 1 : 0.6,
-                    cursor: editDirty ? 'pointer' : 'not-allowed',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 12,
+                    flexWrap: "wrap",
+                    gap: 8,
                   }}
                 >
-                  {savingEdit ? 'Zapisuję...' : '💾 Zapisz i uruchom audyt polszczyzny'}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "#ffedd5" }}>
+                      📄 Pełny Tekst Główny (Primary Text — {activeWordCount} słów)
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: "2px 8px",
+                        borderRadius: 999,
+                        background: activeWordCount >= 1200 ? "rgba(34, 197, 94, 0.18)" : "rgba(245, 158, 11, 0.2)",
+                        color: activeWordCount >= 1200 ? "#4ade80" : "#fcd34d",
+                      }}
+                    >
+                      {activeWordCount >= 1200 ? "✓ 1200+ słów · 0 em-dash" : `${activeWordCount} słów`}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: 11.5, color: "#fdba74" }}>
+                    Strzałki <strong>← / →</strong> przełączają kolejne Antki
+                  </span>
+                </div>
+
+                {isEditingCopy ? (
+                  <textarea
+                    value={editPrimaryText}
+                    onChange={e => {
+                      setEditPrimaryText(e.target.value);
+                      setEditDirty(true);
+                    }}
+                    rows={38}
+                    style={{
+                      width: "100%",
+                      padding: "22px 24px",
+                      borderRadius: 12,
+                      border: "2px solid #f97316",
+                      background: "#ffffff",
+                      color: "#0f172a",
+                      fontSize: 15.5,
+                      lineHeight: 1.75,
+                      fontFamily: "Georgia, \"Times New Roman\", serif",
+                      resize: "vertical",
+                    }}
+                  />
+                ) : (
+                  <article
+                    onClick={() => setIsEditingCopy(true)}
+                    title="Kliknij, aby przejść do edycji tekstu"
+                    style={{
+                      background: "#ffffff",
+                      color: "#0f172a",
+                      borderRadius: 12,
+                      padding: "28px 32px",
+                      fontFamily: "Georgia, \"Times New Roman\", serif",
+                      fontSize: 16,
+                      lineHeight: 1.78,
+                      boxShadow: "0 6px 24px rgba(0, 0, 0, 0.28)",
+                      cursor: "text",
+                    }}
+                  >
+                    {(editPrimaryText || activeAd?.primaryText || "")
+                      .split(/\n\s*\n/)
+                      .filter(Boolean)
+                      .map((para, idx) => (
+                        <p
+                          key={idx}
+                          style={{
+                            margin: idx === 0 ? "0 0 16px 0" : "0 0 16px 0",
+                            padding: idx === 0 ? "12px 16px" : 0,
+                            borderRadius: idx === 0 ? 8 : 0,
+                            background: idx === 0 ? "#fef3c7" : "transparent",
+                            borderLeft: idx === 0 ? "4px solid #ea580c" : "none",
+                            fontWeight: idx === 0 ? 700 : 400,
+                            color: "#0f172a",
+                            whiteSpace: "pre-line",
+                          }}
+                        >
+                          {para}
+                        </p>
+                      ))}
+                  </article>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* COLUMN 3: RIGHT CREATIVES + KIE.AI 5 PHOTOS + FB PREVIEW + META SYNC (minmax(480px, 1fr)) */}
+          {activeAngle && (
+            <div
+              style={{
+                position: "sticky",
+                top: 14,
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+              }}
+            >
+              {/* CREATIVE PICKER & KIE.AI 5-PHOTO GENERATOR */}
+              <div
+                style={{
+                  background: "#241207",
+                  borderRadius: 14,
+                  border: "1px solid #4a2610",
+                  padding: 16,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "#ffffff" }}>
+                      🖼️ Kreacje do Kąta #{activeAngle.number} ({activeAngle.code.toUpperCase()})
+                    </div>
+                    <div style={{ fontSize: 11.5, color: "#fdba74" }}>
+                      Wybierz 1 lub 2 najlepsze zdjęcia (Kreacja A i Kreacja B tworzą 2 osobne reklamy w adsecie)
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => customImageInputRef.current?.click()}
+                    style={{
+                      padding: "6px 11px",
+                      borderRadius: 8,
+                      border: "1px solid #f97316",
+                      background: "rgba(249, 115, 22, 0.16)",
+                      color: "#ffedd5",
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {uploadingCustomImage ? "⏳ Wgrywam..." : "+ Wgraj własne"}
+                  </button>
+                </div>
+
+                {/* KIE.AI 5 RAW PHOTOS BUTTON */}
+                <button
+                  type="button"
+                  disabled={generatingKie5AngleId === activeAngle.id}
+                  onClick={() => void handleGenerate5KieImagesForActiveAngle()}
+                  style={{
+                    width: "100%",
+                    padding: "10px 14px",
+                    borderRadius: 10,
+                    border: "1px solid #fb923c",
+                    background:
+                      generatingKie5AngleId === activeAngle.id
+                        ? "#431407"
+                        : "linear-gradient(135deg, #ea580c 0%, #c2410c 100%)",
+                    color: "#ffffff",
+                    fontWeight: 800,
+                    fontSize: 12.5,
+                    cursor: generatingKie5AngleId === activeAngle.id ? "wait" : "pointer",
+                    marginBottom: 12,
+                    boxShadow: "0 4px 14px rgba(234, 88, 12, 0.35)",
+                  }}
+                >
+                  {generatingKie5AngleId === activeAngle.id
+                    ? `⏳ Generuję 5 surowych zdjęć w Kie.ai z treści Antka #${activeAngle.number}...`
+                    : `📸 Wygeneruj 5 surowych zdjęć z tego Antka (Kie.ai — Shit Quality)`}
                 </button>
 
-                <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-                  Zapisywane automatycznie na Twoim koncie Szekspira.
-                </span>
+                {/* LIVE 5 KIE.AI TASKS STATUS IF PRESENT */}
+                {kieTasksByAngle[activeAngle.id] && kieTasksByAngle[activeAngle.id].length > 0 && (
+                  <div
+                    style={{
+                      marginBottom: 12,
+                      padding: 10,
+                      borderRadius: 10,
+                      background: "#160b04",
+                      border: "1px solid #5c2d10",
+                    }}
+                  >
+                    <div style={{ fontSize: 11.5, fontWeight: 800, color: "#fdba74", marginBottom: 8 }}>
+                      📸 5 zdjęć wygenerowanych w Kie.ai z treści Antka #{activeAngle.number}:
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
+                      {kieTasksByAngle[activeAngle.id].map(task => (
+                        <div
+                          key={task.taskId}
+                          style={{
+                            borderRadius: 8,
+                            overflow: "hidden",
+                            background: "#241207",
+                            border: "1px solid #4a2610",
+                            padding: 4,
+                            fontSize: 10,
+                          }}
+                        >
+                          {task.state === "success" && task.asset ? (
+                            <>
+                              <img
+                                src={task.asset.url}
+                                alt={task.label}
+                                onClick={() => setLightboxAsset(task.asset!)}
+                                style={{
+                                  width: "100%",
+                                  aspectRatio: "1/1",
+                                  objectFit: "cover",
+                                  borderRadius: 5,
+                                  cursor: "pointer",
+                                }}
+                              />
+                              <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    void assignImageToAngles([activeAngle.id], task.asset!, `Antek #${activeAngle.number}`, 1)
+                                  }
+                                  style={{
+                                    flex: 1,
+                                    padding: "2px 0",
+                                    fontSize: 9.5,
+                                    fontWeight: 800,
+                                    background: "#ea580c",
+                                    color: "#fff",
+                                    border: 0,
+                                    borderRadius: 4,
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  A
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    void assignImageToAngles([activeAngle.id], task.asset!, `Antek #${activeAngle.number}`, 2)
+                                  }
+                                  style={{
+                                    flex: 1,
+                                    padding: "2px 0",
+                                    fontSize: 9.5,
+                                    fontWeight: 800,
+                                    background: "#d97706",
+                                    color: "#fff",
+                                    border: 0,
+                                    borderRadius: 4,
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  B
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <div
+                              style={{
+                                aspectRatio: "1/1",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                color: task.state === "fail" ? "#fca5a5" : "#fdba74",
+                                padding: 4,
+                              }}
+                            >
+                              {task.state === "fail" ? "Błąd" : "⏳ Kie.ai..."}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* SIDE-BY-SIDE KREACJA A & KREACJA B */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
+                  {/* KREACJA A */}
+                  <div
+                    onClick={() => setImageSlotTarget(1)}
+                    style={{
+                      borderRadius: 10,
+                      padding: 10,
+                      background: "#160b04",
+                      border: imageSlotTarget === 1 ? "2px solid #f97316" : "1px solid #4a2610",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c" }}>KREACJA A (GŁÓWNA)</span>
+                      {activeResolvedImage && (
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setLightboxAsset(activeResolvedImage);
+                          }}
+                          style={{
+                            padding: "2px 7px",
+                            borderRadius: 5,
+                            border: "1px solid #4a2610",
+                            background: "#241207",
+                            color: "#fed7aa",
+                            fontSize: 10.5,
+                            cursor: "pointer",
+                          }}
+                        >
+                          🔍 Powiększ
+                        </button>
+                      )}
+                    </div>
+                    {activeResolvedImage && (
+                      <div style={{ aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", background: "#090d16" }}>
+                        <img
+                          src={activeResolvedImage.url}
+                          alt={activeResolvedImage.label}
+                          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                        />
+                      </div>
+                    )}
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontSize: 11,
+                        color: "#ffedd5",
+                        fontWeight: 600,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {activeResolvedImage?.label}
+                    </div>
+                  </div>
+
+                  {/* KREACJA B */}
+                  <div
+                    onClick={() => setImageSlotTarget(2)}
+                    style={{
+                      borderRadius: 10,
+                      padding: 10,
+                      background: "#160b04",
+                      border: imageSlotTarget === 2 ? "2px solid #fbbf24" : "1px solid #4a2610",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: "#fbbf24" }}>KREACJA B (TEST A/B)</span>
+                      {activeResolvedSecondImage && (
+                        <div style={{ display: "flex", gap: 4 }}>
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              setLightboxAsset(activeResolvedSecondImage);
+                            }}
+                            style={{
+                              padding: "2px 6px",
+                              borderRadius: 5,
+                              border: "1px solid #4a2610",
+                              background: "#241207",
+                              color: "#fed7aa",
+                              fontSize: 10,
+                              cursor: "pointer",
+                            }}
+                          >
+                            🔍
+                          </button>
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              if (!activeAngle || !activeResolvedImage) return;
+                              void updateTwoImageConfig(
+                                activeAngle.id,
+                                {
+                                  imageUrl: activeResolvedImage.url,
+                                  imageHash: activeResolvedImage.imageHash,
+                                  secondImageUrl: "",
+                                  secondImageHash: "",
+                                },
+                                `Usunięto Kreację B z Antka #${activeAngle.number}.`,
+                              );
+                            }}
+                            style={{
+                              padding: "2px 6px",
+                              borderRadius: 5,
+                              border: "1px solid #7f1d1d",
+                              background: "rgba(239, 68, 68, 0.18)",
+                              color: "#fca5a5",
+                              fontSize: 10,
+                              cursor: "pointer",
+                            }}
+                          >
+                            ✕ Usuń B
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    {activeResolvedSecondImage ? (
+                      <>
+                        <div style={{ aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", background: "#090d16" }}>
+                          <img
+                            src={activeResolvedSecondImage.url}
+                            alt={activeResolvedSecondImage.label}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            marginTop: 6,
+                            fontSize: 11,
+                            color: "#fde68a",
+                            fontWeight: 600,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {activeResolvedSecondImage.label}
+                        </div>
+                      </>
+                    ) : (
+                      <div
+                        style={{
+                          aspectRatio: "1/1",
+                          borderRadius: 8,
+                          border: "1px dashed #5c2d10",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          textAlign: "center",
+                          padding: 12,
+                          fontSize: 11.5,
+                          color: "#fdba74",
+                        }}
+                      >
+                        Kliknij „Ustaw B” pod dowolnym zdjęciem poniżej, aby dodać 2. kreację do testu A/B
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 3-COLUMN RAW PHOTO GRID */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, color: "#fed7aa" }}>
+                    📸 Biblioteka zdjęć ({imageLibrary.length}) — kliknij Ustaw A lub Ustaw B:
+                  </span>
+                  <button
+                    type="button"
+                    disabled={savingImages}
+                    onClick={() => void handleSaveImages()}
+                    style={{
+                      padding: "4px 10px",
+                      borderRadius: 6,
+                      border: 0,
+                      background: imagesSavedFlash ? "#16a34a" : "#ea580c",
+                      color: "#ffffff",
+                      fontSize: 11,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {savingImages ? "Zapisuję..." : imagesSavedFlash ? "✓ Zapisano!" : "💾 Zapisz wybór zdjęć"}
+                  </button>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: 8,
+                    maxHeight: 285,
+                    overflowY: "auto",
+                    paddingRight: 4,
+                  }}
+                >
+                  {imageLibrary.map(asset => {
+                    const isA = activeResolvedImage?.url === asset.url;
+                    const isB = activeResolvedSecondImage?.url === asset.url;
+                    return (
+                      <div
+                        key={asset.id}
+                        style={{
+                          borderRadius: 8,
+                          overflow: "hidden",
+                          background: "#160b04",
+                          border: isA
+                            ? "2px solid #f97316"
+                            : isB
+                            ? "2px solid #fbbf24"
+                            : "1px solid #3b1d0a",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{ position: "relative", aspectRatio: "1/1", cursor: "pointer" }}
+                          onClick={() => setLightboxAsset(asset)}
+                        >
+                          <img
+                            src={asset.url}
+                            alt={asset.label}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                          />
+                          {(isA || isB) && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: 4,
+                                left: 4,
+                                padding: "1px 5px",
+                                borderRadius: 4,
+                                fontSize: 9.5,
+                                fontWeight: 800,
+                                background: isA ? "#ea580c" : "#d97706",
+                                color: "#ffffff",
+                              }}
+                            >
+                              {isA ? "A" : "B"}
+                            </span>
+                          )}
+                        </div>
+                        <div style={{ padding: 5, display: "flex", gap: 4 }}>
+                          <button
+                            type="button"
+                            onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)}
+                            style={{
+                              flex: 1,
+                              padding: "3px 0",
+                              borderRadius: 4,
+                              border: 0,
+                              background: isA ? "#ea580c" : "#2d1606",
+                              color: "#ffffff",
+                              fontSize: 10,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Ustaw A
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)}
+                            style={{
+                              flex: 1,
+                              padding: "3px 0",
+                              borderRadius: 4,
+                              border: 0,
+                              background: isB ? "#d97706" : "#2d1606",
+                              color: "#fed7aa",
+                              fontSize: 10,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Ustaw B
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </>
+
+              {/* REALISTIC FACEBOOK FEED PREVIEW */}
+              <div
+                style={{
+                  background: "#ffffff",
+                  color: "#0f172a",
+                  borderRadius: 14,
+                  overflow: "hidden",
+                  border: "1px solid #4a2610",
+                  boxShadow: "0 8px 26px rgba(0, 0, 0, 0.35)",
+                }}
+              >
+                <div style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 10 }}>
+                  <div
+                    style={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: "50%",
+                      background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                      color: "#ffffff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 800,
+                      fontSize: 13,
+                    }}
+                  >
+                    {activeFanpageMeta.initials}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 700, color: "#0f172a" }}>{pageName}</div>
+                    <div style={{ fontSize: 11, color: "#64748b" }}>Sponsorowane · 🌍</div>
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                      padding: "3px 8px",
+                      borderRadius: 999,
+                      background: "#fff7ed",
+                      color: "#ea580c",
+                      border: "1px solid #fed7aa",
+                    }}
+                  >
+                    Podgląd FB Feed
+                  </span>
+                </div>
+
+                <div style={{ padding: "0 14px 10px", fontSize: 13.5, lineHeight: 1.48, color: "#0f172a", whiteSpace: "pre-line" }}>
+                  {(editPrimaryText || activeAd?.primaryText || "").slice(0, 290)}
+                  {(editPrimaryText || activeAd?.primaryText || "").length > 290 && (
+                    <span
+                      onClick={() => setIsEditingCopy(false)}
+                      style={{ color: "#64748b", fontWeight: 600, cursor: "pointer" }}
+                    >
+                      ... Wyświetl więcej
+                    </span>
+                  )}
+                </div>
+
+                {activeResolvedImage && (
+                  <div
+                    onClick={() => setLightboxAsset(activeResolvedImage)}
+                    style={{ aspectRatio: "1/1", background: "#090d16", cursor: "pointer" }}
+                  >
+                    <img
+                      src={activeResolvedImage.url}
+                      alt={activeResolvedImage.label}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                  </div>
+                )}
+
+                <div
+                  style={{
+                    padding: "10px 14px",
+                    background: "#f8fafc",
+                    borderTop: "1px solid #e2e8f0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: 10.5, color: "#64748b", textTransform: "uppercase" }}>ORTHOMAX.PL</div>
+                    <div
+                      style={{
+                        fontSize: 13.5,
+                        fontWeight: 700,
+                        color: "#0f172a",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {editHeadline || activeAngle.defaultHeadline}
+                    </div>
+                  </div>
+                  <span
+                    style={{
+                      padding: "7px 12px",
+                      borderRadius: 6,
+                      background: "#e2e8f0",
+                      color: "#0f172a",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Więcej informacji
+                  </span>
+                </div>
+              </div>
+
+              {/* META ADS SYNC BOX */}
+              <div
+                style={{
+                  background: "#241207",
+                  borderRadius: 14,
+                  border: "1px solid #5c2d10",
+                  padding: 16,
+                }}
+              >
+                <div style={{ fontSize: 13.5, fontWeight: 800, color: "#ffedd5", marginBottom: 4 }}>
+                  🚀 Eksport i Synchronizacja z Meta Ads (1109284831182252)
+                </div>
+                <div style={{ fontSize: 11.5, color: "#fdba74", marginBottom: 10 }}>
+                  Kampania: <strong>{isDorosliBatchView ? "ANTKI DOROSLI CC30 (7 Ad Setów D1–D7)" : "ANTKI CC35 (7 Ad Setów Dzieci)"}</strong> · Wszystkie reklamy jako <strong>PAUSED</strong>
+                </div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    disabled={syncingMetaCc35}
+                    onClick={() => void syncToMetaCc35()}
+                    style={{
+                      flex: 1,
+                      padding: "10px 14px",
+                      borderRadius: 9,
+                      border: 0,
+                      background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
+                      color: "#ffffff",
+                      fontWeight: 800,
+                      fontSize: 12.5,
+                      cursor: syncingMetaCc35 ? "wait" : "pointer",
+                      boxShadow: "0 4px 12px rgba(234, 88, 12, 0.35)",
+                    }}
+                  >
+                    {syncingMetaCc35
+                      ? "⏳ Synchronizuję z Meta Ads..."
+                      : `☁️ Zsynchronizuj ${isDorosliBatchView ? "Batch 2 Dorośli" : "Batch 1 Dzieci"} w Meta (PAUSED)`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={exportUploaderJson}
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 9,
+                      border: "1px solid #f97316",
+                      background: "#160b04",
+                      color: "#fed7aa",
+                      fontWeight: 700,
+                      fontSize: 12.5,
+                      cursor: "pointer",
+                    }}
+                  >
+                    ⬇ JSON ({readyAdsForExport.length})
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
-        </section>
+        </div>
       </div>
 
-      {/* LIGHTBOX POWIĘKSZENIA ZDJĘCIA */}
+      {/* LIGHTBOX MODAL */}
       {lightboxAsset && (
         <div
           onClick={() => setLightboxAsset(null)}
           style={{
-            position: 'fixed',
+            position: "fixed",
             inset: 0,
-            background: 'rgba(15,23,42,0.82)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1100,
-            padding: 20,
+            background: "rgba(0,0,0,0.86)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 24,
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: 'var(--card)',
-              color: 'var(--text)',
-              borderRadius: 12,
-              border: '1px solid var(--border)',
-              maxWidth: 760,
-              width: '100%',
-              maxHeight: '92vh',
-              overflowY: 'auto',
-              padding: 18,
-              display: 'grid',
-              gap: 12,
+              maxWidth: 720,
+              width: "100%",
+              background: "#241207",
+              borderRadius: 16,
+              border: "1px solid #f97316",
+              overflow: "hidden",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.7)",
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 15 }}>{lightboxAsset.label}</div>
-                <div style={{ fontSize: 12, color: 'var(--muted)' }}>
-                  Źródło: {lightboxAsset.source === 'ai' ? '✨ Wygenerowane AI (czyste zdjęcie natywne)' : '📚 Biblioteka Meta (act_1109284831182252)'}
-                  {lightboxAsset.imageHash ? ` · image_hash: ${lightboxAsset.imageHash}` : ''}
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setLightboxAsset(null)}
-                style={{
-                  background: 'transparent',
-                  border: 0,
-                  color: 'var(--text)',
-                  fontSize: 20,
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                }}
-              >
-                ✕
-              </button>
-            </div>
-
-            <div
-              style={{
-                background: '#0f172a',
-                borderRadius: 8,
-                overflow: 'hidden',
-                display: 'flex',
-                justifyContent: 'center',
-                maxHeight: '70vh',
-              }}
-            >
-              <img
-                src={lightboxAsset.url}
-                alt={lightboxAsset.label}
-                style={{ maxWidth: '100%', maxHeight: '70vh', objectFit: 'contain', display: 'block' }}
-              />
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-              {activeAngle && (
+            <img
+              src={lightboxAsset.url}
+              alt={lightboxAsset.label}
+              style={{ width: "100%", maxHeight: "72vh", objectFit: "contain", background: "#000", display: "block" }}
+            />
+            <div style={{ padding: 14, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#ffedd5" }}>{lightboxAsset.label}</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                {activeAngle && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`, 1);
+                        setLightboxAsset(null);
+                      }}
+                      style={{
+                        padding: "7px 12px",
+                        borderRadius: 7,
+                        border: 0,
+                        background: "#ea580c",
+                        color: "#ffffff",
+                        fontWeight: 800,
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Ustaw jako Kreację A
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`, 2);
+                        setLightboxAsset(null);
+                      }}
+                      style={{
+                        padding: "7px 12px",
+                        borderRadius: 7,
+                        border: 0,
+                        background: "#d97706",
+                        color: "#ffffff",
+                        fontWeight: 800,
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Ustaw jako Kreację B
+                    </button>
+                  </>
+                )}
                 <button
                   type="button"
-                  onClick={() => {
-                    void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`);
-                    setLightboxAsset(null);
-                  }}
+                  onClick={() => setLightboxAsset(null)}
                   style={{
-                    padding: '8px 14px',
+                    padding: "7px 12px",
                     borderRadius: 7,
-                    border: 0,
-                    background: '#7c3aed',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: 12.5,
-                    cursor: 'pointer',
+                    border: "1px solid #4a2610",
+                    background: "#160b04",
+                    color: "#fed7aa",
+                    fontSize: 12,
+                    cursor: "pointer",
                   }}
                 >
-                  Przypisz tę kreację do aktywnego Antka (#{activeAngle.number})
+                  Zamknij
                 </button>
-              )}
-              <button
-                type="button"
-                onClick={() => setLightboxAsset(null)}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: 7,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  fontWeight: 600,
-                  fontSize: 12.5,
-                  cursor: 'pointer',
-                }}
-              >
-                Zamknij podgląd
-              </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* MODAL DODAWANIA WŁASNEGO KĄTA */}
+      {/* CUSTOM ANGLE MODAL */}
       {showCustomModal && (
         <div
+          onClick={() => setShowCustomModal(false)}
           style={{
-            position: 'fixed',
+            position: "fixed",
             inset: 0,
-            background: 'rgba(0,0,0,0.65)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
+            background: "rgba(0,0,0,0.8)",
+            zIndex: 9998,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             padding: 20,
           }}
         >
           <form
+            onClick={e => e.stopPropagation()}
             onSubmit={handleGenerateCustomAngle}
             style={{
-              background: 'var(--card)',
-              color: 'var(--text)',
-              border: '1px solid var(--border)',
-              borderRadius: 12,
+              width: "100%",
+              maxWidth: 620,
+              background: "#241207",
+              borderRadius: 16,
+              border: "1px solid #f97316",
               padding: 22,
-              maxWidth: 660,
-              width: '100%',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              display: 'grid',
+              display: "grid",
               gap: 12,
+              color: "#f8fafc",
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 19 }}>Dodaj własny kąt Antka PL</h2>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "#ffedd5" }}>
+              + Dodaj własny kąt / Hook (Orthomax StepMax)
+            </h3>
+            <input
+              required
+              value={customTitle}
+              onChange={e => setCustomTitle(e.target.value)}
+              placeholder="Tytuł kąta (np. D36: Ból pięty po zmianie w piekarni)"
+              style={{ padding: "8px 11px", borderRadius: 8, border: "1px solid #4a2610", background: "#160b04", color: "#fff" }}
+            />
+            <textarea
+              required
+              rows={3}
+              value={customHook}
+              onChange={e => setCustomHook(e.target.value)}
+              placeholder="Hook otwierający (pierwsze 2–3 zdania historii)"
+              style={{ padding: "8px 11px", borderRadius: 8, border: "1px solid #4a2610", background: "#160b04", color: "#fff" }}
+            />
+            <textarea
+              rows={2}
+              value={customScene}
+              onChange={e => setCustomScene(e.target.value)}
+              placeholder="Scena i sytuacja z życia"
+              style={{ padding: "8px 11px", borderRadius: 8, border: "1px solid #4a2610", background: "#160b04", color: "#fff" }}
+            />
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
               <button
                 type="button"
                 onClick={() => setShowCustomModal(false)}
-                style={{ background: 'transparent', border: 0, color: 'var(--text)', fontSize: 18, cursor: 'pointer' }}
-              >
-                ✕
-              </button>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Tytuł / Nagłówek w stylu Mellow *</span>
-                <input
-                  required
-                  value={customTitle}
-                  onChange={e => setCustomTitle(e.target.value)}
-                  placeholder="Np. Kupiłam córce buty za 599 zł. Po 3 tygodniach zamarłam"
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                />
-              </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Kod roboczy</span>
-                <input
-                  value={customCode}
-                  onChange={e => setCustomCode(e.target.value)}
-                  placeholder="np. nike_599_przedpokoj"
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                />
-              </label>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Segment</span>
-                <select
-                  value={customSegment}
-                  onChange={e => setCustomSegment(e.target.value as AntkiPlSegment)}
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                >
-                  <option value="dzieci">Dzieci (Porady Mamy Gosi)</option>
-                  <option value="dorosli">Dorośli (Zapasowy)</option>
-                </select>
-              </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Awareness Stage / Poziom Sofistykacji</span>
-                <select
-                  value={customStage}
-                  onChange={e => setCustomStage(e.target.value as AntkiPlFunnelStage)}
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                >
-                  {STAGE_ORDER.map(k => (
-                    <option key={k} value={k}>
-                      {stages[k]?.label || k}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Narratorka</span>
-                <input
-                  value={customNarrator}
-                  onChange={e => setCustomNarrator(e.target.value)}
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                />
-              </label>
-              <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-                <span>Główna postać (dziecko)</span>
-                <input
-                  value={customProtagonist}
-                  onChange={e => setCustomProtagonist(e.target.value)}
-                  style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-                />
-              </label>
-            </div>
-
-            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-              <span>Hook otwierający / Pierwsza scena *</span>
-              <textarea
-                required
-                rows={3}
-                value={customHook}
-                onChange={e => setCustomHook(e.target.value)}
-                placeholder="Opisz pierwsze 2-3 zdania wchodzące prosto w scenę..."
-                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-              />
-            </label>
-
-            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-              <span>Rozwinięcie sceny i mechanizm</span>
-              <textarea
-                rows={3}
-                value={customScene}
-                onChange={e => setCustomScene(e.target.value)}
-                placeholder="Co wyszło na jaw i jak działa mechanizm..."
-                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-              />
-            </label>
-
-            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-              <span>Matematyka wcześniejszych wydatków (Failed Solutions)</span>
-              <input
-                value={customMath}
-                onChange={e => setCustomMath(e.target.value)}
-                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-              />
-            </label>
-
-            <label style={{ display: 'grid', gap: 4, fontSize: 12.5, fontWeight: 600 }}>
-              <span>Most odkrycia (np. grupa mam na Facebooku / forum)</span>
-              <input
-                value={customBridge}
-                onChange={e => setCustomBridge(e.target.value)}
-                style={{ padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)' }}
-              />
-            </label>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 6 }}>
-              <button
-                type="button"
-                onClick={() => setShowCustomModal(false)}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: 7,
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  cursor: 'pointer',
-                }}
+                style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #4a2610", background: "#160b04", color: "#fed7aa", cursor: "pointer" }}
               >
                 Anuluj
               </button>
               <button
                 type="submit"
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: 7,
-                  background: 'var(--accent)',
-                  color: '#ffffff',
-                  border: 0,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
+                style={{ padding: "8px 16px", borderRadius: 8, border: 0, background: "#ea580c", color: "#ffffff", fontWeight: 800, cursor: "pointer" }}
               >
-                Dodaj i wygeneruj teraz
+                Wygeneruj nowy Antek
               </button>
             </div>
           </form>
         </div>
       )}
-    </main>
+    </div>
   );
 }

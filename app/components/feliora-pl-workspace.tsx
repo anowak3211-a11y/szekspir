@@ -18,12 +18,12 @@ import {
 } from '@/lib/feliora-pl';
 
 const PROBLEM_CLUSTER_LABELS: Record<FelioraProblemCluster, { label: string; color: string }> = {
-  SIKANIE_KOLDRA: { label: '💦 Sikanie na kołdrę / poza kuwetą', color: '#e11d48' },
-  WSTYD_DOM: { label: '🛋️ Wstyd w domu / folia / wycie 3:15', color: '#4f46e5' },
-  ODDANIE_SCHRONISko: { label: '💔 Ultimatum w domu / strach i paraliż', color: '#be185d' },
+  SIKANIE_KOLDRA: { label: '💦 Sikanie na kołdrę / poza kuwetą', color: '#ea580c' },
+  WSTYD_DOM: { label: '🛋️ Wstyd w domu / folia / wycie 3:15', color: '#f97316' },
+  ODDANIE_SCHRONISko: { label: '💔 Ultimatum w domu / strach i paraliż', color: '#d97706' },
   FIC_PECHERZ: { label: '🩺 FIC / Pęcherz, łysy brzuch i kuwety', color: '#0284c7' },
-  DOKOCENIE_WALKI: { label: '⚡ Dokocenie, walki i mapa węchowa', color: '#d97706' },
-  ZDEMASKOWANIE_ZOO: { label: '✂️ Demaskacja obróżek, sprayów i octu', color: '#9333ea' },
+  DOKOCENIE_WALKI: { label: '⚡ Dokocenie, walki i mapa węchowa', color: '#b45309' },
+  ZDEMASKOWANIE_ZOO: { label: '✂️ Demaskacja obróżek, sprayów i octu', color: '#ea580c' },
   F3_VS_MAP_FIZYKA: { label: '🔬 M.A.P. + F3 vs stare wtyczki F3', color: '#059669' },
   MATEMATYKA_GWARANCJA: { label: '🛡️ Matematyka 3,16 zł/dzień & 30 dni próby', color: '#0d9488' },
 };
@@ -441,8 +441,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
     <div
       style={{
         minHeight: '100vh',
-        background: '#0b0f17',
-        color: '#f1f5f9',
+        background: 'linear-gradient(180deg, #1f1006 0%, #140a04 100%)',
+        color: '#fff7ed',
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         display: 'flex',
         flexDirection: 'column',
@@ -451,8 +451,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
       {/* TOP BAR: BRAND SWITCHER & A/B TEST WINNER SUMMARY */}
       <header
         style={{
-          background: '#111827',
-          borderBottom: '1px solid #1e293b',
+          background: 'linear-gradient(90deg, #2b1508 0%, #1f1006 100%)',
+          borderBottom: '1px solid #4a2610',
           padding: '12px 20px',
           display: 'flex',
           alignItems: 'center',
@@ -465,13 +465,14 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           <a
             href="/"
             style={{
-              color: '#94a3b8',
+              color: '#fed7aa',
               textDecoration: 'none',
               fontSize: '13px',
               fontWeight: 600,
               padding: '6px 10px',
               borderRadius: '6px',
-              background: '#1e293b',
+              background: '#361b0b',
+              border: '1px solid #5c2f14',
             }}
           >
             ← Szekspir Home
@@ -480,16 +481,16 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           <div
             style={{
               display: 'inline-flex',
-              background: '#0f172a',
+              background: '#160b04',
               padding: '4px',
               borderRadius: '10px',
-              border: '1px solid #334155',
+              border: '1px solid #5c2f14',
             }}
           >
             <button
               type="button"
               style={{
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '7px',
@@ -497,7 +498,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 fontSize: '13px',
                 fontWeight: 700,
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
+                boxShadow: '0 2px 10px rgba(249, 115, 22, 0.4)',
               }}
             >
               🐾 FELIORA PL · Batch 1: Koty (25 Antków · 5 Stages)
@@ -508,12 +509,12 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 onClick={onSwitchToOrthomax}
                 style={{
                   background: 'transparent',
-                  color: '#94a3b8',
+                  color: '#fdba74',
                   border: 'none',
                   borderRadius: '7px',
                   padding: '7px 14px',
                   fontSize: '13px',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   cursor: 'pointer',
                 }}
               >
@@ -526,9 +527,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             type="button"
             onClick={() => setShowMatrixModal(true)}
             style={{
-              background: '#1e293b',
-              color: '#38bdf8',
-              border: '1px solid #0284c7',
+              background: '#361b0b',
+              color: '#fb923c',
+              border: '1px solid #ea580c',
               borderRadius: '8px',
               padding: '7px 13px',
               fontSize: '12.5px',
@@ -546,8 +547,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            background: 'rgba(16, 185, 129, 0.1)',
-            border: '1px solid rgba(16, 185, 129, 0.35)',
+            background: 'rgba(249, 115, 22, 0.14)',
+            border: '1px solid rgba(249, 115, 22, 0.45)',
             borderRadius: '10px',
             padding: '7px 14px',
             fontSize: '12.5px',
@@ -555,8 +556,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         >
           <span style={{ fontSize: '16px' }}>🏆</span>
           <div>
-            <strong style={{ color: '#34d399' }}>WYNIK A/B (FEL NATIVE + MAIN):</strong>{' '}
-            <span style={{ color: '#e2e8f0' }}>
+            <strong style={{ color: '#fb923c' }}>WYNIK A/B (FEL NATIVE + MAIN):</strong>{' '}
+            <span style={{ color: '#ffedd5' }}>
               <strong>Advertorial (Listicle)</strong> wygrywa <strong>5 : 1</strong> w zakupach (
               <strong>1 129,94 zł</strong> vs 189,99 zł · AOV <strong>225,99 zł</strong>)
             </span>
@@ -569,7 +570,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         <div
           style={{
             padding: '10px 20px',
-            background: error ? '#7f1d1d' : '#065f46',
+            background: error ? '#7f1d1d' : '#c2410c',
             color: '#ffffff',
             fontSize: '13.5px',
             fontWeight: 600,
@@ -601,8 +602,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
       {/* FILTER BAR: 5 AWARENESS STAGES + SOPHISTICATION + PROBLEM CLUSTER + FANPAGE */}
       <section
         style={{
-          background: '#0f172a',
-          borderBottom: '1px solid #1e293b',
+          background: '#241207',
+          borderBottom: '1px solid #4a2610',
           padding: '12px 20px',
           display: 'flex',
           flexDirection: 'column',
@@ -611,7 +612,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
       >
         {/* ROW 1: 5 SCHWARTZ AWARENESS STAGE PILLS */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#fdba74', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Etap Świadomości (Schwartz):
           </span>
 
@@ -621,9 +622,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             style={{
               padding: '7px 13px',
               borderRadius: '8px',
-              border: stageFilter === 'all' ? '1px solid #38bdf8' : '1px solid #1e293b',
-              background: stageFilter === 'all' ? 'rgba(56, 189, 248, 0.15)' : '#111827',
-              color: stageFilter === 'all' ? '#38bdf8' : '#cbd5e1',
+              border: stageFilter === 'all' ? '1px solid #f97316' : '1px solid #4a2610',
+              background: stageFilter === 'all' ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' : '#180c04',
+              color: stageFilter === 'all' ? '#ffffff' : '#fed7aa',
               fontSize: '12.5px',
               fontWeight: 700,
               cursor: 'pointer',
@@ -648,9 +649,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 style={{
                   padding: '7px 13px',
                   borderRadius: '8px',
-                  border: active ? `1px solid ${st.color}` : '1px solid #1e293b',
-                  background: active ? `${st.color}28` : '#111827',
-                  color: active ? '#ffffff' : '#cbd5e1',
+                  border: active ? `1px solid ${st.color}` : '1px solid #4a2610',
+                  background: active ? `${st.color}38` : '#180c04',
+                  color: active ? '#ffffff' : '#fed7aa',
                   fontSize: '12.5px',
                   fontWeight: active ? 700 : 600,
                   cursor: 'pointer',
@@ -669,7 +670,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   }}
                 />
                 <span>{st.shortLabel}</span>
-                <span style={{ color: '#94a3b8', fontSize: '11px' }}>({rangeBadge})</span>
+                <span style={{ color: '#fdba74', fontSize: '11px' }}>({rangeBadge})</span>
               </button>
             );
           })}
@@ -683,9 +684,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               setSophFilter(e.target.value === 'all' ? 'all' : (Number(e.target.value) as FelioraSophisticationLevel))
             }
             style={{
-              background: '#111827',
-              color: '#e2e8f0',
-              border: '1px solid #334155',
+              background: '#180c04',
+              color: '#ffedd5',
+              border: '1px solid #5c2f14',
               borderRadius: '7px',
               padding: '6px 10px',
               fontSize: '12.5px',
@@ -702,9 +703,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             value={clusterFilter}
             onChange={e => setClusterFilter(e.target.value as 'all' | FelioraProblemCluster)}
             style={{
-              background: '#111827',
-              color: '#e2e8f0',
-              border: '1px solid #334155',
+              background: '#180c04',
+              color: '#ffedd5',
+              border: '1px solid #5c2f14',
               borderRadius: '7px',
               padding: '6px 10px',
               fontSize: '12.5px',
@@ -723,9 +724,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             value={fanpageFilter}
             onChange={e => setFanpageFilter(e.target.value)}
             style={{
-              background: '#111827',
-              color: '#e2e8f0',
-              border: '1px solid #334155',
+              background: '#180c04',
+              color: '#ffedd5',
+              border: '1px solid #5c2f14',
               borderRadius: '7px',
               padding: '6px 10px',
               fontSize: '12.5px',
@@ -747,9 +748,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             onChange={e => setSearchQuery(e.target.value)}
             style={{
               flex: '1 1 220px',
-              background: '#111827',
-              color: '#f8fafc',
-              border: '1px solid #334155',
+              background: '#180c04',
+              color: '#fff7ed',
+              border: '1px solid #5c2f14',
               borderRadius: '7px',
               padding: '6px 12px',
               fontSize: '12.5px',
@@ -767,9 +768,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 setSearchQuery('');
               }}
               style={{
-                background: '#1e293b',
-                color: '#cbd5e1',
-                border: '1px solid #334155',
+                background: '#361b0b',
+                color: '#fed7aa',
+                border: '1px solid #5c2f14',
                 borderRadius: '7px',
                 padding: '6px 11px',
                 fontSize: '12px',
@@ -795,8 +796,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         {/* LEFT COLUMN: SORTED & GROUPED LIST OF 25 ANGLES */}
         <aside
           style={{
-            borderRight: '1px solid #1e293b',
-            background: '#0f172a',
+            borderRight: '1px solid #4a2610',
+            background: '#1c0e05',
             display: 'flex',
             flexDirection: 'column',
             height: 'calc(100vh - 135px)',
@@ -807,26 +808,26 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           <div
             style={{
               padding: '10px 12px',
-              borderBottom: '1px solid #1e293b',
+              borderBottom: '1px solid #4a2610',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              background: '#111827',
+              background: '#261308',
               position: 'sticky',
               top: 0,
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#e2e8f0' }}>
+            <span style={{ fontSize: '12px', fontWeight: 700, color: '#ffedd5' }}>
               KĄTY ({filteredPresets.length} / 25)
             </span>
             <button
               type="button"
               onClick={handleSelectAllFiltered}
               style={{
-                background: '#1e293b',
-                color: '#94a3b8',
-                border: '1px solid #334155',
+                background: '#361b0b',
+                color: '#fdba74',
+                border: '1px solid #5c2f14',
                 borderRadius: '6px',
                 padding: '4px 8px',
                 fontSize: '11px',
@@ -847,7 +848,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   style={{
                     padding: '6px 9px',
                     borderRadius: '7px',
-                    background: `${stageMeta.color}22`,
+                    background: 'rgba(234, 88, 12, 0.2)',
                     borderLeft: `4px solid ${stageMeta.color}`,
                     display: 'flex',
                     flexDirection: 'column',
@@ -855,15 +856,15 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#f8fafc', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fff7ed', textTransform: 'uppercase' }}>
                       {stageMeta.shortLabel}
                     </span>
                     <span
                       style={{
                         fontSize: '10px',
                         fontWeight: 700,
-                        color: '#cbd5e1',
-                        background: '#1e293b',
+                        color: '#fed7aa',
+                        background: '#361b0b',
                         padding: '1px 5px',
                         borderRadius: '4px',
                       }}
@@ -887,8 +888,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       style={{
                         padding: '9px 10px',
                         borderRadius: '9px',
-                        background: isActive ? '#1e293b' : '#111827',
-                        border: isActive ? `2px solid ${stageMeta.color}` : '1px solid #1e293b',
+                        background: isActive ? 'rgba(234, 88, 12, 0.24)' : '#160b04',
+                        border: isActive ? '2px solid #f97316' : '1px solid #3d200d',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                         display: 'flex',
@@ -925,11 +926,11 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                             style={{
                               fontSize: '10.5px',
                               fontWeight: 700,
-                              color: '#cbd5e1',
-                              background: '#0f172a',
+                              color: '#fed7aa',
+                              background: '#261308',
                               padding: '1px 6px',
                               borderRadius: '4px',
-                              border: '1px solid #334155',
+                              border: '1px solid #5c2f14',
                             }}
                           >
                             {preset.recommendedFanpageName}
@@ -952,7 +953,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                         style={{
                           fontSize: '12.5px',
                           fontWeight: 700,
-                          color: isActive ? '#ffffff' : '#e2e8f0',
+                          color: isActive ? '#ffffff' : '#ffedd5',
                           lineHeight: 1.3,
                         }}
                       >
@@ -965,9 +966,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                           style={{
                             fontSize: '10px',
                             fontWeight: 600,
-                            color: '#e2e8f0',
-                            background: `${clusterInfo.color}25`,
-                            border: `1px solid ${clusterInfo.color}55`,
+                            color: '#ffedd5',
+                            background: `${clusterInfo.color}28`,
+                            border: `1px solid ${clusterInfo.color}66`,
                             padding: '1px 5px',
                             borderRadius: '4px',
                           }}
@@ -986,7 +987,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         {/* CENTER COLUMN: COMPACT READER & EDITOR (NARROWER & LESS CLUTTERED) */}
         <main
           style={{
-            background: '#0b0f17',
+            background: '#160b04',
             height: 'calc(100vh - 135px)',
             overflowY: 'auto',
             padding: '12px 16px',
@@ -1000,8 +1001,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               {/* COMPACT STICKY CONTROL BAR */}
               <div
                 style={{
-                  background: '#111827',
-                  border: '1px solid #1e293b',
+                  background: '#241207',
+                  border: '1px solid #4a2610',
                   borderRadius: '10px',
                   padding: '10px 12px',
                   display: 'flex',
@@ -1017,7 +1018,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flex: 1 }}>
                     <span
                       style={{
-                        background: activeStageMeta?.color || '#3b82f6',
+                        background: activeStageMeta?.color || '#ea580c',
                         color: '#ffffff',
                         fontWeight: 800,
                         fontSize: '11px',
@@ -1345,8 +1346,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         {/* RIGHT COLUMN: ENLARGED CREATIVE A/B + ZOOMABLE GALLERY + FB PREVIEW + META PUSH */}
         <aside
           style={{
-            borderLeft: '1px solid #1e293b',
-            background: '#0f172a',
+            borderLeft: '1px solid #4a2610',
+            background: '#1c0e05',
             height: 'calc(100vh - 135px)',
             overflowY: 'auto',
             padding: '16px',
@@ -1359,8 +1360,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           {activeAd && activePreset && (
             <div
               style={{
-                background: '#111827',
-                border: '1px solid #1e293b',
+                background: '#241207',
+                border: '1px solid #4a2610',
                 borderRadius: '12px',
                 padding: '14px',
                 display: 'flex',
@@ -1369,7 +1370,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#e2e8f0', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#ffedd5', textTransform: 'uppercase' }}>
                   🖼️ Kreacje do Kąta #{activePreset.number} (Kliknij zdjęcie, aby powiększyć 🔍)
                 </span>
                 <button
@@ -1377,9 +1378,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   onClick={() => customFileRef.current?.click()}
                   disabled={uploadingImage}
                   style={{
-                    background: '#1e293b',
-                    color: '#38bdf8',
-                    border: '1px solid #0284c7',
+                    background: '#361b0b',
+                    color: '#fb923c',
+                    border: '1px solid #ea580c',
                     borderRadius: '6px',
                     padding: '4px 9px',
                     fontSize: '11px',
@@ -1406,16 +1407,17 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 style={{
                   width: '100%',
                   background: generatingKie5
-                    ? '#312e81'
-                    : 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
+                    ? '#7c2d12'
+                    : 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
                   color: '#ffffff',
-                  border: '1px solid #8b5cf6',
+                  border: '1px solid #fb923c',
                   borderRadius: '8px',
                   padding: '9px 12px',
                   fontSize: '12px',
                   fontWeight: 800,
                   cursor: generatingKie5 ? 'wait' : 'pointer',
                   textAlign: 'center',
+                  boxShadow: '0 2px 10px rgba(249, 115, 22, 0.3)',
                 }}
               >
                 {generatingKie5
@@ -1427,8 +1429,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 {/* Primary Image (Kreacja A) */}
                 <div
                   style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
+                    background: '#160b04',
+                    border: '1px solid #5c2f14',
                     borderRadius: '10px',
                     padding: '10px',
                     display: 'flex',
@@ -1437,14 +1439,14 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#34d399' }}>Kreacja A (Główna)</span>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fb923c' }}>Kreacja A (Główna)</span>
                     <button
                       type="button"
                       onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
                       style={{
-                        background: 'rgba(16, 185, 129, 0.15)',
-                        color: '#34d399',
-                        border: '1px solid rgba(16, 185, 129, 0.4)',
+                        background: 'rgba(249, 115, 22, 0.18)',
+                        color: '#fb923c',
+                        border: '1px solid rgba(249, 115, 22, 0.45)',
                         borderRadius: '5px',
                         padding: '2px 7px',
                         fontSize: '10.5px',
@@ -1468,7 +1470,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                         aspectRatio: '1 / 1',
                         objectFit: 'cover',
                         borderRadius: '8px',
-                        background: '#1e293b',
+                        background: '#261308',
                         display: 'block',
                       }}
                     />
@@ -1477,9 +1479,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                     type="button"
                     onClick={() => setImagePickerSlot('primary')}
                     style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
+                      background: '#361b0b',
+                      color: '#ffedd5',
+                      border: '1px solid #5c2f14',
                       borderRadius: '6px',
                       padding: '6px',
                       fontSize: '11.5px',
@@ -1494,8 +1496,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 {/* Secondary Image (Kreacja B) */}
                 <div
                   style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
+                    background: '#160b04',
+                    border: '1px solid #5c2f14',
                     borderRadius: '10px',
                     padding: '10px',
                     display: 'flex',
@@ -1504,7 +1506,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#38bdf8' }}>Kreacja B (Split A/B)</span>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fdba74' }}>Kreacja B (Split A/B)</span>
                     <button
                       type="button"
                       onClick={() =>
@@ -1514,9 +1516,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                         )
                       }
                       style={{
-                        background: 'rgba(56, 189, 248, 0.15)',
-                        color: '#38bdf8',
-                        border: '1px solid rgba(56, 189, 248, 0.4)',
+                        background: 'rgba(251, 146, 60, 0.15)',
+                        color: '#fdba74',
+                        border: '1px solid rgba(251, 146, 60, 0.4)',
                         borderRadius: '5px',
                         padding: '2px 7px',
                         fontSize: '10.5px',
@@ -1545,7 +1547,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                         aspectRatio: '1 / 1',
                         objectFit: 'cover',
                         borderRadius: '8px',
-                        background: '#1e293b',
+                        background: '#261308',
                         display: 'block',
                       }}
                     />
@@ -1554,9 +1556,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                     type="button"
                     onClick={() => setImagePickerSlot('secondary')}
                     style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
+                      background: '#361b0b',
+                      color: '#ffedd5',
+                      border: '1px solid #5c2f14',
                       borderRadius: '6px',
                       padding: '6px',
                       fontSize: '11.5px',
@@ -1572,8 +1574,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               {/* ENLARGED GRID OF ALL 15 KIE.AI RAW PHONE PHOTOS (CLICK TO ZOOM, A/B BUTTONS TO ASSIGN) */}
               <div
                 style={{
-                  background: '#0f172a',
-                  border: '1px solid #1e293b',
+                  background: '#160b04',
+                  border: '1px solid #4a2610',
                   borderRadius: '10px',
                   padding: '10px',
                   display: 'flex',
@@ -1582,7 +1584,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
-                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#a78bfa' }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fb923c' }}>
                     📸 Surowe zdjęcia z telefonu ({imageLibrary.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
                   </span>
                 </div>
@@ -1603,12 +1605,12 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                           position: 'relative',
                           borderRadius: '8px',
                           overflow: 'hidden',
-                          background: '#111827',
+                          background: '#241207',
                           border: isA
-                            ? '2px solid #34d399'
+                            ? '2px solid #f97316'
                             : isB
-                            ? '2px solid #38bdf8'
-                            : '1px solid #334155',
+                            ? '2px solid #fbbf24'
+                            : '1px solid #5c2f14',
                           display: 'flex',
                           flexDirection: 'column',
                         }}
@@ -1633,8 +1635,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                               position: 'absolute',
                               top: '5px',
                               left: '5px',
-                              background: 'rgba(15, 23, 42, 0.78)',
-                              color: '#f8fafc',
+                              background: 'rgba(22, 11, 4, 0.82)',
+                              color: '#fff7ed',
                               fontSize: '10px',
                               fontWeight: 700,
                               padding: '2px 5px',
@@ -1649,7 +1651,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                                 position: 'absolute',
                                 top: '5px',
                                 right: '5px',
-                                background: isA ? '#059669' : '#0284c7',
+                                background: isA ? '#ea580c' : '#d97706',
                                 color: '#fff',
                                 fontSize: '10px',
                                 fontWeight: 800,
@@ -1667,18 +1669,18 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                           style={{
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr',
-                            borderTop: '1px solid #1e293b',
-                            background: '#0f172a',
+                            borderTop: '1px solid #4a2610',
+                            background: '#1c0e05',
                           }}
                         >
                           <button
                             type="button"
                             onClick={() => handleAssignImage(img, 'primary')}
                             style={{
-                              background: isA ? '#059669' : 'transparent',
-                              color: isA ? '#ffffff' : '#34d399',
+                              background: isA ? '#ea580c' : 'transparent',
+                              color: isA ? '#ffffff' : '#fb923c',
                               border: 'none',
-                              borderRight: '1px solid #1e293b',
+                              borderRight: '1px solid #4a2610',
                               padding: '5px 4px',
                               fontSize: '10.5px',
                               fontWeight: 800,
@@ -1691,8 +1693,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                             type="button"
                             onClick={() => handleAssignImage(img, 'secondary')}
                             style={{
-                              background: isB ? '#0284c7' : 'transparent',
-                              color: isB ? '#ffffff' : '#38bdf8',
+                              background: isB ? '#d97706' : 'transparent',
+                              color: isB ? '#ffffff' : '#fdba74',
                               border: 'none',
                               padding: '5px 4px',
                               fontSize: '10.5px',
@@ -1714,13 +1716,13 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           {/* FANPAGE SELECTOR */}
           <div
             style={{
-              background: '#111827',
-              border: '1px solid #1e293b',
+              background: '#241207',
+              border: '1px solid #4a2610',
               borderRadius: '12px',
               padding: '12px 14px',
             }}
           >
-            <label style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '11px', fontWeight: 700, color: '#fdba74', textTransform: 'uppercase' }}>
               Tożsamość Fanpage (Meta Page):
             </label>
             <select
@@ -1732,9 +1734,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               style={{
                 width: '100%',
                 marginTop: '6px',
-                background: '#0f172a',
-                color: '#f8fafc',
-                border: '1px solid #334155',
+                background: '#160b04',
+                color: '#fff7ed',
+                border: '1px solid #5c2f14',
                 borderRadius: '8px',
                 padding: '8px 10px',
                 fontSize: '13px',
@@ -1845,8 +1847,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           {/* 1-CLICK PUSH TO META ADS (FEL NATIVE) */}
           <div
             style={{
-              background: '#111827',
-              border: '1px solid #1e293b',
+              background: '#241207',
+              border: '1px solid #4a2610',
               borderRadius: '12px',
               padding: '14px',
               display: 'flex',
@@ -1854,12 +1856,12 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               gap: '10px',
             }}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '12px', fontWeight: 800, color: '#fb923c', textTransform: 'uppercase' }}>
               🚀 Eksport do Meta Ads (FEL NATIVE · 1168927131917359)
             </div>
 
             <div>
-              <label style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>Nazwa nowego zestawu (Ad Set):</label>
+              <label style={{ fontSize: '11px', color: '#fdba74', fontWeight: 600 }}>Nazwa nowego zestawu (Ad Set):</label>
               <input
                 type="text"
                 value={pushAdSetName}
@@ -1867,9 +1869,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 style={{
                   width: '100%',
                   marginTop: '4px',
-                  background: '#0f172a',
+                  background: '#160b04',
                   color: '#fff',
-                  border: '1px solid #334155',
+                  border: '1px solid #5c2f14',
                   borderRadius: '7px',
                   padding: '7px 10px',
                   fontSize: '12.5px',
@@ -1878,16 +1880,16 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             </div>
 
             <div>
-              <label style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>Tryb Linku Docelowego:</label>
+              <label style={{ fontSize: '11px', color: '#fdba74', fontWeight: 600 }}>Tryb Linku Docelowego:</label>
               <select
                 value={pushUrlMode}
                 onChange={e => setPushUrlMode(e.target.value as 'advertorial' | 'pdp' | 'split_ab')}
                 style={{
                   width: '100%',
                   marginTop: '4px',
-                  background: '#0f172a',
+                  background: '#160b04',
                   color: '#fff',
-                  border: '1px solid #334155',
+                  border: '1px solid #5c2f14',
                   borderRadius: '7px',
                   padding: '7px 10px',
                   fontSize: '12.5px',
@@ -1907,7 +1909,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 onClick={() => handlePushToMeta('active_only')}
                 style={{
                   flex: 1,
-                  background: '#2563eb',
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '8px',
