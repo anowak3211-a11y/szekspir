@@ -69,8 +69,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
   const [editDirty, setEditDirty] = useState(false);
   const [savingEdit, setSavingEdit] = useState(false);
 
-  // Image Picker Modal
+  // Image Picker Modal & Fullscreen Lightbox
   const [imagePickerSlot, setImagePickerSlot] = useState<null | 'primary' | 'secondary'>(null);
+  const [lightboxAsset, setLightboxAsset] = useState<FelioraImageAsset | null>(null);
+  const [showVocDetails, setShowVocDetails] = useState(false);
   const customFileRef = useRef<HTMLInputElement | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -226,6 +228,46 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
     },
     [activePreset],
   );
+
+  const openLightboxForUrl = useCallback(
+    (url: string, fallbackLabel = 'Podgląd kreacji') => {
+      const found = imageLibrary.find(img => img.url === url);
+      if (found) {
+        setLightboxAsset(found);
+      } else {
+        setLightboxAsset({
+          id: 'custom-preview',
+          label: fallbackLabel,
+          url,
+          imageHash: '',
+          adsetOrigin: 'Podgląd kreacji',
+          adOrigin: 'Podgląd',
+          aspectRatio: '1:1',
+        });
+      }
+    },
+    [imageLibrary],
+  );
+
+  useEffect(() => {
+    if (!lightboxAsset) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightboxAsset(null);
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const idx = imageLibrary.findIndex(img => img.url === lightboxAsset.url);
+        if (idx !== -1 && imageLibrary.length > 0) {
+          const nextIdx =
+            e.key === 'ArrowRight'
+              ? (idx + 1) % imageLibrary.length
+              : (idx - 1 + imageLibrary.length) % imageLibrary.length;
+          setLightboxAsset(imageLibrary[nextIdx]);
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [lightboxAsset, imageLibrary]);
 
   const handleUploadCustomImage = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -513,10 +555,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
         >
           <span style={{ fontSize: '16px' }}>🏆</span>
           <div>
-            <strong style={{ color: '#34d399' }}>WYNIK A/B (FEL NATIVE 50/50):</strong>{' '}
+            <strong style={{ color: '#34d399' }}>WYNIK A/B (FEL NATIVE + MAIN):</strong>{' '}
             <span style={{ color: '#e2e8f0' }}>
-              <strong>Advertorial (Listicle)</strong> wygrywa <strong>4 : 1</strong> w zakupach (
-              <strong>934,96 zł</strong> vs 189,99 zł · AOV <strong>233,74 zł</strong>)
+              <strong>Advertorial (Listicle)</strong> wygrywa <strong>5 : 1</strong> w zakupach (
+              <strong>1 129,94 zł</strong> vs 189,99 zł · AOV <strong>225,99 zł</strong>)
             </span>
           </div>
         </div>
@@ -744,7 +786,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '390px minmax(0, 1fr) 370px',
+          gridTemplateColumns: '320px minmax(420px, 620px) minmax(480px, 1fr)',
           flex: 1,
           minHeight: 'calc(100vh - 135px)',
           overflow: 'hidden',
@@ -764,7 +806,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           {/* Sidebar Header */}
           <div
             style={{
-              padding: '12px 14px',
+              padding: '10px 12px',
               borderBottom: '1px solid #1e293b',
               display: 'flex',
               justifyContent: 'space-between',
@@ -775,8 +817,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#e2e8f0' }}>
-              POSORTOWANE KĄTY ({filteredPresets.length} / 25)
+            <span style={{ fontSize: '12px', fontWeight: 700, color: '#e2e8f0' }}>
+              KĄTY ({filteredPresets.length} / 25)
             </span>
             <button
               type="button"
@@ -786,52 +828,49 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                 color: '#94a3b8',
                 border: '1px solid #334155',
                 borderRadius: '6px',
-                padding: '4px 9px',
-                fontSize: '11.5px',
+                padding: '4px 8px',
+                fontSize: '11px',
                 fontWeight: 600,
                 cursor: 'pointer',
               }}
             >
-              {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz widoczne'}
+              {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz wszystkie'}
             </button>
           </div>
 
           {/* Grouped Angles List */}
-          <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {groupedByStage.map(({ stageKey, stageMeta, items }) => (
-              <div key={stageKey} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div key={stageKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {/* Stage Group Banner */}
                 <div
                   style={{
-                    padding: '8px 10px',
-                    borderRadius: '8px',
+                    padding: '6px 9px',
+                    borderRadius: '7px',
                     background: `${stageMeta.color}22`,
                     borderLeft: `4px solid ${stageMeta.color}`,
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '3px',
+                    gap: '2px',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 800, color: '#f8fafc', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#f8fafc', textTransform: 'uppercase' }}>
                       {stageMeta.shortLabel}
                     </span>
                     <span
                       style={{
-                        fontSize: '10.5px',
+                        fontSize: '10px',
                         fontWeight: 700,
                         color: '#cbd5e1',
                         background: '#1e293b',
-                        padding: '2px 6px',
+                        padding: '1px 5px',
                         borderRadius: '4px',
                       }}
                     >
-                      Poziom {stageMeta.sophisticationLevel}
+                      Poz. {stageMeta.sophisticationLevel}
                     </span>
                   </div>
-                  <span style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.35 }}>
-                    {stageMeta.subtitle}
-                  </span>
                 </div>
 
                 {/* Angle Cards inside Stage */}
@@ -846,20 +885,20 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       key={preset.id}
                       onClick={() => setActiveAngleId(preset.id)}
                       style={{
-                        padding: '11px 12px',
-                        borderRadius: '10px',
+                        padding: '9px 10px',
+                        borderRadius: '9px',
                         background: isActive ? '#1e293b' : '#111827',
                         border: isActive ? `2px solid ${stageMeta.color}` : '1px solid #1e293b',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '6px',
+                        gap: '5px',
                       }}
                     >
                       {/* Top row: Checkbox + Number + Fanpage + Word Count */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '6px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <input
                             type="checkbox"
                             checked={isSelected}
@@ -868,28 +907,28 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                               handleToggleSelectAngle(preset.id);
                             }}
                             onClick={e => e.stopPropagation()}
-                            style={{ cursor: 'pointer', width: '14px', height: '14px' }}
+                            style={{ cursor: 'pointer', width: '13px', height: '13px' }}
                           />
                           <span
                             style={{
                               background: stageMeta.color,
                               color: '#ffffff',
                               fontWeight: 800,
-                              fontSize: '11px',
-                              padding: '2px 7px',
-                              borderRadius: '5px',
+                              fontSize: '10.5px',
+                              padding: '1px 6px',
+                              borderRadius: '4px',
                             }}
                           >
                             #{String(preset.number).padStart(2, '0')}
                           </span>
                           <span
                             style={{
-                              fontSize: '11px',
+                              fontSize: '10.5px',
                               fontWeight: 700,
                               color: '#cbd5e1',
                               background: '#0f172a',
-                              padding: '2px 7px',
-                              borderRadius: '5px',
+                              padding: '1px 6px',
+                              borderRadius: '4px',
                               border: '1px solid #334155',
                             }}
                           >
@@ -899,52 +938,41 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
 
                         <span
                           style={{
-                            fontSize: '11px',
+                            fontSize: '10.5px',
                             fontWeight: 700,
                             color: ad?.auditPassed !== false ? '#34d399' : '#fbbf24',
                           }}
                         >
-                          {ad?.wordCount || 1200} słów ✓
+                          {ad?.wordCount || 1200} sł. ✓
                         </span>
                       </div>
 
                       {/* Title */}
                       <div
                         style={{
-                          fontSize: '13.5px',
+                          fontSize: '12.5px',
                           fontWeight: 700,
                           color: isActive ? '#ffffff' : '#e2e8f0',
-                          lineHeight: 1.35,
+                          lineHeight: 1.3,
                         }}
                       >
                         {preset.title}
                       </div>
 
-                      {/* Subtitle / Problem Pill & Sophistication */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                      {/* Subtitle / Problem Pill */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
                         <span
                           style={{
-                            fontSize: '10.5px',
+                            fontSize: '10px',
                             fontWeight: 600,
                             color: '#e2e8f0',
                             background: `${clusterInfo.color}25`,
                             border: `1px solid ${clusterInfo.color}55`,
-                            padding: '1px 6px',
+                            padding: '1px 5px',
                             borderRadius: '4px',
                           }}
                         >
                           {preset.problemLabel}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '10.5px',
-                            color: '#94a3b8',
-                            background: '#0f172a',
-                            padding: '1px 6px',
-                            borderRadius: '4px',
-                          }}
-                        >
-                          {preset.sophisticationBadge}
                         </span>
                       </div>
                     </div>
@@ -955,363 +983,165 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           </div>
         </aside>
 
-        {/* CENTER COLUMN: HIGH-CONTRAST READER & EDITOR */}
+        {/* CENTER COLUMN: COMPACT READER & EDITOR (NARROWER & LESS CLUTTERED) */}
         <main
           style={{
             background: '#0b0f17',
             height: 'calc(100vh - 135px)',
             overflowY: 'auto',
-            padding: '20px 28px',
+            padding: '12px 16px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '18px',
+            gap: '10px',
           }}
         >
           {activePreset && activeAd && (
             <>
-              {/* ANGLE HEADER & STRATEGY METADATA CARD */}
+              {/* COMPACT STICKY CONTROL BAR */}
               <div
                 style={{
                   background: '#111827',
                   border: '1px solid #1e293b',
-                  borderRadius: '14px',
-                  padding: '18px 20px',
+                  borderRadius: '10px',
+                  padding: '10px 12px',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '14px',
-                }}
-              >
-                {/* Badges Row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <span
-                      style={{
-                        background: activeStageMeta?.color || '#3b82f6',
-                        color: '#ffffff',
-                        fontWeight: 800,
-                        fontSize: '12px',
-                        padding: '4px 10px',
-                        borderRadius: '6px',
-                      }}
-                    >
-                      KĄT #{String(activePreset.number).padStart(2, '0')} · {activeStageMeta?.shortLabel.toUpperCase()}
-                    </span>
-                    <span
-                      style={{
-                        background: '#1e293b',
-                        color: '#38bdf8',
-                        border: '1px solid #0284c7',
-                        fontWeight: 700,
-                        fontSize: '12px',
-                        padding: '4px 10px',
-                        borderRadius: '6px',
-                      }}
-                    >
-                      {activePreset.sophisticationBadge}
-                    </span>
-                    {activeClusterMeta && (
-                      <span
-                        style={{
-                          background: `${activeClusterMeta.color}22`,
-                          color: '#f8fafc',
-                          border: `1px solid ${activeClusterMeta.color}`,
-                          fontWeight: 600,
-                          fontSize: '12px',
-                          padding: '4px 10px',
-                          borderRadius: '6px',
-                        }}
-                      >
-                        {activePreset.problemLabel}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Audit Pill */}
-                  <div
-                    style={{
-                      background: 'rgba(16, 185, 129, 0.12)',
-                      border: '1px solid rgba(16, 185, 129, 0.4)',
-                      color: '#34d399',
-                      padding: '4px 11px',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    ✅ AUDYT: {liveWordCount} słów ({editPrimaryText.length} zn.) · 0 pauz · 0 „, i”
-                  </div>
-                </div>
-
-                {/* Title & ShortTitle */}
-                <div>
-                  <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#ffffff', margin: '0 0 4px 0', lineHeight: 1.3 }}>
-                    {activePreset.title}
-                  </h1>
-                  <p style={{ fontSize: '13.5px', color: '#94a3b8', margin: 0 }}>
-                    {activeStageMeta?.title} — {activeStageMeta?.subtitle}
-                  </p>
-                </div>
-
-                {/* VoC Research Grid (2 columns) */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                    gap: '10px',
-                    background: '#0f172a',
-                    padding: '12px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid #1e293b',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
-                      💬 Voice of Customer (Miau.pl / Wykop / Ceneo):
-                    </div>
-                    <div style={{ fontSize: '12.5px', color: '#e2e8f0', marginTop: '3px', lineHeight: 1.45 }}>
-                      {activePreset.vocTrigger}
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
-                      🧬 Mechanizm & Przewaga Feliora:
-                    </div>
-                    <div style={{ fontSize: '12.5px', color: '#e2e8f0', marginTop: '3px', lineHeight: 1.45 }}>
-                      {activePreset.mechanismCore}
-                    </div>
-                  </div>
-                </div>
-
-                {/* HOOK PREVIEW BOX (First 3 lines on Facebook) */}
-                <div
-                  style={{
-                    background: 'rgba(245, 158, 11, 0.08)',
-                    border: '1px solid rgba(245, 158, 11, 0.35)',
-                    borderRadius: '10px',
-                    padding: '12px 14px',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 800,
-                      color: '#fbbf24',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                      marginBottom: '4px',
-                    }}
-                  >
-                    ⚡ Otwarcie / Hook (Pierwszy akapit przed „Zobacz więcej”):
-                  </div>
-                  <div style={{ fontSize: '14.5px', fontWeight: 600, color: '#fef3c7', lineHeight: 1.5 }}>
-                    {paragraphs[0] || ''}
-                  </div>
-                </div>
-              </div>
-
-              {/* ACTION & COPY TOOLBAR */}
-              <div
-                style={{
-                  background: '#111827',
-                  border: '1px solid #1e293b',
-                  borderRadius: '12px',
-                  padding: '12px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: '10px',
+                  gap: '8px',
                   position: 'sticky',
                   top: 0,
                   zIndex: 15,
                 }}
               >
-                {/* Reader vs Editor Toggle */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      background: '#0f172a',
-                      padding: '3px',
-                      borderRadius: '8px',
-                      border: '1px solid #334155',
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setViewMode('reader')}
+                {/* Row 1: Angle badge + Title + VoC toggle + Copy/Edit buttons */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flex: 1 }}>
+                    <span
                       style={{
-                        padding: '6px 12px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        background: viewMode === 'reader' ? '#2563eb' : 'transparent',
-                        color: viewMode === 'reader' ? '#ffffff' : '#94a3b8',
-                        fontSize: '12.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
+                        background: activeStageMeta?.color || '#3b82f6',
+                        color: '#ffffff',
+                        fontWeight: 800,
+                        fontSize: '11px',
+                        padding: '3px 7px',
+                        borderRadius: '5px',
+                        whiteSpace: 'nowrap',
                       }}
                     >
-                      📖 Tryb Czytania (Czytelny)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setViewMode('editor')}
+                      #{String(activePreset.number).padStart(2, '0')} · {activeStageMeta?.shortLabel}
+                    </span>
+                    <span
                       style={{
-                        padding: '6px 12px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        background: viewMode === 'editor' ? '#2563eb' : 'transparent',
-                        color: viewMode === 'editor' ? '#ffffff' : '#94a3b8',
-                        fontSize: '12.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
+                        fontSize: '13.5px',
+                        fontWeight: 800,
+                        color: '#ffffff',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                       }}
+                      title={activePreset.title}
                     >
-                      ✏️ Edycja Copy / Nagłówka
-                    </button>
+                      {activePreset.title}
+                    </span>
                   </div>
 
-                  {/* Prev / Next Angle buttons */}
-                  <button
-                    type="button"
-                    disabled={activePreset.number <= 1}
-                    onClick={() => {
-                      const prev = presets.find(p => p.number === activePreset.number - 1);
-                      if (prev) setActiveAngleId(prev.id);
-                    }}
-                    style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
-                      borderRadius: '7px',
-                      padding: '6px 10px',
-                      fontSize: '12px',
-                      cursor: activePreset.number <= 1 ? 'not-allowed' : 'pointer',
-                      opacity: activePreset.number <= 1 ? 0.4 : 1,
-                    }}
-                  >
-                    ← Poprzedni
-                  </button>
-                  <button
-                    type="button"
-                    disabled={activePreset.number >= 25}
-                    onClick={() => {
-                      const next = presets.find(p => p.number === activePreset.number + 1);
-                      if (next) setActiveAngleId(next.id);
-                    }}
-                    style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
-                      borderRadius: '7px',
-                      padding: '6px 10px',
-                      fontSize: '12px',
-                      cursor: activePreset.number >= 25 ? 'not-allowed' : 'pointer',
-                      opacity: activePreset.number >= 25 ? 0.4 : 1,
-                    }}
-                  >
-                    Następny →
-                  </button>
-                </div>
-
-                {/* Copy & Save Buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(editPrimaryText, `Tekst główny #${activePreset.number}`)}
-                    style={{
-                      background: '#10b981',
-                      color: '#ffffff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      padding: '7px 14px',
-                      fontSize: '12.5px',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    📋 Kopiuj Tekst ({liveWordCount} słów)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(editHeadline, `Nagłówek #${activePreset.number}`)}
-                    style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
-                      borderRadius: '8px',
-                      padding: '7px 12px',
-                      fontSize: '12.5px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    📋 Kopiuj Nagłówek
-                  </button>
-                  {editDirty && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                     <button
                       type="button"
-                      disabled={savingEdit}
-                      onClick={handleSaveAd}
+                      onClick={() => setShowVocDetails(v => !v)}
                       style={{
-                        background: '#f59e0b',
-                        color: '#0f172a',
-                        border: 'none',
-                        borderRadius: '8px',
-                        padding: '7px 14px',
-                        fontSize: '12.5px',
-                        fontWeight: 800,
+                        background: showVocDetails ? '#1e293b' : '#0f172a',
+                        color: '#38bdf8',
+                        border: '1px solid #334155',
+                        borderRadius: '6px',
+                        padding: '4px 8px',
+                        fontSize: '11px',
+                        fontWeight: 700,
                         cursor: 'pointer',
                       }}
                     >
-                      {savingEdit ? 'Zapisywanie...' : '💾 Zapisz Zmiany'}
+                      {showVocDetails ? '▲ Ukryj VoC / Hook' : '▼ Pokaż VoC / Hook'}
                     </button>
-                  )}
-                </div>
-              </div>
 
-              {/* HEADLINE & DESTINATION URL BAR */}
-              <div
-                style={{
-                  background: '#111827',
-                  border: '1px solid #1e293b',
-                  borderRadius: '12px',
-                  padding: '14px 18px',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '14px',
-                }}
-              >
-                <div>
-                  <label style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
-                    Nagłówek Reklamy (Headline):
-                  </label>
-                  <input
-                    type="text"
-                    value={editHeadline}
-                    onChange={e => {
-                      setEditHeadline(e.target.value);
-                      setEditDirty(true);
-                    }}
-                    style={{
-                      width: '100%',
-                      marginTop: '5px',
-                      background: '#0f172a',
-                      color: '#ffffff',
-                      border: '1px solid #334155',
-                      borderRadius: '7px',
-                      padding: '8px 11px',
-                      fontSize: '13.5px',
-                      fontWeight: 700,
-                    }}
-                  />
+                    <button
+                      type="button"
+                      onClick={() => setViewMode(viewMode === 'reader' ? 'editor' : 'reader')}
+                      style={{
+                        padding: '4px 9px',
+                        borderRadius: '6px',
+                        border: '1px solid #334155',
+                        background: viewMode === 'editor' ? '#2563eb' : '#1e293b',
+                        color: '#ffffff',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {viewMode === 'reader' ? '✏️ Edytuj' : '📖 Czytaj'}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(editPrimaryText, `Tekst #${activePreset.number}`)}
+                      style={{
+                        background: '#10b981',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      📋 Kopiuj ({liveWordCount} sł.)
+                    </button>
+
+                    {editDirty && (
+                      <button
+                        type="button"
+                        disabled={savingEdit}
+                        onClick={handleSaveAd}
+                        style={{
+                          background: '#f59e0b',
+                          color: '#0f172a',
+                          border: 'none',
+                          borderRadius: '6px',
+                          padding: '4px 10px',
+                          fontSize: '11px',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {savingEdit ? '...' : '💾 Zapisz'}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <div>
-                  <label style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
-                    Docelowy LP (Advertorial Winner vs Product Page):
-                  </label>
-                  <div style={{ display: 'flex', gap: '6px', marginTop: '5px' }}>
+                {/* Row 2: Compact Headline Input + LP Switcher */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8px', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '10.5px', fontWeight: 700, color: '#94a3b8', whiteSpace: 'nowrap' }}>Nagłówek:</span>
+                    <input
+                      type="text"
+                      value={editHeadline}
+                      onChange={e => {
+                        setEditHeadline(e.target.value);
+                        setEditDirty(true);
+                      }}
+                      style={{
+                        width: '100%',
+                        background: '#0f172a',
+                        color: '#ffffff',
+                        border: '1px solid #334155',
+                        borderRadius: '6px',
+                        padding: '5px 8px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '4px' }}>
                     <button
                       type="button"
                       onClick={() => {
@@ -1320,8 +1150,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       }}
                       style={{
                         flex: 1,
-                        padding: '8px 10px',
-                        borderRadius: '7px',
+                        padding: '5px 6px',
+                        borderRadius: '6px',
                         border:
                           editDestinationUrl === FELIORA_ADVERTORIAL_URL
                             ? '1px solid #10b981'
@@ -1331,12 +1161,12 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                             ? 'rgba(16, 185, 129, 0.18)'
                             : '#0f172a',
                         color: editDestinationUrl === FELIORA_ADVERTORIAL_URL ? '#34d399' : '#94a3b8',
-                        fontSize: '12px',
+                        fontSize: '11px',
                         fontWeight: 700,
                         cursor: 'pointer',
                       }}
                     >
-                      🏆 Advertorial (/dlaczego-dyfuzor-feliora-dziala)
+                      🏆 Advertorial (5:1)
                     </button>
                     <button
                       type="button"
@@ -1346,8 +1176,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       }}
                       style={{
                         flex: 1,
-                        padding: '8px 10px',
-                        borderRadius: '7px',
+                        padding: '5px 6px',
+                        borderRadius: '6px',
                         border:
                           editDestinationUrl === FELIORA_DEFAULT_URL
                             ? '1px solid #38bdf8'
@@ -1357,15 +1187,48 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                             ? 'rgba(56, 189, 248, 0.18)'
                             : '#0f172a',
                         color: editDestinationUrl === FELIORA_DEFAULT_URL ? '#38bdf8' : '#94a3b8',
-                        fontSize: '12px',
+                        fontSize: '11px',
                         fontWeight: 700,
                         cursor: 'pointer',
                       }}
                     >
-                      📦 Product Page (/products/dyfuzor...)
+                      📦 PDP
                     </button>
                   </div>
                 </div>
+
+                {/* Collapsible VoC & Hook details */}
+                {showVocDetails && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '8px',
+                      paddingTop: '6px',
+                      borderTop: '1px solid #1e293b',
+                      fontSize: '12px',
+                    }}
+                  >
+                    <div style={{ color: '#cbd5e1' }}>
+                      <strong style={{ color: '#38bdf8' }}>💬 VoC (Fora):</strong> {activePreset.vocTrigger}
+                    </div>
+                    <div style={{ color: '#cbd5e1' }}>
+                      <strong style={{ color: '#34d399' }}>🧬 Mechanizm:</strong> {activePreset.mechanismCore}
+                    </div>
+                    <div
+                      style={{
+                        background: 'rgba(245, 158, 11, 0.1)',
+                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                        borderRadius: '6px',
+                        padding: '6px 10px',
+                        color: '#fef3c7',
+                        fontWeight: 600,
+                      }}
+                    >
+                      ⚡ Hook: {paragraphs[0] || ''}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* BODY: CLEAN READER OR FULL TEXTAREA EDITOR */}
@@ -1374,12 +1237,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   style={{
                     background: '#ffffff',
                     color: '#0f172a',
-                    borderRadius: '14px',
-                    padding: '32px 38px',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
-                    maxWidth: '820px',
+                    borderRadius: '12px',
+                    padding: '20px 24px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
                     width: '100%',
-                    alignSelf: 'center',
                   }}
                 >
                   <div
@@ -1388,15 +1249,15 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       borderBottom: '1px solid #e2e8f0',
-                      paddingBottom: '14px',
-                      marginBottom: '22px',
+                      paddingBottom: '10px',
+                      marginBottom: '16px',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div
                         style={{
-                          width: '38px',
-                          height: '38px',
+                          width: '32px',
+                          height: '32px',
                           borderRadius: '50%',
                           background: activeFanpage.badgeColor || '#0f172a',
                           color: '#ffffff',
@@ -1404,16 +1265,16 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                           alignItems: 'center',
                           justifyContent: 'center',
                           fontWeight: 800,
-                          fontSize: '14px',
+                          fontSize: '12px',
                         }}
                       >
                         {activeFanpage.initials}
                       </div>
                       <div>
-                        <div style={{ fontWeight: 800, fontSize: '15px', color: '#0f172a' }}>
+                        <div style={{ fontWeight: 800, fontSize: '14px', color: '#0f172a' }}>
                           {activeFanpage.name}
                         </div>
-                        <div style={{ fontSize: '12px', color: '#64748b' }}>
+                        <div style={{ fontSize: '11px', color: '#64748b' }}>
                           Sponsorowane · {activeStageMeta?.shortLabel} · {activePreset.sophisticationBadge}
                         </div>
                       </div>
@@ -1422,9 +1283,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       style={{
                         background: '#f1f5f9',
                         color: '#334155',
-                        padding: '5px 10px',
+                        padding: '4px 8px',
                         borderRadius: '6px',
-                        fontSize: '12px',
+                        fontSize: '11px',
                         fontWeight: 700,
                       }}
                     >
@@ -1433,19 +1294,19 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   </div>
 
                   {/* Crisp, High-Contrast Paragraphs */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
                     {paragraphs.map((para, idx) => (
                       <p
                         key={idx}
                         style={{
                           margin: 0,
-                          fontSize: '16.5px',
-                          lineHeight: 1.68,
+                          fontSize: '15px',
+                          lineHeight: 1.62,
                           color: '#1e293b',
                           fontWeight: idx === 0 ? 700 : 400,
                           background: idx === 0 ? '#fef3c7' : 'transparent',
-                          padding: idx === 0 ? '10px 14px' : 0,
-                          borderRadius: idx === 0 ? '8px' : 0,
+                          padding: idx === 0 ? '8px 12px' : 0,
+                          borderRadius: idx === 0 ? '7px' : 0,
                         }}
                       >
                         {para}
@@ -1468,9 +1329,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                       color: '#0f172a',
                       border: '2px solid #3b82f6',
                       borderRadius: '12px',
-                      padding: '24px',
-                      fontSize: '15.5px',
-                      lineHeight: 1.65,
+                      padding: '18px',
+                      fontSize: '14.5px',
+                      lineHeight: 1.6,
                       fontFamily: 'inherit',
                       resize: 'vertical',
                     }}
@@ -1481,7 +1342,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           )}
         </main>
 
-        {/* RIGHT COLUMN: FACEBOOK MOBILE PREVIEW + CREATIVE A/B + 1-CLICK META PUSH */}
+        {/* RIGHT COLUMN: ENLARGED CREATIVE A/B + ZOOMABLE GALLERY + FB PREVIEW + META PUSH */}
         <aside
           style={{
             borderLeft: '1px solid #1e293b',
@@ -1494,6 +1355,362 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
             gap: '16px',
           }}
         >
+          {/* CREATIVE A / B SELECTOR WITH CLICK-TO-ZOOM */}
+          {activeAd && activePreset && (
+            <div
+              style={{
+                background: '#111827',
+                border: '1px solid #1e293b',
+                borderRadius: '12px',
+                padding: '14px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#e2e8f0', textTransform: 'uppercase' }}>
+                  🖼️ Kreacje do Kąta #{activePreset.number} (Kliknij zdjęcie, aby powiększyć 🔍)
+                </span>
+                <button
+                  type="button"
+                  onClick={() => customFileRef.current?.click()}
+                  disabled={uploadingImage}
+                  style={{
+                    background: '#1e293b',
+                    color: '#38bdf8',
+                    border: '1px solid #0284c7',
+                    borderRadius: '6px',
+                    padding: '4px 9px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {uploadingImage ? 'Wgrywanie...' : '+ Wgraj własne'}
+                </button>
+                <input
+                  ref={customFileRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUploadCustomImage}
+                  style={{ display: 'none' }}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleGenerate5KieImages}
+                disabled={generatingKie5}
+                style={{
+                  width: '100%',
+                  background: generatingKie5
+                    ? '#312e81'
+                    : 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
+                  color: '#ffffff',
+                  border: '1px solid #8b5cf6',
+                  borderRadius: '8px',
+                  padding: '9px 12px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  cursor: generatingKie5 ? 'wait' : 'pointer',
+                  textAlign: 'center',
+                }}
+              >
+                {generatingKie5
+                  ? '⏳ Generuję 5 surowych zdjęć w Kie.ai...'
+                  : '📸 Generuj 5 surowych zdjęć z telefonu (Kie.ai — Shit Quality)'}
+              </button>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {/* Primary Image (Kreacja A) */}
+                <div
+                  style={{
+                    background: '#0f172a',
+                    border: '1px solid #334155',
+                    borderRadius: '10px',
+                    padding: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#34d399' }}>Kreacja A (Główna)</span>
+                    <button
+                      type="button"
+                      onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
+                      style={{
+                        background: 'rgba(16, 185, 129, 0.15)',
+                        color: '#34d399',
+                        border: '1px solid rgba(16, 185, 129, 0.4)',
+                        borderRadius: '5px',
+                        padding: '2px 7px',
+                        fontSize: '10.5px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      🔍 Powiększ
+                    </button>
+                  </div>
+                  <div
+                    onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
+                    title="Kliknij, aby powiększyć na cały ekran"
+                    style={{ position: 'relative', cursor: 'zoom-in' }}
+                  >
+                    <img
+                      src={activeAd.imageUrl}
+                      alt="Kreacja A"
+                      style={{
+                        width: '100%',
+                        aspectRatio: '1 / 1',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                        background: '#1e293b',
+                        display: 'block',
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setImagePickerSlot('primary')}
+                    style={{
+                      background: '#1e293b',
+                      color: '#e2e8f0',
+                      border: '1px solid #334155',
+                      borderRadius: '6px',
+                      padding: '6px',
+                      fontSize: '11.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Zmień Kreację A
+                  </button>
+                </div>
+
+                {/* Secondary Image (Kreacja B) */}
+                <div
+                  style={{
+                    background: '#0f172a',
+                    border: '1px solid #334155',
+                    borderRadius: '10px',
+                    padding: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#38bdf8' }}>Kreacja B (Split A/B)</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openLightboxForUrl(
+                          activeAd.secondImageUrl || activeAd.imageUrl,
+                          `Kreacja B · Kąt #${activePreset.number}`,
+                        )
+                      }
+                      style={{
+                        background: 'rgba(56, 189, 248, 0.15)',
+                        color: '#38bdf8',
+                        border: '1px solid rgba(56, 189, 248, 0.4)',
+                        borderRadius: '5px',
+                        padding: '2px 7px',
+                        fontSize: '10.5px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      🔍 Powiększ
+                    </button>
+                  </div>
+                  <div
+                    onClick={() =>
+                      openLightboxForUrl(
+                        activeAd.secondImageUrl || activeAd.imageUrl,
+                        `Kreacja B · Kąt #${activePreset.number}`,
+                      )
+                    }
+                    title="Kliknij, aby powiększyć na cały ekran"
+                    style={{ position: 'relative', cursor: 'zoom-in' }}
+                  >
+                    <img
+                      src={activeAd.secondImageUrl || activeAd.imageUrl}
+                      alt="Kreacja B"
+                      style={{
+                        width: '100%',
+                        aspectRatio: '1 / 1',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                        background: '#1e293b',
+                        display: 'block',
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setImagePickerSlot('secondary')}
+                    style={{
+                      background: '#1e293b',
+                      color: '#e2e8f0',
+                      border: '1px solid #334155',
+                      borderRadius: '6px',
+                      padding: '6px',
+                      fontSize: '11.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Zmień Kreację B
+                  </button>
+                </div>
+              </div>
+
+              {/* ENLARGED GRID OF ALL 15 KIE.AI RAW PHONE PHOTOS (CLICK TO ZOOM, A/B BUTTONS TO ASSIGN) */}
+              <div
+                style={{
+                  background: '#0f172a',
+                  border: '1px solid #1e293b',
+                  borderRadius: '10px',
+                  padding: '10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#a78bfa' }}>
+                    📸 Surowe zdjęcia z telefonu ({imageLibrary.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                    gap: '10px',
+                  }}
+                >
+                  {imageLibrary.map(img => {
+                    const isA = activeAd.imageUrl === img.url;
+                    const isB = activeAd.secondImageUrl === img.url;
+                    return (
+                      <div
+                        key={img.id}
+                        style={{
+                          position: 'relative',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          background: '#111827',
+                          border: isA
+                            ? '2px solid #34d399'
+                            : isB
+                            ? '2px solid #38bdf8'
+                            : '1px solid #334155',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <div
+                          onClick={() => setLightboxAsset(img)}
+                          title={`${img.label} — Kliknij, aby powiększyć na cały ekran`}
+                          style={{ position: 'relative', cursor: 'zoom-in' }}
+                        >
+                          <img
+                            src={img.url}
+                            alt={img.label}
+                            style={{
+                              width: '100%',
+                              aspectRatio: '1 / 1',
+                              objectFit: 'cover',
+                              display: 'block',
+                            }}
+                          />
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: '5px',
+                              left: '5px',
+                              background: 'rgba(15, 23, 42, 0.78)',
+                              color: '#f8fafc',
+                              fontSize: '10px',
+                              fontWeight: 700,
+                              padding: '2px 5px',
+                              borderRadius: '4px',
+                            }}
+                          >
+                            🔍
+                          </span>
+                          {(isA || isB) && (
+                            <span
+                              style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px',
+                                background: isA ? '#059669' : '#0284c7',
+                                color: '#fff',
+                                fontSize: '10px',
+                                fontWeight: 800,
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                              }}
+                            >
+                              Aktywna {isA ? 'A' : 'B'}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Quick Assign A / B bar below each thumbnail */}
+                        <div
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            borderTop: '1px solid #1e293b',
+                            background: '#0f172a',
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => handleAssignImage(img, 'primary')}
+                            style={{
+                              background: isA ? '#059669' : 'transparent',
+                              color: isA ? '#ffffff' : '#34d399',
+                              border: 'none',
+                              borderRight: '1px solid #1e293b',
+                              padding: '5px 4px',
+                              fontSize: '10.5px',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Ustaw A
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAssignImage(img, 'secondary')}
+                            style={{
+                              background: isB ? '#0284c7' : 'transparent',
+                              color: isB ? '#ffffff' : '#38bdf8',
+                              border: 'none',
+                              padding: '5px 4px',
+                              fontSize: '10.5px',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Ustaw B
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* FANPAGE SELECTOR */}
           <div
             style={{
@@ -1531,242 +1748,6 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               ))}
             </select>
           </div>
-
-          {/* CREATIVE A / B SELECTOR */}
-          {activeAd && activePreset && (
-            <div
-              style={{
-                background: '#111827',
-                border: '1px solid #1e293b',
-                borderRadius: '12px',
-                padding: '14px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', fontWeight: 800, color: '#e2e8f0', textTransform: 'uppercase' }}>
-                  🖼️ Kreacje do Kąta #{activePreset.number}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => customFileRef.current?.click()}
-                  disabled={uploadingImage}
-                  style={{
-                    background: '#1e293b',
-                    color: '#38bdf8',
-                    border: '1px solid #0284c7',
-                    borderRadius: '6px',
-                    padding: '4px 9px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {uploadingImage ? 'Wgrywanie...' : '+ Wgraj własne'}
-                </button>
-                <input
-                  ref={customFileRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleUploadCustomImage}
-                  style={{ display: 'none' }}
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={handleGenerate5KieImages}
-                disabled={generatingKie5}
-                style={{
-                  width: '100%',
-                  background: generatingKie5
-                    ? '#312e81'
-                    : 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
-                  color: '#ffffff',
-                  border: '1px solid #8b5cf6',
-                  borderRadius: '8px',
-                  padding: '8px 10px',
-                  fontSize: '11.5px',
-                  fontWeight: 800,
-                  cursor: generatingKie5 ? 'wait' : 'pointer',
-                  textAlign: 'center',
-                }}
-              >
-                {generatingKie5
-                  ? '⏳ Generuję 5 surowych zdjęć w Kie.ai...'
-                  : '📸 Generuj 5 surowych zdjęć z telefonu (Kie.ai — Shit Quality)'}
-              </button>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                {/* Primary Image (Kreacja A) */}
-                <div
-                  style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '6px',
-                  }}
-                >
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#34d399' }}>Kreacja A (Główna)</div>
-                  <img
-                    src={activeAd.imageUrl}
-                    alt="Kreacja A"
-                    style={{
-                      width: '100%',
-                      aspectRatio: '1 / 1',
-                      objectFit: 'cover',
-                      borderRadius: '7px',
-                      background: '#1e293b',
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setImagePickerSlot('primary')}
-                    style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Zmień Kreację A
-                  </button>
-                </div>
-
-                {/* Secondary Image (Kreacja B) */}
-                <div
-                  style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '6px',
-                  }}
-                >
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#38bdf8' }}>Kreacja B (Split A/B)</div>
-                  <img
-                    src={activeAd.secondImageUrl || activeAd.imageUrl}
-                    alt="Kreacja B"
-                    style={{
-                      width: '100%',
-                      aspectRatio: '1 / 1',
-                      objectFit: 'cover',
-                      borderRadius: '7px',
-                      background: '#1e293b',
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setImagePickerSlot('secondary')}
-                    style={{
-                      background: '#1e293b',
-                      color: '#e2e8f0',
-                      border: '1px solid #334155',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Zmień Kreację B
-                  </button>
-                </div>
-              </div>
-
-              {/* QUICK STRIP OF ALL 15 KIE.AI RAW PHONE PHOTOS */}
-              <div
-                style={{
-                  background: '#0f172a',
-                  border: '1px solid #1e293b',
-                  borderRadius: '10px',
-                  padding: '8px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '10.5px', fontWeight: 700, color: '#a78bfa' }}>
-                    📸 Wygenerowane surowe zdjęcia z telefonu ({imageLibrary.length} szt. · LPM = A, PPM = B):
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
-                    gap: '6px',
-                  }}
-                >
-                  {imageLibrary.map(img => {
-                    const isA = activeAd.imageUrl === img.url;
-                    const isB = activeAd.secondImageUrl === img.url;
-                    return (
-                      <div
-                        key={img.id}
-                        title={`${img.label}\nKliknij LPM = Ustaw jako Kreację A\nKliknij PPM = Ustaw jako Kreację B`}
-                        onClick={() => handleAssignImage(img, 'primary')}
-                        onContextMenu={e => {
-                          e.preventDefault();
-                          handleAssignImage(img, 'secondary');
-                        }}
-                        style={{
-                          position: 'relative',
-                          cursor: 'pointer',
-                          borderRadius: '6px',
-                          overflow: 'hidden',
-                          border: isA
-                            ? '2px solid #34d399'
-                            : isB
-                            ? '2px solid #38bdf8'
-                            : '1px solid #334155',
-                        }}
-                      >
-                        <img
-                          src={img.url}
-                          alt={img.label}
-                          style={{
-                            width: '100%',
-                            aspectRatio: '1 / 1',
-                            objectFit: 'cover',
-                            display: 'block',
-                          }}
-                        />
-                        {(isA || isB) && (
-                          <span
-                            style={{
-                              position: 'absolute',
-                              top: '2px',
-                              right: '2px',
-                              background: isA ? '#059669' : '#0284c7',
-                              color: '#fff',
-                              fontSize: '9px',
-                              fontWeight: 800,
-                              padding: '1px 4px',
-                              borderRadius: '4px',
-                            }}
-                          >
-                            {isA ? 'A' : 'B'}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* REALISTIC FACEBOOK FEED AD PREVIEW */}
           {activeAd && (
@@ -1811,7 +1792,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
               <img
                 src={activeAd.imageUrl}
                 alt={editHeadline}
-                style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }}
+                onClick={() => openLightboxForUrl(activeAd.imageUrl, editHeadline)}
+                title="Kliknij, aby powiększyć"
+                style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
               />
 
               <div
@@ -1911,7 +1894,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
                   fontWeight: 600,
                 }}
               >
-                <option value="advertorial">🏆 Tylko Advertorial / Listicle (Winner 4:1)</option>
+                <option value="advertorial">🏆 Tylko Advertorial / Listicle (Winner 5:1)</option>
                 <option value="split_ab">⚡ Split 50/50 A/B (Advertorial + Product Page)</option>
                 <option value="pdp">📦 Tylko Product Page (PDP)</option>
               </select>
@@ -1961,6 +1944,200 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax }: FelioraPlWork
           </div>
         </aside>
       </div>
+
+      {/* FULLSCREEN IMAGE LIGHTBOX / ZOOM MODAL */}
+      {lightboxAsset && (
+        <div
+          onClick={() => setLightboxAsset(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(5, 8, 15, 0.92)',
+            zIndex: 200,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            gap: '14px',
+          }}
+        >
+          {/* Top Bar inside Lightbox */}
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              maxWidth: '920px',
+              background: '#111827',
+              border: '1px solid #334155',
+              borderRadius: '10px',
+              padding: '10px 16px',
+              gap: '12px',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#ffffff' }}>{lightboxAsset.label}</div>
+              <div style={{ fontSize: '12px', color: '#94a3b8' }}>
+                {lightboxAsset.adsetOrigin} · Możesz przełączać zdjęcia strzałkami ← / → na klawiaturze
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  handleAssignImage(lightboxAsset, 'primary');
+                }}
+                style={{
+                  background: '#059669',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '7px 12px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                ✅ Ustaw jako Kreację A
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleAssignImage(lightboxAsset, 'secondary');
+                }}
+                style={{
+                  background: '#0284c7',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '7px 12px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                🟦 Ustaw jako Kreację B
+              </button>
+              <a
+                href={lightboxAsset.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  background: '#1e293b',
+                  color: '#cbd5e1',
+                  border: '1px solid #334155',
+                  borderRadius: '7px',
+                  padding: '7px 11px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                }}
+              >
+                ↗ Otwórz w nowej karcie
+              </a>
+              <button
+                type="button"
+                onClick={() => setLightboxAsset(null)}
+                style={{
+                  background: '#ef4444',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '7px 13px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                Zamknij ✕ (ESC)
+              </button>
+            </div>
+          </div>
+
+          {/* Main Enlarged Image with Prev / Next buttons */}
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+              maxWidth: '95vw',
+              maxHeight: '78vh',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                const idx = imageLibrary.findIndex(img => img.url === lightboxAsset.url);
+                if (idx !== -1 && imageLibrary.length > 0) {
+                  setLightboxAsset(imageLibrary[(idx - 1 + imageLibrary.length) % imageLibrary.length]);
+                }
+              }}
+              style={{
+                background: '#1e293b',
+                color: '#ffffff',
+                border: '1px solid #475569',
+                borderRadius: '50%',
+                width: '46px',
+                height: '46px',
+                fontSize: '20px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+              title="Poprzednie zdjęcie (←)"
+            >
+              ←
+            </button>
+
+            <img
+              src={lightboxAsset.url}
+              alt={lightboxAsset.label}
+              style={{
+                maxHeight: '76vh',
+                maxWidth: '80vw',
+                width: 'auto',
+                height: 'auto',
+                borderRadius: '12px',
+                border: '2px solid #334155',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.75)',
+                objectFit: 'contain',
+              }}
+            />
+
+            <button
+              type="button"
+              onClick={() => {
+                const idx = imageLibrary.findIndex(img => img.url === lightboxAsset.url);
+                if (idx !== -1 && imageLibrary.length > 0) {
+                  setLightboxAsset(imageLibrary[(idx + 1) % imageLibrary.length]);
+                }
+              }}
+              style={{
+                background: '#1e293b',
+                color: '#ffffff',
+                border: '1px solid #475569',
+                borderRadius: '50%',
+                width: '46px',
+                height: '46px',
+                fontSize: '20px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+              title="Następne zdjęcie (→)"
+            >
+              →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* IMAGE PICKER MODAL */}
       {imagePickerSlot && (
