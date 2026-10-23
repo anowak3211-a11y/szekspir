@@ -772,7 +772,7 @@ export const POST = accountRoute(async (req: Request) => {
           } else {
             customList.unshift(newAsset);
           }
-          state.customImages = customList.slice(0, 600);
+          state.customImages = customList.slice(0, 2000);
 
           const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
           if (angleId && (isScene1 || isScene2)) {
@@ -909,7 +909,7 @@ export const POST = accountRoute(async (req: Request) => {
         state => {
           const customList = Array.isArray(state.customImages) ? [...state.customImages] : [];
           customList.unshift(newAsset);
-          state.customImages = customList.slice(0, 80);
+          state.customImages = customList.slice(0, 2000);
 
           const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
           for (const targetAngleId of targetAngleIds) {
