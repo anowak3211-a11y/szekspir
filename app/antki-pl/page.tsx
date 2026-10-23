@@ -1442,34 +1442,90 @@ export default function AntkiPlPage() {
     setNotice('');
     const batchMode = isDorosliBatchView ? 'dorosli' : 'dzieci';
     try {
-      const res = await fetch('/api/antki-pl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'sync_meta_cc35',
-          batch: batchMode,
-          campaignId: activeCampaignStructure?.campaignId,
-          campaignName: metaCampaignName,
-          costCapPln: metaCostCapPln,
-          dailyBudgetPln: metaDailyBudgetPln,
-          pageId: selectedPageId,
-          instagramUserId: activeFanpageMeta.instagramUserId,
-          destinationUrl,
-          updateExisting: true,
-        }),
-        signal: AbortSignal.timeout(290_000),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Błąd synchronizacji z Meta.');
+      // 1. Flush current browser image selections to server state first
+      const imagesByAngle: Record<
+        string,
+        { imageUrl?: string; imageHash?: string; secondImageUrl?: string; secondImageHash?: string }
+      > = {};
+      for (const ad of savedAds) {
+        if (ad?.angleId && ad.imageUrl) {
+          imagesByAngle[ad.angleId] = {
+            imageUrl: ad.imageUrl,
+            imageHash: ad.imageHash || '',
+            secondImageUrl: ad.secondImageUrl || '',
+            secondImageHash: ad.secondImageHash || '',
+          };
+        }
+      }
+      if (Object.keys(imagesByAngle).length > 0) {
+        await fetch('/api/antki-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'save_all_images', imagesByAngle }),
+        }).catch(() => {});
+      }
+
+      // 2. Sync group by group so all 35 angles (up to 70 A/B ads + Kie.ai image uploads) complete without timeout
+      const groupsToSync = activeAdSetBlueprints.length > 0 ? activeAdSetBlueprints : [{ code: '', label: 'Wszystkie' }];
+      let totalCreated = 0;
+      let totalFailed = 0;
+      let resolvedCampId = activeCampaignStructure?.campaignId || '';
+
+      for (let i = 0; i < groupsToSync.length; i++) {
+        const g = groupsToSync[i];
+        setNotice(
+          `⏳ Synchronizuję zestaw ${i + 1}/${groupsToSync.length} (${g.label || g.code}) w kampanii ${
+            batchMode === 'dorosli' ? 'ANTKI DOROSLI' : 'ANTKI DZIECI'
+          }...`,
+        );
+        const res = await fetch('/api/antki-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'sync_meta_cc35',
+            batch: batchMode,
+            group: g.code || undefined,
+            campaignId: resolvedCampId || activeCampaignStructure?.campaignId,
+            campaignName: metaCampaignName,
+            costCapPln: metaCostCapPln,
+            dailyBudgetPln: metaDailyBudgetPln,
+            pageId: selectedPageId,
+            instagramUserId: activeFanpageMeta.instagramUserId,
+            destinationUrl,
+            updateExisting: true,
+          }),
+          signal: AbortSignal.timeout(290_000),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Błąd synchronizacji zestawu ${g.label || g.code}.`);
+        if (data.campaignId) resolvedCampId = data.campaignId;
+        totalCreated += Number(data.createdCount || 0) + Number(data.updatedCount || 0);
+        totalFailed += Number(data.failedCount || 0);
+      }
+
       setNotice(
-        `Zsynchronizowano kampanię ${batchMode === 'dorosli' ? 'ANTKI DOROSLI CC35' : 'ANTKI CC35'} (ID: ${data.campaignId || activeCampaignStructure?.campaignId || '120249912191200300'} · PAUSED) na fanpage „${pageName}” (${selectedPageId}): utworzono/zaktualizowano ${data.createdCount || 0} reklam (błędów: ${data.failedCount || 0}).`,
+        `✅ Zsynchronizowano kampanię ${batchMode === 'dorosli' ? 'ANTKI DOROSLI CC30' : 'ANTKI CC30'} (ID: ${
+          resolvedCampId || activeCampaignStructure?.campaignId || '120249912191200300'
+        } · PAUSED) na fanpage „${pageName}” (${selectedPageId}): utworzono/zaktualizowano ${totalCreated} reklam (błędów: ${totalFailed}).`,
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Błąd synchronizacji z Meta.');
     } finally {
       setSyncingMetaCc35(false);
     }
-  }, [isDorosliBatchView, activeCampaignStructure, metaCampaignName, metaCostCapPln, metaDailyBudgetPln, selectedPageId, activeFanpageMeta, destinationUrl, pageName]);
+  }, [
+    isDorosliBatchView,
+    savedAds,
+    activeAdSetBlueprints,
+    activeCampaignStructure,
+    metaCampaignName,
+    metaCostCapPln,
+    metaDailyBudgetPln,
+    selectedPageId,
+    activeFanpageMeta,
+    destinationUrl,
+    pageName,
+  ]);
 
   const exportUploaderJson = () => {
     if (!readyAdsForExport.length) {

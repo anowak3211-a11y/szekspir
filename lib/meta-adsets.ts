@@ -687,34 +687,110 @@ type SavedAntkiState = {
  deletedImageIds?: string[];
 };
 
+const ANTKI_STATE_KEYS = [
+ 'antki-pl-library-v12-suma-pln',
+ 'antki-pl-library-v11-kie-hooks',
+ 'antki-pl-library-v10-kie-clean',
+ 'antki-pl-library-v9-argon',
+] as const;
+
 async function readAntkiSavedLibraryState(): Promise<SavedAntkiState> {
- const candidates: SavedAntkiState[] = [];
- try {
-  const { value } = await readState<SavedAntkiState>('antki-pl-library-v9-argon', {});
-  if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
- } catch {}
- try {
-  const { value } = await inOwnerWorkspace(() => readState<SavedAntkiState>('antki-pl-library-v9-argon', {}));
-  if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
- } catch {}
+ const candidates: { keyIdx: number; state: SavedAntkiState }[] = [];
+ const pushCandidate = (keyIdx: number, val?: SavedAntkiState) => {
+  if (val && (val.ads?.length || val.customImages?.length)) {
+   candidates.push({ keyIdx, state: val });
+  }
+ };
+ for (let i = 0; i < ANTKI_STATE_KEYS.length; i++) {
+  const k = ANTKI_STATE_KEYS[i];
+  try {
+   const { value } = await readState<SavedAntkiState>(k, {});
+   pushCandidate(i, value);
+  } catch {}
+  try {
+   const { value } = await inOwnerWorkspace(() => readState<SavedAntkiState>(k, {}));
+   pushCandidate(i, value);
+  } catch {}
+ }
  try {
   const { accountRegistry } = await import('./account-repository');
   const { inWorkspace } = await import('./account-context');
   const reg = await accountRegistry();
   for (const u of Object.values(reg.users || {})) {
-   try {
-    const { value } = await inWorkspace(u, () => readState<SavedAntkiState>('antki-pl-library-v9-argon', {}));
-    if (value?.ads?.length || value?.customImages?.length) candidates.push(value);
-   } catch {}
+   for (let i = 0; i < ANTKI_STATE_KEYS.length; i++) {
+    const k = ANTKI_STATE_KEYS[i];
+    try {
+     const { value } = await inWorkspace(u, () => readState<SavedAntkiState>(k, {}));
+     pushCandidate(i, value);
+    } catch {}
+   }
   }
  } catch {}
  if (!candidates.length) return { ads: [], customImages: [], deletedImageIds: [] };
  candidates.sort((a, b) => {
-  const aMax = Math.max(0, ...(a.ads || []).map(x => x.updatedAt || 0));
-  const bMax = Math.max(0, ...(b.ads || []).map(x => x.updatedAt || 0));
+  if (a.keyIdx !== b.keyIdx) return a.keyIdx - b.keyIdx;
+  const aMax = Math.max(0, ...(a.state.ads || []).map(x => x.updatedAt || 0));
+  const bMax = Math.max(0, ...(b.state.ads || []).map(x => x.updatedAt || 0));
   return bMax - aMax;
  });
- return candidates[0];
+ const best = candidates[0].state;
+ // Merge customImages across all candidates so no Kie.ai image is ever missing
+ const seenUrls = new Set<string>();
+ const mergedCustomImages: NonNullable<SavedAntkiState['customImages']> = [];
+ for (const c of candidates) {
+  for (const img of c.state.customImages || []) {
+   if (img?.url && !seenUrls.has(img.url)) {
+    seenUrls.add(img.url);
+    mergedCustomImages.push(img);
+   } else if (img?.url && img.imageHash) {
+    const existing = mergedCustomImages.find(x => x.url === img.url);
+    if (existing && !existing.imageHash) existing.imageHash = img.imageHash;
+   }
+  }
+ }
+
+ const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
+ const defaultAds = buildAllArgonPrewrittenAds();
+ const defaultByAngle = new Map(defaultAds.map(a => [a.angleId, a]));
+ const storedByAngle = new Map((best.ads || []).filter(a => a?.angleId).map(a => [a.angleId as string, a]));
+ const DEFAULT_CREATED_AT = 1792616400000;
+
+ const mergedAds = defaultAds.map(baseAd => {
+  const storedAd = storedByAngle.get(baseAd.angleId);
+  const merged = storedAd ? { ...baseAd, ...storedAd } : { ...baseAd };
+  const angleImgs = mergedCustomImages.filter(
+   img => (img as { angleId?: string }).angleId === baseAd.angleId && typeof img.url === 'string' && img.url.startsWith('http'),
+  );
+  if (angleImgs.length > 0) {
+   const sorted = [...angleImgs].sort((a, b) => {
+    const mA = (a.label || '').match(/(?:^|·\s*)(\d+)\./);
+    const mB = (b.label || '').match(/(?:^|·\s*)(\d+)\./);
+    return (mA ? Number(mA[1]) : 99) - (mB ? Number(mB[1]) : 99);
+   });
+   const scene1 = sorted.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || sorted[0];
+   const scene2 =
+    sorted.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
+    sorted.find(img => img.url !== scene1?.url);
+   const userModified = Boolean(storedAd?.updatedAt && storedAd.updatedAt > DEFAULT_CREATED_AT);
+   const needsScene1 = !merged.imageUrl || (!userModified && merged.imageUrl === baseAd.imageUrl);
+   const needsScene2 = !merged.secondImageUrl || (!userModified && !storedAd?.secondImageUrl && merged.secondImageUrl === baseAd.secondImageUrl);
+   if (needsScene1 && scene1) {
+    merged.imageUrl = scene1.url;
+    merged.imageHash = scene1.imageHash;
+   }
+   if (needsScene2 && scene2) {
+    merged.secondImageUrl = scene2.url;
+    merged.secondImageHash = scene2.imageHash;
+   }
+  }
+  return merged;
+ });
+
+ return {
+  ads: mergedAds,
+  customImages: mergedCustomImages,
+  deletedImageIds: best.deletedImageIds || [],
+ };
 }
 
 export async function inspectAntkiTargetAssets(accountId = '1109284831182252', campaignId = '120249912191200300') {
@@ -963,6 +1039,101 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
    ? Object.fromEntries((dorosliStructure?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!]))
    : ANTKI_CC35_DEFAULT_ADSETS;
 
+ const urlHashCache = new Map<string, string>();
+ let anyNewHashUploaded = false;
+
+ const resolveOrUploadMetaImageHash = async (
+  targetUrl: string,
+  candidateHash: string | undefined,
+  fallbackHash: string,
+  tagPrefix: string,
+ ): Promise<string> => {
+  if (!targetUrl) return candidateHash || fallbackHash;
+  if (urlHashCache.has(targetUrl)) return urlHashCache.get(targetUrl)!;
+
+  const customMatch = customImages.find(i => i.url === targetUrl);
+  const staticMatch = ANTKI_PL_IMAGE_LIBRARY.find(i => i.url === targetUrl);
+
+  // Remote URL (e.g. Kie.ai https://tempfile.aiquickdraw.com/...): only trust customMatch.imageHash if already uploaded
+  if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
+   if (customMatch?.imageHash && customMatch.imageHash.trim()) {
+    const h = customMatch.imageHash.trim();
+    urlHashCache.set(targetUrl, h);
+    return h;
+   }
+   try {
+    const imgRes = await fetch(targetUrl, { signal: AbortSignal.timeout(20000) });
+    if (imgRes.ok) {
+     const buf = Buffer.from(await imgRes.arrayBuffer());
+     const bytes = buf.toString('base64');
+     const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+      `act_${accountId}/adimages`,
+      { bytes, name: `${tagPrefix}-${Date.now()}.jpg` },
+      'POST',
+     );
+     const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+     if (uploadedHash) {
+      urlHashCache.set(targetUrl, uploadedHash);
+      if (customMatch) customMatch.imageHash = uploadedHash;
+      anyNewHashUploaded = true;
+      return uploadedHash;
+     }
+    }
+   } catch {}
+   return candidateHash || fallbackHash;
+  }
+
+  if (targetUrl.startsWith('data:image/')) {
+   try {
+    const m = targetUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
+    if (m?.[1]) {
+     const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+      `act_${accountId}/adimages`,
+      { bytes: m[1], name: `${tagPrefix}-${Date.now()}.jpg` },
+      'POST',
+     );
+     const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+     if (uploadedHash) {
+      urlHashCache.set(targetUrl, uploadedHash);
+      if (customMatch) customMatch.imageHash = uploadedHash;
+      anyNewHashUploaded = true;
+      return uploadedHash;
+     }
+    }
+   } catch {}
+   return candidateHash || fallbackHash;
+  }
+
+  // Local path (/antki-pl-images/...)
+  const knownLocalHash = staticMatch?.imageHash || customMatch?.imageHash || candidateHash;
+  if (knownLocalHash && knownLocalHash.trim()) {
+   const h = knownLocalHash.trim() === '028fa0e2022ce9974e28e33d1fbfba17' ? '69a46c3803572f10b92b292bb3991967' : knownLocalHash.trim();
+   urlHashCache.set(targetUrl, h);
+   return h;
+  }
+  if (targetUrl.startsWith('/')) {
+   try {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const localPath = path.join(process.cwd(), 'public', targetUrl.replace(/^\//, ''));
+    if (fs.existsSync(localPath)) {
+     const bytes = fs.readFileSync(localPath).toString('base64');
+     const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+      `act_${accountId}/adimages`,
+      { bytes, name: path.basename(localPath) },
+      'POST',
+     );
+     const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+     if (uploadedHash) {
+      urlHashCache.set(targetUrl, uploadedHash);
+      return uploadedHash;
+     }
+    }
+   } catch {}
+  }
+  return fallbackHash;
+ };
+
  for (const bp of activeBlueprints) {
   if (filterGroup && bp.code !== filterGroup && bp.label !== filterGroup) continue;
   const adSetId = adSetIdMap[bp.code];
@@ -1011,15 +1182,13 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      ? '/antki-pl-images/lib-antki-drzwi-sor-pl.jpg'
      : rawResolvedImageUrl;
    const libMatch = resolvedImageUrl ? allLibrary.find(i => i.url === resolvedImageUrl) : undefined;
-   let resolvedImageHash =
+   const fallbackPrimaryHash = defaultImg?.imageHash || '158deebd0e272662e14182e8f8e3753b';
+   const candidatePrimaryHash =
     imageHash ||
     libMatch?.imageHash ||
-    (!isLegacyGroupPlaceholder && typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '') ||
-    defaultImg?.imageHash ||
-    '158deebd0e272662e14182e8f8e3753b';
-   if (resolvedImageHash === '028fa0e2022ce9974e28e33d1fbfba17') {
-    resolvedImageHash = '69a46c3803572f10b92b292bb3991967';
-   }
+    (!isLegacyGroupPlaceholder && typeof saved?.imageHash === 'string' && saved.imageHash.trim() ? saved.imageHash.trim() : '');
+
+   let resolvedImageHash = fallbackPrimaryHash;
    const isUnmodifiedArgonCopy = !saved?.id || saved.id.startsWith('antek-pl-argon-');
    const resolvedPrimaryText =
     !isUnmodifiedArgonCopy && typeof saved?.primaryText === 'string' && saved.primaryText.trim()
@@ -1031,22 +1200,12 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      : entry.ad.headline;
 
    try {
-    if (!libMatch?.imageHash && resolvedImageUrl.startsWith('data:image/') && !saved?.imageHash) {
-     try {
-      const m = resolvedImageUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
-      if (m?.[1]) {
-       const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
-        `act_${accountId}/adimages`,
-        { bytes: m[1], name: `custom-antek-${entry.globalIndex}-${Date.now()}.jpg` },
-        'POST',
-       );
-       const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
-       if (uploadedHash) resolvedImageHash = uploadedHash;
-      }
-     } catch {
-      // Fallback to existing resolvedImageHash
-     }
-    }
+    resolvedImageHash = await resolveOrUploadMetaImageHash(
+     resolvedImageUrl,
+     candidatePrimaryHash,
+     fallbackPrimaryHash,
+     `antek-${adName}-A`,
+    );
 
     const buildSpec = (hash: string, withIg = true) => ({
      name: `antki-cc35-gosi-${entry.globalIndex}-${Date.now()}`,
@@ -1082,7 +1241,10 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
          'POST',
         );
         const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
-        if (uploadedHash) resolvedImageHash = uploadedHash;
+        if (uploadedHash) {
+         resolvedImageHash = uploadedHash;
+         urlHashCache.set(resolvedImageUrl, uploadedHash);
+        }
        }
       } catch {}
      }
@@ -1140,19 +1302,52 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      });
     }
 
-    // If a 2nd separate A/B test image (secondImageUrl) is configured on this angle, create/update a 2nd separate ad ("ad N B") in the same AdSet
+    // If a 2nd separate A/B test image (secondImageUrl) is configured on this angle, create/update a 2nd separate ad ("ad N B" / "D01 B") in the same AdSet
     if (saved?.secondImageUrl && saved.secondImageUrl.trim()) {
      const secondUrl = saved.secondImageUrl.trim();
      const secondLibMatch = allLibrary.find(i => i.url === secondUrl);
-     const secondHash = secondLibMatch?.imageHash || saved.secondImageHash?.trim();
+     const candidateSecondHash = secondLibMatch?.imageHash || saved.secondImageHash?.trim();
+     const secondHash = await resolveOrUploadMetaImageHash(
+      secondUrl,
+      candidateSecondHash,
+      '',
+      `antek-${adName}-B`,
+     );
      if (secondHash) {
       const adNameB = `${adName} B`;
       const alreadyIdB = existingByAdSetAndName.get(`${adSetId}:${adNameB}`);
-      const crB = await directGraph<{ id: string }>(
-       `act_${accountId}/adcreatives`,
-       buildSpec(secondHash, true),
-       'POST',
-      );
+      let crB: { id: string };
+      try {
+       crB = await directGraph<{ id: string }>(
+        `act_${accountId}/adcreatives`,
+        buildSpec(secondHash, true),
+        'POST',
+       );
+      } catch (errB) {
+       const errBText = errB instanceof Error ? errB.message : '';
+       if (secondUrl.startsWith('/antki-pl-images/')) {
+        try {
+         const fs = await import('node:fs');
+         const path = await import('node:path');
+         const localPath = path.join(process.cwd(), 'public', secondUrl.replace(/^\//, ''));
+         if (fs.existsSync(localPath)) {
+          const bytes = fs.readFileSync(localPath).toString('base64');
+          const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+           `act_${accountId}/adimages`,
+           { bytes, name: path.basename(localPath) },
+           'POST',
+          );
+          const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+          if (uploadedHash) urlHashCache.set(secondUrl, uploadedHash);
+         }
+        } catch {}
+       }
+       crB = await directGraph<{ id: string }>(
+        `act_${accountId}/adcreatives`,
+        buildSpec(urlHashCache.get(secondUrl) || secondHash, !errBText.includes('Instagram')),
+        'POST',
+       );
+      }
       if (alreadyIdB && updateExisting) {
        await directGraph<{ success?: boolean }>(alreadyIdB, { creative: { creative_id: crB.id } }, 'POST');
        createdResults.push({
@@ -1162,7 +1357,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
         angleId,
         imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
         imageLabel: secondLibMatch?.label || secondUrl,
-        imageHash: secondHash,
+        imageHash: urlHashCache.get(secondUrl) || secondHash,
         ok: true,
         updated: true,
         adId: alreadyIdB,
@@ -1186,7 +1381,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
         angleId,
         imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
         imageLabel: secondLibMatch?.label || secondUrl,
-        imageHash: secondHash,
+        imageHash: urlHashCache.get(secondUrl) || secondHash,
         ok: true,
         adId: createdAdB.id,
         creativeId: crB.id,
@@ -1194,7 +1389,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
       }
      }
     }
-    await new Promise(r => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, filterGroup ? 400 : 750));
    } catch (e) {
     const msg = e instanceof Error ? e.message : 'Failed';
     createdResults.push({
@@ -1211,6 +1406,30 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
     }
    }
   }
+ }
+
+ if (anyNewHashUploaded) {
+  try {
+   await mutate<SavedAntkiState, void>('antki-pl-library-v12-suma-pln', {}, state => {
+    if (Array.isArray(state.customImages)) {
+     state.customImages = state.customImages.map(img => {
+      const h = img?.url ? urlHashCache.get(img.url) : undefined;
+      return h && !img.imageHash ? { ...img, imageHash: h } : img;
+     });
+    }
+    if (Array.isArray(state.ads)) {
+     state.ads = state.ads.map(ad => {
+      const hA = ad?.imageUrl ? urlHashCache.get(ad.imageUrl) : undefined;
+      const hB = ad?.secondImageUrl ? urlHashCache.get(ad.secondImageUrl) : undefined;
+      return {
+       ...ad,
+       ...(hA ? { imageHash: hA } : {}),
+       ...(hB ? { secondImageHash: hB } : {}),
+      };
+     });
+    }
+   });
+  } catch {}
  }
 
  return {

@@ -61,7 +61,9 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
       imageHash: preset?.defaultImageHash || defaultImg.imageHash,
     };
   }
+  const isUserModified = Boolean(nextAd.updatedAt && nextAd.updatedAt > 1792616400000);
   if (
+    !isUserModified &&
     angleNum >= 36 &&
     preset?.defaultImageUrl?.includes('/kie-dorosli-') &&
     nextAd.imageUrl &&
@@ -89,6 +91,7 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
     }
   }
   if (
+    !isUserModified &&
     angleNum >= 36 &&
     preset?.defaultSecondImageUrl?.includes('/kie-dorosli-') &&
     nextAd.secondImageUrl &&
@@ -153,15 +156,23 @@ async function readLibraryState(): Promise<{
       const rawHeadline = isUnmodifiedArgonCopy && baseAd ? baseAd.headline : ad.headline;
       const rawDescription = isUnmodifiedArgonCopy && baseAd ? baseAd.description : ad.description;
       const audited = sanitizeAndAuditAntkiPl(rawPrimaryText, rawHeadline, rawDescription);
+      const resolvedPrimaryUrl = ad.imageUrl || baseAd?.imageUrl;
+      const resolvedPrimaryHash =
+        ad.imageUrl && ad.imageUrl !== baseAd?.imageUrl
+          ? ad.imageHash || customImages.find(c => c.url === ad.imageUrl)?.imageHash
+          : ad.imageHash ?? baseAd?.imageHash;
       byAngle.set(
         ad.angleId,
         ensureAdImage({
           ...(baseAd || ad),
           ...ad,
-          imageUrl: ad.imageUrl || baseAd?.imageUrl,
-          imageHash: ad.imageHash ?? baseAd?.imageHash,
+          imageUrl: resolvedPrimaryUrl,
+          imageHash: resolvedPrimaryHash,
           secondImageUrl: ad.secondImageUrl,
-          secondImageHash: ad.secondImageHash,
+          secondImageHash:
+            ad.secondImageUrl && ad.secondImageUrl !== baseAd?.secondImageUrl
+              ? ad.secondImageHash || customImages.find(c => c.url === ad.secondImageUrl)?.imageHash
+              : ad.secondImageHash,
           twoImageLayout: ad.twoImageLayout,
           combinedSplitImageUrl: ad.combinedSplitImageUrl,
           combinedSplitImageHash: ad.combinedSplitImageHash,
@@ -202,9 +213,9 @@ async function readLibraryState(): Promise<{
       const needsScene2 = !ad.secondImageUrl || (!userModified && !storedAd?.secondImageUrl && ad.secondImageUrl === baseAd?.secondImageUrl);
       return {
         ...ad,
-        ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),
+        ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash } : {}),
         ...(needsScene2 && scene2
-          ? { secondImageUrl: scene2.url, secondImageHash: scene2.imageHash || ad.secondImageHash }
+          ? { secondImageUrl: scene2.url, secondImageHash: scene2.imageHash }
           : {}),
       };
     });
