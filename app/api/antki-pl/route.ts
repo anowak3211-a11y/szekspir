@@ -695,8 +695,35 @@ export const POST = accountRoute(async (req: Request) => {
         productRefKieUrl = undefined;
       }
 
+      // HARD RULE: Never generate more than 3 images of the same generic scene across angles!
+      // If the library already has 3 strong variants of a given scene title/prompt, reuse them instead of burning credits on 30 identical foot/basin photos.
+      const { customImages: existingCustomImages } = await readLibraryState();
+      const normalizeSceneKey = (label = '') =>
+        label
+          .replace(/^#\d+\s*·\s*/, '')
+          .replace(/\(\s*\d[\d\s,]*zł\s*\)/gi, '')
+          .trim()
+          .toLowerCase();
+
+      const scenesToGenerate = scenes.filter(scene => {
+        const key = normalizeSceneKey(scene.label);
+        const existingMatches = existingCustomImages.filter(
+          img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
+        );
+        return existingMatches.length < 3;
+      });
+
+      if (scenesToGenerate.length === 0) {
+        return NextResponse.json({
+          ok: true,
+          angleId,
+          tasks: [],
+          reusedExisting: true,
+        });
+      }
+
       const taskResults = await Promise.all(
-        scenes.map(async (scene, idx) => {
+        scenesToGenerate.map(async (scene, idx) => {
           const fullPrompt = buildRawShitQualityKiePrompt(scene.scenePrompt, scene.includeProductRef);
           const payload = buildKieCreateTaskPayload({
             model: 'flux-2/pro-text-to-image',

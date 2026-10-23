@@ -1596,6 +1596,30 @@ export default function AntkiPlPage() {
       }
     }
 
+    // Also include up to 3 shared Kie.ai variants per scene number (1..10) so we don't need 30 duplicate foot/basin photos across angles
+    if (activeAngle.segment === 'dorosli') {
+      const sceneCounts = new Map<number, number>();
+      for (const item of list) {
+        const m = (item.label || '').match(/(?:^|·\s*)(\d+)\./);
+        if (m) {
+          const sNum = Number(m[1]);
+          sceneCounts.set(sNum, (sceneCounts.get(sNum) || 0) + 1);
+        }
+      }
+      for (const img of imageLibrary) {
+        if (img.source !== 'ai' || seen.has(img.url)) continue;
+        const m = (img.label || '').match(/(?:^|·\s*)(\d+)\./);
+        if (!m) continue;
+        const sNum = Number(m[1]);
+        const currentCount = sceneCounts.get(sNum) || 0;
+        if (currentCount < 1) {
+          seen.add(img.url);
+          list.push(img);
+          sceneCounts.set(sNum, currentCount + 1);
+        }
+      }
+    }
+
     return list.sort((a, b) => {
       const mA = (a.label || '').match(/(?:^|·\s*)(\d+)\./);
       const mB = (b.label || '').match(/(?:^|·\s*)(\d+)\./);
@@ -1603,16 +1627,33 @@ export default function AntkiPlPage() {
     });
   }, [activeAngle, kieTasksByAngle, imageLibrary]);
 
-  const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
-  const metaImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'meta').length, [imageLibrary]);
-  const customImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'custom').length, [imageLibrary]);
+  const deduplicatedImageLibrary = useMemo(() => {
+    const counts = new Map<string, number>();
+    return imageLibrary.filter(img => {
+      if (img.source !== 'ai') return true;
+      const cleanTitle = (img.label || '')
+        .replace(/^#\d+\s*·\s*/, '')
+        .replace(/\(\s*\d[\d\s,]*zł\s*\)/gi, '')
+        .trim()
+        .toLowerCase();
+      if (!cleanTitle) return true;
+      const c = counts.get(cleanTitle) || 0;
+      if (c >= 3) return false;
+      counts.set(cleanTitle, c + 1);
+      return true;
+    });
+  }, [imageLibrary]);
+
+  const aiImagesCount = useMemo(() => deduplicatedImageLibrary.filter(i => i.source === 'ai').length, [deduplicatedImageLibrary]);
+  const metaImagesCount = useMemo(() => deduplicatedImageLibrary.filter(i => i.source === 'meta').length, [deduplicatedImageLibrary]);
+  const customImagesCount = useMemo(() => deduplicatedImageLibrary.filter(i => i.source === 'custom').length, [deduplicatedImageLibrary]);
   const filteredGalleryImages = useMemo(() => {
     if (galleryTab === 'for_angle') return forAngleImages;
-    if (galleryTab === 'ai') return imageLibrary.filter(i => i.source === 'ai');
-    if (galleryTab === 'meta') return imageLibrary.filter(i => i.source === 'meta');
-    if (galleryTab === 'custom') return imageLibrary.filter(i => i.source === 'custom');
-    return imageLibrary;
-  }, [imageLibrary, galleryTab, forAngleImages]);
+    if (galleryTab === 'ai') return deduplicatedImageLibrary.filter(i => i.source === 'ai');
+    if (galleryTab === 'meta') return deduplicatedImageLibrary.filter(i => i.source === 'meta');
+    if (galleryTab === 'custom') return deduplicatedImageLibrary.filter(i => i.source === 'custom');
+    return deduplicatedImageLibrary;
+  }, [deduplicatedImageLibrary, galleryTab, forAngleImages]);
 
   const activeResolvedImage = useMemo(() => {
     if (!activeAngle) return imageLibrary[0];
