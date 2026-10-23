@@ -418,7 +418,7 @@ async function handleSync(req: NextRequest) {
           const rows: (string | number)[][] = [];
           for (let d = 1; d <= daysInMonth; d++) {
             const h = empDays[d] || 0;
-            rows.push([`${d}.${m}.${year}`, h > 0 ? h : '', h > 0 ? h * emp.rate : '']);
+            rows.push([`${d}.${m}.${year}`, h > 0 ? h : '', '']);
           }
           const sumRow = 15 + daysInMonth + 1;
 
@@ -427,21 +427,21 @@ async function handleSync(req: NextRequest) {
             {
               range: `'${mMeta.tab}'!${c1}2:${c3}3`,
               values: [
-                ['Godziny:', `=SUM(${c2}16:${c2}${sumRow - 1})`, `${emp.rate} zł/h`],
-                ['Wypłata:', `=${c2}${sumRow}*${emp.rate}`, 'PLN'],
+                ['Godziny:', `=SUM(${c2}16:${c2}${sumRow - 1})`, ''],
+                ['', '', ''],
               ],
             },
             { range: `'${mMeta.tab}'!${c1}14`, values: [[`${mMeta.label} ${year} — ${emp.fullName}`]] },
-            { range: `'${mMeta.tab}'!${c1}15:${c3}15`, values: [['Data', 'Czas Pracy (godziny)', 'Suma (PLN)']] },
+            { range: `'${mMeta.tab}'!${c1}15:${c3}15`, values: [['Data', 'Czas Pracy (godziny)', '']] },
             { range: `'${mMeta.tab}'!${c1}16:${c3}${sumRow - 1}`, values: rows },
             {
               range: `'${mMeta.tab}'!${c1}${sumRow}:${c3}${sumRow}`,
-              values: [['SUMA:', `=SUM(${c2}16:${c2}${sumRow - 1})`, `=${c2}${sumRow}*${emp.rate}`]],
+              values: [['SUMA:', `=SUM(${c2}16:${c2}${sumRow - 1})`, '']],
             },
           );
 
           if (tabSheetId !== undefined) {
-            // Employee header row 1 bold
+            // Employee header row 1 bold (2 columns wide: c1..c2)
             styleRequests.push({
               repeatCell: {
                 range: {
@@ -449,7 +449,7 @@ async function handleSync(req: NextRequest) {
                   startRowIndex: 0,
                   endRowIndex: 1,
                   startColumnIndex: startCol0,
-                  endColumnIndex: startCol0 + 3,
+                  endColumnIndex: startCol0 + 2,
                 },
                 cell: {
                   userEnteredFormat: {
@@ -462,15 +462,15 @@ async function handleSync(req: NextRequest) {
               },
             });
 
-            // Summary box rows 2-3 light green tint
+            // Summary box row 2 light green tint (only row 2, 2 columns wide: Godziny | SUM)
             styleRequests.push({
               repeatCell: {
                 range: {
                   sheetId: tabSheetId,
                   startRowIndex: 1,
-                  endRowIndex: 3,
+                  endRowIndex: 2,
                   startColumnIndex: startCol0,
-                  endColumnIndex: startCol0 + 3,
+                  endColumnIndex: startCol0 + 2,
                 },
                 cell: {
                   userEnteredFormat: {
@@ -491,7 +491,7 @@ async function handleSync(req: NextRequest) {
                   startRowIndex: 13,
                   endRowIndex: 14,
                   startColumnIndex: startCol0,
-                  endColumnIndex: startCol0 + 3,
+                  endColumnIndex: startCol0 + 2,
                 },
                 cell: {
                   userEnteredFormat: {
@@ -512,7 +512,7 @@ async function handleSync(req: NextRequest) {
                   startRowIndex: 14,
                   endRowIndex: 15,
                   startColumnIndex: startCol0,
-                  endColumnIndex: startCol0 + 3,
+                  endColumnIndex: startCol0 + 2,
                 },
                 cell: {
                   userEnteredFormat: {
@@ -539,7 +539,7 @@ async function handleSync(req: NextRequest) {
                     startRowIndex: 14 + d,
                     endRowIndex: 15 + d,
                     startColumnIndex: startCol0,
-                    endColumnIndex: startCol0 + 3,
+                    endColumnIndex: startCol0 + 2,
                   },
                   cell: {
                     userEnteredFormat: {
@@ -560,7 +560,7 @@ async function handleSync(req: NextRequest) {
                   startRowIndex: sumRow - 1,
                   endRowIndex: sumRow,
                   startColumnIndex: startCol0,
-                  endColumnIndex: startCol0 + 3,
+                  endColumnIndex: startCol0 + 2,
                 },
                 cell: {
                   userEnteredFormat: {
