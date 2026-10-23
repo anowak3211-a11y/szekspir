@@ -907,7 +907,7 @@ export function buildNoomThreeScenesForAngle(params: {
   title: string;
   segment?: string;
   totalPln?: string | null;
-}): [HookSceneItem, HookSceneItem, HookSceneItem] {
+}): [KiePlannedScene, KiePlannedScene, KiePlannedScene] {
   const id = (params.angleId || '').toLowerCase();
   const text = `${params.title}\n${params.headline}\n${params.primaryText}`.toLowerCase();
   const sumaStr = params.totalPln ? `${params.totalPln},00` : '226,00';
@@ -988,21 +988,21 @@ export function buildNoomThreeScenesForAngle(params: {
   }
 
   // WZÓR NOOM #1 (Scena #2): Wydruk badania + Żółty Post-it + Polski Paragon (SUMA PLN) w rzucie 90°
-  const noomScene1: HookSceneItem = {
+  const noomScene1: KiePlannedScene = {
     label: `2. [WZÓR NOOM #1] Wydruk z gabinetu + żółty Post-it i paragon SUMA PLN (${sumaStr} zł)`,
     includeProductRef: false,
     scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a warm oak wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wood grain are: (1) a clinical foot/posture printout with handwritten blue ballpoint pen notes at the top reading "${printoutTopNote}" and yellow highlighter on the diagnosis line, (2) a bright yellow square sticky note (Post-it) stuck to the corner with handwritten Polish blue-pen text reading "${postItNote}", and (3) a crumpled white Polish thermal receipt printed with header "PARAGON FISKALNY" and summary line "SUMA PLN ${sumaStr}" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"). Harsh indoor light, realistic phone camera grain.`,
   };
 
   // WZÓR NOOM #2 (Scena #7): Podkładka z klipsem i odręczną niebieską checklistą "TEST 10 SEKUND: [✓]..." w rzucie 90°
-  const noomScene2: HookSceneItem = {
+  const noomScene2: KiePlannedScene = {
     label: '7. [WZÓR NOOM #2] Podkładka z odręczną listą „TEST 10 SEKUND [✓]” na drewnianym stole',
     includeProductRef: false,
     scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wooden table next to reading glasses and an uncapped blue felt-tip marker is a brown hardboard clipboard holding a white paper sheet with bold, legible handwritten Polish blue-marker text and checked boxes: "${checklistLines}". Warm indoor ceiling light, natural phone shadow, authentic amateur photo.`,
   };
 
   // WZÓR NOOM #3 (Scena #8): 4 coraz większe blistry tabletek + RTG/smartfon na drewnianym stole w rzucie 90°
-  const noomScene3: HookSceneItem = {
+  const noomScene3: KiePlannedScene = {
     label: '8. [WZÓR NOOM #3] 4 coraz większe blistry po lekach i RTG na stole („Tabletki coraz mocniejsze...”)',
     includeProductRef: false,
     scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a dark wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Arranged in a row from left to right on the wood grain are 4 progressively larger silver foil pill blister packs (from a small 6-pill blister on the left to a large 20-pill blister on the right, with empty popped foil pockets) next to a black-and-white foot and knee X-ray printout with yellow arrows pointing to the joint space, and a white note card with bold Polish text reading: "${blisterBanner}". Realistic indoor lighting, zero AI glow.`,
