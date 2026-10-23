@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v11-punchy';
+const STATE_KEY = 'antki-pl-library-v12-suma-pln';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -293,11 +293,13 @@ export const GET = accountRoute(async () => {
 
 function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRef: boolean): string {
   const antiAiWrapper = [
-    'RAW, UGLY, SHIT QUALITY AMATEUR PHONE SNAPSHOT. Taken hastily by a Polish woman with an old low-end smartphone camera (iPhone 8 or cheap Android) in a real Polish apartment or public corridor.',
-    'MANDATORY IMPERFECTIONS (LITERAL): shit quality, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and color noise, subtle JPEG compression artifacts, slightly crooked off-center framing, harsh ugly overhead fluorescent tube light or dim yellow 2700K ceiling bulb, flat unretouched colors, muddy shadows, zero staging.',
-    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO bokeh or shallow depth-of-field background blur, ZERO skin smoothing, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO watermarks, ZERO logos.',
+    'RAW, UNPOLISHED AMATEUR SMARTPHONE PHOTO taken by a Polish woman with an older smartphone camera (iPhone 8 or everyday Android) in a real Polish home.',
+    'NATURAL PERSPECTIVE & REALISTIC PHYSICS: Normal, level camera angle with realistic gravity and geometry. Whenever showing objects on a table, counter, or floor, the surface MUST fill the frame naturally or sit solidly on the ground — NEVER render a tilted tabletop floating in mid-air against a distant room background, and NEVER use weird Dutch angles.',
+    'POLISH LANGUAGE ONLY ON ALL TEXT/RECEIPTS/PACKAGING: Any visible text on thermal receipts, notes, or medicine tubes MUST be in authentic Polish (e.g., "PARAGON FISKALNY", "SUMA PLN", "RAZEM", "Żel przeciwbólowy"). NEVER write the English word "TOTAL" on a receipt — in Poland a receipt ALWAYS says "SUMA PLN"!',
+    'MANDATORY CAMERA REALISM: everyday amateur phone photo quality, slight natural softness, visible indoor sensor grain, harsh overhead ceiling bulb or fluorescent light, flat unretouched colors, zero staging.',
+    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO fake bokeh blur, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO watermarks, ZERO English text.',
     includeProductRef
-      ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying naturally in the messy home scene — NOT posed like a commercial packshot.'
+      ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying flat and naturally on the surface — NOT posed like a commercial packshot.'
       : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the raw real-life problem scene from the story.',
   ].join('\n');
 
@@ -328,11 +330,11 @@ function detectShoppingListAndBuildReceiptScene(primaryText: string): {
   const totalLabel = totalPln ? ` (${totalPln} zł)` : '';
 
   const receiptScene: KiePlannedScene = {
-    label: `2. Paragon z apteki / sklepu medycznego i lista wydatków${totalLabel}`,
+    label: `2. Polski paragon fiskalny (SUMA PLN) i lista wydatków${totalLabel}`,
     includeProductRef: false,
     scenePrompt: hasPharmacy
-      ? `Raw, crooked top-down amateur smartphone photo taken under a dim yellow kitchen bulb in a Polish apartment: a long crumpled paper thermal receipt from a Polish pharmacy (PARAGON FISKALNY with PLN prices${totalPln ? ` totaling ${totalPln},00 PLN` : ''}) lying on a kitchen table next to two half-squeezed tubes of pain relief gel, an opened blister pack of painkiller pills, and a handwritten scrap of notebook paper listing expenses in zł. Harsh shadow from phone, slight blur, grainy sensor noise, shit quality.`
-      : `Raw, crooked top-down amateur smartphone photo taken on a Polish kitchen table at night under harsh indoor light: two crumpled Polish thermal paper receipts (PARAGON FISKALNY from a medical supply / shoe store and clinic${totalPln ? ` totaling ${totalPln},00 PLN` : ''}) lying next to a ballpoint pen and a small handwritten list of expenses in zł on a notebook page. Slightly out of focus, high-ISO sensor grain, shit quality.`,
+      ? `Close-up photo pointing straight down (90-degree flat-lay) at a wooden tabletop surface that fills 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wood grain is a crumpled white Polish thermal receipt printed in Polish with header "PARAGON FISKALNY" and the summary line reading "SUMA PLN 186,00" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"), next to a plain white pharmacy ointment tube and a squared paper notepad page with handwritten Polish expenses${totalPln ? ` ending with "Razem: ${totalPln} zł"` : ''}. Warm indoor ceiling bulb light, natural phone shadow, realistic phone camera grain.`
+      : `Close-up photo pointing straight down (90-degree flat-lay) at a wooden tabletop surface that fills 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the table are two crumpled white Polish thermal receipts printed in Polish with header "PARAGON FISKALNY" and summary line "SUMA PLN" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"), next to a blue ballpoint pen and a squared notebook page with handwritten Polish expenses in zł${totalPln ? ` and "Razem: ${totalPln} zł" at the bottom` : ''}. Indoor lighting, realistic amateur phone camera quality.`,
   };
 
   return { hasShoppingList, totalPln, receiptScene };
@@ -357,49 +359,49 @@ function buildFallbackTenScenesFromCopy(params: {
         label: hasSor ? '1. Nocny korytarz SOR / plastikowe krzesełko i spuchnięte kolano' : '1. Wieczorny ból kolana i stopy po całym dniu na nogach',
         includeProductRef: false,
         scenePrompt: hasSor
-          ? 'First-person POV amateur phone snapshot looking down while sitting on a cheap blue plastic chair in a sterile Polish hospital emergency room (SOR) hallway late at night under harsh cold green-white fluorescent tube lighting. A 54-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, scuff-marked grey hospital linoleum floor below, closed white clinic door in background. Blurry, shit quality, grainy phone photo.'
-          : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on an old patterned couch rubbing her swollen bare ankle and knee under a yellow ceiling bulb. Blurry, shit quality, grainy phone camera.',
+          ? 'First-person POV amateur phone snapshot looking down while sitting on a blue plastic chair in a Polish hospital emergency room (SOR) hallway at night under cold fluorescent tube lighting. A 54-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, grey hospital linoleum floor below. Natural level perspective, grainy phone photo.'
+          : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on a couch rubbing her swollen bare ankle and knee under a warm ceiling bulb. Natural perspective, grainy phone camera.',
       },
       receiptScene,
       {
         label: '3. Surowe zbliżenie z góry na płaską stopę i uciekającą kostkę',
         includeProductRef: false,
-        scenePrompt: 'Raw top-down first-person POV smartphone photo of a middle-aged Polish woman standing barefoot on worn beige ceramic floor tiles in a cramped apartment hallway, showing her bare feet flattening inward at the arches with tired, slightly swollen ankles and a reddened heel. Ugly harsh overhead light, slight motion blur, zero beauty filter, shit quality.',
+        scenePrompt: 'First-person POV smartphone photo looking straight down at the floor: a middle-aged Polish woman standing barefoot on beige ceramic floor tiles filling the frame, showing her bare feet flattening inward at the arches with tired, slightly swollen ankles. Overhead indoor light, natural perspective.',
       },
       {
         label: '4. Zdarte od wewnątrz codzienne buty w polskim przedpokoju',
         includeProductRef: false,
-        scenePrompt: 'Amateur phone snapshot in a narrow Polish apartment hallway (przedpokój) at night. A woman’s hand holding an everyday worn leather walking shoe upside down close to the camera, showing the inner edge of the rubber heel visibly ground down at an uneven slant from pronation. Cluttered shoe rack in background, harsh flash/bulb glare, slightly out of focus, shit quality.',
+        scenePrompt: 'Amateur phone snapshot in a Polish apartment hallway (przedpokój) at night. A woman’s hand holding an everyday worn leather walking shoe upside down, showing the inner edge of the rubber heel visibly ground down at an uneven slant from pronation. Hallway floor below, realistic indoor lighting.',
       },
       {
         label: '5. Miska z ciepłą wodą i solą na kafelkach w łazience wieczorem',
         includeProductRef: false,
-        scenePrompt: 'First-person POV ugly amateur smartphone photo looking down in a small Polish apartment bathroom at night. A middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water on old ceramic tiles next to a crumpled towel and a washing machine. Harsh fluorescent bathroom mirror light, high ISO noise, shit quality.',
+        scenePrompt: 'First-person POV amateur smartphone photo looking down at the bathroom floor: a middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water resting flat on ceramic floor tiles next to a towel. Fluorescent bathroom light, realistic phone photo.',
       },
       {
-        label: '6. Drugi paragon z apteki i wyciśnięte tubki maści na szafce',
+        label: '6. Polski paragon z apteki (SUMA PLN) i wyciśnięte tubki maści',
         includeProductRef: false,
-        scenePrompt: 'Ugly, cluttered amateur phone photo of a Polish kitchen counter under a yellow bulb at night: a long crumpled paper receipt from a Polish apteka (PARAGON FISKALNY) next to 3 squeezed tubes of diclofenac pain gel, empty pill blisters, and a glass of water. Slightly out of focus, grainy sensor, shit quality.',
+        scenePrompt: 'Close-up 90-degree flat-lay smartphone photo pointing straight down at a kitchen countertop surface filling 100% of the frame (NO floating table, NO room background): a crumpled Polish pharmacy receipt with "PARAGON FISKALNY" and "SUMA PLN 94,50" (NEVER write "TOTAL") lying flat next to 2 squeezed white tubes of pain gel and opened pill blisters. Harsh indoor bulb light.',
       },
       {
         label: '7. Ciasny przedpokój - siedzenie na stołku przy zdejmowaniu butów',
         includeProductRef: false,
-        scenePrompt: 'First-person POV amateur phone snapshot taken while sitting on a low wooden stool in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light, slight motion blur, shit quality.',
+        scenePrompt: 'First-person POV amateur phone snapshot taken while sitting in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes resting flat on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light.',
       },
       {
         label: '8. Wkładki Orthomax StepMax na kuchennym stole obok kubka herbaty',
         includeProductRef: true,
-        scenePrompt: 'Unstaged amateur phone photo taken at a Polish kitchen table under a dim warm lamp at night. A pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying next to an everyday pair of women’s walking shoes and a half-drunk mug of tea, looking like a quick photo snapped to send to a friend on Messenger. Slight blur, grainy phone camera quality.',
+        scenePrompt: 'Close-up flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO floating table edges): a pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying flat next to a mug of tea. Warm indoor lamp light.',
       },
       {
         label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
         includeProductRef: true,
-        scenePrompt: 'Candid first-person POV amateur phone snapshot in a cramped Polish apartment hallway. A middle-aged woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe on a wooden bench. Harsh indoor bulb light, slight camera shake, grainy phone sensor, shit quality.',
+        scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish apartment hallway. A middle-aged woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe resting on a hallway bench. Warm indoor bulb light.',
       },
       {
         label: '10. Dwie pary butów w przedpokoju z widocznymi wkładkami Orthomax (Pakiet 1+1)',
         includeProductRef: true,
-        scenePrompt: 'Raw top-down amateur smartphone snapshot of a rubber shoe mat in a Polish apartment hallway showing two pairs of everyday shoes (outdoor walking shoes and house slippers) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs. Ugly overhead hallway light, crooked angle, grainy, shit quality.',
+        scenePrompt: 'Top-down amateur smartphone snapshot looking straight down at a rubber shoe mat on a hallway floor filling the frame, showing two pairs of everyday shoes (outdoor walking shoes and house slippers) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs.',
       },
     ];
   }
@@ -411,8 +413,8 @@ function buildFallbackTenScenesFromCopy(params: {
         : '1. Zdarte od wewnątrz dziecięce buty trzymane w dłoni w przedpokoju',
       includeProductRef: false,
       scenePrompt: hasPeWf
-        ? 'Raw, slightly blurry amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light, grainy, shit quality.'
-        : 'Raw first-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Cluttered shoe mat below, harsh indoor bulb light, slight motion blur, shit quality.',
+        ? 'Amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) resting flat on the floor with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light.'
+        : 'First-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Shoe mat below, indoor bulb light.',
     },
     receiptScene,
     {
@@ -421,43 +423,43 @@ function buildFallbackTenScenesFromCopy(params: {
         : '3. Koślawe kostki dziecka od tyłu na panelach w domu',
       includeProductRef: false,
       scenePrompt: hasWetFoot
-        ? 'Amateur top-down smartphone photo taken in a small Polish apartment bathroom right after a bath under harsh fluorescent mirror light. On dark grey matte floor tiles are two small 8-year-old child wet footprints side by side — both footprints are completely flat and wide like an iron ("stopa żelazka") with zero arch curve, child’s bare heels stepping onto a crumpled towel at top edge. Grainy, slight blur, shit quality.'
-        : 'Raw, unretouched amateur phone photo taken from behind at floor level in a Polish living room on wooden laminate panels. A 9-year-old child standing barefoot in cotton shorts, showing both ankles collapsing inward ("odwrócone V" / valgus ankles). Dim evening indoor lighting, crooked framing, grainy sensor noise, shit quality.',
+        ? 'Top-down smartphone photo pointing straight down at dark grey matte bathroom floor tiles filling 100% of the frame right after a bath: two small 8-year-old child wet footprints side by side — both footprints are completely flat and wide like an iron ("stopa żelazka") with zero arch curve.'
+        : 'Raw, unretouched amateur phone photo taken from behind at floor level in a Polish living room on wooden laminate panels. A 9-year-old child standing barefoot in cotton shorts, showing both ankles collapsing inward ("odwrócone V" / valgus ankles). Level horizon, indoor evening light.',
     },
     {
       label: '4. Rzucone w kąt stare sztywne wkładki / wałek do ćwiczeń stóp',
       includeProductRef: false,
-      scenePrompt: 'Cluttered, candid amateur phone photo on a Polish apartment living room floor in the evening. A pair of stiff, uncomfortable old grey medical shoe insoles kicked aside next to a children’s sneaker and an unused rubber foot massage roller under the edge of a sofa. Flat indoor lighting, slightly out of focus, shit quality.',
+      scenePrompt: 'Candid amateur phone photo looking down at a Polish apartment living room floor in the evening. A pair of stiff, uncomfortable old grey medical shoe insoles lying flat on the floor next to a children’s sneaker and an unused rubber foot massage roller.',
     },
     {
       label: '5. Trzy pary dziecięcych butów w przedpokoju starte po wewnętrznej stronie',
       includeProductRef: false,
-      scenePrompt: 'Ugly amateur smartphone photo on a hallway floor in a Polish flat: three pairs of a 9-year-old child’s shoes (winter boots, school indoor sneakers, everyday trainers) lined up from behind, all showing the exact same inward tilt and worn-down inner heel edge. Harsh hallway ceiling bulb, crooked framing, grainy sensor noise, shit quality.',
+      scenePrompt: 'Eye-level floor smartphone photo in a Polish flat hallway: three pairs of a 9-year-old child’s shoes (winter boots, school indoor sneakers, everyday trainers) lined up from behind on the floor, all showing the exact same inward tilt and worn-down inner heel edge.',
     },
     {
       label: '6. Dziecko siedzące na schodach i trzymające się za piętę / kolano',
       includeProductRef: false,
-      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on steps in tracksuits holding his aching heel and ankle after school PE class. Overcast flat light, slight motion blur, off-center framing, shit quality phone photo.',
+      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on steps in tracksuits holding his aching heel and ankle after school PE class.',
     },
     {
       label: '7. Cienka fabryczna wkładka wyjęta z drogiego dziecięcego buta',
       includeProductRef: false,
-      scenePrompt: 'Raw first-person POV phone snapshot in a Polish kitchen at night: a mother’s hand holding up a paper-thin, completely flat, squashed factory foam liner pulled out of an expensive children’s sneaker on the table. Harsh overhead light, slightly blurry, grainy phone camera, shit quality.',
+      scenePrompt: 'First-person POV phone snapshot in a Polish home at night: a mother’s hand holding up a paper-thin, completely flat, squashed factory foam liner pulled out of an expensive children’s sneaker.',
     },
     {
       label: '8. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
       includeProductRef: true,
-      scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker on a wooden hallway bench. Dim warm indoor bulb light, slight camera shake, grainy phone sensor, shit quality.',
+      scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker resting on a hallway bench.',
     },
     {
       label: '9. Porównanie na stole: płaska fabryczna tekturka vs profilowana wkładka Orthomax',
       includeProductRef: true,
-      scenePrompt: 'Unstaged amateur phone photo on a Polish kitchen table under a yellow ceiling lamp: side-by-side comparison of a squashed flat grey factory shoe liner next to a bright orange 3D-contoured Orthomax StepMax insole with deep heel cup and arch support domes. Crooked angle, slight blur, grainy sensor, shit quality.',
+      scenePrompt: 'Close-up 90-degree flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO table edges, NO floating table): side-by-side comparison of a squashed flat grey factory shoe liner next to a bright orange 3D-contoured Orthomax StepMax insole.',
     },
     {
       label: '10. Buty zimowe i szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
       includeProductRef: true,
-      scenePrompt: 'Raw top-down smartphone snapshot of a hallway doormat in a Polish apartment showing a child’s outdoor boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside so the child does not have to swap them at school. Harsh hallway light, grainy, shit quality.',
+      scenePrompt: 'Top-down smartphone snapshot pointing straight down at a hallway doormat filling the frame, showing a child’s outdoor boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside.',
     },
   ];
 }
@@ -476,7 +478,7 @@ async function extractTenRawScenesFromAntekCopy(params: {
     const client = brainClient(brainOptions(40_000));
     const completion = await client.chat.completions.create({
       model: 'gpt-4.1-mini',
-      temperature: 0.45,
+      temperature: 0.4,
       response_format: { type: 'json_object' },
       messages: [
         {
@@ -485,26 +487,28 @@ async function extractTenRawScenesFromAntekCopy(params: {
 Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
 Rules for the 10 scenes:
 - Scenes 1 to 7 (7 scenes WITHOUT product, includeProductRef: false):
-  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR opening a kitchen cabinet full ofKetonal blisters and gel tubes, OR holding worn-out sneakers in a hallway).
-  * Scene 2 (MANDATORY RECEIPT SCENE WHEN EXPENSES ARE LISTED): Whenever the copy contains a list of purchases/expenses (medicine, pharmacy gels, insoles, shoes, clinic visits, "Razem: ... zł"), Scene 2 MUST ALWAYS be a raw close-up photo of a crumpled Polish thermal receipt (PARAGON FISKALNY z apteki / sklepu medycznego / rehabilitacji) lying on a kitchen table or counter next to the exact items mentioned in that shopping list (e.g. gel tubes, pill blisters, failed insoles, or a handwritten expense calculation on a notebook page).
+  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR opening a kitchen cabinet full of Ketonal blisters and gel tubes, OR holding worn-out sneakers in a hallway).
+  * Scene 2 (MANDATORY POLISH RECEIPT SCENE WHEN EXPENSES ARE LISTED): Whenever the copy contains a list of purchases/expenses, Scene 2 MUST ALWAYS be a close-up 90-degree flat-lay photo pointing straight down at a wooden tabletop surface that fills 100% of the frame (NO table edges visible, NO background room, NO floating table!), showing a crumpled Polish thermal receipt ("PARAGON FISKALNY") with Polish summary line "SUMA PLN" (STRICTLY FORBIDDEN to use the English word "TOTAL" — in Poland receipts ALWAYS say "SUMA PLN"!) next to a handwritten Polish expense list on squared notepad paper ("Razem: ... zł").
   * Scene 3: A raw close-up POV shot of the physical foot/ankle/knee posture problem described in the copy (e.g. bare flat foot/collapsing valgus ankles on laminate panels or bathroom tiles).
   * Scene 4: Close-up of the unevenly worn-down inner heel edge of everyday shoes / sneakers held in hand in a cramped Polish hallway.
-  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, basin with warm salt water, or pile of painkiller gel tubes on a shelf).
+  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, basin with warm salt water, or painkiller gel tubes with Polish labels).
   * Scene 6: Another specific domestic or clinic moment from the story.
   * Scene 7: Another specific visual moment or prop unique to this exact story angle.
 - Scenes 8 to 10 (3 scenes WITH product, includeProductRef: true):
-  * Scene 8: Unboxed bright orange contoured Orthomax StepMax insoles lying on a real Polish kitchen table next to a mug of tea or everyday shoes.
-  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a cramped Polish apartment hallway.
-  * Scene 10: Two pairs of shoes (e.g. outdoor shoes + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
+  * Scene 8: Close-up 90-degree flat-lay pointing straight down at a tabletop surface filling 100% of the frame (NO floating table edges), showing unboxed bright orange contoured Orthomax StepMax insoles next to a mug of tea or everyday shoes.
+  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a Polish apartment hallway.
+  * Scene 10: Top-down shot of two pairs of shoes (outdoor shoes + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
 
-CRITICAL STYLE FOR EVERY scenePrompt (in English):
-- Describe it as an UGLY, HASTY, SHIT QUALITY amateur smartphone photo (slight motion blur, slightly out of focus, harsh fluorescent tube light or dim yellow indoor bulb, high-ISO sensor grain, crooked framing, zero AI glow, zero bokeh).
-- Never include people's full faces looking at the camera like models — prefer first-person POV looking down at knees/feet/shoes/receipts/hands, or from behind/cropped angles so it looks 100% real.
+CRITICAL RULES FOR EVERY scenePrompt (in English):
+1. NO FLOATING TABLES / NO WEIRD PERSPECTIVES: Whenever an object (receipt, notebook, tubes, insoles) is on a table or counter, specify: "90-degree flat-lay close-up pointing straight down at the wooden tabletop surface filling 100% of the frame (NO table edges, NO background room visible, NO floating table)". Never combine a top-down table shot with a vertical room background!
+2. POLISH TEXT ONLY ("SUMA PLN", NEVER "TOTAL"): Explicitly state in the prompt that any receipt MUST say "PARAGON FISKALNY" and "SUMA PLN" (NEVER the English word "TOTAL"), and any medicine tube or note must have Polish words only (ZERO English words).
+3. Describe it as a realistic, unpolished amateur smartphone photo (harsh indoor bulb or fluorescent light, sensor grain, zero AI glow, zero bokeh).
+4. Never include people's full faces looking at the camera — prefer first-person POV looking down at knees/feet/shoes/receipts/hands.
 
 Return JSON:
 {
   "scenes": [
-    { "label": "Short Polish title (max 65 chars)", "scenePrompt": "Detailed English scene description with ugly amateur phone camera details", "includeProductRef": false }
+    { "label": "Short Polish title (max 65 chars)", "scenePrompt": "Detailed English scene description following all rules above", "includeProductRef": false }
   ]
 }`,
         },
@@ -527,14 +531,9 @@ Return JSON:
       };
     });
 
-    // HARD GUARANTEE: If the copy has a shopping/expense list and none of the first 7 scenes is a receipt photo, force Scene #2 to be the receipt photo!
+    // HARD GUARANTEE: Always use our strict Polish flat-lay receiptScene for Scene #2 when the copy has a shopping list!
     if (hasShoppingList) {
-      const hasAnyReceiptScene = scenes
-        .slice(0, 7)
-        .some(s => /paragon|receipt|rachunek/i.test(`${s.label} ${s.scenePrompt}`));
-      if (!hasAnyReceiptScene) {
-        scenes[1] = receiptScene;
-      }
+      scenes[1] = receiptScene;
     }
 
     return scenes;
