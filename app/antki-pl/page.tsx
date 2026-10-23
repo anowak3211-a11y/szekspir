@@ -102,7 +102,7 @@ export default function AntkiPlPage() {
   // Image Gallery & Preview state
   const [showGalleryPanel, setShowGalleryPanel] = useState(false);
   const [showAwarenessPanel, setShowAwarenessPanel] = useState(false);
-  const [galleryTab, setGalleryTab] = useState<'all' | 'ai' | 'meta' | 'custom'>('all');
+  const [galleryTab, setGalleryTab] = useState<'for_angle' | 'all' | 'ai' | 'meta' | 'custom'>('for_angle');
   const [lightboxAsset, setLightboxAsset] = useState<AntkiPlImageAsset | null>(null);
   const [assigningImage, setAssigningImage] = useState(false);
   const [uploadingCustomImage, setUploadingCustomImage] = useState(false);
@@ -1572,15 +1572,45 @@ export default function AntkiPlPage() {
       : null;
   const displayedGroups = activeCampaignStructure?.groups?.length ? activeCampaignStructure.groups : activeAdSetBlueprints;
 
+  const forAngleImages = useMemo(() => {
+    if (!activeAngle) return [];
+    const seen = new Set<string>();
+    const list: AntkiPlImageAsset[] = [];
+
+    const tasks = kieTasksByAngle[activeAngle.id] || [];
+    for (const t of tasks) {
+      if (t.state === 'success' && t.asset && !seen.has(t.asset.url)) {
+        seen.add(t.asset.url);
+        list.push(t.asset);
+      }
+    }
+
+    for (const img of imageLibrary) {
+      const matchesAngle =
+        img.angleId === activeAngle.id ||
+        img.id.includes(`-${activeAngle.id}-`) ||
+        img.label.includes(`Antek #${activeAngle.number} `) ||
+        img.label.includes(`Antek #${activeAngle.number}:`) ||
+        img.label.includes(`(#${activeAngle.number})`);
+      if (matchesAngle && !seen.has(img.url)) {
+        seen.add(img.url);
+        list.push(img);
+      }
+    }
+
+    return list;
+  }, [activeAngle, kieTasksByAngle, imageLibrary]);
+
   const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
   const metaImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'meta').length, [imageLibrary]);
   const customImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'custom').length, [imageLibrary]);
   const filteredGalleryImages = useMemo(() => {
+    if (galleryTab === 'for_angle') return forAngleImages;
     if (galleryTab === 'ai') return imageLibrary.filter(i => i.source === 'ai');
     if (galleryTab === 'meta') return imageLibrary.filter(i => i.source === 'meta');
     if (galleryTab === 'custom') return imageLibrary.filter(i => i.source === 'custom');
     return imageLibrary;
-  }, [imageLibrary, galleryTab]);
+  }, [imageLibrary, galleryTab, forAngleImages]);
 
   const activeResolvedImage = useMemo(() => {
     if (!activeAngle) return imageLibrary[0];
@@ -2157,7 +2187,7 @@ export default function AntkiPlPage() {
                 </p>
               </div>
               <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                {(["all", "ai", "meta", "custom"] as const).map(tab => (
+                {(["for_angle", "all", "ai", "meta", "custom"] as const).map(tab => (
                   <button
                     key={tab}
                     type="button"
@@ -2173,7 +2203,9 @@ export default function AntkiPlPage() {
                       cursor: "pointer",
                     }}
                   >
-                    {tab === "all"
+                    {tab === "for_angle"
+                      ? `🎯 Pod to copy #${activeAngle?.number || 36} (${forAngleImages.length})`
+                      : tab === "all"
                       ? `Wszystkie (${imageLibrary.length})`
                       : tab === "ai"
                       ? `Surowe AI / Kie (${aiImagesCount})`
@@ -3571,10 +3603,16 @@ export default function AntkiPlPage() {
                     </button>
                   </div>
 
-                  {/* Filter tabs: Wszystkie | Stare Zdjęcia z Meta | Surowe Kie.ai | Własne */}
+                  {/* Filter tabs: FIRST = Pod to copy (#XX) | Wszystkie | Stare Zdjęcia z Meta | Surowe Kie.ai | Własne */}
                   <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
                     {(
                       [
+                        {
+                          id: "for_angle",
+                          label: `🎯 Pod to copy #${activeAngle.number} (${forAngleImages.length}${
+                            (kieTasksByAngle[activeAngle.id] || []).some(t => t.state === "generating") ? " ⏳" : ""
+                          })`,
+                        },
                         { id: "all", label: `Wszystkie (${imageLibrary.length})` },
                         { id: "meta", label: `📚 Stare z Meta (${metaImagesCount})` },
                         { id: "ai", label: `📸 Surowe Kie.ai (${aiImagesCount})` },
@@ -3742,7 +3780,65 @@ export default function AntkiPlPage() {
                         </div>
                       );
                     })}
+
+                    {/* Live Kie.ai generating cards inside 'for_angle' tab */}
+                    {galleryTab === "for_angle" &&
+                      (kieTasksByAngle[activeAngle.id] || [])
+                        .filter(task => task.state !== "success")
+                        .map(task => (
+                          <div
+                            key={task.taskId}
+                            style={{
+                              borderRadius: 8,
+                              overflow: "hidden",
+                              background: "#241207",
+                              border: "1px dashed #ea580c",
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "100%",
+                                aspectRatio: "1 / 1",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding: 8,
+                                textAlign: "center",
+                                color: task.state === "fail" ? "#fca5a5" : "#fdba74",
+                                fontSize: 11,
+                                fontWeight: 700,
+                                background: "#1a0c04",
+                              }}
+                            >
+                              {task.state === "fail" ? "⚠️ Błąd Kie.ai" : "⏳ Generuję w Kie.ai..."}
+                            </div>
+                            <div style={{ padding: "5px 6px", fontSize: 10, color: "#fed7aa", lineHeight: 1.25 }}>
+                              {task.label}
+                            </div>
+                          </div>
+                        ))}
                   </div>
+
+                  {galleryTab === "for_angle" &&
+                    filteredGalleryImages.length === 0 &&
+                    (kieTasksByAngle[activeAngle.id] || []).length === 0 && (
+                      <div
+                        style={{
+                          padding: "14px 12px",
+                          borderRadius: 8,
+                          background: "#241207",
+                          border: "1px dashed #7c2d12",
+                          color: "#fed7aa",
+                          fontSize: 11.5,
+                          textAlign: "center",
+                        }}
+                      >
+                        ⏳ Uruchamiam automatyczne generowanie 10 nowych zdjęć w Kie.ai specjalnie pod Antka #{activeAngle.number}...
+                      </div>
+                    )}
                 </div>
               </div>
 
