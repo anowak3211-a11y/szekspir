@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
     catch{return new NextResponse('Invalid frontend request',{status:403});}
   }
   if(path==="/login"||path==="/api/auth"||path==="/join"||path==="/api/join")return NextResponse.next();
-  if (req.nextUrl.pathname === "/privacy") return NextResponse.next();
+  if (req.nextUrl.pathname === "/privacy" || req.nextUrl.pathname === "/api/work-tracker-sync") return NextResponse.next();
   // Scheduled workers retain a separate, narrowly scoped machine credential.
   const header = req.headers.get("authorization") || "";
   if (["/api/jobs/worker", "/api/editors/sync"].includes(req.nextUrl.pathname)) {
