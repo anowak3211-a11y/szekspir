@@ -212,7 +212,7 @@ export default function AntkiPlPage() {
       if (!res.ok) throw new Error(data.error || 'Błąd ładowania Antki PL.');
       let loadedAds: AntkiPlGeneratedAd[] = Array.isArray(data.savedAds) ? data.savedAds : [];
       try {
-        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v4_kie_punchy') : null;
+        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab') : null;
         if (rawLocal) {
           const parsedLocal = JSON.parse(rawLocal) as Record<
             string,
@@ -672,10 +672,10 @@ export default function AntkiPlPage() {
     ) => {
       try {
         if (typeof window === 'undefined') return;
-        const raw = window.localStorage.getItem('antki_pl_saved_images_v4_kie_punchy');
+        const raw = window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab');
         const current = raw ? JSON.parse(raw) : {};
         const merged = { ...current, ...updates };
-        window.localStorage.setItem('antki_pl_saved_images_v4_kie_punchy', JSON.stringify(merged));
+        window.localStorage.setItem('antki_pl_saved_images_v6_clean_ab', JSON.stringify(merged));
       } catch {
         // Ignore storage errors
       }
@@ -697,20 +697,6 @@ export default function AntkiPlPage() {
       const now = Date.now();
       const targetSet = new Set(targetAngleIds);
 
-      const sampleAngleId = targetAngleIds[0];
-      const existingAd = savedAds.find(item => item.angleId === sampleAngleId);
-      const samplePreset = presets.find(p => p.id === sampleAngleId);
-      const fallbackAsset = getDefaultImageForAngle(samplePreset?.number || 1);
-      const currentPrimaryUrl = existingAd?.imageUrl || samplePreset?.defaultImageUrl || fallbackAsset.url;
-      const currentPrimaryHash = existingAd?.imageHash || samplePreset?.defaultImageHash || fallbackAsset.imageHash;
-      const currentSecondUrl = existingAd?.secondImageUrl || '';
-      const currentSecondHash = existingAd?.secondImageHash || '';
-
-      const nextPrimaryUrl = slot === 1 ? asset.url : currentPrimaryUrl;
-      const nextPrimaryHash = slot === 1 ? asset.imageHash : currentPrimaryHash;
-      const nextSecondUrl = slot === 2 ? asset.url : currentSecondUrl;
-      const nextSecondHash = slot === 2 ? asset.imageHash : currentSecondHash;
-
       const localUpdates: Record<
         string,
         {
@@ -722,17 +708,19 @@ export default function AntkiPlPage() {
         }
       > = {};
 
-      // 0ms OPTIMISTIC UI UPDATE — 2 osobne zdjęcia na A/B test (bez sklejania w kolaż!)
+      // 0ms OPTIMISTIC UI UPDATE — slot 1 modifies ONLY Kreacja A, slot 2 modifies ONLY Kreacja B!
       setSavedAds(prev => {
         const next = [...prev];
         for (const angleId of targetAngleIds) {
           const idx = next.findIndex(item => item.angleId === angleId);
+          const preset = presets.find(p => p.id === angleId);
+          const fallbackAsset = getDefaultImageForAngle(preset?.number || 1);
           if (idx >= 0) {
             const cur = next[idx];
-            const pUrl = slot === 1 ? asset.url : cur.imageUrl || currentPrimaryUrl;
-            const pHash = slot === 1 ? asset.imageHash : cur.imageHash || currentPrimaryHash;
-            const sUrl = slot === 2 ? asset.url : cur.secondImageUrl;
-            const sHash = slot === 2 ? asset.imageHash : cur.secondImageHash;
+            const pUrl = slot === 1 ? asset.url : cur.imageUrl || preset?.defaultImageUrl || fallbackAsset.url;
+            const pHash = slot === 1 ? asset.imageHash : cur.imageHash || preset?.defaultImageHash || fallbackAsset.imageHash;
+            const sUrl = slot === 2 ? asset.url : cur.secondImageUrl || preset?.defaultSecondImageUrl;
+            const sHash = slot === 2 ? asset.imageHash : cur.secondImageHash || preset?.defaultSecondImageHash;
             localUpdates[angleId] = {
               imageUrl: pUrl,
               imageHash: pHash,
@@ -750,46 +738,43 @@ export default function AntkiPlPage() {
               combinedSplitImageHash: undefined,
               updatedAt: now,
             };
-          } else {
-            const preset = presets.find(p => p.id === angleId);
-            if (preset) {
-              const pUrl = slot === 1 ? asset.url : preset.defaultImageUrl;
-              const pHash = slot === 1 ? asset.imageHash : preset.defaultImageHash;
-              const sUrl = slot === 2 ? asset.url : undefined;
-              const sHash = slot === 2 ? asset.imageHash : undefined;
-              localUpdates[angleId] = {
-                imageUrl: pUrl,
-                imageHash: pHash,
-                secondImageUrl: sUrl || '',
-                secondImageHash: sHash || '',
-                updatedAt: now,
-              };
-              next.unshift({
-                id: `antek-pl-${preset.code}-${now}`,
-                angleId: preset.id,
-                code: preset.code,
-                title: preset.title,
-                segment: preset.segment,
-                funnelStage: preset.funnelStage,
-                pageName,
-                headline: preset.defaultHeadline,
-                description: '',
-                primaryText: '',
-                destinationUrl,
-                cta: 'LEARN_MORE',
-                imageUrl: pUrl,
-                imageHash: pHash,
-                secondImageUrl: sUrl,
-                secondImageHash: sHash,
-                wordCount: 0,
-                characterCount: 0,
-                auditPassed: true,
-                auditWarnings: [],
-                auditFixesApplied: [],
-                createdAt: now,
-                updatedAt: now,
-              });
-            }
+          } else if (preset) {
+            const pUrl = slot === 1 ? asset.url : preset.defaultImageUrl || fallbackAsset.url;
+            const pHash = slot === 1 ? asset.imageHash : preset.defaultImageHash || fallbackAsset.imageHash;
+            const sUrl = slot === 2 ? asset.url : preset.defaultSecondImageUrl;
+            const sHash = slot === 2 ? asset.imageHash : preset.defaultSecondImageHash;
+            localUpdates[angleId] = {
+              imageUrl: pUrl,
+              imageHash: pHash,
+              secondImageUrl: sUrl || '',
+              secondImageHash: sHash || '',
+              updatedAt: now,
+            };
+            next.unshift({
+              id: `antek-pl-${preset.code}-${now}`,
+              angleId: preset.id,
+              code: preset.code,
+              title: preset.title,
+              segment: preset.segment,
+              funnelStage: preset.funnelStage,
+              pageName,
+              headline: preset.defaultHeadline,
+              description: '',
+              primaryText: '',
+              destinationUrl,
+              cta: 'LEARN_MORE',
+              imageUrl: pUrl,
+              imageHash: pHash,
+              secondImageUrl: sUrl,
+              secondImageHash: sHash,
+              wordCount: 0,
+              characterCount: 0,
+              auditPassed: true,
+              auditWarnings: [],
+              auditFixesApplied: [],
+              createdAt: now,
+              updatedAt: now,
+            });
           }
         }
         persistAngleImagesLocally(localUpdates);
@@ -804,28 +789,47 @@ export default function AntkiPlPage() {
               : p,
           ),
         );
+      } else {
+        setPresets(prev =>
+          prev.map(p =>
+            targetSet.has(p.id)
+              ? { ...p, defaultSecondImageUrl: asset.url, defaultSecondImageHash: asset.imageHash }
+              : p,
+          ),
+        );
       }
 
       setNotice(
         slot === 2
-          ? `🔥 Ustawiono osobny Obrazek B (Test A/B — 2. osobna reklama w adsecie) dla ${labelForNotice}: "${asset.label}"`
-          : `⚡ Ustawiono Obrazek A (Główny) dla ${labelForNotice}: "${asset.label}"`,
+          ? `🔥 Ustawiono Kreację B (2. zdjęcie A/B) dla ${labelForNotice}: "${asset.label}"`
+          : `⚡ Ustawiono Kreację A (Główną) dla ${labelForNotice}: "${asset.label}"`,
       );
 
-      void fetch('/api/antki-pl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'set_image',
-          angleIds: targetAngleIds,
-          imageUrl: nextPrimaryUrl,
-          imageHash: nextPrimaryHash,
-          secondImageUrl: nextSecondUrl,
-          secondImageHash: nextSecondHash,
-        }),
-      }).catch(() => {});
+      // Send ONLY the changed slot to the server so it never overwrites the other slot!
+      try {
+        const res = await fetch('/api/antki-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'set_image',
+            angleIds: targetAngleIds,
+            ...(slot === 1
+              ? { imageUrl: asset.url, imageHash: asset.imageHash || '' }
+              : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || '' }),
+          }),
+        });
+        const data = await res.json().catch(() => null);
+        if (res.ok) {
+          setImagesSavedFlash(true);
+          setTimeout(() => setImagesSavedFlash(false), 2500);
+        } else if (data?.error) {
+          setError(data.error);
+        }
+      } catch {
+        // Already updated optimistically + in localStorage
+      }
     },
-    [presets, pageName, destinationUrl, imageSlotTarget, savedAds, persistAngleImagesLocally],
+    [presets, pageName, destinationUrl, imageSlotTarget, persistAngleImagesLocally],
   );
 
   const updateTwoImageConfig = useCallback(
@@ -888,89 +892,45 @@ export default function AntkiPlPage() {
   );
 
   const handleSaveImages = useCallback(async () => {
+    if (!activeAngle) return;
     setSavingImages(true);
     setError('');
     try {
       const now = Date.now();
-      const imagesByAngle: Record<
-        string,
-        {
-          imageUrl?: string;
-          imageHash?: string;
-          secondImageUrl?: string | null;
-          secondImageHash?: string | null;
-        }
-      > = {};
-      const localUpdates: Record<
-        string,
-        {
-          imageUrl?: string;
-          imageHash?: string;
-          secondImageUrl?: string;
-          secondImageHash?: string;
-          updatedAt: number;
-        }
-      > = {};
+      const curAd = savedAds.find(a => a.angleId === activeAngle.id);
+      const fallback = getDefaultImageForAngle(activeAngle.number);
+      const pUrl = curAd?.imageUrl || activeAngle.defaultImageUrl || fallback.url;
+      const pHash = curAd?.imageHash || activeAngle.defaultImageHash || fallback.imageHash;
+      const sUrl = curAd?.secondImageUrl ?? activeAngle.defaultSecondImageUrl ?? '';
+      const sHash = curAd?.secondImageHash ?? activeAngle.defaultSecondImageHash ?? '';
 
-      for (const ad of savedAds) {
-        if (!ad.angleId) continue;
-        imagesByAngle[ad.angleId] = {
-          imageUrl: ad.imageUrl,
-          imageHash: ad.imageHash,
-          secondImageUrl: ad.secondImageUrl || null,
-          secondImageHash: ad.secondImageHash || null,
-        };
-        localUpdates[ad.angleId] = {
-          imageUrl: ad.imageUrl,
-          imageHash: ad.imageHash || '',
-          secondImageUrl: ad.secondImageUrl || '',
-          secondImageHash: ad.secondImageHash || '',
-          updatedAt: now,
-        };
-      }
-
-      if (activeAngle) {
-        const curAd = savedAds.find(a => a.angleId === activeAngle.id);
-        const fallback = getDefaultImageForAngle(activeAngle.number);
-        const pUrl = curAd?.imageUrl || activeAngle.defaultImageUrl || fallback.url;
-        const pHash = curAd?.imageHash || activeAngle.defaultImageHash || fallback.imageHash;
-        const sUrl = curAd?.secondImageUrl || null;
-        const sHash = curAd?.secondImageHash || null;
-        imagesByAngle[activeAngle.id] = {
-          imageUrl: pUrl,
-          imageHash: pHash,
-          secondImageUrl: sUrl,
-          secondImageHash: sHash,
-        };
-        localUpdates[activeAngle.id] = {
+      persistAngleImagesLocally({
+        [activeAngle.id]: {
           imageUrl: pUrl,
           imageHash: pHash || '',
           secondImageUrl: sUrl || '',
           secondImageHash: sHash || '',
           updatedAt: now,
-        };
-      }
-
-      persistAngleImagesLocally(localUpdates);
+        },
+      });
 
       const res = await fetch('/api/antki-pl', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'save_all_images',
-          imagesByAngle,
+          action: 'set_image',
+          angleIds: [activeAngle.id],
+          imageUrl: pUrl,
+          imageHash: pHash,
+          secondImageUrl: sUrl,
+          secondImageHash: sHash,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Błąd zapisu obrazków.');
       setImagesSavedFlash(true);
-      const abCount = Object.values(imagesByAngle).filter(v => Boolean(v.secondImageUrl)).length;
-      setNotice(
-        `✅ Zapisano obrazki na stałe! (${Object.keys(imagesByAngle).length} Antków zapisanych w bazie${
-          abCount > 0 ? `, w tym ${abCount} z 2 osobnymi zdjęciami A/B` : ''
-        })`,
-      );
-      setTimeout(() => setImagesSavedFlash(false), 4500);
+      setNotice(`✅ Zapisano wybór Kreacji A i B dla Antka #${activeAngle.number}!`);
+      setTimeout(() => setImagesSavedFlash(false), 3500);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Nie udało się zapisać obrazków.');
     } finally {
@@ -1636,7 +1596,11 @@ export default function AntkiPlPage() {
       }
     }
 
-    return list;
+    return list.sort((a, b) => {
+      const mA = (a.label || '').match(/(?:^|·\s*)(\d+)\./);
+      const mB = (b.label || '').match(/(?:^|·\s*)(\d+)\./);
+      return (mA ? Number(mA[1]) : 99) - (mB ? Number(mB[1]) : 99);
+    });
   }, [activeAngle, kieTasksByAngle, imageLibrary]);
 
   const aiImagesCount = useMemo(() => imageLibrary.filter(i => i.source === 'ai').length, [imageLibrary]);
@@ -1655,8 +1619,8 @@ export default function AntkiPlPage() {
     const defaultUrl = activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
     const savedUrl = activeAd?.imageUrl;
     const dedicatedFirst = forAngleImages[0];
-    const isGenericFallback = !savedUrl || savedUrl === defaultUrl;
-    const currentUrl = isGenericFallback && dedicatedFirst ? dedicatedFirst.url : savedUrl || defaultUrl;
+    const isLegacyLocalPlaceholder = !savedUrl || (savedUrl === defaultUrl && !savedUrl.startsWith('http') && !savedUrl.startsWith('data:'));
+    const currentUrl = isLegacyLocalPlaceholder && dedicatedFirst ? dedicatedFirst.url : savedUrl || defaultUrl;
     return (
       imageLibrary.find(item => item.url === currentUrl) ||
       forAngleImages.find(item => item.url === currentUrl) || {
@@ -1674,8 +1638,9 @@ export default function AntkiPlPage() {
     const defaultSecondUrl = activeAngle.defaultSecondImageUrl;
     const savedSecondUrl = activeAd?.secondImageUrl;
     const dedicatedSecond = forAngleImages[1];
-    const isGenericSecond = !savedSecondUrl || savedSecondUrl === defaultSecondUrl;
-    const secondUrl = isGenericSecond && dedicatedSecond ? dedicatedSecond.url : savedSecondUrl ?? defaultSecondUrl;
+    const isLegacyLocalSecond =
+      !savedSecondUrl || (savedSecondUrl === defaultSecondUrl && !savedSecondUrl.startsWith('http') && !savedSecondUrl.startsWith('data:'));
+    const secondUrl = isLegacyLocalSecond && dedicatedSecond ? dedicatedSecond.url : savedSecondUrl ?? defaultSecondUrl;
     if (!secondUrl) return null;
     return (
       imageLibrary.find(item => item.url === secondUrl) ||
