@@ -19,6 +19,7 @@ import {
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
 import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/antki-pl-argon-library';
+import { HOOK_SCENES_FROM_ANTEK_45 } from '@/lib/antki-pl-hook-scenes';
 
 export const maxDuration = 300;
 
@@ -129,7 +130,16 @@ async function readLibraryState(): Promise<{
       deletedImageIds: [],
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    const rawCustomImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    // Keep all images for angles < 45, and for angles >= 45 keep only hook-matched kie-raw-h45-* images
+    const customImages = rawCustomImages.filter(img => {
+      if (!img.id.startsWith('kie-raw-')) return true;
+      const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === img.angleId);
+      if (preset && preset.number >= 45) {
+        return img.id.startsWith('kie-raw-h45-');
+      }
+      return true;
+    });
     const deletedImageIds = Array.isArray(value?.deletedImageIds) ? value.deletedImageIds : [];
     if (stored.length === 0) {
       return { ads: defaultArgonAds.map(ensureAdImage), customImages, deletedImageIds };
@@ -341,6 +351,7 @@ function detectShoppingListAndBuildReceiptScene(primaryText: string): {
 }
 
 function buildFallbackTenScenesFromCopy(params: {
+  angleId?: string;
   primaryText: string;
   headline: string;
   title: string;
@@ -352,6 +363,38 @@ function buildFallbackTenScenesFromCopy(params: {
   const hasWetFoot = text.includes('mokr') || text.includes('łazien') || text.includes('żelazk');
   const hasPeWf = text.includes('wf') || text.includes('szatni') || text.includes('halówk');
   const { receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
+
+  if (customHookScenes && customHookScenes.length >= 5) {
+    return [
+      customHookScenes[0], // Scena #1 (Hook 1/5 — główna scena otwarcia 1:1 z pierwszych zdań copy)
+      receiptScene,        // Scena #2 (Polski paragon SUMA PLN + lista wydatków 90° flat-lay na blacie)
+      customHookScenes[1], // Scena #3 (Hook 2/5 — mikro-detal / rekwizyt z hooka)
+      customHookScenes[2], // Scena #4 (Hook 3/5 — dowód fizyczny z hooka)
+      customHookScenes[3], // Scena #5 (Hook 4/5 — moment emocjonalny / miejsce z hooka)
+      customHookScenes[4], // Scena #6 (Hook 5/5 — połowa z 10 zdjęć nawiązuje bezpośrednio do hooka!)
+      {
+        label: '7. Karteczka od fizjoterapeuty i wydruk badania na drewnianym biurku (styl Noom)',
+        includeProductRef: false,
+        scenePrompt: 'Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a wooden desk surface filling 100% of the frame (NO floating table edges, NO room background) next to reading glasses and a blue ballpoint pen: a medical foot/knee posture printout and a yellow sticky note (Post-it) with handwritten Polish blue pen text: "ŁUK STOPY ZAPADNIĘTY - NIE TABLETKI! PODPARCIE 14H DZIENNIE". Harsh indoor clinic light, realistic phone camera grain.',
+      },
+      {
+        label: '8. Wkładki Orthomax StepMax na stole obok kubka herbaty',
+        includeProductRef: true,
+        scenePrompt: 'Close-up 90-degree flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO floating table edges, NO room background): a pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying flat next to a mug of tea. Warm indoor lamp light.',
+      },
+      {
+        label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
+        includeProductRef: true,
+        scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish apartment hallway. A woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe resting flat on the hallway floor. Warm indoor bulb light.',
+      },
+      {
+        label: '10. Dwie pary butów w przedpokoju z widocznymi wkładkami Orthomax (Pakiet 1+1)',
+        includeProductRef: true,
+        scenePrompt: 'Top-down 90-degree flat-lay amateur smartphone snapshot looking straight down at a rubber shoe mat on a hallway floor filling 100% of the frame, showing two pairs of everyday shoes (outdoor walking shoes and indoor slippers/work shoes) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs.',
+      },
+    ];
+  }
 
   if (isDorosli) {
     return [
@@ -465,6 +508,7 @@ function buildFallbackTenScenesFromCopy(params: {
 }
 
 async function extractTenRawScenesFromAntekCopy(params: {
+  angleId?: string;
   primaryText: string;
   headline: string;
   title: string;
@@ -472,32 +516,38 @@ async function extractTenRawScenesFromAntekCopy(params: {
 }): Promise<KiePlannedScene[]> {
   const fallback = buildFallbackTenScenesFromCopy(params);
   const { hasShoppingList, receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
+
+  // For Antek #45–#70, we have 5 hand-crafted, ultra-specific hook scenes (50% of the 10 photos)
+  // that directly illustrate the opening hook + receipt + mechanism + 3 product shots.
+  if (customHookScenes && customHookScenes.length >= 5) {
+    return fallback;
+  }
+
   try {
-    const settings = brainSettings();
-    if (!settings) return fallback;
     const client = brainClient(brainOptions(40_000));
     const completion = await client.chat.completions.create({
       model: 'gpt-4.1-mini',
-      temperature: 0.4,
+      temperature: 0.5,
       response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
-          content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki).
-Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
+          content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki), modeled on top Polish direct-response winners (noom.pl / Zdrowotne SOS / Orthomax).
+Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific micro-moments, exact numbers/times, props, and locations mentioned in that story.
+CRITICAL REQUIREMENT (NOOM.PL 1:1 HOOK-TO-IMAGE SYNCHRONIZATION):
+AT LEAST HALF (5 out of 10: Scenes 1, 3, 4, 5, 6) MUST directly depict the unique opening HOOK scene, specific micro-props (e.g. exact digital clock time, car glovebox full of empty pill blisters, kicked-off heels under a white tablecloth, frozen water bottle under a bare heel, yellow Post-it note from the doctor), specific room/place, and specific pain moment from the first 25 lines of THIS copy so that no two copies ever look the same!
 Rules for the 10 scenes:
-- Scenes 1 to 7 (7 scenes WITHOUT product, includeProductRef: false):
-  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR opening a kitchen cabinet full of Ketonal blisters and gel tubes, OR holding worn-out sneakers in a hallway).
-  * Scene 2 (MANDATORY POLISH RECEIPT SCENE WHEN EXPENSES ARE LISTED): Whenever the copy contains a list of purchases/expenses, Scene 2 MUST ALWAYS be a close-up 90-degree flat-lay photo pointing straight down at a wooden tabletop surface that fills 100% of the frame (NO table edges visible, NO background room, NO floating table!), showing a crumpled Polish thermal receipt ("PARAGON FISKALNY") with Polish summary line "SUMA PLN" (STRICTLY FORBIDDEN to use the English word "TOTAL" — in Poland receipts ALWAYS say "SUMA PLN"!) next to a handwritten Polish expense list on squared notepad paper ("Razem: ... zł").
-  * Scene 3: A raw close-up POV shot of the physical foot/ankle/knee posture problem described in the copy (e.g. bare flat foot/collapsing valgus ankles on laminate panels or bathroom tiles).
-  * Scene 4: Close-up of the unevenly worn-down inner heel edge of everyday shoes / sneakers held in hand in a cramped Polish hallway.
-  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, basin with warm salt water, or painkiller gel tubes with Polish labels).
-  * Scene 6: Another specific domestic or clinic moment from the story.
-  * Scene 7: Another specific visual moment or prop unique to this exact story angle.
+- Scenes 1, 3, 4, 5, 6 (5 HOOK SCENES WITHOUT product, includeProductRef: false):
+  * Must be 5 different camera angles / close-up details of the EXACT opening hook of THIS copy. Pull literal details from paragraph 1-3!
+- Scene 2 (MANDATORY POLISH RECEIPT SCENE WHEN EXPENSES ARE LISTED, includeProductRef: false):
+  * Close-up 90-degree flat-lay photo pointing straight down at a wooden tabletop surface that fills 100% of the frame (NO table edges visible, NO background room, NO floating table!), showing a crumpled Polish thermal receipt ("PARAGON FISKALNY") with Polish summary line "SUMA PLN" (STRICTLY FORBIDDEN to use the English word "TOTAL"!) next to a handwritten Polish expense list on squared notepad paper ("Razem: ... zł").
+- Scene 7 (NOOM-STYLE DOCTOR STICKY NOTE / ANATOMICAL PROOF SCENE WITHOUT product, includeProductRef: false):
+  * Either the 10-second hand arch-lift test from the copy OR a 90-degree wooden desk flat-lay of a clinic printout / yellow Post-it note with short Polish blue-pen handwriting summarizing the doctor's diagnosis from the story (e.g. "ŁUK STOPY ZAPADNIĘTY - NIE TABLETKI").
 - Scenes 8 to 10 (3 scenes WITH product, includeProductRef: true):
-  * Scene 8: Close-up 90-degree flat-lay pointing straight down at a tabletop surface filling 100% of the frame (NO floating table edges), showing unboxed bright orange contoured Orthomax StepMax insoles next to a mug of tea or everyday shoes.
-  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a Polish apartment hallway.
-  * Scene 10: Top-down shot of two pairs of shoes (outdoor shoes + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
+  * Scene 8: Close-up 90-degree flat-lay pointing straight down at a tabletop surface filling 100% of the frame (NO floating table edges), showing unboxed bright orange contoured Orthomax StepMax insoles next to a prop from the story.
+  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the specific shoe mentioned in the hook.
+  * Scene 10: Top-down 90-degree flat-lay shot of two pairs of shoes from the story (1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
 
 CRITICAL RULES FOR EVERY scenePrompt (in English):
 1. NO FLOATING TABLES / NO WEIRD PERSPECTIVES: Whenever an object (receipt, notebook, tubes, insoles) is on a table or counter, specify: "90-degree flat-lay close-up pointing straight down at the wooden tabletop surface filling 100% of the frame (NO table edges, NO background room visible, NO floating table)". Never combine a top-down table shot with a vertical room background!
@@ -625,6 +675,7 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       const scenes = await extractTenRawScenesFromAntekCopy({
+        angleId,
         primaryText,
         headline,
         title,
@@ -683,7 +734,7 @@ export const POST = accountRoute(async (req: Request) => {
       const angleId = (body.angleId || '').trim();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
       const label = (body.label || `Kie.ai Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
-      const assetId = `kie-raw-${taskId}`;
+      const assetId = preset && preset.number >= 45 ? `kie-raw-h45-${taskId}` : `kie-raw-${taskId}`;
 
       let uploadedHash: string | undefined;
       try {

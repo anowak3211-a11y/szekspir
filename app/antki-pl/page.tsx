@@ -1338,6 +1338,7 @@ export default function AntkiPlPage() {
       return;
     }
 
+    if (activeAngle.number < 45) return;
     if (autoTriggeredKieRef.current.has(angleId)) return;
     const adForAngle = adByAngleId[angleId];
     if (!adForAngle?.primaryText) return;
@@ -1350,6 +1351,7 @@ export default function AntkiPlPage() {
   useEffect(() => {
     if (loading || batchKieRunnerActiveRef.current || !filteredPresets.length) return;
     const pendingAngles = filteredPresets.filter(preset => {
+      if (preset.number < 45) return false;
       if (autoTriggeredKieRef.current.has(preset.id)) return false;
       const existing = imageLibrary.filter(img => img.angleId === preset.id && img.id.startsWith('kie-raw-'));
       if (existing.length >= 2) return false;
