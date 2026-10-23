@@ -32,7 +32,7 @@ Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno dział
 ## Generowanie obrazków Kie.ai i kreacje A/B — stałe zasady użytkownika, 24 października 2026
 
 1. **Maksymalnie 3 zdjęcia tej samej sceny:** Nigdy nie generuj 20–30 identycznych lub prawie takich samych zdjęć powtarzalnej sceny (np. tych samych stóp, misek z wodą, przedpokoju) osobno dla każdego kąta. Wystarczą maksymalnie **3 mocne warianty** danej sceny współdzielone w bibliotece. Przed wysłaniem zadań do Kie.ai zawsze sprawdzaj w bazie, czy dana scena ma już 3 wygenerowane warianty.
-2. **Model Kie.ai:** Domyślnym modelem text-to-image w Kie.ai jest `flux-2/pro-text-to-image` (`aspect_ratio: '1:1'`, `resolution: '1K'`). Nie przełączaj z powrotem na droższy `nano-banana-pro` bez wyraźnego polecenia użytkownika.
+2. **Model Kie.ai:** Domyślnym modelem w Kie.ai jest `nano-banana-pro` (`aspect_ratio: '1:1'`, `resolution: '1K'`, z przekazywaniem zdjęcia referencyjnego produktu w `image_input`). Nie używaj `flux-2/pro-text-to-image`, bo ignoruje `image_input` i zniekształca wygląd produktu.
 3. **Zero automatycznego przepalania kredytów w tle:** Nigdy nie dodawaj w komponentach frontendowych (`useEffect`) ani skryptach w tle automatycznych pętli generujących zdjęcia w Kie.ai przy otwarciu strony. Generowanie może ruszyć wyłącznie po jawnym żądaniu (`isManual: true`).
 4. **Sloty `Ustaw A` i `Ustaw B`:** `Ustaw A` aktualizuje wyłącznie slot 1 (`imageUrl`), a `Ustaw B` wyłącznie slot 2 (`secondImageUrl`) — nigdy nie czyść drugiego slotu przy zmianie pierwszego i nigdy nie nadpisuj zapisanego wyboru użytkownika domyślnym fallbackiem.
 

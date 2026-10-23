@@ -719,7 +719,7 @@ export function buildFelioraEightKieScenes(params: {
     label: '8. [PRODUKT] Wtyczka Feliora (kaczuszka) w gniazdku w polskim mieszkaniu + spokojnie śpiący kot',
     includeProductRef: true,
     scenePrompt:
-      'Unstaged amateur smartphone photo in a Polish apartment hallway under warm evening bulb light: a white rounded duck-head Feliora pheromone diffuser with an amber bottle plugged into a wall socket above the baseboard, and a calm domestic tabby cat sleeping peacefully on the floor nearby.',
+      'Unstaged amateur smartphone photo in a Polish apartment hallway under warm evening bulb light: the exact Feliora plug-in pheromone diffuser from the reference image (compact spherical white duck-shaped head with a tiny yellow beak and tiny pin-dot eyes — NO neck, NO body, screwed directly onto the short round amber glass bottle with the orange "FELIORA" label) plugged into a wall socket above the baseboard, and a calm domestic tabby cat sleeping peacefully on the floor nearby.',
   };
 
   return [

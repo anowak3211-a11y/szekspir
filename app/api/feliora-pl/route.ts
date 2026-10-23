@@ -301,7 +301,7 @@ export const POST = accountRoute(async (req: Request) => {
             ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
             : `${scene.scenePrompt} Raw, ugly, shit quality amateur smartphone snapshot, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and noise, crooked off-center framing, flat harsh Polish apartment lighting, muddy shadows. STRICT BAN: zero AI glow, zero studio lighting, zero bokeh, zero HDR, zero watermarks.`;
           const payload = buildKieCreateTaskPayload({
-            model: 'flux-2/pro-text-to-image',
+            model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
             aspectRatio: '1:1',
