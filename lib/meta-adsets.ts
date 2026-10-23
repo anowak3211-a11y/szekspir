@@ -924,7 +924,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const defaultPageId = batch === 'dorosli' ? '866702399857726' : '798916893308685';
  const pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : defaultPageId;
  const KNOWN_PAGE_IG_MAP: Record<string, string> = {
-  '866702399857726': '17841477743222560', // Centrum Dobrego Kroku
+  '866702399857726': '', // Centrum Dobrego Kroku (no IG assigned on act_1109284831182252; omit instagram_user_id so Meta uses Page)
   '945290751994002': '17841446201609005', // Dziennik Zdrowego Ciała
   '798916893308685': '17841473314157729', // Porady Mamy Gosi
   '752135021308884': '17841472034688013', // Orthomax Sklep
@@ -936,7 +936,9 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   '1194345203770949': '17841412233487287', // Iwona Kożuchowska
  };
  const instagramUserId =
-  typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
+  pageId === '866702399857726'
+   ? ''
+   : typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
    ? opts.instagramUserId.trim()
    : KNOWN_PAGE_IG_MAP[pageId] || '';
  const imageHash = typeof opts.imageHash === 'string' && opts.imageHash.trim() ? opts.imageHash.trim() : '';
@@ -1223,84 +1225,112 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      ...(urlTags ? { url_tags: urlTags } : {}),
     });
 
-    let cr: { id: string };
-    try {
-     cr = await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, buildSpec(resolvedImageHash, true), 'POST');
-    } catch (firstErr) {
-     const errText = firstErr instanceof Error ? firstErr.message : '';
-     if (resolvedImageUrl.startsWith('/antki-pl-images/')) {
+    const createOrUpdateAdWithFallback = async (
+     targetAdName: string,
+     targetExistingAdId: string | undefined,
+     targetImgUrl: string,
+     targetImgHash: string,
+    ): Promise<{ adId: string; creativeId: string; updated: boolean; finalHash: string }> => {
+     let activeHash = targetImgHash;
+     const createCreative = async (withIg: boolean) => {
       try {
-       const fs = await import('node:fs');
-       const path = await import('node:path');
-       const localPath = path.join(process.cwd(), 'public', resolvedImageUrl.replace(/^\//, ''));
-       if (fs.existsSync(localPath)) {
-        const bytes = fs.readFileSync(localPath).toString('base64');
-        const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
-         `act_${accountId}/adimages`,
-         { bytes, name: path.basename(localPath) },
+       return await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, buildSpec(activeHash, withIg), 'POST');
+      } catch (crErr) {
+       const errText = crErr instanceof Error ? crErr.message : '';
+       if (targetImgUrl.startsWith('/antki-pl-images/')) {
+        try {
+         const fs = await import('node:fs');
+         const path = await import('node:path');
+         const localPath = path.join(process.cwd(), 'public', targetImgUrl.replace(/^\//, ''));
+         if (fs.existsSync(localPath)) {
+          const bytes = fs.readFileSync(localPath).toString('base64');
+          const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+           `act_${accountId}/adimages`,
+           { bytes, name: path.basename(localPath) },
+           'POST',
+          );
+          const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+          if (uploadedHash) {
+           activeHash = uploadedHash;
+           urlHashCache.set(targetImgUrl, uploadedHash);
+          }
+         }
+        } catch {}
+       }
+       return await directGraph<{ id: string }>(
+        `act_${accountId}/adcreatives`,
+        buildSpec(activeHash, withIg && !errText.includes('Instagram') && !errText.includes('1815199')),
+        'POST',
+       );
+      }
+     };
+
+     let cr = await createCreative(Boolean(instagramUserId));
+     try {
+      if (targetExistingAdId && updateExisting) {
+       await directGraph<{ success?: boolean }>(
+        targetExistingAdId,
+        { creative: { creative_id: cr.id } },
+        'POST',
+       );
+       return { adId: targetExistingAdId, creativeId: cr.id, updated: true, finalHash: activeHash };
+      } else {
+       const createdAd = await directGraph<{ id: string }>(
+        `act_${accountId}/ads`,
+        {
+         name: targetAdName,
+         adset_id: adSetId,
+         creative: { creative_id: cr.id },
+         status: publishStatus,
+        },
+        'POST',
+       );
+       return { adId: createdAd.id, creativeId: cr.id, updated: false, finalHash: activeHash };
+      }
+     } catch (adErr) {
+      const adErrMsg = adErr instanceof Error ? adErr.message : '';
+      if (adErrMsg.includes('Instagram') || adErrMsg.includes('1815199')) {
+       cr = await createCreative(false);
+       if (targetExistingAdId && updateExisting) {
+        await directGraph<{ success?: boolean }>(
+         targetExistingAdId,
+         { creative: { creative_id: cr.id } },
          'POST',
         );
-        const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
-        if (uploadedHash) {
-         resolvedImageHash = uploadedHash;
-         urlHashCache.set(resolvedImageUrl, uploadedHash);
-        }
+        return { adId: targetExistingAdId, creativeId: cr.id, updated: true, finalHash: activeHash };
+       } else {
+        const createdAd = await directGraph<{ id: string }>(
+         `act_${accountId}/ads`,
+         {
+          name: targetAdName,
+          adset_id: adSetId,
+          creative: { creative_id: cr.id },
+          status: publishStatus,
+         },
+         'POST',
+        );
+        return { adId: createdAd.id, creativeId: cr.id, updated: false, finalHash: activeHash };
        }
-      } catch {}
+      }
+      throw adErr;
      }
-     cr = await directGraph<{ id: string }>(
-      `act_${accountId}/adcreatives`,
-      buildSpec(resolvedImageHash, !errText.includes('Instagram')),
-      'POST',
-     );
-    }
+    };
 
-    if (alreadyId && updateExisting) {
-     await directGraph<{ success?: boolean }>(
-      alreadyId,
-      {
-       creative: { creative_id: cr.id },
-      },
-      'POST',
-     );
-     createdResults.push({
-      group: bp.label,
-      adSetId,
-      adName,
-      angleId,
-      imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
-      imageLabel: libMatch?.label || resolvedImageUrl,
-      imageHash: resolvedImageHash,
-      ok: true,
-      updated: true,
-      adId: alreadyId,
-      creativeId: cr.id,
-     });
-    } else {
-     const createdAd = await directGraph<{ id: string }>(
-      `act_${accountId}/ads`,
-      {
-       name: adName,
-       adset_id: adSetId,
-       creative: { creative_id: cr.id },
-       status: publishStatus,
-      },
-      'POST',
-     );
-
-     createdResults.push({
-      group: bp.label,
-      adSetId,
-      adName,
-      angleId,
-      imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
-      imageLabel: libMatch?.label || resolvedImageUrl,
-      imageHash: resolvedImageHash,
-      ok: true,
-      adId: createdAd.id,
-      creativeId: cr.id,
-     });
-    }
+    const resA = await createOrUpdateAdWithFallback(adName, alreadyId, resolvedImageUrl, resolvedImageHash);
+    resolvedImageHash = resA.finalHash;
+    createdResults.push({
+     group: bp.label,
+     adSetId,
+     adName,
+     angleId,
+     imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
+     imageLabel: libMatch?.label || resolvedImageUrl,
+     imageHash: resA.finalHash,
+     ok: true,
+     ...(resA.updated ? { updated: true } : {}),
+     adId: resA.adId,
+     creativeId: resA.creativeId,
+    });
 
     // If a 2nd separate A/B test image (secondImageUrl) is configured on this angle, create/update a 2nd separate ad ("ad N B" / "D01 B") in the same AdSet
     if (saved?.secondImageUrl && saved.secondImageUrl.trim()) {
@@ -1316,40 +1346,8 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      if (secondHash) {
       const adNameB = `${adName} B`;
       const alreadyIdB = existingByAdSetAndName.get(`${adSetId}:${adNameB}`);
-      let crB: { id: string };
-      try {
-       crB = await directGraph<{ id: string }>(
-        `act_${accountId}/adcreatives`,
-        buildSpec(secondHash, true),
-        'POST',
-       );
-      } catch (errB) {
-       const errBText = errB instanceof Error ? errB.message : '';
-       if (secondUrl.startsWith('/antki-pl-images/')) {
-        try {
-         const fs = await import('node:fs');
-         const path = await import('node:path');
-         const localPath = path.join(process.cwd(), 'public', secondUrl.replace(/^\//, ''));
-         if (fs.existsSync(localPath)) {
-          const bytes = fs.readFileSync(localPath).toString('base64');
-          const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
-           `act_${accountId}/adimages`,
-           { bytes, name: path.basename(localPath) },
-           'POST',
-          );
-          const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
-          if (uploadedHash) urlHashCache.set(secondUrl, uploadedHash);
-         }
-        } catch {}
-       }
-       crB = await directGraph<{ id: string }>(
-        `act_${accountId}/adcreatives`,
-        buildSpec(urlHashCache.get(secondUrl) || secondHash, !errBText.includes('Instagram')),
-        'POST',
-       );
-      }
-      if (alreadyIdB && updateExisting) {
-       await directGraph<{ success?: boolean }>(alreadyIdB, { creative: { creative_id: crB.id } }, 'POST');
+      if (!alreadyIdB || updateExisting) {
+       const resB = await createOrUpdateAdWithFallback(adNameB, alreadyIdB, secondUrl, secondHash);
        createdResults.push({
         group: bp.label,
         adSetId,
@@ -1357,34 +1355,11 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
         angleId,
         imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
         imageLabel: secondLibMatch?.label || secondUrl,
-        imageHash: urlHashCache.get(secondUrl) || secondHash,
+        imageHash: resB.finalHash,
         ok: true,
-        updated: true,
-        adId: alreadyIdB,
-        creativeId: crB.id,
-       });
-      } else if (!alreadyIdB) {
-       const createdAdB = await directGraph<{ id: string }>(
-        `act_${accountId}/ads`,
-        {
-         name: adNameB,
-         adset_id: adSetId,
-         creative: { creative_id: crB.id },
-         status: publishStatus,
-        },
-        'POST',
-       );
-       createdResults.push({
-        group: bp.label,
-        adSetId,
-        adName: adNameB,
-        angleId,
-        imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
-        imageLabel: secondLibMatch?.label || secondUrl,
-        imageHash: urlHashCache.get(secondUrl) || secondHash,
-        ok: true,
-        adId: createdAdB.id,
-        creativeId: crB.id,
+        ...(resB.updated ? { updated: true } : {}),
+        adId: resB.adId,
+        creativeId: resB.creativeId,
        });
       }
      }
