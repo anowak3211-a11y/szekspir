@@ -355,6 +355,7 @@ export default function StrydePlWorkspace({
             primaryText: copyText,
             headline: copyHeadline,
             title: targetPreset.title,
+            isManual,
           }),
         });
         const data = await res.json();

@@ -219,6 +219,9 @@ export const POST = accountRoute(async (req: Request) => {
     const action = body.action || 'save';
 
     if (action === 'generate_5_kie_images') {
+      if (!(body as Record<string, unknown>).isManual) {
+        return NextResponse.json({ ok: true, angleId: body.angleId || '', tasks: [] });
+      }
       const {
         buildKieCreateTaskPayload,
         submitKieRipperTask,

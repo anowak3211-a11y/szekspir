@@ -349,6 +349,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             primaryText: copyText,
             headline: copyHeadline,
             title: targetPreset.title,
+            isManual,
           }),
         });
         const data = await res.json();

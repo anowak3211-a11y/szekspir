@@ -1222,6 +1222,7 @@ export default function AntkiPlPage() {
             headline: copyHeadline,
             title: targetAngle.title,
             segment: targetAngle.segment,
+            isManual,
           }),
         });
         const startData = await startRes.json();
