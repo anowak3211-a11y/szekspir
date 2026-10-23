@@ -140,6 +140,94 @@ function parseHours(raw: string): number {
   return Number.isFinite(val) && val > 0 && val <= 24 ? val : 0;
 }
 
+function parseChronologicalRows(
+  rows: string[][],
+  dateCol: number,
+  hoursCol: number,
+  targetYear: number,
+  byMonthDay: Record<number, Record<number, number>>,
+) {
+  let curYear = 2025;
+  let curMonth = 12;
+  let curDay = 1;
+
+  const nextMonths = (startIdx: number): Array<[number, number]> => {
+    const ms: Array<[number, number]> = [];
+    for (let j = startIdx + 1; j < Math.min(rows.length, startIdx + 30); j++) {
+      const s = String(rows[j]?.[dateCol] || '').trim();
+      const m = s.match(/^(\d{1,2})[./-](\d{1,2})(?:[./-](\d{4}))?$/);
+      if (m) {
+        ms.push([Number(m[1]), Number(m[2])]);
+        if (ms.length >= 12) break;
+      }
+    }
+    return ms;
+  };
+
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i] || [];
+    const rawD = String(r[dateCol] || '').trim();
+    const rawH = String(r[hoursCol] || '').trim();
+    let hrs = parseHours(rawH);
+
+    const m = rawD.match(/^(\d{1,2})[./-](\d{1,2})(?:[./-](\d{4}))?$/);
+    if (m) {
+      const a = Number(m[1]);
+      const b = Number(m[2]);
+      const yStr = m[3];
+      let day = a;
+      let month = b;
+
+      if (b > 12 && a >= 1 && a <= 12) {
+        day = b;
+        month = a;
+      } else if (a === 7 && (curMonth === 6 || curMonth === 7) && (curDay >= 28 || curMonth === 7)) {
+        const ahead = nextMonths(i);
+        if (
+          ahead.some(x => x[1] > 12 || (x[0] === 7 && x[1] === b + 1)) ||
+          (curMonth === 7 && b >= curDay && a === 7 && b <= 29 && i < 280)
+        ) {
+          day = b;
+          month = a;
+        }
+      }
+
+      if (month === curMonth + 1) {
+        const ahead = nextMonths(i);
+        const countStillPrev = ahead.filter(x => x[1] === curMonth).length;
+        if (countStillPrev >= 3) {
+          month = curMonth;
+        }
+      }
+
+      if (yStr) {
+        curYear = Number(yStr);
+      } else if (curMonth === 12 && month === 1) {
+        curYear = 2026;
+      } else if (month === 12 && curMonth === 12 && i < 40) {
+        curYear = 2025;
+      } else {
+        curYear = targetYear;
+      }
+
+      curMonth = month;
+      curDay = day;
+    } else {
+      const hasOtherText = r
+        .slice(0, 6)
+        .some((c, ci) => ci !== dateCol && ci !== hoursCol && String(c || '').trim().length > 0);
+      if (!hasOtherText) {
+        hrs = 0;
+      }
+    }
+
+    if (hrs > 0 && curYear === targetYear && curMonth >= 1 && curMonth <= 12 && curDay >= 1 && curDay <= 31) {
+      if (!byMonthDay[curMonth]) byMonthDay[curMonth] = {};
+      byMonthDay[curMonth][curDay] = (byMonthDay[curMonth][curDay] || 0) + hrs;
+    }
+  }
+}
+
 function colLetter(colIdx1Based: number): string {
   let n = colIdx1Based;
   let out = '';
@@ -225,15 +313,7 @@ async function fetchEmployeeAllMonths(
       if (text.includes('<!DOCTYPE html>') || text.includes('<html')) continue;
       fetchedViaCsv = true;
       const rows = text.split(/\r?\n/).map(parseCsvLine);
-      for (let i = 1; i < rows.length; i++) {
-        const r = rows[i];
-        const parsed = parsePlDate(r[emp.dateCol] || '', year);
-        const hrs = parseHours(r[emp.hoursCol] || '');
-        if (parsed && parsed.year === year && hrs > 0) {
-          if (!byMonthDay[parsed.month]) byMonthDay[parsed.month] = {};
-          byMonthDay[parsed.month][parsed.day] = (byMonthDay[parsed.month][parsed.day] || 0) + hrs;
-        }
-      }
+      parseChronologicalRows(rows, emp.dateCol, emp.hoursCol, year, byMonthDay);
     } catch {
       // ignore
     }
@@ -256,16 +336,8 @@ async function fetchEmployeeAllMonths(
             ranges: titles.map(t => `'${t}'!A1:F5000`),
           });
           for (const vr of batchRes.data.valueRanges || []) {
-            const rows = vr.values || [];
-            for (let i = 1; i < rows.length; i++) {
-              const r = rows[i];
-              const parsed = parsePlDate(String(r[emp.dateCol] || ''), year);
-              const hrs = parseHours(String(r[emp.hoursCol] || ''));
-              if (parsed && parsed.year === year && hrs > 0) {
-                if (!byMonthDay[parsed.month]) byMonthDay[parsed.month] = {};
-                byMonthDay[parsed.month][parsed.day] = (byMonthDay[parsed.month][parsed.day] || 0) + hrs;
-              }
-            }
+            const rows = (vr.values || []).map(r => r.map(x => String(x ?? '')));
+            parseChronologicalRows(rows, emp.dateCol, emp.hoursCol, year, byMonthDay);
           }
           break;
         }
