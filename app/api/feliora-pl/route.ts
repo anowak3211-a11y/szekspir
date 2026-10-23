@@ -249,12 +249,43 @@ export const POST = accountRoute(async (req: Request) => {
       const title = (body.title || preset?.shortTitle || angleId || 'Feliora PL').trim();
 
       // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Feliora diffuser product shot
-      const scenes = buildFelioraEightKieScenes({
+      const allScenes = buildFelioraEightKieScenes({
         angleId,
         primaryText,
         headline,
         title,
       });
+
+      // HARD RULE: Never generate more than 3 variants of the same scene across the library!
+      const { customImages: existingCustomImages } = await readFelioraLibraryState();
+      const normalizeSceneKey = (label = '') =>
+        label
+          .replace(/^#\d+\s*·\s*/, '')
+          .replace(/\(\s*\d[\d\s,]*zł\s*\)/gi, '')
+          .trim()
+          .toLowerCase();
+
+      const filteredScenes = allScenes.filter(scene => {
+        const key = normalizeSceneKey(scene.label);
+        const existingMatches = existingCustomImages.filter(
+          img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
+        );
+        return existingMatches.length < 3;
+      });
+
+      // Compact mode: at most 3 scenes per angle (Hook #1, Hook #2, and either Noom or Product if not yet at 3)
+      const scenes = (body as Record<string, unknown>).compact
+        ? filteredScenes.slice(0, 3)
+        : filteredScenes.slice(0, 3);
+
+      if (scenes.length === 0) {
+        return NextResponse.json({
+          ok: true,
+          angleId,
+          tasks: [],
+          reusedExisting: true,
+        });
+      }
 
       let productRefKieUrl: string | undefined;
       try {

@@ -84,7 +84,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
-  const FELIORA_LOCAL_IMAGES_KEY = 'feliora_pl_saved_images_v3';
+  const FELIORA_LOCAL_IMAGES_KEY = 'feliora_pl_saved_images_v4_compact';
 
   const applyLocalImageOverrides = useCallback((list: FelioraPlGeneratedAd[]): FelioraPlGeneratedAd[] => {
     try {
