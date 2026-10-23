@@ -19,7 +19,7 @@ import {
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
 import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/antki-pl-argon-library';
-import { HOOK_SCENES_FROM_ANTEK_45 } from '@/lib/antki-pl-hook-scenes';
+import { HOOK_SCENES_FROM_ANTEK_45, buildNoomThreeScenesForAngle } from '@/lib/antki-pl-hook-scenes';
 
 export const maxDuration = 300;
 
@@ -131,12 +131,12 @@ async function readLibraryState(): Promise<{
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     const rawCustomImages = Array.isArray(value?.customImages) ? value.customImages : [];
-    // Keep all images for angles < 45, and for angles >= 45 keep only hook-matched kie-raw-h45-* images
+    // Keep all images for angles < 45, and for angles >= 45 keep only 5-Hook + 3-Noom kie-raw-noom45-* images
     const customImages = rawCustomImages.filter(img => {
       if (!img.id.startsWith('kie-raw-')) return true;
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === img.angleId);
       if (preset && preset.number >= 45) {
-        return img.id.startsWith('kie-raw-h45-');
+        return img.id.startsWith('kie-raw-noom45-');
       }
       return true;
     });
@@ -362,27 +362,23 @@ function buildFallbackTenScenesFromCopy(params: {
   const hasSor = text.includes('sor') || text.includes('szpital') || text.includes('izb') || text.includes('gabinet');
   const hasWetFoot = text.includes('mokr') || text.includes('łazien') || text.includes('żelazk');
   const hasPeWf = text.includes('wf') || text.includes('szatni') || text.includes('halówk');
-  const { receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const { totalPln } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const [noomScene1, noomScene2, noomScene3] = buildNoomThreeScenesForAngle({
+    ...params,
+    totalPln,
+  });
   const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
 
   if (customHookScenes && customHookScenes.length >= 5) {
     return [
       customHookScenes[0], // Scena #1 (Hook 1/5 — główna scena otwarcia 1:1 z pierwszych zdań copy)
-      receiptScene,        // Scena #2 (Polski paragon SUMA PLN + lista wydatków 90° flat-lay na blacie)
+      noomScene1,          // Scena #2 (WZÓR NOOM #1 — wydruk badania + żółty Post-it + polski paragon SUMA PLN w rzucie 90°)
       customHookScenes[1], // Scena #3 (Hook 2/5 — mikro-detal / rekwizyt z hooka)
       customHookScenes[2], // Scena #4 (Hook 3/5 — dowód fizyczny z hooka)
       customHookScenes[3], // Scena #5 (Hook 4/5 — moment emocjonalny / miejsce z hooka)
       customHookScenes[4], // Scena #6 (Hook 5/5 — połowa z 10 zdjęć nawiązuje bezpośrednio do hooka!)
-      {
-        label: '7. Karteczka od fizjoterapeuty i wydruk badania na drewnianym biurku (styl Noom)',
-        includeProductRef: false,
-        scenePrompt: 'Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a wooden desk surface filling 100% of the frame (NO floating table edges, NO room background) next to reading glasses and a blue ballpoint pen: a medical foot/knee posture printout and a yellow sticky note (Post-it) with handwritten Polish blue pen text: "ŁUK STOPY ZAPADNIĘTY - NIE TABLETKI! PODPARCIE 14H DZIENNIE". Harsh indoor clinic light, realistic phone camera grain.',
-      },
-      {
-        label: '8. Wkładki Orthomax StepMax na stole obok kubka herbaty',
-        includeProductRef: true,
-        scenePrompt: 'Close-up 90-degree flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO floating table edges, NO room background): a pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying flat next to a mug of tea. Warm indoor lamp light.',
-      },
+      noomScene2,          // Scena #7 (WZÓR NOOM #2 — podkładka z odręczną listą „TEST 10 SEKUND [✓]” na drewnianym stole 90°)
+      noomScene3,          // Scena #8 (WZÓR NOOM #3 — 4 coraz większe blistry tabletek + RTG na drewnianym stole 90°)
       {
         label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
         includeProductRef: true,
@@ -405,7 +401,7 @@ function buildFallbackTenScenesFromCopy(params: {
           ? 'First-person POV amateur phone snapshot looking down while sitting on a blue plastic chair in a Polish hospital emergency room (SOR) hallway at night under cold fluorescent tube lighting. A 54-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, grey hospital linoleum floor below. Natural level perspective, grainy phone photo.'
           : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on a couch rubbing her swollen bare ankle and knee under a warm ceiling bulb. Natural perspective, grainy phone camera.',
       },
-      receiptScene,
+      noomScene1,
       {
         label: '3. Surowe zbliżenie z góry na płaską stopę i uciekającą kostkę',
         includeProductRef: false,
@@ -422,20 +418,12 @@ function buildFallbackTenScenesFromCopy(params: {
         scenePrompt: 'First-person POV amateur smartphone photo looking down at the bathroom floor: a middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water resting flat on ceramic floor tiles next to a towel. Fluorescent bathroom light, realistic phone photo.',
       },
       {
-        label: '6. Polski paragon z apteki (SUMA PLN) i wyciśnięte tubki maści',
-        includeProductRef: false,
-        scenePrompt: 'Close-up 90-degree flat-lay smartphone photo pointing straight down at a kitchen countertop surface filling 100% of the frame (NO floating table, NO room background): a crumpled Polish pharmacy receipt with "PARAGON FISKALNY" and "SUMA PLN 94,50" (NEVER write "TOTAL") lying flat next to 2 squeezed white tubes of pain gel and opened pill blisters. Harsh indoor bulb light.',
-      },
-      {
-        label: '7. Ciasny przedpokój - siedzenie na stołku przy zdejmowaniu butów',
+        label: '6. Ciasny przedpokój - siedzenie na stołku przy zdejmowaniu butów',
         includeProductRef: false,
         scenePrompt: 'First-person POV amateur phone snapshot taken while sitting in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes resting flat on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light.',
       },
-      {
-        label: '8. Wkładki Orthomax StepMax na kuchennym stole obok kubka herbaty',
-        includeProductRef: true,
-        scenePrompt: 'Close-up flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO floating table edges): a pair of bright orange contoured Orthomax StepMax insoles (with raised massage domes) lying flat next to a mug of tea. Warm indoor lamp light.',
-      },
+      noomScene2,
+      noomScene3,
       {
         label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
         includeProductRef: true,
@@ -459,7 +447,7 @@ function buildFallbackTenScenesFromCopy(params: {
         ? 'Amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) resting flat on the floor with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light.'
         : 'First-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Shoe mat below, indoor bulb light.',
     },
-    receiptScene,
+    noomScene1,
     {
       label: hasWetFoot
         ? '3. Mokre płaskie ślady stóp dziecka na kafelkach w łazience'
@@ -484,20 +472,12 @@ function buildFallbackTenScenesFromCopy(params: {
       includeProductRef: false,
       scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on steps in tracksuits holding his aching heel and ankle after school PE class.',
     },
+    noomScene2,
+    noomScene3,
     {
-      label: '7. Cienka fabryczna wkładka wyjęta z drogiego dziecięcego buta',
-      includeProductRef: false,
-      scenePrompt: 'First-person POV phone snapshot in a Polish home at night: a mother’s hand holding up a paper-thin, completely flat, squashed factory foam liner pulled out of an expensive children’s sneaker.',
-    },
-    {
-      label: '8. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
+      label: '9. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
       includeProductRef: true,
       scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker resting on a hallway bench.',
-    },
-    {
-      label: '9. Porównanie na stole: płaska fabryczna tekturka vs profilowana wkładka Orthomax',
-      includeProductRef: true,
-      scenePrompt: 'Close-up 90-degree flat-lay amateur phone photo pointing straight down at a wooden tabletop surface filling 100% of the frame (NO table edges, NO floating table): side-by-side comparison of a squashed flat grey factory shoe liner next to a bright orange 3D-contoured Orthomax StepMax insole.',
     },
     {
       label: '10. Buty zimowe i szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
@@ -515,11 +495,14 @@ async function extractTenRawScenesFromAntekCopy(params: {
   segment?: string;
 }): Promise<KiePlannedScene[]> {
   const fallback = buildFallbackTenScenesFromCopy(params);
-  const { hasShoppingList, receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const { totalPln } = detectShoppingListAndBuildReceiptScene(params.primaryText);
+  const [noomScene1, noomScene2, noomScene3] = buildNoomThreeScenesForAngle({
+    ...params,
+    totalPln,
+  });
   const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
 
-  // For Antek #45–#70, we have 5 hand-crafted, ultra-specific hook scenes (50% of the 10 photos)
-  // that directly illustrate the opening hook + receipt + mechanism + 3 product shots.
+  // For Antek #45–#70, we have 5 hand-crafted hook scenes (50%) + 3 Noom.pl winner templates (30%) + 2 product shots (20%).
   if (customHookScenes && customHookScenes.length >= 5) {
     return fallback;
   }
@@ -534,24 +517,20 @@ async function extractTenRawScenesFromAntekCopy(params: {
         {
           role: 'system',
           content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki), modeled on top Polish direct-response winners (noom.pl / Zdrowotne SOS / Orthomax).
-Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific micro-moments, exact numbers/times, props, and locations mentioned in that story.
-CRITICAL REQUIREMENT (NOOM.PL 1:1 HOOK-TO-IMAGE SYNCHRONIZATION):
-AT LEAST HALF (5 out of 10: Scenes 1, 3, 4, 5, 6) MUST directly depict the unique opening HOOK scene, specific micro-props (e.g. exact digital clock time, car glovebox full of empty pill blisters, kicked-off heels under a white tablecloth, frozen water bottle under a bare heel, yellow Post-it note from the doctor), specific room/place, and specific pain moment from the first 25 lines of THIS copy so that no two copies ever look the same!
-Rules for the 10 scenes:
+Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes:
 - Scenes 1, 3, 4, 5, 6 (5 HOOK SCENES WITHOUT product, includeProductRef: false):
   * Must be 5 different camera angles / close-up details of the EXACT opening hook of THIS copy. Pull literal details from paragraph 1-3!
-- Scene 2 (MANDATORY POLISH RECEIPT SCENE WHEN EXPENSES ARE LISTED, includeProductRef: false):
-  * Close-up 90-degree flat-lay photo pointing straight down at a wooden tabletop surface that fills 100% of the frame (NO table edges visible, NO background room, NO floating table!), showing a crumpled Polish thermal receipt ("PARAGON FISKALNY") with Polish summary line "SUMA PLN" (STRICTLY FORBIDDEN to use the English word "TOTAL"!) next to a handwritten Polish expense list on squared notepad paper ("Razem: ... zł").
-- Scene 7 (NOOM-STYLE DOCTOR STICKY NOTE / ANATOMICAL PROOF SCENE WITHOUT product, includeProductRef: false):
-  * Either the 10-second hand arch-lift test from the copy OR a 90-degree wooden desk flat-lay of a clinic printout / yellow Post-it note with short Polish blue-pen handwriting summarizing the doctor's diagnosis from the story (e.g. "ŁUK STOPY ZAPADNIĘTY - NIE TABLETKI").
-- Scenes 8 to 10 (3 scenes WITH product, includeProductRef: true):
-  * Scene 8: Close-up 90-degree flat-lay pointing straight down at a tabletop surface filling 100% of the frame (NO floating table edges), showing unboxed bright orange contoured Orthomax StepMax insoles next to a prop from the story.
+- Scenes 2, 7, 8 (3 NOOM.PL WINNER TEMPLATES WITHOUT product, includeProductRef: false):
+  * Scene 2: 90-degree wooden tabletop flat-lay filling 100% of frame showing clinic printout + yellow Post-it note + Polish receipt ("PARAGON FISKALNY", "SUMA PLN").
+  * Scene 7: 90-degree wooden tabletop flat-lay filling 100% of frame showing a brown clipboard with handwritten blue-marker checklist "TEST 10 SEKUND: [✓]...".
+  * Scene 8: 90-degree wooden tabletop flat-lay filling 100% of frame showing 4 escalating silver pill blisters from small to large next to an X-ray printout ("TABLETKI CORAZ MOCNIEJSZE...").
+- Scenes 9 and 10 (2 scenes WITH product, includeProductRef: true):
   * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the specific shoe mentioned in the hook.
   * Scene 10: Top-down 90-degree flat-lay shot of two pairs of shoes from the story (1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
 
 CRITICAL RULES FOR EVERY scenePrompt (in English):
-1. NO FLOATING TABLES / NO WEIRD PERSPECTIVES: Whenever an object (receipt, notebook, tubes, insoles) is on a table or counter, specify: "90-degree flat-lay close-up pointing straight down at the wooden tabletop surface filling 100% of the frame (NO table edges, NO background room visible, NO floating table)". Never combine a top-down table shot with a vertical room background!
-2. POLISH TEXT ONLY ("SUMA PLN", NEVER "TOTAL"): Explicitly state in the prompt that any receipt MUST say "PARAGON FISKALNY" and "SUMA PLN" (NEVER the English word "TOTAL"), and any medicine tube or note must have Polish words only (ZERO English words).
+1. NO FLOATING TABLES / NO WEIRD PERSPECTIVES: Whenever an object is on a table or counter, specify: "90-degree flat-lay close-up pointing straight down at the wooden tabletop surface filling 100% of the frame (NO table edges, NO background room visible, NO floating table)".
+2. POLISH TEXT ONLY ("SUMA PLN", NEVER "TOTAL").
 3. Describe it as a realistic, unpolished amateur smartphone photo (harsh indoor bulb or fluorescent light, sensor grain, zero AI glow, zero bokeh).
 4. Never include people's full faces looking at the camera — prefer first-person POV looking down at knees/feet/shoes/receipts/hands.
 
@@ -577,14 +556,14 @@ Return JSON:
       return {
         label: (s?.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
         scenePrompt: (s?.scenePrompt || fallback[idx]?.scenePrompt || '').trim(),
-        includeProductRef: idx >= 7 ? Boolean(s?.includeProductRef ?? true) : false,
+        includeProductRef: idx >= 8 ? Boolean(s?.includeProductRef ?? true) : false,
       };
     });
 
-    // HARD GUARANTEE: Always use our strict Polish flat-lay receiptScene for Scene #2 when the copy has a shopping list!
-    if (hasShoppingList) {
-      scenes[1] = receiptScene;
-    }
+    // HARD GUARANTEE: Always enforce the 3 exact Noom.pl winner templates in slots #2, #7, #8!
+    scenes[1] = noomScene1;
+    scenes[6] = noomScene2;
+    scenes[7] = noomScene3;
 
     return scenes;
   } catch {
@@ -734,7 +713,7 @@ export const POST = accountRoute(async (req: Request) => {
       const angleId = (body.angleId || '').trim();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
       const label = (body.label || `Kie.ai Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
-      const assetId = preset && preset.number >= 45 ? `kie-raw-h45-${taskId}` : `kie-raw-${taskId}`;
+      const assetId = preset && preset.number >= 45 ? `kie-raw-noom45-${taskId}` : `kie-raw-${taskId}`;
 
       let uploadedHash: string | undefined;
       try {

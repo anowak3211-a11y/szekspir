@@ -893,3 +893,121 @@ export const HOOK_SCENES_FROM_ANTEK_45: Record<string, KiePlannedScene[]> = {
     },
   ],
 };
+
+/**
+ * Generates 3 Kie.ai scenes modeled 1:1 on noom.pl's top-performing Polish ad creatives:
+ * 1) Noom Format #1 (copy_06_b.jpg / antek_06_v4.jpg): 90° wooden desk flat-lay of clinic printout + yellow Post-it note + Polish receipt (SUMA PLN)
+ * 2) Noom Format #2 (antek_06_v3.jpg): 90° wooden table flat-lay of clipboard with handwritten blue-marker checklist "TEST 10 SEKUND: [✓]..."
+ * 3) Noom Format #3 (antek_20_v3.jpg / copy_20.jpg): 90° wooden table flat-lay of 4 escalating pill blisters + X-ray/scan + smartphone WhatsApp/caption
+ */
+export function buildNoomThreeScenesForAngle(params: {
+  angleId?: string;
+  primaryText: string;
+  headline: string;
+  title: string;
+  segment?: string;
+  totalPln?: string | null;
+}): [HookSceneItem, HookSceneItem, HookSceneItem] {
+  const id = (params.angleId || '').toLowerCase();
+  const text = `${params.title}\n${params.headline}\n${params.primaryText}`.toLowerCase();
+  const sumaStr = params.totalPln ? `${params.totalPln},00` : '226,00';
+
+  const isOstroga =
+    id.includes('ostroga') ||
+    text.includes('ostrog') ||
+    text.includes('rozcięgn') ||
+    text.includes('pierwszy krok rano') ||
+    text.includes('fali uderzeniowej') ||
+    text.includes('podpiętk');
+  const isHaluks =
+    id.includes('haluks') ||
+    text.includes('haluks') ||
+    text.includes('botki') ||
+    text.includes('rozmiar 40') ||
+    text.includes('kliny') ||
+    text.includes('poprzeczn');
+  const isKregoslupBark =
+    id.includes('bark') ||
+    id.includes('ledzwie') ||
+    id.includes('dyskopatia') ||
+    id.includes('rwa') ||
+    text.includes('l4-l5') ||
+    text.includes('barku i karku');
+  const isPraca =
+    id.includes('praca') ||
+    id.includes('powrot') ||
+    id.includes('dyzur') ||
+    id.includes('4-kroki') ||
+    text.includes('8 godzinach') ||
+    text.includes('12 000 kroków');
+  const isZalOperacja =
+    id.includes('zal-') ||
+    id.includes('kolano') ||
+    id.includes('biodro') ||
+    text.includes('endoprotez') ||
+    text.includes('śruby') ||
+    text.includes('artroskop');
+
+  // Customize Polish blue-pen notes & checklist items per sub-segment
+  let printoutTopNote = 'KOSTKA 12° DO ŚRODKA — BRAK PODPARCIA';
+  let postItNote = '2 RZECZY CODZIENNIE: KORYTKO PIĘTY + ŁUK (NIE TABLETKA!)';
+  let checklistLines =
+    'TEST 10 SEKUND:\\n[✓] obcasy starte od środka?\\n[✓] ból kolan na schodach?\\n[✓] kostka ucieka do wewnątrz?\\n[✓] tabletki działają tylko 2h?';
+  let blisterBanner = 'TABLETKI CORAZ MOCNIEJSZE. STOPY CORAZ SŁABSZE.';
+
+  if (isOstroga) {
+    printoutTopNote = 'ROZCIĘGNO PODESZWOWE — NAPIĘCIE PRZYWRÓCONE';
+    postItNote = 'PODPARCIE ŁUKU I PIĘTY 14H / NIE ŻELOWA PODPIĘTKA!';
+    checklistLines =
+      'TEST 10 SEKUND:\\n[✓] pierwszy krok rano jak po szkle?\\n[✓] ból pięty po wstaniu z krzesła?\\n[✓] żelowe podpiętki nic nie dały?\\n[✓] ból wraca wieczorem?';
+    blisterBanner = 'ZABIEGI I LEKI NA CHWILĘ. PRZYCZYNA W ŁUKU STOPY.';
+  } else if (isHaluks) {
+    printoutTopNote = 'ŁUK POPRZECZNY ZAPADNIĘTY — PRZODOSTOPIE';
+    postItNote = 'UNIEŚĆ ŁUK OD DOŁU / NIE KLIN MIĘDZY PALCE!';
+    checklistLines =
+      'TEST 10 SEKUND:\\n[✓] zamek w botkach się nie dopina?\\n[✓] piekące śródstopie po 2h?\\n[✓] obcasy starte od środka?\\n[✓] kliny na noc nie działają?';
+    blisterBanner = 'MAŚCI I KLINY NIE DZIAŁAJĄ, GDY KOSTKA LECI DO ŚRODKA.';
+  } else if (isKregoslupBark) {
+    printoutTopNote = 'ASYMETRIA MIEDNICY I L4-L5 OD STÓP (12°)';
+    postItNote = 'USTAWIĆ PIĘTĘ W PIONIE / NIE TYLKO MASAŻ PLECÓW!';
+    checklistLines =
+      'TEST 10 SEKUND:\\n[✓] ból krzyża po minucie stania?\\n[✓] jedno ramię wyżej w lustrze?\\n[✓] podeszwy starte od wewnątrz?\\n[✓] prądy i masaże tylko na tydzień?';
+    blisterBanner = 'TABLETKI CORAZ MOCNIEJSZE. KRĘGOSŁUP CORAZ SŁABSZY.';
+  } else if (isPraca) {
+    printoutTopNote = 'PRZECIĄŻENIE NA BETONIE — 8 000 KROKÓW DZIENNIE';
+    postItNote = 'DYNAMICZNE PODPARCIE 14H / NIE TWARDA DESKA!';
+    checklistLines =
+      'TEST 10 SEKUND:\\n[✓] piekące stopy po 8h w pracy?\\n[✓] opierasz się o blat w kuchni?\\n[✓] twarde wkładki gniotą jak gips?\\n[✓] chodzisz płasko po panelach?';
+    blisterBanner = 'MAŚCI WIECZOREM NIE POMOGĄ, GDY PRZEZ 12H STOPA OPADA.';
+  } else if (isZalOperacja) {
+    printoutTopNote = 'SZPARA STAWOWA ZWĘŻONA — ROTACJA OD STOPY 12°';
+    postItNote = 'ZATRZYMAĆ ZAPADANIE STOPY DZIŚ / NIE CZEKAĆ NA ZABIEG!';
+    checklistLines =
+      'TEST 10 SEKUND:\\n[✓] kłucie w kolanie na schodach?\\n[✓] rano idziesz jak na szczudłach?\\n[✓] kostka ucieka do środka?\\n[✓] leki działają coraz krócej?';
+    blisterBanner = 'TABLETKI CORAZ MOCNIEJSZE. KOLANO CORAZ SŁABSZE.';
+  }
+
+  // WZÓR NOOM #1 (Scena #2): Wydruk badania + Żółty Post-it + Polski Paragon (SUMA PLN) w rzucie 90°
+  const noomScene1: HookSceneItem = {
+    label: `2. [WZÓR NOOM #1] Wydruk z gabinetu + żółty Post-it i paragon SUMA PLN (${sumaStr} zł)`,
+    includeProductRef: false,
+    scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a warm oak wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wood grain are: (1) a clinical foot/posture printout with handwritten blue ballpoint pen notes at the top reading "${printoutTopNote}" and yellow highlighter on the diagnosis line, (2) a bright yellow square sticky note (Post-it) stuck to the corner with handwritten Polish blue-pen text reading "${postItNote}", and (3) a crumpled white Polish thermal receipt printed with header "PARAGON FISKALNY" and summary line "SUMA PLN ${sumaStr}" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"). Harsh indoor light, realistic phone camera grain.`,
+  };
+
+  // WZÓR NOOM #2 (Scena #7): Podkładka z klipsem i odręczną niebieską checklistą "TEST 10 SEKUND: [✓]..." w rzucie 90°
+  const noomScene2: HookSceneItem = {
+    label: '7. [WZÓR NOOM #2] Podkładka z odręczną listą „TEST 10 SEKUND [✓]” na drewnianym stole',
+    includeProductRef: false,
+    scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wooden table next to reading glasses and an uncapped blue felt-tip marker is a brown hardboard clipboard holding a white paper sheet with bold, legible handwritten Polish blue-marker text and checked boxes: "${checklistLines}". Warm indoor ceiling light, natural phone shadow, authentic amateur photo.`,
+  };
+
+  // WZÓR NOOM #3 (Scena #8): 4 coraz większe blistry tabletek + RTG/smartfon na drewnianym stole w rzucie 90°
+  const noomScene3: HookSceneItem = {
+    label: '8. [WZÓR NOOM #3] 4 coraz większe blistry po lekach i RTG na stole („Tabletki coraz mocniejsze...”)',
+    includeProductRef: false,
+    scenePrompt: `Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a dark wooden tabletop surface filling 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Arranged in a row from left to right on the wood grain are 4 progressively larger silver foil pill blister packs (from a small 6-pill blister on the left to a large 20-pill blister on the right, with empty popped foil pockets) next to a black-and-white foot and knee X-ray printout with yellow arrows pointing to the joint space, and a white note card with bold Polish text reading: "${blisterBanner}". Realistic indoor lighting, zero AI glow.`,
+  };
+
+  return [noomScene1, noomScene2, noomScene3];
+}
+
