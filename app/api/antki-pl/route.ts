@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v9-argon';
+const STATE_KEY = 'antki-pl-library-v11-punchy';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -230,17 +230,13 @@ export function buildAntkiPlUserPrompt(params: {
         destinationUrl: destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
       },
       strictChecklist: [
-        'DŁUGOŚĆ I GŁĘBIA WINNERA (1100-1350 SŁÓW) + KRÓTKIE AKAPITY Z ENTERAMI: Tekst MUSI mieć 1100-1350 słów, być podzielony enterami na krótkie 1-2 zdaniowe akapity i zawierać pełną historię matki oraz dziecka (wyrzuty sumienia matki, 7 dni cichej obserwacji dziecka w domu, kaskadę nieudanych prób, scenę demonstracji mechanizmu, powolną transformację zachowania oraz osobiste zamknięcie z 3-4 dopiskami P.S.).',
-        'OBOWIĄZKOWE 2-4 DOPISKI P.S. NA KOŃCU (P.S., P.P.S., P.P.P.S., P.P.P.P.S.): Na samym końcu tekstu po linku ZAWSZE dodaj minimum 2-3 (optymalnie 3 lub 4) osobne akapity zaczynające się od „P.S.", „P.P.S.", „P.P.P.S." oraz „P.P.P.P.S." (1: dlaczego pakiet 1+1 GRATIS z dwiema parami pozwala nie przekładać wkładek rano w szatni między butami a kapciami; 2: 30 dni na test w brudnych butach z gwarancją zwrotu 100% pieniędzy; 3: informacja o najszybciej znikających rozmiarach i darmowej wysyłce od 100 zł; 4: krótka, ludzka myśl dająca ulgę drugiemu rodzicowi lub seniorowi).',
-        'OBCY W SKLEPIE NIE ZNAJĄ IMIENIA + WIARYGODNOŚĆ KIEROWNICZKI: Sprzedawczyni ani kierowniczka zmiany w sklepie obuwniczym NIE zna imienia matki! Pisz „Przyjmę pani ten zwrot, proszę się nie martwić...", a o jej doświadczeniu wspomnij: „która, jak dowiedziałam się chwilę później podczas rozmowy, wcześniej pracowała w sklepie ortopedycznym". Nie spamuj nazwą marki butów (użyj maksymalnie 1 raz).',
-        'ZERO DOCINANIA NOŻYCZKAMI: Nigdy nie pisz o docinaniu wkładek nożyczkami! Wkładki Orthomax StepMax mają dokładną rozmiarówkę dopasowaną do buta i od razu po wyjęciu z pudełka wkłada się je do obuwia.',
-        'ZERO SZTUCZNYCH GODZIN CO DO MINUTY: Nigdy nie pisz policyjnych godzin typu „W zeszły czwartek o 20:07". Pisz naturalnie: „W zeszły czwartek wieczorem", „Zaraz po kąpieli", „W środku nocy".',
-        'LOGICZNE WEJŚCIE POSTACI DO SCENY: Sąsiadka-fizjoterapeutka nigdy nie wchodzi sama z siebie do cudzej łazienki! Matka musi ją sama poprosić o poradę.',
-        'ZAKAZ WYLICZANKI „MAJĄ... MAJĄ... MAJĄ...": Opisz działanie wkładek płynnym, obrazowym akapitem narracyjnym.',
-        'LICZBA MNOGA DLA WKŁADEK: Zawsze pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione...", „stabilizują piętę", „działają jak sprężyna".',
-        'STYL MELLOW W OTWARCIU I NAGŁÓWKU: Nigdy nie zaczynaj od „Nie miałam zamiaru tego udostępniać..." i nie używaj nagłówka „Jeśli Twoje dziecko bolą stopy...".',
-        'REALIZM EMOCJONALNY: Matka nigdy nie płacze razem z dzieckiem na podłodze w trakcie awantury - pęka dopiero później sama w kuchni lub łazience.',
-        'ORGANICZNY MOST ODKRYCIA (REVEAL): Odkrycie wkładek zawsze pochodzi z grupy dla mam na Facebooku / forum rodziców / od sąsiadki lub innej mamy.',
+        'ULTRA-PUNCHY OTWARCIE W 3-4 KRÓTKICH LINIJKACH + ZWIĘZŁOŚĆ (550-850 SŁÓW): Pierwsze 3-4 zdania muszą od razu wchodzić w konkretny konflikt/odkrycie bez lania wody (zero powolnych wstępów o pogodzie, latarni czy szarlotce). Cały tekst ma mieć 550-850 słów i być podzielony enterami na krótkie 1-2 zdaniowe linijki.',
+        'ZERO KATALOGOWEGO OPISU WKŁADEK: Absolutny zakaz pisania o „sprężystej, oddychającej piance o zmiennej gęstości", „głębokim korytku obejmującym piętę z obu stron" i „wypustkach pobudzających receptory". Opisz wkładki jednym prostym, ludzkim zdaniem.',
+        'TYLKO JEDEN KRÓTKI P.S. NA KOŃCU: Zero P.P.S., P.P.P.S., P.P.P.P.S.',
+        'OBCY W SKLEPIE NIE ZNAJĄ IMIENIA: Sprzedawczyni ani kierowniczka zmiany w sklepie obuwniczym NIE zna imienia matki.',
+        'ZERO DOCINANIA NOŻYCZKAMI: Nigdy nie pisz o docinaniu wkładek nożyczkami.',
+        'ZERO SZTUCZNYCH GODZIN CO DO MINUTY: Nigdy nie pisz policyjnych godzin typu „o 20:07".',
+        'LICZBA MNOGA DLA WKŁADEK: Zawsze pisz w liczbie mnogiej: „Wkładki Orthomax StepMax są zrobione...".',
         'ZERO długich myślników (em-dash — ani en-dash –) oraz ZERO przecinka przed „i" (konstrukcji „, i").',
       ],
       ...(customInstructions?.trim() ? { additionalOwnerInstructions: customInstructions.trim() } : {}),
@@ -282,7 +278,7 @@ export const GET = accountRoute(async () => {
       dorosliCampaignStructure,
       brain: {
         provider: 'argon',
-        model: brain?.model ? `Argon (70 gotowych) + ${brain.model}` : 'Argon (70 autorskich winnerów 1200+ słów)',
+        model: brain?.model ? `Argon (70 gotowych) + ${brain.model}` : 'Argon (70 autorskich punchy winnerów)',
       },
       defaultUrl: ORTHOMAX_PL_DEFAULT_URL,
     });
@@ -298,7 +294,7 @@ function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRe
   const antiAiWrapper = [
     'RAW, UGLY, SHIT QUALITY AMATEUR PHONE SNAPSHOT. Taken hastily by a Polish woman with an old low-end smartphone camera (iPhone 8 or cheap Android) in a real Polish apartment or public corridor.',
     'MANDATORY IMPERFECTIONS (LITERAL): shit quality, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and color noise, subtle JPEG compression artifacts, slightly crooked off-center framing, harsh ugly overhead fluorescent tube light or dim yellow 2700K ceiling bulb, flat unretouched colors, muddy shadows, zero staging.',
-    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO bokeh or shallow depth-of-field background blur, ZERO skin smoothing, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO text overlays, ZERO watermarks, ZERO logos.',
+    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO bokeh or shallow depth-of-field background blur, ZERO skin smoothing, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO watermarks, ZERO logos.',
     includeProductRef
       ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying naturally in the messy home scene — NOT posed like a commercial packshot.'
       : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the raw real-life problem scene from the story.',
@@ -313,6 +309,34 @@ interface KiePlannedScene {
   includeProductRef: boolean;
 }
 
+function detectShoppingListAndBuildReceiptScene(primaryText: string): {
+  hasShoppingList: boolean;
+  totalPln: string | null;
+  receiptScene: KiePlannedScene;
+} {
+  const lines = primaryText.split('\n').map(l => l.trim());
+  const bulletExpenses = lines.filter(l => /^[-•*]\s+.+\b\d+\s*zł/i.test(l));
+  const totalMatch = primaryText.match(/Razem:\s*(\d[\d\s]*)\s*zł/i) || primaryText.match(/wydałam\s*(?:łącznie\s*)?(\d[\d\s]*)\s*zł/i);
+  const totalPln = totalMatch?.[1]?.replace(/\s+/g, '') || null;
+  const hasShoppingList =
+    bulletExpenses.length >= 2 ||
+    Boolean(totalPln) ||
+    /paragon|aptek|wydałam|rachunek|podsumowałam|podliczyłam/i.test(primaryText);
+
+  const hasPharmacy = /maść|maści|żel|ketonal|diklofenak|nurofen|aptek|plastr|opask|podpiętk|klin/i.test(primaryText);
+  const totalLabel = totalPln ? ` (${totalPln} zł)` : '';
+
+  const receiptScene: KiePlannedScene = {
+    label: `2. Paragon z apteki / sklepu medycznego i lista wydatków${totalLabel}`,
+    includeProductRef: false,
+    scenePrompt: hasPharmacy
+      ? `Raw, crooked top-down amateur smartphone photo taken under a dim yellow kitchen bulb in a Polish apartment: a long crumpled paper thermal receipt from a Polish pharmacy (PARAGON FISKALNY with PLN prices${totalPln ? ` totaling ${totalPln},00 PLN` : ''}) lying on a kitchen table next to two half-squeezed tubes of pain relief gel, an opened blister pack of painkiller pills, and a handwritten scrap of notebook paper listing expenses in zł. Harsh shadow from phone, slight blur, grainy sensor noise, shit quality.`
+      : `Raw, crooked top-down amateur smartphone photo taken on a Polish kitchen table at night under harsh indoor light: two crumpled Polish thermal paper receipts (PARAGON FISKALNY from a medical supply / shoe store and clinic${totalPln ? ` totaling ${totalPln},00 PLN` : ''}) lying next to a ballpoint pen and a small handwritten list of expenses in zł on a notebook page. Slightly out of focus, high-ISO sensor grain, shit quality.`,
+  };
+
+  return { hasShoppingList, totalPln, receiptScene };
+}
+
 function buildFallbackTenScenesFromCopy(params: {
   primaryText: string;
   headline: string;
@@ -320,11 +344,11 @@ function buildFallbackTenScenesFromCopy(params: {
   segment?: string;
 }): KiePlannedScene[] {
   const text = `${params.headline}\n${params.primaryText}`.toLowerCase();
-  const isDorosli = params.segment === 'dorosli' || text.includes('wnucz') || text.includes('emeryt') || text.includes('55 ') || text.includes('60 ') || text.includes('poznańskim sor') || text.includes('koszem mokrego prania');
+  const isDorosli = params.segment === 'dorosli' || text.includes('wnucz') || text.includes('emeryt') || text.includes('55 ') || text.includes('60 ') || text.includes('sor') || text.includes('koszem');
   const hasSor = text.includes('sor') || text.includes('szpital') || text.includes('izb') || text.includes('gabinet');
-  const hasStairs = text.includes('schod') || text.includes('prani');
   const hasWetFoot = text.includes('mokr') || text.includes('łazien') || text.includes('żelazk');
   const hasPeWf = text.includes('wf') || text.includes('szatni') || text.includes('halówk');
+  const { receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
 
   if (isDorosli) {
     return [
@@ -332,16 +356,10 @@ function buildFallbackTenScenesFromCopy(params: {
         label: hasSor ? '1. Nocny korytarz SOR / plastikowe krzesełko i spuchnięte kolano' : '1. Wieczorny ból kolana i stopy po całym dniu na nogach',
         includeProductRef: false,
         scenePrompt: hasSor
-          ? 'First-person POV amateur phone snapshot looking down while sitting on a cheap blue plastic chair in a sterile Polish hospital emergency room (SOR) hallway late at night under harsh cold green-white fluorescent tube lighting. A 56-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, scuff-marked grey hospital linoleum floor below, closed white clinic door in background. Blurry, shit quality, grainy phone photo.'
+          ? 'First-person POV amateur phone snapshot looking down while sitting on a cheap blue plastic chair in a sterile Polish hospital emergency room (SOR) hallway late at night under harsh cold green-white fluorescent tube lighting. A 54-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, scuff-marked grey hospital linoleum floor below, closed white clinic door in background. Blurry, shit quality, grainy phone photo.'
           : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on an old patterned couch rubbing her swollen bare ankle and knee under a yellow ceiling bulb. Blurry, shit quality, grainy phone camera.',
       },
-      {
-        label: hasStairs ? '2. Drewniane schody w domu i wiklinowy kosz z praniem' : '2. Szafka w przedpokoju pełna zużytych maści i żeli z apteki',
-        includeProductRef: false,
-        scenePrompt: hasStairs
-          ? 'Candid, slightly blurry amateur phone photo taken from the top of steep wooden indoor stairs in an older Polish house in the evening. At the bottom of the stairs on the floor sits a full wicker laundry basket with damp clothes and a wooden handrail on the side. Dim yellow hallway bulb, harsh shadows, crooked framing, shit quality phone photo.'
-          : 'Ugly, cluttered amateur phone photo of a Polish bathroom shelf or hallway cabinet showing 4 half-squeezed tubes of pharmacy pain relief gels and knee ointments next to a crumpled paper receipt. Harsh indoor light, slight blur, grainy sensor noise.',
-      },
+      receiptScene,
       {
         label: '3. Surowe zbliżenie z góry na płaską stopę i uciekającą kostkę',
         includeProductRef: false,
@@ -358,12 +376,12 @@ function buildFallbackTenScenesFromCopy(params: {
         scenePrompt: 'First-person POV ugly amateur smartphone photo looking down in a small Polish apartment bathroom at night. A middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water on old ceramic tiles next to a crumpled towel and a washing machine. Harsh fluorescent bathroom mirror light, high ISO noise, shit quality.',
       },
       {
-        label: '6. Pudełka po lekach przeciwbólowych i paragon na kuchennym blacie',
+        label: '6. Drugi paragon z apteki i wyciśnięte tubki maści na szafce',
         includeProductRef: false,
-        scenePrompt: 'Raw, crooked amateur smartphone photo of a cluttered Polish kitchen counter under a yellow bulb at night: empty blister packs of painkiller pills, two squeezed tubes of diclofenac/heparin gel, and a long crumpled Polish pharmacy receipt next to a glass of water. Slightly out of focus, grainy sensor, shit quality.',
+        scenePrompt: 'Ugly, cluttered amateur phone photo of a Polish kitchen counter under a yellow bulb at night: a long crumpled paper receipt from a Polish apteka (PARAGON FISKALNY) next to 3 squeezed tubes of diclofenac pain gel, empty pill blisters, and a glass of water. Slightly out of focus, grainy sensor, shit quality.',
       },
       {
-        label: '7. Ciasny przedpokój — siedzenie na stołku przy zdejmowaniu butów',
+        label: '7. Ciasny przedpokój - siedzenie na stołku przy zdejmowaniu butów',
         includeProductRef: false,
         scenePrompt: 'First-person POV amateur phone snapshot taken while sitting on a low wooden stool in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light, slight motion blur, shit quality.',
       },
@@ -388,30 +406,22 @@ function buildFallbackTenScenesFromCopy(params: {
   return [
     {
       label: hasPeWf
-        ? '1. Wykoślawione halówki i worek na WF rzucone w przedpokoju'
+        ? '1. Wykoślawione halówki i buty na zmianę w przedpokoju'
         : '1. Zdarte od wewnątrz dziecięce buty trzymane w dłoni w przedpokoju',
       includeProductRef: false,
       scenePrompt: hasPeWf
-        ? 'Raw, slightly blurry amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) lying next to a crumpled drawstring PE bag, with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light, grainy, shit quality.'
+        ? 'Raw, slightly blurry amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light, grainy, shit quality.'
         : 'Raw first-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Cluttered shoe mat below, harsh indoor bulb light, slight motion blur, shit quality.',
     },
+    receiptScene,
     {
       label: hasWetFoot
-        ? '2. Mokre płaskie ślady stóp dziecka na kafelkach w łazience'
-        : '2. Koślawe kostki dziecka od tyłu na panelach w domu',
+        ? '3. Mokre płaskie ślady stóp dziecka na kafelkach w łazience'
+        : '3. Koślawe kostki dziecka od tyłu na panelach w domu',
       includeProductRef: false,
       scenePrompt: hasWetFoot
         ? 'Amateur top-down smartphone photo taken in a small Polish apartment bathroom right after a bath under harsh fluorescent mirror light. On dark grey matte floor tiles are two small 8-year-old child wet footprints side by side — both footprints are completely flat and wide like an iron ("stopa żelazka") with zero arch curve, child’s bare heels stepping onto a crumpled towel at top edge. Grainy, slight blur, shit quality.'
         : 'Raw, unretouched amateur phone photo taken from behind at floor level in a Polish living room on wooden laminate panels. A 9-year-old child standing barefoot in cotton shorts, showing both ankles collapsing inward ("odwrócone V" / valgus ankles). Dim evening indoor lighting, crooked framing, grainy sensor noise, shit quality.',
-    },
-    {
-      label: hasSor
-        ? '3. Korytarz poradni / SOR i plastikowe krzesełka wieczorem'
-        : '3. Nocny ból nóg dziecka — ręka matki masująca łydkę w łóżku',
-      includeProductRef: false,
-      scenePrompt: hasSor
-        ? 'Hastily taken, slightly blurry smartphone photo from a plastic chair in a Polish clinic/hospital hallway at night under harsh cold fluorescent tube lights, showing scuffed linoleum floor, a child’s legs in sweatpants dangling from the chair, and a closed examination room door. Ugly lighting, high ISO grain, shit quality.'
-        : 'Dim, grainy late-night smartphone photo in a child’s bedroom in Poland. A 9-year-old child’s lower legs on a rumpled duvet under a weak bedside lamp while a mother’s hand rubs the child’s aching calf and ankle at night. High ISO noise, slight motion blur, zero AI glow, shit quality.',
     },
     {
       label: '4. Rzucone w kąt stare sztywne wkładki / wałek do ćwiczeń stóp',
@@ -424,9 +434,9 @@ function buildFallbackTenScenesFromCopy(params: {
       scenePrompt: 'Ugly amateur smartphone photo on a hallway floor in a Polish flat: three pairs of a 9-year-old child’s shoes (winter boots, school indoor sneakers, everyday trainers) lined up from behind, all showing the exact same inward tilt and worn-down inner heel edge. Harsh hallway ceiling bulb, crooked framing, grainy sensor noise, shit quality.',
     },
     {
-      label: '6. Dziecko siedzące na schodach / krawężniku i trzymające się za piętę',
+      label: '6. Dziecko siedzące na schodach i trzymające się za piętę / kolano',
       includeProductRef: false,
-      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on concrete steps in tracksuits holding his aching heel and ankle after school PE class, refusing to walk further. Overcast flat light, slight motion blur, off-center framing, shit quality phone photo.',
+      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on steps in tracksuits holding his aching heel and ankle after school PE class. Overcast flat light, slight motion blur, off-center framing, shit quality phone photo.',
     },
     {
       label: '7. Cienka fabryczna wkładka wyjęta z drogiego dziecięcego buta',
@@ -444,9 +454,9 @@ function buildFallbackTenScenesFromCopy(params: {
       scenePrompt: 'Unstaged amateur phone photo on a Polish kitchen table under a yellow ceiling lamp: side-by-side comparison of a squashed flat grey factory shoe liner next to a bright orange 3D-contoured Orthomax StepMax insole with deep heel cup and arch support domes. Crooked angle, slight blur, grainy sensor, shit quality.',
     },
     {
-      label: '10. Buty zimowe i kapcie szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
+      label: '10. Buty zimowe i szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
       includeProductRef: true,
-      scenePrompt: 'Raw top-down smartphone snapshot of a hallway doormat in a Polish apartment showing a child’s winter boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside so the child does not have to swap them at school. Harsh hallway light, grainy, shit quality.',
+      scenePrompt: 'Raw top-down smartphone snapshot of a hallway doormat in a Polish apartment showing a child’s outdoor boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside so the child does not have to swap them at school. Harsh hallway light, grainy, shit quality.',
     },
   ];
 }
@@ -458,6 +468,7 @@ async function extractTenRawScenesFromAntekCopy(params: {
   segment?: string;
 }): Promise<KiePlannedScene[]> {
   const fallback = buildFallbackTenScenesFromCopy(params);
+  const { hasShoppingList, receiptScene } = detectShoppingListAndBuildReceiptScene(params.primaryText);
   try {
     const settings = brainSettings();
     if (!settings) return fallback;
@@ -473,21 +484,21 @@ async function extractTenRawScenesFromAntekCopy(params: {
 Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes taken directly from specific moments, props, and locations mentioned in that story.
 Rules for the 10 scenes:
 - Scenes 1 to 7 (7 scenes WITHOUT product, includeProductRef: false):
-  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR holding worn-out sneakers in a hallway, OR child sitting down refusing to walk).
-  * Scene 2: A specific domestic trigger or prop mentioned in the story (e.g. wooden home stairs with a wicker laundry basket, OR wet flat footprints on bathroom tiles, OR pharmacy gel tubes and receipts).
-  * Scene 3: A raw close-up POV shot of the physical foot/ankle/knee posture problem described in the copy (e.g. bare flat foot/collapsing valgus ankles "odwrócone V" on laminate panels or bathroom tiles).
-  * Scene 4: Close-up of the unevenly worn-down inner heel edge of everyday shoes / PE sneakers held in hand in a cramped Polish hallway.
-  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, unused foot roller, basin with warm salt water, or pile of painkiller gel tubes on a shelf).
-  * Scene 6: Late-night emotional/pain moment from the story (e.g. rubbing aching calf/heel in bed under a dim lamp, or paper-thin flat factory liner pulled out of an expensive shoe).
+  * Scene 1: The exact opening hook scene from paragraph 1 (e.g. sitting on a plastic chair in a hospital SOR hallway at night holding a swollen knee, OR opening a kitchen cabinet full ofKetonal blisters and gel tubes, OR holding worn-out sneakers in a hallway).
+  * Scene 2 (MANDATORY RECEIPT SCENE WHEN EXPENSES ARE LISTED): Whenever the copy contains a list of purchases/expenses (medicine, pharmacy gels, insoles, shoes, clinic visits, "Razem: ... zł"), Scene 2 MUST ALWAYS be a raw close-up photo of a crumpled Polish thermal receipt (PARAGON FISKALNY z apteki / sklepu medycznego / rehabilitacji) lying on a kitchen table or counter next to the exact items mentioned in that shopping list (e.g. gel tubes, pill blisters, failed insoles, or a handwritten expense calculation on a notebook page).
+  * Scene 3: A raw close-up POV shot of the physical foot/ankle/knee posture problem described in the copy (e.g. bare flat foot/collapsing valgus ankles on laminate panels or bathroom tiles).
+  * Scene 4: Close-up of the unevenly worn-down inner heel edge of everyday shoes / sneakers held in hand in a cramped Polish hallway.
+  * Scene 5: Failed past solutions mentioned in the story (e.g. kicked-aside stiff orthotic insoles, basin with warm salt water, or pile of painkiller gel tubes on a shelf).
+  * Scene 6: Another specific domestic or clinic moment from the story.
   * Scene 7: Another specific visual moment or prop unique to this exact story angle.
 - Scenes 8 to 10 (3 scenes WITH product, includeProductRef: true):
   * Scene 8: Unboxed bright orange contoured Orthomax StepMax insoles lying on a real Polish kitchen table next to a mug of tea or everyday shoes.
   * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the protagonist's everyday shoe in a cramped Polish apartment hallway.
-  * Scene 10: Two pairs of shoes (e.g. outdoor boots + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
+  * Scene 10: Two pairs of shoes (e.g. outdoor shoes + indoor school/home shoes from the 1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
 
 CRITICAL STYLE FOR EVERY scenePrompt (in English):
-- Describe it as an UGLY, HASTY, SHIT QUALITY amateur smartphone photo (slight motion blur, slightly out of focus, harsh fluorescent tube light or dim yellow indoor bulb, high-ISO sensor grain, crooked framing, zero AI glow, zero bokeh, zero text overlays).
-- Never include people's full faces looking at the camera like models — prefer first-person POV looking down at knees/feet/shoes/stairs/hands, or from behind/cropped angles so it looks 100% real.
+- Describe it as an UGLY, HASTY, SHIT QUALITY amateur smartphone photo (slight motion blur, slightly out of focus, harsh fluorescent tube light or dim yellow indoor bulb, high-ISO sensor grain, crooked framing, zero AI glow, zero bokeh).
+- Never include people's full faces looking at the camera like models — prefer first-person POV looking down at knees/feet/shoes/receipts/hands, or from behind/cropped angles so it looks 100% real.
 
 Return JSON:
 {
@@ -506,7 +517,7 @@ Return JSON:
     if (!rawContent) return fallback;
     const parsed = JSON.parse(rawContent) as { scenes?: KiePlannedScene[] };
     if (!Array.isArray(parsed.scenes) || parsed.scenes.length < 5) return fallback;
-    return Array.from({ length: 10 }, (_, idx) => {
+    const scenes = Array.from({ length: 10 }, (_, idx) => {
       const s = parsed.scenes?.[idx];
       return {
         label: (s?.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
@@ -514,6 +525,18 @@ Return JSON:
         includeProductRef: idx >= 7 ? Boolean(s?.includeProductRef ?? true) : false,
       };
     });
+
+    // HARD GUARANTEE: If the copy has a shopping/expense list and none of the first 7 scenes is a receipt photo, force Scene #2 to be the receipt photo!
+    if (hasShoppingList) {
+      const hasAnyReceiptScene = scenes
+        .slice(0, 7)
+        .some(s => /paragon|receipt|rachunek/i.test(`${s.label} ${s.scenePrompt}`));
+      if (!hasAnyReceiptScene) {
+        scenes[1] = receiptScene;
+      }
+    }
+
+    return scenes;
   } catch {
     return fallback;
   }

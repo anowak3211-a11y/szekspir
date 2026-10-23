@@ -5,53 +5,14 @@ export const ANTKI_PL_COPY_PART4: Record<
  'pl-19-gimnastyka-korekcyjna-fikcja': {
  headline: 'Myślałam, że szkolna gimnastyka korekcyjna wystarczy. Na październikowej kontroli u ortopedy zaniemówiłam',
  description: '',
- primaryText: `Przez cały zeszły rok szkolny spałam spokojnie, bo miałam w głowie jedno magiczne zdanie: „Przecież Zosia chodzi na gimnastykę korekcyjną w szkole".
-
-Co tydzień w czwartek pakowałam mojej dziewięcioletniej córce strój na zajęcia wyrównawcze, podpisywałam listę obecności na wywiadówkach i czułam dumę, że jestem odpowiedzialną matką, która trzyma rękę na pulsie.
-
-Kiedy jednak w połowie października pojechałyśmy we Wrocławiu na kontrolę do ortopedy dziecięcego, a lekarz przyłożył przezroczysty kątomierz do podświetlonego zdjęcia rentgenowskiego jej nóg, w gabinecie zapadła lodowata cisza.
-
-Zamiast poprawy kąt koślawości kolan Zosi powiększył się z ośmiu do dwunastu stopni.
-
-Siedziałam na brzegu krzesła, ściskając w dłoni pasek torebki, aż w końcu wykrztusiłam w całkowitym szoku: „Panie doktorze, ale jak to jest w ogóle możliwe, skoro ona od września zeszłego roku nie opuściła ani jednej korektywy?.".
-
-Dopiero wtedy dotarło do mnie, jak bardzo chciałam wierzyć w tę wygodną fikcję.
-
-Nazywam się Małgorzata, mam trzydzieści osiem lat, mieszkamy we Wrocławiu i przez ponad dwanaście miesięcy uspokajałam własne sumienie tym jednym szkolnym papierkiem.
-
-Kiedy widziałam, że Zosia podczas odrabiania lekcji dziwnie podwija pod siebie nogi albo że jej nowe jesienne trzewiki po trzech tygodniach mają dziwnie położony do środka zapiętek, machałam na to ręką.
-
-Tłumaczyłam sobie, że pani od korektywy na pewno nad tym pracuje, że na efekty trzeba poczekać, a dzieci w trzeciej klasie po prostu rosną skokowo i mają wiotkie stawy.
-
-Bywałam nawet na nią zła, kiedy w niedzielne popołudnia na spacerze w parku ciągle prosiła, żebyśmy usiadły na ławce, bo ciągną ją łydki.
-
-Mówiłam jej wtedy z irytacją w głosie, żeby nie marudziła i szła prosto, zamiast spojrzeć w dół na to, jak przy każdym kroku jej wewnętrzne kostki niemal dotykają chodnika.
-
-Po tamtej wizycie wróciłam do domu z kulą w gardle i postanowiłam zrobić coś, czego nie zrobiłam przez cały rok - przez kolejne siedem dni po cichu obserwowałam moją córkę w zwykłych domowych sytuacjach, nie mówiąc jej ani słowa.
-
-Pierwszego dnia zobaczyłam, jak po powrocie ze szkoły nawet nie rozwiązuje sznurówek, tylko jednym ruchem zrzuca buty w przedpokoju i rozciera dłonią wewnętrzną stronę stopy.
-
-Drugiego i trzeciego dnia zauważyłam, że schodząc po schodach na parter, Zosia zawsze kurczowo trzyma się metalowej poręczy i stawia stopy bokiem, jakby bała się, że ucieknie jej kolano.
-
-Czwartego dnia weszłam do jej pokoju wieczorem i zobaczyłam, że układając puzzle na dywanie, siedzi w głęboką literę W - kolana sklejone razem, a stopy wywinięte szeroko na boki, bo tylko tak jej miednica miała jakiekolwiek podparcie.
-
-Piątego dnia pod szkołą widziałam przez szybę samochodu, jak koleżanki z klasy biegną do bramy, a Zosia idzie powoli na samym końcu z opuszczoną głową.
-
-Szóstego dnia w łazience postawiłam jej buty na zmianę na wysokości oczu: podeszwa od wewnętrznej strony była starta niemal do samej pianki, a cały but wygiął się w łuk jak banan.
-
-Siódmego wieczoru, kiedy Zosia zasnęła po tym, jak znów musiałam wmasować jej w piszczele chłodzący żel z apteki, zamknęłam się sama w kuchni i pierwszy raz od dawna rozpłakałam się z bezsilności.
-
-Przecież zanim uwierzyłam w szkolną korektywę, próbowałam już niemal wszystkiego, co polecali nam w przychodni i w sklepach medycznych.
-
-Najpierw kupiłam w aptece miękkie żelowe wkładki za 79 złotych, które pod ciężarem jej pięty spłaszczyły się jak naleśnik już po pierwszym tygodniu.
-
-Potem zapisałam ją na prywatne zajęcia grupowe z gimnastyki korekcyjnej w osiedlowym klubie - cztery miesiące po 120 złotych miesięcznie, gdzie dzieci przez pół godziny turlały woreczki z grochem i chodziły jak pingwinki po macie, a po wyjściu z sali Zosia wskakiwała w płaskie adidasy i jej stopy natychmiast zapadały się do środka.
-
-Próbowałam też ćwiczyć z nią w domu na dywanie, ale po całym dniu w szkole zbieranie chusteczek palcami stóp kończyło się po trzech minutach buntem, rzucaniem woreczka w kąt i moimi nerwami.
-
-Rozważałam nawet twarde wkładki robione na wymiar w punkcie ortopedycznym za 380 złotych, ale dziewczyny na wrocławskim forum szybko wybiły mi to z głowy: taka sztywna plastikowa skorupa działa jak szyna gipsowa, rozleniwia mięśnie, nie mieści się do żadnych normalnych butów na jesień, a w dodatku dziewięciolatce cały czas rośnie stopa, więc po pięciu miesiącach wyrzucasz czterysta złotych do kosza.
+ primaryText: `Przez cały rok spałam spokojnie, bo zapisałam córkę na szkolną gimnastykę korekcyjną.
+Na październikowej kontroli przeżyłam lodowaty prysznic: koślawość kolan i pięt pogłębiła się o 3 stopnie.
+Fizjoterapeuta zadał mi jedno pytanie:
+„Jak 30 minut ćwiczeń w grupie 20 dzieci raz w tygodniu ma wygrać z 200 000 kroków miesięcznie w płaskich butach?”.
 
 Kiedy podliczyłam nasze rachunki na kartce, zrobiło mi się słabo:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - dodatkowe zajęcia korekcyjne: 480 zł
 - dwie wizyty u ortopedy ze zdjęciami RTG: 340 zł
@@ -93,11 +54,7 @@ My zeszłyśmy z dwunastu do ośmiu stopni w trzy miesiące dopiero wtedy, kiedy
 
 Pod wpisem było ponad czterdzieści komentarzy innych mam ze zdjęciami prostych pięt w butach.
 
-Weszłam na stronę i od razu zrozumiałam, dlaczego to ma sens. Wkładki Orthomax StepMax są zrobione ze sprężystej, dynamicznej pianki o zmiennej gęstości, a nie ze sztywnego plastiku, który unieruchamia stopę jak gips.
-
-Kiedy kilka dni później wyjęłam charakterystyczne pomarańczowo-czarne wkładki z foliowego opakowania i ścisnęłam je w dłoniach, od razu zobaczyłam, jak są wyprofilowane: korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza w gabinecie, a podparcie łuku stopy działa przy każdym kroku jak sprężyna, która odbija stopę w górę i zmusza własne mięśnie dziecka do pracy.
-
-Na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka warstwa pod piętą amortyzuje każde uderzenie o szkolny korytarz.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do jej butów bez kupowania obuwia o rozmiar większego.
 
@@ -127,65 +84,20 @@ Sprawdź dostępne rozmiary w pakiecie 1+1 tutaj: https://orthomax.pl/products/o
 
 P.S. Dziś wieczorem, kiedy Twoje dziecko zaśnie, weź do ręki jego buty ze szkolnej szatni i spójrz na piętę od tyłu.
 
-Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
+Jeśli wewnętrzna krawędź jest ścięta, a zapiętek ucieka do środka, to znak, że szkolna gimnastyka przegrywa z betonem siedem tysięcy razy dziennie.`,
  },
 
  'pl-20-okno-czasowe-12-lat': {
  headline: 'Córka szwagierki ma 14 lat i czeka na operację kolan. Nam zostały 2 lata, zanim okno wzrostowe zamknie się na zawsze',
  description: '',
- primaryText: `W zeszłą niedzielę po południu na rodzinnym obiedzie u rodziców moja szwagierka zamknęła się w kuchni nad zlewem i zaczęła cicho płakać.
-
-Kiedy weszłam z talerzami i zapytałam, co się stało, wyjęła z torebki złożony na pół wypis z prywatnej kliniki ortopedycznej w Krakowie.
-
-Jej czternastoletnia córka Julka dostała właśnie kwalifikację do zabiegu operacyjnego obu kolan - wprowadzenia tytanowych płytek i śrub blokujących chrząstki oraz całkowity zakaz jakiegokolwiek sportu na kilkanaście miesięcy.
-
-Najbardziej zmroziło mnie jedno zdanie, które szwagierka powtórzyła drżącym głosem za chirurgiem: „Okno wzrostowe u pani córki już się zamknęło, kości stwardniały w złej osi i żadne wkładki ani ćwiczenia już tego nie odwrócą".
-
-Stałam oparta o blat z lodowatymi dłońmi, bo doskonale pamiętałam, jak cztery lata wcześniej, kiedy Julka miała dziesięć lat, lekarz w przychodni mówił im słowo w słowo to samo, co ja słyszałam o mojej dziewięcioletniej Kasi: „Proszę nie panikować, dziewczynki tak mają, z tego się wyrasta".
-
-Przez całą drogę powrotną samochodem do domu nie mogłam wydusić z siebie ani słowa, patrząc w lusterku wstecznym na moją Kasię.
-
-Nazywam się Małgorzata, mam trzydzieści dziewięć lat i mieszkamy w Krakowie. Przez ostatnie półtora roku żyłam w błogim przekonaniu, że mamy mnóstwo czasu.
-
-Kiedy widziałam, że Kasia na zdjęciach z wycieczki szkolnej stoi ze złączonymi kolanami, a między jej kostkami jest przerwa na trzy palce, powtarzałam sobie słowa pediatry z bilansu.
-
-Kiedy po powrocie ze szkoły narzekała, że pieką ją piszczele i bolą stopy, tłumaczyłam sobie, że przecież urosła pięć centymetrów od wiosny i to zwykłe bóle wzrostowe.
-
-Nawet kiedy w trzy tygodnie wykrzywiła do środka nowe jesienne botki, złościłam się w duchu na producenta obuwia, że robi coraz słabsze podeszwy, zamiast zrozumieć, że to kości mojej córki z każdym miesiącem ustawiają się dokładnie na tej samej równi pochyłej, która zaprowadziła Julkę na stół operacyjny.
-
-Tamtego niedzielnego wieczoru, zaraz po kąpieli, zawołałam Kasię do dużego pokoju i kazałam jej stanąć boso na dywanie.
-
-Przez kolejne siedem dni po cichu obserwowałam każdy jej ruch w domu, czując, jak z każdym dniem rośnie we mnie panika.
-
-Pierwszego wieczoru zobaczyłam z poziomu podłogi, jak jej pięty wyginają się do wewnątrz w odwróconą literę V, a wewnętrzne kostki niemal wylewają się nad dywanem.
-
-Drugiego dnia zauważyłam, jak po ośmiu godzinach w szkole Kasia siada na pierwszym stopniu schodów i przez dłuższą chwilę masuje kciukami okolicę pod rzepką.
-
-Trzeciego dnia podejrzałam, jak rysując przy stoliku, automatycznie siada na podłodze w literę W z kolanami wbitymi w dywan i stopami wykręconymi na boki.
-
-Czwartego dnia w nocy obudził mnie jej cichy płacz z pokoju obok - siedziała na łóżku, trzymając się za łydki, więc znów musiałam podać jej syrop przeciwbólowy oraz przyłożyć ciepły termofor z pestek wiśni, żeby w ogóle zasnęła.
-
-Piątego dnia zobaczyłam z okna, jak wraca ze szkoły z ciężkim plecakiem, stawiając stopy do środka i lekko powłócząc nogami.
-
-Szóstego dnia wyjęłam z szafki jej wszystkie trzy pary butów z tej jesieni - w każdej parze wewnętrzny obcas był ścięty pod skosem jak nożem.
-
-Siódmego dnia, kiedy usiadłam wieczorem sama w łazience i policzyłam w myślach, że Kasia ma już dziewięć i pół roku, a okno plastyczności chrząstek zamyka się około dwunastego roku życia, poczułam, że zegar tyka nam prosto nad głową.
-
-Nie było przecież tak, że zupełnie nic wcześniej nie robiłam. Przez ostatni rok wydawałam pieniądze na półśrodki, które dawały mi złudzenie działania, ale nie zmieniały kompletnie nic w biomechanice jej nóg.
-
-Najpierw była prywatna wizyta u specjalisty w Krakowie za 250 złotych, z której wyszłam z karteczką pełną domowych ćwiczeń - zwijanie ręcznika palcami i chodzenie na zewnętrznych krawędziach stóp, które po całym dniu w szkole kończyło się po pięciu minutach płaczem, buntem Kasi i moim poczuciem winy.
-
-Potem kupiłam w sklepie medycznym sztywne profilaktyczne półbuty z wysokim zapiętkiem za 160 złotych, które były tak ciężkie i twarde jak gips, że córka wstydziła się ich w szkolnej szatni, chowała je za kurtkami, a po tygodniu miała na piętach krwawe pęcherze.
-
-Do tego doszły zwykłe wkładki i maści chłodzące z apteki za 80 złotych, które tylko maskowały nocny ból przemęczonych więzadeł.
-
-Zastanawiałam się też nad indywidualnymi wkładkami z punktu ortopedycznego za 380 złotych, ale szwagierka od razu mnie przed nimi ostrzegła: Julka nosiła takie sztywne plastikowe skorupy i nie dość, że unieruchamiały stopę i wyłączały mięśnie jak szyna gipsowa, to przy rosnącej stopie dziecka po pół roku trzeba było je wyrzucić do śmieci i znów płacić prawie czterysta złotych.
+ primaryText: `Na rodzinnym obiedzie zobaczyłam 14-letnią córkę mojej szwagierki czekającą na operację kolan.
+Lekarz powiedział im wprost: „W wieku 14 lat okno wzrostowe jest już zamknięte, wkładki nic tu nie zmienią”.
+Gdy wróciliśmy wieczorem do domu, natychmiast kazałam mojej 9-letniej Kasi stanąć boso na dywanie.
+I zobaczyłam u niej dokładnie te same uciekające do środka kostki.
 
 Moje dotychczasowe próby u Kasi kosztowały już 490 złotych:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - prywatna konsultacja: 250 zł
 - sztywne obuwie profilaktyczne: 160 zł
@@ -229,11 +141,7 @@ W przypiętym wątku dziesiątki mam pokazywały zdjęcia stóp i kolan swoich d
 
 Zamówiłam je jeszcze tej samej nocy. Kiedy otworzyłam paczkę, od razu zrozumiałam, dlaczego fizjoterapeuci na grupie tak bardzo odróżniają je od sztywnych wkładek z punktów ortopedycznych.
 
-Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która pracuje razem ze stopą w każdej fazie chodu.
-
-Ich korytko obejmuje piętę z obu stron i trzyma ją stabilnie w pionie, nie pozwalając kostce uciekać do środka, natomiast podparcie łuku pod spodem działa przy każdym kroku jak sprężyna, która unosi sklepienie i zmusza mięśnie do aktywnej pracy.
-
-Na powierzchni znajdują się wypustki pobudzające mięśnie stopy, a miękka strefa pod piętą pochłania uderzenia o szkolny beton.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je do zwykłych butów Kasi.
 
@@ -265,67 +173,20 @@ P.S. Czas między 8 a 12 rokiem życia mija jak mrugnięcie okiem.
 
 Zrób dziś wieczorem prosty test: postaw dziecko boso na dywanie i podnieś palcami łuki jego stóp.
 
-Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
+Jeśli zobaczysz, że kolana natychmiast uciekają z pozycji X do pionu - działaj teraz, dopóki chrząstki są jeszcze miękkie i plastyczne.`,
  },
 
  'pl-21-ryciak-rip3-ramie-v2': {
  headline: 'Przez 3 miesiące leczyliśmy bolące ramię mojej 10-letniej córki. Fizjoterapeuta kazał jej zdjąć buty',
  description: '',
- primaryText: `Poszłam z moją dziesięcioletnią córką do fizjoterapeuty, bo od trzech miesięcy po powrocie ze szkoły skarżyła się na piekący ból prawego ramienia, a ja byłam święcie przekonana, że naciągnęła sobie bark od ciężkiego plecaka.
-
-Kiedy weszłyśmy do gabinetu, przygotowałam całą teczkę z historią naszego leczenia i pokazałam dokładnie miejsce przy prawej łopatce, które smarowałam jej dwa razy dziennie maścią przeciwzapalną.
-
-Fizjoterapeuta dotknął jej barku dosłownie na pięć sekund, po czym cofnął się o dwa kroki, spojrzał w dół i powiedział coś, co kompletnie zbiło mnie z tropu: „Proszę zdjąć Kasi buty oraz skarpetki i niech przejdzie boso przez gabinet".
-
-Trzy minuty później patrzyłam w osłupieniu, jak jednym ruchem dłoni przy jej kostkach wyłącza ból w ramieniu, który próbowałam wyleczyć od września, oraz wypowiada zdanie, którego nie zapomnę do końca życia: „Dopóki nie naprawimy fundamentów, będzie pani leczyć objawy w kółko - ramię dzisiaj, kolano za pół roku, kręgosłup za rok".
-
-Nazywam się Małgorzata, mam trzydzieści osiem lat, mieszkamy w Gdańsku, a Kasia w tym roku poszła do czwartej klasy.
-
-Kiedy trzy miesiące temu pierwszy raz wróciła po lekcjach do domu i trzymając się za prawy bark, powiedziała „Mamo, boli mnie ramię, o tutaj", zbagatelizowałam to dokładnie tak, jak zrobiłaby większość rodziców.
-
-Zapytałam, czy może źle spała albo czy ktoś nie popchnął jej na korytarzu. Tydzień później sytuacja się powtórzyła, a potem ból wracał już niemal każdego popołudnia.
-
-Wyrzucałam sobie, że może kupiłam jej źle wyprofilowany plecak albo że za dużo garbi się nad zeszytami przy biurku.
-
-Bywałam nawet zniecierpliwiona, kiedy podczas odrabiania lekcji odkładała długopis i kręciła ramieniem, mówiąc, że ciągnie ją aż pod szyję.
-
-Myślałam, że to zwykłe przeciążenie u dziesięciolatki, dlatego ani przez ułamek sekundy nie przyszło mi do głowy, żeby spojrzeć na jej stopy.
-
-Dopiero kiedy wróciłyśmy z tamtej pierwszej wizyty u fizjoterapeuty i czekałyśmy tydzień na konsultację u dr. Ryciaka, zrobiłam w domu coś, co otworzyło mi oczy na skalę problemu - przez siedem kolejnych dni po cichu obserwowałam Kasię od stóp do głów.
-
-Pierwszego dnia zobaczyłam w przedpokoju, że kiedy Kasia zdejmuje po szkole buty, jej prawe ramię faktycznie wisi wyraźnie wyżej niż lewe, a wewnętrzne kostki obu stóp są czerwone i jakby zapadnięte do środka.
-
-Drugiego dnia zauważyłam, że odrabiając lekcje, Kasia co chwilę robi przerwę w pisaniu i rozmasowuje bark, a pod biurkiem wykrzywia stopy na wewnętrzne krawędzie.
-
-Trzeciego dnia podejrzałam ją w salonie: siedziała na dywanie w literę W, z kolanami sklejonymi razem i stopami wywiniętymi na zewnątrz.
-
-Czwartego dnia, kiedy szłyśmy po schodach na drugie piętro, zobaczyłam, że jej kolana przy każdym stopniu schodzą się do środka i niemal ocierają o siebie.
-
-Piątego dnia wyjęłam z szafki jej jesienne półbuty oraz buty ze szkolnej szatni - w obu parach wewnętrzna strona pięty była starta pod ostrym kątem, a zapiętki kompletnie położone do środka.
-
-Szóstego dnia zauważyłam na spacerze, że po dwudziestu minutach marszu po chodniku Kasia zaczyna utykać i odruchowo łapie się dłonią za prawy obojczyk.
-
-Siódmego wieczoru, kiedy po kąpieli stanęła boso na kafelkach w łazience, a ja zobaczyłam z bliska, jak jej całe ciało pochyla się lekko w jedną stronę, zamknęłam się w sypialni z ogromnym poczuciem winy, że przez trzy miesiące wcierałam maść w zdrowy bark, podczas gdy jej stopy ciągnęły w dół cały szkielet.
-
-Zanim trafiłyśmy na właściwą diagnozę, przeszłam całą klasyczną ścieżkę leczenia objawów, wydając pieniądze w ciemno.
-
-Najpierw poszłyśmy do lekarza rodzinnego w przychodni, który stwierdził, że dzieci teraz dużo siedzą przed komputerem, po czym przepisał maść przeciwzapalną za 35 złotych.
-
-Kiedy po dwóch tygodniach smarowania ramię dalej bolało, poszłyśmy prywatnie do lekarza pediatry za 150 złotych, skąd wyszłyśmy tylko ze skierowaniem na rehabilitację barku.
-
-Sama wizyta u fizjoterapeuty kosztowała kolejne 180 złotych.
-
-Później, już po diagnozie stóp, zanim znalazłam właściwe rozwiązanie, wpadłam w drugą pułapkę: kupiłam w aptece zwykłe wkładki za 89 złotych, które były tak miękkie, że pod ciężarem ciała Kasi odkształciły się po kilku dniach i w ogóle nie trzymały pięty.
-
-Następnie wydałam 380 złotych na specjalne sztywne buty ortopedyczne oraz wycenę twardych wkładek z punktu ortopedycznego - i to był koszmar.
-
-Twarda plastikowa skorupa działała w bucie jak szyna gipsowa, obcierała stopę do krwi, rozleniwiała mięśnie, a w dodatku u dziesięciolatki stopa rośnie tak szybko, że po pięciu miesiącach takie wkładki za prawie czterysta złotych trzeba wyrzucić do śmieci.
+ primaryText: `Poszłam z 10-letnią córką do fizjoterapeuty, bo od 3 miesięcy bolało ją prawe ramię.
+A wyszłyśmy ze skierowaniem do ortopedy.
+Od stóp.
+Bo to, co pokazał mi w gabinecie w 10 sekund, zmieniło wszystko.
 
 Kiedy podliczyłam wszystkie paragony w notesie, złapałam się za głowę:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - maść z apteki: 35 zł
 - prywatna wizyta lekarska: 150 zł
@@ -383,9 +244,7 @@ Mamy wrzucały w komentarzach zdjęcia nóg swoich dzieci z marca i lipca, gdzie
 
 Weszłam w link podany przez dziewczyny i zamówiłam zestaw. Kiedy paczka przyszła do Gdańska i wzięłam wkładki Orthomax StepMax do ręki, od razu poczułam, czym różnią się od twardych wyrobów z punktów medycznych.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej, pomarańczowo-czarnej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie fizjoterapeuty podczas testu.
-
-Pod spodem podparcie łuku działa przy każdym kroku jak sprężyna, która odbija stopę i zmusza mięśnie do aktywnej pracy przez cały dzień, a delikatne wypustki pobudzają receptory, podczas gdy miękka warstwa pod piętą amortyzuje uderzenia o beton.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je do butów Kasi.
 
@@ -419,71 +278,20 @@ P.S. Zrób ten 10-sekundowy test jeszcze dzisiaj: postaw dziecko boso przed sob�
 
 Jeśli kolana się rozejdą, a barki wyrównają - już wiesz, że przyczyna jest na samym dole.
 
-Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
-
-P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
+Napraw fundamenty, zanim okno wzrostowe zamknie się w wieku 12 lat.`,
  },
 
  'pl-22-ryciak-rip3-sor-kolano': {
  headline: 'Pojechałyśmy wieczorem na izbę przyjęć z kolanem córki. Ortopeda dyżurny nawet nie dotknął jej kolana',
  description: '',
- primaryText: `W zeszły wtorek wieczorem siedziałam z moją dziesięcioletnią córką trzy bite godziny na zimnym plastikowym krzesełku wieczornej izby przyjęć w Gdańsku, bo po zupełnie zwykłym dniu w szkole Kasia nie mogła wyprostować prawego kolana.
-
-Nie spadła ze schodów, nikt nie sfaulował jej na boisku - po prostu wstała od biurka po odrabianiu lekcji, syknęła z bólu i jej noga zablokowała się pod kątem, a pod rzepką pojawił się obrzęk.
-
-Siedziałam w poczekalni z sercem w gardle, przerażona, że zerwała więzadło albo uszkodziła łąkotkę i czeka nas operacja.
-
-Kiedy w końcu weszłyśmy do gabinetu zabiegowego, młody ortopeda dyżurny spojrzał na zgiętą nogę Kasi, potem przesunął wzrok w dół na jej jesienne buty stojące obok kozetki i nawet nie dotykając jej kolana, powiedział zdanie, które ścięło mnie z nóg: „Proszę zdjąć córce oba buty i skarpetki.
-
-Kolano jest tylko ofiarą - prawdziwy winowajca jest trzydzieści centymetrów niżej".
-
-Nazywam się Małgorzata, mam trzydzieści dziewięć lat i mieszkamy w Gdańsku.
-
-Kiedy lekarz na ostrym dyżurze wypowiedział te słowa, poczułam, jak oblewa mnie fala gorącego wstydu, bo nagle wszystkie drobne sygnały z ostatnich miesięcy ułożyły mi się w jedną całość.
-
-Przez całą jesień widziałam przecież, że Kasia dziwnie stawia nogi i że po dłuższych spacerach narzeka na kłucie pod prawą rzepką.
-
-Ale jak większość mam, racjonalizowałam to na dziesięć sposobów: mówiłam sobie, że szybko urosła, że dzieci w czwartej klasie mają dużo WF-u, że może przeciążyła nogę na skakance.
-
-Kiedy miesiąc wcześniej pokazała mi w szatni, że jej nowe buty sportowe mają całkowicie startą od środka podeszwę i wygięty zapiętek, nakrzyczałam na nią, że zdejmuje buty bez rozwiązywania sznurówek i niszczy obuwie jak mały niszczyciel butów.
-
-Zamiast sprawdzić, dlaczego jej pięta miażdży but od wewnętrznej strony, kupiłam jej w aptece elastyczną opaskę na kolano i kazałam uważać na schodach.
-
-Po powrocie z izby przyjęć, czekając na umówioną wizytę w poradni u dr. Ryciaka, postanowiłam przez siedem kolejnych dni po cichu obserwować Kasię w domu, żeby zobaczyć to, czego nie widziałam przez ostatnie dwa lata.
-
-Pierwszego dnia rano zobaczyłam, jak wstając z łóżka, stawia bose stopy na panelach - jej wewnętrzne kostki od razu zapadały się do środka, a kolana sklejały się ze sobą w wyraźną literę X.
-
-Drugiego dnia po powrocie ze szkoły zauważyłam, że wchodząc po schodach, Kasia wciąga prawą nogę na stopień bokiem, trzymając się oburącz barierki, żeby nie zginać kolana w osi.
-
-Trzeciego dnia wieczorem weszłam do jej pokoju i zobaczyłam, że bawiąc się z kotem na dywanie, siedzi w głębokim siadzie W - kolana złączone razem, a stopy wykręcone na zewnątrz, co jeszcze bardziej wykrzywiało jej stawy kolanowe.
-
-Czwartego dnia w łazience po kąpieli spojrzałam na mokre ślady jej stóp na kafelkach: zamiast wcięcia z boku odbiły się dwa płaskie placki przypominające podeszwy od żelazka.
-
-Piątego dnia widziałam przez okno, jak na podwórku koleżanki grają w gumę, a Kasia siedzi sama na murku z opuszczoną głową, bo wstydzi się, że przy podskokach ucieka jej kolano.
-
-Szóstego dnia w nocy znów obudziła się z płaczem, bo po całym dniu chodzenia po szkolnych korytarzach piekły ją piszczele i musiałam masować jej nogi żelem z arniką.
-
-Siódmego wieczoru, kiedy zasnęła, siedziałam sama przy kuchennym stole nad jej wykrzywionymi butami i chciało mi się wyć z żalu, że doprowadziłam własne dziecko aż na szpitalny dyżur.
-
-A przecież wydawałam na jej nogi niemałe pieniądze, tyle że cały czas leczyłam zły narząd.
-
-Zanim wylądowałyśmy na wieczornej izbie przyjęć i zanim trafiłam na właściwe rozwiązanie, przeszłam przez całą serię kosztownych rozczarowań.
-
-Najpierw nakupowałam w aptece maści chłodzących, żeli przeciwzapalnych i opasek uciskowych na rzepkę za 115 złotych, które dawały ulgę na godzinę.
-
-Potem zrobiłyśmy prywatnie USG stawu kolanowego za 250 złotych, na którym lekarz napisał, że więzadła są całe, a obrzęk wynika z przeciążenia bocznego.
-
-Następnie poszłyśmy prywatnie do fizjoterapeuty za 180 złotych, a po drodze kupiłam jeszcze wkładki z apteki za 89 złotych, które spłaszczyły się w bucie po kilku dniach, oraz sztywne buty korekcyjne z obcasem Thomasa za 350 złotych.
-
-Te sztywne buty okazały się kompletną porażką - ciężkie jak gipsowe skorupy, w których Kasia potykała się o własne czubki palców i których panicznie wstydziła się w szkolnej szatni.
-
-Pytałam też o twarde wkładki na zamówienie z punktu ortopedycznego za 380 złotych, ale inne matki w poczekalni od razu mnie ostrzegły: sztywny plastik unieruchamia stopę i usypia mięśnie, nie mieści się do żadnych normalnych butów na jesień i zimę, a po pięciu miesiącach i tak ląduje w koszu, bo dziesięciolatce cały czas rośnie stopa.
+ primaryText: `Siedziałam z 10-letnią córką 3 godziny na wieczornej izbie przyjęć, bo po WF-ie spuchło jej kolano.
+Lekarz dyżurny obejrzał zdjęcie RTG i powiedział: „Kolano jest zdrowe”.
+Po czym kazał jej zdjąć oba buty i stanąć boso na podłodze.
+W 10 sekund pokazał mi, dlaczego jej kolano uciekało do środka przy każdym kroku.
 
 Moje rachunki wyglądały brutalnie:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - maści, żele i opaski na kolano: 115 zł
 - prywatne USG kolana: 250 zł
@@ -535,11 +343,7 @@ Zamów Kasi profilowane wkładki Orthomax StepMax, u nas po trzech miesiącach k
 
 Zamówiłam pakiet jeszcze tego samego wieczoru. Kiedy paczka przyszła i wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu zrozumiałam, dlaczego działają zupełnie inaczej niż apteczny żel czy twardy plastik.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, która działa pod stopą aktywnie.
-
-Korytko obejmuje piętę z obu stron i trzyma ją w pionie jak dłonie lekarza podczas testu w gabinecie, nie pozwalając kostce wykręcać kolana do środka.
-
-Z kolei podparcie łuku stopy pracuje przy każdym kroku jak sprężyna, która odbija stopę w górę, a na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka poduszka pod piętą tłumi uderzenia o szkolny beton.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam jedną parę do jej butów szkolnych, a drugą do jesiennych trzewików.
 
@@ -569,63 +373,20 @@ Sprawdź pakiet 1+1 GRATIS i odciąż kolana swojego dziecka tutaj: https://orth
 
 P.S. Zanim kupisz kolejną maść albo opaskę na kolano, postaw dziś wieczorem swoje dziecko boso na podłodze i podnieś palcami łuki jego stóp od środka.
 
-Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
+Jeśli zobaczysz, że kolana natychmiast rozchodzą się z pozycji X do pionu - nie trać ani jednego miesiąca, bo okno wzrostowe zamyka się w wieku 12 lat.`,
  },
 
  'pl-23-ryciak-rip3-biodro-i-plecy': {
  headline: 'Upominałam córkę 10 razy dziennie, żeby się nie garbiła. W gabinecie zobaczyłam, dlaczego jej plecy nie mogły być proste',
  description: '',
- primaryText: `Przez cztery ostatnie miesiące przynajmniej dziesięć razy dziennie powtarzałam mojej dziesięcioletniej córce jak zdarta płyta: „Kasia, nie garb się.
-
-Wyprostuj plecy, ściągnij łopatki.". Mówiłam to przy śniadaniu, podczas odrabiania lekcji i na niedzielnych spacerach po Gdyni, aż w końcu Kasia zaczęła na mój głos przewracać oczami i zamykać się w swoim pokoju.
-
-Byłam przekonana, że to zwykłe lenistwo i nawyk od patrzenia w ekran telefonu, dopóki wieczorami nie zaczęła skarżyć się na tępy ból w dole pleców i prawym biodrze.
-
-Kiedy jednak zabrałam ją do gabinetu dr. Ryciaka, lekarz nawet nie kazał jej ściągać łopatek - poprosił, żeby stanęła boso tyłem do mnie, kucnął przy jej piętach i w dziesięć sekund pokazał mi coś, przez co ścisnęło mnie w gardle z poczucia winy.
-
-Okazało się, że kręgosłup mojej córki wyginał się w łuk tylko dlatego, żeby nie przewróciła się przez własne zapadające się stopy.
-
-Nazywam się Małgorzata, mam trzydzieści osiem lat i mieszkamy w Gdyni. Kiedy dziś wracam myślami do tamtych czterech miesięcy, jest mi po ludzku wstyd przed własnym dzieckiem.
-
-Za każdym razem, kiedy widziałam, że Kasia stoi przy kuchennym blacie z wypiętym brzuszkiem, zapadniętą klatką piersiową i prawą łopatką wystającą bardziej niż lewa, traktowałam to jak brak samodyscypliny.
-
-Szturchałam ją lekko między łopatki i rzucałam krótkie „prostuj się". Kasia prostowała się wtedy z wysiłkiem na dwadzieścia sekund, po czym jej plecy jak na sprężynie znów zapadały się w pałąk.
-
-Kiedy w październiku zaczęła mówić po szkole, że ciągną ją lędźwie i kłuje prawe biodro, obwiniłam o wszystko ciężkie podręczniki w czwartej klasie i za niskie krzesło przy biurku.
-
-Ani razu nie spojrzałam na jej bose kostki, kiedy wychodziła z wanny.
-
-Po wyjściu z gabinetu, zanim jeszcze przyszły nasze nowe wkładki, postanowiłam przez siedem kolejnych dni po cichu obserwować Kasię w domu bez ani jednego upomnienia „wyprostuj się".
-
-Pierwszego dnia zobaczyłam, że kiedy Kasia stoi boso w łazience i szczotkuje zęby, jej stopy wręcz wylewają się do środka, kolana kleją się do siebie, a miednica ucieka do przodu, automatycznie wyginając odcinek lędźwiowy.
-
-Drugiego dnia zauważyłam, że kiedy próbuje na siłę ściągnąć łopatki na stojąco, jej całe ciało sztywnieje i traci równowagę, bo na dole nie ma żadnego stabilnego punktu podparcia.
-
-Trzeciego dnia po powrocie ze szkoły zobaczyłam, jak zdejmuje buty i od razu kładzie się na dywanie na brzuchu, podkładając dłonie pod biodra, żeby odciążyć zmęczony kręgosłup.
-
-Czwartego dnia przyjrzałam się, jak siedzi na podłodze w salonie - zawsze w literę W, z kolanami razem i stopami wywiniętymi na boki, a jej plecy tworzyły wtedy kształt litery C.
-
-Piątego dnia sprawdziłam jej wszystkie jesienne buty oraz obuwie zamienne ze szkoły: w każdej parze wewnętrzna krawędź obcasa była ścięta jak nożem, a zapiętki kompletnie wygięte do środka.
-
-Szóstego dnia na spacerze zauważyłam, że Kasia stawia stopy do wewnątrz i kołysze biodrami, a po pół godzinie marszu trzyma się ręką za dół pleców.
-
-Siódmego wieczoru, kiedy weszłam do jej pokoju przykryć ją kołdrą, a na krześle wisiał znienawidzony przez nią pajączek na szelkach, który kupiłam jej miesiąc wcześniej, rozpłakałam się w korytarzu na myśl o tym, jak bardzo męczyłam własną córkę.
-
-Bo zanim dotarłam do prawdziwej przyczyny w stopach, wydałam mnóstwo pieniędzy na walkę z jej plecami.
-
-Najpierw kupiłam w sklepie medycznym sztywny korektor postawy na szelkach za 119 złotych, który wrzynał się Kasi pod pachami i ciągnął jej barki na siłę do tyłu, podczas gdy dół pleców bolał jeszcze bardziej, bo stopy i miednica nadal uciekały do środka.
-
-Potem zapisałam ją na serię prywatnych masaży i ćwiczeń pleców za 360 złotych - pomagało na dwa dni, dopóki nie poszła na osiem godzin do szkoły w płaskich butach.
-
-Do tego doszła prywatna wizyta lekarska za 200 złotych oraz zwykłe miękkie wkładki z apteki za 89 złotych, które spłaszczyły się pod jej piętą w pierwszym tygodniu.
-
-Rozważałam też twarde wkładki termoplastyczne robione na zamówienie za 380 złotych, ale mamy na gdyńskim forum szybko mnie ostrzegły: taka sztywna skorupa działa w bucie jak gips, wyłącza mięśnie stopy z pracy, nie mieści się do normalnych jesiennych butów, a po pięciu miesiącach ląduje w śmietniku, bo dziesięcioletniemu dziecku błyskawicznie rośnie stopa.
+ primaryText: `Przez 4 miesiące upominałam moją 10-letnią córkę dziesięć razy dziennie: „Nie garb się, ściągnij łopatki!”.
+W gabinecie dr Ryciak nawet nie dotknął jej pleców.
+Uklęknął na podłodze i podniósł dłońmi jej zapadnięte łuki stóp.
+Krzywe łopatki i wypięty brzuch wyprostowały się na moich oczach w 3 sekundy.
 
 Moje podsumowanie wydatków na kartce wyglądało tak:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - sztywny korektor postawy na szelkach: 119 zł
 - prywatne masaże i fizjoterapia pleców: 360 zł
@@ -672,9 +433,7 @@ Jedna z mam napisała zdanie, które zapamiętałam od razu: „Dziewczyny, po p
 
 Zamówiłam je jeszcze tego samego dnia. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania i ścisnęłam je w dłoniach, od razu zobaczyłam różnicę między nimi a twardym plastikiem czy zwykłą gąbką z apteki.
 
-Wkładki Orthomax StepMax są zrobione ze sprężystej pianki o zmiennej gęstości, w której korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie lekarza podczas testu w gabinecie.
-
-Pod spodem wyprofilowany łuk działa przy każdym kroku jak sprężyna, która unosi stopę i zmusza mięśnie do aktywnej pracy, a na wierzchu są wypustki pobudzające mięśnie stopy do własnej pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o szkolny beton.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Kasi.
 
@@ -700,65 +459,20 @@ Sprawdź pakiet 1+1 GRATIS i wyrównaj postawę dziecka od fundamentów tutaj: h
 
 P.S. Zrób dziś wieczorem po kąpieli ten prosty test: postaw dziecko boso tyłem do siebie, spójrz na jego łopatki i lędźwie, a potem kucnij i podnieś dłońmi łuki jego stóp od środka.
 
-Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax`,
+Kiedy zobaczysz, jak plecy i barki same prostują się w ułamku sekundy, już nigdy więcej nie powiesz swojemu dziecku, że garbi się z lenistwa.`,
  },
 
  'pl-24-ryciak-rip3-bilans-10-latka': {
  headline: 'Przez 4 lata słyszałam w przychodni: „Z płaskostopia się wyrasta". Zdjęcie rentgenowskie odebrało mi mowę',
  description: '',
- primaryText: `Gdy moja Zosia miała sześć lat i na bilansie w przychodni zapytałam z niepokojem o jej uciekające do środka kostki, pediatra nawet nie kazał jej zdjąć skarpetek - uśmiechnął się tylko znad karty i powiedział: „Mamo, z płaskostopia się wyrasta, proszę dać dziecku spokój".
-
-Gdy Zosia miała osiem lat, usłyszałam w tym samym gabinecie: „Taka jej uroda, dziewczynki w tym wieku mają wiotkie stawy, wszystko się samo wyciągnie".
-
-W zeszłym miesiącu Zosia skończyła dziesięć lat, a kiedy prywatnie poszłyśmy w Gdańsku do gabinetu dr. Ryciaka i lekarz powiesił na podświetlanej tablicy zdjęcie rentgenowskie jej kolan oraz stóp, w pokoju zapadła martwa cisza.
-
-Dr Ryciak odwrócił się do mnie, wskazał długopisem na wykrzywione stawy i powiedział cicho zdanie, od którego ugięły się pode mną nogi: „Gdyby przyszła pani do mnie na tym pierwszym bilansie cztery lata temu, naprawilibyśmy to w kilka miesięcy.
-
-Dzisiaj kąt koślawości ma 12 stopni i zostało pani dokładnie osiemnaście miesięcy, zanim chrząstki wzrostowe stwardnieją na zawsze".
-
-Nazywam się Małgorzata, mam trzydzieści dziewięć lat i mieszkamy w Gdańsku.
-
-Kiedy wyszłam z tamtego gabinetu na parking, siedziałam w samochodzie przez dwadzieścia minut i trzęsły mi się ręce z mieszanki wściekłości na lekarzy z przychodni oraz ogromnego żalu do samej siebie.
-
-Przez cztery lata ślepo ufałam białemu fartuchowi na NFZ, chociaż moje własne oczy podpowiadały mi, że z nogami Zosi dzieje się coś złego.
-
-Widziałam przecież, że na każdym zdjęciu klasowym jej kolana w legginsach kleją się do siebie w literę X, a między kostkami jest dziura na cztery centymetry.
-
-Widziałam, że kiedy jesienią kupowałam jej nowe buty, po trzech tygodniach wyglądały jak noszone przez parę lat - wewnętrzna krawędź pięty była ścięta jak nożem, a cały but wyginał się do środka.
-
-Kiedy Zosia w nocy budziła się z płaczem, bo rwały ją piszczele i łydki, ze strachu przed najgorszymi chorobami biegałam rano na czczo robić jej prywatnie morfologię z rozmazem, CRP i poziom witaminy D, a pediatra znów patrzył w kartkę i powtarzał jak mantrę: „Wyniki idealne, to zwykłe bóle wzrostowe, wyrośnie z tego".
-
-Po wizycie u dr. Ryciaka przez siedem kolejnych dni po cichu obserwowałam Zosię w domu, patrząc na nią zupełnie nowymi oczami i widząc cenę tych czterech straconych lat.
-
-Pierwszego dnia zobaczyłam, jak po powrocie ze szkoły Zosia siada na ławce w przedpokoju, zsuwa buty i przez dłuższą chwilę rozciera dłońmi wewnętrzne kostki oraz kolana.
-
-Drugiego dnia zauważyłam, że schodząc po schodach, stawia stopy dziwnie szeroko i asekuruje się dłonią o ścianę, jakby jej stawy skokowe były z gumy.
-
-Trzeciego dnia wieczorem podejrzałam ją przez uchylone drzwi pokoju: siedziała na dywanie w głęboką literę W z kolanami złączonymi razem i stopami wywiniętymi na zewnątrz, bo przy osłabionym napięciu tylko tak potrafiła utrzymać równowagę.
-
-Czwartego dnia w łazience po kąpieli spojrzałam na jej mokry ślad na płytkach - stopa była kompletnie rozlana i płaska na całej szerokości, a wewnętrzna kostka wisiała dwa centymetry nad podłogą.
-
-Piątego dnia dowiedziałam się od niej przy kolacji, że na WF-ie znów siedziała na ławce rezerwowych, bo przy szybszym biegu potyka się o własne czubki butów i koleżanki się z niej śmieją.
-
-Szóstego dnia w nocy znów musiałam smarować jej piszczele chłodzącym żelem z arniką i podawać syrop przeciwbólowy, bo więzadła po całym dniu na szkolnym betonie pulsowały z przeciążenia.
-
-Siódmego wieczoru, kiedy Zosia zasnęła, wyjęłam z szafy jej zmasakrowane jesienne trzewiki i rozpłakałam się sama w kuchni na myśl o tym, jak łatwo dałam się uśpić słowami „taka jej uroda".
-
-Przez te cztery lata próbowałam zresztą działać na własną rękę, ale każda próba kończyła się ślepą uliczką i wydanymi pieniędzmi.
-
-Byłam wcześniej u dwóch innych specjalistów prywatnie za 400 złotych łącznie i usłyszałam dwie zupełnie sprzeczne opinie: jeden kazał czekać do dziesiątego roku życia, drugi kazał kupić sztywne trzewiki za kostkę.
-
-Kupiłam więc sztywne buty profilaktyczne znanej marki z obcasem Thomasa za 340 złotych - były ciężkie jak cegły, twarde jak gips i wyglądały jak obuwie ze szpitala, więc Zosia chowała je pod ławką w szatni ze wstydu i płakała, że bolą ją w nich stopy.
-
-Kupowałam też w aptece profilowane wkładki skórzano-piankowe za 95 złotych, które pod ciężarem jej pięty uginały się do zera już po tygodniu.
-
-Zastanawiałam się nawet nad twardymi wkładkami robionymi na wymiar w punkcie ortopedycznym za 380 złotych, ale szybko zrozumiałam, dlaczego rodzice na forach tak bardzo przed nimi przestrzegają: sztywny plastik unieruchamia stopę jak szyna gipsowa i rozleniwia mięśnie, nie mieści się do żadnych normalnych butów na jesień czy WF, a ponieważ dziesięciolatce cały czas rośnie stopa, po pięciu miesiącach wyrzucasz prawie czterysta złotych do kosza.
+ primaryText: `Na trzech kolejnych bilansach w przychodni słyszałam od pediatry to samo zdanie:
+„Taka jej uroda, dzieci z płaskostopia i krzywych kostek same wyrastają”.
+Gdy córka skończyła 10 lat, kolana zaczęły obijać się o siebie przy chodzeniu.
+U dr. Ryciaka dowiedziałam się, że zostały nam ostatnie 2 lata, zanim kości zesztywnieją na stałe.
 
 Kiedy podliczyłam nasze dotychczasowe wydatki:
+
+Wcześniej poszło na to mnóstwo pieniędzy bez żadnego trwałego efektu:
 
 - wcześniejsze prywatne konsultacje i badania: 400 zł
 - sztywne buty profilaktyczne: 340 zł
@@ -802,11 +516,7 @@ Wyjęła telefon, pokazała mi naszą trójmiejską grupę dla mam na Facebooku 
 
 Tego samego wieczoru zamówiłam pakiet do domu. Kiedy wyjęłam wkładki Orthomax StepMax z foliowego opakowania, od razu zrozumiałam, dlaczego polecają je sobie tysiące rodziców.
 
-Wkładki Orthomax StepMax są zrobione z elastycznej, sprężystej pianki o zmiennej gęstości, która nie unieruchamia stopy jak gips, tylko pracuje z nią przy każdym kroku.
-
-Ich korytko obejmuje piętę z obu stron i trzyma ją w pionie dokładnie tak, jak dłonie dr. Ryciaka podczas testu, a podparcie łuku działa jak sprężyna, która odbija stopę w górę i zmusza mięśnie do aktywnej pracy przez wszystkie 7000 kroków dziennie.
-
-Na powierzchni znajdują się wypustki pobudzające mięśnie stopy, a miękka warstwa pod piętą tłumi uderzenia o szkolny beton.
+Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 380 zł, tylko miękko podpierają łuk stopy od spodu i trzymają piętę prosto w bucie przy każdym kroku.
 
 Dzięki dokładnej rozmiarówce od razu po wyjęciu z opakowania włożyłam je prosto do zwykłych butów Zosi.
 
@@ -838,12 +548,6 @@ P.S. Nie czekaj na kolejny bilans w przychodni, na którym znów usłyszysz to s
 
 Postaw dziś wieczorem swoje dziecko boso na dywanie, spójrz na jego pięty i kolana, a potem podnieś dłońmi łuki jego stóp od środka.
 
-Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.
-
-P.P.S. Dlaczego 8 na 10 mam bierze od razu Pakiet 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę) albo Pakiet Rodzinny 2+2 GRATIS (4 pary za 154,99 zł)? Bo dziecko spędza część dnia w butach wyjściowych, a kolejne godziny w kapciach szkolnych na twardym korytarzu lub po domowych panelach. Dzięki dwóm parom nie musisz przekładać wkładek z buta do buta co rano, a stopy są podparte przez całe 14 godzin aktywności.
-
-P.P.P.S. Pamiętaj, że na test masz pełne 30 dni gwarancji bez ryzyka. Dziecko może normalnie biegać i chodzić we wkładkach przez cały miesiąc, a jeśli nie zobaczysz różnicy w ustawieniu kostek i braku wieczornego bólu nóg, odsyłasz używane wkładki i odzyskujesz 100% pieniędzy. Sprawdź dostępne rozmiary tutaj: https://orthomax.pl/products/orthomax-stepmax
-
-P.P.P.P.S. Okno plastyczności stopy u dziecka zamyka się w okolicach 12-13 roku życia, dopóki chrząstki i więzadła są jeszcze elastyczne. Im wcześniej ustawisz piętę w pionie przy każdym z 12 000 kroków dziennie, tym szybciej zatrzymasz efekt domina.`,
+Jeśli kolana uciekną z pozycji X do pionu - masz przed oczami dowód, którego żaden lekarz nie powinien był zignorować.`,
  },
 };

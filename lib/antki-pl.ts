@@ -1719,44 +1719,31 @@ Wplataj w narrację autentyczne sformułowania, których polskie matki używają
 
 === 4. FAKTY O PRODUKCIE I NOWY CENNIK (ORTHOMAX STEPMAX) ===
 - Nazwa produktu: wkładki dynamiczne Orthomax StepMax (w liczbie mnogiej!).
-- Konstrukcja i mechanizm (opisz płynnie w historii, bez wyliczanki „Mają... Mają..." i BEZ pisania o docinaniu nożyczkami): charakterystyczne pomarańczowo-czarne wkładki zrobione ze sprężystej pianki o zmiennej gęstości, korytko w kształcie litery U (U-cup) chwytające piętę z obu stron i trzymające ją w pionie, podparcie łuku stopy pracujące jak sprężyna/trampolina przy każdym z 7000 kroków dziennie, wypustki sensoryczne pobudzające mięśnie stopy oraz strefa amortyzacji pod piętą. Dzięki dokładnej rozmiarówce po wyjęciu z pudełka od razu mieszczą się w każdym zwykłym bucie (bez kupowania butów o rozmiar większych).
+- Konstrukcja i mechanizm (ZERO BROCHURE JARGON! Opisz jednym prostym, ludzkim zdaniem, BEZ „sprężystej, oddychającej pianki o zmiennej gęstości", BEZ „głębokiego korytka obejmującego piętę z obu stron", BEZ „wypustek pobudzających receptory czuciowe" i BEZ pisania o docinaniu nożyczkami):
+  Napisz po ludzku: „Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe deski ze sklepu medycznego za 400 zł, tylko miękko podpierają łuk stopy od dołu i trzymają piętę prosto przy chodzeniu."
 - NOWY CENNIK I GWARANCJA (OBOWIĄZKOWO W KAŻDYM TEKŚCIE):
-  * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!). Dostępny jest też pakiet rodzinny 2+2 GRATIS (4 pary za 154,99 zł).
-  * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe jesienią i zimą? Bo dziecko nie musi przekładać wkładek rano w szatni (jedna para do butów zimowych, druga do butów szkolnych na zmianę na pełne 14 godzin dnia) ORAZ nie wydajesz 380 zł co pół roku na twarde wkładki na wymiar, z których rosnąca stopa dziecka wyrasta po 5 miesiącach!
-  * GWARANCJA: 30 dni na test bez ryzyka. Nawet po miesiącu normalnego noszenia i testowania wkładek w butach można je odesłać i odzyskać 100% pieniędzy.
+  * 1 para kosztuje 99,99 zł, ale na oficjalnej stronie w pakiecie 1+1 GRATIS dostajesz DWIE PARY za 99,99 zł (czyli wychodzi dokładnie 50 zł za parę!).
+  * Dlaczego 2 pary w pakiecie 1+1 za 99,99 zł są kluczowe? Jedna para idzie do butów wyjściowych, druga do butów na zmianę w pracy/szkole lub kapci po domu (bez przekładania wkładek rano).
+  * GWARANCJA: 30 dni na test bez ryzyka. Nawet po miesiącu normalnego noszenia w butach można je odesłać i odzyskać 100% pieniędzy.
   * Link docelowy: https://orthomax.pl/products/orthomax-stepmax
 
-=== 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (DŁUGOŚĆ 1100-1300 SŁÓW + KRÓTKIE AKAPITY Z ENTERAMI!) ===
+=== 5. ARCHITEKTURA NASZYCH NAJWIĘKSZYCH WINNERÓW (550-850 SŁÓW + ULTRA-PUNCHY OTWARCIE W 3-4 LINIJKACH!) ===
 KRYTYCZNE:
-- Formatuj tekst w krótkich, 1-2 zdaniowych akapitach oddzielonych pustą linią (enterem), żeby lekko i przyjemnie czytało się go na telefonie na Facebooku!
-- Każdy tekst MUSI mieć **1100-1300 słów** i zawierać wszystkie 7 filarów winnera:
-  1. Uderzenie w środku sceny (Hook + konkretny detal, 140-180 słów)
-  2. Historia matki i dziecka + „Normalizowanie" + „7 DNI OBSERWACJI" + moment, gdy matka wieczorem siada sama w kuchni i płacze z poczucia winy (250-350 słów)
-  3. Kaskada nieudanych prób i dlaczego każda zawiodła + wyliczenie kosztów co do złotówki (180-240 słów)
-  4. Wizualny dowód mechanizmu + Łańcuch kompensacji (↓) + 14h na szkolnym betonie i panelach + Okno wzrostowe 12-13 lat (250-300 słów)
-  5. Wiarygodny most odkrycia + Płynny opis mechanizmu wkładek i dokładnej rozmiarówki (150-200 słów)
-  6. Realistyczna, powolna transformacja zachowania dziecka: Dzień 1-3 -> Tydzień 2 -> Miesiąc 1 -> Miesiąc 3 (180-220 słów)
-  7. Osobiste zamknięcie matki + Oferta 1+1 GRATIS (99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + OBOWIĄZKOWO od 2 do 4 dopisków P.S. na samym końcu (P.S., P.P.S., P.P.P.S., a czasami P.P.P.P.S. - każdy w osobnym akapicie: 1) praktyczny tip o 2 parach do dwóch par butów bez przekładania rano, 2) 30 dni testu w butach nawet ze śladami chodzenia, 3) ostrzeżenie o znikających popularnych rozmiarach lub darmowej dostawie, 4) ciepły emocjonalny detal z życia po zmianie) (160-220 słów)
+- ZERO powieściowych, powolnych wstępów („W zeszłą niedzielę po południu weszłam do mieszkania... żeby podrzucić ciepłą szarlotkę", „stałam oparta o mokrą latarnię na Grzegórzkach"). Pierwsze 3-4 krótkie linijki muszą od razu uderzać w sedno problemu i zatrzymywać scrolla w 2 sekundy!
+- Każdy tekst ma mieć **550-850 słów**, krótkie 1-zdaniowe linijki i zawierać:
+  1. Ultra-punchy Hook w 3-4 krótkich zdaniach (od razu konkretny konflikt/odkrycie, zero lania wody).
+  2. Lista dotychczasowych wydatków linijka po linijce co do złotówki (`- ... zł` + `Razem: ... zł`).
+  3. Krótki, 1-zdaniowy dialog w gabinecie / na SOR-ze (test podniesienia łuku stopy dłońmi przed lustrem + łańcuch kompensacji ze strzałkami `↓` w osobnych linijkach + matematyka 7000-8000 kroków dziennie = 200 000+ kroków miesięcznie po betonie i panelach).
+  4. Ludzki most odkrycia + 1 proste zdanie o wkładkach Orthomax StepMax (bez katalogowego bełkotu) + szybka transformacja (pierwsze dni -> 2 tygodnie -> dziś po 3 miesiącach).
+  5. Zamknięcie z ofertą Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + link + TYLKO JEDEN krótki dopisek `P.S.` na końcu (ZERO `P.P.S.`, `P.P.P.S.`, `P.P.P.P.S.`).
 
 Zwróć wyłącznie poprawny obiekt JSON:
 {
-  "headline": "Świeży, konkretny nagłówek w stylu Mellow dopasowany do historii (zero em-dashów, zero oklepanego 'Jeśli Twoje dziecko bolą stopy')",
-  "description": "Krótki opis pod nagłówkiem (np. Pakiet 1+1 GRATIS (50 zł/para) · 30 dni na test bez ryzyka)",
-  "primaryText": "Pełny, głęboki emocjonalnie tekst reklamy MSL (1100-1300 słów, podzielony enterami na krótkie 1-2 zdaniowe akapity) gotowy do wklejenia w Menedżerze Reklam Meta"
+  "headline": "Krótki, mocny nagłówek dopasowany do historii (zero em-dashów)",
+  "description": "",
+  "primaryText": "Zwięzły, mocny tekst reklamy MSL (550-850 słów, podzielony na krótkie 1-2 zdaniowe linijki) gotowy do wklejenia w Menedżerze Reklam Meta"
 }`;
 
-/**
- * Automatyczny audytor i korektor tekstu Antka PL:
- * - usuwa em-dashe (—) i en-dashes (–)
- * - usuwa ", i "
- * - poprawia liczbę pojedynczą "Orthomax StepMax jest zrobiony / działa / ma" na liczbę mnogą ("Wkładki Orthomax StepMax są zrobione...")
- * - usuwa sztuczne "Pani Małgosiu" z ust ekspedientki/kierowniczki sklepu przy reklamacji butów
- * - zamienia sztuczne godziny co do minuty ("o 20:07", "o 19:43") na naturalną porę dnia ("wieczorem")
- * - przepisuje wyliczankę "Mają korytko... Mają dynamiczne podparcie... Mają też wypustki..." na płynną narrację
- * - ujednolica słowny zapis godzin ("po siedemnastej" -> "po 17:00")
- * - podmienia zużyty nagłówek lub spalony opener jeśli model go użyje
- * - sprawdza obecność nowego cennika (99,99 zł / 50 zł), gwarancji (30 dni) i odpowiedniej długości (min. 950 słów, cel 1100-1300)
- */
 export function sanitizeAndAuditAntkiPl(
   rawText: string,
   rawHeadline: string,
@@ -1793,7 +1780,7 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Usunięto konstrukcję „, i" (zamieniono na „oraz").');
   }
 
-  // 3. Enforce plural grammar for Orthomax StepMax ("są zrobione", "mają", "działają")
+  // 3. Enforce plural grammar for Orthomax StepMax
   const singularPatterns: Array<[RegExp, string]> = [
     [/\b(?:Orthomax\s+StepMax|StepMax)\s+jest\s+zrobion[yae]\b/gi, 'Wkładki Orthomax StepMax są zrobione'],
     [/\b(?:Orthomax\s+StepMax|StepMax)\s+został\s+zaprojektowany\b/gi, 'Wkładki Orthomax StepMax zostały zaprojektowane'],
@@ -1810,104 +1797,78 @@ export function sanitizeAndAuditAntkiPl(
     }
   }
   if (pluralFixed) {
-    fixes.push('Poprawiono formę gramatyczną Orthomax StepMax z liczby pojedynczej na mnogą (wkładki „są zrobione / działają / mają").');
+    fixes.push('Poprawiono formę gramatyczną Orthomax StepMax z liczby pojedynczej na mnogą.');
   }
 
-  // 4. Fix stranger store clerk knowing mother's first name ("Pani Małgosiu, ja pani ten wniosek/zwrot/reklamację przyjmę")
+  // 4. Strip brochure product descriptions ("zmiennej gęstości", "głębokie korytko", "wypustki")
+  if (/zmiennej\s+gęstości|głębokie\s+korytko|wypustki\s+(?:na\s+powierzchni|sensoryczne|pobudzają)/i.test(text)) {
+    const paras = text.split(/\n\s*\n/);
+    let replacedBrochure = false;
+    const cleanedParas: string[] = [];
+    for (const p of paras) {
+      if (/zmiennej\s+gęstości|głębokie\s+korytko|wypustki\s+(?:na\s+powierzchni|sensoryczne|pobudzają)|pod\s+śródstopiem\s+znajduje\s+się/i.test(p)) {
+        if (!replacedBrochure) {
+          replacedBrochure = true;
+          cleanedParas.push(
+            'Wkładki Orthomax StepMax są zrobione z elastycznej pianki - nie są twarde jak plastikowe wkładki ze sklepu medycznego za 400 zł, tylko miękko podpierają łuk stopy od dołu i trzymają piętę prosto przy chodzeniu.',
+          );
+        }
+        continue;
+      }
+      cleanedParas.push(p);
+    }
+    text = cleanedParas.join('\n\n');
+    fixes.push('Skasowano katalogowy opis wkładek (pianka o zmiennej gęstości / głębokie korytko / wypustki) na rzecz prostego ludzkiego zdania.');
+  }
+
+  // 5. Strip P.P.S / P.P.P.S / P.P.P.P.S
+  if (/^\s*P(?:\.P)+\.S\./m.test(text)) {
+    text = text
+      .split('\n')
+      .filter(ln => !/^\s*P(?:\.P)+\.S\./.test(ln.trim()))
+      .join('\n');
+    fixes.push('Usunięto nadmiarowe dopiski P.P.S. / P.P.P.S.');
+  }
+
+  // 6. Fix stranger store clerk knowing mother's first name
   if (/Pani\s+(?:Małgosiu|Gosiu),\s*(?:ja\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację)\s+przyjmę|przyjmę\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację))/i.test(text)) {
     text = text.replace(
       /Pani\s+(?:Małgosiu|Gosiu),\s*(?:ja\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację)\s+przyjmę|przyjmę\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację))/gi,
       'Przyjmę pani ten zwrot, proszę się nie martwić',
     );
-    fixes.push('Usunięto nienaturalne zwracanie się po imieniu („Pani Małgosiu") przez pracownicę sklepu przy reklamacji butów.');
+    fixes.push('Usunięto nienaturalne zwracanie się po imieniu przez pracownicę sklepu.');
   }
 
-  // 5. Fix hyper-specific fake timestamps (e.g., "o 20:07", "o 19:14", "W zeszły czwartek o 20:00")
+  // 7. Fix hyper-specific fake timestamps
   if (/\bo\s+(?:1[789]|2[0123]):(?:0[1-9]|[12345]\d)\b/i.test(text)) {
     text = text.replace(/\bo\s+(?:1[89]|2[012]):(?:0[1-9]|[12345]\d)\b/gi, 'wieczorem');
     text = text.replace(/\bo\s+17:(?:0[1-9]|[12345]\d)\b/gi, 'po południu');
     text = text.replace(/\bo\s+23:(?:0[1-9]|[12345]\d)\b/gi, 'w środku nocy');
-    fixes.push('Zamieniono sztuczne, co do minuty godziny (np. „o 20:07") na naturalne określenia pory dnia („wieczorem", „w środku nocy").');
-  }
-  if (/W\s+zeszły\s+(?:poniedziałek|wtorek|czwartek|piątek)\s+o\s+(?:18|19|20|21):[0-5]\d/i.test(text)) {
-    text = text.replace(/W\s+zeszły\s+(poniedziałek|wtorek|czwartek|piątek)\s+o\s+(?:18|19|20|21):[0-5]\d/gi, 'W zeszły $1 wieczorem');
-    fixes.push('Zamieniono „W zeszły czwartek o XX:XX" na naturalne „W zeszły czwartek wieczorem".');
+    fixes.push('Zamieniono sztuczne godziny co do minuty na naturalne określenia pory dnia.');
   }
 
-  // 6. Fix neighbour randomly walking into bathroom uninvited
-  if (/I\s+wtedy\s+do\s+łazienki\s+weszła\s+nasza\s+sąsiadka/i.test(text) || /do\s+naszej\s+łazienki\s+weszła\s+sąsiadka/i.test(text)) {
-    text = text
-      .replace(
-        /I\s+wtedy\s+do\s+łazienki\s+weszła\s+nasza\s+sąsiadka\s+z\s+piętra\.?\s*Fizjoterapeutka\s+dziecięca\.?/gi,
-        'Nie wytrzymałam, poszłam zapukać do naszej sąsiadki z piętra, która jest fizjoterapeutką dziecięcą, i poprosiłam ją o poradę. Przyszła po chwili do nas do łazienki.',
-      )
-      .replace(
-        /do\s+naszej\s+łazienki\s+weszła\s+sąsiadka\s+z\s+piętra,\s+która\s+pracuje\s+jako\s+fizjoterapeutka\s+dziecięca/gi,
-        'poprosiłam o radę naszą sąsiadkę z piętra, która pracuje jako fizjoterapeutka dziecięca, żeby zaszła na chwilę i spojrzała na jej nogi',
-      );
-    fixes.push('Poprawiono logikę sceny w łazience: sąsiadka-fizjoterapeutka przychodzi na wyraźną prośbę matki o poradę, a nie wchodzi sama z ulicy.');
-  }
-
-  // 7. Fix repetitive "Mają... Mają... Mają..." anaphora on product features
-  const majaTripletRegex =
-    /Mają\s+głębokie\s+korytko[^.\n]+\.\s*\n+\s*Mają\s+dynamiczne\s+podparcie[^.\n]+\.\s*\n+\s*Mają\s+też\s+wypustki\s+sensoryczne[^.\n]+\./i;
-  if (majaTripletRegex.test(text)) {
-    text = text.replace(
-      majaTripletRegex,
-      'korytko w kształcie litery U obejmuje w nich piętę z obu stron i trzyma ją w pionie, a podparcie łuku stopy działa przy każdym kroku jak sprężyna. Do tego delikatne wypustki sensoryczne na powierzchni cały czas pobudzają mięśnie stopy do pracy, podczas gdy miękka strefa pod piętą amortyzuje uderzenia o twardą podłogę.',
-    );
-    fixes.push('Zamieniono wyliczankę „Mają... Mają... Mają..." na płynny, naturalny opis działania wkładek.');
-  }
-
-  // 8. Normalize spoken clock hours ("po siedemnastej", "o dziewiętnastej" -> "po 17:00", "o 19:00")
-  const spokenHours: Array<[RegExp, string]> = [
-    [/\b(po|przed|około)\s+szesnastej\b/gi, '$1 16:00'],
-    [/\b(po|przed|około)\s+siedemnastej\b/gi, '$1 17:00'],
-    [/\b(po|przed|około)\s+osiemnastej\b/gi, '$1 18:00'],
-    [/\b(po|przed|około)\s+dziewiętnastej\b/gi, '$1 19:00'],
-    [/\b(po|przed|około)\s+dwudziestej\b/gi, '$1 20:00'],
-    [/\bo\s+godzinie\s+szóstej\s+rano\b/gi, 'o 6:00 rano'],
-    [/\bgodzina\s+szósta\s+rano\b/gi, 'godzina 6:00 rano'],
-  ];
-  let hoursFixed = false;
-  for (const [regex, replacement] of spokenHours) {
-    if (regex.test(text)) {
-      text = text.replace(regex, replacement);
-      hoursFixed = true;
-    }
-  }
-  if (hoursFixed) {
-    fixes.push('Ujednolicono zapis godzin zegarowych do formatu cyfrowego (np. 17:00, 19:00, 6:00).');
-  }
-
-  // 9. Replace accidental old price 74,99 / 75 zł / 37 zł for insoles
+  // 8. Replace accidental old price 74,99 / 75 zł / 37 zł for insoles
   if (/\b74[,.]99\b|\b37\s*zł\s*za\s*parę/i.test(text)) {
     text = text
       .replace(/\b74[,.]99\s*zł(?:otych)?/gi, '99,99 zł')
       .replace(/\b75\s*zł\s*za\s*(?:2|dwie)\s*pary/gi, '99,99 zł za 2 pary w pakiecie 1+1')
       .replace(/\b37(?:[,.]50)?\s*zł\s*za\s*parę/gi, '50 zł za parę');
-    fixes.push('Zaktualizowano historyczną cenę (74,99/75 zł) na aktualny cennik 99,99 zł (50 zł za parę w 1+1).');
+    fixes.push('Zaktualizowano historyczną cenę na 99,99 zł (50 zł za parę w 1+1).');
   }
 
-  // 10. Replace broken product handle /products/stepmax with /products/orthomax-stepmax
+  // 9. Replace broken product handle /products/stepmax with /products/orthomax-stepmax
   if (/orthomax\.pl\/products\/stepmax(?![a-z0-9-])/i.test(text)) {
     text = text.replace(/orthomax\.pl\/products\/stepmax(?![a-z0-9-])/gi, 'orthomax.pl/products/orthomax-stepmax');
-    fixes.push('Naprawiono link produktowy na działający adres: https://orthomax.pl/products/orthomax-stepmax.');
+    fixes.push('Naprawiono link produktowy na https://orthomax.pl/products/orthomax-stepmax.');
   }
 
-  // 11. Replace any accidental scissor-trimming mentions with exact sizing
+  // 10. Replace any accidental scissor-trimming mentions
   if (/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/i.test(text)) {
     text = text.replace(/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/gi, 'miesiącu normalnego noszenia w butach');
-    fixes.push('Usunięto wzmiankę o docinaniu nożyczkami (wkładki mają dokładną rozmiarówkę).');
+    fixes.push('Usunięto wzmiankę o docinaniu nożyczkami.');
   }
 
-  // 12. Replace overused headline if model defaulted to "Jeśli Twoje dziecko bolą stopy, przeczytaj to"
-  if (/Jeśli\s+Twoje\s+dziecko\s+bolą\s+stopy/i.test(headline) && fallbackHeadline && !/Jeśli\s+Twoje\s+dziecko/i.test(fallbackHeadline)) {
-    headline = fallbackHeadline;
-    fixes.push('Zamieniono zużyty nagłówek „Jeśli Twoje dziecko bolą stopy..." na świeży nagłówek Mellow-style.');
-  }
-
-  // 13. Clean excessive blank lines
+  // 11. Clean excessive blank lines
   text = text.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n');
 
   const words = (text.match(/\p{L}+(?:['’-]\p{L}+)*/gu) || []).length;
@@ -1920,18 +1881,6 @@ export function sanitizeAndAuditAntkiPl(
   if (/,\s+i\s+/i.test(text)) {
     warnings.push('Wykryto przecinek przed „i".');
   }
-  if (/Nie miałam zamiaru tego udostępniać/i.test(text)) {
-    warnings.push('Wykryto zużyty opener „Nie miałam zamiaru tego udostępniać..." - zalecane otwarcie od konkretnej sceny (Mellow style).');
-  }
-  if (/płakałam\s+razem\s+z\s+moim|płakałam\s+razem\s+z\s+moją/i.test(text)) {
-    warnings.push('Uwaga na realizm: matka nie powinna płakać „razem z dzieckiem" w trakcie kłótni, tylko dopiero później sama.');
-  }
-  if ((text.match(/\bMają\s+/g) || []).length >= 3) {
-    warnings.push('Wykryto powtarzające się wyliczenie „Mają... Mają... Mają..." - opisz budowę wkładek płynną narracją.');
-  }
-  if (/worek\s+z\s+kapciami|worka\s+z\s+kapciami/i.test(text)) {
-    warnings.push('Wykryto frazę „worek z kapciami" (w szkole dzieci mają buty na zmianę w szatni, nie worek z kapciami).');
-  }
   if (!/stepmax|orthomax/i.test(text)) {
     warnings.push('Brak nazwy produktu Orthomax / StepMax w tekście.');
   }
@@ -1941,8 +1890,8 @@ export function sanitizeAndAuditAntkiPl(
   if (!/30\s*dni/i.test(text)) {
     warnings.push('Brak wzmianki o 30-dniowej gwarancji zwrotu bez ryzyka.');
   }
-  if (words < 900) {
-    warnings.push(`Tekst jest za krótki (${words} słów - nasze winnery mają 1100-1300 słów z głęboką historią matki i dziecka).`);
+  if (words < 400) {
+    warnings.push(`Tekst jest za krótki (${words} słów).`);
   }
 
   return {
