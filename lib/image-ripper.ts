@@ -395,8 +395,12 @@ export async function submitKieRipperTask(
   } | null;
 
   const taskId = json?.data?.taskId;
-  if (!res.ok || !taskId) {
-    throw new Error(json?.msg || `Kie.ai createTask failed (HTTP ${res.status})`);
+  if (!res.ok || json?.code === 402 || !taskId) {
+    const code = Number(json?.code) || res.status;
+    if (code === 402) {
+      throw new Error('Kie.ai: brak kredytów na koncie (HTTP 402 — doładuj konto Kie.ai).');
+    }
+    throw new Error(json?.msg || `Kie.ai createTask failed (HTTP ${res.status}/${code})`);
   }
   return taskId;
 }

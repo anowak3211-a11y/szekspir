@@ -398,12 +398,17 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
           autoTriggeredKieRef.current.delete(targetAngleId);
         }
       } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.';
         autoTriggeredKieRef.current.delete(targetAngleId);
-        setError(err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.');
+        setError(msg);
+        if (/402|kredyt|Podłącz KIE/i.test(msg)) {
+          return false;
+        }
       } finally {
         inFlightKieAnglesRef.current.delete(targetAngleId);
         setGeneratingKie5(false);
       }
+      return true;
     },
     [adByAngleId, activePreset, editPrimaryText, editHeadline],
   );
@@ -471,7 +476,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
 
           autoTriggeredKieRef.current.add(nextPreset.id);
           const ad = adsMap.get(nextPreset.id);
-          await triggerKieRef.current(nextPreset, ad?.primaryText, ad?.headline);
+          const ok = await triggerKieRef.current(nextPreset, ad?.primaryText, ad?.headline);
+          if (ok === false) break;
         }
       } finally {
         batchKieRunnerActiveRef.current = false;

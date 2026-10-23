@@ -1333,6 +1333,7 @@ export default function AntkiPlPage() {
           autoTriggeredKieRef.current.delete(targetAngleId);
         }
       } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Błąd podczas generowania 10 zdjęć w Kie.ai.';
         autoTriggeredKieRef.current.delete(targetAngleId);
         setKieTasksByAngle(prev => {
           const cur = prev[targetAngleId] || [];
@@ -1341,11 +1342,15 @@ export default function AntkiPlPage() {
           delete next[targetAngleId];
           return next;
         });
-        setError(err instanceof Error ? err.message : 'Błąd podczas generowania 10 zdjęć w Kie.ai.');
+        setError(msg);
+        if (/402|kredyt|Podłącz KIE/i.test(msg)) {
+          return false;
+        }
       } finally {
         inFlightKieAnglesRef.current.delete(targetAngleId);
         setGeneratingKie5AngleId(prev => (prev === targetAngleId ? null : prev));
       }
+      return true;
     },
     [adByAngleId, activeAngle, editPrimaryText, editHeadline, assignImageToAngles],
   );
@@ -1436,7 +1441,8 @@ export default function AntkiPlPage() {
           const ad = adsMap[nextPreset.id];
           const copy = ad?.primaryText || nextPreset.hookIdea || nextPreset.sceneBeat || nextPreset.title;
           autoTriggeredKieRef.current.add(nextPreset.id);
-          await triggerKieRef.current(nextPreset, copy, ad?.headline || nextPreset.defaultHeadline);
+          const ok = await triggerKieRef.current(nextPreset, copy, ad?.headline || nextPreset.defaultHeadline);
+          if (ok === false) break;
         }
       } finally {
         batchKieRunnerActiveRef.current = false;

@@ -130,16 +130,7 @@ async function readLibraryState(): Promise<{
       deletedImageIds: [],
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    const rawCustomImages = Array.isArray(value?.customImages) ? value.customImages : [];
-    // Keep all generated Kie.ai images for all angles (including kie-raw-noom45-* and kie-raw-h45-*)
-    const customImages = rawCustomImages.filter(img => {
-      if (!img.id.startsWith('kie-raw-')) return true;
-      const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === img.angleId);
-      if (preset && preset.number >= 45) {
-        return img.id.startsWith('kie-raw-noom45-') || img.id.startsWith('kie-raw-h45-');
-      }
-      return true;
-    });
+    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
     const deletedImageIds = Array.isArray(value?.deletedImageIds) ? value.deletedImageIds : [];
     if (stored.length === 0) {
       return { ads: defaultArgonAds.map(ensureAdImage), customImages, deletedImageIds };
