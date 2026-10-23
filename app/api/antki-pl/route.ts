@@ -141,7 +141,8 @@ async function readLibraryState(): Promise<{
     }
     for (const ad of stored) {
       const baseAd = byAngle.get(ad.angleId);
-      const isUnmodifiedArgonCopy = ad.id.startsWith('antek-pl-argon-');
+      const isUnmodifiedArgonCopy =
+        ad.id.startsWith('antek-pl-argon-') || !ad.wordCount || ad.wordCount < 1050;
       const rawPrimaryText = isUnmodifiedArgonCopy && baseAd ? baseAd.primaryText : ad.primaryText;
       const rawHeadline = isUnmodifiedArgonCopy && baseAd ? baseAd.headline : ad.headline;
       const rawDescription = isUnmodifiedArgonCopy && baseAd ? baseAd.description : ad.description;

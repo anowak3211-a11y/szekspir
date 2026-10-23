@@ -1821,15 +1821,6 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Skasowano katalogowy opis wkładek (pianka o zmiennej gęstości / głębokie korytko / wypustki) na rzecz prostego ludzkiego zdania.');
   }
 
-  // 5. Strip P.P.S / P.P.P.S / P.P.P.P.S
-  if (/^\s*P(?:\.P)+\.S\./m.test(text)) {
-    text = text
-      .split('\n')
-      .filter(ln => !/^\s*P(?:\.P)+\.S\./.test(ln.trim()))
-      .join('\n');
-    fixes.push('Usunięto nadmiarowe dopiski P.P.S. / P.P.P.S.');
-  }
-
   // 6. Fix stranger store clerk knowing mother's first name
   if (/Pani\s+(?:Małgosiu|Gosiu),\s*(?:ja\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację)\s+przyjmę|przyjmę\s+pani\s+t(?:en|ę)\s+(?:wniosek|zwrot|reklamację))/i.test(text)) {
     text = text.replace(

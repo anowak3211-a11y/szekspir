@@ -1316,7 +1316,7 @@ export default function AntkiPlPage() {
     await triggerKie10ImagesForAngle(activeAngle);
   }, [activeAngle, triggerKie10ImagesForAngle]);
 
-  // Z BOMBY: automatycznie odpalaj generowanie nowych obrazków w Kie.ai dla każdego otwartego copy, które jeszcze ich nie ma!
+  // Z BOMBY: automatycznie odpalaj generowanie nowych obrazków w Kie.ai dla każdego otwartego copy ORAZ w tle dla całego batcha!
   useEffect(() => {
     if (!activeAngle || loading) return;
     const angleId = activeAngle.id;
@@ -1345,6 +1345,33 @@ export default function AntkiPlPage() {
     autoTriggeredKieRef.current.add(angleId);
     void triggerKie10ImagesForAngle(activeAngle, adForAngle.primaryText, adForAngle.headline);
   }, [activeAngle, loading, kieTasksByAngle, imageLibrary, adByAngleId, triggerKie10ImagesForAngle]);
+
+  const batchKieRunnerActiveRef = useRef(false);
+  useEffect(() => {
+    if (loading || batchKieRunnerActiveRef.current || !filteredPresets.length) return;
+    const pendingAngles = filteredPresets.filter(preset => {
+      if (autoTriggeredKieRef.current.has(preset.id)) return false;
+      const existing = imageLibrary.filter(img => img.angleId === preset.id && img.id.startsWith('kie-raw-'));
+      if (existing.length >= 2) return false;
+      return Boolean(adByAngleId[preset.id]?.primaryText);
+    });
+    if (pendingAngles.length === 0) return;
+
+    batchKieRunnerActiveRef.current = true;
+    void (async () => {
+      try {
+        for (const preset of pendingAngles) {
+          if (autoTriggeredKieRef.current.has(preset.id)) continue;
+          const ad = adByAngleId[preset.id];
+          if (!ad?.primaryText) continue;
+          autoTriggeredKieRef.current.add(preset.id);
+          await triggerKie10ImagesForAngle(preset, ad.primaryText, ad.headline);
+        }
+      } finally {
+        batchKieRunnerActiveRef.current = false;
+      }
+    })();
+  }, [loading, filteredPresets, imageLibrary, adByAngleId, triggerKie10ImagesForAngle]);
 
   const cycleAngleImage = useCallback(
     (angle: AntkiPlPresetAngle, delta: -1 | 1, explicitSlot?: 1 | 2) => {
