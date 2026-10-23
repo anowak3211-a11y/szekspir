@@ -663,7 +663,7 @@ export const POST = accountRoute(async (req: Request) => {
         scenes.map(async (scene, idx) => {
           const fullPrompt = buildRawShitQualityKiePrompt(scene.scenePrompt, scene.includeProductRef);
           const payload = buildKieCreateTaskPayload({
-            model: 'nano-banana-pro',
+            model: 'flux-2/pro-text-to-image',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
             aspectRatio: '1:1',

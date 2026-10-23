@@ -10,6 +10,7 @@ import { copyReferenceLabel } from './product-reference';
 export type RipperAspectRatio = '1:1' | '3:4' | '4:5' | '9:16' | '16:9' | 'auto';
 export type KieRipperModel =
   | 'nano-banana-pro'
+  | 'flux-2/pro-text-to-image'
   | 'gpt-image-2-image-to-image'
   | 'recraft/crisp-upscale';
 
@@ -361,7 +362,18 @@ export function buildKieCreateTaskPayload(params: {
       },
     };
   }
-  const mappedRatio = aspectRatio === '4:5' ? '3:4' : aspectRatio || 'auto';
+  const mappedRatio = aspectRatio === '4:5' ? '3:4' : aspectRatio || '1:1';
+  if (model === 'flux-2/pro-text-to-image') {
+    return {
+      model: 'flux-2/pro-text-to-image' as const,
+      input: {
+        prompt,
+        aspect_ratio: mappedRatio === 'auto' ? '1:1' : mappedRatio,
+        resolution: resolution === '4K' ? '2K' : resolution || '1K',
+        nsfw_checker: false,
+      },
+    };
+  }
   return {
     model: 'nano-banana-pro' as const,
     input: {
