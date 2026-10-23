@@ -205,7 +205,7 @@ export const POST = accountRoute(async (req: Request) => {
         submitKieRipperTask,
         uploadPublicReferenceToKie,
       } = await import('@/lib/image-ripper');
-      const { brainClient, brainOptions, brainSettings } = await import('@/lib/account-brain');
+      const { buildFelioraEightKieScenes } = await import('@/lib/stryde-feliora-kie-scenes');
 
       const angleId = (body.angleId || '').trim();
       const preset = FELIORA_PRESET_ANGLES.find(a => a.id === angleId);
@@ -213,69 +213,13 @@ export const POST = accountRoute(async (req: Request) => {
       const headline = (body.headline || preset?.title || '').trim();
       const title = (body.title || preset?.shortTitle || angleId || 'Feliora PL').trim();
 
-      let scenes: Array<{ label: string; scenePrompt: string; includeProductRef: boolean }> = [
-        {
-          label: 'Ujęcie #1 · Problem (Mokra plama / Sikanie)',
-          scenePrompt:
-            'First-person POV looking down at a fresh dark wet cat urine stain on a crumpled cotton duvet on an unmade bed in a cramped Polish apartment bedroom under dim 2700K yellow bulb light, with a tense domestic tabby cat sitting at the corner of the mattress.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #2 · Punkt Załamania (Folia / Ocet / Kuweciarnia)',
-          scenePrompt:
-            'Ugly hasty phone snapshot in a Polish apartment living room: a grey fabric sofa covered with crinkly translucent painter plastic foil taped with yellow masking tape, a bucket of soapy water and a bottle of spirit vinegar on the floor.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #3 · Zbliżenie Emocjonalne (Kot w stresie)',
-          scenePrompt:
-            'Dark grainy smartphone photo taken at floor level with harsh camera flash peering under a wooden bed frame in a Polish apartment: a scared cat crouched low in the back corner with wide reflective eyes and an untouched food bowl.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #4 · Demaskacja (Obróżki / Spraye / Rachunki od weta)',
-          scenePrompt:
-            'Cluttered top-down smartphone snapshot on a scratched Polish kitchen table under harsh indoor light: a purple calming cat collar cut in half with scissors next to crumpled vet clinic fiscal receipts and unbranded pet spray bottles.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #5 · Rozwiązanie (Wtyczka Feliora w gniazdku + śpiący kot)',
-          scenePrompt:
-            'Unstaged amateur phone photo in a Polish apartment hallway under warm 2700K evening bulb light: a white rounded duck-head Feliora pheromone diffuser with an amber bottle plugged into a wall socket above the baseboard, and a calm tabby cat sleeping on the floor nearby.',
-          includeProductRef: true,
-        },
-      ];
-
-      try {
-        const s = brainSettings();
-        const opts = brainOptions(45000);
-        const client = brainClient(opts);
-        const completion = await client.chat.completions.create({
-          model: s?.model || 'gpt-5.4',
-          response_format: { type: 'json_object' },
-          messages: [
-            {
-              role: 'system',
-              content:
-                'You extract 5 ultra-raw, ugly, amateur Polish smartphone photo prompts ("shit quality", slight blur, high ISO grain, zero AI glow, zero text overlays) matching a Polish native Facebook post about cat stress/peeing and the Feliora pheromone diffuser. Shots 1-4 MUST have includeProductRef: false (pure problem/home scenes, zero diffusers). Shot 5 MUST have includeProductRef: true (the white duck-head Feliora plug-in diffuser in a Polish wall socket or on a kitchen table). Return JSON: { "scenes": [ { "label": "Ujęcie #1 · ...", "scenePrompt": "...", "includeProductRef": false }, ... ] }',
-            },
-            {
-              role: 'user',
-              content: `Tytuł kąta: ${title}\nNagłówek: ${headline}\nTekst reklamy:\n${primaryText.slice(0, 3800)}`,
-            },
-          ],
-        });
-        const parsed = JSON.parse(completion.choices[0]?.message?.content || '{}');
-        if (Array.isArray(parsed.scenes) && parsed.scenes.length >= 5) {
-          scenes = parsed.scenes.slice(0, 5).map((item: Record<string, unknown>, i: number) => ({
-            label: String(item.label || `Ujęcie #${i + 1}`),
-            scenePrompt: String(item.scenePrompt || scenes[i].scenePrompt),
-            includeProductRef: Boolean(item.includeProductRef ?? i === 4),
-          }));
-        }
-      } catch {
-        // Fallback to default 5 Feliora scenes
-      }
+      // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Feliora diffuser product shot
+      const scenes = buildFelioraEightKieScenes({
+        angleId,
+        primaryText,
+        headline,
+        title,
+      });
 
       let productRefKieUrl: string | undefined;
       try {
@@ -286,7 +230,10 @@ export const POST = accountRoute(async (req: Request) => {
 
       const tasks = await Promise.all(
         scenes.map(async (scene, idx) => {
-          const fullPrompt = `${scene.scenePrompt} Raw, ugly, shit quality amateur smartphone snapshot, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and noise, crooked off-center framing, flat harsh Polish apartment lighting, muddy shadows. STRICT BAN: zero AI glow, zero studio lighting, zero bokeh, zero HDR, zero text overlays or watermarks.`;
+          const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
+          const fullPrompt = isNoomTemplate
+            ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
+            : `${scene.scenePrompt} Raw, ugly, shit quality amateur smartphone snapshot, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and noise, crooked off-center framing, flat harsh Polish apartment lighting, muddy shadows. STRICT BAN: zero AI glow, zero studio lighting, zero bokeh, zero HDR, zero watermarks.`;
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
@@ -328,7 +275,7 @@ export const POST = accountRoute(async (req: Request) => {
       const angleId = (body.angleId || '').trim();
       const preset = FELIORA_PRESET_ANGLES.find(a => a.id === angleId);
       const label = (body.label || `Kie.ai Raw #${preset?.number || ''}`).trim();
-      const assetId = `kie-fel-raw-${taskId}`;
+      const assetId = `kie-fel-noom-${taskId}`;
 
       let uploadedHash = '';
       try {
@@ -350,7 +297,7 @@ export const POST = accountRoute(async (req: Request) => {
         url: status.resultUrl,
         imageHash: uploadedHash,
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Kie.ai Raw Native (Shit Quality)',
+        adsetOrigin: 'Kie.ai Raw Native (50% Hook + 3x Wzór Noom)',
         adOrigin: preset?.code || 'KIE-RAW',
         aspectRatio: '1:1',
         source: 'ai',
@@ -370,7 +317,7 @@ export const POST = accountRoute(async (req: Request) => {
         } else {
           customList.unshift(newAsset);
         }
-        state.customImages = customList.slice(0, 80);
+        state.customImages = customList.slice(0, 300);
         return { customImages: state.customImages, ads: state.ads || defaultAds };
       });
 

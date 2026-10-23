@@ -316,7 +316,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
     if (!activePreset || !activeAd) return;
     setGeneratingKie5(true);
     setError('');
-    setNotice(`Wysyłam 5 surowych scen (Kie.ai — Shit Quality) dla kąta #${activePreset.number}...`);
+    setNotice(`Wysyłam 8 scen (4x Hook + 3x Wzór Noom.pl + 1x Produkt) do Kie.ai dla kąta #${activePreset.number}...`);
     try {
       const res = await fetch('/api/feliora-pl', {
         method: 'POST',
@@ -331,10 +331,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
       });
       const data = await res.json();
       if (!res.ok || !Array.isArray(data.tasks)) {
-        throw new Error(data.error || 'Błąd uruchamiania 5 zadań Kie.ai.');
+        throw new Error(data.error || 'Błąd uruchamiania 8 zadań Kie.ai.');
       }
       const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
-      setNotice(`Kie.ai generuje 5 surowych zdjęć z telefonu dla kąta #${activePreset.number} (~20-40s)...`);
+      setNotice(`Kie.ai generuje ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${activePreset.number} (~20-40s)...`);
       await Promise.all(
         tasks.map(async t => {
           for (let attempt = 0; attempt < 40; attempt++) {
@@ -361,9 +361,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
           }
         }),
       );
-      setNotice(`Wygenerowano 5 surowych zdjęć z telefonu (Kie.ai) dla kąta #${activePreset.number}!`);
+      setNotice(`Wygenerowano ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${activePreset.number}!`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Błąd generowania 5 zdjęć w Kie.ai.');
+      setError(err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.');
     } finally {
       setGeneratingKie5(false);
     }
@@ -1446,8 +1446,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                 }}
               >
                 {generatingKie5
-                  ? '⏳ Generuję 5 surowych zdjęć w Kie.ai...'
-                  : '📸 Generuj 5 surowych zdjęć z telefonu (Kie.ai — Shit Quality)'}
+                  ? '⏳ Generuję 8 zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) w Kie.ai...'
+                  : '📸 Generuj 8 zdjęć pod ten kąt: 4x Hook + 3x Wzór Noom.pl + 1x Produkt (Kie.ai)'}
               </button>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -1595,6 +1595,115 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                   </button>
                 </div>
               </div>
+
+              {/* ANGLE-SPECIFIC GENERATED PHOTOS (4x HOOK + 3x WZÓR NOOM + 1x PRODUKT) */}
+              {imageLibrary.some(img => img.angleId === activePreset.id) && (
+                <div
+                  style={{
+                    background: 'rgba(139, 92, 246, 0.12)',
+                    border: '1px solid #8b5cf6',
+                    borderRadius: '10px',
+                    padding: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}
+                >
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#c4b5fd' }}>
+                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (4x Hook + 3x Wzór Noom.pl + 1x Produkt ·{' '}
+                    {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
+                  </span>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                      gap: '8px',
+                    }}
+                  >
+                    {imageLibrary
+                      .filter(img => img.angleId === activePreset.id)
+                      .map(img => {
+                        const isA = activeAd.imageUrl === img.url;
+                        const isB = activeAd.secondImageUrl === img.url;
+                        return (
+                          <div
+                            key={`angle-${img.id}`}
+                            style={{
+                              position: 'relative',
+                              borderRadius: '8px',
+                              overflow: 'hidden',
+                              background: '#1d1033',
+                              border: isA
+                                ? '2px solid #8b5cf6'
+                                : isB
+                                ? '2px solid #fbbf24'
+                                : '1px solid #5c2f14',
+                              display: 'flex',
+                              flexDirection: 'column',
+                            }}
+                          >
+                            <div
+                              onClick={() => setLightboxAsset(img)}
+                              title={img.label}
+                              style={{ position: 'relative', cursor: 'zoom-in' }}
+                            >
+                              <img
+                                src={img.url}
+                                alt={img.label}
+                                style={{
+                                  width: '100%',
+                                  aspectRatio: '1 / 1',
+                                  objectFit: 'cover',
+                                  display: 'block',
+                                }}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                borderTop: '1px solid #5c2f14',
+                                background: '#120921',
+                              }}
+                            >
+                              <button
+                                type="button"
+                                onClick={() => handleAssignImage(img, 'primary')}
+                                style={{
+                                  background: isA ? '#7c3aed' : 'transparent',
+                                  color: isA ? '#ffffff' : '#c4b5fd',
+                                  border: 'none',
+                                  borderRight: '1px solid #5c2f14',
+                                  padding: '5px 4px',
+                                  fontSize: '10px',
+                                  fontWeight: 800,
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Ustaw A
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleAssignImage(img, 'secondary')}
+                                style={{
+                                  background: isB ? '#d97706' : 'transparent',
+                                  color: isB ? '#ffffff' : '#fcd34d',
+                                  border: 'none',
+                                  padding: '5px 4px',
+                                  fontSize: '10px',
+                                  fontWeight: 800,
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Ustaw B
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
 
               {/* ENLARGED GRID OF ALL 15 KIE.AI RAW PHONE PHOTOS (CLICK TO ZOOM, A/B BUTTONS TO ASSIGN) */}
               <div

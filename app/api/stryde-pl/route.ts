@@ -126,7 +126,7 @@ export const POST = accountRoute(async (req: Request) => {
         submitKieRipperTask,
         uploadPublicReferenceToKie,
       } = await import('@/lib/image-ripper');
-      const { brainClient, brainOptions, brainSettings } = await import('@/lib/account-brain');
+      const { buildStrydeEightKieScenes } = await import('@/lib/stryde-feliora-kie-scenes');
 
       const angleId = (body.angleId || '').trim();
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
@@ -134,69 +134,13 @@ export const POST = accountRoute(async (req: Request) => {
       const headline = (body.headline || preset?.title || '').trim();
       const title = (body.title || preset?.shortTitle || angleId || 'Stryde PL').trim();
 
-      let scenes: Array<{ label: string; scenePrompt: string; includeProductRef: boolean }> = [
-        {
-          label: 'Ujęcie #1 · Schody / Poręcz z perspektywy pierwszej osoby (POV)',
-          scenePrompt:
-            'First-person POV smartphone photo looking down a steep wooden staircase in an older Polish house or apartment hallway under dim indoor lighting, an older weathered hand gripping the wooden banister tightly.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #2 · Szuflada pełna bezużytecznych ortez i ściągaczy z apteki',
-          scenePrompt:
-            'Ugly hasty top-down smartphone snapshot of an open wooden hallway drawer overflowing with 9 tangled elastic pharmacy knee sleeves, bulky hinged neoprene braces, and empty painkiller blister packs.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #3 · Fotel w salonie / Punkt załamania z historii',
-          scenePrompt:
-            'Unstaged amateur phone photo of a worn fabric armchair in a Polish living room at night with a folded blanket and pillow on the seat, facing a dark staircase in the hallway.',
-          includeProductRef: false,
-        },
-        {
-          label: 'Ujęcie #4 · Senior / Seniorka pokazująca kolano z paskiem pod rzepką',
-          scenePrompt:
-            'Authentic amateur smartphone photo taken in a Polish kitchen: a 64-year-old Polish person sitting on a chair with one trouser leg rolled up above the knee, wearing a narrow matte-black patellar knee strap fastened just below the kneecap (zero logos or text on the strap).',
-          includeProductRef: true,
-        },
-        {
-          label: 'Ujęcie #5 · Dwa paski (Pakiet 1+1) na stole kuchennym lub w dłoni',
-          scenePrompt:
-            'Amateur smartphone photo of an older weathered hand holding a narrow matte-black silicone-core patellar knee strap with silver metal buckles over a wooden Polish kitchen table next to a mug of tea (zero text or logos on the strap).',
-          includeProductRef: true,
-        },
-      ];
-
-      try {
-        const s = brainSettings();
-        const opts = brainOptions(45000);
-        const client = brainClient(opts);
-        const completion = await client.chat.completions.create({
-          model: s?.model || 'gpt-5.4',
-          response_format: { type: 'json_object' },
-          messages: [
-            {
-              role: 'system',
-              content:
-                'You extract 5 ultra-raw, ugly, amateur Polish smartphone photo prompts ("shit quality", slight blur, high ISO grain, zero AI glow, zero text overlays, zero logos on the strap) matching a Polish native Facebook story ad about knee pain and a narrow black patellar knee strap (Stryde). Shots 1-3 MUST have includeProductRef: false (pure story/problem scenes: stairs, armchair, drawer of old braces, garden center parking, ladder, etc.). Shots 4-5 MUST have includeProductRef: true (a narrow matte-black patellar strap worn two fingers below the kneecap or held in an older Polish person hand, with ZERO text/letters on the strap). Return JSON: { "scenes": [ { "label": "Ujęcie #1 · ...", "scenePrompt": "...", "includeProductRef": false }, ... ] }',
-            },
-            {
-              role: 'user',
-              content: `Tytuł kąta: ${title}\nNagłówek: ${headline}\nTekst reklamy:\n${primaryText.slice(0, 3800)}`,
-            },
-          ],
-        });
-        const parsed = JSON.parse(completion.choices[0]?.message?.content || '{}');
-        if (Array.isArray(parsed.scenes) && parsed.scenes.length >= 5) {
-          scenes = parsed.scenes.slice(0, 5).map((item: Record<string, unknown>, i: number) => ({
-            label: String(item.label || `Ujęcie #${i + 1}`),
-            scenePrompt: String(item.scenePrompt || scenes[i].scenePrompt),
-            includeProductRef: Boolean(item.includeProductRef ?? i >= 3),
-          }));
-        }
-      } catch {
-        // Fallback to default 5 Stryde scenes
-      }
+      // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Stryde strap product shot
+      const scenes = buildStrydeEightKieScenes({
+        angleId,
+        primaryText,
+        headline,
+        title,
+      });
 
       let productRefKieUrl: string | undefined;
       try {
@@ -207,7 +151,10 @@ export const POST = accountRoute(async (req: Request) => {
 
       const tasks = await Promise.all(
         scenes.map(async (scene, idx) => {
-          const fullPrompt = `${scene.scenePrompt} Raw, ugly, amateur smartphone snapshot, slight motion blur, visible high-ISO sensor grain, crooked framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero text overlays, zero letters or logos on the black knee strap.`;
+          const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
+          const fullPrompt = isNoomTemplate
+            ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
+            : `${scene.scenePrompt} Raw, ugly, amateur smartphone snapshot, slight motion blur, visible high-ISO sensor grain, crooked framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero letters or logos on the black knee strap.`;
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
@@ -247,14 +194,14 @@ export const POST = accountRoute(async (req: Request) => {
       const angleId = (body.angleId || '').trim();
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
       const label = (body.label || `Kie.ai Raw #${preset?.number || ''}`).trim();
-      const assetId = `kie-stryde-raw-${taskId}`;
+      const assetId = `kie-stryde-noom-${taskId}`;
 
       const newAsset: StrydeImageAsset = {
         id: assetId,
         url: status.resultUrl,
         imageHash: '',
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Kie.ai Raw Native (Opaska PL)',
+        adsetOrigin: 'Kie.ai Raw Native (50% Hook + 3x Wzór Noom)',
         adOrigin: preset?.code || 'KIE-RAW',
         aspectRatio: '1:1',
         source: 'ai',
@@ -274,7 +221,7 @@ export const POST = accountRoute(async (req: Request) => {
         } else {
           customList.unshift(newAsset);
         }
-        state.customImages = customList.slice(0, 80);
+        state.customImages = customList.slice(0, 300);
         return { customImages: state.customImages, ads: state.ads || defaultAds };
       });
 
