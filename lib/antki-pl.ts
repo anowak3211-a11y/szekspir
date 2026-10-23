@@ -1732,10 +1732,10 @@ KRYTYCZNE:
 - ZERO powieściowych, powolnych wstępów („W zeszłą niedzielę po południu weszłam do mieszkania... żeby podrzucić ciepłą szarlotkę", „stałam oparta o mokrą latarnię na Grzegórzkach"). Pierwsze 3-4 krótkie linijki muszą od razu uderzać w sedno problemu i zatrzymywać scrolla w 2 sekundy!
 - Każdy tekst ma mieć **550-850 słów**, krótkie 1-zdaniowe linijki i zawierać:
   1. Ultra-punchy Hook w 3-4 krótkich zdaniach (od razu konkretny konflikt/odkrycie, zero lania wody).
-  2. Lista dotychczasowych wydatków linijka po linijce co do złotówki (`- ... zł` + `Razem: ... zł`).
-  3. Krótki, 1-zdaniowy dialog w gabinecie / na SOR-ze (test podniesienia łuku stopy dłońmi przed lustrem + łańcuch kompensacji ze strzałkami `↓` w osobnych linijkach + matematyka 7000-8000 kroków dziennie = 200 000+ kroków miesięcznie po betonie i panelach).
+  2. Lista dotychczasowych wydatków linijka po linijce co do złotówki ("- ... zł" + "Razem: ... zł").
+  3. Krótki, 1-zdaniowy dialog w gabinecie / na SOR-ze (test podniesienia łuku stopy dłońmi przed lustrem + łańcuch kompensacji ze strzałkami "↓" w osobnych linijkach + matematyka 7000-8000 kroków dziennie = 200 000+ kroków miesięcznie po betonie i panelach).
   4. Ludzki most odkrycia + 1 proste zdanie o wkładkach Orthomax StepMax (bez katalogowego bełkotu) + szybka transformacja (pierwsze dni -> 2 tygodnie -> dziś po 3 miesiącach).
-  5. Zamknięcie z ofertą Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + link + TYLKO JEDEN krótki dopisek `P.S.` na końcu (ZERO `P.P.S.`, `P.P.P.S.`, `P.P.P.P.S.`).
+  5. Zamknięcie z ofertą Pakiet 1+1 GRATIS (2 pary za 99,99 zł = 50 zł/para) + 30 dni gwarancji zwrotu + link + TYLKO JEDEN krótki dopisek "P.S." na końcu (ZERO "P.P.S.", "P.P.P.S.", "P.P.P.P.S.").
 
 Zwróć wyłącznie poprawny obiekt JSON:
 {
