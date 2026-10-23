@@ -153,9 +153,6 @@ export const POST = accountRoute(async (req: Request) => {
     const action = body.action || 'save';
 
     if (action === 'generate_5_kie_images') {
-      if (!(body as Record<string, unknown>).isManual) {
-        return NextResponse.json({ ok: true, angleId: body.angleId || '', tasks: [] });
-      }
       const {
         buildKieCreateTaskPayload,
         submitKieRipperTask,
@@ -170,12 +167,30 @@ export const POST = accountRoute(async (req: Request) => {
       const title = (body.title || preset?.shortTitle || angleId || 'Stryde PL').trim();
 
       // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Stryde strap product shot
-      const scenes = buildStrydeEightKieScenes({
+      const allScenes = buildStrydeEightKieScenes({
         angleId,
         primaryText,
         headline,
         title,
       });
+
+      const { customImages: existingCustomImages } = await readStrydeLibraryState();
+      const normalizeSceneKey = (label = '') =>
+        label
+          .replace(/^#\d+\s*·\s*/, '')
+          .replace(/\(\s*\d[\d\s,]*zł\s*\)/gi, '')
+          .trim()
+          .toLowerCase();
+
+      const filteredScenes = allScenes.filter(scene => {
+        const key = normalizeSceneKey(scene.label);
+        const existingMatches = existingCustomImages.filter(
+          img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
+        );
+        return existingMatches.length < 3;
+      });
+
+      const scenes = filteredScenes.length > 0 ? filteredScenes : allScenes.slice(0, 4);
 
       let productRefKieUrl: string | undefined;
       try {

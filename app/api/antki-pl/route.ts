@@ -671,9 +671,6 @@ export const POST = accountRoute(async (req: Request) => {
     const action = body.action || 'generate';
 
     if (action === 'generate_5_kie_images' || action === 'generate_10_kie_images') {
-      if (!(body as Record<string, unknown>).isManual) {
-        return NextResponse.json({ ok: true, angleId: body.angleId || '', tasks: [] });
-      }
       const {
         buildKieCreateTaskPayload,
         submitKieRipperTask,
@@ -716,7 +713,7 @@ export const POST = accountRoute(async (req: Request) => {
           .trim()
           .toLowerCase();
 
-      const scenesToGenerate = scenes.filter(scene => {
+      const filteredScenes = scenes.filter(scene => {
         const key = normalizeSceneKey(scene.label);
         const existingMatches = existingCustomImages.filter(
           img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
@@ -724,14 +721,7 @@ export const POST = accountRoute(async (req: Request) => {
         return existingMatches.length < 3;
       });
 
-      if (scenesToGenerate.length === 0) {
-        return NextResponse.json({
-          ok: true,
-          angleId,
-          tasks: [],
-          reusedExisting: true,
-        });
-      }
+      const scenesToGenerate = filteredScenes.length > 0 ? filteredScenes : scenes.slice(0, 3);
 
       const taskResults = await Promise.all(
         scenesToGenerate.map(async (scene, idx) => {

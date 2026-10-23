@@ -232,9 +232,6 @@ export const POST = accountRoute(async (req: Request) => {
     const action = body.action || 'save';
 
     if (action === 'generate_5_kie_images') {
-      if (!(body as Record<string, unknown>).isManual) {
-        return NextResponse.json({ ok: true, angleId: body.angleId || '', tasks: [] });
-      }
       const {
         buildKieCreateTaskPayload,
         submitKieRipperTask,
@@ -273,19 +270,10 @@ export const POST = accountRoute(async (req: Request) => {
         return existingMatches.length < 3;
       });
 
-      // Compact mode: at most 3 scenes per angle (Hook #1, Hook #2, and either Noom or Product if not yet at 3)
-      const scenes = (body as Record<string, unknown>).compact
-        ? filteredScenes.slice(0, 3)
-        : filteredScenes.slice(0, 3);
-
-      if (scenes.length === 0) {
-        return NextResponse.json({
-          ok: true,
-          angleId,
-          tasks: [],
-          reusedExisting: true,
-        });
-      }
+      const isCompact = Boolean((body as Record<string, unknown>).compact);
+      const candidateScenes = isCompact ? filteredScenes.slice(0, 3) : filteredScenes;
+      // When the user explicitly clicks "Generuj", never return empty tasks — fallback to the angle's hook scenes
+      const scenes = candidateScenes.length > 0 ? candidateScenes : allScenes.slice(0, isCompact ? 3 : 4);
 
       let productRefKieUrl: string | undefined;
       try {

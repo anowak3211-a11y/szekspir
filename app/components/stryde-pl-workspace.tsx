@@ -474,8 +474,23 @@ export default function StrydePlWorkspace({
                   if (Array.isArray(pollData.imageLibrary)) {
                     setImageLibrary(pollData.imageLibrary);
                   }
+                  const isScene1 = /^1\./.test(t.label);
+                  const isScene2 = /^2\./.test(t.label);
+                  if (isScene1) {
+                    persistLocalImageOverride(targetAngleId, {
+                      imageUrl: pollData.asset.url,
+                      imageHash: pollData.asset.imageHash,
+                      updatedAt: Date.now(),
+                    });
+                  } else if (isScene2) {
+                    persistLocalImageOverride(targetAngleId, {
+                      secondImageUrl: pollData.asset.url,
+                      secondImageHash: pollData.asset.imageHash,
+                      updatedAt: Date.now(),
+                    });
+                  }
                   if (Array.isArray(pollData.savedAds)) {
-                    setAds(pollData.savedAds);
+                    setAds(applyLocalImageOverrides(pollData.savedAds));
                   }
                   break;
                 }
@@ -504,7 +519,7 @@ export default function StrydePlWorkspace({
       }
       return true;
     },
-    [adByAngleId, activePreset, editPrimaryText, editHeadline, showToast],
+    [adByAngleId, activePreset, editPrimaryText, editHeadline, showToast, persistLocalImageOverride, applyLocalImageOverrides],
   );
 
   const handleGenerate5KieImages = useCallback(async () => {
