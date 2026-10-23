@@ -18,6 +18,17 @@ Read `docs/HANDOFF.md` before changes. Follow the user requirements listed there
 
 Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno działającą stronę na Vercelu, jak i repozytorium GitHub: commit oraz zwykły push do właściwej gałęzi po wymaganych sprawdzeniach. Nie kończ na samym deployu. Użytkownik wyraźnie potwierdził „na repo też uploaduj. zawsze”; ta stała autoryzacja zastępuje starsze wymaganie czekania na koniec sesji lub osobne polecenie push. Zachowuj sekrety i prywatne materiały poza repozytorium; nie używaj force push.
 
+## Zasady realizmu copywritingu (Antki / Native Ads) i spójności Fanpage’a — 24 października 2026
+
+1. **Realizm motywu „kartki od lekarza / eksperta”:**
+   - Gdy w long-form copy (Antki / historie natywne) pojawia się motyw kartki od lekarza, weterynarza, fizjoterapeuty lub innego eksperta, którą bohater wpisuje później w Google, lekarz zapisuje na kartce **wyłącznie nazwy mechanizmów biologicznych, jednostek chorobowych, składników lub samą nazwę własną produktu** (np. `„dyfuzor Feliora”`, `„biomimetyczny dyfuzor feromonowy matczyny kompleks M.A.P. F3”`).
+   - Lekarz **nigdy** nie zapisuje pacjentowi na kartce konsumenckich fraz wyszukiwarkowych typu `„dyfuzor Feliora opinie”`, `„... cena”` czy `„... recenzje”`. Jeśli w historii pojawia się szukanie opinii, musi wynikać z narracji, że to sam bohater dopisał słowo `opinie` w wyszukiwarce.
+
+2. **Weryfikacja perspektywy narratora przed przypisaniem Fanpage’a (Authority vs. Klient):**
+   - Zawsze przed przypisaniem lub przeniesieniem kreacji reklamowej na fanpage autorytetu/eksperta (np. lekarza, weterynarza, fizjoterapeuty) najpierw przeczytaj cały `Primary Text` i zweryfikuj osobę oraz rodzaj gramatyczny narratora.
+   - Nigdy nie przypisuj pierwszoosobowej historii pisanej z perspektywy klienta/opiekunki (`1. os. r. żeński/męski klienta`) bezpośrednio do fanpage’a lekarza/eksperta (ani odwrotnie) bez uprzedniego dostosowania głosu narracji.
+
+
 ## Generowanie obrazków Kie.ai i kreacje A/B — stałe zasady użytkownika, 24 października 2026
 
 1. **Maksymalnie 3 zdjęcia tej samej sceny:** Nigdy nie generuj 20–30 identycznych lub prawie takich samych zdjęć powtarzalnej sceny (np. tych samych stóp, misek z wodą, przedpokoju) osobno dla każdego kąta. Wystarczą maksymalnie **3 mocne warianty** danej sceny współdzielone w bibliotece. Przed wysłaniem zadań do Kie.ai zawsze sprawdzaj w bazie, czy dana scena ma już 3 wygenerowane warianty.
