@@ -68,7 +68,26 @@ async function readStrydeLibraryState(): Promise<{
         secondImageHash: ad.secondImageHash || baseAd.secondImageHash,
       });
     }
-    return { ads: Array.from(byAngle.values()), customImages };
+    const finalAds = Array.from(byAngle.values()).map(ad => {
+      const angleImgs = customImages.filter(
+        img => img?.angleId === ad.angleId && typeof img?.url === 'string' && img.url.startsWith('http'),
+      );
+      if (angleImgs.length === 0) return ad;
+      const scene1 = angleImgs.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || angleImgs[angleImgs.length - 1];
+      const scene2 =
+        angleImgs.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
+        angleImgs.find(img => img.url !== scene1?.url);
+      const needsScene1 = !ad.imageUrl || !ad.imageUrl.startsWith('http');
+      const needsScene2 = !ad.secondImageUrl || !ad.secondImageUrl.startsWith('http');
+      return {
+        ...ad,
+        ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),
+        ...(needsScene2 && scene2
+          ? { secondImageUrl: scene2.url, secondImageHash: scene2.imageHash || ad.secondImageHash }
+          : {}),
+      };
+    });
+    return { ads: finalAds, customImages };
   } catch {
     return { ads: defaultAds, customImages: [] };
   }
