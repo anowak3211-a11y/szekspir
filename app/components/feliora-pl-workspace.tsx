@@ -311,63 +311,173 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
   );
 
   const [generatingKie5, setGeneratingKie5] = useState(false);
+  const autoTriggeredKieRef = useRef<Set<string>>(new Set());
+  const inFlightKieAnglesRef = useRef<Set<string>>(new Set());
+
+  const triggerKieForPreset = useCallback(
+    async (targetPreset: FelioraAnglePreset, explicitPrimaryText?: string, explicitHeadline?: string, isManual = false) => {
+      const targetAngleId = targetPreset.id;
+      if (!isManual && inFlightKieAnglesRef.current.has(targetAngleId)) return;
+
+      const adForAngle = adByAngleId.get(targetAngleId);
+      const copyText = (
+        explicitPrimaryText ||
+        (activePreset?.id === targetAngleId ? editPrimaryText : '') ||
+        adForAngle?.primaryText ||
+        targetPreset.vocTrigger ||
+        targetPreset.title
+      ).trim();
+      const copyHeadline = (
+        explicitHeadline ||
+        (activePreset?.id === targetAngleId ? editHeadline : '') ||
+        adForAngle?.headline ||
+        targetPreset.title
+      ).trim();
+      if (!copyText) return;
+
+      inFlightKieAnglesRef.current.add(targetAngleId);
+      setGeneratingKie5(true);
+      setError('');
+      setNotice(`Wysyłam automatycznie 8 scen (4x Hook + 3x Wzór Noom.pl + 1x Produkt) do Kie.ai dla kąta #${targetPreset.number}...`);
+      try {
+        const res = await fetch('/api/feliora-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'generate_5_kie_images',
+            angleId: targetAngleId,
+            primaryText: copyText,
+            headline: copyHeadline,
+            title: targetPreset.title,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
+          throw new Error(data.error || 'Błąd uruchamiania 8 zadań Kie.ai.');
+        }
+        const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
+        setNotice(`Kie.ai generuje ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${targetPreset.number} (~20-40s)...`);
+        let completed = 0;
+        await Promise.all(
+          tasks.map(async t => {
+            for (let attempt = 0; attempt < 45; attempt++) {
+              await new Promise(r => setTimeout(r, 3500));
+              try {
+                const pollRes = await fetch('/api/feliora-pl', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    action: 'poll_kie_image',
+                    taskId: t.taskId,
+                    angleId: targetAngleId,
+                    label: t.label,
+                    prompt: t.prompt,
+                  }),
+                });
+                const pollData = await pollRes.json();
+                if (pollData.state === 'success' && pollData.asset) {
+                  completed += 1;
+                  if (Array.isArray(pollData.imageLibrary)) {
+                    setImageLibrary(pollData.imageLibrary);
+                  }
+                  if (Array.isArray(pollData.savedAds)) {
+                    setAds(pollData.savedAds);
+                  }
+                  break;
+                }
+                if (pollData.state === 'fail') break;
+              } catch {
+                // continue polling
+              }
+            }
+          }),
+        );
+        if (completed > 0) {
+          setNotice(`✅ Wygenerowano ${completed}/${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${targetPreset.number}!`);
+        } else {
+          autoTriggeredKieRef.current.delete(targetAngleId);
+        }
+      } catch (err) {
+        autoTriggeredKieRef.current.delete(targetAngleId);
+        setError(err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.');
+      } finally {
+        inFlightKieAnglesRef.current.delete(targetAngleId);
+        setGeneratingKie5(false);
+      }
+    },
+    [adByAngleId, activePreset, editPrimaryText, editHeadline],
+  );
 
   const handleGenerate5KieImages = useCallback(async () => {
-    if (!activePreset || !activeAd) return;
-    setGeneratingKie5(true);
-    setError('');
-    setNotice(`Wysyłam 8 scen (4x Hook + 3x Wzór Noom.pl + 1x Produkt) do Kie.ai dla kąta #${activePreset.number}...`);
-    try {
-      const res = await fetch('/api/feliora-pl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'generate_5_kie_images',
-          angleId: activePreset.id,
-          primaryText: editPrimaryText || activeAd.primaryText,
-          headline: editHeadline || activeAd.headline,
-          title: activePreset.title,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !Array.isArray(data.tasks)) {
-        throw new Error(data.error || 'Błąd uruchamiania 8 zadań Kie.ai.');
+    if (!activePreset) return;
+    await triggerKieForPreset(activePreset, undefined, undefined, true);
+  }, [activePreset, triggerKieForPreset]);
+
+  // Automatycznie generuj 8 obrazków w Kie.ai dla otwartego kąta, jeśli jeszcze ich nie ma
+  useEffect(() => {
+    if (!activePreset) return;
+    const angleId = activePreset.id;
+    const existing = imageLibrary.filter(img => img.angleId === angleId);
+    if (existing.length >= 2) return;
+    if (inFlightKieAnglesRef.current.has(angleId)) return;
+    if (autoTriggeredKieRef.current.has(angleId)) return;
+
+    autoTriggeredKieRef.current.add(angleId);
+    const ad = adByAngleId.get(angleId);
+    void triggerKieForPreset(activePreset, ad?.primaryText, ad?.headline);
+  }, [activePreset, imageLibrary, adByAngleId, triggerKieForPreset]);
+
+  // Kolejka w tle dla wszystkich pozostałych 25 kątów Feliora PL
+  const batchKieRunnerActiveRef = useRef(false);
+  const presetsRef = useRef(presets);
+  presetsRef.current = presets;
+  const filteredPresetsRef = useRef(filteredPresets);
+  filteredPresetsRef.current = filteredPresets;
+  const imageLibraryRef = useRef(imageLibrary);
+  imageLibraryRef.current = imageLibrary;
+  const adByAngleIdRef = useRef(adByAngleId);
+  adByAngleIdRef.current = adByAngleId;
+  const activeAngleIdRef = useRef(activeAngleId);
+  activeAngleIdRef.current = activeAngleId;
+  const triggerKieRef = useRef(triggerKieForPreset);
+  triggerKieRef.current = triggerKieForPreset;
+
+  useEffect(() => {
+    if (batchKieRunnerActiveRef.current || !presets.length) return;
+    batchKieRunnerActiveRef.current = true;
+    void (async () => {
+      try {
+        while (true) {
+          const allPresets = presetsRef.current;
+          const visiblePresets = filteredPresetsRef.current;
+          const currentActiveId = activeAngleIdRef.current;
+          const lib = imageLibraryRef.current;
+          const adsMap = adByAngleIdRef.current;
+
+          const orderedCandidates = [
+            ...allPresets.filter(p => p.id === currentActiveId),
+            ...visiblePresets.filter(p => p.id !== currentActiveId),
+            ...allPresets.filter(p => p.id !== currentActiveId && !visiblePresets.some(v => v.id === p.id)),
+          ];
+
+          const nextPreset = orderedCandidates.find(p => {
+            if (autoTriggeredKieRef.current.has(p.id)) return false;
+            if (inFlightKieAnglesRef.current.has(p.id)) return false;
+            const existing = lib.filter(img => img.angleId === p.id);
+            return existing.length < 2;
+          });
+
+          if (!nextPreset) break;
+
+          autoTriggeredKieRef.current.add(nextPreset.id);
+          const ad = adsMap.get(nextPreset.id);
+          await triggerKieRef.current(nextPreset, ad?.primaryText, ad?.headline);
+        }
+      } finally {
+        batchKieRunnerActiveRef.current = false;
       }
-      const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
-      setNotice(`Kie.ai generuje ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${activePreset.number} (~20-40s)...`);
-      await Promise.all(
-        tasks.map(async t => {
-          for (let attempt = 0; attempt < 40; attempt++) {
-            await new Promise(r => setTimeout(r, 3500));
-            const pollRes = await fetch('/api/feliora-pl', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                action: 'poll_kie_image',
-                taskId: t.taskId,
-                angleId: activePreset.id,
-                label: t.label,
-                prompt: t.prompt,
-              }),
-            });
-            const pollData = await pollRes.json();
-            if (pollData.state === 'success' && pollData.asset) {
-              if (Array.isArray(pollData.imageLibrary)) {
-                setImageLibrary(pollData.imageLibrary);
-              }
-              break;
-            }
-            if (pollData.state === 'fail') break;
-          }
-        }),
-      );
-      setNotice(`Wygenerowano ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${activePreset.number}!`);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.');
-    } finally {
-      setGeneratingKie5(false);
-    }
-  }, [activePreset, activeAd, editPrimaryText, editHeadline]);
+    })();
+  }, [presets.length, activeAngleId]);
 
   const handleToggleSelectAngle = useCallback((id: string) => {
     setSelectedAngleIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));

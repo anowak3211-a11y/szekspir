@@ -131,12 +131,12 @@ async function readLibraryState(): Promise<{
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     const rawCustomImages = Array.isArray(value?.customImages) ? value.customImages : [];
-    // Keep all images for angles < 45, and for angles >= 45 keep only 5-Hook + 3-Noom kie-raw-noom45-* images
+    // Keep all generated Kie.ai images for all angles (including kie-raw-noom45-* and kie-raw-h45-*)
     const customImages = rawCustomImages.filter(img => {
       if (!img.id.startsWith('kie-raw-')) return true;
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === img.angleId);
       if (preset && preset.number >= 45) {
-        return img.id.startsWith('kie-raw-noom45-');
+        return img.id.startsWith('kie-raw-noom45-') || img.id.startsWith('kie-raw-h45-');
       }
       return true;
     });
@@ -668,7 +668,7 @@ export const POST = accountRoute(async (req: Request) => {
         productRefKieUrl = undefined;
       }
 
-      const tasks = await Promise.all(
+      const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
           const fullPrompt = buildRawShitQualityKiePrompt(scene.scenePrompt, scene.includeProductRef);
           const payload = buildKieCreateTaskPayload({
@@ -678,16 +678,33 @@ export const POST = accountRoute(async (req: Request) => {
             aspectRatio: '1:1',
             resolution: '1K',
           });
-          const taskId = await submitKieRipperTask(payload);
-          return {
-            index: idx + 1,
-            label: scene.label,
-            prompt: fullPrompt,
-            includeProductRef: scene.includeProductRef,
-            taskId,
-          };
+          try {
+            const taskId = await submitKieRipperTask(payload);
+            return {
+              index: idx + 1,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: scene.includeProductRef,
+              taskId,
+            };
+          } catch (err) {
+            return {
+              index: idx + 1,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: scene.includeProductRef,
+              taskId: '',
+              error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+            };
+          }
         }),
       );
+
+      const tasks = taskResults.filter(t => Boolean(t.taskId));
+      if (tasks.length === 0) {
+        const firstErr = taskResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+        return NextResponse.json({ error: firstErr }, { status: 500 });
+      }
 
       return NextResponse.json({
         ok: true,
@@ -742,10 +759,13 @@ export const POST = accountRoute(async (req: Request) => {
         note: 'Surowe zdjęcie z telefonu (Kie.ai — Shit Quality / Zero AI Glow)',
       };
 
+      const isScene1 = /^1\./.test(label);
+      const isScene2 = /^2\./.test(label);
+      const now = Date.now();
       const defaultArgonAds = buildAllArgonPrewrittenAds();
       const updated = await mutate<
         AntkiPlLibraryState,
-        { customImages: AntkiPlImageAsset[]; deletedImageIds: string[] }
+        { customImages: AntkiPlImageAsset[]; deletedImageIds: string[]; ads: AntkiPlGeneratedAd[] }
       >(
         STATE_KEY,
         { ads: defaultArgonAds, customImages: [], deletedImageIds: [] },
@@ -761,10 +781,42 @@ export const POST = accountRoute(async (req: Request) => {
           } else {
             customList.unshift(newAsset);
           }
-          state.customImages = customList;
+          state.customImages = customList.slice(0, 600);
+
+          const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultArgonAds];
+          if (angleId && (isScene1 || isScene2)) {
+            const adIdx = adsList.findIndex(item => item.angleId === angleId);
+            const baseAd = adIdx >= 0 ? adsList[adIdx] : defaultArgonAds.find(a => a.angleId === angleId);
+            if (baseAd) {
+              const updatedAd: AntkiPlGeneratedAd = {
+                ...baseAd,
+                ...(isScene1
+                  ? {
+                      imageUrl: newAsset.url,
+                      imageHash: newAsset.imageHash || baseAd.imageHash,
+                    }
+                  : {}),
+                ...(isScene2
+                  ? {
+                      secondImageUrl: newAsset.url,
+                      secondImageHash: newAsset.imageHash || baseAd.secondImageHash,
+                    }
+                  : {}),
+                updatedAt: now,
+              };
+              if (adIdx >= 0) {
+                adsList[adIdx] = updatedAd;
+              } else {
+                adsList.unshift(updatedAd);
+              }
+            }
+          }
+          state.ads = adsList.map(ensureAdImage);
+
           return {
             customImages: state.customImages,
             deletedImageIds: Array.isArray(state.deletedImageIds) ? state.deletedImageIds : [],
+            ads: state.ads,
           };
         },
       );
@@ -779,6 +831,7 @@ export const POST = accountRoute(async (req: Request) => {
         resultUrl: status.resultUrl,
         asset: newAsset,
         imageLibrary: activeLibrary,
+        savedAds: updated.ads,
       });
     }
 

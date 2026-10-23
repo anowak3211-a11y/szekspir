@@ -1146,6 +1146,7 @@ export default function AntkiPlPage() {
 
   const [generatingKie5AngleId, setGeneratingKie5AngleId] = useState<string | null>(null);
   const autoTriggeredKieRef = useRef<Set<string>>(new Set());
+  const inFlightKieAnglesRef = useRef<Set<string>>(new Set());
   const [kieTasksByAngle, setKieTasksByAngle] = useState<
     Record<
       string,
@@ -1162,29 +1163,52 @@ export default function AntkiPlPage() {
   >({});
 
   const triggerKie10ImagesForAngle = useCallback(
-    async (targetAngle: AntkiPlPresetAngle, explicitCopyText?: string, explicitHeadline?: string) => {
-      const adForAngle = adByAngleId[targetAngle.id];
+    async (targetAngle: AntkiPlPresetAngle, explicitCopyText?: string, explicitHeadline?: string, isManual = false) => {
+      const targetAngleId = targetAngle.id;
+      if (!isManual && inFlightKieAnglesRef.current.has(targetAngleId)) return;
+
+      const adForAngle = adByAngleId[targetAngleId];
       const copyText = (
         explicitCopyText ||
-        (activeAngle?.id === targetAngle.id ? editPrimaryText : '') ||
+        (activeAngle?.id === targetAngleId ? editPrimaryText : '') ||
         adForAngle?.primaryText ||
+        targetAngle.hookIdea ||
+        targetAngle.sceneBeat ||
+        targetAngle.title ||
         ''
       ).trim();
       const copyHeadline = (
         explicitHeadline ||
-        (activeAngle?.id === targetAngle.id ? editHeadline : '') ||
+        (activeAngle?.id === targetAngleId ? editHeadline : '') ||
         adForAngle?.headline ||
         targetAngle.defaultHeadline ||
+        targetAngle.title ||
         ''
       ).trim();
       if (!copyText) return;
 
-      const targetAngleId = targetAngle.id;
+      inFlightKieAnglesRef.current.add(targetAngleId);
       const targetAngleNumber = targetAngle.number;
       setGeneratingKie5AngleId(targetAngleId);
       setError('');
+
+      // Immediately populate 10 placeholder cards so the UI never hangs on an empty state!
+      const optimisticTasks = Array.from({ length: 10 }, (_, idx) => ({
+        index: idx + 1,
+        label: `Scena #${idx + 1} (Antek #${targetAngleNumber})`,
+        prompt: '',
+        taskId: `pending-${targetAngleId}-${idx + 1}`,
+        state: 'generating' as const,
+      }));
+      setKieTasksByAngle(prev => ({
+        ...prev,
+        [targetAngleId]: prev[targetAngleId]?.some(t => t.state === 'success')
+          ? prev[targetAngleId]
+          : optimisticTasks,
+      }));
+
       setNotice(
-        `📸 Generuję z bomby 10 surowych zdjęć (w tym paragon z listy wydatków) do Antka #${targetAngleNumber} w Kie.ai...`,
+        `📸 Generuję automatycznie 10 surowych zdjęć (5x Hook + 3x Wzór Noom.pl + 2x Produkt) do Antka #${targetAngleNumber} w Kie.ai...`,
       );
 
       try {
@@ -1201,7 +1225,7 @@ export default function AntkiPlPage() {
           }),
         });
         const startData = await startRes.json();
-        if (!startRes.ok || !Array.isArray(startData.tasks)) {
+        if (!startRes.ok || !Array.isArray(startData.tasks) || startData.tasks.length === 0) {
           throw new Error(startData.error || 'Nie udało się uruchomić generowania 10 zdjęć w Kie.ai.');
         }
 
@@ -1226,7 +1250,7 @@ export default function AntkiPlPage() {
 
         await Promise.all(
           initialTasks.map(async task => {
-            const maxAttempts = 45;
+            const maxAttempts = 50;
             for (let attempt = 0; attempt < maxAttempts; attempt++) {
               await new Promise(r => setTimeout(r, 3500));
               try {
@@ -1251,6 +1275,9 @@ export default function AntkiPlPage() {
                   } else {
                     setImageLibrary(prev => [asset, ...prev.filter(x => x.id !== asset.id)]);
                   }
+                  if (Array.isArray(pollData.savedAds)) {
+                    setSavedAds(pollData.savedAds);
+                  }
                   setKieTasksByAngle(prev => ({
                     ...prev,
                     [targetAngleId]: (prev[targetAngleId] || []).map(item =>
@@ -1258,7 +1285,7 @@ export default function AntkiPlPage() {
                     ),
                   }));
 
-                  // Immediately assign Scene #1 -> Kreacja A and Scene #2 (Paragon) -> Kreacja B as soon as each finishes!
+                  // Immediately assign Scene #1 -> Kreacja A and Scene #2 (Paragon/Noom #1) -> Kreacja B as soon as each finishes!
                   if (task.index === 1) {
                     await assignImageToAngles([targetAngleId], asset, `Antek #${targetAngleNumber} (Obrazek A - Hook)`, 1);
                   } else if (task.index === 2) {
@@ -1301,10 +1328,22 @@ export default function AntkiPlPage() {
           );
         } else if (orderedAssets.length === 1) {
           await assignImageToAngles([targetAngleId], orderedAssets[0], `Antek #${targetAngleNumber} (Obrazek A)`, 1);
+        } else {
+          // Allow retry if 0 succeeded
+          autoTriggeredKieRef.current.delete(targetAngleId);
         }
       } catch (err) {
+        autoTriggeredKieRef.current.delete(targetAngleId);
+        setKieTasksByAngle(prev => {
+          const cur = prev[targetAngleId] || [];
+          if (cur.some(t => t.state === 'success')) return prev;
+          const next = { ...prev };
+          delete next[targetAngleId];
+          return next;
+        });
         setError(err instanceof Error ? err.message : 'Błąd podczas generowania 10 zdjęć w Kie.ai.');
       } finally {
+        inFlightKieAnglesRef.current.delete(targetAngleId);
         setGeneratingKie5AngleId(prev => (prev === targetAngleId ? null : prev));
       }
     },
@@ -1313,14 +1352,15 @@ export default function AntkiPlPage() {
 
   const handleGenerate5KieImagesForActiveAngle = useCallback(async () => {
     if (!activeAngle) return;
-    await triggerKie10ImagesForAngle(activeAngle);
+    await triggerKie10ImagesForAngle(activeAngle, undefined, undefined, true);
   }, [activeAngle, triggerKie10ImagesForAngle]);
 
-  // Z BOMBY: automatycznie odpalaj generowanie nowych obrazków w Kie.ai dla każdego otwartego copy ORAZ w tle dla całego batcha!
+  // Z BOMBY: automatycznie odpalaj generowanie nowych obrazków w Kie.ai dla każdego otwartego copy ORAZ w tle dla wszystkich 70 kątów!
   useEffect(() => {
     if (!activeAngle || loading) return;
     const angleId = activeAngle.id;
-    if (kieTasksByAngle[angleId]?.length) return;
+    const currentTasks = kieTasksByAngle[angleId] || [];
+    if (currentTasks.some(t => t.state === 'generating' || t.state === 'success')) return;
 
     const existingForAngle = imageLibrary.filter(img => img.angleId === angleId && img.id.startsWith('kie-raw-'));
     if (existingForAngle.length >= 2) {
@@ -1338,42 +1378,71 @@ export default function AntkiPlPage() {
       return;
     }
 
-    if (activeAngle.number < 45) return;
+    if (inFlightKieAnglesRef.current.has(angleId)) return;
     if (autoTriggeredKieRef.current.has(angleId)) return;
     const adForAngle = adByAngleId[angleId];
-    if (!adForAngle?.primaryText) return;
+    const copyText = adForAngle?.primaryText || activeAngle.hookIdea || activeAngle.sceneBeat || activeAngle.title;
+    if (!copyText) return;
 
     autoTriggeredKieRef.current.add(angleId);
-    void triggerKie10ImagesForAngle(activeAngle, adForAngle.primaryText, adForAngle.headline);
+    void triggerKie10ImagesForAngle(activeAngle, copyText, adForAngle?.headline || activeAngle.defaultHeadline);
   }, [activeAngle, loading, kieTasksByAngle, imageLibrary, adByAngleId, triggerKie10ImagesForAngle]);
 
   const batchKieRunnerActiveRef = useRef(false);
+  const presetsRef = useRef(presets);
+  presetsRef.current = presets;
+  const filteredPresetsRef = useRef(filteredPresets);
+  filteredPresetsRef.current = filteredPresets;
+  const imageLibraryRef = useRef(imageLibrary);
+  imageLibraryRef.current = imageLibrary;
+  const adByAngleIdRef = useRef(adByAngleId);
+  adByAngleIdRef.current = adByAngleId;
+  const activeAngleIdRef = useRef(activeAngleId);
+  activeAngleIdRef.current = activeAngleId;
+  const triggerKieRef = useRef(triggerKie10ImagesForAngle);
+  triggerKieRef.current = triggerKie10ImagesForAngle;
+
   useEffect(() => {
-    if (loading || batchKieRunnerActiveRef.current || !filteredPresets.length) return;
-    const pendingAngles = filteredPresets.filter(preset => {
-      if (preset.number < 45) return false;
-      if (autoTriggeredKieRef.current.has(preset.id)) return false;
-      const existing = imageLibrary.filter(img => img.angleId === preset.id && img.id.startsWith('kie-raw-'));
-      if (existing.length >= 2) return false;
-      return Boolean(adByAngleId[preset.id]?.primaryText);
-    });
-    if (pendingAngles.length === 0) return;
+    if (loading || batchKieRunnerActiveRef.current || !presets.length) return;
 
     batchKieRunnerActiveRef.current = true;
     void (async () => {
       try {
-        for (const preset of pendingAngles) {
-          if (autoTriggeredKieRef.current.has(preset.id)) continue;
-          const ad = adByAngleId[preset.id];
-          if (!ad?.primaryText) continue;
-          autoTriggeredKieRef.current.add(preset.id);
-          await triggerKie10ImagesForAngle(preset, ad.primaryText, ad.headline);
+        while (true) {
+          const allPresets = presetsRef.current;
+          const visiblePresets = filteredPresetsRef.current;
+          const currentActiveId = activeAngleIdRef.current;
+          const lib = imageLibraryRef.current;
+          const adsMap = adByAngleIdRef.current;
+
+          // Prioritize: 1) currently active angle, 2) visible filtered angles, 3) all other angles
+          const orderedCandidates = [
+            ...allPresets.filter(p => p.id === currentActiveId),
+            ...visiblePresets.filter(p => p.id !== currentActiveId),
+            ...allPresets.filter(p => p.id !== currentActiveId && !visiblePresets.some(v => v.id === p.id)),
+          ];
+
+          const nextPreset = orderedCandidates.find(preset => {
+            if (autoTriggeredKieRef.current.has(preset.id)) return false;
+            if (inFlightKieAnglesRef.current.has(preset.id)) return false;
+            const existing = lib.filter(img => img.angleId === preset.id && img.id.startsWith('kie-raw-'));
+            if (existing.length >= 2) return false;
+            const copy = adsMap[preset.id]?.primaryText || preset.hookIdea || preset.sceneBeat || preset.title;
+            return Boolean(copy);
+          });
+
+          if (!nextPreset) break;
+
+          const ad = adsMap[nextPreset.id];
+          const copy = ad?.primaryText || nextPreset.hookIdea || nextPreset.sceneBeat || nextPreset.title;
+          autoTriggeredKieRef.current.add(nextPreset.id);
+          await triggerKieRef.current(nextPreset, copy, ad?.headline || nextPreset.defaultHeadline);
         }
       } finally {
         batchKieRunnerActiveRef.current = false;
       }
     })();
-  }, [loading, filteredPresets, imageLibrary, adByAngleId, triggerKie10ImagesForAngle]);
+  }, [loading, presets.length, stageFilter, activeAngleId]);
 
   const cycleAngleImage = useCallback(
     (angle: AntkiPlPresetAngle, delta: -1 | 1, explicitSlot?: 1 | 2) => {
@@ -1643,9 +1712,14 @@ export default function AntkiPlPage() {
 
   const activeResolvedImage = useMemo(() => {
     if (!activeAngle) return imageLibrary[0];
-    const currentUrl = activeAd?.imageUrl || activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
+    const defaultUrl = activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
+    const savedUrl = activeAd?.imageUrl;
+    const dedicatedFirst = forAngleImages[0];
+    const isGenericFallback = !savedUrl || savedUrl === defaultUrl;
+    const currentUrl = isGenericFallback && dedicatedFirst ? dedicatedFirst.url : savedUrl || defaultUrl;
     return (
-      imageLibrary.find(item => item.url === currentUrl) || {
+      imageLibrary.find(item => item.url === currentUrl) ||
+      forAngleImages.find(item => item.url === currentUrl) || {
         id: 'custom-assigned',
         url: currentUrl,
         label: `Przypisana kreacja (#${activeAngle.number})`,
@@ -1653,14 +1727,19 @@ export default function AntkiPlPage() {
         imageHash: activeAd?.imageHash || activeAngle.defaultImageHash,
       }
     );
-  }, [activeAngle, activeAd, imageLibrary]);
+  }, [activeAngle, activeAd, imageLibrary, forAngleImages]);
 
   const activeResolvedSecondImage = useMemo(() => {
     if (!activeAngle) return null;
-    const secondUrl = activeAd?.secondImageUrl ?? activeAngle.defaultSecondImageUrl;
+    const defaultSecondUrl = activeAngle.defaultSecondImageUrl;
+    const savedSecondUrl = activeAd?.secondImageUrl;
+    const dedicatedSecond = forAngleImages[1];
+    const isGenericSecond = !savedSecondUrl || savedSecondUrl === defaultSecondUrl;
+    const secondUrl = isGenericSecond && dedicatedSecond ? dedicatedSecond.url : savedSecondUrl ?? defaultSecondUrl;
     if (!secondUrl) return null;
     return (
-      imageLibrary.find(item => item.url === secondUrl) || {
+      imageLibrary.find(item => item.url === secondUrl) ||
+      forAngleImages.find(item => item.url === secondUrl) || {
         id: 'custom-assigned-2',
         url: secondUrl,
         label: `2. kreacja (#${activeAngle.number})`,
@@ -1668,7 +1747,7 @@ export default function AntkiPlPage() {
         imageHash: activeAd?.secondImageHash || activeAngle.defaultSecondImageHash,
       }
     );
-  }, [activeAngle, activeAd, imageLibrary]);
+  }, [activeAngle, activeAd, imageLibrary, forAngleImages]);
 
 
   const [isEditingCopy, setIsEditingCopy] = useState(false);
@@ -3855,17 +3934,19 @@ export default function AntkiPlPage() {
                     filteredGalleryImages.length === 0 &&
                     (kieTasksByAngle[activeAngle.id] || []).length === 0 && (
                       <div
+                        onClick={() => void handleGenerate5KieImagesForActiveAngle()}
                         style={{
                           padding: "14px 12px",
                           borderRadius: 8,
                           background: "#241207",
-                          border: "1px dashed #7c2d12",
+                          border: "1px dashed #ea580c",
                           color: "#fed7aa",
                           fontSize: 11.5,
                           textAlign: "center",
+                          cursor: "pointer",
                         }}
                       >
-                        ⏳ Uruchamiam automatyczne generowanie 10 nowych zdjęć w Kie.ai specjalnie pod Antka #{activeAngle.number}...
+                        ⏳ Uruchamiam automatyczne generowanie 10 nowych zdjęć w Kie.ai specjalnie pod Antka #{activeAngle.number}... (Kliknij tutaj, aby wymusić teraz)
                       </div>
                     )}
                 </div>

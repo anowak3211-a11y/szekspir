@@ -255,13 +255,30 @@ Return ONLY valid JSON with this exact shape:
 
 const referenceUploadCache = new Map<string, string>();
 
+export async function resolveKieApiKey(explicitKey?: string): Promise<string> {
+  if (explicitKey?.trim()) return explicitKey.trim();
+  const direct = accountEnv('KIE_API_KEY') || process.env.KIE_API_KEY;
+  if (direct?.trim()) return direct.trim();
+  try {
+    const { accountRegistry } = await import('./account-repository');
+    const reg = await accountRegistry();
+    for (const u of Object.values(reg.users || {})) {
+      const k = u?.values?.KIE_API_KEY;
+      if (k && k.trim()) return k.trim();
+    }
+  } catch {
+    // ignore registry lookup failure
+  }
+  return requiredAccountEnv('KIE_API_KEY');
+}
+
 export async function uploadBufferToKie(
   buffer: Buffer,
   fileName: string,
   mimeType = 'image/jpeg',
   apiKey?: string
 ): Promise<string> {
-  const key = apiKey || requiredAccountEnv('KIE_API_KEY');
+  const key = await resolveKieApiKey(apiKey);
   const form = new FormData();
   const blob = new Blob([new Uint8Array(buffer)], { type: mimeType });
   form.append('file', blob, fileName);
@@ -290,7 +307,7 @@ export async function uploadBufferToKie(
 }
 
 export async function uploadPublicReferenceToKie(publicRelPath: string, apiKey?: string): Promise<string> {
-  const key = apiKey || requiredAccountEnv('KIE_API_KEY');
+  const key = await resolveKieApiKey(apiKey);
   const keyHash = createHash('sha256').update(key).digest('hex').slice(0, 12);
   const normalizedRel = publicRelPath.replace(/^\/+/, '');
   const cacheKey = `${keyHash}:${normalizedRel}`;
@@ -361,7 +378,7 @@ export async function submitKieRipperTask(
   payload: ReturnType<typeof buildKieCreateTaskPayload>,
   apiKey?: string
 ): Promise<string> {
-  const key = apiKey || requiredAccountEnv('KIE_API_KEY');
+  const key = await resolveKieApiKey(apiKey);
   const res = await fetch('https://api.kie.ai/api/v1/jobs/createTask', {
     method: 'POST',
     headers: {
@@ -392,7 +409,7 @@ export async function pollKieRipperTask(
   resultUrl?: string;
   error?: string;
 }> {
-  const key = apiKey || requiredAccountEnv('KIE_API_KEY');
+  const key = await resolveKieApiKey(apiKey);
   const res = await fetch(
     `https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${encodeURIComponent(taskId)}`,
     {
@@ -466,8 +483,17 @@ export async function loadRipperInitData(): Promise<{
   } catch {
     products = [];
   }
+  let kieConfigured = Boolean(accountEnv('KIE_API_KEY') || process.env.KIE_API_KEY);
+  if (!kieConfigured) {
+    try {
+      const k = await resolveKieApiKey();
+      kieConfigured = Boolean(k);
+    } catch {
+      kieConfigured = false;
+    }
+  }
   return {
-    kieConfigured: Boolean(accountEnv('KIE_API_KEY')),
+    kieConfigured,
     products,
     defaultReferences: DEFAULT_MELLOW_REFERENCES,
     mellowBrandBook: MELLOW_RIPPER_BRAND_BOOK,

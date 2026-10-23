@@ -228,7 +228,7 @@ export const POST = accountRoute(async (req: Request) => {
         productRefKieUrl = undefined;
       }
 
-      const tasks = await Promise.all(
+      const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
           const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
           const fullPrompt = isNoomTemplate
@@ -241,16 +241,33 @@ export const POST = accountRoute(async (req: Request) => {
             aspectRatio: '1:1',
             resolution: '1K',
           });
-          const taskId = await submitKieRipperTask(payload);
-          return {
-            index: idx + 1,
-            label: scene.label,
-            prompt: fullPrompt,
-            includeProductRef: scene.includeProductRef,
-            taskId,
-          };
+          try {
+            const taskId = await submitKieRipperTask(payload);
+            return {
+              index: idx + 1,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: scene.includeProductRef,
+              taskId,
+            };
+          } catch (err) {
+            return {
+              index: idx + 1,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: scene.includeProductRef,
+              taskId: '',
+              error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+            };
+          }
         }),
       );
+
+      const tasks = taskResults.filter(t => Boolean(t.taskId));
+      if (tasks.length === 0) {
+        const firstErr = taskResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+        return NextResponse.json({ error: firstErr }, { status: 500 });
+      }
 
       return NextResponse.json({
         ok: true,
@@ -305,6 +322,9 @@ export const POST = accountRoute(async (req: Request) => {
         kiePrompt: body.prompt || undefined,
       };
 
+      const isScene1 = /^1\./.test(label);
+      const isScene2 = /^2\./.test(label);
+      const now = Date.now();
       const defaultAds = buildAllFelioraPrewrittenAds();
       const updatedState = await mutate<
         FelioraPlLibraryState,
@@ -317,8 +337,38 @@ export const POST = accountRoute(async (req: Request) => {
         } else {
           customList.unshift(newAsset);
         }
-        state.customImages = customList.slice(0, 300);
-        return { customImages: state.customImages, ads: state.ads || defaultAds };
+        state.customImages = customList.slice(0, 400);
+
+        const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
+        if (angleId && (isScene1 || isScene2)) {
+          const adIdx = adsList.findIndex(item => item.angleId === angleId);
+          const baseAd = adIdx >= 0 ? adsList[adIdx] : defaultAds.find(a => a.angleId === angleId);
+          if (baseAd) {
+            const updatedAd: FelioraPlGeneratedAd = {
+              ...baseAd,
+              ...(isScene1
+                ? {
+                    imageUrl: newAsset.url,
+                    imageHash: newAsset.imageHash || baseAd.imageHash,
+                  }
+                : {}),
+              ...(isScene2
+                ? {
+                    secondImageUrl: newAsset.url,
+                    secondImageHash: newAsset.imageHash || baseAd.secondImageHash,
+                  }
+                : {}),
+              updatedAt: now,
+            };
+            if (adIdx >= 0) {
+              adsList[adIdx] = updatedAd;
+            } else {
+              adsList.push(updatedAd);
+            }
+          }
+        }
+        state.ads = adsList;
+        return { customImages: state.customImages, ads: state.ads };
       });
 
       return NextResponse.json({
@@ -326,6 +376,7 @@ export const POST = accountRoute(async (req: Request) => {
         resultUrl: status.resultUrl,
         asset: newAsset,
         imageLibrary: [...updatedState.customImages, ...FELIORA_IMAGE_LIBRARY],
+        savedAds: updatedState.ads,
       });
     }
 
