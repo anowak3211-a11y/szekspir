@@ -8,20 +8,20 @@ function config(){
 async function transport(path:string,body:unknown,operation:'read'|'write'){
  const {url,key}=config();
  // Writes repeat the identical compare-and-swap request, never the provider call.
- const attempts=operation==='write'?3:1;
+ const attempts=operation==='write'?4:4;
  for(let attempt=0;attempt<attempts;attempt++){
   let r:Response;
-  try{r=await fetch(`${url}/rest/v1/${path}`,{method:body===undefined?'GET':'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(20000)});
+  try{r=await fetch(`${url}/rest/v1/${path}`,{method:body===undefined?'GET':'POST',headers:{apikey:key,...(key.startsWith('eyJ')?{Authorization:`Bearer ${key}`}:{ }),'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(15000)});
    if(r.ok)return await r.json();
   }
   catch(e){
    const code=(e as {cause?:{code?:string}})?.cause?.code;
    const reason=['ECONNRESET','ETIMEDOUT','ENOTFOUND','EAI_AGAIN','UND_ERR_CONNECT_TIMEOUT'].includes(code||'')?code:(e as Error)?.name==='TimeoutError'?'timeout':e instanceof SyntaxError?'invalid_response':'network_or_response';
    console.warn('state_transport_retry',{operation,attempt:attempt+1,reason});
-   if(attempt===attempts-1)throw Error('Database connection unavailable. Please try again.');await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));continue;
+   if(attempt===attempts-1)throw Error('Database connection unavailable. Please try again.');await new Promise(resolve=>setTimeout(resolve,400*(attempt+1)));continue;
   }
   console.warn('state_transport_status',{operation,attempt:attempt+1,status:r.status});
-  if(attempt<attempts-1&&[408,429,500,502,503,504,520,521,522,523,524].includes(r.status)){await r.body?.cancel();await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));continue;}
+  if(attempt<attempts-1&&[408,429,500,502,503,504,520,521,522,523,524].includes(r.status)){await r.body?.cancel();await new Promise(resolve=>setTimeout(resolve,400*(attempt+1)));continue;}
   throw Error(`Database state request failed (HTTP ${r.status})`);
  }
  throw Error('Database connection unavailable. Please try again.');
