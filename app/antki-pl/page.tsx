@@ -1619,8 +1619,10 @@ export default function AntkiPlPage() {
     const defaultUrl = activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
     const savedUrl = activeAd?.imageUrl;
     const dedicatedFirst = forAngleImages[0];
-    const isLegacyLocalPlaceholder = !savedUrl || (savedUrl === defaultUrl && !savedUrl.startsWith('http') && !savedUrl.startsWith('data:'));
-    const currentUrl = isLegacyLocalPlaceholder && dedicatedFirst ? dedicatedFirst.url : savedUrl || defaultUrl;
+    const userModified = Boolean(activeAd?.updatedAt && activeAd.updatedAt > 1792616400000);
+    const isUnmodifiedPlaceholder =
+      !savedUrl || (!userModified && savedUrl === defaultUrl && !savedUrl.startsWith('http') && !savedUrl.startsWith('data:'));
+    const currentUrl = isUnmodifiedPlaceholder && dedicatedFirst ? dedicatedFirst.url : savedUrl || defaultUrl;
     return (
       imageLibrary.find(item => item.url === currentUrl) ||
       forAngleImages.find(item => item.url === currentUrl) || {
@@ -1638,9 +1640,11 @@ export default function AntkiPlPage() {
     const defaultSecondUrl = activeAngle.defaultSecondImageUrl;
     const savedSecondUrl = activeAd?.secondImageUrl;
     const dedicatedSecond = forAngleImages[1];
-    const isLegacyLocalSecond =
-      !savedSecondUrl || (savedSecondUrl === defaultSecondUrl && !savedSecondUrl.startsWith('http') && !savedSecondUrl.startsWith('data:'));
-    const secondUrl = isLegacyLocalSecond && dedicatedSecond ? dedicatedSecond.url : savedSecondUrl ?? defaultSecondUrl;
+    const userModified = Boolean(activeAd?.updatedAt && activeAd.updatedAt > 1792616400000);
+    const isUnmodifiedSecond =
+      !savedSecondUrl ||
+      (!userModified && savedSecondUrl === defaultSecondUrl && !savedSecondUrl.startsWith('http') && !savedSecondUrl.startsWith('data:'));
+    const secondUrl = isUnmodifiedSecond && dedicatedSecond ? dedicatedSecond.url : savedSecondUrl ?? defaultSecondUrl;
     if (!secondUrl) return null;
     return (
       imageLibrary.find(item => item.url === secondUrl) ||

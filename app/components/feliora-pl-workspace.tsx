@@ -73,6 +73,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
   // Image Picker Modal & Fullscreen Lightbox
   const [imagePickerSlot, setImagePickerSlot] = useState<null | 'primary' | 'secondary'>(null);
   const [lightboxAsset, setLightboxAsset] = useState<FelioraImageAsset | null>(null);
+  const [fbPreviewSlot, setFbPreviewSlot] = useState<'primary' | 'secondary'>('primary');
   const [showVocDetails, setShowVocDetails] = useState(false);
   const customFileRef = useRef<HTMLInputElement | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -83,19 +84,81 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
+  const FELIORA_LOCAL_IMAGES_KEY = 'feliora_pl_saved_images_v3';
+
+  const applyLocalImageOverrides = useCallback((list: FelioraPlGeneratedAd[]): FelioraPlGeneratedAd[] => {
+    try {
+      if (typeof window === 'undefined') return list;
+      const raw = window.localStorage.getItem(FELIORA_LOCAL_IMAGES_KEY);
+      if (!raw) return list;
+      const localMap = JSON.parse(raw) as Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt?: number;
+        }
+      >;
+      return list.map(ad => {
+        const loc = localMap[ad.angleId];
+        if (!loc) return ad;
+        return {
+          ...ad,
+          ...(loc.imageUrl ? { imageUrl: loc.imageUrl, imageHash: loc.imageHash || ad.imageHash } : {}),
+          ...(loc.secondImageUrl
+            ? { secondImageUrl: loc.secondImageUrl, secondImageHash: loc.secondImageHash || ad.secondImageHash }
+            : {}),
+          updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
+        };
+      });
+    } catch {
+      return list;
+    }
+  }, []);
+
+  const persistLocalImageOverride = useCallback(
+    (
+      angleId: string,
+      patch: {
+        imageUrl?: string;
+        imageHash?: string;
+        secondImageUrl?: string;
+        secondImageHash?: string;
+        updatedAt: number;
+      },
+    ) => {
+      try {
+        if (typeof window === 'undefined') return;
+        const raw = window.localStorage.getItem(FELIORA_LOCAL_IMAGES_KEY);
+        const current = raw ? JSON.parse(raw) : {};
+        current[angleId] = {
+          ...(current[angleId] || {}),
+          ...patch,
+        };
+        window.localStorage.setItem(FELIORA_LOCAL_IMAGES_KEY, JSON.stringify(current));
+      } catch {
+        // Ignore storage errors
+      }
+    },
+    [],
+  );
+
   const loadFromServer = useCallback(async () => {
     try {
+      setAds(prev => applyLocalImageOverrides(prev));
       const res = await fetch('/api/feliora-pl', { cache: 'no-store' });
       const data = await res.json();
       if (res.ok && Array.isArray(data.savedAds) && data.savedAds.length > 0) {
-        setAds(data.savedAds);
+        setAds(applyLocalImageOverrides(data.savedAds));
         if (Array.isArray(data.presets)) setPresets(data.presets);
         if (Array.isArray(data.imageLibrary)) setImageLibrary(data.imageLibrary);
       }
     } catch {
       // Fallback to local prebuilt ads
     }
-  }, []);
+  }, [applyLocalImageOverrides]);
 
   useEffect(() => {
     loadFromServer();
@@ -181,7 +244,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Błąd zapisu.');
-      if (Array.isArray(data.savedAds)) setAds(data.savedAds);
+      if (Array.isArray(data.savedAds)) setAds(applyLocalImageOverrides(data.savedAds));
       setEditDirty(false);
       setNotice(`Zapisano zmiany dla kąta #${activePreset.number}`);
       setTimeout(() => setNotice(''), 3000);
@@ -190,44 +253,74 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
     } finally {
       setSavingEdit(false);
     }
-  }, [activeAd, activePreset, editHeadline, editDescription, editPrimaryText, editDestinationUrl, editPageId]);
+  }, [activeAd, activePreset, editHeadline, editDescription, editPrimaryText, editDestinationUrl, editPageId, applyLocalImageOverrides]);
 
   const handleAssignImage = useCallback(
-    async (asset: FelioraImageAsset, slot: 'primary' | 'secondary') => {
+    async (asset: FelioraImageAsset, slot: 'primary' | 'secondary', closeLightbox = false) => {
       if (!activePreset) return;
+      const targetAngleId = activePreset.id;
+      const now = Date.now();
+
+      // 0ms Optimistic UI update + localStorage persistence
+      setAds(prev =>
+        prev.map(ad =>
+          ad.angleId === targetAngleId
+            ? {
+                ...ad,
+                ...(slot === 'primary'
+                  ? { imageUrl: asset.url, imageHash: asset.imageHash || ad.imageHash }
+                  : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || ad.secondImageHash }),
+                updatedAt: now,
+              }
+            : ad,
+        ),
+      );
+      persistLocalImageOverride(
+        targetAngleId,
+        slot === 'primary'
+          ? { imageUrl: asset.url, imageHash: asset.imageHash || '', updatedAt: now }
+          : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || '', updatedAt: now },
+      );
+      setFbPreviewSlot(slot);
+      setImagePickerSlot(null);
+      if (closeLightbox) {
+        setLightboxAsset(null);
+      }
+      setError('');
+      const msg =
+        slot === 'primary'
+          ? `✅ Ustawiono Kreację A (Główną) dla Kąta #${activePreset.number}: „${asset.label}”`
+          : `🟦 Ustawiono Kreację B (Split A/B) dla Kąta #${activePreset.number}: „${asset.label}”`;
+      setNotice(msg);
+      setTimeout(() => {
+        setNotice(prev => (prev === msg ? '' : prev));
+      }, 3500);
+
       try {
         const payload =
           slot === 'primary'
             ? {
                 action: 'set_image',
-                angleId: activePreset.id,
+                angleId: targetAngleId,
                 imageUrl: asset.url,
                 imageHash: asset.imageHash,
               }
             : {
                 action: 'set_image',
-                angleId: activePreset.id,
+                angleId: targetAngleId,
                 secondImageUrl: asset.url,
                 secondImageHash: asset.imageHash,
               };
-        const res = await fetch('/api/feliora-pl', {
+        await fetch('/api/feliora-pl', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-        const data = await res.json();
-        if (res.ok && Array.isArray(data.savedAds)) {
-          setAds(data.savedAds);
-          setNotice(`Przypisano grafikę (${slot === 'primary' ? 'Kreacja A' : 'Kreacja B'}) do kąta #${activePreset.number}`);
-          setTimeout(() => setNotice(''), 2500);
-        }
       } catch {
-        setError('Nie udało się przypisać grafiki.');
-      } finally {
-        setImagePickerSlot(null);
+        // Optimistic + localStorage already saved
       }
     },
-    [activePreset],
+    [activePreset, persistLocalImageOverride],
   );
 
   const openLightboxForUrl = useCallback(
@@ -1683,10 +1776,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                               borderRadius: '8px',
                               overflow: 'hidden',
                               background: '#1d1033',
-                              border: isA
-                                ? '2px solid #8b5cf6'
-                                : isB
+                              border: isB
                                 ? '2px solid #fbbf24'
+                                : isA
+                                ? '2px solid #8b5cf6'
                                 : '1px solid #5c2f14',
                               display: 'flex',
                               flexDirection: 'column',
@@ -1707,6 +1800,23 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                                   display: 'block',
                                 }}
                               />
+                              {(isA || isB) && (
+                                <span
+                                  style={{
+                                    position: 'absolute',
+                                    top: '4px',
+                                    right: '4px',
+                                    background: isA && isB ? '#059669' : isB ? '#d97706' : '#7c3aed',
+                                    color: '#fff',
+                                    fontSize: '9.5px',
+                                    fontWeight: 800,
+                                    padding: '2px 5px',
+                                    borderRadius: '4px',
+                                  }}
+                                >
+                                  {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
+                                </span>
+                              )}
                             </div>
                             <div
                               style={{
@@ -1718,7 +1828,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                             >
                               <button
                                 type="button"
-                                onClick={() => handleAssignImage(img, 'primary')}
+                                onClick={() => void handleAssignImage(img, 'primary')}
                                 style={{
                                   background: isA ? '#7c3aed' : 'transparent',
                                   color: isA ? '#ffffff' : '#c4b5fd',
@@ -1730,11 +1840,11 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                                   cursor: 'pointer',
                                 }}
                               >
-                                Ustaw A
+                                {isA ? '✓ Kreacja A' : 'Ustaw A'}
                               </button>
                               <button
                                 type="button"
-                                onClick={() => handleAssignImage(img, 'secondary')}
+                                onClick={() => void handleAssignImage(img, 'secondary')}
                                 style={{
                                   background: isB ? '#d97706' : 'transparent',
                                   color: isB ? '#ffffff' : '#fcd34d',
@@ -1745,7 +1855,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                                   cursor: 'pointer',
                                 }}
                               >
-                                Ustaw B
+                                {isB ? '✓ Kreacja B' : 'Ustaw B'}
                               </button>
                             </div>
                           </div>
@@ -1790,10 +1900,10 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                           borderRadius: '8px',
                           overflow: 'hidden',
                           background: '#1d1033',
-                          border: isA
-                            ? '2px solid #8b5cf6'
-                            : isB
+                          border: isB
                             ? '2px solid #fbbf24'
+                            : isA
+                            ? '2px solid #8b5cf6'
                             : '1px solid #5c2f14',
                           display: 'flex',
                           flexDirection: 'column',
@@ -1835,7 +1945,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                                 position: 'absolute',
                                 top: '5px',
                                 right: '5px',
-                                background: isA ? '#7c3aed' : '#d97706',
+                                background: isA && isB ? '#059669' : isB ? '#d97706' : '#7c3aed',
                                 color: '#fff',
                                 fontSize: '10px',
                                 fontWeight: 800,
@@ -1843,7 +1953,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                                 borderRadius: '4px',
                               }}
                             >
-                              Aktywna {isA ? 'A' : 'B'}
+                              {isA && isB ? 'Aktywna A+B' : isB ? 'Aktywna B' : 'Aktywna A'}
                             </span>
                           )}
                         </div>
@@ -1859,7 +1969,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                         >
                           <button
                             type="button"
-                            onClick={() => handleAssignImage(img, 'primary')}
+                            onClick={() => void handleAssignImage(img, 'primary')}
                             style={{
                               background: isA ? '#7c3aed' : 'transparent',
                               color: isA ? '#ffffff' : '#a78bfa',
@@ -1871,14 +1981,14 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                               cursor: 'pointer',
                             }}
                           >
-                            Ustaw A
+                            {isA ? '✓ Kreacja A' : 'Ustaw A'}
                           </button>
                           <button
                             type="button"
-                            onClick={() => handleAssignImage(img, 'secondary')}
+                            onClick={() => void handleAssignImage(img, 'secondary')}
                             style={{
                               background: isB ? '#d97706' : 'transparent',
-                              color: isB ? '#ffffff' : '#c4b5fd',
+                              color: isB ? '#ffffff' : '#fcd34d',
                               border: 'none',
                               padding: '5px 4px',
                               fontSize: '10.5px',
@@ -1886,7 +1996,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                               cursor: 'pointer',
                             }}
                           >
-                            Ustaw B
+                            {isB ? '✓ Kreacja B' : 'Ustaw B'}
                           </button>
                         </div>
                       </div>
@@ -1947,38 +2057,96 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                 boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
               }}
             >
-              <div style={{ padding: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '50%',
-                    background: activeFanpage.badgeColor || '#111827',
-                    color: '#fff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 800,
-                    fontSize: '13px',
-                  }}
-                >
-                  {activeFanpage.initials}
+              <div
+                style={{
+                  padding: '10px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '10px',
+                  borderBottom: '1px solid #f1f5f9',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      background: activeFanpage.badgeColor || '#111827',
+                      color: '#fff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 800,
+                      fontSize: '13px',
+                    }}
+                  >
+                    {activeFanpage.initials}
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '13.5px', color: '#050505' }}>{activeFanpage.name}</div>
+                    <div style={{ fontSize: '11.5px', color: '#65676b' }}>Sponsorowane · 🌍</div>
+                  </div>
                 </div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '13.5px', color: '#050505' }}>{activeFanpage.name}</div>
-                  <div style={{ fontSize: '11.5px', color: '#65676b' }}>Sponsorowane · 🌍</div>
+
+                {/* Switcher between Kreacja A and Kreacja B in FB Feed Preview */}
+                <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '7px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setFbPreviewSlot('primary')}
+                    style={{
+                      background: fbPreviewSlot === 'primary' ? '#7c3aed' : 'transparent',
+                      color: fbPreviewSlot === 'primary' ? '#ffffff' : '#475569',
+                      border: 'none',
+                      borderRadius: '5px',
+                      padding: '4px 8px',
+                      fontSize: '10.5px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Kreacja A
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFbPreviewSlot('secondary')}
+                    style={{
+                      background: fbPreviewSlot === 'secondary' ? '#d97706' : 'transparent',
+                      color: fbPreviewSlot === 'secondary' ? '#ffffff' : '#475569',
+                      border: 'none',
+                      borderRadius: '5px',
+                      padding: '4px 8px',
+                      fontSize: '10.5px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Kreacja B
+                  </button>
                 </div>
               </div>
 
-              <div style={{ padding: '0 12px 10px 12px', fontSize: '13.5px', lineHeight: 1.45, color: '#050505' }}>
+              <div style={{ padding: '10px 12px', fontSize: '13.5px', lineHeight: 1.45, color: '#050505' }}>
                 {paragraphs.slice(0, 2).join('\n\n')}
                 <span style={{ color: '#65676b', fontWeight: 600 }}> ... Zobacz więcej</span>
               </div>
 
               <img
-                src={activeAd.imageUrl}
+                src={
+                  fbPreviewSlot === 'secondary'
+                    ? activeAd.secondImageUrl || activeAd.imageUrl
+                    : activeAd.imageUrl
+                }
                 alt={editHeadline}
-                onClick={() => openLightboxForUrl(activeAd.imageUrl, editHeadline)}
+                onClick={() =>
+                  openLightboxForUrl(
+                    fbPreviewSlot === 'secondary'
+                      ? activeAd.secondImageUrl || activeAd.imageUrl
+                      : activeAd.imageUrl,
+                    editHeadline,
+                  )
+                }
                 title="Kliknij, aby powiększyć"
                 style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
               />
@@ -2131,6 +2299,49 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         </aside>
       </div>
 
+      {/* FLOATING TOAST NOTIFICATION (ALWAYS VISIBLE ABOVE MODALS) */}
+      {(notice || error) && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '22px',
+            right: '22px',
+            zIndex: 10000,
+            maxWidth: '480px',
+            background: error ? '#991b1b' : '#065f46',
+            color: '#ffffff',
+            border: error ? '2px solid #f87171' : '2px solid #34d399',
+            borderRadius: '10px',
+            padding: '12px 16px',
+            boxShadow: '0 14px 36px rgba(0, 0, 0, 0.65)',
+            fontSize: '13px',
+            fontWeight: 800,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
+          <span style={{ flex: 1 }}>{error || notice}</span>
+          <button
+            type="button"
+            onClick={() => {
+              setNotice('');
+              setError('');
+            }}
+            style={{
+              background: 'transparent',
+              color: '#ffffff',
+              border: 'none',
+              fontSize: '14px',
+              fontWeight: 800,
+              cursor: 'pointer',
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* FULLSCREEN IMAGE LIGHTBOX / ZOOM MODAL */}
       {lightboxAsset && (
         <div
@@ -2139,7 +2350,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             position: 'fixed',
             inset: 0,
             background: 'rgba(5, 8, 15, 0.92)',
-            zIndex: 200,
+            zIndex: 9000,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -2152,6 +2363,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
           <div
             onClick={e => e.stopPropagation()}
             style={{
+              position: 'relative',
+              zIndex: 9010,
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -2175,39 +2388,41 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={() => {
-                  handleAssignImage(lightboxAsset, 'primary');
+                onClick={e => {
+                  e.stopPropagation();
+                  void handleAssignImage(lightboxAsset, 'primary', true);
                 }}
                 style={{
-                  background: '#059669',
+                  background: activeAd?.imageUrl === lightboxAsset.url ? '#047857' : '#059669',
                   color: '#ffffff',
-                  border: 'none',
+                  border: activeAd?.imageUrl === lightboxAsset.url ? '2px solid #6ee7b7' : 'none',
                   borderRadius: '7px',
-                  padding: '7px 12px',
+                  padding: '8px 13px',
                   fontSize: '12px',
                   fontWeight: 800,
                   cursor: 'pointer',
                 }}
               >
-                ✅ Ustaw jako Kreację A
+                {activeAd?.imageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja A' : '✅ Ustaw jako Kreację A'}
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  handleAssignImage(lightboxAsset, 'secondary');
+                onClick={e => {
+                  e.stopPropagation();
+                  void handleAssignImage(lightboxAsset, 'secondary', true);
                 }}
                 style={{
-                  background: '#0284c7',
+                  background: activeAd?.secondImageUrl === lightboxAsset.url ? '#d97706' : '#0284c7',
                   color: '#ffffff',
-                  border: 'none',
+                  border: activeAd?.secondImageUrl === lightboxAsset.url ? '2px solid #fde68a' : 'none',
                   borderRadius: '7px',
-                  padding: '7px 12px',
+                  padding: '8px 13px',
                   fontSize: '12px',
                   fontWeight: 800,
                   cursor: 'pointer',
                 }}
               >
-                🟦 Ustaw jako Kreację B
+                {activeAd?.secondImageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja B' : '🟦 Ustaw jako Kreację B'}
               </button>
               <a
                 href={lightboxAsset.url}
@@ -2333,7 +2548,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             position: 'fixed',
             inset: 0,
             background: 'rgba(0,0,0,0.78)',
-            zIndex: 100,
+            zIndex: 8500,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -2381,30 +2596,38 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                 gap: '12px',
               }}
             >
-              {imageLibrary.map(asset => (
-                <div
-                  key={asset.id}
-                  onClick={() => handleAssignImage(asset, imagePickerSlot)}
-                  style={{
-                    background: '#0f172a',
-                    border: '1px solid #334155',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '6px',
-                  }}
-                >
-                  <img
-                    src={asset.url}
-                    alt={asset.label}
-                    style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', borderRadius: '6px' }}
-                  />
-                  <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#e2e8f0' }}>{asset.label}</div>
-                  <div style={{ fontSize: '10.5px', color: '#94a3b8' }}>{asset.adsetOrigin}</div>
-                </div>
-              ))}
+              {imageLibrary.map(asset => {
+                const isSelected =
+                  imagePickerSlot === 'primary'
+                    ? activeAd?.imageUrl === asset.url
+                    : activeAd?.secondImageUrl === asset.url;
+                return (
+                  <div
+                    key={asset.id}
+                    onClick={() => void handleAssignImage(asset, imagePickerSlot)}
+                    style={{
+                      background: '#0f172a',
+                      border: isSelected ? '2px solid #fbbf24' : '1px solid #334155',
+                      borderRadius: '10px',
+                      padding: '8px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '6px',
+                    }}
+                  >
+                    <img
+                      src={asset.url}
+                      alt={asset.label}
+                      style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', borderRadius: '6px' }}
+                    />
+                    <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#e2e8f0' }}>{asset.label}</div>
+                    <div style={{ fontSize: '10.5px', color: isSelected ? '#fcd34d' : '#94a3b8', fontWeight: isSelected ? 800 : 400 }}>
+                      {isSelected ? '✓ Aktualnie wybrana' : asset.adsetOrigin}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

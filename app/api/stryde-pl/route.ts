@@ -39,11 +39,15 @@ async function readStrydeLibraryState(): Promise<{
     if (stored.length === 0) {
       return { ads: defaultAds, customImages };
     }
+    const defaultByAngle = new Map<string, StrydePlGeneratedAd>();
     const byAngle = new Map<string, StrydePlGeneratedAd>();
     for (const ad of defaultAds) {
+      defaultByAngle.set(ad.angleId, ad);
       byAngle.set(ad.angleId, ad);
     }
+    const storedByAngle = new Map<string, StrydePlGeneratedAd>();
     for (const ad of stored) {
+      if (ad?.angleId) storedByAngle.set(ad.angleId, ad);
       const baseAd = byAngle.get(ad.angleId);
       if (!baseAd) continue;
       const audited = sanitizeAndAuditStrydePl(
@@ -68,17 +72,26 @@ async function readStrydeLibraryState(): Promise<{
         secondImageHash: ad.secondImageHash || baseAd.secondImageHash,
       });
     }
+    const DEFAULT_CREATED_AT = 1792616400000;
     const finalAds = Array.from(byAngle.values()).map(ad => {
       const angleImgs = customImages.filter(
         img => img?.angleId === ad.angleId && typeof img?.url === 'string' && img.url.startsWith('http'),
       );
       if (angleImgs.length === 0) return ad;
-      const scene1 = angleImgs.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || angleImgs[angleImgs.length - 1];
+      const sorted = [...angleImgs].sort((a, b) => {
+        const mA = (a.label || '').match(/(?:^|·\s*)(\d+)\./);
+        const mB = (b.label || '').match(/(?:^|·\s*)(\d+)\./);
+        return (mA ? Number(mA[1]) : 99) - (mB ? Number(mB[1]) : 99);
+      });
+      const scene1 = sorted.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || sorted[0];
       const scene2 =
-        angleImgs.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
-        angleImgs.find(img => img.url !== scene1?.url);
-      const needsScene1 = !ad.imageUrl || !ad.imageUrl.startsWith('http');
-      const needsScene2 = !ad.secondImageUrl || !ad.secondImageUrl.startsWith('http');
+        sorted.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
+        sorted.find(img => img.url !== scene1?.url);
+      const baseAd = defaultByAngle.get(ad.angleId);
+      const storedAd = storedByAngle.get(ad.angleId);
+      const userModified = Boolean(storedAd?.updatedAt && storedAd.updatedAt > DEFAULT_CREATED_AT);
+      const needsScene1 = !ad.imageUrl || (!userModified && ad.imageUrl === baseAd?.imageUrl);
+      const needsScene2 = !ad.secondImageUrl || (!userModified && ad.secondImageUrl === baseAd?.secondImageUrl);
       return {
         ...ad,
         ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),

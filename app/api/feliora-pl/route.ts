@@ -101,11 +101,15 @@ async function readFelioraLibraryState(): Promise<{
     if (stored.length === 0) {
       return { ads: defaultAds, customImages };
     }
+    const defaultByAngle = new Map<string, FelioraPlGeneratedAd>();
     const byAngle = new Map<string, FelioraPlGeneratedAd>();
     for (const ad of defaultAds) {
+      defaultByAngle.set(ad.angleId, ad);
       byAngle.set(ad.angleId, ad);
     }
+    const storedByAngle = new Map<string, FelioraPlGeneratedAd>();
     for (const ad of stored) {
+      if (ad?.angleId) storedByAngle.set(ad.angleId, ad);
       const baseAd = byAngle.get(ad.angleId);
       if (!baseAd) continue;
       const audited = sanitizeAndAuditFelioraPl(
@@ -138,17 +142,26 @@ async function readFelioraLibraryState(): Promise<{
             : baseAd.secondImageHash,
       });
     }
+    const DEFAULT_CREATED_AT = 1792616400000;
     const finalAds = Array.from(byAngle.values()).map(ad => {
       const angleImgs = customImages.filter(
         img => img?.angleId === ad.angleId && typeof img?.url === 'string' && img.url.startsWith('http'),
       );
       if (angleImgs.length === 0) return ad;
-      const scene1 = angleImgs.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || angleImgs[angleImgs.length - 1];
+      const sorted = [...angleImgs].sort((a, b) => {
+        const mA = (a.label || '').match(/(?:^|·\s*)(\d+)\./);
+        const mB = (b.label || '').match(/(?:^|·\s*)(\d+)\./);
+        return (mA ? Number(mA[1]) : 99) - (mB ? Number(mB[1]) : 99);
+      });
+      const scene1 = sorted.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || sorted[0];
       const scene2 =
-        angleImgs.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
-        angleImgs.find(img => img.url !== scene1?.url);
-      const needsScene1 = !ad.imageUrl || !ad.imageUrl.startsWith('http');
-      const needsScene2 = !ad.secondImageUrl || !ad.secondImageUrl.startsWith('http');
+        sorted.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
+        sorted.find(img => img.url !== scene1?.url);
+      const baseAd = defaultByAngle.get(ad.angleId);
+      const storedAd = storedByAngle.get(ad.angleId);
+      const userModified = Boolean(storedAd?.updatedAt && storedAd.updatedAt > DEFAULT_CREATED_AT);
+      const needsScene1 = !ad.imageUrl || (!userModified && ad.imageUrl === baseAd?.imageUrl);
+      const needsScene2 = !ad.secondImageUrl || (!userModified && ad.secondImageUrl === baseAd?.secondImageUrl);
       return {
         ...ad,
         ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),
@@ -599,24 +612,43 @@ export const POST = accountRoute(async (req: Request) => {
       for (const ad of selectedAds) {
         const pageId = body.pageId || ad.pageId || '1287239777799682';
         const imageHash = ad.imageHash || '44568acba92b73f42dc4860eceeffb26';
+        const secondHash =
+          ad.secondImageHash && ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl
+            ? ad.secondImageHash
+            : '';
+        const targetLink = urlMode === 'pdp' ? FELIORA_DEFAULT_URL : FELIORA_ADVERTORIAL_URL;
+        const baseSuffix = urlMode === 'pdp' ? 'PDP' : 'LISTICLE';
         const urlsToPush: Array<{ suffix: string; link: string; hash: string }> =
           urlMode === 'split_ab'
             ? [
                 {
-                  suffix: 'LISTICLE',
+                  suffix: 'LISTICLE (Kreacja A)',
                   link: FELIORA_ADVERTORIAL_URL,
                   hash: imageHash,
                 },
                 {
-                  suffix: 'PDP',
-                  link: FELIORA_DEFAULT_URL,
-                  hash: ad.secondImageHash || imageHash,
+                  suffix: 'LISTICLE (Kreacja B)',
+                  link: FELIORA_ADVERTORIAL_URL,
+                  hash: secondHash || imageHash,
+                },
+              ]
+            : secondHash
+            ? [
+                {
+                  suffix: `${baseSuffix} · Kreacja A`,
+                  link: targetLink,
+                  hash: imageHash,
+                },
+                {
+                  suffix: `${baseSuffix} · Kreacja B`,
+                  link: targetLink,
+                  hash: secondHash,
                 },
               ]
             : [
                 {
-                  suffix: urlMode === 'pdp' ? 'PDP' : 'LISTICLE',
-                  link: urlMode === 'pdp' ? FELIORA_DEFAULT_URL : FELIORA_ADVERTORIAL_URL,
+                  suffix: baseSuffix,
+                  link: targetLink,
                   hash: imageHash,
                 },
               ];
@@ -627,6 +659,8 @@ export const POST = accountRoute(async (req: Request) => {
             `act_${FELIORA_META_ACCOUNT_ID}/adcreatives`,
             {
               name: `${adName} - Creative`,
+              url_tags:
+                'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
               object_story_spec: {
                 page_id: pageId,
                 link_data: {

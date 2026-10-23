@@ -75,15 +75,77 @@ export default function StrydePlWorkspace({
   const [notice, setNotice] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const STRYDE_LOCAL_IMAGES_KEY = 'stryde_pl_saved_images_v3';
+
+  const applyLocalImageOverrides = useCallback((list: StrydePlGeneratedAd[]): StrydePlGeneratedAd[] => {
+    try {
+      if (typeof window === 'undefined') return list;
+      const raw = window.localStorage.getItem(STRYDE_LOCAL_IMAGES_KEY);
+      if (!raw) return list;
+      const localMap = JSON.parse(raw) as Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt?: number;
+        }
+      >;
+      return list.map(ad => {
+        const loc = localMap[ad.angleId];
+        if (!loc) return ad;
+        return {
+          ...ad,
+          ...(loc.imageUrl ? { imageUrl: loc.imageUrl, imageHash: loc.imageHash || ad.imageHash } : {}),
+          ...(loc.secondImageUrl
+            ? { secondImageUrl: loc.secondImageUrl, secondImageHash: loc.secondImageHash || ad.secondImageHash }
+            : {}),
+          updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
+        };
+      });
+    } catch {
+      return list;
+    }
+  }, []);
+
+  const persistLocalImageOverride = useCallback(
+    (
+      angleId: string,
+      patch: {
+        imageUrl?: string;
+        imageHash?: string;
+        secondImageUrl?: string;
+        secondImageHash?: string;
+        updatedAt: number;
+      },
+    ) => {
+      try {
+        if (typeof window === 'undefined') return;
+        const raw = window.localStorage.getItem(STRYDE_LOCAL_IMAGES_KEY);
+        const current = raw ? JSON.parse(raw) : {};
+        current[angleId] = {
+          ...(current[angleId] || {}),
+          ...patch,
+        };
+        window.localStorage.setItem(STRYDE_LOCAL_IMAGES_KEY, JSON.stringify(current));
+      } catch {
+        // Ignore storage errors
+      }
+    },
+    [],
+  );
+
   // Load persisted edits from API
   useEffect(() => {
     let cancelled = false;
-    fetch('/api/stryde-pl')
+    setAds(prev => applyLocalImageOverrides(prev));
+    fetch('/api/stryde-pl', { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
         if (cancelled) return;
         if (Array.isArray(data?.savedAds) && data.savedAds.length > 0) {
-          setAds(data.savedAds);
+          setAds(applyLocalImageOverrides(data.savedAds));
         }
         if (Array.isArray(data?.imageLibrary) && data.imageLibrary.length > 0) {
           setImageLibrary(data.imageLibrary);
@@ -95,7 +157,7 @@ export default function StrydePlWorkspace({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [applyLocalImageOverrides]);
 
   const adByAngleId = useMemo(() => {
     const map = new Map<string, StrydePlGeneratedAd>();
@@ -195,7 +257,7 @@ export default function StrydePlWorkspace({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Błąd zapisu.');
       if (Array.isArray(data.savedAds)) {
-        setAds(data.savedAds);
+        setAds(applyLocalImageOverrides(data.savedAds));
       }
       setEditDirty(false);
       showToast(`Zapisano zmiany w kącie #${activePreset.number} (${activePreset.code}).`);
@@ -204,36 +266,61 @@ export default function StrydePlWorkspace({
     } finally {
       setSavingEdit(false);
     }
-  }, [activeAd, activePreset, editHeadline, editDescription, editPrimaryText, editPageId, editDestinationUrl, showToast]);
+  }, [activeAd, activePreset, editHeadline, editDescription, editPrimaryText, editPageId, editDestinationUrl, showToast, applyLocalImageOverrides]);
 
   const handleAssignImage = useCallback(
-    async (asset: StrydeImageAsset, slot: 'primary' | 'secondary') => {
+    async (asset: StrydeImageAsset, slot: 'primary' | 'secondary', closeLightbox = false) => {
       if (!activePreset) return;
+      const targetAngleId = activePreset.id;
+      const now = Date.now();
+
+      setAds(prev =>
+        prev.map(ad =>
+          ad.angleId === targetAngleId
+            ? {
+                ...ad,
+                ...(slot === 'primary'
+                  ? { imageUrl: asset.url, imageHash: asset.imageHash || ad.imageHash }
+                  : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || ad.secondImageHash }),
+                updatedAt: now,
+              }
+            : ad,
+        ),
+      );
+      persistLocalImageOverride(
+        targetAngleId,
+        slot === 'primary'
+          ? { imageUrl: asset.url, imageHash: asset.imageHash || '', updatedAt: now }
+          : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || '', updatedAt: now },
+      );
+      setImagePickerSlot(null);
+      if (closeLightbox) {
+        setLightboxAsset(null);
+      }
+      setError('');
+      showToast(
+        slot === 'primary'
+          ? `✅ Ustawiono Kreację A (Główną) dla Kąta #${activePreset.number}: „${asset.label}”`
+          : `🟦 Ustawiono Kreację B (Split A/B) dla Kąta #${activePreset.number}: „${asset.label}”`,
+      );
+
       try {
-        const res = await fetch('/api/stryde-pl', {
+        await fetch('/api/stryde-pl', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'set_image',
-            angleId: activePreset.id,
+            angleId: targetAngleId,
             ...(slot === 'primary'
               ? { imageUrl: asset.url, imageHash: asset.imageHash }
               : { secondImageUrl: asset.url, secondImageHash: asset.imageHash }),
           }),
         });
-        const data = await res.json();
-        if (Array.isArray(data.savedAds)) {
-          setAds(data.savedAds);
-        }
-        setImagePickerSlot(null);
-        showToast(
-          `Przypisano grafikę „${asset.label}” jako ${slot === 'primary' ? 'Kreację A' : 'Kreację B'}.`,
-        );
       } catch {
-        setError('Błąd przypisywania grafiki.');
+        // Optimistic + localStorage already saved
       }
     },
-    [activePreset, showToast],
+    [activePreset, showToast, persistLocalImageOverride],
   );
 
   const openLightboxForUrl = useCallback(
@@ -1665,10 +1752,10 @@ export default function StrydePlWorkspace({
                               borderRadius: '8px',
                               overflow: 'hidden',
                               background: '#09090b',
-                              border: isA
-                                ? '2px solid #10b981'
-                                : isB
+                              border: isB
                                 ? '2px solid #38bdf8'
+                                : isA
+                                ? '2px solid #10b981'
                                 : '1px solid #27272a',
                               display: 'flex',
                               flexDirection: 'column',
@@ -1689,6 +1776,23 @@ export default function StrydePlWorkspace({
                                   display: 'block',
                                 }}
                               />
+                              {(isA || isB) && (
+                                <span
+                                  style={{
+                                    position: 'absolute',
+                                    top: '4px',
+                                    right: '4px',
+                                    background: isA && isB ? '#059669' : isB ? '#0284c7' : '#10b981',
+                                    color: '#fff',
+                                    fontSize: '9.5px',
+                                    fontWeight: 800,
+                                    padding: '2px 5px',
+                                    borderRadius: '4px',
+                                  }}
+                                >
+                                  {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
+                                </span>
+                              )}
                             </div>
                             <div
                               style={{
@@ -1700,7 +1804,7 @@ export default function StrydePlWorkspace({
                             >
                               <button
                                 type="button"
-                                onClick={() => handleAssignImage(img, 'primary')}
+                                onClick={() => void handleAssignImage(img, 'primary')}
                                 style={{
                                   background: isA ? '#10b981' : 'transparent',
                                   color: isA ? '#ffffff' : '#34d399',
@@ -1712,11 +1816,11 @@ export default function StrydePlWorkspace({
                                   cursor: 'pointer',
                                 }}
                               >
-                                Ustaw A
+                                {isA ? '✓ Kreacja A' : 'Ustaw A'}
                               </button>
                               <button
                                 type="button"
-                                onClick={() => handleAssignImage(img, 'secondary')}
+                                onClick={() => void handleAssignImage(img, 'secondary')}
                                 style={{
                                   background: isB ? '#0284c7' : 'transparent',
                                   color: isB ? '#ffffff' : '#38bdf8',
@@ -1727,7 +1831,7 @@ export default function StrydePlWorkspace({
                                   cursor: 'pointer',
                                 }}
                               >
-                                Ustaw B
+                                {isB ? '✓ Kreacja B' : 'Ustaw B'}
                               </button>
                             </div>
                           </div>
@@ -1770,10 +1874,10 @@ export default function StrydePlWorkspace({
                           borderRadius: '8px',
                           overflow: 'hidden',
                           background: '#09090b',
-                          border: isA
-                            ? '2px solid #10b981'
-                            : isB
+                          border: isB
                             ? '2px solid #38bdf8'
+                            : isA
+                            ? '2px solid #10b981'
                             : '1px solid #27272a',
                           display: 'flex',
                           flexDirection: 'column',
@@ -1800,7 +1904,7 @@ export default function StrydePlWorkspace({
                                 position: 'absolute',
                                 top: '5px',
                                 right: '5px',
-                                background: isA ? '#10b981' : '#0284c7',
+                                background: isA && isB ? '#059669' : isB ? '#0284c7' : '#10b981',
                                 color: '#fff',
                                 fontSize: '10px',
                                 fontWeight: 800,
@@ -1808,7 +1912,7 @@ export default function StrydePlWorkspace({
                                 borderRadius: '4px',
                               }}
                             >
-                              {isA ? 'A' : 'B'}
+                              {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
                             </span>
                           )}
                         </div>
@@ -1823,7 +1927,7 @@ export default function StrydePlWorkspace({
                         >
                           <button
                             type="button"
-                            onClick={() => handleAssignImage(img, 'primary')}
+                            onClick={() => void handleAssignImage(img, 'primary')}
                             style={{
                               background: isA ? '#10b981' : 'transparent',
                               color: isA ? '#ffffff' : '#34d399',
@@ -1835,11 +1939,11 @@ export default function StrydePlWorkspace({
                               cursor: 'pointer',
                             }}
                           >
-                            Ustaw A
+                            {isA ? '✓ Kreacja A' : 'Ustaw A'}
                           </button>
                           <button
                             type="button"
-                            onClick={() => handleAssignImage(img, 'secondary')}
+                            onClick={() => void handleAssignImage(img, 'secondary')}
                             style={{
                               background: isB ? '#0284c7' : 'transparent',
                               color: isB ? '#ffffff' : '#38bdf8',
@@ -1850,7 +1954,7 @@ export default function StrydePlWorkspace({
                               cursor: 'pointer',
                             }}
                           >
-                            Ustaw B
+                            {isB ? '✓ Kreacja B' : 'Ustaw B'}
                           </button>
                         </div>
                       </div>
@@ -2005,7 +2109,7 @@ export default function StrydePlWorkspace({
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              maxWidth: '760px',
+              maxWidth: '860px',
               width: '100%',
               background: '#09090b',
               border: '1px solid #27272a',
@@ -2016,25 +2120,66 @@ export default function StrydePlWorkspace({
               gap: '12px',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
               <span style={{ fontSize: '14px', fontWeight: 800, color: '#ffffff' }}>
                 {lightboxAsset.label}
               </span>
-              <button
-                type="button"
-                onClick={() => setLightboxAsset(null)}
-                style={{
-                  background: '#18181b',
-                  color: '#ffffff',
-                  border: '1px solid #27272a',
-                  borderRadius: '6px',
-                  padding: '4px 10px',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                }}
-              >
-                ✕ Zamknij (ESC)
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    void handleAssignImage(lightboxAsset, 'primary', true);
+                  }}
+                  style={{
+                    background: activeAd?.imageUrl === lightboxAsset.url ? '#047857' : '#059669',
+                    color: '#ffffff',
+                    border: activeAd?.imageUrl === lightboxAsset.url ? '2px solid #6ee7b7' : 'none',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {activeAd?.imageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja A' : '✅ Ustaw jako Kreację A'}
+                </button>
+                <button
+                  type="button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    void handleAssignImage(lightboxAsset, 'secondary', true);
+                  }}
+                  style={{
+                    background: activeAd?.secondImageUrl === lightboxAsset.url ? '#d97706' : '#0284c7',
+                    color: '#ffffff',
+                    border: activeAd?.secondImageUrl === lightboxAsset.url ? '2px solid #fde68a' : 'none',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {activeAd?.secondImageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja B' : '🟦 Ustaw jako Kreację B'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLightboxAsset(null)}
+                  style={{
+                    background: '#18181b',
+                    color: '#ffffff',
+                    border: '1px solid #27272a',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    cursor: 'pointer',
+                    fontWeight: 700,
+                    fontSize: '12px',
+                  }}
+                >
+                  ✕ Zamknij (ESC)
+                </button>
+              </div>
             </div>
             <img
               src={lightboxAsset.url}

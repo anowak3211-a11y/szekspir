@@ -137,10 +137,15 @@ async function readLibraryState(): Promise<{
     }
     // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
+    const defaultByAngle = new Map<string, AntkiPlGeneratedAd>();
     for (const ad of defaultArgonAds) {
-      byAngle.set(ad.angleId, ensureAdImage(ad));
+      const ensured = ensureAdImage(ad);
+      defaultByAngle.set(ad.angleId, ensured);
+      byAngle.set(ad.angleId, ensured);
     }
+    const storedByAngle = new Map<string, AntkiPlGeneratedAd>();
     for (const ad of stored) {
+      if (ad?.angleId) storedByAngle.set(ad.angleId, ad);
       const baseAd = byAngle.get(ad.angleId);
       const isUnmodifiedArgonCopy =
         ad.id.startsWith('antek-pl-argon-') || !ad.wordCount || ad.wordCount < 1050;
@@ -175,6 +180,7 @@ async function readLibraryState(): Promise<{
         }),
       );
     }
+    const DEFAULT_CREATED_AT = 1792616400000;
     const finalAds = Array.from(byAngle.values()).map(ad => {
       const angleImgs = customImages.filter(
         img => img?.angleId === ad.angleId && typeof img?.url === 'string' && img.url.startsWith('http'),
@@ -189,8 +195,11 @@ async function readLibraryState(): Promise<{
       const scene2 =
         sorted.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
         sorted.find(img => img.url !== scene1?.url);
-      const needsScene1 = !ad.imageUrl || (!ad.imageUrl.startsWith('http') && !ad.imageUrl.startsWith('data:'));
-      const needsScene2 = !ad.secondImageUrl || (!ad.secondImageUrl.startsWith('http') && !ad.secondImageUrl.startsWith('data:'));
+      const baseAd = defaultByAngle.get(ad.angleId);
+      const storedAd = storedByAngle.get(ad.angleId);
+      const userModified = Boolean(storedAd?.updatedAt && storedAd.updatedAt > DEFAULT_CREATED_AT);
+      const needsScene1 = !ad.imageUrl || (!userModified && ad.imageUrl === baseAd?.imageUrl);
+      const needsScene2 = !ad.secondImageUrl || (!userModified && !storedAd?.secondImageUrl && ad.secondImageUrl === baseAd?.secondImageUrl);
       return {
         ...ad,
         ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),
