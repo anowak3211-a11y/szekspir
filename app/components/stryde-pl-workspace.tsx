@@ -36,12 +36,12 @@ export default function StrydePlWorkspace({
   onSwitchToFeliora,
   onSwitchToOrthomax,
 }: StrydePlWorkspaceProps) {
-  const [presets] = useState<StrydeAnglePreset[]>(STRYDE_PRESET_ANGLES);
+  const [presets, setPresets] = useState<StrydeAnglePreset[]>(STRYDE_PRESET_ANGLES);
   const [ads, setAds] = useState<StrydePlGeneratedAd[]>(() => buildAllStrydePrewrittenAds());
   const [imageLibrary, setImageLibrary] = useState<StrydeImageAsset[]>(STRYDE_IMAGE_LIBRARY);
 
   // Filters
-  const [stageFilter, setStageFilter] = useState<'all' | StrydeAwarenessStageId>('all');
+  const [stageFilter, setStageFilter] = useState<'all' | 'new10' | StrydeAwarenessStageId>('all');
   const [sophFilter, setSophFilter] = useState<'all' | StrydeSophisticationLevel>('all');
   const [clusterFilter, setClusterFilter] = useState<'all' | StrydeProblemCluster>('all');
   const [fanpageFilter, setFanpageFilter] = useState<'all' | string>('all');
@@ -144,6 +144,9 @@ export default function StrydePlWorkspace({
       .then(r => r.json())
       .then(data => {
         if (cancelled) return;
+        if (Array.isArray(data?.presets) && data.presets.length > 0) {
+          setPresets(data.presets);
+        }
         if (Array.isArray(data?.savedAds) && data.savedAds.length > 0) {
           setAds(applyLocalImageOverrides(data.savedAds));
         }
@@ -170,7 +173,11 @@ export default function StrydePlWorkspace({
   const filteredPresets = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return presets.filter(p => {
-      if (stageFilter !== 'all' && p.stageId !== stageFilter) return false;
+      if (stageFilter === 'new10') {
+        if (!p.id.startsWith('orthevia-')) return false;
+      } else if (stageFilter !== 'all' && p.stageId !== stageFilter) {
+        return false;
+      }
       if (sophFilter !== 'all' && p.sophisticationLevel !== sophFilter) return false;
       if (clusterFilter !== 'all' && p.problemCluster !== clusterFilter) return false;
       if (fanpageFilter !== 'all' && p.recommendedFanpageId !== fanpageFilter) return false;
@@ -786,6 +793,30 @@ export default function StrydePlWorkspace({
             Wszystkie ({presets.length})
           </button>
 
+          <button
+            type="button"
+            onClick={() => {
+              setStageFilter('new10');
+              const firstNew = presets.find(p => p.id.startsWith('orthevia-'));
+              if (firstNew) setActiveAngleId(firstNew.id);
+            }}
+            style={{
+              padding: '7px 13px',
+              borderRadius: '8px',
+              border: stageFilter === 'new10' ? '1px solid #f59e0b' : '1px solid #b45309',
+              background:
+                stageFilter === 'new10'
+                  ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
+                  : 'rgba(245, 158, 11, 0.12)',
+              color: stageFilter === 'new10' ? '#09090b' : '#fcd34d',
+              fontSize: '12.5px',
+              fontWeight: 800,
+              cursor: 'pointer',
+            }}
+          >
+            ✨ NOWE Polskie Kąty ({presets.filter(p => p.id.startsWith('orthevia-')).length})
+          </button>
+
           {STAGE_ORDER.map(stKey => {
             const st = STRYDE_STAGES[stKey];
             const active = stageFilter === stKey;
@@ -1078,6 +1109,21 @@ export default function StrydePlWorkspace({
                           >
                             #{String(preset.number).padStart(2, '0')}
                           </span>
+                          {preset.id.startsWith('orthevia-') && (
+                            <span
+                              style={{
+                                background: '#f59e0b',
+                                color: '#09090b',
+                                fontWeight: 900,
+                                fontSize: '9.5px',
+                                padding: '1px 5px',
+                                borderRadius: '4px',
+                                letterSpacing: '0.03em',
+                              }}
+                            >
+                              NOWE
+                            </span>
+                          )}
                           <span
                             style={{
                               fontSize: '10px',

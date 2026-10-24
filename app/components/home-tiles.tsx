@@ -12,7 +12,7 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
           <span className="tile-icon" aria-hidden="true">🇵🇱</span>
           <span className="tile-title">ANTKI PL</span>
           <span className="tile-sub">
-            Fabryka polskich Antków / MSL dla Orthomax StepMax (Porady Mamy Gosi &amp; Dorośli). Lejek 35 kątów (Koszyki 1–4, Ryciak Rip 3, Żal po operacji, Zima), cennik 1+1 za 99,99 zł + 30 dni gwarancji i eksport do Szekspir Ads.
+            Fabryka polskich Antków: Sardian™ Opaska na kolano (25 Antków · 5x5), Feliora PL Koty (25 Antków) oraz Orthomax StepMax (70 Antków).
           </span>
         </a>
         <a className="tile big" href="/image-ripper">
