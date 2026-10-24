@@ -334,7 +334,7 @@ export default function StrydePlWorkspace({
           url,
           imageHash: '',
           label: fallbackLabel,
-          adsetOrigin: 'Orthevia PL',
+          adsetOrigin: 'Sardian PL',
           adOrigin: fallbackLabel,
           aspectRatio: '1:1',
         });
@@ -623,7 +623,7 @@ export default function StrydePlWorkspace({
                 boxShadow: '0 2px 10px rgba(16, 185, 129, 0.35)',
               }}
             >
-              🦿 OPASKA PL · Stryde 1:1 (15 Antków · Czarny Motyw)
+              🦿 SARDIAN™ PL · Opaska (25 Antków · 5×5)
             </button>
 
             {onSwitchToFeliora && (
@@ -783,7 +783,7 @@ export default function StrydePlWorkspace({
               cursor: 'pointer',
             }}
           >
-            Wszystkie (15)
+            Wszystkie ({presets.length})
           </button>
 
           {STAGE_ORDER.map(stKey => {
@@ -865,7 +865,7 @@ export default function StrydePlWorkspace({
               fontWeight: 600,
             }}
           >
-            <option value="all">📣 Wszystkie Fanpage (3 profile)</option>
+            <option value="all">📣 Wszystkie Fanpage ({STRYDE_FANPAGES.length} profile)</option>
             {STRYDE_FANPAGES.map(fp => (
               <option key={fp.id} value={fp.id}>
                 {fp.name} ({fp.role})
@@ -875,7 +875,7 @@ export default function StrydePlWorkspace({
 
           <input
             type="text"
-            placeholder="🔍 Szukaj imienia (Tadeusz, Zosia, Darek, Oskarek, Gienek), schodów, wózka, Otodom..."
+            placeholder="🔍 Szukaj imienia (Tadeusz, Darek, Henryk, Zdzisław, Halina, Marek), schodów, sprzęgła, wanny..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             style={{
@@ -930,7 +930,7 @@ export default function StrydePlWorkspace({
           background: '#000000',
         }}
       >
-        {/* LEFT COLUMN: LIST OF 15 POLISH-LOCALIZED ANGLES */}
+        {/* LEFT COLUMN: LIST OF 25 SARDIAN PL ANGLES */}
         <aside
           style={{
             borderRight: '1px solid #27272a',
@@ -956,7 +956,7 @@ export default function StrydePlWorkspace({
             }}
           >
             <span style={{ fontSize: '12px', fontWeight: 800, color: '#f4f4f5' }}>
-              ANTKI 1:1 ({filteredPresets.length} / 15)
+              ANTKI SARDIAN™ ({filteredPresets.length} / {presets.length})
             </span>
             <button
               type="button"
@@ -2056,7 +2056,7 @@ export default function StrydePlWorkspace({
               >
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ fontSize: '10.5px', color: '#a1a1aa', textTransform: 'uppercase' }}>
-                    STRYDE.PL · 60 DNI GWARANCJI
+                    SPROBUJSARDIAN.PL · 60 DNI GWARANCJI
                   </div>
                   <div
                     style={{
@@ -2242,7 +2242,7 @@ export default function StrydePlWorkspace({
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#34d399' }}>
-                🇵🇱 Matryca Lokalizacji 1:1 (UK/FR → PL) & Przewaga nad Ankole.pl
+                🇵🇱 Matryca 25 Kątów Sardian™ (5×5) & Przewaga nad Ankole.pl
               </h2>
               <button
                 type="button"
@@ -2261,21 +2261,14 @@ export default function StrydePlWorkspace({
               </button>
             </div>
             <p style={{ fontSize: '13.5px', color: '#d4d4d8', lineHeight: 1.6 }}>
-              Wszystkie 15 kątów w tej zakładce to nietknięte przez <strong>Ankole.pl</strong> reklamy 1:1 z brytyjskich profili satelickich{' '}
-              <strong>Not Done Yet</strong>, <strong>The Knee Diary</strong> oraz francuskiego <strong>Inolyo.com</strong>, zaadaptowane w 100% do polskich realiów:
+              Kompletna matryca <strong>25 kątów (5 kategorii × 5 Antków)</strong> dla opaski podrzepkowej <strong>Sardian™</strong> na domenie <strong>sprobujsardian.pl</strong> (15 adaptacji 1:1 z UK/FR + 10 polskich kątów VOC z forów ortopedycznych):
             </p>
             <ul style={{ fontSize: '13px', color: '#e4e4e7', lineHeight: 1.7 }}>
-              <li><strong>#01 Brukarz Tadeusz (64 l.) i żona Zosia (52 l.):</strong> 30 lat na kolanach przy kostce brukowej, pomocnik Łukasz i 70-letni Gienek ze składu budowlanego.</li>
-              <li><strong>#02 Glazurnik Darek (63 l.) i żona Karolina:</strong> 131 nocy w fotelu w salonie, 14 stopni na piętro, wnuczka Maja (5 l.) i kolega Marek na działce.</li>
-              <li><strong>#03 Instalator Staszek (72 l.) i 78-letni brat Edek:</strong> zatkana rynna nad wykuszem, żona Halinka dzwoni po starszego brata po zawale.</li>
-              <li><strong>#04 Babcia Zuzanna (66 l.) i 4-letni Oskarek:</strong> wielkanocny obiad, wnuk kopiuje utykanie babci i pyta o „kulawe kolanko”.</li>
-              <li><strong>#05 Babcia Krystyna (68 l.) vs druga babcia Dorota (64 l.):</strong> wnuki Iga i Leoś wolą piątki u drugiej babci, która biega z nimi w parku.</li>
-              <li><strong>#06 Barbara (69 l.) na wyjeździe w Kołobrzegu:</strong> córka Magda rezerwuje skuter inwalidzki na nazwisko mamy, a 71-letnia swatowa Karolina chodzi po klifach.</li>
-              <li><strong>#07 Kadrowa Julia (34 l.) i pani Gosia (61 l.):</strong> 22 minuty utknięcia na niskiej toalecie w biurze i wycofana rezygnacja z pracy.</li>
-              <li><strong>#08 Wdowa Janina (71 l.) i linki z Otodom:</strong> 41 lat w domu z dębową poręczą zmarłego męża Alka, agent nieruchomości i 79-letnia pani Irena.</li>
-              <li><strong>#09 Laura (67 l.) i czwartkowe dancingi:</strong> mąż Krzysiek odchodzi po 44 latach do 72-letniej wdowy Sylwii, spotkanie przy umywalce.</li>
-              <li><strong>#10–#11 Gniew na kliniki i ortezy (Janina 61 l. & kolejarz Bronisław 71 l.):</strong> 6 000 zł w prywatnych gabinetach i sztywna orteza za 1 600 zł w szafie kontra pasek pod rzepką.</li>
-              <li><strong>#12–#15 Krótkie kąty Inolyo FR & Stryde BOF:</strong> „To NIE chrząstka (-34% napięcia)”, „Nie zjeżdża na łydkę”, „Przetrwać kolejkę na NFZ” i „Oryginał z rdzeniem 8 mm vs miękkie podróbki”.</li>
+              <li><strong>#01–#05 Męska duma i fach w ręku (5 kątów):</strong> Brukarz Tadeusz (64 l.), Glazurnik Darek (131 nocy w fotelu), Instalator Staszek i 78-letni brat na drabinie, Kierowca Henryk (66 l., sprzęgło na A4) oraz Działkowiec Zdzisław (70 l., taborecik na ROD).</li>
+              <li><strong>#06–#10 Wnuki, rodzina i kościół (5 kątów):</strong> Babcia Zuzanna („kulawe kolanko”), Babcia Krystyna vs druga babcia, Barbara w Kołobrzegu (wózek elektryczny), Babcia Halina (68 l., ostatnia ławka w kościele i Komunia) oraz Dziadek Roman (67 l., rower z wnukiem).</li>
+              <li><strong>#11–#15 Strach przed utratą samodzielności (5 kątów):</strong> Kadrowa Gosia (toaleta w biurze), Wdowa Janina (Otodom i dom po mężu), Laura (67 l., dancingi), Pani Teresa (68 l., 4. piętro bez windy z lastryko) oraz Pani Danuta (70 l., utknięcie w wannie).</li>
+              <li><strong>#16–#20 Gniew na kliniki, zastrzyki i suple (5 kątów):</strong> 6 000 zł w gabinetach, orteza zegarowa za 1 600 zł w szafie, 3 zastrzyki kwasu hialuronowego za 2 400 zł (5 tyg. ulgi), 8 puszek kolagenu i zrujnowany żołądek oraz Fizjoterapeuta mgr Marek Kowalczyk (16 lat praktyki).</li>
+              <li><strong>#21–#25 Krótkie kąty Inolyo FR & Sardian™ BOF (5 kątów):</strong> „To NIE chrząstka (-34% napięcia)”, „Nie zjeżdża na łydkę”, „Przetrwać kolejkę na NFZ”, „Oryginał 8 mm vs podróbki” oraz „Test 2 palców pod rzepką w 10 sekund”.</li>
             </ul>
           </div>
         </div>

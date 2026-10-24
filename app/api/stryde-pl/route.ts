@@ -17,11 +17,20 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'stryde-pl-library-v1-all15-localized';
+const LEGACY_STATE_KEY = 'stryde-pl-library-v1-all15-localized';
+const STATE_KEY = 'sardian-opaska-pl-v2-25ads';
 
 interface StrydePlLibraryState {
   ads: StrydePlGeneratedAd[];
   customImages?: StrydeImageAsset[];
+}
+
+function normalizeSardianUrl(url?: string, fallbackUrl?: string): string {
+  const raw = (url || fallbackUrl || STRYDE_LISTICLE_URL).trim();
+  return raw
+    .replace(/https?:\/\/r0fgvk-0t\.myshopify\.com/gi, 'https://sprobujsardian.pl')
+    .replace(/https?:\/\/(?:www\.)?stryde\.pl/gi, 'https://sprobujsardian.pl')
+    .replace(/\/products\/orthevia-precision-strap/gi, '/products/sardian-precision-strap');
 }
 
 async function readStrydeLibraryState(): Promise<{
@@ -35,29 +44,76 @@ async function readStrydeLibraryState(): Promise<{
       customImages: [],
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
-    if (stored.length === 0) {
-      return { ads: defaultAds, customImages };
+    let customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+
+    // Pull previously generated Kie.ai customImages & http image assignments from v1 so zero generated visuals are lost
+    let legacyStored: StrydePlGeneratedAd[] = [];
+    try {
+      const { value: legacyVal } = await readState<StrydePlLibraryState>(LEGACY_STATE_KEY, {
+        ads: [],
+        customImages: [],
+      });
+      if (Array.isArray(legacyVal?.ads)) legacyStored = legacyVal.ads;
+      if (Array.isArray(legacyVal?.customImages) && legacyVal.customImages.length > 0) {
+        const seenIds = new Set(customImages.map(img => img.id));
+        const seenUrls = new Set(customImages.map(img => img.url));
+        for (const img of legacyVal.customImages) {
+          if (img && !seenIds.has(img.id) && !seenUrls.has(img.url)) {
+            customImages.push(img);
+            seenIds.add(img.id);
+            seenUrls.add(img.url);
+          }
+        }
+      }
+    } catch {
+      // Ignore legacy read error
     }
+
     const defaultByAngle = new Map<string, StrydePlGeneratedAd>();
     const byAngle = new Map<string, StrydePlGeneratedAd>();
     for (const ad of defaultAds) {
       defaultByAngle.set(ad.angleId, ad);
       byAngle.set(ad.angleId, ad);
     }
+
+    // Carry over ONLY http image assignments from legacy v1 (never old Stryde/Orthevia text!)
+    for (const legAd of legacyStored) {
+      if (!legAd?.angleId) continue;
+      const cur = byAngle.get(legAd.angleId);
+      if (!cur) continue;
+      byAngle.set(legAd.angleId, {
+        ...cur,
+        ...(legAd.imageUrl && legAd.imageUrl.startsWith('http')
+          ? { imageUrl: legAd.imageUrl, imageHash: legAd.imageHash || cur.imageHash }
+          : {}),
+        ...(legAd.secondImageUrl && legAd.secondImageUrl.startsWith('http')
+          ? { secondImageUrl: legAd.secondImageUrl, secondImageHash: legAd.secondImageHash || cur.secondImageHash }
+          : {}),
+      });
+    }
+
+    const DEFAULT_CREATED_AT = 1792616400000;
     const storedByAngle = new Map<string, StrydePlGeneratedAd>();
     for (const ad of stored) {
       if (ad?.angleId) storedByAngle.set(ad.angleId, ad);
       const baseAd = byAngle.get(ad.angleId);
       if (!baseAd) continue;
-      const audited = sanitizeAndAuditStrydePl(
-        ad.primaryText || baseAd.primaryText,
-        ad.headline || baseAd.headline,
-        ad.description || baseAd.description,
-      );
+      const userEditedCopy = Boolean(ad.updatedAt && ad.updatedAt > DEFAULT_CREATED_AT);
+      const rawPrimary = userEditedCopy && ad.primaryText ? ad.primaryText : baseAd.primaryText;
+      const rawHeadline = userEditedCopy && ad.headline ? ad.headline : baseAd.headline;
+      const rawDesc = userEditedCopy && ad.description ? ad.description : baseAd.description;
+      const audited = sanitizeAndAuditStrydePl(rawPrimary, rawHeadline, rawDesc);
+      const normalizedPageName =
+        !ad.pageName || /stryde|orthevia/i.test(ad.pageName) ? baseAd.pageName : ad.pageName;
       byAngle.set(ad.angleId, {
         ...baseAd,
         ...ad,
+        code: baseAd.code,
+        title: baseAd.title,
+        stageId: baseAd.stageId,
+        pageId: ad.pageId || baseAd.pageId,
+        pageName: normalizedPageName,
+        destinationUrl: normalizeSardianUrl(ad.destinationUrl, baseAd.destinationUrl),
         primaryText: audited.primaryText,
         headline: audited.headline,
         description: audited.description,
@@ -72,7 +128,7 @@ async function readStrydeLibraryState(): Promise<{
         secondImageHash: ad.secondImageHash || baseAd.secondImageHash,
       });
     }
-    const DEFAULT_CREATED_AT = 1792616400000;
+
     const finalAds = Array.from(byAngle.values()).map(ad => {
       const angleImgs = customImages.filter(
         img => img?.angleId === ad.angleId && typeof img?.url === 'string' && img.url.startsWith('http'),

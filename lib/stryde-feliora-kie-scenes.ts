@@ -412,10 +412,280 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
         'First-person POV close-up smartphone photo in a Polish apartment: a senior’s hand pulling firmly on the heavy-duty metal buckle of a matte-black patellar strap (zero text or logos on the strap).',
     },
   ],
+
+  'orthevia-04-sprzeglo-na-a4-syn-prowadzil-moje-auto-35-lat-za-kolkiem': [
+    {
+      label: '1. [HOOK] Pobocze drogi z włączonymi światłami awaryjnymi i kluczykami oddanymi synowi',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone photo from the passenger seat of a parked car on a Polish highway shoulder: hazard lights button glowing red on the dashboard while a 66-year-old man holds his left knee.',
+    },
+    {
+      label: '2. [HOOK] Lewa stopa nad pedałem sprzęgła w manualnym aucie (kłucie przy każdym wciśnięciu)',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone snapshot looking down into a car footwell: a 66-year-old driver’s left shoe hovering above the manual clutch pedal while his hand rubs below his left kneecap.',
+    },
+    {
+      label: '3. [HOOK] Otwarta maska samochodu na podjeździe, przy którym zawsze sam wymieniałem olej',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone photo on a Polish paved driveway: an older sedan with an open hood and a socket wrench set resting untouched on a stool.',
+    },
+    {
+      label: '4. [HOOK] Parking pod stacją diagnostyczną SKP, gdzie diagnosta pokazał pasek pod rzepką',
+      includeProductRef: false,
+      scenePrompt:
+        'Candid amateur smartphone snapshot outside a Polish vehicle inspection station (Stacja Kontroli Pojazdów): an older mechanic in navy work overalls pointing to a narrow matte-black strap below his kneecap.',
+    },
+  ],
+
+  'orthevia-05-taborecik-na-dzialce-rod-chcialem-oddac-klucze-po-28-latach': [
+    {
+      label: '1. [HOOK] Niski plastikowy taborecik stojący między grządkami pomidorów w szklarni na ROD',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone photo inside a small backyard greenhouse on a Polish allotment garden (ROD): a low green plastic stool left in the dirt aisle between tomato plants and a watering can.',
+    },
+    {
+      label: '2. [HOOK] Kartka „ODSTĄPIĘ DZIAŁKĘ” przygotowana obok pęku kluczy do furtki',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo on a rustic wooden garden table filling 100% of the frame: a handwritten Polish notice "ODSTĄPIĘ DZIAŁKĘ ROD" next to old metal padlock keys and garden shears.',
+    },
+    {
+      label: '3. [HOOK] Torebka po nasionach marchewki z zapisanym długopisem jednym słowem',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo on a wooden garden bench filling 100% of the frame: the back of a paper carrot seed packet with a blue ballpoint pen lying beside it.',
+    },
+    {
+      label: '4. [HOOK] Drewniana furtka działkowa po 28 latach i wiadro świeżych ogórków',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone snapshot on a Polish allotment path: a weathered green metal garden gate and a bucket of fresh garden cucumbers standing on the grass.',
+    },
+  ],
+
+  'orthevia-09-ostatnia-lawka-w-kosciele-komunia-wnuczki-bez-klekania': [
+    {
+      label: '1. [HOOK] Ostatnia drewniana ławka pod chórem w polskim kościele i zimna posadzka',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone photo from the very last wooden pew at the back of a quiet Polish church: a worn wooden kneeler (klęcznik) down near stone floor tiles.',
+    },
+    {
+      label: '2. [HOOK] Białe zaproszenie na Pierwszą Komunię Świętą wnuczki leżące na obrusie (90°)',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo on a white lace tablecloth filling 100% of the frame: an elegant white Polish First Communion invitation card ("Zaproszenie na I Komunię Świętą") next to reading glasses.',
+    },
+    {
+      label: '3. [HOOK] Zakrystia / korytarz przy kościele z drewnianym krzesłem dla starszych osób',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone snapshot in a quiet church vestibule in Poland: a simple wooden chair placed near the side wall next to a bulletin board.',
+    },
+    {
+      label: '4. [HOOK] Eleganckie damskie pantofle i spódnica za kolano gotowe na niedzielną mszę',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV smartphone photo in a Polish bedroom: a 68-year-old woman sitting on the edge of the bed in low navy dress shoes, adjusting a slim matte-black strap two fingers below her kneecap.',
+    },
+  ],
+
+  'orthevia-10-rower-w-piwnicy-wnuk-odjechal-sam-dziadek-zostal': [
+    {
+      label: '1. [HOOK] Zakurzony rower trekkingowy dziadka przypięty w ciemnej piwnicy w bloku',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone photo inside a dim brick apartment basement (piwnica w bloku) in Poland: a dusty men’s trekking bicycle leaning against wooden slats next to glass preserve jars.',
+    },
+    {
+      label: '2. [HOOK] Ścieżka rowerowa w parku i oddalający się wnuk na rowerze',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone snapshot on a paved Polish park bike path: handlebars of a stopped bicycle in the foreground while a 9-year-old boy in a helmet rides ahead in the distance.',
+    },
+    {
+      label: '3. [HOOK] Pompka rowerowa i klucz leżące na warsztatowym stole obok smaru',
+      includeProductRef: false,
+      scenePrompt:
+        'Top-down amateur smartphone photo on a garage workbench: a bicycle floor pump, chain oil bottle, and a worn cycling glove.',
+    },
+    {
+      label: '4. [HOOK] Zbliżenie na nogę 67-latka na pedale roweru z wąskim czarnym paskiem pod rzepką',
+      includeProductRef: false,
+      scenePrompt:
+        'Candid amateur smartphone photo outdoors on a sunny Polish forest trail: a 67-year-old man’s leg resting on a bicycle pedal with a narrow matte-black patellar strap worn two fingers below the kneecap (zero logos).',
+    },
+  ],
+
+  'orthevia-14-4-pietro-bez-windy-zakupy-na-raty-w-starym-bloku': [
+    {
+      label: '1. [HOOK] Stroma klatka schodowa z lastryko w polskim bloku z wielkiej płyty (4. piętro)',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone photo looking up a classic Polish communist-era apartment stairwell (klatka z lastryko) with metal railings and painted walls, seeming endless.',
+    },
+    {
+      label: '2. [HOOK] Siatki z zakupami i zgrzewka wody odstawione na półpiętrze przy skrzynkach',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone snapshot on a terrazzo apartment landing in Poland: two heavy Biedronka-style reusable grocery bags and a 6-pack of mineral water resting on the steps next to the handrail.',
+    },
+    {
+      label: '3. [HOOK] Dłoń 68-latki kurczowo zaciśnięta na metalowej barierce na drugim piętrze',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV close-up smartphone photo on an apartment staircase: an older woman’s hand gripping a painted steel stairwell railing tightly while pausing to rest her knee.',
+    },
+    {
+      label: '4. [HOOK] Sąsiad listonosz / kurier na półpiętrze pokazujący wąski pasek pod rzepką',
+      includeProductRef: false,
+      scenePrompt:
+        'Candid amateur smartphone photo on a bright Polish stairwell landing: a 58-year-old Polish postman with a leather mailbag rolling up his trouser leg slightly to show a slim matte-black strap below his kneecap.',
+    },
+  ],
+
+  'orthevia-15-utknelam-w-wannie-zimna-woda-telefon-na-pralce': [
+    {
+      label: '1. [HOOK] Wysoka żeliwna wanna w ciasnej polskiej łazience w bloku i telefon daleko na pralce',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV amateur smartphone photo inside a small tiled Polish apartment bathroom: a deep white enameled bathtub with high sides and a smartphone lying out of reach on top of a washing machine.',
+    },
+    {
+      label: '2. [HOOK] Śliska krawędź wanny i zwinięty ręcznik rzucony na kafelki podłogi',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone snapshot in a modest Polish bathroom: wet ceramic rim of a deep bathtub and a crumpled cotton towel on the floor mat beside it.',
+    },
+    {
+      label: '3. [HOOK] Folder z wyceną przeróbki łazienki na prysznic („14 500 zł”) na kuchennym stole (90°)',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo pointing straight down at a kitchen table filling 100% of the frame: a handwritten Polish bathroom renovation estimate reading "DEMONTAŻ WANNY + KABINA: 14 500 zł" next to a teacup.',
+    },
+    {
+      label: '4. [HOOK] Bezpieczne wyjście z łazienki w szlafroku bez lęku przed zgięciem kolana',
+      includeProductRef: false,
+      scenePrompt:
+        'Candid amateur smartphone photo in a warm Polish hallway outside the bathroom: a relieved 70-year-old woman in a terry bathrobe sitting on a chair adjusting a narrow matte-black strap below her kneecap.',
+    },
+  ],
+
+  'orthevia-18-3-zastrzyki-kwasu-za-2400-zl-bol-wrocil-po-5-tygodniach': [
+    {
+      label: '1. [HOOK] 3 puste pudełka po zastrzykach kwasu hialuronowego + paragony na 2 400 zł (90°)',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay amateur smartphone photo pointing straight down at a wooden table filling 100% of the frame (NO floating table): three empty white medical boxes from hyaluronic acid knee injections next to Polish thermal clinic receipts reading "SUMA PLN 2400,00".',
+    },
+    {
+      label: '2. [HOOK] Plaster opatrunkowy naklejony z boku opuchniętego kolana po bolesnej punkcji',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV close-up smartphone photo of a 63-year-old woman’s knee on a sofa with a small white sterile medical bandage stuck beside the kneecap after a joint injection.',
+    },
+    {
+      label: '3. [HOOK] Kalendarz ścienny z zaznaczonym dniem zastrzyku i dopiskiem „Ból wrócił po 5 tyg.”',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up amateur smartphone photo of a Polish paper wall calendar with circled dates and handwritten blue-pen note "Zastrzyk 800 zł -> po 5 tyg. znowu kłuje na schodach".',
+    },
+    {
+      label: '4. [HOOK] Zestawienie na stole (90°): rachunki z kliniki vs wąska czarna opaska z rdzeniem 8 mm',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo on a dark wooden table filling 100% of the frame: a stack of medical bills on the left vs a slim matte-black 8mm silicone-core patellar strap on the right.',
+    },
+  ],
+
+  'orthevia-19-8-puszek-kolagenu-i-masc-konska-zrujnowany-zoladek': [
+    {
+      label: '1. [HOOK] Rząd 8 pustych puszek po kolagenie na stawy i słoików maści końskiej na blacie',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone photo in a Polish kitchen: 8 empty plastic tubs of joint collagen powder, glucosamine boxes, and green horse ointment jars lined up along the kitchen counter.',
+    },
+    {
+      label: '2. [HOOK] Puste blistry po tabletkach przeciwbólowych obok leków osłonowych na żołądek (90°)',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo pointing straight down at a kitchen table filling 100% of the frame: crumpled silver foil painkiller blisters next to stomach protection capsules and a glass of water.',
+    },
+    {
+      label: '3. [HOOK] Szklanka z niedopitym proszkiem kolagenowym przy zlewie o poranku',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV smartphone snapshot by a Polish kitchen sink: a glass half-filled with cloudy dissolved collagen powder and a teaspoon resting on a saucer.',
+    },
+    {
+      label: '4. [HOOK] Ulga od zewnątrz w 30 sekund: zapięcie wąskiego paska pod rzepką bez obciążania żołądka',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV smartphone photo in a Polish living room: a 62-year-old man fastening a slim matte-black patellar strap two fingers below his kneecap while pushing pill boxes aside on the table.',
+    },
+  ],
+
+  'orthevia-20-fizjoterapeuta-16-lat-dlaczego-zdejmowalem-pacjentom-ortezy': [
+    {
+      label: '1. [HOOK] Polski gabinet fizjoterapii: sterta zdjętych rozciągniętych opasek na kozetce',
+      includeProductRef: false,
+      scenePrompt:
+        'Amateur smartphone photo inside a realistic Polish physiotherapy room: a white paper-covered treatment table holding several stretched beige elastic pharmacy knee sleeves and a bulky hinged brace.',
+    },
+    {
+      label: '2. [HOOK] Model anatomiczny stawu kolanowego z zaznaczonym ścięgnem rzepki w dłoni fizjoterapeuty',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up smartphone photo in a Polish clinic office: a male physiotherapist’s hand holding a plastic anatomical knee joint model and pointing a pen directly at the patellar tendon below the kneecap.',
+    },
+    {
+      label: '3. [HOOK] Test dwóch palców pod rzepką wykonywany pacjentowi na drewnianym stopniu',
+      includeProductRef: false,
+      scenePrompt:
+        'Candid amateur smartphone snapshot in a rehabilitation room: a physiotherapist kneeling beside a 65-year-old patient on a wooden step box, pressing two fingers gently below the patient’s kneecap.',
+    },
+    {
+      label: '4. [HOOK] Porównanie biomechaniczne na biurku (90°): rękaw dociskający rzepkę vs pasek 8 mm pod rzepką',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo on an office desk filling 100% of the frame: a hand-drawn Polish biomechanics sketch of the patella next to a slim matte-black 8mm silicone-core patellar strap.',
+    },
+  ],
+
+  'orthevia-25-test-2-palcow-pod-rzepka-jesli-czujesz-klucie-przeczytaj': [
+    {
+      label: '1. [HOOK] Zbliżenie 1:1 na „Test 2 palców pod rzepką” przy zgiętym kolanie w domu',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV close-up amateur smartphone photo in a Polish living room: index and middle fingers pressing into the soft tendon hollow just below the kneecap on a bent knee.',
+    },
+    {
+      label: '2. [HOOK] Stopa postawiona na pierwszym stopniu schodów podczas domowego testu obciążenia',
+      includeProductRef: false,
+      scenePrompt:
+        'First-person POV smartphone photo looking down at wooden stairs at home: one foot placed on the lower step while two fingers touch the spot below the kneecap.',
+    },
+    {
+      label: '3. [HOOK] Przekrój/zbliżenie na anatomiczny wałek silikonowy 8 mm dopasowany do wgłębienia pod rzepką',
+      includeProductRef: false,
+      scenePrompt:
+        'Macro close-up smartphone photo held in hand over a wooden table: the contoured 8mm silicone core on the inside of a matte-black patellar knee strap (zero text or logos).',
+    },
+    {
+      label: '4. [HOOK] Pakiet 1+1 na oba kolana leżący na stole obok karty 60 dni gwarancji (90°)',
+      includeProductRef: false,
+      scenePrompt:
+        'Close-up 90-degree flat-lay smartphone photo pointing straight down at a wooden table filling 100% of the frame: two identical matte-black patellar knee straps lying side by side next to a white Polish card reading "60 DNI TESTU W RUCHU".',
+    },
+  ],
 };
 
 /**
- * Buduje komplet 8 scen Kie.ai dla Stryde PL:
+ * Buduje komplet 8 scen Kie.ai dla Sardian™ Opaska PL:
  * - 4 sceny z HOOKA (50% wszystkich zdjęć = unikalne pod dany kąt)
  * - 3 sceny 1:1 na wzór NOOM.PL (Wydruk + Żółty Post-it + Paragon SUMA PLN / Podkładka TEST 60 SEKUND [✓] / 4 coraz większe blistry + RTG na stole 90°)
  * - 1 scena produktowa z referencją wąskiego czarnego paska pod rzepką
@@ -429,26 +699,31 @@ export function buildStrydeEightKieScenes(params: {
   const hookScenes = STRYDE_HOOK_SCENES_BY_ANGLE[params.angleId] || STRYDE_HOOK_SCENES_BY_ANGLE['stryde-01-czy-pani-tata-dobrze-sie-czuje'];
   const id = (params.angleId || '').toLowerCase();
 
-  let printoutTopNote = 'STAW KOLANOWY: KOŚĆ O KOŚĆ — PRZECIĄŻENIE ŚCIĘGNA';
+  let printoutTopNote = 'STAW KOLANOWY: KOŚĆ O KOŚĆ - PRZECIĄŻENIE ŚCIĘGNA';
   let postItNote = 'ODCIĄŻYĆ PUNKT 2 PALCE POD RZEPKĄ (-34%) / NIE TABLETKA!';
   let checklistLines =
     'TEST SCHODÓW (60 SEKUND):\\n[✓] schodzisz dostawianym krokiem?\\n[✓] ból 2 palce pod rzepką?\\n[✓] opaski z apteki zjeżdżają na łydkę?\\n[✓] leki działają tylko 2h?';
 
-  if (id.includes('131-nocy') || id.includes('otodom')) {
-    printoutTopNote = 'ZWYRODNIENIE KOLANA — BRAK STABILIZACJI NA SCHODACH';
+  if (id.includes('131-nocy') || id.includes('otodom') || id.includes('4-pietro')) {
+    printoutTopNote = 'ZWYRODNIENIE KOLANA - BRAK STABILIZACJI NA SCHODACH';
     postItNote = 'PRZENIEŚĆ CIĘŻAR NA ŚCIĘGNO POD RZEPKĄ / NIE FOTEL!';
     checklistLines =
       'TEST 60 SEKUND:\\n[✓] unikasz wchodzenia na piętro?\\n[✓] trzymasz się poręczy obiema rękami?\\n[✓] kłucie pod rzepką na 3. stopniu?\\n[✓] ortezy z apteki lądują w szufladzie?';
-  } else if (id.includes('toalety') || id.includes('wnuk') || id.includes('babcia') || id.includes('wozek')) {
-    printoutTopNote = 'PRZECIĄŻENIE RZEPKI PRZY KĄCIE 90° — BRAK AMORTYZACJI';
+  } else if (id.includes('toalety') || id.includes('wnuk') || id.includes('babcia') || id.includes('wozek') || id.includes('kosciele') || id.includes('wannie')) {
+    printoutTopNote = 'PRZECIĄŻENIE RZEPKI PRZY KĄCIE 90° - BRAK AMORTYZACJI';
     postItNote = 'PODPARCIE POD RZEPKĄ (8 MM) / NIE ŚCIĄGACZ Z APTEKI!';
     checklistLines =
-      'TEST 60 SEKUND:\\n[✓] problem ze wstaniem z niskiego krzesła?\\n[✓] boisz się kucnąć przy wnukach?\\n[✓] szukasz wzrokiem ławki w parku?\\n[✓] maści nie dają ulgi w ruchu?';
-  } else if (id.includes('tysiace') || id.includes('1600') || id.includes('kolejke') || id.includes('podrobki')) {
-    printoutTopNote = 'SZPARA STAWOWA ZWĘŻONA — NAPIĘCIE ŚCIĘGNA RZEPKI';
+      'TEST 60 SEKUND:\\n[✓] problem ze wstaniem z niskiego krzesła?\\n[✓] boisz się uklęknąć lub ukucnąć?\\n[✓] szukasz wzrokiem ławki w parku?\\n[✓] maści nie dają ulgi w ruchu?';
+  } else if (id.includes('sprzeglo') || id.includes('rower') || id.includes('dzialce')) {
+    printoutTopNote = 'PRZECIĄŻENIE WIĘZADŁA RZEPKI W ZGIĘCIU - BÓL MECHANICZNY';
+    postItNote = 'PUNKT PODPARCIA 8 MM POD RZEPKĄ / WRÓĆ ZA KÓŁKO I NA ROWER!';
+    checklistLines =
+      'TEST 60 SEKUND:\\n[✓] kłucie przy wciskaniu sprzęgła?\\n[✓] ból kolana na rowerze lub działce?\\n[✓] sztywność przy wysiadaniu z auta?\\n[✓] żele działają tylko na chwilę?';
+  } else if (id.includes('tysiace') || id.includes('1600') || id.includes('kolejke') || id.includes('podrobki') || id.includes('zastrzyki') || id.includes('kolagenu') || id.includes('fizjoterapeuta')) {
+    printoutTopNote = 'SZPARA STAWOWA ZWĘŻONA - NAPIĘCIE ŚCIĘGNA RZEPKI';
     postItNote = 'RDZEŃ SILIKONOWY 8 MM POD RZEPKĄ / NIE ORTEZA ZA 1600 ZŁ!';
     checklistLines =
-      'TEST 60 SEKUND:\\n[✓] czekasz w kolejce na NFZ?\\n[✓] blokada działała tylko miesiąc?\\n[✓] sztywna orteza gniecie i leży w szafie?\\n[✓] zwykłe opaski zsuwają się na łydkę?';
+      'TEST 60 SEKUND:\\n[✓] czekasz w kolejce na NFZ?\\n[✓] zastrzyk działał tylko kilka tygodni?\\n[✓] kolagen i maści nie dały ulgi w ruchu?\\n[✓] zwykłe opaski zsuwają się na łydkę?';
   }
 
   const noom1: KieSceneSpec = {
