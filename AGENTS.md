@@ -28,6 +28,16 @@ Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno dział
    - Zawsze przed przypisaniem lub przeniesieniem kreacji reklamowej na fanpage autorytetu/eksperta (np. lekarza, weterynarza, fizjoterapeuty) najpierw przeczytaj cały `Primary Text` i zweryfikuj osobę oraz rodzaj gramatyczny narratora.
    - Nigdy nie przypisuj pierwszoosobowej historii pisanej z perspektywy klienta/opiekunki (`1. os. r. żeński/męski klienta`) bezpośrednio do fanpage’a lekarza/eksperta (ani odwrotnie) bez uprzedniego dostosowania głosu narracji.
 
+3. **Wyłącznie cyfry dla liczb w copy reklamowym (zero liczebników słownych):**
+   - W copy reklamowym (`Primary Text`, `Headline`, `Description`) **zawsze zapisuj liczby, wiek, czas, odległości, kwoty, godziny i ilości cyframi** (np. `64 lata`, `85`, `po 30 latach`, `2 palce`, `o 6:00 rano`, `11 opasek`), nigdy słownie (`sześćdziesiąt cztery`, `trzydziestu`, `jedenaście`), z zachowaniem wyłącznie naturalnych związków frazeologicznych (np. `miał dwie lewe nogi`, `w czterech ścianach`).
+
+4. **Samodzielne, naturalne polskie nagłówki (`Headline`) na pasku linku:**
+   - Nigdy nie używaj wyrwanych z kontekstu, kalekich tłumaczeń z angielskiego typu `„Nie poprawiła go.”`, `„Wrócił na górę do łóżka.”` czy `„Żona zadzwoniła po mojego brata do mojej drabiny.”`. Każdy `Headline` musi być pełnym, naturalnie brzmiącym po polsku zdaniem z natychmiastowym sensem i hookiem.
+
+5. **Zero naciąganych zbiegów okoliczności w stylu AI:**
+   - Usuwaj z adaptacji zagranicznych kreacji sztuczne, filmowe zbiegi okoliczności (np. drugi identyczny niemal-wypadek na tym samym parkingu na oczach tego samego sprzedawcy). Zakończenia muszą być przyziemne i w 100% wiarygodne życiowo.
+
+
 
 ## Generowanie obrazków Kie.ai i kreacje A/B — stałe zasady użytkownika, 24 października 2026
 

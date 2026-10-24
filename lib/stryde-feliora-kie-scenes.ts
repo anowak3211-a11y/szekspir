@@ -413,7 +413,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-04-sprzeglo-na-a4-syn-prowadzil-moje-auto-35-lat-za-kolkiem': [
+  'orthevia-04-15-sekund-przy-otwartych-drzwiach-auta-na-orlenie': [
     {
       label: '1. [HOOK] Pobocze drogi z włączonymi światłami awaryjnymi i kluczykami oddanymi synowi',
       includeProductRef: false,
@@ -467,7 +467,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-09-ostatnia-lawka-w-kosciele-komunia-wnuczki-bez-klekania': [
+  'orthevia-09-jedyna-stojaca-w-lawce-w-kosciele-komunia-wnuczki': [
     {
       label: '1. [HOOK] Ostatnia drewniana ławka pod chórem w polskim kościele i zimna posadzka',
       includeProductRef: false,
@@ -494,7 +494,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-10-rower-w-piwnicy-wnuk-odjechal-sam-dziadek-zostal': [
+  'orthevia-10-dziadek-ty-juz-tylko-siedzisz-na-lawce-pilka-z-wnukiem': [
     {
       label: '1. [HOOK] Zakurzony rower trekkingowy dziadka przypięty w ciemnej piwnicy w bloku',
       includeProductRef: false,
@@ -521,7 +521,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-14-4-pietro-bez-windy-zakupy-na-raty-w-starym-bloku': [
+  'orthevia-14-trzecie-pietro-bez-windy-udawalam-ze-szukam-kluczy': [
     {
       label: '1. [HOOK] Stroma klatka schodowa z lastryko w polskim bloku z wielkiej płyty (4. piętro)',
       includeProductRef: false,
@@ -548,7 +548,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-15-utknelam-w-wannie-zimna-woda-telefon-na-pralce': [
+  'orthevia-15-wysoki-prog-wanny-i-jasiek-miedzy-kolanami-o-3-w-nocy': [
     {
       label: '1. [HOOK] Wysoka żeliwna wanna w ciasnej polskiej łazience w bloku i telefon daleko na pralce',
       includeProductRef: false,
@@ -575,7 +575,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-18-3-zastrzyki-kwasu-za-2400-zl-bol-wrocil-po-5-tygodniach': [
+  'orthevia-18-zastrzyk-kwasu-hialuronowego-za-1200-zl-z-emerytury': [
     {
       label: '1. [HOOK] 3 puste pudełka po zastrzykach kwasu hialuronowego + paragony na 2 400 zł (90°)',
       includeProductRef: false,
@@ -602,7 +602,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-19-8-puszek-kolagenu-i-masc-konska-zrujnowany-zoladek': [
+  'orthevia-19-4-pudelka-kolagenu-i-12-tubek-masci-smarowanie-maski-auta': [
     {
       label: '1. [HOOK] Rząd 8 pustych puszek po kolagenie na stawy i słoików maści końskiej na blacie',
       includeProductRef: false,
@@ -629,7 +629,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-20-fizjoterapeuta-16-lat-dlaczego-zdejmowalem-pacjentom-ortezy': [
+  'orthevia-20-fizjoterapeuta-paradoks-imadla-dlaczego-zdejmuje-ortezy-w-progu': [
     {
       label: '1. [HOOK] Polski gabinet fizjoterapii: sterta zdjętych rozciągniętych opasek na kozetce',
       includeProductRef: false,
@@ -656,7 +656,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
     },
   ],
 
-  'orthevia-25-test-2-palcow-pod-rzepka-jesli-czujesz-klucie-przeczytaj': [
+  'orthevia-25-peselu-pan-nie-oszuka-test-dwoch-palcow-zylaki-kregoslup': [
     {
       label: '1. [HOOK] Zbliżenie 1:1 na „Test 2 palców pod rzepką” przy zgiętym kolanie w domu',
       includeProductRef: false,

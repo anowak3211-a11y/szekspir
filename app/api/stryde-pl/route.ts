@@ -17,8 +17,11 @@ import {
 
 export const maxDuration = 300;
 
-const LEGACY_STATE_KEY = 'stryde-pl-library-v1-all15-localized';
-const STATE_KEY = 'sardian-opaska-pl-v2-25ads';
+const LEGACY_STATE_KEYS = [
+  'stryde-pl-library-v1-all15-localized',
+  'sardian-opaska-pl-v2-25ads',
+];
+const STATE_KEY = 'sardian-opaska-pl-v3-25ads';
 
 interface StrydePlLibraryState {
   ads: StrydePlGeneratedAd[];
@@ -26,7 +29,7 @@ interface StrydePlLibraryState {
 }
 
 function normalizeSardianUrl(url?: string, fallbackUrl?: string): string {
-  const raw = (url || fallbackUrl || STRYDE_LISTICLE_URL).trim();
+  const raw = (url || fallbackUrl || STRYDE_PDP_URL).trim();
   return raw
     .replace(/https?:\/\/r0fgvk-0t\.myshopify\.com/gi, 'https://sprobujsardian.pl')
     .replace(/https?:\/\/(?:www\.)?stryde\.pl/gi, 'https://sprobujsardian.pl')
@@ -44,29 +47,33 @@ async function readStrydeLibraryState(): Promise<{
       customImages: [],
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    let customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    const customImages = Array.isArray(value?.customImages) ? [...value.customImages] : [];
 
-    // Pull previously generated Kie.ai customImages & http image assignments from v1 so zero generated visuals are lost
-    let legacyStored: StrydePlGeneratedAd[] = [];
-    try {
-      const { value: legacyVal } = await readState<StrydePlLibraryState>(LEGACY_STATE_KEY, {
-        ads: [],
-        customImages: [],
-      });
-      if (Array.isArray(legacyVal?.ads)) legacyStored = legacyVal.ads;
-      if (Array.isArray(legacyVal?.customImages) && legacyVal.customImages.length > 0) {
-        const seenIds = new Set(customImages.map(img => img.id));
-        const seenUrls = new Set(customImages.map(img => img.url));
-        for (const img of legacyVal.customImages) {
-          if (img && !seenIds.has(img.id) && !seenUrls.has(img.url)) {
-            customImages.push(img);
-            seenIds.add(img.id);
-            seenUrls.add(img.url);
+    // Pull previously generated Kie.ai customImages & http image assignments from v1/v2 so zero generated visuals are lost
+    const legacyStoredList: StrydePlGeneratedAd[] = [];
+    const seenIds = new Set(customImages.map(img => img.id));
+    const seenUrls = new Set(customImages.map(img => img.url));
+    for (const legacyKey of LEGACY_STATE_KEYS) {
+      try {
+        const { value: legacyVal } = await readState<StrydePlLibraryState>(legacyKey, {
+          ads: [],
+          customImages: [],
+        });
+        if (Array.isArray(legacyVal?.ads)) {
+          legacyStoredList.push(...legacyVal.ads);
+        }
+        if (Array.isArray(legacyVal?.customImages) && legacyVal.customImages.length > 0) {
+          for (const img of legacyVal.customImages) {
+            if (img && !seenIds.has(img.id) && !seenUrls.has(img.url)) {
+              customImages.push(img);
+              seenIds.add(img.id);
+              seenUrls.add(img.url);
+            }
           }
         }
+      } catch {
+        // Ignore legacy read error
       }
-    } catch {
-      // Ignore legacy read error
     }
 
     const defaultByAngle = new Map<string, StrydePlGeneratedAd>();
@@ -76,8 +83,8 @@ async function readStrydeLibraryState(): Promise<{
       byAngle.set(ad.angleId, ad);
     }
 
-    // Carry over ONLY http image assignments from legacy v1 (never old Stryde/Orthevia text!)
-    for (const legAd of legacyStored) {
+    // Carry over ONLY http image assignments from legacy v1/v2 (never old copy, headlines, or advertorial URLs!)
+    for (const legAd of legacyStoredList) {
       if (!legAd?.angleId) continue;
       const cur = byAngle.get(legAd.angleId);
       if (!cur) continue;
@@ -92,7 +99,7 @@ async function readStrydeLibraryState(): Promise<{
       });
     }
 
-    const DEFAULT_CREATED_AT = 1792616400000;
+    const DEFAULT_CREATED_AT = 1792622000000;
     const storedByAngle = new Map<string, StrydePlGeneratedAd>();
     for (const ad of stored) {
       if (ad?.angleId) storedByAngle.set(ad.angleId, ad);
@@ -173,13 +180,13 @@ export const GET = accountRoute(async () => {
       savedAds: ads,
       imageLibrary: [...customImages, ...STRYDE_IMAGE_LIBRARY],
       metaConfig: {
-        advertorialUrl: STRYDE_LISTICLE_URL,
+        advertorialUrl: STRYDE_PDP_URL,
         pdpUrl: STRYDE_PDP_URL,
       },
     });
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Błąd ładowania biblioteki Stryde PL.' },
+      { error: err instanceof Error ? err.message : 'Błąd ładowania biblioteki Sardian PL.' },
       { status: 500 },
     );
   }
@@ -220,9 +227,9 @@ export const POST = accountRoute(async (req: Request) => {
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
       const primaryText = (body.primaryText || '').trim();
       const headline = (body.headline || preset?.title || '').trim();
-      const title = (body.title || preset?.shortTitle || angleId || 'Stryde PL').trim();
+      const title = (body.title || preset?.shortTitle || angleId || 'Sardian PL').trim();
 
-      // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Stryde strap product shot
+      // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Sardian strap product shot
       const allScenes = buildStrydeEightKieScenes({
         angleId,
         primaryText,
@@ -335,12 +342,13 @@ export const POST = accountRoute(async (req: Request) => {
       const isScene1 = /^1\./.test(label);
       const isScene2 = /^2\./.test(label);
       const now = Date.now();
-      const defaultAds = buildAllStrydePrewrittenAds();
+      const hydrated = await readStrydeLibraryState();
+      const defaultAds = hydrated.ads;
       const updatedState = await mutate<
         StrydePlLibraryState,
         { customImages: StrydeImageAsset[]; ads: StrydePlGeneratedAd[] }
-      >(STATE_KEY, { ads: defaultAds, customImages: [] }, state => {
-        const customList = Array.isArray(state.customImages) ? [...state.customImages] : [];
+      >(STATE_KEY, { ads: hydrated.ads, customImages: hydrated.customImages }, state => {
+        const customList = Array.isArray(state.customImages) ? [...state.customImages] : [...hydrated.customImages];
         const existingIdx = customList.findIndex(item => item.id === assetId);
         if (existingIdx >= 0) {
           customList[existingIdx] = newAsset;
@@ -391,7 +399,8 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     if (action === 'save' && body.ad) {
-      const defaultAds = buildAllStrydePrewrittenAds();
+      const hydrated = await readStrydeLibraryState();
+      const defaultAds = hydrated.ads;
       const audited = sanitizeAndAuditStrydePl(body.ad.primaryText, body.ad.headline, body.ad.description);
       const updatedAd: StrydePlGeneratedAd = {
         ...body.ad,
@@ -407,7 +416,7 @@ export const POST = accountRoute(async (req: Request) => {
       };
       const savedAds = await mutate<StrydePlLibraryState, StrydePlGeneratedAd[]>(
         STATE_KEY,
-        { ads: defaultAds, customImages: [] },
+        { ads: hydrated.ads, customImages: hydrated.customImages },
         state => {
           const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
           const idx = list.findIndex(item => item.angleId === updatedAd.angleId || item.id === updatedAd.id);
@@ -433,11 +442,12 @@ export const POST = accountRoute(async (req: Request) => {
       if (!targetAngleIds.length) {
         return NextResponse.json({ error: 'Brak angleId.' }, { status: 400 });
       }
-      const defaultAds = buildAllStrydePrewrittenAds();
+      const hydrated = await readStrydeLibraryState();
+      const defaultAds = hydrated.ads;
       const now = Date.now();
       const savedAds = await mutate<StrydePlLibraryState, StrydePlGeneratedAd[]>(
         STATE_KEY,
-        { ads: defaultAds, customImages: [] },
+        { ads: hydrated.ads, customImages: hydrated.customImages },
         state => {
           const list = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
           for (const targetAngleId of targetAngleIds) {
@@ -479,14 +489,14 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (action === 'upload_custom_image') {
       const dataUrl = (body.dataUrl || '').trim();
-      const fileName = (body.fileName || `stryde-custom-${Date.now()}.jpg`).trim();
+      const fileName = (body.fileName || `sardian-custom-${Date.now()}.jpg`).trim();
       const label = (body.label || fileName).trim();
       const angleId = (body.angleId || '').trim();
       if (!dataUrl.startsWith('data:image/')) {
         return NextResponse.json({ error: 'Nieprawidłowy plik obrazu.' }, { status: 400 });
       }
       const newAsset: StrydeImageAsset = {
-        id: `custom-stryde-${Date.now()}`,
+        id: `custom-sardian-${Date.now()}`,
         url: dataUrl,
         imageHash: '',
         label,
@@ -496,12 +506,13 @@ export const POST = accountRoute(async (req: Request) => {
         source: 'ai',
         angleId: angleId || undefined,
       };
-      const defaultAds = buildAllStrydePrewrittenAds();
+      const hydrated = await readStrydeLibraryState();
+      const defaultAds = hydrated.ads;
       const updated = await mutate<
         StrydePlLibraryState,
         { customImages: StrydeImageAsset[]; savedAds: StrydePlGeneratedAd[] }
-      >(STATE_KEY, { ads: defaultAds, customImages: [] }, state => {
-        const customList = Array.isArray(state.customImages) ? [...state.customImages] : [];
+      >(STATE_KEY, { ads: hydrated.ads, customImages: hydrated.customImages }, state => {
+        const customList = Array.isArray(state.customImages) ? [...state.customImages] : [...hydrated.customImages];
         customList.unshift(newAsset);
         state.customImages = customList.slice(0, 80);
         const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
@@ -531,7 +542,7 @@ export const POST = accountRoute(async (req: Request) => {
     return NextResponse.json({ error: `Nieznana akcja: ${action}` }, { status: 400 });
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Błąd zapisu w Stryde PL.' },
+      { error: err instanceof Error ? err.message : 'Błąd zapisu w Sardian PL.' },
       { status: 500 },
     );
   }
