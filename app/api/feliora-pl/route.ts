@@ -599,14 +599,29 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       const campaignId = body.campaignId || FELIORA_META_NATIVE_CAMPAIGN_ID;
-      const templateAdSetId = body.templateAdSetId || '120248723615340298';
-      const adSetName = (body.adSetName || `22.04 - FELIORA ANTEK BATCH (${selectedAds.length}x)`).trim();
+      const templateAdSetId = body.templateAdSetId || '120250036346090298';
+      const adSetName = (body.adSetName || `24.10 - FELIORA ANTEK BATCH (${selectedAds.length}x)`).trim();
       const urlMode = body.urlMode || 'advertorial';
       const adStatus = body.adStatus || 'PAUSED';
 
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
         fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
       });
+
+      const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
+        string,
+        unknown
+      >;
+      if (Array.isArray(rawTargeting.instagram_positions)) {
+        const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
+          pos => pos !== 'explore' && pos !== 'explore_home',
+        );
+        if (cleanedIgPos.length > 0) {
+          rawTargeting.instagram_positions = cleanedIgPos;
+        } else {
+          delete rawTargeting.instagram_positions;
+        }
+      }
 
       const createdAdSet = await directGraph<{ id: string }>(
         `act_${FELIORA_META_ACCOUNT_ID}/adsets`,
@@ -620,7 +635,7 @@ export const POST = accountRoute(async (req: Request) => {
             pixel_id: FELIORA_META_PIXEL_ID,
             custom_event_type: 'PURCHASE',
           },
-          targeting: source.targeting,
+          targeting: rawTargeting,
           attribution_spec: source.attribution_spec,
           destination_type: source.destination_type || 'WEBSITE',
         },
