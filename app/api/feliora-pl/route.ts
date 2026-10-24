@@ -623,29 +623,68 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
-      const createdAdSet = await directGraph<{ id: string }>(
-        `act_${FELIORA_META_ACCOUNT_ID}/adsets`,
-        {
-          name: adSetName,
-          campaign_id: campaignId,
-          status: adStatus,
-          optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
-          billing_event: source.billing_event || 'IMPRESSIONS',
-          promoted_object: source.promoted_object || {
-            pixel_id: FELIORA_META_PIXEL_ID,
-            custom_event_type: 'PURCHASE',
+      // Check if an Ad Set with this exact name was already created in the campaign (to avoid empty duplicates)
+      let targetAdSetId = '';
+      try {
+        const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+          `${campaignId}/adsets`,
+          { fields: 'id,name', limit: 50 },
+        );
+        const match = (existingAdSets.data || []).find(s => s.name === adSetName);
+        if (match?.id) {
+          targetAdSetId = match.id;
+        }
+      } catch {
+        // Fallback to creating new Ad Set
+      }
+
+      if (!targetAdSetId) {
+        const createdAdSet = await directGraph<{ id: string }>(
+          `act_${FELIORA_META_ACCOUNT_ID}/adsets`,
+          {
+            name: adSetName,
+            campaign_id: campaignId,
+            status: adStatus,
+            optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
+            billing_event: source.billing_event || 'IMPRESSIONS',
+            promoted_object: source.promoted_object || {
+              pixel_id: FELIORA_META_PIXEL_ID,
+              custom_event_type: 'PURCHASE',
+            },
+            targeting: rawTargeting,
+            attribution_spec: source.attribution_spec,
+            destination_type: source.destination_type || 'WEBSITE',
           },
-          targeting: rawTargeting,
-          attribution_spec: source.attribution_spec,
-          destination_type: source.destination_type || 'WEBSITE',
-        },
-        'POST',
-      );
+          'POST',
+        );
+        targetAdSetId = createdAdSet.id;
+      }
+
+      const FELIORA_PAGE_IG_MAP: Record<string, string> = {
+        '1231925240008683': '17841437522153551', // Kociary: Wasze Historie
+        '1287239777799682': '17841441008488573', // Dr. wet. Edmund Newelski
+        '1304624172730017': '17841438210859048', // Koty Bez Ściemy
+        '1338513126001175': '17841437606417391', // Feliora
+      };
+
+      let adSetSwitchedToFbOnly = false;
+      const ensureFbOnlyAdSet = async () => {
+        if (adSetSwitchedToFbOnly) return;
+        const fbOnlyTargeting: Record<string, unknown> = { ...rawTargeting, publisher_platforms: ['facebook'] };
+        delete fbOnlyTargeting.instagram_positions;
+        await directGraph(
+          targetAdSetId,
+          { targeting: fbOnlyTargeting },
+          'POST',
+        );
+        adSetSwitchedToFbOnly = true;
+      };
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
         const pageId = body.pageId || ad.pageId || '1287239777799682';
-        const imageHash = ad.imageHash || '44568acba92b73f42dc4860eceeffb26';
+        const igUserId = FELIORA_PAGE_IG_MAP[pageId] || '17841437606417391';
+        const imageHash = ad.imageHash || '7603e2a6afce7782f07c57dc0174cd2b';
         const secondHash =
           ad.secondImageHash && ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl
             ? ad.secondImageHash
@@ -689,39 +728,69 @@ export const POST = accountRoute(async (req: Request) => {
 
         for (const variant of urlsToPush) {
           const adName = `${ad.code} | ${variant.suffix} | ${ad.pageName}`;
-          const creative = await directGraph<{ id: string }>(
-            `act_${FELIORA_META_ACCOUNT_ID}/adcreatives`,
-            {
-              name: `${adName} - Creative`,
-              url_tags:
-                'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
-              object_story_spec: {
-                page_id: pageId,
-                link_data: {
-                  image_hash: variant.hash,
-                  link: variant.link,
-                  message: ad.primaryText,
-                  name: ad.headline,
-                  description: ad.description,
-                  call_to_action: {
-                    type: 'LEARN_MORE',
-                    value: { link: variant.link },
-                  },
+          const buildCreativePayload = (igId?: string) => ({
+            name: `${adName} - Creative`,
+            url_tags:
+              'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
+            object_story_spec: {
+              page_id: pageId,
+              ...(igId ? { instagram_user_id: igId } : {}),
+              link_data: {
+                image_hash: variant.hash,
+                link: variant.link,
+                message: ad.primaryText,
+                name: ad.headline,
+                description: ad.description,
+                call_to_action: {
+                  type: 'LEARN_MORE',
+                  value: { link: variant.link },
                 },
               },
             },
-            'POST',
-          );
-          const createdAd = await directGraph<{ id: string }>(
-            `act_${FELIORA_META_ACCOUNT_ID}/ads`,
-            {
-              name: adName,
-              adset_id: createdAdSet.id,
-              creative: { creative_id: creative.id },
-              status: adStatus,
-            },
-            'POST',
-          );
+          });
+
+          let creative: { id: string };
+          let createdAd: { id: string };
+          try {
+            creative = await directGraph<{ id: string }>(
+              `act_${FELIORA_META_ACCOUNT_ID}/adcreatives`,
+              buildCreativePayload(adSetSwitchedToFbOnly ? undefined : igUserId),
+              'POST',
+            );
+            createdAd = await directGraph<{ id: string }>(
+              `act_${FELIORA_META_ACCOUNT_ID}/ads`,
+              {
+                name: adName,
+                adset_id: targetAdSetId,
+                creative: { creative_id: creative.id },
+                status: adStatus,
+              },
+              'POST',
+            );
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : '';
+            if (msg.includes('1815199') || msg.includes('Instagram')) {
+              await ensureFbOnlyAdSet();
+              creative = await directGraph<{ id: string }>(
+                `act_${FELIORA_META_ACCOUNT_ID}/adcreatives`,
+                buildCreativePayload(undefined),
+                'POST',
+              );
+              createdAd = await directGraph<{ id: string }>(
+                `act_${FELIORA_META_ACCOUNT_ID}/ads`,
+                {
+                  name: adName,
+                  adset_id: targetAdSetId,
+                  creative: { creative_id: creative.id },
+                  status: adStatus,
+                },
+                'POST',
+              );
+            } else {
+              throw err;
+            }
+          }
+
           createdAds.push({
             id: createdAd.id,
             name: adName,
@@ -733,7 +802,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       return NextResponse.json({
         ok: true,
-        adSetId: createdAdSet.id,
+        adSetId: targetAdSetId,
         adSetName,
         createdAdsCount: createdAds.length,
         createdAds,
