@@ -203,8 +203,8 @@ export const POST = accountRoute(async (req: Request) => {
         scenes.map(async (scene, idx) => {
           const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
           const fullPrompt = isNoomTemplate
-            ? `${scene.scenePrompt} Natural everyday smartphone photo taken in a tidy Polish home, balanced indoor lighting, sharp focus, clean neutral aesthetic. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
-            : `${scene.scenePrompt} Natural, neutral everyday smartphone photo taken in a normal, tidy Polish home, clean and pleasant to look at, clear focus, balanced indoor lighting, authentic casual framing. STRICT BAN: zero AI glow, zero studio bokeh, zero ugly/repulsive distortion, zero letters or logos on the black knee strap.`;
+            ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
+            : `${scene.scenePrompt} Raw, unpolished amateur smartphone snapshot, visible high-ISO sensor grain, candid framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero letters or logos on the black knee strap.`;
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,

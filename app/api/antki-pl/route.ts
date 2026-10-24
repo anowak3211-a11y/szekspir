@@ -337,19 +337,15 @@ export const GET = accountRoute(async () => {
 });
 
 function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRef: boolean): string {
-  const antiAiWrapper = [
-    'NATURAL, NEUTRAL EVERYDAY SMARTPHONE PHOTO taken with a normal modern phone camera in a clean, tidy Polish home.',
-    'AESTHETIC & VIEWABILITY: The photo must look authentic and unstaged, but CLEAN, NEUTRAL, and pleasant to look at in a Facebook feed — NEVER gross, repulsive, filthy, deformed, or overly blurry.',
-    'NATURAL PERSPECTIVE & REALISTIC PHYSICS: Normal, level camera angle with realistic gravity and geometry. Whenever showing objects on a table, counter, or floor, the surface MUST fill the frame naturally or sit solidly on the ground — NEVER render a tilted tabletop floating in mid-air against a distant room background, and NEVER use weird Dutch angles.',
-    'POLISH LANGUAGE ONLY ON ALL TEXT/RECEIPTS/PACKAGING: Any visible text on thermal receipts, notes, or medicine tubes MUST be in authentic Polish (e.g., "PARAGON FISKALNY", "SUMA PLN", "RAZEM", "Żel przeciwbólowy"). NEVER write the English word "TOTAL" on a receipt — in Poland a receipt ALWAYS says "SUMA PLN"!',
-    'CAMERA REALISM: Clear, sharp everyday phone camera focus, balanced natural indoor lighting, natural unretouched colors, zero artificial studio staging.',
-    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio bokeh blur, ZERO plastic skin, ZERO stock photo symmetry, ZERO watermarks, ZERO English text.',
-    includeProductRef
-      ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying flat and naturally on the surface — NOT posed like a commercial packshot.'
-      : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the natural real-life scene from the story.',
-  ].join('\n');
+  const isFlatLay = /90-degree|flat-lay|tabletop/i.test(sceneDescription);
+  const styleSuffix = isFlatLay
+    ? 'Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.'
+    : 'Raw, unpolished amateur smartphone snapshot, visible high-ISO sensor grain, candid framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero fake bokeh, zero English text.';
+  const productRule = includeProductRef
+    ? 'Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying naturally on the surface.'
+    : 'Do NOT include any orange insoles or commercial product boxes in this shot.';
 
-  return `${antiAiWrapper}\n\nEXACT SCENE FROM THE STORY:\n${sceneDescription}`;
+  return `${sceneDescription} ${productRule} ${styleSuffix}`;
 }
 
 interface KiePlannedScene {
