@@ -921,10 +921,10 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const publishStatus = opts.status === 'ACTIVE' ? 'ACTIVE' : 'PAUSED';
  const updateExisting = Boolean(opts.updateExisting);
 
- const defaultPageId = batch === 'dorosli' ? '866702399857726' : '798916893308685';
+ const defaultPageId = batch === 'dorosli' ? '752135021308884' : '798916893308685';
  const pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : defaultPageId;
  const KNOWN_PAGE_IG_MAP: Record<string, string> = {
-  '866702399857726': '', // Centrum Dobrego Kroku (no IG assigned on act_1109284831182252; omit instagram_user_id so Meta uses Page)
+  '866702399857726': '17841477743222560', // Centrum Dobrego Kroku
   '945290751994002': '17841446201609005', // Dziennik Zdrowego Ciała
   '798916893308685': '17841473314157729', // Porady Mamy Gosi
   '752135021308884': '17841472034688013', // Orthomax Sklep
@@ -936,9 +936,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   '1194345203770949': '17841412233487287', // Iwona Kożuchowska
  };
  const instagramUserId =
-  pageId === '866702399857726'
-   ? ''
-   : typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
+  typeof opts.instagramUserId === 'string' && /^\d+$/.test(opts.instagramUserId.trim())
    ? opts.instagramUserId.trim()
    : KNOWN_PAGE_IG_MAP[pageId] || '';
  const imageHash = typeof opts.imageHash === 'string' && opts.imageHash.trim() ? opts.imageHash.trim() : '';
@@ -1209,21 +1207,25 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      `antek-${adName}-A`,
     );
 
-    const buildSpec = (hash: string, withIg = true) => ({
-     name: `antki-cc35-gosi-${entry.globalIndex}-${Date.now()}`,
-     object_story_spec: {
-      page_id: pageId,
-      ...(withIg && instagramUserId ? { instagram_user_id: instagramUserId } : {}),
-      link_data: {
-       link: url,
-       image_hash: hash,
-       message: resolvedPrimaryText,
-       name: resolvedHeadline,
-       call_to_action: { type: cta, value: { link: url } },
+    const buildSpec = (hash: string, withIg = true, overridePageId?: string, overrideIgId?: string) => {
+     const effPageId = overridePageId || pageId;
+     const effIgId = overrideIgId !== undefined ? overrideIgId : instagramUserId;
+     return {
+      name: `antki-cc35-gosi-${entry.globalIndex}-${Date.now()}`,
+      object_story_spec: {
+       page_id: effPageId,
+       ...(withIg && effIgId ? { instagram_user_id: effIgId } : {}),
+       link_data: {
+        link: url,
+        image_hash: hash,
+        message: resolvedPrimaryText,
+        name: resolvedHeadline,
+        call_to_action: { type: cta, value: { link: url } },
+       },
       },
-     },
-     ...(urlTags ? { url_tags: urlTags } : {}),
-    });
+      ...(urlTags ? { url_tags: urlTags } : {}),
+     };
+    };
 
     const createOrUpdateAdWithFallback = async (
      targetAdName: string,
@@ -1232,9 +1234,13 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      targetImgHash: string,
     ): Promise<{ adId: string; creativeId: string; updated: boolean; finalHash: string }> => {
      let activeHash = targetImgHash;
-     const createCreative = async (withIg: boolean) => {
+     const createCreative = async (withIg: boolean, overridePageId?: string, overrideIgId?: string) => {
       try {
-       return await directGraph<{ id: string }>(`act_${accountId}/adcreatives`, buildSpec(activeHash, withIg), 'POST');
+       return await directGraph<{ id: string }>(
+        `act_${accountId}/adcreatives`,
+        buildSpec(activeHash, withIg, overridePageId, overrideIgId),
+        'POST',
+       );
       } catch (crErr) {
        const errText = crErr instanceof Error ? crErr.message : '';
        if (targetImgUrl.startsWith('/antki-pl-images/')) {
@@ -1259,7 +1265,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
        }
        return await directGraph<{ id: string }>(
         `act_${accountId}/adcreatives`,
-        buildSpec(activeHash, withIg && !errText.includes('Instagram') && !errText.includes('1815199')),
+        buildSpec(activeHash, withIg && !errText.includes('Instagram') && !errText.includes('1815199'), overridePageId, overrideIgId),
         'POST',
        );
       }
@@ -1290,7 +1296,9 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      } catch (adErr) {
       const adErrMsg = adErr instanceof Error ? adErr.message : '';
       if (adErrMsg.includes('Instagram') || adErrMsg.includes('1815199')) {
-       cr = await createCreative(false);
+       const fbPage = batch === 'dorosli' ? '752135021308884' : '798916893308685';
+       const fbIg = batch === 'dorosli' ? '17841472034688013' : '17841473314157729';
+       cr = await createCreative(true, fbPage, fbIg);
        if (targetExistingAdId && updateExisting) {
         await directGraph<{ success?: boolean }>(
          targetExistingAdId,
