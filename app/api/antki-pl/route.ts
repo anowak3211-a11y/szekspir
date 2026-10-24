@@ -338,14 +338,15 @@ export const GET = accountRoute(async () => {
 
 function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRef: boolean): string {
   const antiAiWrapper = [
-    'RAW, UNPOLISHED AMATEUR SMARTPHONE PHOTO taken by a Polish woman with an older smartphone camera (iPhone 8 or everyday Android) in a real Polish home.',
+    'NATURAL, NEUTRAL EVERYDAY SMARTPHONE PHOTO taken with a normal modern phone camera in a clean, tidy Polish home.',
+    'AESTHETIC & VIEWABILITY: The photo must look authentic and unstaged, but CLEAN, NEUTRAL, and pleasant to look at in a Facebook feed — NEVER gross, repulsive, filthy, deformed, or overly blurry.',
     'NATURAL PERSPECTIVE & REALISTIC PHYSICS: Normal, level camera angle with realistic gravity and geometry. Whenever showing objects on a table, counter, or floor, the surface MUST fill the frame naturally or sit solidly on the ground — NEVER render a tilted tabletop floating in mid-air against a distant room background, and NEVER use weird Dutch angles.',
     'POLISH LANGUAGE ONLY ON ALL TEXT/RECEIPTS/PACKAGING: Any visible text on thermal receipts, notes, or medicine tubes MUST be in authentic Polish (e.g., "PARAGON FISKALNY", "SUMA PLN", "RAZEM", "Żel przeciwbólowy"). NEVER write the English word "TOTAL" on a receipt — in Poland a receipt ALWAYS says "SUMA PLN"!',
-    'MANDATORY CAMERA REALISM: everyday amateur phone photo quality, slight natural softness, visible indoor sensor grain, harsh overhead ceiling bulb or fluorescent light, flat unretouched colors, zero staging.',
-    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio lighting, ZERO fake bokeh blur, ZERO HDR, ZERO color grading, ZERO stock photo symmetry, ZERO watermarks, ZERO English text.',
+    'CAMERA REALISM: Clear, sharp everyday phone camera focus, balanced natural indoor lighting, natural unretouched colors, zero artificial studio staging.',
+    'STRICT ANTI-AI BAN: ZERO "AI glow", ZERO studio bokeh blur, ZERO plastic skin, ZERO stock photo symmetry, ZERO watermarks, ZERO English text.',
     includeProductRef
       ? 'PRODUCT DETAIL: Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying flat and naturally on the surface — NOT posed like a commercial packshot.'
-      : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the raw real-life problem scene from the story.',
+      : 'NO PRODUCT IN THIS SHOT: Do NOT include any orange insoles, boxes, or commercial products in this photo — show ONLY the natural real-life scene from the story.',
   ].join('\n');
 
   return `${antiAiWrapper}\n\nEXACT SCENE FROM THE STORY:\n${sceneDescription}`;

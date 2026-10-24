@@ -286,8 +286,8 @@ export const POST = accountRoute(async (req: Request) => {
         scenes.map(async (scene, idx) => {
           const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
           const fullPrompt = isNoomTemplate
-            ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
-            : `${scene.scenePrompt} Raw, ugly, shit quality amateur smartphone snapshot, slight motion blur, slightly out of focus, visible high-ISO digital camera sensor grain and noise, crooked off-center framing, flat harsh Polish apartment lighting, muddy shadows. STRICT BAN: zero AI glow, zero studio lighting, zero bokeh, zero HDR, zero watermarks.`;
+            ? `${scene.scenePrompt} Natural everyday smartphone photo taken in a tidy Polish home, balanced indoor lighting, sharp focus, clean neutral aesthetic. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
+            : `${scene.scenePrompt} Natural, neutral everyday smartphone photo taken in a normal, tidy Polish apartment, clean and pleasant to look at (never gross, repulsive, or filthy), clear focus, balanced indoor lighting, authentic casual framing. STRICT BAN: zero AI glow, zero studio bokeh, zero disgusting or graphic bodily fluids, zero heavy blur or muddy noise, zero watermarks.`;
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,

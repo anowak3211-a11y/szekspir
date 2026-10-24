@@ -503,137 +503,137 @@ export function buildFelioraEightKieScenes(params: {
 
   let hookScenes: [KieSceneSpec, KieSceneSpec, KieSceneSpec, KieSceneSpec] = [
     {
-      label: '1. [HOOK] Mokra plama na świeżo przebranej kołdrze i spięty kot na rogu materaca',
+      label: '1. [HOOK] Kot siedzący na rogu pościeli w sypialni i plama na prześcieradle',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone photo in a Polish bedroom under dim yellow bulb light: a fresh dark wet cat urine stain on a crumpled white cotton duvet with a tense domestic tabby cat sitting at the corner of the bed.',
+        'Natural everyday smartphone photo in a clean Polish bedroom under warm indoor light: a slightly crumpled white cotton duvet on the bed with a subtle damp spot and a tense domestic tabby cat sitting calmly at the corner of the mattress.',
     },
     {
-      label: '2. [HOOK] Pralka w łazience upchana zasikaną kołdrą o północy i proszek enzymatyczny',
+      label: '2. [HOOK] Kołdra wkładana do pralki w łazience i płyn enzymatyczny',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone snapshot in a cramped Polish bathroom at night: a thick white duvet stuffed halfway into an open front-loading washing machine drum next to bottles of enzymatic urine cleaner.',
+        'Everyday smartphone photo in a clean Polish bathroom: a white duvet being loaded into an open front-loading washing machine drum next to a bottle of laundry cleaner.',
     },
     {
-      label: '3. [HOOK] Zbliżenie na rozszerzone ze strachu źrenice kota szukającego zapachu opiekuna',
+      label: '3. [HOOK] Zbliżenie na czujnego kota z rozszerzonymi źrenicami na łóżku',
       includeProductRef: false,
       scenePrompt:
-        'Close-up amateur smartphone photo on a bed: a stressed domestic cat with wide dilated black pupils and flattened ears crouching on a pillow.',
+        'Close-up everyday smartphone photo on a bed: an alert, slightly tense domestic cat with wide dark pupils sitting on a pillow in a tidy bedroom.',
     },
     {
-      label: '4. [HOOK] Susząca się na drzwiach i kaloryferze pościel w polskim mieszkaniu',
+      label: '4. [HOOK] Susząca się na suszarce pościel w polskim mieszkaniu',
       includeProductRef: false,
       scenePrompt:
-        'Unstaged smartphone photo in a narrow Polish apartment hallway: wet bedsheets and a duvet cover draped over open doors and a folding laundry rack to dry.',
+        'Natural smartphone photo in a tidy Polish apartment: freshly washed white bedsheets and a duvet cover hanging neatly on a folding indoor laundry rack.',
     },
   ];
 
   if (id.includes('folia-malarska') || id.includes('octem') || id.includes('komoda')) {
     hookScenes = [
       {
-        label: '1. [HOOK] Kanapa w salonie przykryta szeleszczącą folią malarską z Castoramy i żółtą taśmą',
+        label: '1. [HOOK] Kanapa w salonie zabezpieczona folią ochronną przed kotem',
         includeProductRef: false,
         scenePrompt:
-          'Ugly hasty smartphone snapshot in a Polish living room: a grey fabric sofa completely covered in crinkly translucent painter’s plastic foil taped down with yellow masking tape.',
+          'Natural everyday smartphone photo in a tidy Polish living room: a grey fabric sofa covered with a clean protective translucent plastic sheet.',
       },
       {
-        label: '2. [HOOK] Wiadro z wodą, butelka octu spirytusowego i rolka ręczników przy mokrej kanapie',
+        label: '2. [HOOK] Butelka octu spirytusowego i rolka ręczników papierowych przy kanapie',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV smartphone photo looking down at a living room carpet: a plastic bucket of soapy water, a bottle of Polish spirit vinegar ("OCET SPIRYTUSOWY 10%"), and wet paper towels next to a stained sofa cushion.',
+          'First-person POV smartphone photo in a clean living room: a bottle of Polish spirit vinegar ("OCET SPIRYTUSOWY 10%"), a spray bottle, and a roll of paper towels standing on the floor next to a grey sofa.',
       },
       {
-        label: '3. [HOOK] Telefon z wiadomością do mamy: „Przełóżmy kawę, mamy jeszcze bałagan po malowaniu”',
+        label: '3. [HOOK] Telefon z wiadomością do mamy: „Przełóżmy kawę na przyszły tydzień”',
         includeProductRef: false,
         scenePrompt:
-          'Close-up smartphone photo of a phone screen held in hand showing a Polish SMS message: "Mamo, przełóżmy kawę na przyszły tydzień, u nas dalej bałagan..." with a foil-covered sofa blurred in the background.',
+          'Close-up smartphone photo of a phone screen held in hand showing a Polish SMS message: "Mamo, przełóżmy kawę na przyszły tydzień, u nas dalej bałagan..." with a living room sofa softly visible in the background.',
       },
       {
-        label: '4. [HOOK] Kot obwąchujący z nastroszonym ogonem miejsce szorowane octem i chlorem',
+        label: '4. [HOOK] Kot obwąchujący ostrożnie róg kanapy w salonie',
         includeProductRef: false,
         scenePrompt:
-          'Floor-level amateur smartphone photo in a Polish living room: a cat with a puffed-up tail sniffing the bottom edge of a sofa that was just scrubbed.',
+          'Natural smartphone photo in a Polish living room: a domestic cat cautiously sniffing the lower corner of a grey fabric sofa.',
       },
     ];
   } else if (id.includes('duch-pod-lozkiem') || id.includes('3-15') || id.includes('ultimatum')) {
     hookScenes = [
       {
-        label: '1. [HOOK] Budzik 3:15 w nocy i kot drapiący pod zamkniętymi drzwiami sypialni',
+        label: '1. [HOOK] Budzik 3:15 w nocy i kot pod zamkniętymi drzwiami sypialni',
         includeProductRef: false,
         scenePrompt:
-          'Raw night-time smartphone snapshot in a dark bedroom: a digital alarm clock glowing red at "3:15" on the nightstand while a cat’s paws are visible scratching under the closed bedroom door.',
+          'Night-time smartphone photo in a bedroom: a digital alarm clock showing "3:15" on the nightstand while a cat’s paws are visible under the closed bedroom door.',
       },
       {
-        label: '2. [HOOK] Zdjęcie z fleszem pod łóżkiem: przerażony „kot-duch” wciśnięty pod ścianę',
+        label: '2. [HOOK] Przestraszony kot schowany pod łóżkiem w sypialni',
         includeProductRef: false,
         scenePrompt:
-          'Dark grainy smartphone photo taken at floor level with harsh flash peering under a wooden bed frame: a terrified cat crouched in the far back corner with glowing eyes and an untouched food bowl.',
+          'Everyday smartphone photo taken at floor level looking under a wooden bed frame: a shy domestic cat tucked into the corner under the bed next to an untouched food bowl.',
       },
       {
-        label: '3. [HOOK] Zasikana skórzana torba na laptopa męża i plastikowy transporter w przedpokoju',
+        label: '3. [HOOK] Torba na laptopa i plastikowy transporter dla kota w przedpokoju',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV smartphone snapshot in a Polish hallway: a wet dark urine stain on a man’s black laptop bag standing next to a plastic pet carrier by the front door.',
+          'First-person POV smartphone photo in a clean Polish hallway: a black laptop bag standing next to a plastic pet carrier by the front door.',
       },
       {
-        label: '4. [HOOK] Podrapana do żywego drewna dolna krawędź drzwi sypialni',
+        label: '4. [HOOK] Podrapana dolna krawędź drzwi sypialni i kot siedzący obok',
         includeProductRef: false,
         scenePrompt:
-          'Close-up first-person POV smartphone photo of the bottom corner of a white apartment bedroom door badly scratched and splintered by cat claws.',
+          'Close-up first-person POV smartphone photo of the bottom corner of a white apartment bedroom door with visible cat scratch marks.',
       },
     ];
   } else if (id.includes('fic') || id.includes('lysy-brzuch') || id.includes('4-kuwet')) {
     hookScenes = [
       {
-        label: '1. [HOOK] Kot napinający się z bólem w kuwecie po raz 20. w ciągu godziny (FIC)',
+        label: '1. [HOOK] Kot siedzący w kuwecie w łazience i spoglądający w górę (FIC)',
         includeProductRef: false,
         scenePrompt:
-          'Amateur smartphone photo in a Polish bathroom: a tense cat squatting hunched over inside an open plastic litter box with only two tiny drops on the clumping litter.',
+          'Natural everyday smartphone photo in a clean Polish bathroom: a domestic cat sitting tensely inside an open clean plastic litter box filled with light clumping litter.',
       },
       {
-        label: '2. [HOOK] Zbliżenie z telefonu na wylizany do gołej różowej skóry brzuch kota',
+        label: '2. [HOOK] Kot wylizujący futerko na brzuchu na kanapie (stres behawioralny)',
         includeProductRef: false,
         scenePrompt:
-          'Close-up amateur smartphone photo of a cat lying on its side on a couch, showing its lower belly licked completely bald to bare pink skin from psychogenic stress.',
+          'Natural everyday smartphone photo of a domestic cat sitting on a grey couch grooming and over-licking the fur on its lower belly, with a small patch of thinned fur (clean, non-graphic, neutral look).',
       },
       {
-        label: '3. [HOOK] Wąski przedpokój w bloku zastawiony 4 kuwetami z różnym żwirkiem',
+        label: '3. [HOOK] Przedpokój w mieszkaniu z ustawionymi obok siebie kuwetami',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV smartphone photo of a narrow Polish apartment hallway lined with 4 different plastic cat litter boxes filled with bentonite, corn, wood, and silicone litter.',
+          'First-person POV smartphone photo of a clean Polish apartment hallway with 3 different plastic cat litter boxes placed neatly along the wall.',
       },
       {
-        label: '4. [HOOK] Plastikowe strzykawki z lekami przeciwbólowymi i wypisy z nocnej kliniki na stole',
+        label: '4. [HOOK] Wypis z lecznicy weterynaryjnej i plastikowa strzykawka doustna na stole',
         includeProductRef: false,
         scenePrompt:
-          'Close-up 90-degree flat-lay smartphone photo on a kitchen table filling 100% of the frame: 3 oral veterinary syringes, empty blister packs, and a Polish vet discharge sheet.',
+          'Close-up 90-degree flat-lay smartphone photo on a wooden table filling 100% of the frame: a clean veterinary discharge printout and a small oral dosing syringe.',
       },
     ];
   } else if (id.includes('siatka-w-drzwiach') || id.includes('f3-vs-kompleks')) {
     hookScenes = [
       {
-        label: '1. [HOOK] Prowizoryczna siatka w futrynie drzwi oddzielająca dwa najeżone koty',
+        label: '1. [HOOK] Siatka w futrynie drzwi oddzielająca dwa koty w mieszkaniu',
         includeProductRef: false,
         scenePrompt:
-          'Amateur smartphone photo in a Polish apartment doorway: a temporary mesh screen taped into the doorframe separating two hissing, arched-back cats staring at each other.',
+          'Natural smartphone photo in a Polish apartment doorway: a mesh screen installed in the doorframe separating two tense domestic cats looking at each other from opposite rooms.',
       },
       {
-        label: '2. [HOOK] Zadrapanie do krwi na przedramieniu właścicielki po rozdzielaniu kotów',
+        label: '2. [HOOK] Dwa koty obserwujące się z dystansu z dwóch końców pokoju',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV close-up smartphone photo of a woman’s forearm showing two red cat scratch marks dabbed with a cotton pad.',
+          'Natural everyday smartphone photo in a Polish living room: one cat sitting high on the back of a sofa staring down at a second cat crouching tensely by the doorway.',
       },
       {
-        label: '3. [HOOK] Kępki wyrwanej kociej sierści na dywanie w przedpokoju po nocnej walce',
+        label: '3. [HOOK] Kępki kociej sierści na dywanie w przedpokoju po spięciu kotów',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV smartphone photo looking down at a hallway floor scattered with tufts of grey and white cat fur.',
+          'First-person POV smartphone photo looking down at a clean hallway rug with a few small tufts of shed cat fur.',
       },
       {
-        label: '4. [HOOK] Drugi kot jedzący w zamkniętej łazience obok pralki ze strachu przed rezydentem',
+        label: '4. [HOOK] Drugi kot jedzący z miski w zamkniętej łazience obok pralki',
         includeProductRef: false,
         scenePrompt:
-          'Amateur smartphone snapshot inside a small bathroom: a timid cat eating hurriedly from a bowl placed next to the washing machine behind a closed door.',
+          'Everyday smartphone photo inside a clean bathroom: a timid cat eating from a ceramic bowl placed next to the washing machine.',
       },
     ];
   } else if (
