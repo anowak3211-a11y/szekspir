@@ -22,8 +22,9 @@ const LEGACY_STATE_KEYS = [
   'sardian-opaska-pl-v2-25ads',
   'sardian-opaska-pl-v3-25ads',
   'sardian-opaska-pl-v4-25ads',
+  'sardian-opaska-pl-v5-25ads',
 ];
-const STATE_KEY = 'sardian-opaska-pl-v5-25ads';
+const STATE_KEY = 'sardian-opaska-pl-v6-25ads';
 
 interface StrydePlLibraryState {
   ads: StrydePlGeneratedAd[];

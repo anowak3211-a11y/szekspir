@@ -124,10 +124,10 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
         'First-person POV amateur smartphone photo in a quiet Polish kitchen on Friday afternoon: a plate of untouched rolled sweet cheese pancakes (naleśniki z serem) on a tablecloth next to two empty chairs.',
     },
     {
-      label: '2. [HOOK] Pudełko po butach pełne 7 rozciągniętych opasek z apteki',
+      label: '2. [HOOK] Pudełko po butach pełne 14 rozciągniętych opasek z apteki',
       includeProductRef: false,
       scenePrompt:
-        'Top-down amateur smartphone snapshot of an open cardboard shoebox on a hallway floor filled with 7 stretched-out beige and black elastic knee sleeves and empty ointment tubes.',
+        'Top-down amateur smartphone snapshot of an open cardboard shoebox on a hallway floor crammed with 14 stretched-out beige and black elastic knee sleeves and empty ointment tubes.',
     },
     {
       label: '3. [HOOK] Krzesełka na szkolnym przedstawieniu i rozmowa z 76-letnią drugą babcią Dorotą',
