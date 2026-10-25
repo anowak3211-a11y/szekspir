@@ -185,7 +185,7 @@ export default function NativeImagesStudioPage() {
       }
       setError('');
       setNotice(
-        `📸 Analizuję cały skrypt w "${folder.name}" i wysyłam ${folder.count} zadań Raw iPhone 3:4 (2K Google AI · styl NHS/NFZ) do Kie.ai...`,
+        `📸 Analizuję cały skrypt w "${folder.name}" i wysyłam ${folder.count} zadań Raw iPhone 3:4 (2K Google AI) do Kie.ai...`,
       );
       setSubmittingFolderId(folder.id);
 
@@ -478,12 +478,12 @@ export default function NativeImagesStudioPage() {
             ← Wróć do Ad Ops (Szekspir)
           </a>
           <h1 style={{ margin: '6px 0 4px', fontSize: '26px', fontWeight: 900 }}>
-            📱 Native Images · Styl NHS / NFZ Raw iPhone 3:4 (2K Google AI)
+            📱 Native Images · Raw iPhone 3:4 (2K Google AI)
           </h1>
           <p style={{ margin: 0, fontSize: '13.5px', opacity: 0.82 }}>
-            Wklej dowolny <code>skrypt.txt</code> (UK NHS lub PL NFZ) + opcjonalny <code>instruction.txt</code>.
+            Wklej dowolny <code>skrypt.txt</code> (PL lub UK) + opcjonalny <code>instruction.txt</code>.
             Silnik wygeneruje 12 lub 15 surowych zdjęć <code>1792x2400</code> (3:4 · zero flat-layów Noom, zero bokeh,
-            prawdziwi ludzie 55-75 lat, selfie lekarza NHS/NFZ, śmietnik, monitor, kartka w aucie).
+            prawdziwi ludzie 55-75 lat, scenerie z historii, czyste ściany i okna bez losowych napisów).
           </p>
         </div>
 
@@ -711,9 +711,9 @@ export default function NativeImagesStudioPage() {
                     fontSize: '12.5px',
                   }}
                 >
-                  <option value="auto">🌐 Auto z języka (UK NHS / PL NFZ)</option>
-                  <option value="uk">🇬🇧 UK · NHS / GP / brytyjskie domy</option>
-                  <option value="pl">🇵🇱 Polska · NFZ / Poradnia / PL domy</option>
+                  <option value="auto">🌐 Auto z języka (PL / UK)</option>
+                  <option value="uk">🇬🇧 UK · brytyjskie domy i realia</option>
+                  <option value="pl">🇵🇱 Polska · polskie domy i realia</option>
                 </select>
               </div>
             </div>
@@ -806,7 +806,7 @@ export default function NativeImagesStudioPage() {
               <textarea
                 rows={13}
                 value={activeFolder.scriptText}
-                placeholder="Wklej tutaj cały long-form skrypt reklamy natywnej (po angielsku pod UK NHS albo po polsku pod PL NFZ)..."
+                placeholder="Wklej tutaj cały long-form skrypt reklamy natywnej (po polsku lub po angielsku)..."
                 onChange={e => updateFolder(activeFolder.id, f => ({ ...f, scriptText: e.target.value }))}
                 style={{
                   width: '100%',
@@ -942,7 +942,7 @@ export default function NativeImagesStudioPage() {
             >
               {submittingFolderId === activeFolder.id
                 ? `⏳ Planuję ${activeFolder.count} scen i wysyłam do Kie.ai...`
-                : `📸 Generuj ${activeFolder.count} zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS/NFZ)`}
+                : `📸 Generuj ${activeFolder.count} zdjęć Raw iPhone 3:4 (2K Google AI)`}
             </button>
           </section>
 

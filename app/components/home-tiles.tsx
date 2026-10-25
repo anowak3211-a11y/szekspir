@@ -17,9 +17,9 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
         </a>
         <a className="tile big" href="/native-images">
           <span className="tile-icon" aria-hidden="true">📱</span>
-          <span className="tile-title">NATIVE IMAGES · NHS / iPhone 3:4</span>
+          <span className="tile-title">NATIVE IMAGES · Raw iPhone 3:4</span>
           <span className="tile-sub">
-            Wklej dowolny skrypt.txt (UK NHS lub PL NFZ) + instruction.txt. Generuje 15 surowych zdjęć Raw iPhone 3:4 (2K Google AI) z selekcją i pobieraniem paczek.
+            Wklej dowolny skrypt.txt (PL lub UK) + instruction.txt. Generuje 12 lub 15 surowych zdjęć Raw iPhone 3:4 (2K Google AI) z selekcją i pobieraniem paczek.
           </span>
         </a>
         <a className="tile big" href="/image-ripper">

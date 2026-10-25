@@ -76,7 +76,25 @@ export default function StrydePlWorkspace({
   const [notice, setNotice] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // Full Image Library filters (instant access to all 337+ generated photos)
+  const [galleryTab, setGalleryTab] = useState<'all' | 'angle' | 'ai' | 'base'>('all');
+  const [galleryAngleFilter, setGalleryAngleFilter] = useState<string>('all');
+  const [gallerySearch, setGallerySearch] = useState<string>('');
+  const [syncingLibrary, setSyncingLibrary] = useState<boolean>(false);
+
   const STRYDE_LOCAL_IMAGES_KEY = 'stryde_pl_saved_images_v3';
+  const STRYDE_GALLERY_CACHE_KEY = 'stryde_pl_gallery_cache_v1';
+
+  const updateAndCacheImageLibrary = useCallback((nextList: StrydeImageAsset[]) => {
+    setImageLibrary(nextList);
+    try {
+      if (typeof window !== 'undefined' && Array.isArray(nextList) && nextList.length > 0) {
+        window.localStorage.setItem(STRYDE_GALLERY_CACHE_KEY, JSON.stringify(nextList));
+      }
+    } catch {
+      // Ignore quota errors
+    }
+  }, []);
 
   const applyLocalImageOverrides = useCallback((list: StrydePlGeneratedAd[]): StrydePlGeneratedAd[] => {
     try {
@@ -137,12 +155,46 @@ export default function StrydePlWorkspace({
     [],
   );
 
-  const CLIENT_UI_VERSION = '2026-10-25-static-bar-v9';
+  const CLIENT_UI_VERSION = '2026-10-25-all-images-v10';
 
-  // Load persisted edits from API + auto-refresh stale background tabs on focus after deploys
+  const refreshLibraryManual = useCallback(async () => {
+    setSyncingLibrary(true);
+    try {
+      const r = await fetch(`/api/stryde-pl?_t=${Date.now()}`, { cache: 'no-store' });
+      const data = await r.json();
+      if (Array.isArray(data?.presets) && data.presets.length > 0) {
+        setPresets(data.presets);
+      }
+      if (Array.isArray(data?.savedAds) && data.savedAds.length > 0) {
+        setAds(applyLocalImageOverrides(data.savedAds));
+      }
+      if (Array.isArray(data?.imageLibrary) && data.imageLibrary.length > 0) {
+        updateAndCacheImageLibrary(data.imageLibrary);
+        setNotice(`Zsynchronizowano bibliotekę: ${data.imageLibrary.length} obrazków dostępnych od ręki.`);
+      }
+    } catch {
+      setError('Błąd odświeżania biblioteki z serwera.');
+    } finally {
+      setSyncingLibrary(false);
+    }
+  }, [applyLocalImageOverrides, updateAndCacheImageLibrary]);
+
+  // Load cached gallery immediately (0ms) + fetch unified owner/workspace pool from API
   useEffect(() => {
     let cancelled = false;
     setAds(prev => applyLocalImageOverrides(prev));
+
+    try {
+      const cachedRaw = window.localStorage.getItem(STRYDE_GALLERY_CACHE_KEY);
+      if (cachedRaw) {
+        const parsed = JSON.parse(cachedRaw) as StrydeImageAsset[];
+        if (Array.isArray(parsed) && parsed.length > STRYDE_IMAGE_LIBRARY.length) {
+          setImageLibrary(parsed);
+        }
+      }
+    } catch {
+      // Ignore cache parse error
+    }
 
     const syncFromApi = (checkVersionReload: boolean) => {
       fetch(`/api/stryde-pl?_t=${Date.now()}`, { cache: 'no-store' })
@@ -165,11 +217,11 @@ export default function StrydePlWorkspace({
             setAds(applyLocalImageOverrides(data.savedAds));
           }
           if (Array.isArray(data?.imageLibrary) && data.imageLibrary.length > 0) {
-            setImageLibrary(data.imageLibrary);
+            updateAndCacheImageLibrary(data.imageLibrary);
           }
         })
         .catch(() => {
-          // Fallback to prewritten in-memory ads
+          // Fallback to cached / prewritten in-memory ads
         });
     };
 
@@ -188,7 +240,7 @@ export default function StrydePlWorkspace({
       window.removeEventListener('focus', onFocusOrVisible);
       document.removeEventListener('visibilitychange', onFocusOrVisible);
     };
-  }, [applyLocalImageOverrides, editDirty]);
+  }, [applyLocalImageOverrides, editDirty, updateAndCacheImageLibrary]);
 
   const adByAngleId = useMemo(() => {
     const map = new Map<string, StrydePlGeneratedAd>();
@@ -424,8 +476,8 @@ export default function StrydePlWorkspace({
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Błąd wgrywania obrazu');
-        if (Array.isArray(data.imageLibrary)) setImageLibrary(data.imageLibrary);
-        if (Array.isArray(data.savedAds)) setAds(data.savedAds);
+        if (Array.isArray(data.imageLibrary)) updateAndCacheImageLibrary(data.imageLibrary);
+        if (Array.isArray(data.savedAds)) setAds(applyLocalImageOverrides(data.savedAds));
         showToast(`Wgrano grafikę do biblioteki Opaska PL!`);
         setImagePickerSlot(null);
       } catch (err) {
@@ -435,7 +487,41 @@ export default function StrydePlWorkspace({
         if (customFileRef.current) customFileRef.current.value = '';
       }
     },
-    [activePreset, showToast],
+    [activePreset, showToast, updateAndCacheImageLibrary, applyLocalImageOverrides],
+  );
+
+  const handleDeleteImage = useCallback(
+    async (asset: StrydeImageAsset, closeLightbox = false) => {
+      if (!asset?.url) return;
+      // Optimistically remove from library & lightbox
+      const nextLib = imageLibrary.filter(img => img.id !== asset.id && img.url !== asset.url);
+      updateAndCacheImageLibrary(nextLib);
+      if (closeLightbox || lightboxAsset?.url === asset.url) {
+        setLightboxAsset(null);
+      }
+      showToast(`Usunięto zdjęcie z biblioteki: „${asset.label}”`);
+      try {
+        const res = await fetch('/api/stryde-pl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'delete_image',
+            imageId: asset.id,
+            imageUrl: asset.url,
+          }),
+        });
+        const data = await res.json();
+        if (Array.isArray(data?.imageLibrary)) {
+          updateAndCacheImageLibrary(data.imageLibrary);
+        }
+        if (Array.isArray(data?.savedAds)) {
+          setAds(applyLocalImageOverrides(data.savedAds));
+        }
+      } catch {
+        // Optimistic deletion already applied
+      }
+    },
+    [imageLibrary, lightboxAsset, showToast, updateAndCacheImageLibrary, applyLocalImageOverrides],
   );
 
   const [generatingKie5, setGeneratingKie5] = useState(false);
@@ -466,7 +552,7 @@ export default function StrydePlWorkspace({
       inFlightKieAnglesRef.current.add(targetAngleId);
       setGeneratingKie5(true);
       setError('');
-      setNotice(`Analizuję cały skrypt i wysyłam 12 scen Raw iPhone 3:4 (2K Google AI · styl NHS) do Kie.ai dla kąta #${targetPreset.number}...`);
+      setNotice(`Analizuję cały skrypt i wysyłam 12 scen Raw iPhone 3:4 (2K Google AI) do Kie.ai dla kąta #${targetPreset.number}...`);
       try {
         const res = await fetch('/api/stryde-pl', {
           method: 'POST',
@@ -507,7 +593,7 @@ export default function StrydePlWorkspace({
                 if (pollData.state === 'success' && pollData.asset) {
                   completed += 1;
                   if (Array.isArray(pollData.imageLibrary)) {
-                    setImageLibrary(pollData.imageLibrary);
+                    updateAndCacheImageLibrary(pollData.imageLibrary);
                   }
                   const isScene1 = /^1\./.test(t.label);
                   const isScene2 = /^2\./.test(t.label);
@@ -554,7 +640,7 @@ export default function StrydePlWorkspace({
       }
       return true;
     },
-    [adByAngleId, activePreset, editPrimaryText, editHeadline, showToast, persistLocalImageOverride, applyLocalImageOverrides],
+    [adByAngleId, activePreset, editPrimaryText, editHeadline, showToast, persistLocalImageOverride, applyLocalImageOverrides, updateAndCacheImageLibrary],
   );
 
   const handleGenerate5KieImages = useCallback(async () => {
@@ -575,6 +661,33 @@ export default function StrydePlWorkspace({
       setSelectedAngleIds(prev => Array.from(new Set([...prev, ...filteredIds])));
     }
   }, [filteredPresets, selectedAngleIds]);
+
+  const aiImagesCount = useMemo(
+    () => imageLibrary.filter(img => img.url.startsWith('http') || Boolean(img.angleId)).length,
+    [imageLibrary],
+  );
+
+  const displayedGalleryImages = useMemo(() => {
+    const q = gallerySearch.trim().toLowerCase();
+    return imageLibrary.filter(img => {
+      const isAi = img.url.startsWith('http') || Boolean(img.angleId);
+      if (galleryTab === 'angle') {
+        if (img.angleId !== activePreset?.id) return false;
+      } else if (galleryTab === 'ai') {
+        if (!isAi) return false;
+      } else if (galleryTab === 'base') {
+        if (isAi) return false;
+      }
+      if (galleryAngleFilter !== 'all' && img.angleId !== galleryAngleFilter) {
+        return false;
+      }
+      if (q) {
+        const hay = `${img.label || ''} ${img.angleId || ''} ${img.adOrigin || ''}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [imageLibrary, galleryTab, galleryAngleFilter, gallerySearch, activePreset?.id]);
 
   const activeStageMeta = activePreset ? STRYDE_STAGES[activePreset.stageId] : null;
   const activeFanpage = useMemo(
@@ -1748,8 +1861,8 @@ export default function StrydePlWorkspace({
                 }}
               >
                 {generatingKie5
-                  ? '⏳ Generuję 12 zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS) w Kie.ai...'
-                  : '📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · styl NHS z całego skryptu)'}
+                  ? '⏳ Generuję 12 zdjęć Raw iPhone 3:4 (2K Google AI) w Kie.ai...'
+                  : '📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · z całego skryptu)'}
               </button>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -1866,7 +1979,7 @@ export default function StrydePlWorkspace({
                 </div>
               </div>
 
-              {/* ANGLE-SPECIFIC GENERATED PHOTOS (12x RAW IPHONE 3:4 NHS STYLE) */}
+              {/* ANGLE-SPECIFIC GENERATED PHOTOS (RAW IPHONE 3:4) */}
               {imageLibrary.some(img => img.angleId === activePreset.id) && (
                 <div
                   style={{
@@ -1880,7 +1993,7 @@ export default function StrydePlWorkspace({
                   }}
                 >
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#34d399' }}>
-                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Raw iPhone 3:4 · styl NHS ·{' '}
+                    ✨ Wygenerowane do Kąta #{activePreset.number} (Raw iPhone 3:4 ·{' '}
                     {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
                   </span>
                   <div
@@ -1895,6 +2008,7 @@ export default function StrydePlWorkspace({
                       .map(img => {
                         const isA = activeAd.imageUrl === img.url;
                         const isB = activeAd.secondImageUrl === img.url;
+                        const canDelete = img.url.startsWith('http') || Boolean(img.angleId);
                         return (
                           <div
                             key={`angle-${img.id}`}
@@ -1920,6 +2034,7 @@ export default function StrydePlWorkspace({
                               <img
                                 src={img.url}
                                 alt={img.label}
+                                loading="lazy"
                                 style={{
                                   width: '100%',
                                   aspectRatio: '3 / 4',
@@ -1928,6 +2043,34 @@ export default function StrydePlWorkspace({
                                   display: 'block',
                                 }}
                               />
+                              {canDelete && (
+                                <button
+                                  type="button"
+                                  title="Usuń to zdjęcie z biblioteki"
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    void handleDeleteImage(img);
+                                  }}
+                                  style={{
+                                    position: 'absolute',
+                                    top: '4px',
+                                    left: '4px',
+                                    background: 'rgba(9, 9, 11, 0.82)',
+                                    color: '#f87171',
+                                    border: '1px solid rgba(248, 113, 113, 0.45)',
+                                    borderRadius: '4px',
+                                    width: '19px',
+                                    height: '19px',
+                                    padding: 0,
+                                    fontSize: '10px',
+                                    fontWeight: 900,
+                                    lineHeight: '17px',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  ✕
+                                </button>
+                              )}
                               {(isA || isB) && (
                                 <span
                                   style={{
@@ -1945,6 +2088,21 @@ export default function StrydePlWorkspace({
                                   {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
                                 </span>
                               )}
+                            </div>
+                            <div
+                              title={img.label}
+                              style={{
+                                fontSize: '9.5px',
+                                color: '#a1a1aa',
+                                padding: '3px 5px',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                background: '#0c0c0f',
+                                borderTop: '1px solid #1f1f23',
+                              }}
+                            >
+                              {img.label}
                             </div>
                             <div
                               style={{
@@ -1993,7 +2151,7 @@ export default function StrydePlWorkspace({
                 </div>
               )}
 
-              {/* GALLERY OF 15 STRYDE / UGC PHOTOS */}
+              {/* FULL UNIFIED GALLERY OF ALL GENERATED + BASE PHOTOS */}
               <div
                 style={{
                   background: '#111114',
@@ -2005,9 +2163,103 @@ export default function StrydePlWorkspace({
                   gap: '8px',
                 }}
               >
-                <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#e4e4e7' }}>
-                  📸 Biblioteka Kreacji Opaska PL ({imageLibrary.length} szt.):
-                </span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#e4e4e7' }}>
+                    📸 Biblioteka Kreacji Opaska PL ({displayedGalleryImages.length} z {imageLibrary.length} szt. · {aiImagesCount} wygenerowanych AI):
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => void refreshLibraryManual()}
+                    disabled={syncingLibrary}
+                    style={{
+                      background: '#18181b',
+                      color: '#34d399',
+                      border: '1px solid #27272a',
+                      borderRadius: '5px',
+                      padding: '3px 8px',
+                      fontSize: '10.5px',
+                      fontWeight: 700,
+                      cursor: syncingLibrary ? 'wait' : 'pointer',
+                    }}
+                  >
+                    {syncingLibrary ? '⏳ Ładuję...' : '🔄 Pobierz wszystkie'}
+                  </button>
+                </div>
+
+                {/* FILTER TABS FOR ALL GENERATED PHOTOS */}
+                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                  {[
+                    { id: 'all' as const, label: `Wszystkie (${imageLibrary.length})` },
+                    { id: 'ai' as const, label: `Wygenerowane AI (${aiImagesCount})` },
+                    {
+                      id: 'angle' as const,
+                      label: `Ten kąt #${activePreset.number} (${imageLibrary.filter(i => i.angleId === activePreset.id).length})`,
+                    },
+                    { id: 'base' as const, label: `Bazowe (${STRYDE_IMAGE_LIBRARY.length})` },
+                  ].map(tab => {
+                    const active = galleryTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setGalleryTab(tab.id)}
+                        style={{
+                          background: active ? '#10b981' : '#18181b',
+                          color: active ? '#052e16' : '#d4d4d8',
+                          border: active ? '1px solid #34d399' : '1px solid #27272a',
+                          borderRadius: '6px',
+                          padding: '4px 8px',
+                          fontSize: '10.5px',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* ANGLE SELECTOR + SEARCH ACROSS ALL 337+ PHOTOS */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                  <select
+                    value={galleryAngleFilter}
+                    onChange={e => setGalleryAngleFilter(e.target.value)}
+                    style={{
+                      background: '#09090b',
+                      color: '#e4e4e7',
+                      border: '1px solid #27272a',
+                      borderRadius: '6px',
+                      padding: '5px 7px',
+                      fontSize: '11px',
+                    }}
+                  >
+                    <option value="all">Wszystkie kąty (#01-#25)</option>
+                    {presets.map(p => {
+                      const cnt = imageLibrary.filter(img => img.angleId === p.id).length;
+                      return (
+                        <option key={`gal-opt-${p.id}`} value={p.id}>
+                          #{String(p.number).padStart(2, '0')} · {p.shortTitle} ({cnt} szt.)
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <input
+                    type="text"
+                    value={gallerySearch}
+                    onChange={e => setGallerySearch(e.target.value)}
+                    placeholder="Szukaj np. #13, 3., selfie..."
+                    style={{
+                      background: '#09090b',
+                      color: '#e4e4e7',
+                      border: '1px solid #27272a',
+                      borderRadius: '6px',
+                      padding: '5px 8px',
+                      fontSize: '11px',
+                    }}
+                  />
+                </div>
+
                 <div
                   style={{
                     display: 'grid',
@@ -2015,9 +2267,10 @@ export default function StrydePlWorkspace({
                     gap: '10px',
                   }}
                 >
-                  {imageLibrary.map(img => {
+                  {displayedGalleryImages.map(img => {
                     const isA = activeAd.imageUrl === img.url;
                     const isB = activeAd.secondImageUrl === img.url;
+                    const canDelete = img.url.startsWith('http') || Boolean(img.angleId);
                     return (
                       <div
                         key={img.id}
@@ -2043,13 +2296,43 @@ export default function StrydePlWorkspace({
                           <img
                             src={img.url}
                             alt={img.label}
+                            loading="lazy"
                             style={{
                               width: '100%',
-                              aspectRatio: '1 / 1',
+                              aspectRatio: '3 / 4',
                               objectFit: 'cover',
+                              objectPosition: 'top center',
                               display: 'block',
                             }}
                           />
+                          {canDelete && (
+                            <button
+                              type="button"
+                              title="Usuń to zdjęcie z biblioteki"
+                              onClick={e => {
+                                e.stopPropagation();
+                                void handleDeleteImage(img);
+                              }}
+                              style={{
+                                position: 'absolute',
+                                top: '5px',
+                                left: '5px',
+                                background: 'rgba(9, 9, 11, 0.84)',
+                                color: '#f87171',
+                                border: '1px solid rgba(248, 113, 113, 0.45)',
+                                borderRadius: '4px',
+                                width: '20px',
+                                height: '20px',
+                                padding: 0,
+                                fontSize: '10.5px',
+                                fontWeight: 900,
+                                lineHeight: '18px',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              ✕
+                            </button>
+                          )}
                           {(isA || isB) && (
                             <span
                               style={{
@@ -2067,6 +2350,22 @@ export default function StrydePlWorkspace({
                               {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
                             </span>
                           )}
+                        </div>
+
+                        <div
+                          title={img.label}
+                          style={{
+                            fontSize: '10px',
+                            color: '#a1a1aa',
+                            padding: '3px 6px',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            background: '#0c0c0f',
+                            borderTop: '1px solid #1f1f23',
+                          }}
+                        >
+                          {img.label}
                         </div>
 
                         <div
@@ -2315,6 +2614,27 @@ export default function StrydePlWorkspace({
                 >
                   {activeAd?.secondImageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja B' : '🟦 Ustaw jako Kreację B'}
                 </button>
+                {(lightboxAsset.url.startsWith('http') || Boolean(lightboxAsset.angleId)) && (
+                  <button
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation();
+                      void handleDeleteImage(lightboxAsset, true);
+                    }}
+                    style={{
+                      background: '#450a0a',
+                      color: '#fca5a5',
+                      border: '1px solid #ef4444',
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                      fontWeight: 800,
+                      fontSize: '12px',
+                    }}
+                  >
+                    🗑 Usuń zdjęcie
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => setLightboxAsset(null)}

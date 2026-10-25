@@ -15,19 +15,38 @@ export function detectScriptMarket(
 ): 'pl' | 'uk' {
   if (preferred === 'pl' || preferred === 'uk') return preferred;
   const sample = (primaryText || '').slice(0, 2000);
-  if (/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]|\b(że|się|nie|przez|lekarz|kolan|NFZ|zł)\b/.test(sample)) {
+  if (/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]|\b(że|się|nie|przez|lekarz|kolan|zł)\b/.test(sample)) {
     return 'pl';
   }
   return 'uk';
 }
 
 /**
- * Wraps a raw scene description with the exact iPhone camera-roll optical physics
- * from the NHS / Native Ads workflow ("iPhone quality + lekkie rozjaśnienie"):
+ * Strips accidental "NFZ" / "Poradnia NFZ" tokens from scene descriptions so the image generator
+ * never hallucinates clinic plaques, taped wall papers, or sticky notes onto homes, windows, or salons.
+ */
+function stripClinicSignTokens(rawScenePrompt: string, market: 'pl' | 'uk'): string {
+  let out = rawScenePrompt.trim();
+  if (market === 'pl') {
+    out = out
+      .replace(/\bPoradni[a-ząćęłńóśźż]*\s+NFZ\b/gi, 'gabinet')
+      .replace(/\bNFZ\s+Poradni[a-ząćęłńóśźż]*\b/gi, 'gabinet')
+      .replace(/\bskierowani[eua]\s+(?:na\s+|do\s+)?NFZ\b/gi, 'mała karteczka z zeszytu')
+      .replace(/\bNFZ\s+referral(?:\s+note|\s+slip)?\b/gi, 'small torn notebook slip')
+      .replace(/\bwith\s+(?:an?\s+)?NFZ(?:\s+or\s+NHS)?\s+(?:clinic\s+)?(?:ID\s+)?lanyard\b/gi, 'with a plain blank badge clip')
+      .replace(/\bNFZ\b/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  }
+  return out;
+}
+
+/**
+ * Wraps a raw scene description with pure iPhone camera-roll optical physics ONLY:
  * - 3:4 vertical smartphone sensor framing (2K 1792x2400)
- * - Imperfect auto-exposure (blown-out window highlights / harsh 4000K fluorescent / direct flash)
+ * - Imperfect auto-exposure (blown-out window highlights / harsh 4000K indoor light / direct flash)
  * - Tiny-sensor deep focus (ZERO DSLR bokeh / ZERO portrait mode blur)
- * - Unretouched ordinary people, awkward boomer framing, lived-in British (NHS) or Polish (NFZ) clutter
+ * - ZERO location/clinic/sign/scrubs/weather words in the wrapper so nothing bleeds across scenes!
  */
 export function formatRawIphoneKiePrompt(
   scenePrompt: string,
@@ -36,7 +55,7 @@ export function formatRawIphoneKiePrompt(
   market: 'pl' | 'uk' = 'pl',
   customProductInstruction = '',
 ): string {
-  const cleaned = scenePrompt.trim();
+  const cleaned = stripClinicSignTokens(scenePrompt, market);
 
   let productDirective = '';
   if (brand === 'sardian-strap') {
@@ -66,12 +85,12 @@ export function formatRawIphoneKiePrompt(
 
   const localeLine =
     market === 'uk'
-      ? 'Awkward casual boomer composition (slightly crooked horizon, off-center framing, real lived-in British semi-detached house / NHS GP surgery / rainy UK car park background clutter). Any person in frame must look 100% like an ordinary unretouched British person (natural skin redness, pores, glasses reflection, ordinary everyday jumper/coat/NHS scrubs, neutral candid or mid-thought expression - NEVER stock-photo models, NEVER symmetrical studio lighting, NEVER cinematic warm grading, NEVER split-screen Before/After collages, strict British English spelling ONLY if any paper/NHS badge appears).'
-      : 'Awkward casual boomer composition (slightly crooked horizon, off-center framing, real lived-in Polish apartment / NFZ Poradnia clinic / rainy Polish parking lot background clutter). Any person in frame must look 100% like an ordinary unretouched Polish person (natural skin redness, pores, glasses reflection, ordinary everyday clothes/scrubs, neutral candid or mid-thought expression - NEVER stock-photo models, NEVER symmetrical studio lighting, NEVER cinematic warm grading, NEVER split-screen Before/After collages, Polish text ONLY if any paper/sign appears, NEVER English words).';
+      ? 'Awkward casual amateur composition (slightly crooked horizon, off-center framing, authentic everyday British surroundings matching ONLY the described scene, plain unadorned walls, doors, and windows free of random notes or flyers). Any person in frame must look 100% like an ordinary unretouched British person (natural skin texture, pores, slight redness, glasses reflection, ordinary everyday clothing matching that exact scene, candid unposed expression - NEVER stock-photo models, NEVER symmetrical studio lighting, NEVER cinematic warm grading, NEVER split-screen Before/After collages).'
+      : 'Awkward casual amateur composition (slightly crooked horizon, off-center framing, authentic everyday Polish surroundings matching ONLY the described scene, plain unadorned walls, doors, mirrors, and windows completely free of random notes, flyers, or plaques). Any person in frame must look 100% like an ordinary unretouched Polish person (natural skin texture, pores, slight redness, glasses reflection, ordinary everyday clothing matching that exact scene, candid unposed expression - NEVER stock-photo models, NEVER symmetrical studio lighting, NEVER cinematic warm grading, NEVER split-screen Before/After collages).';
 
   const opticalSignature = [
     'Raw unedited smartphone photo taken on an iPhone 11/12 default Camera app (26mm wide lens, f/1.8 tiny mobile sensor, EVERYTHING in foreground and background in sharp focus - strictly ZERO DSLR bokeh, ZERO portrait-mode blur).',
-    'Imperfect automatic phone exposure with slightly blown-out bright highlights (overexposed window light flare, harsh 4000K ceiling fluorescent glare, or direct on-camera flash), subtle greasy phone-lens halation, mixed uneven indoor color temperature, visible mobile sensor grain.',
+    'Imperfect automatic phone exposure with slightly blown-out bright highlights (overexposed window light flare, uneven indoor bulb glare, or direct on-camera flash), subtle greasy phone-lens halation, mixed natural color temperature, visible mobile sensor grain.',
     localeLine,
   ].join(' ');
 
@@ -89,31 +108,31 @@ function buildBrandDirectorContext(
     : '';
 
   if (brand === 'sardian-strap') {
-    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 with mechanical knee pain on stairs, car clutch, garden, bathtub, dancing, NFZ orthopedic queues.${extra}`;
+    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 with mechanical knee pain in everyday life (stairs, car pedals, garden/ROD allotment, bathtub, dancing, shopping, walking).${extra}`;
   }
   if (brand === 'feliora') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners dealing with peeing on duvet/sofa, night yowling, FIC bladder stress, multi-cat fights behind doorway mesh, vet visits.${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners dealing with peeing on duvet/sofa, night yowling, FIC bladder stress, multi-cat tension at home.${extra}`;
   }
   if (brand === 'orthomax') {
     return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax (bright orange contoured insoles). Segment: ${
       segment === 'dzieci'
         ? 'Polish mothers of children aged 4-12 (valgus ankles, flat feet, worn inner shoe heels, PE pain)'
-        : 'Polish adults/seniors aged 45-70 (bunions, heel spurs, collapsed arches, knee/hip/back compensation, hospital/retail shifts)'
+        : 'Polish adults/seniors aged 45-70 (bunions, heel spurs, collapsed arches, knee/hip/back compensation, long shifts on feet)'
     }.${extra}`;
   }
   if (brand === 'mellow-uk') {
-    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (matte light sky-blue stand-up pouch with berry-red 5-petal flower saffron gummies for calm, focus & emotional balance). Target: British parents (school runs, Meltdowns, CAMHS/NHS waiting lists, kitchen routine) or UK adults.${extra}`;
+    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (matte light sky-blue stand-up pouch with berry-red 5-petal flower saffron gummies for calm, focus & emotional balance). Target: British parents (school runs, meltdowns, kitchen routine) or UK adults.${extra}`;
   }
   return `MARKET & AUDIENCE: ${
     market === 'uk'
-      ? 'United Kingdom (NHS hospitals/GP surgeries, British homes, Boots chemist blisters, rainy B&Q/Tesco car parks, UK £)'
-      : 'Poland (NFZ Poradnia clinics, Polish apartments/stairwells, rainy Biedronka/housing-estate parking, ROD allotments, Polish zł)'
-  }. Infer the exact product, target demographic, symptoms, and conflict directly from skrypt.txt and instruction.txt.${extra}`;
+      ? 'United Kingdom (ordinary British homes, kitchens, stairs, gardens, workplaces, right-hand-drive UK cars)'
+      : 'Poland (ordinary Polish apartments, houses, stairwells, kitchens, gardens/ROD allotments, workplaces, left-hand-drive cars)'
+  }. Infer the exact product, target demographic, symptoms, and real locations directly from skrypt.txt and instruction.txt.${extra}`;
 }
 
 /**
  * Deterministic, script-aware 12-to-15 scene fallback when AI Brain is unavailable or times out.
- * Covers all 6 Loom native archetypes with ZERO fake Noom Post-it/clipboard graphics and ZERO Meta-bannable Before/After collages.
+ * Zero wall/window sign pollution and zero Meta-bannable Before/After collages.
  */
 export function buildFallbackTwelveNativeScenes(params: {
   brand: NativeBrandKind;
@@ -158,16 +177,16 @@ export function buildFallbackTwelveNativeScenes(params: {
           : 'Candid iPhone snapshot in an ordinary Polish living room with an overexposed window behind the sofa: a grey fabric couch awkwardly draped in cheap translucent painter plastic foil weighed down with books, a bottle of 10% spirit vinegar and paper towels on the laminate floor.',
       },
       {
-        label: '3. [SELFIE EKSPERTA] Polski weterynarz / behawiorystka w fartuchu ze smyczą lecznicy (przednia kamera)',
+        label: '3. [SELFIE EKSPERTA] Polski weterynarz w granatowym fartuchu (przednia kamera)',
         includeProductRef: false,
         scenePrompt:
-          'Awkward close-up front-camera iPhone selfie of a tired 52-year-old Polish veterinarian in navy medical scrubs with a clinic ID lanyard and slightly crooked glasses, standing in a brightly lit fluorescent Polish vet clinic corridor with a slightly blown-out window behind his shoulder, neutral unposed expression mid-thought.',
+          'Awkward close-up front-camera iPhone selfie of a tired 52-year-old Polish veterinarian in plain navy medical scrubs with a blank badge clip and slightly crooked glasses, standing in a brightly lit corridor with a slightly blown-out window behind his shoulder, neutral unposed expression mid-thought, plain wall without signs.',
       },
       {
-        label: '4. [GABINET] Weterynarz w lecznicy wskazujący długopisem narząd VNO na modelu kota',
+        label: '4. [MECHANIZM] Weterynarz wskazujący długopisem narząd VNO na modelu głowy kota',
         includeProductRef: false,
         scenePrompt:
-          'Candid handheld iPhone photo inside a modest Polish veterinary consultation room: a vet in a slightly rumpled white coat holding a plastic anatomical cat head model over a stainless-steel exam table, pointing a blue pen near the nasal palate, cluttered shelves and monitor behind.',
+          'Candid handheld iPhone photo inside a modest veterinary consultation room: a vet in a slightly rumpled white coat holding a plastic anatomical cat head model over a stainless-steel exam table, pointing a blue pen near the nasal palate, plain shelves behind.',
       },
       {
         label: '5. [SCROLL-STOPPER KOSZ] Wyrzucanie fioletowej obróżki i taniego dyfuzora do kosza w kuchni',
@@ -182,31 +201,31 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Unflattering close-up iPhone snapshot held in an ordinary hand over a kitchen sink with harsh overhead light: a cheap generic plug-in diffuser pulled apart to show a sticky, blackened, burnt wick caramelized from overheating, slightly out-of-center framing.',
       },
       {
-        label: '7. [MONITOR LECZNICY] Zdjęcie ekranu komputera u weta z czystym wynikiem osadu moczu / USG pęcherza',
+        label: '7. [EKRAN USG] Zdjęcie ekranu u weterynarza z obrazem USG pęcherza',
         includeProductRef: false,
         scenePrompt:
-          'Slightly angled handheld iPhone snapshot of a dusty clinic LCD monitor on a Polish vet desk showing a monochrome bladder ultrasound scan next to a Polish lab window reading "OSAD MOCZU - BAKTERIE: BRAK", keyboard and coffee mug ring in foreground.',
+          'Slightly angled handheld iPhone snapshot of a dusty LCD monitor on a vet desk showing a monochrome cat bladder ultrasound scan, keyboard and coffee mug ring in foreground.',
       },
       {
-        label: '8. [KARTKA W AUCIE] Pomięty wypis z lecznicy i karteczka trzymana w aucie pod blokiem',
+        label: '8. [KARTKA NA STOLE] Mała karteczka od weterynarza obok okularów i kubka herbaty',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV iPhone photo inside a parked car on a grey rainy Polish housing estate parking lot: a woman hand holding a creased veterinary visit sheet and a small torn notepad page with rushed doctor handwriting reading "dyfuzor Feliora (M.A.P. + F3)", steering wheel and wet windshield behind.',
+          'First-person POV iPhone photo at a scratched Polish kitchen table under warm evening light: reading glasses, car keys, and a small torn notebook slip with rushed handwriting reading "dyfuzor Feliora (M.A.P. + F3)".',
       },
       {
         label: '9. [BAŁAGAN PRÓB] Pralka upchana zasikaną kołdrą, ocet i 4 nieskuteczne preparaty w łazience',
         includeProductRef: false,
         scenePrompt:
-          'Eye-level candid iPhone snapshot in a cramped Polish apartment bathroom under harsh fluorescent mirror light: an open front-load washing machine stuffed with a heavy white duvet, surrounded on the floor and machine top by spirit vinegar, enzymatic urine spray, calming paste tubes, and an open plastic pet carrier.',
+          'Eye-level candid iPhone snapshot in a cramped Polish apartment bathroom under harsh mirror light: an open front-load washing machine stuffed with a heavy white duvet, surrounded on the floor and machine top by spirit vinegar, enzymatic urine spray, calming paste tubes, and an open plastic pet carrier.',
       },
       {
-        label: '10. [EMOCJE W DOMU] Mąż i żona w nocy w kuchni przy stercie prania (bezpośredni flesz)',
+        label: '10. [EMOCJE W DOMU] Zmęczony mąż w nocy w kuchni przy czajniku (bezpośredni flesz)',
         includeProductRef: false,
         scenePrompt:
           'Candid night-time iPhone snapshot with harsh direct camera flash in a small Polish kitchen: a tired 45-year-old husband in sweatpants rubbing his forehead by the kettle while holding a cat-scratched laptop bag, unposed real family tension.',
       },
       {
-        label: '11. [EFEKT CODZIENNY] Kot śpiący kołami do góry na czystej kanapie bez folii w słońcu z okna',
+        label: '11. [EFEKT CODZIENNY] Kot śpiący brzuchem do góry na czystej kanapie bez folii w słońcu z okna',
         includeProductRef: false,
         scenePrompt:
           'Slightly overexposed sunlit iPhone photo in a lived-in Polish living room with bright blown-out window light: a relaxed domestic cat sleeping belly-up on a grey sofa next to a coffee mug and folded throw blanket, completely calm everyday snapshot.',
@@ -224,7 +243,7 @@ export function buildFallbackTwelveNativeScenes(params: {
       {
         label: isDzieci
           ? '1. [HOOK LUDZKI] Dziecko siedzące na schodach w szatni trzymające się za piętę i kostkę'
-          : '1. [HOOK LUDZKI] Kobieta 58 lat na urodzinach pod stołem ze zdjętymi ciasnymi czółenkami (flesz)',
+          : '1. [HOOK LUDZKI] Kobieta 58 lat przy rodzinnym stole ze zdjętymi ciasnymi butami (flesz)',
         includeProductRef: false,
         scenePrompt: isDzieci
           ? 'Candid handheld iPhone photo under harsh school corridor fluorescent tubes: a 9-year-old Polish boy in gym shorts sitting on terrazzo steps holding his aching bare heel after taking off his indoor PE sneakers, mother bag at the edge of frame.'
@@ -240,16 +259,16 @@ export function buildFallbackTwelveNativeScenes(params: {
           : 'Harsh overhead bathroom iPhone POV photo looking down at beige floor tiles: a 56-year-old Polish woman bare feet flattening inward with a reddened bunion and deep strap indentations after a long shift.',
       },
       {
-        label: '3. [SELFIE EKSPERTA] Polski fizjoterapeuta / ortopeda w przychodni ze smyczą (przednia kamera)',
+        label: '3. [SELFIE EKSPERTA] Polski fizjoterapeuta 56 lat w granatowym stroju (przednia kamera)',
         includeProductRef: false,
         scenePrompt:
-          'Awkward chin-down front-camera iPhone selfie of a 56-year-old Polish orthopedic physiotherapist in dark blue medical scrubs with a clinic ID badge lanyard and wire-frame glasses, harsh cold 4000K clinic ceiling light and blown-out Venetian blinds behind him, serious unposed expression.',
+          'Awkward chin-down front-camera iPhone selfie of a 56-year-old Polish orthopedic physiotherapist in plain dark blue medical scrubs with a blank badge clip and wire-frame glasses, bright blown-out window blinds behind him, serious unposed expression, plain wall without any signs.',
       },
       {
-        label: '4. [GABINET] Fizjoterapeuta w gabinecie przy modelu stopy i kolana z długopisem',
+        label: '4. [MECHANIZM] Fizjoterapeuta z modelem szkieletu stopy i długopisem',
         includeProductRef: false,
         scenePrompt:
-          'Candid handheld iPhone snapshot in a modest Polish rehabilitation office: a male physiotherapist holding a plastic anatomical foot-and-ankle skeleton model next to an examination couch, pointing a pen under the collapsed medial arch.',
+          'Candid handheld iPhone snapshot in a modest rehabilitation room: a male physiotherapist holding a plastic anatomical foot-and-ankle skeleton model next to a treatment table, pointing a pen under the collapsed medial arch, plain unadorned background.',
       },
       {
         label: '5. [SCROLL-STOPPER KOSZ] Wyrzucanie żelowych podpiętek z apteki i maści do kosza w kuchni',
@@ -258,28 +277,28 @@ export function buildFallbackTwelveNativeScenes(params: {
           'First-person POV iPhone photo with slightly blown-out exposure looking down into an open plastic kitchen trash bin: a hand tossing flattened pharmacy gel heel pads, stiff grey insoles, and squeezed pain-gel tubes straight into the household garbage.',
       },
       {
-        label: '6. [CIEKAWOSTKA WTF] Podeszwa codziennego buta zdarta pod skosem od wewnątrz trzymana pod światło',
+        label: '6. [CIEKAWOSTKA WTF] Podeszwa codziennego buta zdarta pod skosem od wewnątrz trzymana w dłoni',
         includeProductRef: false,
         scenePrompt:
           'Close-up handheld iPhone photo in a dim Polish hallway with harsh bulb glare: an older hand holding a worn everyday shoe upside down close to the lens, showing the inner rubber heel edge badly ground down at a sharp angle.',
       },
       {
-        label: '7. [DIAGNOSTYKA] Bose stopy na podświetlanym zielonym podoskopie w gabinecie',
+        label: '7. [PODOSKOP] Bose stopy na podświetlanym zielonym podoskopie',
         includeProductRef: false,
         scenePrompt:
-          'Slightly tilted handheld iPhone photo in a dim Polish orthopedic room: bare feet standing on a glowing green glass podoscope mirror showing completely flat footprints, clinic desk and computer monitor visible behind.',
+          'Slightly tilted handheld iPhone photo in a dim room: bare feet standing on a glowing green glass podoscope mirror showing completely flat footprints.',
       },
       {
-        label: '8. [KARTKA W AUCIE] Pomięte skierowanie na NFZ i karteczka od fizjoterapeuty w zaparkowanym aucie',
+        label: '8. [KARTKA NA STOLE] Mała karteczka od fizjoterapeuty na stole kuchennym obok okularów',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV iPhone photo from the driver seat of a parked car outside a Polish clinic on an overcast day: a hand holding a folded Polish referral slip ("SKIEROWANIE NA REHABILITACJĘ") and a small torn note reading "wkładki Orthomax StepMax".',
+          'First-person POV iPhone photo at a wooden Polish kitchen table: reading glasses, a half-drunk mug of tea, and a small torn notebook slip reading "wkładki Orthomax StepMax".',
       },
       {
         label: '9. [BAŁAGAN PRÓB] Blistry tabletek, plastry i wyciśnięte tubki żelu na umywalce w łazience',
         includeProductRef: false,
         scenePrompt:
-          'Eye-level candid iPhone photo of a cluttered Polish bathroom sink next to a toothbrush mug and soap dispenser: popped silver painkiller blisters, squeezed white diclofenac gel tubes, and peeled warming patches under harsh mirror light.',
+          'Eye-level candid iPhone photo of a cluttered Polish bathroom sink next to a toothbrush mug and soap dispenser: popped silver painkiller blisters, squeezed white gel tubes, and peeled warming patches under harsh mirror light.',
       },
       {
         label: '10. [SCENA Z HISTORII] Miska z ciepłą wodą i solą na kafelkach łazienki po całym dniu na nogach',
@@ -306,7 +325,7 @@ export function buildFallbackTwelveNativeScenes(params: {
     baseTwelve = [
       {
         label: hasMarriage
-          ? '1. [HOOK HUMAN] Unposed UK couple 55-64 indoors / car park with harsh iPhone flash'
+          ? '1. [HOOK HUMAN] Unposed UK couple 55-64 indoors with harsh iPhone flash'
           : '1. [HOOK HUMAN] Ordinary 58yo British man sitting awkwardly on stairs in discomfort',
         includeProductRef: false,
         scenePrompt: hasMarriage
@@ -316,26 +335,26 @@ export function buildFallbackTwelveNativeScenes(params: {
       {
         label: hasBelly
           ? '2. [HOOK SYMPTOM] Unflattering bathroom mirror selfie of 58yo British man holding tight shirt/waist'
-          : '2. [HOOK SYMPTOM] POV sitting inside a rainy UK B&Q / Tesco car park gripping steering wheel',
+          : '2. [HOOK SYMPTOM] POV sitting inside a right-hand-drive UK car gripping steering wheel',
         includeProductRef: false,
         scenePrompt: hasBelly
           ? 'Unflattering handheld iPhone mirror selfie in a cramped British bathroom under harsh ceiling bulb glare: a 58-year-old British man with greying hair pulling a tight polo shirt across a firm protruding midsection, towels and radiator in sharp focus behind.'
-          : 'First-person POV iPhone snapshot sitting in the driver seat of an older right-hand-drive UK car in a grey rainy British retail car park: a weathered male hand gripping the steering wheel with glowing dashboard call screen and raindrops on glass.',
+          : 'First-person POV iPhone snapshot sitting in the driver seat of an older right-hand-drive UK car in a grey British retail car park: a weathered male hand gripping the steering wheel with raindrops on glass.',
       },
       {
-        label: '3. [NHS DOCTOR SELFIE] Awkward front-camera selfie of 56yo NHS doctor/specialist in scrubs with lanyard',
+        label: '3. [DOCTOR SELFIE] Awkward front-camera selfie of 56yo British doctor in scrubs',
         includeProductRef: false,
         scenePrompt:
-          'Awkward chin-down front-camera iPhone selfie of a 56-year-old British NHS doctor in blue hospital scrubs wearing a blue "NHS" lanyard with ID badge and slightly crooked glasses, harsh 4000K NHS corridor fluorescent tubes and blown-out window blinds behind his head, unposed serious expression.',
+          'Awkward chin-down front-camera iPhone selfie of a 56-year-old British doctor in blue hospital scrubs wearing a lanyard with ID badge and slightly crooked glasses, harsh 4000K corridor fluorescent tubes and blown-out window blinds behind his head, unposed serious expression.',
       },
       {
-        label: '4. [NHS CLINIC] NHS GP / specialist in rumpled white coat holding coffee mug in hospital stairwell',
+        label: '4. [AUTHORITY] British specialist in rumpled white coat holding coffee mug on break',
         includeProductRef: false,
         scenePrompt:
-          'Candid handheld iPhone photo in a utilitarian British NHS hospital stairwell/corridor with green signage and fire door: a tired 54-year-old British consultant in scrubs and stethoscope holding a chipped mug during a break, slightly blown-out window flare.',
+          'Candid handheld iPhone photo in a utilitarian British stairwell with fire door: a tired 54-year-old British consultant in scrubs and stethoscope holding a chipped mug during a break, slightly blown-out window flare.',
       },
       {
-        label: '5. [BIN SCROLL-STOPPER] Throwing £13 chemist pill blisters and tubs straight into UK kitchen pedal bin',
+        label: '5. [BIN SCROLL-STOPPER] Throwing chemist pill blisters and tubs straight into UK kitchen pedal bin',
         includeProductRef: false,
         scenePrompt:
           'First-person POV iPhone photo with slightly overexposed auto-exposure looking down into an open stainless-steel British kitchen pedal bin: an older hand tossing popped silver chemist pill blisters, generic supplement bottles, and crumpled pharmacy receipts straight into the rubbish.',
@@ -347,25 +366,25 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Harsh overhead kitchen-light iPhone close-up on a scratched wooden British kitchen table: a gold wedding band resting beside UK car keys, reading glasses, and a small torn notepad page with rushed handwriting, raw dramatic curiosity framing.',
       },
       {
-        label: '7. [NHS MONITOR] Angled iPhone photo of GP desk monitor showing scan / NHS blood panel results',
+        label: '7. [MONITOR] Angled iPhone photo of desk monitor showing scan / chart values',
         includeProductRef: false,
         scenePrompt:
-          'Slightly tilted handheld iPhone snapshot inside a dim British GP consultation room showing an LCD desktop monitor with medical scan / chart values while a doctor pen points at the screen, NHS mug and keyboard in foreground.',
+          'Slightly tilted handheld iPhone snapshot inside a dim consultation room showing an LCD desktop monitor with medical scan / chart values while a pen points at the screen, mug and keyboard in foreground.',
       },
       {
-        label: '8. [NOTE IN CAR] Creased NHS outpatient letter held in right-hand-drive car in rainy UK car park',
+        label: '8. [NOTE ON TABLE] Small torn doctor note next to reading glasses and mug of tea',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV iPhone photo inside a parked right-hand-drive car outside a brick UK GP surgery on a wet day: an older hand holding a creased white NHS appointment letter and a small torn slip with doctor handwriting of a biological mechanism only.',
+          'First-person POV iPhone photo at a lived-in British kitchen worktop: reading glasses, a half-drunk mug of tea, and a small torn slip with rushed handwriting of a biological mechanism only.',
       },
       {
-        label: '9. [FAILED CLUTTER] Cluttered UK bathroom sink with chemist blisters, antacids, and half-empty tubs',
+        label: '9. [FAILED CLUTTER] Cluttered UK bathroom sink with chemist blisters and half-empty tubs',
         includeProductRef: false,
         scenePrompt:
           'Eye-level 45-degree candid iPhone snapshot of a small British bathroom sink with separate hot/cold taps: cluttered with half-empty chemist supplement tubs, silver pill blister strips, and a mug with toothbrushes under harsh mirror light.',
       },
       {
-        label: '10. [STORY SCENE] Candid British kitchen / pub / garden moment with ordinary 55-68yo people',
+        label: '10. [STORY SCENE] Candid British kitchen / garden moment with ordinary 55-68yo people',
         includeProductRef: false,
         scenePrompt:
           'Candid amateur iPhone snapshot with bright blown-out window light in a lived-in British kitchen: two ordinary men in their early 60s talking over mugs of tea by the worktop, completely unposed real-life feel.',
@@ -384,7 +403,7 @@ export function buildFallbackTwelveNativeScenes(params: {
       },
     ];
   } else {
-    // Default PL: SARDIAN Opaska Podrzepkowa ('sardian-strap' or Polish custom)
+    // Default PL: SARDIAN Opaska Podrzepkowa ('sardian-strap' or Polish custom) - ZERO NFZ signs anywhere!
     const isFemaleNarrator = /zrobiłam|poszłam|miałam|męża|córka zarezerwowała|tańczyłam|wannie|toalety|babcia/i.test(lower);
     const hasMarriageOrCouple = /żon|mąż|męża|bratem|dancing|ślub|małżeństw|tato|tata/i.test(lower);
     const hasStairs = /schod|piętro|poręcz|fotel|otodom/i.test(lower);
@@ -393,41 +412,41 @@ export function buildFallbackTwelveNativeScenes(params: {
     baseTwelve = [
       {
         label: hasMarriageOrCouple
-          ? '1. [HOOK LUDZKI] Niepozowane zdjęcie pary 55-68 lat w polskim domu / na parkingu (ostry flesz iPhone)'
+          ? '1. [HOOK LUDZKI] Niepozowane zdjęcie pary 55-68 lat w polskim domu (ostry flesz iPhone)'
           : '1. [HOOK LUDZKI] Senior 66 lat siedzący bezradnie na schodach i trzymający się za bolące kolano',
         includeProductRef: false,
         scenePrompt: hasMarriageOrCouple
-          ? 'Candid private-album iPhone snapshot taken with harsh direct on-camera flash in a lived-in Polish home hallway/living room: an ordinary 64-year-old Polish man in an everyday polo shirt standing slightly awkwardly beside his 54-year-old blonde wife, unretouched skin shine from flash, slightly cluttered coat rack and door behind them, real candid family photo.'
+          ? 'Candid private-album iPhone snapshot taken with harsh direct on-camera flash in a lived-in Polish home hallway/living room: an ordinary 64-year-old Polish man in an everyday polo shirt standing slightly awkwardly beside his 54-year-old blonde wife, unretouched skin shine from flash, coat rack and plain wooden door behind them, real candid family photo.'
           : `Unstaged handheld iPhone photo in a narrow Polish home staircase with slightly blown-out hallway window light: an ordinary ${
               isFemaleNarrator ? '67-year-old Polish woman in house trousers and cardigan' : '66-year-old Polish man in everyday sweater and jeans'
-            } sitting awkwardly halfway down carpeted wooden stairs, gripping ${
+            } sitting awkwardly halfway down wooden stairs, gripping ${
               isFemaleNarrator ? 'her' : 'his'
-            } aching right knee with a pained, tired expression.`,
+            } aching right knee with a pained, tired expression, plain unadorned stairwell walls.`,
       },
       {
         label: hasStairs
-          ? '2. [HOOK DOWÓD] Odgniecione, spuchnięte kolano na tle stromych schodów w polskim domu'
+          ? '2. [HOOK DOWÓD] Odgniecione, spuchnięte kolano na tle stromych schodów w domu'
           : hasCar
-          ? '2. [HOOK DOWÓD] Dłoń zaciśnięta na bolącym kolanie na fotelu kierowcy na deszczowym parkingu'
+          ? '2. [HOOK DOWÓD] Dłoń zaciśnięta na bolącym kolanie na fotelu kierowcy'
           : '2. [HOOK DOWÓD] Odsłonięte kolano 65-latka z czerwonymi pręgami po ciężkiej ortezie z apteki',
         includeProductRef: false,
         scenePrompt: hasStairs
-          ? 'First-person POV iPhone snapshot looking down from the top of steep wooden Polish stairs: one rolled-up trouser leg revealing an older swollen knee with red pressure marks from an elastic sleeve, hand gripping the wooden banister.'
+          ? 'First-person POV iPhone snapshot looking down from the top of steep wooden Polish home stairs: one rolled-up trouser leg revealing an older swollen knee with red pressure marks from an elastic sleeve, hand gripping the wooden banister.'
           : hasCar
-          ? 'First-person POV iPhone photo from the driver seat of an older car parked in a wet Polish retail parking lot: a 64-year-old man weathered hand pressing just below his aching right kneecap above the clutch/brake pedals, raindrops and parked cars outside the windshield.'
-          : 'Harsh overhead bathroom mirror/chair iPhone photo: an ordinary 65-year-old Polish person sitting on a plain chair with trouser leg pulled up, showing an unretouched swollen knee with deep red indentation lines left by a bulky hinged brace lying on the floor.',
+          ? 'First-person POV iPhone photo from the driver seat of an older car parked outdoors: a 64-year-old man weathered hand pressing just below his aching right kneecap above the clutch/brake pedals.'
+          : 'Harsh overhead indoor iPhone photo: an ordinary 65-year-old Polish person sitting on a plain home chair with trouser leg pulled up, showing an unretouched swollen knee with deep red indentation lines left by a bulky hinged brace lying on the floor.',
       },
       {
-        label: '3. [SELFIE EKSPERTA] Polski fizjoterapeuta / ortopeda 58 lat w przychodni ze smyczą NFZ (przednia kamera)',
+        label: '3. [SELFIE EKSPERTA] Polski fizjoterapeuta 58 lat w granatowym stroju (przednia kamera)',
         includeProductRef: false,
         scenePrompt:
-          'Awkward close-up front-camera iPhone selfie of a 58-year-old Polish orthopedic doctor/physiotherapist in navy medical scrubs wearing a clinic badge lanyard ("PORADNIA ORTOPEDYCZNA") and slightly crooked glasses, cold 4000K hospital corridor fluorescent tubes and blown-out window blinds behind his head, unposed serious expression.',
+          'Awkward close-up front-camera iPhone selfie of a 58-year-old Polish orthopedic physiotherapist in plain navy medical scrubs with a blank badge clip and slightly crooked glasses, cold 4000K ceiling light and blown-out window blinds behind his head, unposed serious expression, plain wall with zero signs.',
       },
       {
-        label: '4. [GABINET] Fizjoterapeuta w białym kitlu z modelem stawu kolanowego w gabinecie',
+        label: '4. [MECHANIZM] Fizjoterapeuta z plastikowym modelem stawu kolanowego i długopisem',
         includeProductRef: false,
         scenePrompt:
-          'Candid high-angle handheld iPhone snapshot in a modest Polish physiotherapy clinic: a 55-year-old male specialist in an open white lab coat over a dark shirt holding a plastic anatomical knee-joint skeleton model and pointing a pen directly at the patellar tendon 2 fingers below the kneecap, desk and examination couch behind.',
+          'Candid high-angle handheld iPhone snapshot in a modest physiotherapy room: a 55-year-old male specialist in an open white coat over a dark shirt holding a plastic anatomical knee-joint skeleton model and pointing a pen directly at the patellar tendon 2 fingers below the kneecap, plain background.',
       },
       {
         label: '5. [SCROLL-STOPPER KOSZ] Wyrzucanie rozciągniętych opasek z apteki i tubek maści do kosza w kuchni',
@@ -436,40 +455,40 @@ export function buildFallbackTwelveNativeScenes(params: {
           'First-person POV iPhone snapshot with slightly overexposed auto-exposure looking straight into an open plastic kitchen pedal bin with a white trash bag: an older weathered hand tossing stretched beige pharmacy knee sleeves, squeezed pain-gel tubes, and empty silver pill blisters into the garbage.',
       },
       {
-        label: '6. [CIEKAWOSTKA WTF] Wielka sztywna orteza zegarowa wisząca na gwoździu obok kluczy',
+        label: '6. [CIEKAWOSTKA WTF] Wielka sztywna orteza zegarowa wisząca na gwoździu w garażu / przedpokoju',
         includeProductRef: false,
         scenePrompt:
-          'Candid slightly crooked iPhone snapshot with direct flash in a cluttered Polish garage/hallway: a massive, heavy metal-hinged orthopedic knee brace hanging uselessly on a rusty wall hook next to dusty paver knee pads and garden tools, raw amateur framing.',
+          'Candid slightly crooked iPhone snapshot with direct flash in a cluttered Polish garage/hallway: a massive, heavy metal-hinged orthopedic knee brace hanging uselessly on a wall hook next to garden tools and everyday shoes, raw amateur framing.',
       },
       {
-        label: '7. [MONITOR PRZYCHODNI] Zdjęcie ekranu monitora u ortopedy z RTG zwężonej szpary kolana',
+        label: '7. [TEST 2 PALCÓW] Zbliżenie na dłoń wskazującą punkt 2 palce poniżej rzepki w domowym świetle',
         includeProductRef: false,
         scenePrompt:
-          'Slightly angled handheld iPhone photo inside a dim Polish orthopedic office showing a desktop LCD monitor with a monochrome lateral and AP knee X-ray narrowed joint space while a doctor hand points a pen tip just below the kneecap on screen, keyboard and stamped papers on desk.',
+          'Candid handheld iPhone close-up in a lived-in Polish living room: an older person sitting on a sofa with one trouser leg rolled up, pressing two fingers horizontally right below the kneecap on the patellar tendon, natural window light.',
       },
       {
-        label: '8. [KARTKA W AUCIE] Pomięte skierowanie na NFZ trzymane w aucie pod przychodnią',
+        label: '8. [KARTKA NA STOLE] Mała wyrwana karteczka z nazwą paska na stole kuchennym obok okularów',
         includeProductRef: false,
         scenePrompt:
-          'First-person POV iPhone photo inside a parked car outside a grey Polish clinic building: an older hand holding a creased white Polish referral printout ("SKIEROWANIE DO PORADNI ORTOPEDYCZNEJ") alongside a small torn slip of paper with rushed doctor handwriting reading "pasek podrzepkowy SARDIAN", wet asphalt visible through windshield.',
+          'First-person POV iPhone photo at a scratched Polish kitchen table under warm evening bulb light: reading glasses, a half-drunk glass of tea, and a small torn notebook slip with rushed handwriting reading "pasek podrzepkowy SARDIAN".',
       },
       {
         label: '9. [BAŁAGAN PRÓB] Blat kuchenny zawalony puszkami kolagenu, końską maścią i blistrami',
         includeProductRef: false,
         scenePrompt:
-          'Eye-level candid iPhone snapshot of a cluttered Polish kitchen counter next to an electric kettle and tea mug stain: opened tubs of joint collagen powder, green horse ointment jar, squeezed diclofenac gel tubes, and popped silver painkiller blisters in harsh uneven kitchen bulb light.',
+          'Eye-level candid iPhone snapshot of a cluttered Polish kitchen counter next to an electric kettle and tea mug stain: opened tubs of joint collagen powder, green horse ointment jar, squeezed gel tubes, and popped silver painkiller blisters in uneven kitchen bulb light.',
       },
       {
         label: '10. [SCENA Z HISTORII] Dwaj seniorzy 65-72 lata przy drewnianym stole na działce ROD / w kuchni',
         includeProductRef: false,
         scenePrompt:
-          'Candid amateur iPhone photo with bright blown-out window/garden light in a Polish allotment gazebo (altanka ROD) or modest kitchen: a 68-year-old Polish man in a zip fleece rolling up his trouser leg slightly while talking across a wooden table with two glasses of tea in metal holders.',
+          'Candid amateur iPhone photo with bright blown-out window/garden light in a Polish allotment gazebo (altanka ROD) or modest kitchen: a 68-year-old Polish man in a zip fleece rolling up his trouser leg slightly while talking across a wooden table with two glasses of tea.',
       },
       {
-        label: '11. [EFEKT CODZIENNY] Zadowolony 67-latek stojący o własnych siłach przy schodach w słońcu',
+        label: '11. [EFEKT CODZIENNY] Zadowolony 67-latek schodzący swobodnie ze schodów w dziennym świetle',
         includeProductRef: false,
         scenePrompt:
-          'Slightly overexposed sunlit iPhone photo taken by a spouse in a Polish backyard/stairwell: an ordinary 67-year-old Polish person in casual everyday clothes standing naturally with a relieved, genuine smile next to garden pots or stairs, harsh natural daylight, zero studio look.',
+          'Slightly overexposed sunlit iPhone photo taken by a spouse in a Polish home/backyard: an ordinary 67-year-old Polish person in casual everyday clothes walking comfortably down outdoor steps with a relieved, genuine smile, harsh natural daylight, zero studio look.',
       },
       {
         label: '12. [PRODUKT W RUCHU] Zbliżenie na podwiniętą nogawkę 66-latka w domu z wąskim czarnym paskiem 2 palce pod rzepką',
@@ -486,16 +505,16 @@ export function buildFallbackTwelveNativeScenes(params: {
     resolvedMarket === 'uk'
       ? [
           {
-            label: '13. [NHS SELFIE #2] Female NHS nurse / physio 52yo selfie in bright clinic corridor',
+            label: '13. [SPECIALIST SELFIE #2] Female British physio 52yo selfie in bright corridor',
             includeProductRef: false,
             scenePrompt:
-              'Awkward arm-length front-camera iPhone selfie of an ordinary 52-year-old British female NHS specialist in dark blue tunic with an NHS lanyard badge, harsh hospital corridor lighting with blown-out window flare behind her head, candid mid-sentence expression.',
+              'Awkward arm-length front-camera iPhone selfie of an ordinary 52-year-old British female physiotherapist in dark blue tunic, bright corridor lighting with blown-out window flare behind her head, candid mid-sentence expression.',
           },
           {
             label: '14. [PROTAGONIST SELFIE] 62yo British narrator awkward armchair selfie with blown-out window',
             includeProductRef: false,
             scenePrompt:
-              'Unflattering slightly low-angle front-camera iPhone selfie of an ordinary 62-year-old British man in a lived-in armchair with a bright overexposed living-room window behind his head, reading glasses slightly askew, authentic Facebook comment selfie vibe.',
+              'Unflattering slightly low-angle front-camera iPhone selfie of an ordinary 62-year-old British man in a lived-in armchair with a bright overexposed living-room window behind his head, reading glasses slightly askew, authentic Facebook selfie vibe.',
           },
           {
             label: '15. [NIGHT KITCHEN] Late-night mug of tea and phone glowing on dark UK kitchen counter',
@@ -506,16 +525,16 @@ export function buildFallbackTwelveNativeScenes(params: {
         ]
       : [
           {
-            label: '13. [SELFIE EKSPERTA #2] Lekarka / fizjoterapeutka 52 lata na korytarzu przychodni NFZ',
+            label: '13. [SELFIE EKSPERTA #2] Fizjoterapeutka 52 lata w jasnym gabinecie pod światło okna',
             includeProductRef: false,
             scenePrompt:
-              'Awkward arm-length front-camera iPhone selfie of an ordinary 52-year-old Polish female clinic specialist in medical scrubs with a badge lanyard, harsh 4000K clinic corridor light and blown-out window flare behind her head, candid unposed expression.',
+              'Awkward arm-length front-camera iPhone selfie of an ordinary 52-year-old Polish female physiotherapist in plain medical scrubs with a blank badge clip, bright blown-out window flare behind her head, candid unposed expression, plain wall without signs.',
           },
           {
             label: '14. [SELFIE BOHATERA] 64-letni narrator w fotelu w polskim salonie pod światło okna',
             includeProductRef: false,
             scenePrompt:
-              'Unflattering slightly low-angle front-camera iPhone selfie of an ordinary 64-year-old Polish person sitting in an armchair at home with a bright overexposed curtained window behind their head, reading glasses on, authentic Facebook profile/post photo.',
+              'Unflattering slightly low-angle front-camera iPhone selfie of an ordinary 64-year-old Polish person sitting in an armchair at home with a bright overexposed curtained window behind their head, reading glasses on, authentic Facebook profile photo.',
           },
           {
             label: '15. [NOC W KUCHNI] Kubek herbaty, okulary i świecący ekran telefonu w ciemnej kuchni',
@@ -525,12 +544,11 @@ export function buildFallbackTwelveNativeScenes(params: {
           },
         ];
 
-  // Keep product-in-use at the final index so scenes 1..14 are pure text-to-image
   return [...baseTwelve.slice(0, 11), ...extraThree, { ...baseTwelve[11], label: baseTwelve[11].label.replace(/^12\./, '15.') }];
 }
 
 /**
- * Main LLM Visual Scene Director modeled 1:1 on the Loom workflow (`instruction.txt` + `skrypt.txt` -> 12 or 15 x 3:4 Google AI raw iPhone photos).
+ * Main LLM Visual Scene Director modeled on the raw iPhone camera-roll native workflow (`instruction.txt` + `skrypt.txt` -> 12 or 15 x 3:4 Google AI raw iPhone photos).
  */
 export async function planNativeIphoneScenesFromScript(params: {
   brand: NativeBrandKind;
@@ -554,46 +572,48 @@ export async function planNativeIphoneScenesFromScript(params: {
 
   const localeRules =
     resolvedMarket === 'uk'
-      ? `MARKET SETTING: UNITED KINGDOM (NHS hospitals, NHS lanyards, GP surgeries, right-hand-drive UK cars, rainy B&Q/Tesco car parks, British semi-detached carpeted stairs, Boots chemist blisters, British English spelling ONLY if any text appears).`
-      : `MARKET SETTING: POLAND (NFZ Poradnia clinics, Polish hospital corridors, left-hand-drive cars on rainy Polish parking lots, Polish apartments/stairwells/ROD allotments, Polish text ONLY if any paper/sign appears - ZERO English words).`;
+      ? `MARKET SETTING: UNITED KINGDOM (authentic everyday British locations taken strictly from THIS script - e.g. semi-detached houses, carpeted stairs, kitchens, gardens, workplaces, high streets, right-hand-drive UK cars).`
+      : `MARKET SETTING: POLAND (authentic everyday Polish locations taken strictly from THIS script - e.g. ordinary Polish apartments, block-of-flats stairwells, houses, kitchens, bathrooms, hair salons, dancing halls, churches, ROD allotments, shops, streets, left-hand-drive cars).`;
 
   const extraArchetypesText =
     targetCount === 15
-      ? `\n13. [SECOND SPECIALIST / NURSE SELFIE] Second variation of an NHS/NFZ specialist or nurse front-camera selfie in a bright hospital corridor or breakroom with blown-out window light.\n14. [BOOMER NARRATOR SELFIE] Unflattering low-angle front-camera iPhone selfie of the 55-75yo protagonist sitting in their armchair or car with a blown-out window behind their head.\n15. [PRODUCT IN USE] (includeProductRef: true - ONLY scene #15 has includeProductRef: true; scenes 1-14 MUST have includeProductRef: false!) Candid home iPhone snapshot of the product actually worn/used in a lived-in home.`
+      ? `\n13. [SECOND AUTHORITY / FAMILY SELFIE] Second candid front-camera iPhone selfie of a physiotherapist/vet/specialist (plain scrubs, zero wall signs) OR a secondary family character from the story with blown-out window light.\n14. [PROTAGONIST SELFIE] Unflattering low-angle front-camera iPhone selfie of the 55-75yo protagonist sitting in their armchair or car with a blown-out window behind their head.\n15. [PRODUCT IN USE] (includeProductRef: true - ONLY scene #15 has includeProductRef: true; scenes 1-14 MUST have includeProductRef: false!) Candid home iPhone snapshot of the product actually worn/used in a lived-in home.`
       : `\n12. [PRODUCT IN USE] (includeProductRef: true - ONLY scene #12 has includeProductRef: true; scenes 1-11 MUST have includeProductRef: false!) Candid home iPhone snapshot of the product actually worn/used in a lived-in home.`;
 
   const scene12Text =
     targetCount === 15
-      ? `12. [TURNING POINT / CURIOSITY #2] Second high-curiosity scene from the middle/climax of THIS script (e.g. late-night kitchen table, awkward couple flash photo, or strange physical object mentioned in the story).`
+      ? `12. [TURNING POINT / CURIOSITY #2] Second high-curiosity scene from the middle/climax of THIS script (e.g. late-night kitchen table, awkward couple flash photo, or concrete object mentioned in the story).`
       : '';
 
   try {
     const client = brainClient(brainOptions(45_000));
-    const systemPrompt = `You are an elite Direct-Response Native Ad Visual Director recreating the exact raw "iPhone / NHS camera-roll" image batch style for Meta native long-form ads (Antki).
+    const systemPrompt = `You are an elite Direct-Response Native Ad Visual Director creating raw, unstaged iPhone camera-roll photo prompts for Meta native long-form ads (Antki).
 ${buildBrandDirectorContext(params.brand, resolvedMarket, params.segment, params.instructionText)}
 ${localeRules}
 
-Read the ENTIRE script (skrypt.txt) carefully and generate EXACTLY ${targetCount} diverse, scroll-stopping raw iPhone photo prompts (in English) tailored to the exact characters, conflicts, props, locations, and mechanisms of THIS specific script:
+Read the ENTIRE script (skrypt.txt) carefully and generate EXACTLY ${targetCount} diverse, scroll-stopping raw iPhone photo prompts (in English) tailored 100% to the ACTUAL characters, conflicts, props, and locations of THIS specific script:
 
 MANDATORY ${targetCount}-SCENE ARCHETYPE MIX:
-1. [HOOK HUMAN] Real 50-75yo protagonist(s) / couple / family caught in the exact emotional conflict of the opening lines (candid framing or harsh direct indoor/night flash; ordinary unretouched people in frame - DO NOT shoot an empty room!).
-2. [HOOK SYMPTOM] Unflattering physical struggle / body / symptom shot from the hook (e.g. older person sitting awkwardly on stairs grabbing knee, mirror shot holding tight shirt over belly, red indentations on bare leg, sitting in rainy car park).
-3. [SPECIALIST SELFIE] Awkward front-camera iPhone selfie (chin-down or arm-length) of the doctor/physiotherapist/vet/NHS-or-NFZ specialist mentioned in the story (in scrubs/white coat with NHS or NFZ clinic ID lanyard, slightly crooked glasses, cold fluorescent corridor or blown-out window blinds behind head, neutral mid-thought look, zero stock smile).
-4. [CLINIC AUTHORITY] Candid workplace snapshot of the specialist holding a plastic anatomical model pointing a pen at the exact structure, or holding a coffee mug in a cluttered clinic stairwell/office.
-5. [BIN SCROLL-STOPPER] First-person POV looking into an open kitchen pedal bin with slightly blown-out iPhone exposure while a hand throws the specific failed solutions from THIS script (chemist pill blisters, stretched sleeves, ointment tubes, cheap collars) straight into the rubbish.
-6. [WTF CURIOSITY] Bizarre, hyper-specific scroll-stopping curiosity close-up pulled from a concrete detail in THIS script ("what am I looking at?" e.g. torn handwritten note next to wedding ring & car keys, massive rusty hinged brace on garage nail, burnt diffuser wick, slanted ground-down shoe sole).
-7. [CLINIC MONITOR] Slightly angled handheld iPhone photo of a clinic computer LCD monitor displaying an X-ray / ultrasound / scan / lab panel in a dim office with a pen pointing at the screen.
-8. [NOTE IN CAR / KITCHEN] POV inside a parked car (rainy parking lot through windshield) or at a dark kitchen table next to reading glasses and half-drunk tea mug, holding a creased NHS/NFZ referral or small torn slip where the specialist wrote ONLY the biological mechanism or product name (NEVER write words like "opinie", "reviews", "price", or "cena" on a doctor note!).
-9. [FAILED CLUTTER] Eye-level / 45-degree messy bathroom sink or kitchen counter cluttered with the exact failed pills, blisters, gels, tubs, or sprays from the story (NEVER a neat 90-degree graphic flat-lay!).
-10. [STORY SCENE] Candid snapshot of the key social or environmental scene from the middle of THIS script (real ordinary people in lived-in setting, garden/allotment, hallway, waiting room, or couple with flash).
-11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the ordinary 55-75yo protagonist comfortably doing the exact activity they could not do in paragraph 1, in harsh natural daylight or blown-out window light (zero stock model look).
+1. [HOOK HUMAN] Real 50-75yo protagonist(s) / couple / family caught in the exact emotional conflict and EXACT location of paragraph 1-3 (candid framing or harsh direct indoor/night flash; ordinary unretouched people in frame - DO NOT shoot an empty room!).
+2. [HOOK SYMPTOM] Unflattering physical struggle / body / symptom shot from the opening of THIS script (e.g. older person sitting awkwardly on stairs grabbing knee, standing in church pew, struggling at bathtub edge, gripping knee in car, mirror shot).
+3. [EXPERT SELFIE] Awkward front-camera iPhone selfie (chin-down or arm-length) of a 50-62yo physiotherapist, orthopedist, or vet in plain unmarked medical scrubs or white coat with a blank badge clip, slightly crooked glasses, harsh ceiling light or blown-out window blinds behind head, neutral mid-thought expression, plain wall with ZERO signs.
+4. [MECHANISM MODEL] Candid snapshot of a specialist in a plain coat pointing a pen at the exact anatomical structure on a plastic skeleton/organ model (e.g. patellar tendon 2 fingers below kneecap, medial foot arch, cat VNO), plain room with ZERO wall signs.
+5. [BIN SCROLL-STOPPER] First-person POV looking into an open kitchen pedal bin with slightly blown-out iPhone exposure while a hand throws the specific failed solutions from THIS script (stretched pharmacy sleeves, ointment tubes, pill blisters, cheap insoles/collars) straight into the rubbish.
+6. [WTF CURIOSITY] Bizarre, hyper-specific scroll-stopping curiosity close-up pulled from a concrete object or detail in THIS script ("what am I looking at?" e.g. heavy hinged brace hanging on garage nail, ground-down shoe heel, burnt diffuser wick, handwritten allotment sale card, pillow wedged between knees).
+7. [STORY SCENE A] Candid iPhone snapshot of a key real-life moment or diagnostic detail explicitly described in THIS script (if the script mentions an X-ray/ultrasound, show a dim desktop monitor X-ray with a pen pointing; if the script takes place in a hair salon, allotment garden, stairwell, car, church, or dancing hall without an X-ray, show THAT real scene from the story!).
+8. [HANDWRITTEN PRODUCT SLIP] POV at a lived-in home kitchen table next to reading glasses and a half-drunk mug of tea (or on a car seat), showing a small torn notebook slip where ONLY the product name or biological mechanism is scribbled in natural Polish/English (NEVER add clinic headers, referrals, stamps, or words like "opinie"/"cena"/"reviews"/"price"!).
+9. [FAILED CLUTTER] Eye-level / 45-degree messy home bathroom sink or kitchen counter cluttered with the exact failed pills, blisters, gels, collagen tubs, or sprays from the story (NEVER a neat 90-degree graphic flat-lay!).
+10. [STORY SCENE B] Candid snapshot of the central social or family scene from the middle of THIS script in its true setting (allotment gazebo, hallway with postman/daughter, hair salon chair, family dinner table, car park) with ordinary everyday clothes.
+11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the ordinary 55-75yo protagonist comfortably doing the exact activity they could not do at the start of THIS script (descending stairs, carrying Biedronka groceries, gardening, dancing, walking with grandchild) in harsh natural daylight or indoor bulb light.
 ${scene12Text}${extraArchetypesText}
 
-STRICT BANS (VIOLATION RUINS NATIVE FEEL):
+STRICT BANS (VIOLATION RUINS THE ENTIRE BATCH):
+- ZERO "NFZ" / "PORADNIA" / CLINIC SIGN SPAM: NEVER output the words "NFZ", "Poradnia", "Przychodnia", "Skierowanie", or clinic plaques/signs in ANY scenePrompt! NEVER put sticky notes on windows, NEVER tape paper signs onto apartment walls, doors, stairwells, mirrors, or hair salons! Keep all walls, windows, and doors 100% clean of random signs or text!
+- DO NOT force clinics or medical scrubs into scenes 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15 - keep characters in normal everyday clothes in the real locations of the story!
 - ZERO 90-degree graphic flat-lays with yellow Post-it slogans, clipboards, or ascending pill blister infographics.
-- ZERO Before/After split-screen collages or side-by-side comparison grids with dates (Meta policy ban risk!).
+- ZERO Before/After split-screen collages or side-by-side comparison grids with dates.
 - ZERO studio bokeh, ZERO cinematic warm lighting, ZERO stock smiles.
-- Explicitly describe imperfect iPhone exposure in each prompt ("blown-out window flare behind head", "harsh direct camera flash", "4000K fluorescent glare", "slightly crooked framing").
+- Explicitly describe imperfect iPhone exposure in each prompt ("blown-out window flare behind head", "harsh direct camera flash", "uneven ceiling bulb glare", "slightly crooked framing").
 
 Return ONLY valid JSON:
 {
@@ -654,11 +674,11 @@ Return ONLY valid JSON:
     return Array.from({ length: targetCount }, (_, idx) => {
       const candidate = parsed.scenes?.[idx];
       const fb = fallback[idx];
-      const rawLabel = (candidate?.label || fb.label || `${idx + 1}. Native scene`).trim();
+      const rawLabel = stripClinicSignTokens(candidate?.label || fb.label || `${idx + 1}. Native scene`, resolvedMarket);
       const numberedLabel = /^\d+\./.test(rawLabel) ? rawLabel : `${idx + 1}. ${rawLabel}`;
       return {
         label: numberedLabel,
-        scenePrompt: (candidate?.scenePrompt || fb.scenePrompt).trim(),
+        scenePrompt: stripClinicSignTokens(candidate?.scenePrompt || fb.scenePrompt, resolvedMarket),
         includeProductRef: idx === lastIdx ? true : false,
       };
     });
