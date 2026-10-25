@@ -17,16 +17,19 @@ export async function GET(request:Request){
  if(sync==='inspect-antki'){
   try{
    const {inspectAntkiTargetAssets}=await import('@/lib/meta-adsets');
-   return NextResponse.json(await inspectAntkiTargetAssets('1109284831182252','120249912191200300'),{headers:privateHeaders});
+   const cId=u.searchParams.get('campaignId')||'120249912191200300';
+   return NextResponse.json(await inspectAntkiTargetAssets('1109284831182252',cId),{headers:privateHeaders});
   }catch(e){return NextResponse.json({ok:false,error:e instanceof Error?e.message:'Failed'},{status:500,headers:privateHeaders});}
  }
  if(sync==='populate-antki'){
   try{
    const {populateAntkiAdsInCampaign}=await import('@/lib/meta-adsets');
    return NextResponse.json(await populateAntkiAdsInCampaign({
+    batch:u.searchParams.get('batch')==='dorosli'?'dorosli':'dzieci',
+    campaignId:u.searchParams.get('campaignId')||undefined,
     group:u.searchParams.get('group')||undefined,
-    pageId:u.searchParams.get('pageId')||'798916893308685',
-    instagramUserId:u.searchParams.get('instagramUserId')||'17841473314157729',
+    pageId:u.searchParams.get('pageId')||undefined,
+    instagramUserId:u.searchParams.get('instagramUserId')||undefined,
     imageHash:u.searchParams.get('imageHash')||undefined,
     url:u.searchParams.get('url')||undefined,
     cta:u.searchParams.get('cta')||undefined,

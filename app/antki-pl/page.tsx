@@ -51,16 +51,51 @@ const AVAILABLE_META_FANPAGES: Array<{
   instagramUserId?: string;
   note: string;
 }> = [
-  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'Poradnikowo-ekspercki (Rekomendowany Dorośli)' },
-  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'Codziennik i Historie (Dorośli)' },
-  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'Batch 1 Dzieci (ANTKI CC35)' },
-  { id: '752135021308884', name: 'Orthomax Sklep', initials: 'OS', instagramUserId: '17841472034688013', note: 'Sklep / Brand' },
-  { id: '875160819014767', name: 'Orthomax.pl', initials: 'OP', instagramUserId: '17841478897452356', note: 'Sklep / Domena' },
-  { id: '832791273240857', name: 'Orthomax', initials: 'OM', instagramUserId: '17841476823809834', note: 'Brand' },
+  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'D3_RYCIAK, D4_OSTROGA, D32/D34/D35' },
+  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33' },
+  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'D06/D08/D10 (córka o mamie) + Batch 1 Dzieci' },
+  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'D5_HALUKS, D6_ZAL (profil osobowy 50+)' },
   { id: '1204366092764321', name: 'Dr. Magdalena Rokicińska', initials: 'MR', instagramUserId: '17841439381913725', note: 'Profil ekspercki' },
   { id: '1339041252618036', name: 'Dr n. med. Janusz Skrzypiński', initials: 'JS', instagramUserId: '17841437463666297', note: 'Profil lekarski' },
-  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'Profil osobowy' },
 ];
+
+const DOROSLI_ANGLE_NATIVE_PAGE_MAP: Record<string, string> = {
+  'dorosli-01-sor-zablokowane-kolano': '945290751994002',
+  'dorosli-02-sor-rwa-kulszowa-kregoslup': '945290751994002',
+  'dorosli-03-sor-biodro-blokada-schody': '945290751994002',
+  'dorosli-04-sor-piekacy-nerwiak-przodostopie': '945290751994002',
+  'dorosli-05-sor-skrecona-kostka-niestabilnosc': '945290751994002',
+  'dorosli-06-m-jakuba-miska-z-woda': '798916893308685',
+  'dorosli-07-m-jakuba-szuflada-lekow': '945290751994002',
+  'dorosli-08-m-jakuba-spacer-lawka': '798916893308685',
+  'dorosli-09-m-jakuba-ojciec-dzialka': '945290751994002',
+  'dorosli-10-m-jakuba-wesele-buty-w-reku': '798916893308685',
+  'dorosli-11-ryciak-dorosli-bark-i-kark': '866702399857726',
+  'dorosli-12-ryciak-dorosli-ledzwie-dyskopatia': '866702399857726',
+  'dorosli-13-ryciak-dorosli-kolano-zwyrodnienie': '866702399857726',
+  'dorosli-14-ryciak-dorosli-biodro-asymetria': '866702399857726',
+  'dorosli-15-ryciak-dorosli-slow-mo-bieznia': '866702399857726',
+  'dorosli-16-ostroga-pierwszy-krok-6-rano': '866702399857726',
+  'dorosli-17-ostroga-fala-uderzeniowa-1500zl': '866702399857726',
+  'dorosli-18-ostroga-zamrozona-butelka': '866702399857726',
+  'dorosli-19-ostroga-zelowe-podpietki-mit': '866702399857726',
+  'dorosli-20-ostroga-strach-po-postoju': '866702399857726',
+  'dorosli-21-haluks-zimowe-botki-zamek': '1194345203770949',
+  'dorosli-22-haluks-wstyd-rozmiar-40': '1194345203770949',
+  'dorosli-23-haluks-separatory-i-szyny-mit': '1194345203770949',
+  'dorosli-24-haluks-zdarte-buty-od-srodka': '1194345203770949',
+  'dorosli-25-haluks-mokry-slad-w-lazience': '1194345203770949',
+  'dorosli-26-zal-lewa-stopa-sruby-8200zl': '1194345203770949',
+  'dorosli-27-zal-haluks-siostry-wrocil': '1194345203770949',
+  'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata': '1194345203770949',
+  'dorosli-29-zal-za-5-lat-endoproteza': '1194345203770949',
+  'dorosli-30-zal-artroskopia-kolana-powrot-bolu': '1194345203770949',
+  'dorosli-31-praca-8h-na-nogach-kuchnia': '945290751994002',
+  'dorosli-32-praca-mit-twardych-wkladek-400zl': '866702399857726',
+  'dorosli-33-praca-12h-dyzur-szpitalny-beton': '945290751994002',
+  'dorosli-34-praca-mechanizm-4-kroki': '866702399857726',
+  'dorosli-35-powrot-dorosli-14h-w-domu-i-pracy': '866702399857726',
+};
 
 type CampaignStructureState = {
   accountId: string;
@@ -127,10 +162,10 @@ export default function AntkiPlPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [activeAngleId, setActiveAngleId] = useState<string | null>('dorosli-01-sor-zablokowane-kolano');
 
-  // Generation & Fanpage settings (domyślnie dla Batch 2 Dorośli: Centrum Dobrego Kroku · 866702399857726)
+  // Generation & Fanpage settings (domyślnie dla Batch 2 Dorośli: natywny fanpage dopasowany do kąta)
   const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
-  const [selectedPageId, setSelectedPageId] = useState('866702399857726');
-  const [pageName, setPageName] = useState('Centrum Dobrego Kroku');
+  const [selectedPageId, setSelectedPageId] = useState('945290751994002');
+  const [pageName, setPageName] = useState('Dziennik Zdrowego Ciała');
   const [manualPageOverride, setManualPageOverride] = useState(false);
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);
@@ -186,15 +221,17 @@ export default function AntkiPlPage() {
   useEffect(() => {
     if (manualPageOverride) return;
     if (isDorosliBatchView) {
-      setSelectedPageId('866702399857726');
-      setPageName('Centrum Dobrego Kroku');
+      const mappedId = (activeAngleId && DOROSLI_ANGLE_NATIVE_PAGE_MAP[activeAngleId]) || '866702399857726';
+      const found = AVAILABLE_META_FANPAGES.find(p => p.id === mappedId);
+      setSelectedPageId(mappedId);
+      setPageName(found?.name || 'Centrum Dobrego Kroku');
       setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
     } else {
       setSelectedPageId('798916893308685');
       setPageName('Porady Mamy Gosi');
       setMetaCampaignName(campaignStructure?.campaignName || 'ANTKI CC35');
     }
-  }, [isDorosliBatchView, manualPageOverride, dorosliCampaignStructure, campaignStructure]);
+  }, [isDorosliBatchView, activeAngleId, manualPageOverride, dorosliCampaignStructure, campaignStructure]);
 
   const handleSelectFanpage = useCallback((newPageId: string) => {
     setManualPageOverride(true);

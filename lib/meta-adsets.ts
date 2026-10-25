@@ -921,16 +921,60 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const publishStatus = opts.status === 'ACTIVE' ? 'ACTIVE' : 'PAUSED';
  const updateExisting = Boolean(opts.updateExisting);
 
- const defaultPageId = batch === 'dorosli' ? '752135021308884' : '798916893308685';
- const pageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : defaultPageId;
+ const ANTKI_DOROSLI_NATIVE_PAGE_BY_ANGLE: Record<string, string> = {
+  // D1_SOR (D01-D05) -> Dziennik Zdrowego Ciała
+  'dorosli-01-sor-zablokowane-kolano': '945290751994002',
+  'dorosli-02-sor-rwa-kulszowa-kregoslup': '945290751994002',
+  'dorosli-03-sor-biodro-blokada-schody': '945290751994002',
+  'dorosli-04-sor-piekacy-nerwiak-przodostopie': '945290751994002',
+  'dorosli-05-sor-skrecona-kostka-niestabilnosc': '945290751994002',
+  // D2_MAMA (D06, D08, D10 = córka o mamie -> Porady Mamy Gosi; D07, D09 = syn o mamie/tacie -> Dziennik Zdrowego Ciała)
+  'dorosli-06-m-jakuba-miska-z-woda': '798916893308685',
+  'dorosli-07-m-jakuba-szuflada-lekow': '945290751994002',
+  'dorosli-08-m-jakuba-spacer-lawka': '798916893308685',
+  'dorosli-09-m-jakuba-ojciec-dzialka': '945290751994002',
+  'dorosli-10-m-jakuba-wesele-buty-w-reku': '798916893308685',
+  // D3_RYCIAK (D11-D15) -> Centrum Dobrego Kroku
+  'dorosli-11-ryciak-dorosli-bark-i-kark': '866702399857726',
+  'dorosli-12-ryciak-dorosli-ledzwie-dyskopatia': '866702399857726',
+  'dorosli-13-ryciak-dorosli-kolano-zwyrodnienie': '866702399857726',
+  'dorosli-14-ryciak-dorosli-biodro-asymetria': '866702399857726',
+  'dorosli-15-ryciak-dorosli-slow-mo-bieznia': '866702399857726',
+  // D4_OSTROGA (D16-D20) -> Centrum Dobrego Kroku
+  'dorosli-16-ostroga-pierwszy-krok-6-rano': '866702399857726',
+  'dorosli-17-ostroga-fala-uderzeniowa-1500zl': '866702399857726',
+  'dorosli-18-ostroga-zamrozona-butelka': '866702399857726',
+  'dorosli-19-ostroga-zelowe-podpietki-mit': '866702399857726',
+  'dorosli-20-ostroga-strach-po-postoju': '866702399857726',
+  // D5_HALUKS (D21-D25) -> Iwona Kożuchowska
+  'dorosli-21-haluks-zimowe-botki-zamek': '1194345203770949',
+  'dorosli-22-haluks-wstyd-rozmiar-40': '1194345203770949',
+  'dorosli-23-haluks-separatory-i-szyny-mit': '1194345203770949',
+  'dorosli-24-haluks-zdarte-buty-od-srodka': '1194345203770949',
+  'dorosli-25-haluks-mokry-slad-w-lazience': '1194345203770949',
+  // D6_ZAL (D26-D30) -> Iwona Kożuchowska
+  'dorosli-26-zal-lewa-stopa-sruby-8200zl': '1194345203770949',
+  'dorosli-27-zal-haluks-siostry-wrocil': '1194345203770949',
+  'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata': '1194345203770949',
+  'dorosli-29-zal-za-5-lat-endoproteza': '1194345203770949',
+  'dorosli-30-zal-artroskopia-kolana-powrot-bolu': '1194345203770949',
+  // D7_PRACA (D31, D33 -> Dziennik Zdrowego Ciała; D32, D34, D35 -> Centrum Dobrego Kroku)
+  'dorosli-31-praca-8h-na-nogach-kuchnia': '945290751994002',
+  'dorosli-32-praca-mit-twardych-wkladek-400zl': '866702399857726',
+  'dorosli-33-praca-12h-dyzur-szpitalny-beton': '945290751994002',
+  'dorosli-34-praca-mechanizm-4-kroki': '866702399857726',
+  'dorosli-35-powrot-dorosli-14h-w-domu-i-pracy': '866702399857726',
+ };
+
+ const BRAND_STORE_PAGE_IDS = new Set(['752135021308884', '875160819014767', '832791273240857', '869142929609188']);
+ const defaultPageId = batch === 'dorosli' ? '866702399857726' : '798916893308685';
+ const rawRequestedPageId = typeof opts.pageId === 'string' && /^\d+$/.test(opts.pageId.trim()) ? opts.pageId.trim() : '';
+ const pageId = rawRequestedPageId && !BRAND_STORE_PAGE_IDS.has(rawRequestedPageId) ? rawRequestedPageId : defaultPageId;
+ const forceSinglePage = Boolean(opts.forceSinglePage) && Boolean(rawRequestedPageId) && !BRAND_STORE_PAGE_IDS.has(rawRequestedPageId);
  const KNOWN_PAGE_IG_MAP: Record<string, string> = {
   '866702399857726': '17841477743222560', // Centrum Dobrego Kroku
   '945290751994002': '17841446201609005', // Dziennik Zdrowego Ciała
   '798916893308685': '17841473314157729', // Porady Mamy Gosi
-  '752135021308884': '17841472034688013', // Orthomax Sklep
-  '832791273240857': '17841476823809834', // Orthomax
-  '875160819014767': '17841478897452356', // Orthomax.pl
-  '869142929609188': '17841477981501699', // Ortomax
   '1204366092764321': '17841439381913725', // Dr. Magdalena Rokicińska
   '1339041252618036': '17841437463666297', // Dr n. med. Janusz Skrzypiński
   '1194345203770949': '17841412233487287', // Iwona Kożuchowska
@@ -1022,6 +1066,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   adSetId: string;
   adName: string;
   angleId: string;
+  pageId?: string;
   imageUrl?: string;
   imageLabel?: string;
   imageHash?: string;
@@ -1199,6 +1244,12 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      ? saved.headline
      : entry.ad.headline;
 
+   const angleNativePageId =
+    batch === 'dorosli' && !forceSinglePage
+     ? ANTKI_DOROSLI_NATIVE_PAGE_BY_ANGLE[angleId] || '866702399857726'
+     : pageId;
+   const angleNativeIgId = KNOWN_PAGE_IG_MAP[angleNativePageId] || '';
+
    try {
     resolvedImageHash = await resolveOrUploadMetaImageHash(
      resolvedImageUrl,
@@ -1208,10 +1259,10 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
     );
 
     const buildSpec = (hash: string, withIg = true, overridePageId?: string, overrideIgId?: string) => {
-     const effPageId = overridePageId || pageId;
-     const effIgId = overrideIgId !== undefined ? overrideIgId : instagramUserId;
+     const effPageId = overridePageId || angleNativePageId;
+     const effIgId = overrideIgId !== undefined ? overrideIgId : angleNativeIgId;
      return {
-      name: `antki-cc35-gosi-${entry.globalIndex}-${Date.now()}`,
+      name: `antki-cc35-native-${entry.globalIndex}-${Date.now()}`,
       object_story_spec: {
        page_id: effPageId,
        ...(withIg && effIgId ? { instagram_user_id: effIgId } : {}),
@@ -1232,9 +1283,9 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      targetExistingAdId: string | undefined,
      targetImgUrl: string,
      targetImgHash: string,
-    ): Promise<{ adId: string; creativeId: string; updated: boolean; finalHash: string }> => {
+    ): Promise<{ adId: string; creativeId: string; updated: boolean; finalHash: string; usedPageId: string }> => {
      let activeHash = targetImgHash;
-     const createCreative = async (withIg: boolean, overridePageId?: string, overrideIgId?: string) => {
+     const createCreative = async (withIg: boolean, overridePageId: string, overrideIgId: string) => {
       try {
        return await directGraph<{ id: string }>(
         `act_${accountId}/adcreatives`,
@@ -1271,41 +1322,40 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
       }
      };
 
-     let cr = await createCreative(Boolean(instagramUserId));
-     try {
-      if (targetExistingAdId && updateExisting) {
-       await directGraph<{ success?: boolean }>(
-        targetExistingAdId,
-        { creative: { creative_id: cr.id } },
-        'POST',
-       );
-       return { adId: targetExistingAdId, creativeId: cr.id, updated: true, finalHash: activeHash };
-      } else {
-       const createdAd = await directGraph<{ id: string }>(
-        `act_${accountId}/ads`,
-        {
-         name: targetAdName,
-         adset_id: adSetId,
-         creative: { creative_id: cr.id },
-         status: publishStatus,
-        },
-        'POST',
-       );
-       return { adId: createdAd.id, creativeId: cr.id, updated: false, finalHash: activeHash };
-      }
-     } catch (adErr) {
-      const adErrMsg = adErr instanceof Error ? adErr.message : '';
-      if (adErrMsg.includes('Instagram') || adErrMsg.includes('1815199')) {
-       const fbPage = batch === 'dorosli' ? '752135021308884' : '798916893308685';
-       const fbIg = batch === 'dorosli' ? '17841472034688013' : '17841473314157729';
-       cr = await createCreative(true, fbPage, fbIg);
+     // Ordered native-only attempts: NEVER use Orthomax Sklep (752135021308884)
+     const attempts: Array<{ pId: string; igId: string; withIg: boolean }> = [
+      ...(angleNativeIgId ? [{ pId: angleNativePageId, igId: angleNativeIgId, withIg: true }] : []),
+      { pId: angleNativePageId, igId: '', withIg: false },
+      { pId: angleNativePageId, igId: '17841473314157729', withIg: true },
+      { pId: angleNativePageId, igId: '17841472034688013', withIg: true },
+      ...(angleNativePageId !== '945290751994002'
+       ? [
+          { pId: '945290751994002', igId: '', withIg: false },
+          { pId: '945290751994002', igId: '17841473314157729', withIg: true },
+         ]
+       : []),
+      ...(angleNativePageId !== '866702399857726'
+       ? [
+          { pId: '866702399857726', igId: '', withIg: false },
+          { pId: '866702399857726', igId: '17841472034688013', withIg: true },
+         ]
+       : []),
+      ...(angleNativePageId !== '798916893308685'
+       ? [{ pId: '798916893308685', igId: '17841473314157729', withIg: true }]
+       : []),
+     ];
+
+     let lastErr: unknown = null;
+     for (const att of attempts) {
+      try {
+       const cr = await createCreative(att.withIg, att.pId, att.igId);
        if (targetExistingAdId && updateExisting) {
         await directGraph<{ success?: boolean }>(
          targetExistingAdId,
          { creative: { creative_id: cr.id } },
          'POST',
         );
-        return { adId: targetExistingAdId, creativeId: cr.id, updated: true, finalHash: activeHash };
+        return { adId: targetExistingAdId, creativeId: cr.id, updated: true, finalHash: activeHash, usedPageId: att.pId };
        } else {
         const createdAd = await directGraph<{ id: string }>(
          `act_${accountId}/ads`,
@@ -1317,11 +1367,17 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
          },
          'POST',
         );
-        return { adId: createdAd.id, creativeId: cr.id, updated: false, finalHash: activeHash };
+        return { adId: createdAd.id, creativeId: cr.id, updated: false, finalHash: activeHash, usedPageId: att.pId };
+       }
+      } catch (err) {
+       lastErr = err;
+       const msg = err instanceof Error ? err.message : '';
+       if (msg.includes('17/2446079') || msg.includes('too many calls')) {
+        throw err;
        }
       }
-      throw adErr;
      }
+     throw lastErr instanceof Error ? lastErr : new Error('Failed to create/update native ad');
     };
 
     const resA = await createOrUpdateAdWithFallback(adName, alreadyId, resolvedImageUrl, resolvedImageHash);
@@ -1331,6 +1387,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
      adSetId,
      adName,
      angleId,
+     pageId: resA.usedPageId,
      imageUrl: resolvedImageUrl.startsWith('data:') ? 'custom-data-url' : resolvedImageUrl,
      imageLabel: libMatch?.label || resolvedImageUrl,
      imageHash: resA.finalHash,
@@ -1361,6 +1418,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
         adSetId,
         adName: adNameB,
         angleId,
+        pageId: resB.usedPageId,
         imageUrl: secondUrl.startsWith('data:') ? 'custom-data-url' : secondUrl,
         imageLabel: secondLibMatch?.label || secondUrl,
         imageHash: resB.finalHash,
