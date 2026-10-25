@@ -805,7 +805,7 @@ export const POST = accountRoute(async (req: Request) => {
           limit: 100,
         }),
         directGraph<{ data?: Array<Record<string, unknown>> }>('me/accounts', {
-          fields: 'id,name,instagram_business_account{id,username},page_backed_instagram_accounts{id,username}',
+          fields: 'id,name,tasks,instagram_business_account{id,username}',
           limit: 100,
         }).catch(err => ({ error: err instanceof Error ? err.message : 'me/accounts failed', data: [] })),
         fetch('https://api.frankfurter.app/latest?from=PLN&to=USD,EUR,GBP', { signal: AbortSignal.timeout(8000) })
@@ -848,7 +848,7 @@ export const POST = accountRoute(async (req: Request) => {
             }).catch(e => ({ error: e instanceof Error ? e.message : 'promote_pages failed' })),
             directGraph<{ data?: Array<Record<string, unknown>> }>(`act_${accId}/ads`, {
               fields: 'id,name,adset_id,campaign_id,status,effective_status,creative{id,name,url_tags,object_story_spec}',
-              limit: 40,
+              limit: 60,
             }).catch(e => ({ error: e instanceof Error ? e.message : 'ads failed' })),
           ]);
 
@@ -901,6 +901,17 @@ export const POST = accountRoute(async (req: Request) => {
       const rawBody = body as Record<string, unknown>;
       const step = String(rawBody.step || 'verify_campaign');
       const accountId = String(rawBody.accountId || '').replace(/^act_/, '').trim();
+
+      if (step === 'graph_get') {
+        const graphPath = String(rawBody.graphPath || '').trim();
+        const params = (rawBody.params && typeof rawBody.params === 'object' ? rawBody.params : {}) as Record<
+          string,
+          unknown
+        >;
+        if (!graphPath) return NextResponse.json({ error: 'Brak graphPath.' }, { status: 400 });
+        const data = await directGraph(graphPath, params, 'GET');
+        return NextResponse.json({ ok: true, data });
+      }
 
       if (step === 'update_object') {
         const objectId = String(rawBody.objectId || '').trim();
@@ -1314,69 +1325,55 @@ export const POST = accountRoute(async (req: Request) => {
                 },
               });
 
-              let creativeRes: { id: string };
-              try {
-                creativeRes = await directGraph<{ id: string }>(
-                  `act_${accountId}/adcreatives`,
-                  makeSpec(Boolean(actor.instagramUserId), Boolean(actor.threadsUserId)),
-                  'POST',
-                );
-              } catch (crErr) {
-                const msg = crErr instanceof Error ? crErr.message : '';
-                if (actor.threadsUserId && (msg.toLowerCase().includes('threads') || msg.includes('actor'))) {
-                  creativeRes = await directGraph<{ id: string }>(
-                    `act_${accountId}/adcreatives`,
-                    makeSpec(Boolean(actor.instagramUserId), false),
-                    'POST',
-                  );
-                } else {
-                  creativeRes = await directGraph<{ id: string }>(
-                    `act_${accountId}/adcreatives`,
-                    makeSpec(false, false),
-                    'POST',
-                  );
+              const postAdWithSpec = async (withIg: boolean, withThreads: boolean) => {
+                const spec = makeSpec(withIg, withThreads);
+                if (existingAdId && updateExisting) {
+                  await directGraph(existingAdId, { creative: spec, status: adStatus }, 'POST');
+                  return { id: existingAdId, updated: true };
                 }
-              }
-
-              if (existingAdId && updateExisting) {
-                await directGraph(existingAdId, { creative: { creative_id: creativeRes.id }, status: adStatus }, 'POST');
-                results.push({
-                  angleId: ad.angleId,
-                  code: ad.code,
-                  variant: v.variant,
-                  adName: v.adName,
-                  adSetId: targetAdSetId,
-                  pageId: actor.pageId,
-                  imageHash: hash,
-                  adId: existingAdId,
-                  creativeId: creativeRes.id,
-                  updated: true,
-                  ok: true,
-                });
-              } else {
-                const createdAd = await directGraph<{ id: string }>(
+                const created = await directGraph<{ id: string }>(
                   `act_${accountId}/ads`,
                   {
                     name: v.adName,
                     adset_id: targetAdSetId,
-                    creative: { creative_id: creativeRes.id },
+                    creative: spec,
                     status: adStatus,
                   },
                   'POST',
                 );
-                results.push({
-                  angleId: ad.angleId,
-                  code: ad.code,
-                  variant: v.variant,
-                  adName: v.adName,
-                  adSetId: targetAdSetId,
-                  pageId: actor.pageId,
-                  imageHash: hash,
-                  adId: createdAd.id,
-                  creativeId: creativeRes.id,
-                  ok: true,
-                });
+                return { id: created.id, updated: false };
+              };
+
+              let adResult: { id: string; updated: boolean };
+              try {
+                adResult = await postAdWithSpec(Boolean(actor.instagramUserId), Boolean(actor.threadsUserId));
+              } catch (firstErr) {
+                const msg = firstErr instanceof Error ? firstErr.message : '';
+                if (actor.threadsUserId && (msg.toLowerCase().includes('threads') || msg.toLowerCase().includes('actor'))) {
+                  try {
+                    adResult = await postAdWithSpec(Boolean(actor.instagramUserId), false);
+                  } catch {
+                    adResult = await postAdWithSpec(false, false);
+                  }
+                } else if (actor.instagramUserId) {
+                  adResult = await postAdWithSpec(false, false);
+                } else {
+                  throw firstErr;
+                }
               }
+
+              results.push({
+                angleId: ad.angleId,
+                code: ad.code,
+                variant: v.variant,
+                adName: v.adName,
+                adSetId: targetAdSetId,
+                pageId: actor.pageId,
+                imageHash: hash,
+                adId: adResult.id,
+                updated: adResult.updated || undefined,
+                ok: true,
+              });
             } catch (pushErr) {
               results.push({
                 angleId: ad.angleId,
