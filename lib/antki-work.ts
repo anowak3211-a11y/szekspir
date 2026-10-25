@@ -287,3 +287,22 @@ export async function saveAntkiNeutralVariants(id:string,input:unknown,revision:
   work.neutralVersion={...neutralAntkiDraft(id),...work.neutralVersion,variants,revision:previous+1,updated:Date.now()};await persist(work);return work;
  });
 }
+
+/** Archive a selected Raw iPhone 3:4 NHS image URL to Drive and attach it to UK Antki work. */
+export async function useAntkiExternalImage(id:string,imageUrl:unknown){
+ key(id);if(typeof imageUrl!=='string'||!/^https:\/\//i.test(imageUrl.trim()))throw Error('Supply a valid https:// generated image URL.');
+ const cleanUrl=imageUrl.trim();
+ const work=await withEditorLocks(['antki-work-'+id],async()=>{
+  const work=await readAntkiWork(id);if(!work||!work.ukText)throw Error('Prepare UK text before setting a new advert photo.');
+  if(work.pending||['queued','working'].includes(work.status)||work.approval?.state==='pending'||work.imageApproval?.state==='pending')throw Error('Finish the active request before replacing the photo.');
+  if(work.imageFileId&&work.imageDriveUrl)work.previousImage={fileId:work.imageFileId,url:work.imageDriveUrl};
+  work.approval=undefined;work.imageApproval=undefined;
+  work.imageOrigin='generated';work.imageResultUrl=cleanUrl;work.imageFileId=undefined;
+  work.imageReview={personChanged:true,different:true,realistic:true,congruent:true,change:'Selected explicit Raw iPhone 3:4 NHS script photo'};
+  await archiveImage(work);
+  if(!work.delivered&&work.phase==='done')work.delivered={headline:work.ukHeadline,text:work.ukText,imageUrl:work.previousImage?.url||''};
+  work.phase='deliver';work.status='queued';work.error=undefined;work.revision++;await persist(work);return work;
+ });
+ await scheduleAntki(id,0,'deliver');return work;
+}
+

@@ -1,3 +1,9 @@
+## Launch NHS / NFZ Raw iPhone 3:4 (2K Google AI) Native Image Studio across Szekspir - 25 October 2026
+
+- Added central full-script visual scene planner `lib/native-iphone-scenes.ts` (`planNativeIphoneScenesFromScript` + `formatRawIphoneKiePrompt`) supporting both UK (`NHS`) and Polish (`NFZ / Poradnia`) markets, `12` or `15` raw `3:4` `2K` (`1792x2400`) `nano-banana-pro` shots per script, zero 90-degree Noom Post-it flat-lays, zero Meta-bannable Before/After collages, and imperfect iPhone auto-exposure (`blown-out window flare`, `4000K` clinic fluorescent, direct flash, full tiny-sensor focus).
+- Launched standalone home-tile studio `/native-images` (`app/native-images/page.tsx`, `app/api/native-images/route.ts`, `app/components/home-tiles.tsx`) with multi-folder `skrypt.txt` + `instruction.txt` tabs, keyboard lightbox curation (`Backspace` reject), single-scene prompt regeneration, and batch folder PNG download.
+- Wired the same `3:4` `2K` Raw iPhone engine into UK Antki (`/antki/[id]` via `app/antki/components/nhs-iphone-gallery.tsx` and `useAntkiExternalImage` in `lib/antki-work.ts`) as well as all Polish Antki workspaces (`app/api/stryde-pl/route.ts`, `app/api/feliora-pl/route.ts`, `app/api/antki-pl/route.ts`).
+
 ## Polish Forum VoC Dictionary, 1100–1300 Word Winner Architecture & 5 Realism Fixes in ANTKI PL — 18 October 2026
 
 - Authored all **35 full-length Polish native ads (`1,160–1,642 words` each, ~48,500 words total)** directly via Argon across `lib/antki-pl-copy-part1.ts` through `lib/antki-pl-copy-part6.ts` and preloaded them into `/antki-pl` (`lib/antki-pl-argon-library.ts` + `app/api/antki-pl/route.ts`) so every single angle (#1–#35) opens immediately with a complete, 7-pillar Argon master copy ready for 1-click JSON export to Szekspir Ads without spending external OpenAI tokens.

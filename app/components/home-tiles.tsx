@@ -15,6 +15,13 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
             Fabryka polskich Antków: SARDIAN Opaska na kolano (25 Antków · 5x5), Feliora PL Koty (25 Antków) oraz Orthomax StepMax (70 Antków).
           </span>
         </a>
+        <a className="tile big" href="/native-images">
+          <span className="tile-icon" aria-hidden="true">📱</span>
+          <span className="tile-title">NATIVE IMAGES · NHS / iPhone 3:4</span>
+          <span className="tile-sub">
+            Wklej dowolny skrypt.txt (UK NHS lub PL NFZ) + instruction.txt. Generuje 15 surowych zdjęć Raw iPhone 3:4 (2K Google AI) z selekcją i pobieraniem paczek.
+          </span>
+        </a>
         <a className="tile big" href="/image-ripper">
           <span className="tile-icon" aria-hidden="true">🖼️</span>
           <span className="tile-title">IMAGE RIPPER</span>

@@ -46,14 +46,11 @@ Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno dział
 
 
 
-## Generowanie obrazków Kie.ai i kreacje A/B — stałe zasady użytkownika, 24 października 2026
+## Generowanie obrazków Kie.ai i kreacje A/B - zasada z 25 października 2026 (Raw iPhone 3:4 · styl NHS/NFZ)
 
-1. **Maksymalnie 3 zdjęcia tej samej sceny:** Nigdy nie generuj 20–30 identycznych lub prawie takich samych zdjęć powtarzalnej sceny (np. tych samych stóp, misek z wodą, przedpokoju) osobno dla każdego kąta. Wystarczą maksymalnie **3 mocne warianty** danej sceny współdzielone w bibliotece. Przed wysłaniem zadań do Kie.ai zawsze sprawdzaj w bazie, czy dana scena ma już 3 wygenerowane warianty.
-2. **Model Kie.ai:** Domyślnym modelem w Kie.ai jest `nano-banana-pro` (`aspect_ratio: '1:1'`, `resolution: '1K'`, z przekazywaniem zdjęcia referencyjnego produktu w `image_input`). Nie używaj `flux-2/pro-text-to-image`, bo ignoruje `image_input` i zniekształca wygląd produktu.
-3. **Zero automatycznego przepalania kredytów w tle:** Nigdy nie dodawaj w komponentach frontendowych (`useEffect`) ani skryptach w tle automatycznych pętli generujących zdjęcia w Kie.ai przy otwarciu strony. Generowanie może ruszyć wyłącznie po jawnym żądaniu (`isManual: true`).
-4. **Sloty `Ustaw A` i `Ustaw B`:** `Ustaw A` aktualizuje wyłącznie slot 1 (`imageUrl`), a `Ustaw B` wyłącznie slot 2 (`secondImageUrl`) — nigdy nie czyść drugiego slotu przy zmianie pierwszego i nigdy nie nadpisuj zapisanego wyboru użytkownika domyślnym fallbackiem.
-5. **Wzór promptowania 1:1 jak w Opasce PL (Stryde) + zero drastycznych/obrzydliwych motywów:** Wszystkie marki (Stryde, Feliora, OrthoMax) mają używać dokładnie tego samego zwięzłego wzorca promptu co Opaska na kolano (`Stryde PL`) na modelu `nano-banana-pro`:
-   - Konkretny opis sceny w `First-person POV amateur smartphone photo...` lub `Amateur smartphone photo inside a dim Polish...`
-   - Dopisek stylu: `Raw, unpolished amateur smartphone snapshot, visible high-ISO sensor grain, candid framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero bokeh.` (a dla rzutów 90° na stół: `90-degree flat-lay tabletop filling 100% of the frame, SUMA PLN, zero AI glow`).
-   - Jednocześnie w samych opisach scen (szczególnie w Feliorze) zero obrzydliwych/drastycznych detali typu krew na rękach, wielkie brudne plamy moczu czy rany do żywego mięsa — tylko fizyczne przedmioty, polskie wnętrza (schody, taśma malarska na stopniu, nakolanniki na gwoździu, kot w kuwecie, siatka w drzwiach) w autentycznym polskim klimacie.
+1. **Silnik i format:** Domyślnym silnikiem natywnych zdjęć w Szekspirze (`/native-images`, `/antki/[id]`, `/antki-pl` -> Sardian, Feliora, Orthomax) jest `lib/native-iphone-scenes.ts` na modelu `nano-banana-pro` (Google AI) w pionowym formacie `aspect_ratio: '3:4'`, `resolution: '2K'` (`1792 x 2400`).
+2. **Czytanie pełnego `skrypt.txt` i 12-15 scen:** Każda paczka powstaje z pełnego tekstu reklamy (`skrypt.txt` + opcjonalnie `instruction.txt`) i obejmuje realnych, nieupiększonych ludzi 55-75 lat, selfie specjalisty/lekarza NHS (UK) lub NFZ/Poradni (PL) z ręki pod światło okna/jarzeniówki, fizyczny objaw, wyrzucanie nieskutecznych preparatów do kuchennego kosza, zdjęcie monitora w gabinecie, pogniecioną kartkę w zaparkowanym aucie oraz chaotyczny bałagan na umywalce/blacie. Referencję produktową `image_input` dołączaj wyłącznie do ostatniego kadru produktu w ruchu, aby pozostałe kadry były w 100% czystym `text-to-image` z rolki aparatu.
+3. **Twarde zakazy wizualne:** Zero graficznych rzutów 90° flat-lay z żółtymi karteczkami Post-it lub podkładkami („Wzór Noom”), zero dzielonych kolaży Przed/Po z datami (ryzyko bana na Meta Ads), zero studyjnego bokeh i ciepłego oświetlenia AI. Wymuszaj optyczne niedoskonałości iPhone'a (`blown-out window flare`, jarzeniówki `4000K`, bezpośredni flesz, pełna ostrość tła).
+4. **Zero automatycznego przepalania kredytów w tle i niezależne sloty A/B:** Generowanie startuje wyłącznie na jawne żądanie użytkownika (`isManual: true`), a sloty `Ustaw A` i `Ustaw B` nigdy nie nadpisują siebie nawzajem.
+
 
