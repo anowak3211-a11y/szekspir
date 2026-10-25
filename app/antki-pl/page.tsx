@@ -2697,9 +2697,9 @@ export default function AntkiPlPage() {
           borderTop: "1px solid #4a2610",
           display: "grid",
           gridTemplateColumns: "320px minmax(420px, 600px) minmax(440px, 1fr)",
+          alignItems: "start",
           flex: 1,
           minHeight: "calc(100vh - 135px)",
-          overflow: "hidden",
         }}
       >
         {/* LEFT COLUMN: SORTED & GROUPED LIST OF 70 ANGLES */}
@@ -2709,8 +2709,11 @@ export default function AntkiPlPage() {
             background: "#160b04",
             display: "flex",
             flexDirection: "column",
-            height: "calc(100vh - 135px)",
+            position: "sticky",
+            top: 0,
+            maxHeight: "100vh",
             overflowY: "auto",
+            paddingBottom: 120,
           }}
         >
           <div
@@ -2915,13 +2918,12 @@ export default function AntkiPlPage() {
           </div>
         </aside>
 
-        {/* CENTER COLUMN: COMPACT STICKY BAR + CLEAN WHITE PAPER READER (IDENTICAL TO FELIORA PL) */}
+        {/* CENTER COLUMN: COMPACT BAR + CLEAN WHITE PAPER READER (SCROLLS NATURALLY) */}
         <main
           style={{
             background: "#140a04",
-            height: "calc(100vh - 135px)",
-            overflowY: "auto",
-            padding: "12px 16px",
+            minHeight: "calc(100vh - 135px)",
+            padding: "12px 16px 200px",
             display: "flex",
             flexDirection: "column",
             gap: 10,
@@ -2929,7 +2931,7 @@ export default function AntkiPlPage() {
         >
           {activeAngle && (
             <>
-              {/* COMPACT STICKY CONTROL BAR */}
+              {/* COMPACT CONTROL BAR (SCROLLS AWAY WHEN READING) */}
               <div
                 style={{
                   background: "#241207",
@@ -2939,9 +2941,6 @@ export default function AntkiPlPage() {
                   display: "flex",
                   flexDirection: "column",
                   gap: 8,
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 15,
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
@@ -3305,9 +3304,11 @@ export default function AntkiPlPage() {
           style={{
             borderLeft: "1px solid #4a2610",
             background: "#160b04",
-            height: "calc(100vh - 135px)",
+            position: "sticky",
+            top: 0,
+            maxHeight: "100vh",
             overflowY: "auto",
-            padding: 16,
+            padding: "16px 16px 120px",
             display: "flex",
             flexDirection: "column",
             gap: 16,

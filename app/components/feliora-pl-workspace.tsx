@@ -966,9 +966,9 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         style={{
           display: 'grid',
           gridTemplateColumns: '320px minmax(420px, 620px) minmax(480px, 1fr)',
+          alignItems: 'start',
           flex: 1,
           minHeight: 'calc(100vh - 135px)',
-          overflow: 'hidden',
         }}
       >
         {/* LEFT COLUMN: SORTED & GROUPED LIST OF 25 ANGLES */}
@@ -978,8 +978,11 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             background: '#1c0e05',
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 135px)',
+            position: 'sticky',
+            top: 0,
+            maxHeight: '100vh',
             overflowY: 'auto',
+            paddingBottom: '120px',
           }}
         >
           {/* Sidebar Header */}
@@ -1166,9 +1169,8 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         <main
           style={{
             background: '#120921',
-            height: 'calc(100vh - 135px)',
-            overflowY: 'auto',
-            padding: '12px 16px',
+            minHeight: 'calc(100vh - 135px)',
+            padding: '12px 16px 200px',
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
@@ -1176,7 +1178,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         >
           {activePreset && activeAd && (
             <>
-              {/* COMPACT STICKY CONTROL BAR */}
+              {/* COMPACT CONTROL BAR (SCROLLS AWAY WHEN READING) */}
               <div
                 style={{
                   background: '#1d1033',
@@ -1186,9 +1188,6 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: 15,
                 }}
               >
                 {/* Row 1: Angle badge + Title + VoC toggle + Copy/Edit buttons */}
@@ -1531,9 +1530,11 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
           style={{
             borderLeft: '1px solid #3e2070',
             background: '#1c0e05',
-            height: 'calc(100vh - 135px)',
+            position: 'sticky',
+            top: 0,
+            maxHeight: '100vh',
             overflowY: 'auto',
-            padding: '16px',
+            padding: '16px 16px 120px',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',

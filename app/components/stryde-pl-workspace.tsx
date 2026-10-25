@@ -53,8 +53,9 @@ export default function StrydePlWorkspace({
 
   // View mode for center column: 'reader' vs 'editor'
   const [viewMode, setViewMode] = useState<'reader' | 'editor'>('reader');
-  const [showVocDetails, setShowVocDetails] = useState(true);
+  const [showVocDetails, setShowVocDetails] = useState(false);
   const [showMatrixModal, setShowMatrixModal] = useState(false);
+  const centerColumnRef = useRef<HTMLElement | null>(null);
 
   // Editor state
   const [editHeadline, setEditHeadline] = useState('');
@@ -955,9 +956,9 @@ export default function StrydePlWorkspace({
         style={{
           display: 'grid',
           gridTemplateColumns: '340px minmax(440px, 650px) minmax(460px, 1fr)',
+          alignItems: 'start',
           flex: 1,
           minHeight: 'calc(100vh - 135px)',
-          overflow: 'hidden',
           background: '#000000',
         }}
       >
@@ -968,8 +969,11 @@ export default function StrydePlWorkspace({
             background: '#050507',
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 135px)',
+            position: 'sticky',
+            top: 0,
+            maxHeight: '100vh',
             overflowY: 'auto',
+            paddingBottom: '120px',
           }}
         >
           {/* Sidebar Header */}
@@ -1064,7 +1068,12 @@ export default function StrydePlWorkspace({
                   return (
                     <div
                       key={preset.id}
-                      onClick={() => setActiveAngleId(preset.id)}
+                      onClick={() => {
+                        setActiveAngleId(preset.id);
+                        if (typeof window !== 'undefined' && window.scrollY > 240) {
+                          centerColumnRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }}
                       style={{
                         padding: '10px 11px',
                         borderRadius: '9px',
@@ -1188,11 +1197,11 @@ export default function StrydePlWorkspace({
 
         {/* CENTER COLUMN: READER & EDITOR ON PURE BLACK CANVAS */}
         <main
+          ref={centerColumnRef}
           style={{
             background: '#000000',
-            height: 'calc(100vh - 135px)',
-            overflowY: 'auto',
-            padding: '12px 16px',
+            minHeight: 'calc(100vh - 135px)',
+            padding: '12px 16px 200px',
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
@@ -1200,7 +1209,7 @@ export default function StrydePlWorkspace({
         >
           {activePreset && activeAd && (
             <>
-              {/* STICKY CONTROL BAR */}
+              {/* CONTROL BAR (NON-STICKY SO FULL COPY CAN BE READ COMFORTABLY) */}
               <div
                 style={{
                   background: '#09090b',
@@ -1210,9 +1219,6 @@ export default function StrydePlWorkspace({
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: 15,
                 }}
               >
                 {/* Row 1: Angle badge + Title + VoC toggle + Copy/Edit buttons */}
@@ -1549,6 +1555,7 @@ export default function StrydePlWorkspace({
                           borderLeft: idx === 0 ? '3px solid #10b981' : 'none',
                           padding: idx === 0 ? '8px 12px' : 0,
                           borderRadius: idx === 0 ? '6px' : 0,
+                          whiteSpace: 'pre-line',
                         }}
                       >
                         {para}
@@ -1580,6 +1587,72 @@ export default function StrydePlWorkspace({
                   />
                 </div>
               )}
+
+              {/* BOTTOM BAR UNDER FULL COPY */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                  flexWrap: 'wrap',
+                  padding: '10px 14px',
+                  background: '#09090b',
+                  border: '1px solid #27272a',
+                  borderRadius: '10px',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(editPrimaryText, `Tekst #${activePreset.number}`)}
+                    style={{
+                      background: '#10b981',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    📋 Kopiuj cały tekst ({liveWordCount} sł.)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode(viewMode === 'reader' ? 'editor' : 'reader')}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid #27272a',
+                      background: viewMode === 'editor' ? '#2563eb' : '#18181b',
+                      color: '#ffffff',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {viewMode === 'reader' ? '✏️ Edytuj tekst' : '📖 Wróć do czytania'}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  style={{
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #27272a',
+                    background: '#18181b',
+                    color: '#a1a1aa',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  ↑ Przewiń na górę
+                </button>
+              </div>
             </>
           )}
         </main>
@@ -1589,9 +1662,11 @@ export default function StrydePlWorkspace({
           style={{
             borderLeft: '1px solid #27272a',
             background: '#050507',
-            height: 'calc(100vh - 135px)',
+            position: 'sticky',
+            top: 0,
+            maxHeight: '100vh',
             overflowY: 'auto',
-            padding: '16px',
+            padding: '16px 16px 120px',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
