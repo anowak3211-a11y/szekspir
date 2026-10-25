@@ -25,8 +25,9 @@ const LEGACY_STATE_KEYS = [
   'sardian-opaska-pl-v5-25ads',
   'sardian-opaska-pl-v6-25ads',
   'sardian-opaska-pl-v7-25ads',
+  'sardian-opaska-pl-v8-25ads',
 ];
-const STATE_KEY = 'sardian-opaska-pl-v8-25ads';
+const STATE_KEY = 'sardian-opaska-pl-v9-25ads';
 
 interface StrydePlLibraryState {
   ads: StrydePlGeneratedAd[];
@@ -377,7 +378,7 @@ export const POST = accountRoute(async (req: Request) => {
         } else {
           customList.unshift(newAsset);
         }
-        state.customImages = customList.slice(0, 400);
+        state.customImages = customList.slice(0, 1500);
 
         const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
         if (angleId && (isScene1 || isScene2)) {
