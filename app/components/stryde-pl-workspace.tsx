@@ -137,31 +137,58 @@ export default function StrydePlWorkspace({
     [],
   );
 
-  // Load persisted edits from API
+  const CLIENT_UI_VERSION = '2026-10-25-static-bar-v9';
+
+  // Load persisted edits from API + auto-refresh stale background tabs on focus after deploys
   useEffect(() => {
     let cancelled = false;
     setAds(prev => applyLocalImageOverrides(prev));
-    fetch('/api/stryde-pl', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(data => {
-        if (cancelled) return;
-        if (Array.isArray(data?.presets) && data.presets.length > 0) {
-          setPresets(data.presets);
-        }
-        if (Array.isArray(data?.savedAds) && data.savedAds.length > 0) {
-          setAds(applyLocalImageOverrides(data.savedAds));
-        }
-        if (Array.isArray(data?.imageLibrary) && data.imageLibrary.length > 0) {
-          setImageLibrary(data.imageLibrary);
-        }
-      })
-      .catch(() => {
-        // Fallback to prewritten in-memory ads
-      });
+
+    const syncFromApi = (checkVersionReload: boolean) => {
+      fetch(`/api/stryde-pl?_t=${Date.now()}`, { cache: 'no-store' })
+        .then(r => r.json())
+        .then(data => {
+          if (cancelled) return;
+          if (
+            checkVersionReload &&
+            typeof data?.uiVersion === 'string' &&
+            data.uiVersion !== CLIENT_UI_VERSION &&
+            !editDirty
+          ) {
+            window.location.reload();
+            return;
+          }
+          if (Array.isArray(data?.presets) && data.presets.length > 0) {
+            setPresets(data.presets);
+          }
+          if (Array.isArray(data?.savedAds) && data.savedAds.length > 0) {
+            setAds(applyLocalImageOverrides(data.savedAds));
+          }
+          if (Array.isArray(data?.imageLibrary) && data.imageLibrary.length > 0) {
+            setImageLibrary(data.imageLibrary);
+          }
+        })
+        .catch(() => {
+          // Fallback to prewritten in-memory ads
+        });
+    };
+
+    syncFromApi(false);
+
+    const onFocusOrVisible = () => {
+      if (document.visibilityState === 'visible') {
+        syncFromApi(true);
+      }
+    };
+    window.addEventListener('focus', onFocusOrVisible);
+    document.addEventListener('visibilitychange', onFocusOrVisible);
+
     return () => {
       cancelled = true;
+      window.removeEventListener('focus', onFocusOrVisible);
+      document.removeEventListener('visibilitychange', onFocusOrVisible);
     };
-  }, [applyLocalImageOverrides]);
+  }, [applyLocalImageOverrides, editDirty]);
 
   const adByAngleId = useMemo(() => {
     const map = new Map<string, StrydePlGeneratedAd>();
@@ -1199,6 +1226,7 @@ export default function StrydePlWorkspace({
         <main
           ref={centerColumnRef}
           style={{
+            position: 'static',
             background: '#000000',
             minHeight: 'calc(100vh - 135px)',
             padding: '12px 16px 200px',
@@ -1209,19 +1237,20 @@ export default function StrydePlWorkspace({
         >
           {activePreset && activeAd && (
             <>
-              {/* CONTROL BAR (NON-STICKY SO FULL COPY CAN BE READ COMFORTABLY) */}
+              {/* SLIM 1-LINE CONTROL BAR (POSITION: STATIC — SCROLLS COMPLETELY OFF SCREEN) */}
               <div
                 style={{
+                  position: 'static',
                   background: '#09090b',
                   border: '1px solid #27272a',
                   borderRadius: '10px',
-                  padding: '10px 12px',
+                  padding: '8px 12px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
                 }}
               >
-                {/* Row 1: Angle badge + Title + VoC toggle + Copy/Edit buttons */}
+                {/* Row 1: Angle badge + Title + Settings toggle + Copy/Edit buttons */}
                 <div
                   style={{
                     display: 'flex',
@@ -1265,7 +1294,7 @@ export default function StrydePlWorkspace({
                       type="button"
                       onClick={() => setShowVocDetails(v => !v)}
                       style={{
-                        background: '#18181b',
+                        background: showVocDetails ? '#14532d' : '#18181b',
                         color: '#34d399',
                         border: '1px solid #27272a',
                         borderRadius: '6px',
@@ -1275,7 +1304,7 @@ export default function StrydePlWorkspace({
                         cursor: 'pointer',
                       }}
                     >
-                      {showVocDetails ? '▲ Ukryj Lokalizację PL' : '▼ Pokaż Lokalizację PL'}
+                      {showVocDetails ? '▲ Zwiń Nagłówek & LP' : '⚙️ Nagłówek & LP'}
                     </button>
 
                     <button
@@ -1334,124 +1363,120 @@ export default function StrydePlWorkspace({
                   </div>
                 </div>
 
-                {/* Row 2: Headline Input + 4 Advertorials / PDP Quick Selector */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span
-                      style={{
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        color: '#a1a1aa',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      Nagłówek FB:
-                    </span>
-                    <input
-                      type="text"
-                      value={editHeadline}
-                      onChange={e => {
-                        setEditHeadline(e.target.value);
-                        setEditDirty(true);
-                      }}
-                      style={{
-                        width: '100%',
-                        background: '#111114',
-                        color: '#ffffff',
-                        border: '1px solid #27272a',
-                        borderRadius: '6px',
-                        padding: '5px 8px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(editHeadline, 'Nagłówek FB')}
-                      style={{
-                        background: '#18181b',
-                        color: '#e4e4e7',
-                        border: '1px solid #27272a',
-                        borderRadius: '6px',
-                        padding: '5px 8px',
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      Kopiuj HL
-                    </button>
-                  </div>
-
-                  {/* Quick Selector for the 4 Polish Advertorials + PDP */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
-                    <span
-                      style={{
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        color: '#a1a1aa',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      Docelowy LP:
-                    </span>
-                    {STRYDE_ADVERTORIAL_URLS.map(item => {
-                      const isCurrent = editDestinationUrl === item.url;
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => {
-                            setEditDestinationUrl(item.url);
-                            setEditDirty(true);
-                          }}
-                          style={{
-                            padding: '4px 8px',
-                            borderRadius: '6px',
-                            border: isCurrent ? '1px solid #10b981' : '1px solid #27272a',
-                            background: isCurrent ? 'rgba(16, 185, 129, 0.18)' : '#111114',
-                            color: isCurrent ? '#34d399' : '#a1a1aa',
-                            fontSize: '10.5px',
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          {item.shortLabel}
-                        </button>
-                      );
-                    })}
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(editDestinationUrl, 'Docelowy URL')}
-                      style={{
-                        background: '#18181b',
-                        color: '#38bdf8',
-                        border: '1px solid #27272a',
-                        borderRadius: '6px',
-                        padding: '4px 8px',
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🔗 Kopiuj URL
-                    </button>
-                  </div>
-                </div>
-
-                {/* Collapsible Polish Localization & Hook Details */}
+                {/* Collapsible Drawer: Headline Input + 4 Advertorials / PDP + Polish Localization */}
                 {showVocDetails && (
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '6px',
-                      paddingTop: '6px',
+                      gap: '8px',
+                      paddingTop: '8px',
                       borderTop: '1px solid #27272a',
                       fontSize: '12px',
                     }}
                   >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span
+                        style={{
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#a1a1aa',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Nagłówek FB:
+                      </span>
+                      <input
+                        type="text"
+                        value={editHeadline}
+                        onChange={e => {
+                          setEditHeadline(e.target.value);
+                          setEditDirty(true);
+                        }}
+                        style={{
+                          width: '100%',
+                          background: '#111114',
+                          color: '#ffffff',
+                          border: '1px solid #27272a',
+                          borderRadius: '6px',
+                          padding: '5px 8px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(editHeadline, 'Nagłówek FB')}
+                        style={{
+                          background: '#18181b',
+                          color: '#e4e4e7',
+                          border: '1px solid #27272a',
+                          borderRadius: '6px',
+                          padding: '5px 8px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Kopiuj HL
+                      </button>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
+                      <span
+                        style={{
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#a1a1aa',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Docelowy LP:
+                      </span>
+                      {STRYDE_ADVERTORIAL_URLS.map(item => {
+                        const isCurrent = editDestinationUrl === item.url;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => {
+                              setEditDestinationUrl(item.url);
+                              setEditDirty(true);
+                            }}
+                            style={{
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              border: isCurrent ? '1px solid #10b981' : '1px solid #27272a',
+                              background: isCurrent ? 'rgba(16, 185, 129, 0.18)' : '#111114',
+                              color: isCurrent ? '#34d399' : '#a1a1aa',
+                              fontSize: '10.5px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {item.shortLabel}
+                          </button>
+                        );
+                      })}
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(editDestinationUrl, 'Docelowy URL')}
+                        style={{
+                          background: '#18181b',
+                          color: '#38bdf8',
+                          border: '1px solid #27272a',
+                          borderRadius: '6px',
+                          padding: '4px 8px',
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        🔗 Kopiuj URL
+                      </button>
+                    </div>
+
                     <div style={{ color: '#d4d4d8' }}>
                       <strong style={{ color: '#34d399' }}>🇵🇱 Polska Lokalizacja (Bohaterowie & Realia):</strong>{' '}
                       {activePreset.vocTrigger}
@@ -1459,18 +1484,6 @@ export default function StrydePlWorkspace({
                     <div style={{ color: '#d4d4d8' }}>
                       <strong style={{ color: '#38bdf8' }}>🧬 Mechanizm Biomechaniczny:</strong>{' '}
                       {activePreset.mechanismCore}
-                    </div>
-                    <div
-                      style={{
-                        background: '#141418',
-                        border: '1px solid #27272a',
-                        borderRadius: '6px',
-                        padding: '6px 10px',
-                        color: '#fef08a',
-                        fontWeight: 600,
-                      }}
-                    >
-                      ⚡ Hook otwierający: {paragraphs[0] || ''}
                     </div>
                   </div>
                 )}

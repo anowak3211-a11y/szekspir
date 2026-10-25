@@ -177,18 +177,26 @@ async function readStrydeLibraryState(): Promise<{
 export const GET = accountRoute(async () => {
   try {
     const { ads, customImages } = await readStrydeLibraryState();
-    return NextResponse.json({
-      presets: STRYDE_PRESET_ANGLES,
-      awarenessStages: STRYDE_STAGES,
-      fanpages: STRYDE_FANPAGES,
-      advertorialUrls: STRYDE_ADVERTORIAL_URLS,
-      savedAds: ads,
-      imageLibrary: [...customImages, ...STRYDE_IMAGE_LIBRARY],
-      metaConfig: {
-        advertorialUrl: STRYDE_PDP_URL,
-        pdpUrl: STRYDE_PDP_URL,
+    return NextResponse.json(
+      {
+        uiVersion: '2026-10-25-static-bar-v9',
+        presets: STRYDE_PRESET_ANGLES,
+        awarenessStages: STRYDE_STAGES,
+        fanpages: STRYDE_FANPAGES,
+        advertorialUrls: STRYDE_ADVERTORIAL_URLS,
+        savedAds: ads,
+        imageLibrary: [...customImages, ...STRYDE_IMAGE_LIBRARY],
+        metaConfig: {
+          advertorialUrl: STRYDE_PDP_URL,
+          pdpUrl: STRYDE_PDP_URL,
+        },
       },
-    });
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      },
+    );
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Błąd ładowania biblioteki Sardian PL.' },

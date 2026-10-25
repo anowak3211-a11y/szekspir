@@ -1168,6 +1168,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         {/* CENTER COLUMN: COMPACT READER & EDITOR (NARROWER & LESS CLUTTERED) */}
         <main
           style={{
+            position: 'static',
             background: '#120921',
             minHeight: 'calc(100vh - 135px)',
             padding: '12px 16px 200px',
@@ -1178,19 +1179,20 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
         >
           {activePreset && activeAd && (
             <>
-              {/* COMPACT CONTROL BAR (SCROLLS AWAY WHEN READING) */}
+              {/* SLIM 1-LINE CONTROL BAR (POSITION: STATIC — SCROLLS COMPLETELY OFF SCREEN) */}
               <div
                 style={{
+                  position: 'static',
                   background: '#1d1033',
                   border: '1px solid #3e2070',
                   borderRadius: '10px',
-                  padding: '10px 12px',
+                  padding: '8px 12px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
                 }}
               >
-                {/* Row 1: Angle badge + Title + VoC toggle + Copy/Edit buttons */}
+                {/* Row 1: Angle badge + Title + Settings toggle + Copy/Edit buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flex: 1 }}>
                     <span
@@ -1236,7 +1238,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                         cursor: 'pointer',
                       }}
                     >
-                      {showVocDetails ? '▲ Ukryj VoC / Hook' : '▼ Pokaż VoC / Hook'}
+                      {showVocDetails ? '▲ Zwiń Nagłówek & LP' : '⚙️ Nagłówek & LP'}
                     </button>
 
                     <button
@@ -1295,98 +1297,97 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                   </div>
                 </div>
 
-                {/* Row 2: Compact Headline Input + LP Switcher */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8px', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '10.5px', fontWeight: 700, color: '#94a3b8', whiteSpace: 'nowrap' }}>Nagłówek:</span>
-                    <input
-                      type="text"
-                      value={editHeadline}
-                      onChange={e => {
-                        setEditHeadline(e.target.value);
-                        setEditDirty(true);
-                      }}
-                      style={{
-                        width: '100%',
-                        background: '#0f172a',
-                        color: '#ffffff',
-                        border: '1px solid #334155',
-                        borderRadius: '6px',
-                        padding: '5px 8px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditDestinationUrl(FELIORA_ADVERTORIAL_URL);
-                        setEditDirty(true);
-                      }}
-                      style={{
-                        flex: 1,
-                        padding: '5px 6px',
-                        borderRadius: '6px',
-                        border:
-                          editDestinationUrl === FELIORA_ADVERTORIAL_URL
-                            ? '1px solid #10b981'
-                            : '1px solid #334155',
-                        background:
-                          editDestinationUrl === FELIORA_ADVERTORIAL_URL
-                            ? 'rgba(16, 185, 129, 0.18)'
-                            : '#0f172a',
-                        color: editDestinationUrl === FELIORA_ADVERTORIAL_URL ? '#34d399' : '#94a3b8',
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🏆 Advertorial (5:1)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditDestinationUrl(FELIORA_DEFAULT_URL);
-                        setEditDirty(true);
-                      }}
-                      style={{
-                        flex: 1,
-                        padding: '5px 6px',
-                        borderRadius: '6px',
-                        border:
-                          editDestinationUrl === FELIORA_DEFAULT_URL
-                            ? '1px solid #38bdf8'
-                            : '1px solid #334155',
-                        background:
-                          editDestinationUrl === FELIORA_DEFAULT_URL
-                            ? 'rgba(56, 189, 248, 0.18)'
-                            : '#0f172a',
-                        color: editDestinationUrl === FELIORA_DEFAULT_URL ? '#38bdf8' : '#94a3b8',
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      📦 PDP
-                    </button>
-                  </div>
-                </div>
-
-                {/* Collapsible VoC & Hook details */}
+                {/* Collapsible Headline + LP + VoC details */}
                 {showVocDetails && (
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '8px',
-                      paddingTop: '6px',
+                      paddingTop: '8px',
                       borderTop: '1px solid #1e293b',
                       fontSize: '12px',
                     }}
                   >
+                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8px', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '10.5px', fontWeight: 700, color: '#94a3b8', whiteSpace: 'nowrap' }}>Nagłówek:</span>
+                        <input
+                          type="text"
+                          value={editHeadline}
+                          onChange={e => {
+                            setEditHeadline(e.target.value);
+                            setEditDirty(true);
+                          }}
+                          style={{
+                            width: '100%',
+                            background: '#0f172a',
+                            color: '#ffffff',
+                            border: '1px solid #334155',
+                            borderRadius: '6px',
+                            padding: '5px 8px',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '4px' }}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditDestinationUrl(FELIORA_ADVERTORIAL_URL);
+                            setEditDirty(true);
+                          }}
+                          style={{
+                            flex: 1,
+                            padding: '5px 6px',
+                            borderRadius: '6px',
+                            border:
+                              editDestinationUrl === FELIORA_ADVERTORIAL_URL
+                                ? '1px solid #10b981'
+                                : '1px solid #334155',
+                            background:
+                              editDestinationUrl === FELIORA_ADVERTORIAL_URL
+                                ? 'rgba(16, 185, 129, 0.18)'
+                                : '#0f172a',
+                            color: editDestinationUrl === FELIORA_ADVERTORIAL_URL ? '#34d399' : '#94a3b8',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          🏆 Advertorial (5:1)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditDestinationUrl(FELIORA_DEFAULT_URL);
+                            setEditDirty(true);
+                          }}
+                          style={{
+                            flex: 1,
+                            padding: '5px 6px',
+                            borderRadius: '6px',
+                            border:
+                              editDestinationUrl === FELIORA_DEFAULT_URL
+                                ? '1px solid #38bdf8'
+                                : '1px solid #334155',
+                            background:
+                              editDestinationUrl === FELIORA_DEFAULT_URL
+                                ? 'rgba(56, 189, 248, 0.18)'
+                                : '#0f172a',
+                            color: editDestinationUrl === FELIORA_DEFAULT_URL ? '#38bdf8' : '#94a3b8',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          📦 PDP
+                        </button>
+                      </div>
+                    </div>
+
                     <div style={{ color: '#cbd5e1' }}>
                       <strong style={{ color: '#38bdf8' }}>💬 VoC (Fora):</strong> {activePreset.vocTrigger}
                     </div>
