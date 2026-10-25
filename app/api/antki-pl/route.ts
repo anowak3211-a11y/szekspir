@@ -673,6 +673,10 @@ export const POST = accountRoute(async (req: Request) => {
         submitKieRipperTask,
         uploadPublicReferenceToKie,
       } = await import('@/lib/image-ripper');
+      const {
+        planNativeIphoneScenesFromScript,
+        formatRawIphoneKiePrompt,
+      } = await import('@/lib/native-iphone-scenes');
 
       const angleId = (body.angleId || '').trim();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
@@ -680,12 +684,14 @@ export const POST = accountRoute(async (req: Request) => {
       const headline = (body.headline || preset?.defaultHeadline || '').trim();
       const title = (body.title || preset?.title || angleId || 'Antek PL').trim();
       const segment = body.segment || preset?.segment || 'dzieci';
+      const isManual = Boolean((body as Record<string, unknown>).isManual);
 
       if (!primaryText) {
-        return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 10 zdjęć.' }, { status: 400 });
+        return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 12 zdjęć.' }, { status: 400 });
       }
 
-      const scenes = await extractTenRawScenesFromAntekCopy({
+      const scenes = await planNativeIphoneScenesFromScript({
+        brand: 'orthomax',
         angleId,
         primaryText,
         headline,
@@ -700,8 +706,6 @@ export const POST = accountRoute(async (req: Request) => {
         productRefKieUrl = undefined;
       }
 
-      // HARD RULE: Never generate more than 3 images of the same generic scene across angles!
-      // If the library already has 3 strong variants of a given scene title/prompt, reuse them instead of burning credits on 30 identical foot/basin photos.
       const { customImages: existingCustomImages } = await readLibraryState();
       const normalizeSceneKey = (label = '') =>
         label
@@ -710,25 +714,27 @@ export const POST = accountRoute(async (req: Request) => {
           .trim()
           .toLowerCase();
 
-      const filteredScenes = scenes.filter(scene => {
-        const key = normalizeSceneKey(scene.label);
-        const existingMatches = existingCustomImages.filter(
-          img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
-        );
-        return existingMatches.length < 3;
-      });
+      const filteredScenes = isManual
+        ? scenes
+        : scenes.filter(scene => {
+            const key = normalizeSceneKey(scene.label);
+            const existingMatches = existingCustomImages.filter(
+              img => img.angleId === angleId && normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
+            );
+            return existingMatches.length < 2;
+          });
 
-      const scenesToGenerate = filteredScenes.length > 0 ? filteredScenes : scenes.slice(0, 3);
+      const scenesToGenerate = filteredScenes.length > 0 ? filteredScenes : scenes;
 
       const taskResults = await Promise.all(
         scenesToGenerate.map(async (scene, idx) => {
-          const fullPrompt = buildRawShitQualityKiePrompt(scene.scenePrompt, scene.includeProductRef);
+          const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'orthomax', scene.includeProductRef);
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '1:1',
-            resolution: '1K',
+            aspectRatio: '3:4',
+            resolution: '2K',
           });
           try {
             const taskId = await submitKieRipperTask(payload);
@@ -781,8 +787,8 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `Kie.ai Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
-      const assetId = preset && preset.number >= 45 ? `kie-raw-noom45-${taskId}` : `kie-raw-${taskId}`;
+      const label = (body.label || `iPhone Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
+      const assetId = `kie-orthomax-iphone-${taskId}`;
 
       let uploadedHash: string | undefined;
       try {
@@ -807,8 +813,8 @@ export const POST = accountRoute(async (req: Request) => {
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,
         imageHash: uploadedHash,
-        aspectRatio: '1:1',
-        note: 'Surowe zdjęcie z telefonu (Kie.ai — Shit Quality / Zero AI Glow)',
+        aspectRatio: '3:4',
+        note: 'Google AI Raw iPhone 3:4 2K (NHS / Skrypt.txt)',
       };
 
       const isScene1 = /^1\./.test(label);

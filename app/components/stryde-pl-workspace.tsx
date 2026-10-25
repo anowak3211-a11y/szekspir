@@ -438,7 +438,7 @@ export default function StrydePlWorkspace({
       inFlightKieAnglesRef.current.add(targetAngleId);
       setGeneratingKie5(true);
       setError('');
-      setNotice(`Wysyłam automatycznie 8 scen (4x Hook + 3x Wzór Noom.pl + 1x Produkt) do Kie.ai dla kąta #${targetPreset.number}...`);
+      setNotice(`Analizuję cały skrypt i wysyłam 12 scen Raw iPhone 3:4 (2K Google AI · styl NHS) do Kie.ai dla kąta #${targetPreset.number}...`);
       try {
         const res = await fetch('/api/stryde-pl', {
           method: 'POST',
@@ -454,10 +454,10 @@ export default function StrydePlWorkspace({
         });
         const data = await res.json();
         if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
-          throw new Error(data.error || 'Błąd uruchamiania 8 zadań Kie.ai.');
+          throw new Error(data.error || 'Błąd uruchamiania 12 zadań Kie.ai.');
         }
         const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
-        setNotice(`Kie.ai generuje ${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${targetPreset.number} (~20-40s)...`);
+        setNotice(`Google AI (Kie.ai) generuje ${tasks.length} zdjęć Raw iPhone 3:4 (2K) z całego skryptu dla kąta #${targetPreset.number} (~25-45s)...`);
         let completed = 0;
         await Promise.all(
           tasks.map(async t => {
@@ -509,12 +509,12 @@ export default function StrydePlWorkspace({
           }),
         );
         if (completed > 0) {
-          showToast(`Wygenerowano ${completed}/${tasks.length} zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) dla kąta #${targetPreset.number}!`);
+          showToast(`Wygenerowano ${completed}/${tasks.length} zdjęć Raw iPhone 3:4 (2K) dla kąta #${targetPreset.number}!`);
         } else {
           autoTriggeredKieRef.current.delete(targetAngleId);
         }
       } catch (err) {
-        const msg = err instanceof Error ? err.message : 'Błąd generowania 8 zdjęć w Kie.ai.';
+        const msg = err instanceof Error ? err.message : 'Błąd generowania 12 zdjęć w Kie.ai.';
         autoTriggeredKieRef.current.delete(targetAngleId);
         setError(msg);
         if (/402|kredyt|Podłącz KIE/i.test(msg)) {
@@ -1660,8 +1660,8 @@ export default function StrydePlWorkspace({
                 }}
               >
                 {generatingKie5
-                  ? '⏳ Generuję 8 zdjęć (4x Hook + 3x Wzór Noom.pl + 1x Produkt) w Kie.ai...'
-                  : '📸 Generuj 8 zdjęć pod ten kąt: 4x Hook + 3x Wzór Noom.pl + 1x Produkt (Kie.ai)'}
+                  ? '⏳ Generuję 12 zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS) w Kie.ai...'
+                  : '📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · styl NHS z całego skryptu)'}
               </button>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -1705,8 +1705,9 @@ export default function StrydePlWorkspace({
                       alt="Kreacja A"
                       style={{
                         width: '100%',
-                        aspectRatio: '1 / 1',
+                        aspectRatio: '3 / 4',
                         objectFit: 'cover',
+                        objectPosition: 'top center',
                         borderRadius: '8px',
                         background: '#000',
                         display: 'block',
@@ -1765,8 +1766,9 @@ export default function StrydePlWorkspace({
                       alt="Kreacja B"
                       style={{
                         width: '100%',
-                        aspectRatio: '1 / 1',
+                        aspectRatio: '3 / 4',
                         objectFit: 'cover',
+                        objectPosition: 'top center',
                         borderRadius: '8px',
                         background: '#000',
                         display: 'block',
@@ -1776,7 +1778,7 @@ export default function StrydePlWorkspace({
                 </div>
               </div>
 
-              {/* ANGLE-SPECIFIC GENERATED PHOTOS (4x HOOK + 3x WZÓR NOOM + 1x PRODUKT) */}
+              {/* ANGLE-SPECIFIC GENERATED PHOTOS (12x RAW IPHONE 3:4 NHS STYLE) */}
               {imageLibrary.some(img => img.angleId === activePreset.id) && (
                 <div
                   style={{
@@ -1790,7 +1792,7 @@ export default function StrydePlWorkspace({
                   }}
                 >
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#34d399' }}>
-                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (4x Hook + 3x Wzór Noom.pl + 1x Produkt ·{' '}
+                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Raw iPhone 3:4 · styl NHS ·{' '}
                     {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
                   </span>
                   <div
@@ -1832,8 +1834,9 @@ export default function StrydePlWorkspace({
                                 alt={img.label}
                                 style={{
                                   width: '100%',
-                                  aspectRatio: '1 / 1',
+                                  aspectRatio: '3 / 4',
                                   objectFit: 'cover',
+                                  objectPosition: 'top center',
                                   display: 'block',
                                 }}
                               />

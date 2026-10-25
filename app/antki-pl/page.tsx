@@ -1168,7 +1168,7 @@ export default function AntkiPlPage() {
       setError('');
 
       setNotice(
-        `📸 Uruchamiam generowanie 10 surowych zdjęć (Flux-2 Pro 1K) do Antka #${targetAngleNumber} w Kie.ai...`,
+        `📸 Uruchamiam generowanie 12 zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS / cały skrypt) do Antka #${targetAngleNumber} w Kie.ai...`,
       );
 
       try {
@@ -3350,7 +3350,7 @@ export default function AntkiPlPage() {
                   </button>
                 </div>
 
-                {/* KIE.AI 10 RAW SHIT QUALITY PHOTOS BUTTON */}
+                {/* KIE.AI 12 RAW IPHONE 3:4 NHS-STYLE PHOTOS BUTTON */}
                 <button
                   type="button"
                   disabled={generatingKie5AngleId === activeAngle.id}
@@ -3373,11 +3373,11 @@ export default function AntkiPlPage() {
                   }}
                 >
                   {generatingKie5AngleId === activeAngle.id
-                    ? `⏳ Generuję 10 surowych zdjęć w Kie.ai z treści Antka #${activeAngle.number}...`
-                    : `📸 Generuj 10 surowych zdjęć z telefonu (Kie.ai — Shit Quality)`}
+                    ? `⏳ Generuję 12 zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS) z treści Antka #${activeAngle.number}...`
+                    : `📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · styl NHS z całego skryptu)`}
                 </button>
 
-                {/* LIVE 10 KIE.AI TASKS STATUS IF PRESENT */}
+                {/* LIVE 12 KIE.AI TASKS STATUS IF PRESENT */}
                 {kieTasksByAngle[activeAngle.id] && kieTasksByAngle[activeAngle.id].length > 0 && (
                   <div
                     style={{
@@ -3388,9 +3388,9 @@ export default function AntkiPlPage() {
                     }}
                   >
                     <div style={{ fontSize: 11.5, fontWeight: 800, color: "#fdba74", marginBottom: 8 }}>
-                      📸 10 surowych zdjęć z Kie.ai dla Antka #{activeAngle.number}:
+                      📸 12 zdjęć Raw iPhone 3:4 (styl NHS) z Kie.ai dla Antka #{activeAngle.number}:
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
                       {kieTasksByAngle[activeAngle.id].map(task => (
                         <div
                           key={task.taskId}
@@ -3411,8 +3411,9 @@ export default function AntkiPlPage() {
                                 onClick={() => setLightboxAsset(task.asset!)}
                                 style={{
                                   width: "100%",
-                                  aspectRatio: "1/1",
+                                  aspectRatio: "3 / 4",
                                   objectFit: "cover",
+                                  objectPosition: "top center",
                                   borderRadius: 5,
                                   cursor: "zoom-in",
                                 }}
@@ -3461,7 +3462,7 @@ export default function AntkiPlPage() {
                           ) : (
                             <div
                               style={{
-                                aspectRatio: "1/1",
+                                aspectRatio: "3 / 4",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -3914,7 +3915,7 @@ export default function AntkiPlPage() {
                             <div
                               style={{
                                 width: "100%",
-                                aspectRatio: "1 / 1",
+                                aspectRatio: "3 / 4",
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
@@ -3952,7 +3953,7 @@ export default function AntkiPlPage() {
                           cursor: "pointer",
                         }}
                       >
-                        ⏳ Uruchamiam automatyczne generowanie 10 nowych zdjęć w Kie.ai specjalnie pod Antka #{activeAngle.number}... (Kliknij tutaj, aby wymusić teraz)
+                        📸 Kliknij tutaj, aby wygenerować 12 zdjęć Raw iPhone 3:4 (2K Google AI · styl NHS) z treści Antka #{activeAngle.number}
                       </div>
                     )}
                 </div>

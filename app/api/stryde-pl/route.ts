@@ -225,20 +225,26 @@ export const POST = accountRoute(async (req: Request) => {
         submitKieRipperTask,
         uploadPublicReferenceToKie,
       } = await import('@/lib/image-ripper');
-      const { buildStrydeEightKieScenes } = await import('@/lib/stryde-feliora-kie-scenes');
+      const {
+        planNativeIphoneScenesFromScript,
+        formatRawIphoneKiePrompt,
+      } = await import('@/lib/native-iphone-scenes');
 
       const angleId = (body.angleId || '').trim();
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
       const primaryText = (body.primaryText || '').trim();
       const headline = (body.headline || preset?.title || '').trim();
       const title = (body.title || preset?.shortTitle || angleId || 'Sardian PL').trim();
+      const isManual = Boolean((body as Record<string, unknown>).isManual);
 
-      // 8 scenes: 4 Hook-specific scenes (50%) + 3 Noom.pl winner templates + 1 Sardian strap product shot
-      const allScenes = buildStrydeEightKieScenes({
+      // 12 raw iPhone / NHS camera-roll scenes dynamically extracted from full skrypt.txt (3:4 2K Google AI)
+      const allScenes = await planNativeIphoneScenesFromScript({
+        brand: 'sardian-strap',
         angleId,
         primaryText,
         headline,
         title,
+        pageName: preset?.recommendedFanpageId,
       });
 
       const { customImages: existingCustomImages } = await readStrydeLibraryState();
@@ -249,15 +255,17 @@ export const POST = accountRoute(async (req: Request) => {
           .trim()
           .toLowerCase();
 
-      const filteredScenes = allScenes.filter(scene => {
-        const key = normalizeSceneKey(scene.label);
-        const existingMatches = existingCustomImages.filter(
-          img => normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
-        );
-        return existingMatches.length < 3;
-      });
+      const filteredScenes = isManual
+        ? allScenes
+        : allScenes.filter(scene => {
+            const key = normalizeSceneKey(scene.label);
+            const existingMatches = existingCustomImages.filter(
+              img => img.angleId === angleId && normalizeSceneKey(img.label) === key && img.url?.startsWith('http'),
+            );
+            return existingMatches.length < 2;
+          });
 
-      const scenes = filteredScenes.length > 0 ? filteredScenes : allScenes.slice(0, 4);
+      const scenes = filteredScenes.length > 0 ? filteredScenes : allScenes;
 
       let productRefKieUrl: string | undefined;
       try {
@@ -268,16 +276,17 @@ export const POST = accountRoute(async (req: Request) => {
 
       const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
-          const isNoomTemplate = scene.label.includes('[WZÓR NOOM');
-          const fullPrompt = isNoomTemplate
-            ? `${scene.scenePrompt} Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.`
-            : `${scene.scenePrompt} Raw, unpolished amateur smartphone snapshot, visible high-ISO sensor grain, candid framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero letters or logos on the black knee strap.`;
+          const fullPrompt = formatRawIphoneKiePrompt(
+            scene.scenePrompt,
+            'sardian-strap',
+            scene.includeProductRef,
+          );
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '1:1',
-            resolution: '1K',
+            aspectRatio: '3:4',
+            resolution: '2K',
           });
           try {
             const taskId = await submitKieRipperTask(payload);
@@ -327,17 +336,17 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `Kie.ai Raw #${preset?.number || ''}`).trim();
-      const assetId = `kie-stryde-noom-${taskId}`;
+      const label = (body.label || `iPhone Raw #${preset?.number || ''}`).trim();
+      const assetId = `kie-sardian-iphone-${taskId}`;
 
       const newAsset: StrydeImageAsset = {
         id: assetId,
         url: status.resultUrl,
         imageHash: '',
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Kie.ai Raw Native (50% Hook + 3x Wzór Noom)',
-        adOrigin: preset?.code || 'KIE-RAW',
-        aspectRatio: '1:1',
+        adsetOrigin: 'Google AI Raw iPhone 3:4 (NHS / Skrypt.txt)',
+        adOrigin: preset?.code || 'IPHONE-RAW',
+        aspectRatio: '3:4',
         source: 'ai',
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,
