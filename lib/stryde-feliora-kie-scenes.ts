@@ -10,10 +10,10 @@ export interface KieSceneSpec {
 export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieSceneSpec, KieSceneSpec, KieSceneSpec]> = {
   'stryde-01-czy-pani-tata-dobrze-sie-czuje': [
     {
-      label: '1. [HOOK] Przewrócona donica z drzewkiem laurowym na kostce brukowej parkingu',
+      label: '1. [HOOK] Przewrócona donica z hortensją na pniu na kostce brukowej parkingu',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone snapshot on a paved garden center parking lot in Poland: an overturned terracotta pot with a laurel tree (drzewko laurowe) lying on its side in spilled dark potting soil next to the open trunk of a car and a white delivery van in the background.',
+        'First-person POV amateur smartphone snapshot on a paved garden center parking lot in Poland: an overturned terracotta pot with a potted hydrangea tree (hortensja na pniu) lying on its side in spilled dark potting soil next to the open trunk of a car and a white delivery van in the background.',
     },
     {
       label: '2. [HOOK] Siedzenie w aucie na parkingu z wyłączonym silnikiem w ciszy',
@@ -37,13 +37,13 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
 
   'stryde-02-131-nocy-w-fotelu-w-salonie': [
     {
-      label: '1. [HOOK] Budzik 2:40 w nocy w ciemnej sypialni (nasłuchiwanie trzeciego stopnia)',
+      label: '1. [HOOK] Noc w ciemnej sypialni i nasłuchiwanie skrzypiącego 3. stopnia schodów',
       includeProductRef: false,
       scenePrompt:
-        'Raw night-time smartphone snapshot in a dark Polish bedroom: a bedside digital alarm clock glowing red with the exact time "2:40" next to a half-empty glass of water, looking toward the dark open bedroom doorway.',
+        'Raw night-time smartphone snapshot in a dark Polish bedroom: a bedside lamp turned off next to a half-empty glass of water on a wooden nightstand, looking toward the dimly lit open bedroom doorway and hallway stairs.',
     },
     {
-      label: '2. [HOOK] Niebieska taśma malarska przyklejona na krawędzi czwartego stopnia schodów',
+      label: '2. [HOOK] Niebieska taśma malarska przyklejona na krawędzi 4. stopnia schodów',
       includeProductRef: false,
       scenePrompt:
         'First-person POV close-up amateur smartphone photo looking down at steep old wooden stairs in a Polish house: a strip of blue painter’s masking tape stuck along the edge of the fourth wooden step.',
@@ -76,13 +76,13 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
         'Amateur smartphone snapshot in a Polish backyard: an aluminum extension ladder leaning against the roof eaves where wet brown leaves are overflowing from a clogged gutter.',
     },
     {
-      label: '3. [HOOK] Dłonie 72-latka zaciśnięte na kubku herbaty przy kuchennym stole',
+      label: '3. [HOOK] Dłonie 65-latka zaciśnięte na kubku herbaty przy kuchennym stole',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo looking down at a Polish kitchen table: a 72-year-old man’s weathered hands gripping a warm mug of tea next to his painful knee.',
+        'First-person POV smartphone photo looking down at a Polish kitchen table: a 65-year-old man’s weathered hands gripping a warm mug of tea next to his painful knee.',
     },
     {
-      label: '4. [HOOK] Stopa stojąca u podnóża drabiny bez możliwości wejścia na trzeci szczebel',
+      label: '4. [HOOK] Stopa stojąca u podnóża drabiny bez możliwości wejścia na 2. szczebel',
       includeProductRef: false,
       scenePrompt:
         'First-person POV smartphone snapshot looking down at the bottom rungs of an aluminum ladder on a concrete driveway: a senior man’s work shoe resting on the first rung while his hand holds his knee.',
@@ -91,82 +91,82 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
 
   'stryde-04-4-letni-wnuk-pokazal-przy-obiedzie-jak-chodze': [
     {
-      label: '1. [HOOK] Wielkanocny obiad rodzinny i nagła cisza przy stole nad talerzami',
+      label: '1. [HOOK] Niedzielny obiad rodzinny i nagła cisza przy stole nad talerzami',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone photo at a Polish family dinner table covered with a white tablecloth: plates of soup, salad bowls, and family members looking down in awkward silence.',
+        'First-person POV amateur smartphone photo at a Polish Sunday family dinner table covered with a white tablecloth: plates of soup, salad bowls, and family members looking down in awkward silence.',
     },
     {
-      label: '2. [HOOK] 4-letni wnuczek na dywanie trzymający się za kolanko („kulawe kolanko babci”)',
+      label: '2. [HOOK] 4-letni wnuczek na dywanie trzymający się za kolanko przy niedzielnym obiedzie',
       includeProductRef: false,
       scenePrompt:
         'Candid amateur smartphone snapshot in a Polish living room: a 4-year-old boy standing on a patterned carpet holding his right knee with a small hand while imitating a limp.',
     },
     {
-      label: '3. [HOOK] Klocki rozrzucone na dywanie, do których babcia nie mogła ukucnąć',
+      label: '3. [HOOK] Stromy podjazd ulicy Górnej w stronę przedszkola z furtką na szczycie',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo looking down from a standing position at colorful plastic toy blocks scattered across a living room rug next to an armchair.',
+        'First-person POV smartphone photo looking up a steep residential sidewalk in a Polish town leading toward a preschool gate at the top of the hill.',
     },
     {
-      label: '4. [HOOK] Drewniany płot na działce, przy którym sąsiadka Hela pokazała swoje kolano',
+      label: '4. [HOOK] Furtka przy ogródku, przy której 74-letnia pani Wanda pokazała pasek pod rzepką',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone photo in a Polish garden plot (działka): two older women standing by a wooden garden fence next to a watering can, one rolling up her trousers to point below her kneecap.',
+        'Amateur smartphone photo by a Polish garden fence: two older women standing next to flowering hydrangeas, a 74-year-old woman rolling up her trousers slightly to point two fingers below her kneecap.',
     },
   ],
 
   'stryde-05-wnuki-przestaly-przychodzic-w-piatki-druga-babcia': [
     {
-      label: '1. [HOOK] Puste talerze i zimne naleśniki w piątkowe popołudnie w kuchni babci',
+      label: '1. [HOOK] Puste talerze i zimne naleśniki z serem w piątkowe popołudnie w kuchni babci',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone photo in a quiet Polish kitchen on Friday afternoon: a plate of untouched rolled pancakes (naleśniki) on a tablecloth next to two empty chairs.',
+        'First-person POV amateur smartphone photo in a quiet Polish kitchen on Friday afternoon: a plate of untouched rolled sweet cheese pancakes (naleśniki z serem) on a tablecloth next to two empty chairs.',
     },
     {
-      label: '2. [HOOK] Pudełko po butach pełne 9 rozciągniętych opasek z apteki',
+      label: '2. [HOOK] Pudełko po butach pełne 7 rozciągniętych opasek z apteki',
       includeProductRef: false,
       scenePrompt:
-        'Top-down amateur smartphone snapshot of an open cardboard shoebox on a hallway floor filled with 9 stretched-out beige and black elastic knee sleeves and empty ointment tubes.',
+        'Top-down amateur smartphone snapshot of an open cardboard shoebox on a hallway floor filled with 7 stretched-out beige and black elastic knee sleeves and empty ointment tubes.',
     },
     {
-      label: '3. [HOOK] Krzesełka na szkolnym Dniu Babci i Dziadka na sali gimnastycznej',
+      label: '3. [HOOK] Krzesełka na szkolnym przedstawieniu i rozmowa z 76-letnią drugą babcią Dorotą',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone photo inside a Polish primary school gym decorated for Grandparents Day: a row of chairs along the wall where a 64-year-old grandmother rolls up her trouser leg slightly.',
+        'Amateur smartphone photo inside a Polish primary school hall: a row of chairs along the wall where a 76-year-old grandmother rolls up her trouser leg slightly to show a narrow black strap below her kneecap.',
     },
     {
-      label: '4. [HOOK] Parkowa alejka i ławka, na której babcia musiała siedzieć z torebkami',
+      label: '4. [HOOK] Parkowa alejka i ławka, na której babcia musiała siedzieć z torebką',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo from a wooden park bench in Poland: a grandmother’s hands holding two handbags on her lap while looking toward a distant playground.',
+        'First-person POV smartphone photo from a wooden park bench in Poland: a grandmother’s hands holding her handbag on her lap while looking toward a distant playground lawn.',
     },
   ],
 
   'stryde-06-corka-zarezerwowala-wozek-elektryczny-na-moje-nazwisko': [
     {
-      label: '1. [HOOK] Wózek elektryczny przed pensjonatem w Kołobrzegu z kartką z nazwiskiem',
+      label: '1. [HOOK] Wózek inwalidzki przed wejściem do ZOO we Wrocławiu z zawieszką „BARBARA”',
       includeProductRef: false,
       scenePrompt:
-        'Raw amateur smartphone photo at the entrance of a Polish seaside guesthouse in Kołobrzeg: a rented mobility scooter parked by the reception with a laminated white name tag hanging on the handlebar.',
+        'Raw amateur smartphone photo near the entrance gate of Wrocław Zoo in Poland: a rented manual wheelchair parked by a wooden fence with a laminated white name tag "BARBARA" hanging on the handle.',
     },
     {
-      label: '2. [HOOK] Wydruk rezerwacji wózka inwalidzkiego leżący na walizce w pokoju',
+      label: '2. [HOOK] Niebieski wkład chłodzący wyjmowany w nocy z zamrażarki w aneksie kuchennym',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo in a holiday room: a printed Polish mobility rental confirmation sheet lying next to an unpacked suitcase.',
+        'First-person POV night-time smartphone photo in a holiday apartment kitchenette: a 71-year-old woman’s hand taking a blue gel ice pack out of a small freezer drawer.',
     },
     {
-      label: '3. [HOOK] Kije nordic walking swatowej Karoliny oparte o ławkę nad morzem',
+      label: '3. [HOOK] Zapasowy pasek z zestawu 1+1 położony przez 76-letnią swatową Karolinę na stole',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone snapshot on a seaside promenade in Kołobrzeg: two nordic walking poles leaning against a wooden bench overlooking the Baltic Sea.',
+        'Amateur smartphone snapshot on a small wooden table in a Polish guest room: a factory-sealed matte-black patellar knee strap lying next to two mugs of morning coffee.',
     },
     {
-      label: '4. [HOOK] Ekran telefonu na molo w Kołobrzegu pokazujący 11 400 kroków',
+      label: '4. [HOOK] Schody na 4. peron Dworca Głównego we Wrocławiu pokonane pieszo bez wózka',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo on the wooden pier in Kołobrzeg: a hand holding a phone screen displaying a Polish pedometer app with "11 420 kroków" against wooden pier planks.',
+        'First-person POV smartphone photo walking up the stairs to Platform 4 at Wrocław Główny historic train station beside a rolling suitcase.',
     },
   ],
 
@@ -175,29 +175,29 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
       label: '1. [HOOK] Ekran telefonu z SMS-em z kabiny: „Możesz przyjść do damskiej toalety? Nikomu nie mów”',
       includeProductRef: false,
       scenePrompt:
-        'Close-up amateur smartphone photo of a phone screen on an office desk showing a Polish text message: "Możesz przyjść do damskiej toalety na parterze? Proszę. Nikomu nie mów."',
+        'Close-up amateur smartphone photo of a phone screen on an office desk showing a Polish text message: "Możesz przyjść do damskiej toalety? Proszę. Nikomu nie mów."',
     },
     {
-      label: '2. [HOOK] Ciasna kabina toalety w biurze z niską muszlą i śliskimi kafelkami bez uchwytów',
+      label: '2. [HOOK] Ciasna kabina toalety na 1. piętrze ze starą niską muszlą i gładkimi kafelkami',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone snapshot inside a narrow Polish office restroom stall: a very low ceramic toilet bowl and smooth beige wall tiles with nothing to grab onto except a metal toilet paper holder.',
+        'First-person POV amateur smartphone snapshot inside a narrow unrenovated Polish office restroom stall: a very low old ceramic toilet bowl and smooth beige wall tiles with nothing to grab onto except a metal toilet paper holder.',
     },
     {
-      label: '3. [HOOK] Dłoń kurczowo trzymająca się krawędzi drzwi kabiny przy próbie wstania',
+      label: '3. [HOOK] Dłoń 58-latki kurczowo trzymająca się zamka drzwi kabiny przy próbie wstania',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo inside a restroom stall: a 61-year-old woman’s hand gripping the metal stall door latch tightly while trying to stand up with an aching knee.',
+        'First-person POV smartphone photo inside a restroom stall: a 58-year-old woman’s hand gripping the metal stall door latch tightly while trying to stand up with an aching knee.',
     },
     {
-      label: '4. [HOOK] Biurko w pracy z wypisanym podaniem o wcześniejsze odejście',
+      label: '4. [HOOK] Biurko w dziale płac z wnioskiem z kadr o przejście na 1/2 etatu',
       includeProductRef: false,
       scenePrompt:
-        'Top-down amateur smartphone snapshot of an office desk with a keyboard, reading glasses, and a folded Polish letter next to a mug of tea.',
+        'Top-down amateur smartphone snapshot of an office desk with a keyboard, reading glasses, and a printed Polish HR part-time hours form ("WNIOSEK O ZMIANĘ WYMIARU ETATU") next to a mug of tea.',
     },
   ],
 
-  'stryde-08-corka-wysyla-linki-z-otodom-do-mieszkan-na-parterze': [
+  'stryde-08-corka-podsyla-mieszkania-parterowe-41-lat-w-tym-domu': [
     {
       label: '1. [HOOK] Smartfon na kuchennym stole z linkami z Otodom do mieszkań na parterze',
       includeProductRef: false,
@@ -208,52 +208,52 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
       label: '2. [HOOK] Wypolerowana dłońmi dębowa poręcz przy stromych schodach w 41-letnim domu',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV amateur smartphone photo looking up a wooden staircase in a 40-year-old Polish home: a 71-year-old widow’s hand gripping a smooth oak handrail made by her late husband.',
+        'First-person POV amateur smartphone photo looking up a wooden staircase in a 41-year-old Polish home: a 71-year-old widow’s hand gripping a smooth oak handrail made by her late husband.',
     },
     {
-      label: '3. [HOOK] Teczka agenta nieruchomości z wyceną domu leżąca na stole w salonie',
+      label: '3. [HOOK] Wizytówka pośrednika nieruchomości i folder z wyceną domu na kuchennym blacie',
       includeProductRef: false,
       scenePrompt:
-        'Top-down amateur smartphone photo on a lace-covered living room table: a printed Polish real estate valuation folder ("WYCENA NIERUCHOMOŚCI") lying untouched next to a teacup.',
+        'Top-down amateur smartphone photo on a Polish kitchen table: a printed real estate valuation folder ("WYCENA NIERUCHOMOŚCI") and a broker business card lying untouched next to a teacup.',
     },
     {
-      label: '4. [HOOK] Dwie ciężkie siatki z zakupami zostawione u dołu schodów w przedpokoju',
+      label: '4. [HOOK] Kosz z mokrym praniem zostawiony u dołu schodów w przedpokoju',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone photo at the bottom of wooden hallway stairs: two full grocery bags resting on the floor because carrying them upstairs hurts the knees.',
+        'Amateur smartphone photo at the bottom of wooden hallway stairs: a plastic laundry basket full of folded towels resting on the floor because carrying it upstairs hurts the knees.',
     },
   ],
 
   'stryde-09-w-wieku-67-lat-maz-zostawil-mnie-dla-72-latki-z-dancingow': [
     {
-      label: '1. [HOOK] Srebrne buty do tańca schowane w pudełku na dnie szafy od dwóch lat',
+      label: '1. [HOOK] Srebrne buty do tańca schowane w pudełku na dnie szafy',
       includeProductRef: false,
       scenePrompt:
         'First-person POV amateur smartphone photo looking into the bottom of a dark wardrobe: an open shoebox holding a pair of silver low-heeled women’s dancing shoes.',
     },
     {
-      label: '2. [HOOK] Pusty wieszak w przedpokoju w czwartkowy wieczór po wyjściu męża',
+      label: '2. [HOOK] Pusty wieszak w przedpokoju w sobotni wieczór po wyjściu męża na dancing',
       includeProductRef: false,
       scenePrompt:
-        'Amateur smartphone snapshot in a quiet Polish apartment hallway at night: an empty coat hook by the front door and a single pair of women’s slippers on the floor.',
+        'Amateur smartphone snapshot in a quiet Polish apartment hallway on Saturday night: an empty coat hook by the front door and a single pair of women’s slippers on the floor.',
     },
     {
-      label: '3. [HOOK] Lustro nad umywalką w klubie seniora, gdzie 72-latka poprawiała pasek pod rzepką',
+      label: '3. [HOOK] Lustro nad umywalką przy sali tanecznej, gdzie 72-latka poprawiała pasek pod rzepką',
       includeProductRef: false,
       scenePrompt:
-        'Candid amateur smartphone photo in a community dance hall restroom with a sink and mirror: a 70-year-old woman in an elegant dress adjusting a narrow black strap below her kneecap.',
+        'Candid amateur smartphone photo in a community dance hall restroom with a sink and mirror: a 72-year-old woman in an elegant dress adjusting a narrow black strap below her kneecap.',
     },
     {
-      label: '4. [HOOK] Drewniany parkiet sali tanecznej widziany z krzesełka pod ścianą',
+      label: '4. [HOOK] Drewniany parkiet sali tanecznej widziany ze stolika pod ścianą',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo taken from a chair by the wall of a Polish senior dance club: warm lights reflecting off the wooden dance floor.',
+        'First-person POV smartphone photo taken from a small table by the wall of a Polish senior dance evening: warm lights reflecting off the wooden dance floor.',
     },
   ],
 
   'stryde-10-biora-za-to-tysiace-w-klinikach-skalpel-vs-mlot': [
     {
-      label: '1. [HOOK] Wielka orteza zegarowa za 650 zł rzucona na stół obok rachunków na 6 000 zł',
+      label: '1. [HOOK] Wielka orteza zegarowa za 650 zł rzucona na stół obok rachunków na ponad 6 000 zł',
       includeProductRef: false,
       scenePrompt:
         'Close-up 90-degree flat-lay smartphone photo pointing straight down at a wooden table filling 100% of the frame (NO floating table): a bulky metal-hinged knee brace lying next to a stack of Polish private clinic invoices totaling "6 120 zł".',
@@ -271,7 +271,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
         'Top-down amateur smartphone photo of an open drawer filled with squeezed pain gel tubes, rolled-up elastic bandages, and clinic receipts.',
     },
     {
-      label: '4. [HOOK] Wskazanie palcem punktu dwa palce pod rzepką (ścięgno rzepki)',
+      label: '4. [HOOK] Wskazanie palcem punktu 2 palce pod rzepką (ścięgno rzepki)',
       includeProductRef: false,
       scenePrompt:
         'First-person POV close-up smartphone photo in a Polish living room: two fingers pressing into the exact hollow spot just below the kneecap.',
@@ -286,10 +286,10 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
         'Amateur smartphone photo looking up at a closet shelf in a Polish hallway: a large, stiff black hinged orthopedic knee brace gathering dust in the corner.',
     },
     {
-      label: '2. [HOOK] Stolik w klubie seniora z dwiema szklankami herbaty w koszyczkach',
+      label: '2. [HOOK] Drewniany stół w altance na działkach ROD z 2 kubkami herbaty',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone snapshot at a wooden table in a Polish neighborhood club: two glasses of tea and two older men sitting across from each other.',
+        'First-person POV smartphone snapshot at a wooden table inside a Polish allotment garden gazebo (altanka ROD): two mugs of hot tea and two older men in casual jackets sitting across from each other.',
     },
     {
       label: '3. [HOOK] Porównanie na stole (90° flat-lay): wielkie rusztowanie za 1 600 zł vs wąski pasek',

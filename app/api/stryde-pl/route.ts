@@ -20,8 +20,9 @@ export const maxDuration = 300;
 const LEGACY_STATE_KEYS = [
   'stryde-pl-library-v1-all15-localized',
   'sardian-opaska-pl-v2-25ads',
+  'sardian-opaska-pl-v3-25ads',
 ];
-const STATE_KEY = 'sardian-opaska-pl-v3-25ads';
+const STATE_KEY = 'sardian-opaska-pl-v4-25ads';
 
 interface StrydePlLibraryState {
   ads: StrydePlGeneratedAd[];

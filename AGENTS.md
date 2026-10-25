@@ -37,6 +37,10 @@ Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno dział
 5. **Zero naciąganych zbiegów okoliczności w stylu AI:**
    - Usuwaj z adaptacji zagranicznych kreacji sztuczne, filmowe zbiegi okoliczności (np. drugi identyczny niemal-wypadek na tym samym parkingu na oczach tego samego sprzedawcy). Zakończenia muszą być przyziemne i w 100% wiarygodne życiowo.
 
+6. **Zero sztucznych, hiper-dokładnych godzin/dat w stylu AI i 100% polskich realiów (NFZ, wiek pokoleń, historia):**
+   - Nigdy nie wstawiaj do narracji robotycznych godzin co do minuty ani pamiętnikowych dat dziennych, których żaden człowiek nie pamięta po czasie (np. `„Zamówiłam opaskę o 3:10 w nocy”`, `„Wtorek, 12 maja. Godzina 2:40 w nocy”`, `„o 9:14”`, `„o 5:50”`, `„przez 38 dni”`). Używaj naturalnych polskich określeń pory dnia (`w środku nocy`, `nad ranem`, `po południu`, `po 5 tygodniach`) lub zwykłych pełnych godzin przy stałych nawykach (`o 6:00 rano`, `od 9:00 do 18:00`).
+   - Zawsze lokalizuj realia systemowe, historyczne i pokoleniowe do Polski: kolejki medyczne to **kolejka na NFZ** (nigdy kalki z NHS typu `„wpisany na listę oczekujących”`), polska historia gospodarcza (działalność prywatna od 1989/1990 r., wiek emerytalny 60/65 lat), polskie zwyczaje (stypa w restauracji pod cmentarzem zamiast kanapek na dywanie w sali parafialnej, altanka ROD, polskie ZOO/PKP zamiast amerykańskich parków rozrywki i wózków na lotnisku) oraz realistyczne relacje wiekowe (u ~75-latka mały **wnuk**, nie `prawnuk`).
+
 
 
 ## Generowanie obrazków Kie.ai i kreacje A/B — stałe zasady użytkownika, 24 października 2026
