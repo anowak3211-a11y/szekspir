@@ -662,7 +662,7 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
                   cursor: 'pointer',
                 }}
               >
-                🦿 SARDIAN™ PL · Opaska (25 Antków)
+                🦿 SARDIAN PL · Opaska (25 Antków)
               </button>
             )}
             <button

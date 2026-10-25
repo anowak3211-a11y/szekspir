@@ -1914,7 +1914,7 @@ export default function AntkiPlPage() {
                   cursor: "pointer",
                 }}
               >
-                🦿 SARDIAN™ PL · Opaska (25 Antków)
+                🦿 SARDIAN PL · Opaska (25 Antków)
               </button>
               <button
                 type="button"

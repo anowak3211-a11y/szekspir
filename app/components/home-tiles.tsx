@@ -12,7 +12,7 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
           <span className="tile-icon" aria-hidden="true">🇵🇱</span>
           <span className="tile-title">ANTKI PL</span>
           <span className="tile-sub">
-            Fabryka polskich Antków: Sardian™ Opaska na kolano (25 Antków · 5x5), Feliora PL Koty (25 Antków) oraz Orthomax StepMax (70 Antków).
+            Fabryka polskich Antków: SARDIAN Opaska na kolano (25 Antków · 5x5), Feliora PL Koty (25 Antków) oraz Orthomax StepMax (70 Antków).
           </span>
         </a>
         <a className="tile big" href="/image-ripper">

@@ -685,7 +685,7 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
 };
 
 /**
- * Buduje komplet 8 scen Kie.ai dla Sardian™ Opaska PL:
+ * Buduje komplet 8 scen Kie.ai dla SARDIAN Opaska PL:
  * - 4 sceny z HOOKA (50% wszystkich zdjęć = unikalne pod dany kąt)
  * - 3 sceny 1:1 na wzór NOOM.PL (Wydruk + Żółty Post-it + Paragon SUMA PLN / Podkładka TEST 60 SEKUND [✓] / 4 coraz większe blistry + RTG na stole 90°)
  * - 1 scena produktowa z referencją wąskiego czarnego paska pod rzepką

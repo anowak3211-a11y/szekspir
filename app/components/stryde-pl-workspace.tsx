@@ -630,7 +630,7 @@ export default function StrydePlWorkspace({
                 boxShadow: '0 2px 10px rgba(16, 185, 129, 0.35)',
               }}
             >
-              🦿 SARDIAN™ PL · Opaska (25 Antków · 5×5)
+              🦿 SARDIAN PL · Opaska (25 Antków · 5×5)
             </button>
 
             {onSwitchToFeliora && (
@@ -987,7 +987,7 @@ export default function StrydePlWorkspace({
             }}
           >
             <span style={{ fontSize: '12px', fontWeight: 800, color: '#f4f4f5' }}>
-              ANTKI SARDIAN™ ({filteredPresets.length} / {presets.length})
+              ANTKI SARDIAN ({filteredPresets.length} / {presets.length})
             </span>
             <button
               type="button"
@@ -2288,7 +2288,7 @@ export default function StrydePlWorkspace({
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#34d399' }}>
-                🇵🇱 Matryca 25 Kątów Sardian™ (5×5) & Przewaga nad Ankole.pl
+                🇵🇱 Matryca 25 Kątów SARDIAN (5×5) & Przewaga nad Ankole.pl
               </h2>
               <button
                 type="button"
@@ -2307,14 +2307,14 @@ export default function StrydePlWorkspace({
               </button>
             </div>
             <p style={{ fontSize: '13.5px', color: '#d4d4d8', lineHeight: 1.6 }}>
-              Kompletna matryca <strong>25 kątów (5 kategorii × 5 Antków)</strong> dla opaski podrzepkowej <strong>Sardian™</strong> na domenie <strong>sprobujsardian.pl</strong> (15 adaptacji 1:1 z UK/FR + 10 polskich kątów VOC z forów ortopedycznych):
+              Kompletna matryca <strong>25 kątów (5 kategorii × 5 Antków)</strong> dla opaski podrzepkowej <strong>SARDIAN</strong> na domenie <strong>sprobujsardian.pl</strong> (15 adaptacji 1:1 z UK/FR + 10 polskich kątów VOC z forów ortopedycznych):
             </p>
             <ul style={{ fontSize: '13px', color: '#e4e4e7', lineHeight: 1.7 }}>
               <li><strong>#01–#05 Męska duma i fach w ręku (5 kątów):</strong> Brukarz Tadeusz (64 l.), Glazurnik Darek (131 nocy w fotelu), Instalator Staszek i 78-letni brat na drabinie, Kierowca Henryk (66 l., sprzęgło na A4) oraz Działkowiec Zdzisław (70 l., taborecik na ROD).</li>
               <li><strong>#06–#10 Wnuki, rodzina i kościół (5 kątów):</strong> Babcia Zuzanna („kulawe kolanko”), Babcia Krystyna vs druga babcia, Barbara w Kołobrzegu (wózek elektryczny), Babcia Halina (68 l., ostatnia ławka w kościele i Komunia) oraz Dziadek Roman (67 l., rower z wnukiem).</li>
               <li><strong>#11–#15 Strach przed utratą samodzielności (5 kątów):</strong> Kadrowa Gosia (toaleta w biurze), Wdowa Janina (Otodom i dom po mężu), Laura (67 l., dancingi), Pani Teresa (68 l., 4. piętro bez windy z lastryko) oraz Pani Danuta (70 l., utknięcie w wannie).</li>
               <li><strong>#16–#20 Gniew na kliniki, zastrzyki i suple (5 kątów):</strong> 6 000 zł w gabinetach, orteza zegarowa za 1 600 zł w szafie, 3 zastrzyki kwasu hialuronowego za 2 400 zł (5 tyg. ulgi), 8 puszek kolagenu i zrujnowany żołądek oraz Fizjoterapeuta mgr Marek Kowalczyk (16 lat praktyki).</li>
-              <li><strong>#21–#25 Krótkie kąty Inolyo FR & Sardian™ BOF (5 kątów):</strong> „To NIE chrząstka (-34% napięcia)”, „Nie zjeżdża na łydkę”, „Przetrwać kolejkę na NFZ”, „Oryginał 8 mm vs podróbki” oraz „Test 2 palców pod rzepką w 10 sekund”.</li>
+              <li><strong>#21–#25 Krótkie kąty Inolyo FR & SARDIAN BOF (5 kątów):</strong> „To NIE chrząstka (-34% napięcia)”, „Nie zjeżdża na łydkę”, „Przetrwać kolejkę na NFZ”, „Oryginał 8 mm vs podróbki” oraz „Test 2 palców pod rzepką w 10 sekund”.</li>
             </ul>
           </div>
         </div>
