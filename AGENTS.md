@@ -39,7 +39,10 @@ Przy każdej publikacji lub uploadzie zmian Szekspira aktualizuj zarówno dział
 
 6. **Zero sztucznych, hiper-dokładnych godzin/dat w stylu AI i 100% polskich realiów (NFZ, wiek pokoleń, historia):**
    - Nigdy nie wstawiaj do narracji robotycznych godzin co do minuty ani pamiętnikowych dat dziennych, których żaden człowiek nie pamięta po czasie (np. `„Zamówiłam opaskę o 3:10 w nocy”`, `„Wtorek, 12 maja. Godzina 2:40 w nocy”`, `„o 9:14”`, `„o 5:50”`, `„przez 38 dni”`). Używaj naturalnych polskich określeń pory dnia (`w środku nocy`, `nad ranem`, `po południu`, `po 5 tygodniach`) lub zwykłych pełnych godzin przy stałych nawykach (`o 6:00 rano`, `od 9:00 do 18:00`).
-   - Zawsze lokalizuj realia systemowe, historyczne i pokoleniowe do Polski: kolejki medyczne to **kolejka na NFZ** (nigdy kalki z NHS typu `„wpisany na listę oczekujących”`), polska historia gospodarcza (działalność prywatna od 1989/1990 r., wiek emerytalny 60/65 lat), polskie zwyczaje (stypa w restauracji pod cmentarzem zamiast kanapek na dywanie w sali parafialnej, altanka ROD, polskie ZOO/PKP zamiast amerykańskich parków rozrywki i wózków na lotnisku) oraz realistyczne relacje wiekowe (u ~75-latka mały **wnuk**, nie `prawnuk`).
+   - Zawsze lokalizuj realia systemowe, historyczne i pokoleniowe do Polski: kolejki medyczne to **kolejka na NFZ** (nigdy kalki z NHS typu `„wpisany na listę oczekujących”`), polska historia gospodarcza (działalność prywatna od 1989/1990 r., wiek emerytalny 60/65 lat), polskie zwyczaje (stypa w restauracji pod cmentarzem zamiast kanapek na dywanie w sali parafialnej, altanka ROD) oraz realistyczne relacje wiekowe (u ~75-latka mały **wnuk**, nie `prawnuk`).
+
+7. **Zero „wygładzania” i osłabiania pazura Direct Response przy lokalizacji:**
+   - Podczas lokalizacji zagranicznego copy zmieniaj **wyłącznie** obce realia kulturowe/historyczne, kalki językowe, liczebniki słowne i sztuczne daty/godziny. **Nigdy** nie zmiękczaj mocnych hooków (*pattern interrupts*, np. `„Przyłapałem żonę z moim bratem”`), kątów wspólnego wroga (np. wewnętrzny mail z branży ortopedycznej) ani krótkich, szorstkich, emocjonalnych zdań i dialogów w `Primary Text` (`„To nie patrz. Nie patrzyła.”`, `„Nie uciekło. Na 4.”`, `„Patrzył na jej stopy.”`, `„na własnym tyłku”`).
 
 
 

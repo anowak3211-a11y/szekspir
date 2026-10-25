@@ -145,28 +145,28 @@ export const STRYDE_HOOK_SCENES_BY_ANGLE: Record<string, [KieSceneSpec, KieScene
 
   'stryde-06-corka-zarezerwowala-wozek-elektryczny-na-moje-nazwisko': [
     {
-      label: '1. [HOOK] Wózek inwalidzki przed wejściem do ZOO we Wrocławiu z zawieszką „BARBARA”',
+      label: '1. [HOOK] Wózek elektryczny przed bramą parku rozrywki z karteczką „BARBARA” na kierownicy',
       includeProductRef: false,
       scenePrompt:
-        'Raw amateur smartphone photo near the entrance gate of Wrocław Zoo in Poland: a rented manual wheelchair parked by a wooden fence with a laminated white name tag "BARBARA" hanging on the handle.',
+        'Raw amateur smartphone photo near the entrance gate of a Polish amusement park: a rented mobility scooter parked by the fence with a laminated white name tag "BARBARA" hanging on the handlebar.',
     },
     {
-      label: '2. [HOOK] Niebieski wkład chłodzący wyjmowany w nocy z zamrażarki w aneksie kuchennym',
+      label: '2. [HOOK] Niebieski wkład chłodzący wyjmowany w nocy z zamrażarki w aneksie pensjonatu',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV night-time smartphone photo in a holiday apartment kitchenette: a 71-year-old woman’s hand taking a blue gel ice pack out of a small freezer drawer.',
+        'First-person POV night-time smartphone photo in a holiday guesthouse kitchenette: a 71-year-old woman’s hand taking a blue gel ice pack out of a small freezer drawer.',
     },
     {
-      label: '3. [HOOK] Zapasowy pasek z zestawu 1+1 położony przez 76-letnią swatową Karolinę na stole',
+      label: '3. [HOOK] Zapasowy pasek z zestawu 1+1 podany przez 76-letnią swatową Karolinę',
       includeProductRef: false,
       scenePrompt:
         'Amateur smartphone snapshot on a small wooden table in a Polish guest room: a factory-sealed matte-black patellar knee strap lying next to two mugs of morning coffee.',
     },
     {
-      label: '4. [HOOK] Schody na 4. peron Dworca Głównego we Wrocławiu pokonane pieszo bez wózka',
+      label: '4. [HOOK] Samodzielne przejście z walizką przez peron Dworca Głównego w Krakowie bez wózka',
       includeProductRef: false,
       scenePrompt:
-        'First-person POV smartphone photo walking up the stairs to Platform 4 at Wrocław Główny historic train station beside a rolling suitcase.',
+        'First-person POV smartphone photo on a platform at Kraków Główny train station beside a rolling suitcase and a paper coffee cup.',
     },
   ],
 
