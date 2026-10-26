@@ -642,6 +642,65 @@ export const POST = accountRoute(async (req: Request) => {
       });
     }
 
+    if (action === 'audit_meta') {
+      const pageIds = ['1338513126001175', '1287239777799682', '1304624172730017', '1231925240008683'];
+      const [accountInfo, pagesInfo, pixelInfo, pixelStats, campaignsInsights7d, campaignsInsightsToday, issueAds] =
+        await Promise.all([
+          directGraph<Record<string, unknown>>(`act_${FELIORA_PIES_META_ACCOUNT_ID}`, {
+            fields:
+              'id,name,account_status,disable_reason,currency,amount_spent,spend_cap,balance,funding_source_details,timezone_name',
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'account error' })),
+          Promise.all(
+            pageIds.map(pid =>
+              directGraph<Record<string, unknown>>(pid, {
+                fields:
+                  'id,name,is_published,verification_status,fan_count,followers_count,has_transitioned_to_new_page_experience,instagram_business_account{id,username},promotion_eligible',
+              }).catch(e => ({ id: pid, error: e instanceof Error ? e.message : 'page lookup failed' })),
+            ),
+          ),
+          directGraph<Record<string, unknown>>(FELIORA_PIES_META_PIXEL_ID, {
+            fields: 'id,name,last_fired_time,is_unavailable,data_use_setting',
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'pixel error' })),
+          directGraph<Record<string, unknown>>(`${FELIORA_PIES_META_PIXEL_ID}/stats`, {
+            aggregation: 'event',
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'pixel stats error' })),
+          directGraph<Record<string, unknown>>(`act_${FELIORA_PIES_META_ACCOUNT_ID}/insights`, {
+            level: 'campaign',
+            date_preset: 'last_7d',
+            fields: 'campaign_id,campaign_name,spend,impressions,inline_link_clicks,cpc,ctr,actions,action_values,purchase_roas',
+            limit: 30,
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'insights 7d error' })),
+          directGraph<Record<string, unknown>>(`act_${FELIORA_PIES_META_ACCOUNT_ID}/insights`, {
+            level: 'campaign',
+            date_preset: 'today',
+            fields: 'campaign_id,campaign_name,spend,impressions,inline_link_clicks,cpc,ctr,actions,action_values,purchase_roas',
+            limit: 30,
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'insights today error' })),
+          directGraph<Record<string, unknown>>(`act_${FELIORA_PIES_META_ACCOUNT_ID}/ads`, {
+            filtering: JSON.stringify([
+              {
+                field: 'effective_status',
+                operator: 'IN',
+                value: ['DISAPPROVED', 'WITH_ISSUES', 'PENDING_REVIEW'],
+              },
+            ]),
+            fields: 'id,name,campaign_id,adset_id,status,effective_status,issues_info,ad_review_feedback',
+            limit: 50,
+          }).catch(e => ({ error: e instanceof Error ? e.message : 'issue ads error' })),
+        ]);
+
+      return NextResponse.json({
+        ok: true,
+        accountInfo,
+        pagesInfo,
+        pixelInfo,
+        pixelStats,
+        campaignsInsights7d,
+        campaignsInsightsToday,
+        issueAds,
+      });
+    }
+
     if (action === 'push_to_meta') {
       const targetAngleIds =
         Array.isArray(body.angleIds) && body.angleIds.length > 0
@@ -658,15 +717,45 @@ export const POST = accountRoute(async (req: Request) => {
         return NextResponse.json({ error: 'Nie znaleziono wybranych reklam.' }, { status: 400 });
       }
 
-      const campaignId = body.campaignId || FELIORA_PIES_META_NATIVE_CAMPAIGN_ID;
-      const templateAdSetId = body.templateAdSetId || '120250036346090298';
+      let campaignId = body.campaignId || FELIORA_PIES_META_NATIVE_CAMPAIGN_ID;
+      if (campaignId === 'CREATE_NEW_DOG_CBO') {
+        const existingCamps = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+          `act_${FELIORA_PIES_META_ACCOUNT_ID}/campaigns`,
+          { fields: 'id,name', limit: 50 },
+        ).catch(() => ({ data: [] }));
+        const foundDogNative = (existingCamps.data || []).find(c => c.name === 'FEL PSY NATIVE');
+        if (foundDogNative?.id) {
+          campaignId = foundDogNative.id;
+        } else {
+          const newCamp = await directGraph<{ id: string }>(
+            `act_${FELIORA_PIES_META_ACCOUNT_ID}/campaigns`,
+            {
+              name: 'FEL PSY NATIVE',
+              objective: 'OUTCOME_SALES',
+              status: 'PAUSED',
+              special_ad_categories: [],
+              daily_budget: 15000,
+              bid_strategy: 'LOWEST_COST_WITHOUT_CAP',
+            },
+            'POST',
+          );
+          campaignId = newCamp.id;
+        }
+      }
+
+      const templateAdSetId = body.templateAdSetId || '120250116221480298'; // Active Dog Ad Set in pieski fel (fallback 120250036346090298)
       const adSetName = (body.adSetName || `26.10 - FELIORA PSY ANTEK BATCH (${selectedAds.length}x)`).trim();
       const urlMode = body.urlMode || 'pdp';
       const adStatus = body.adStatus || 'PAUSED';
 
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
-        fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
-      });
+        fields:
+          'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+      }).catch(() =>
+        directGraph<Record<string, unknown>>('120250036346090298', {
+          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
+        }),
+      );
 
       const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
         string,
@@ -698,6 +787,11 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       if (!targetAdSetId) {
+        const dsaEntity =
+          (typeof source.dsa_beneficiary === 'string' && source.dsa_beneficiary.trim()) ||
+          'CABANOWSKI HSTL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ';
+        const dsaPayer =
+          (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
         const createdAdSet = await directGraph<{ id: string }>(
           `act_${FELIORA_PIES_META_ACCOUNT_ID}/adsets`,
           {
@@ -713,6 +807,8 @@ export const POST = accountRoute(async (req: Request) => {
             targeting: rawTargeting,
             attribution_spec: source.attribution_spec,
             destination_type: source.destination_type || 'WEBSITE',
+            dsa_beneficiary: dsaEntity,
+            dsa_payor: dsaPayer,
           },
           'POST',
         );

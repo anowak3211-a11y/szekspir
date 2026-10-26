@@ -611,8 +611,13 @@ export const POST = accountRoute(async (req: Request) => {
       const adStatus = body.adStatus || 'PAUSED';
 
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
-        fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
-      });
+        fields:
+          'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+      }).catch(() =>
+        directGraph<Record<string, unknown>>(templateAdSetId, {
+          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
+        }),
+      );
 
       const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
         string,
@@ -645,6 +650,11 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       if (!targetAdSetId) {
+        const dsaEntity =
+          (typeof source.dsa_beneficiary === 'string' && source.dsa_beneficiary.trim()) ||
+          'CABANOWSKI HSTL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ';
+        const dsaPayer =
+          (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
         const createdAdSet = await directGraph<{ id: string }>(
           `act_${FELIORA_META_ACCOUNT_ID}/adsets`,
           {
@@ -660,6 +670,8 @@ export const POST = accountRoute(async (req: Request) => {
             targeting: rawTargeting,
             attribution_spec: source.attribution_spec,
             destination_type: source.destination_type || 'WEBSITE',
+            dsa_beneficiary: dsaEntity,
+            dsa_payor: dsaPayer,
           },
           'POST',
         );

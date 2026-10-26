@@ -83,6 +83,7 @@ export default function FelioraPiesPlWorkspace({
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Meta Push state
+  const [pushCampaignId, setPushCampaignId] = useState<string>('120250116221490298');
   const [pushUrlMode, setPushUrlMode] = useState<'pdp' | 'split_ab'>('pdp');
   const [pushAdSetName, setPushAdSetName] = useState('26.10 - FELIORA PSY ANTEK BATCH');
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
@@ -556,6 +557,7 @@ export default function FelioraPiesPlWorkspace({
           body: JSON.stringify({
             action: 'push_to_meta',
             angleIds: targetIds,
+            campaignId: pushCampaignId,
             adSetName: pushAdSetName,
             urlMode: pushUrlMode,
             adStatus: pushStatus,
@@ -564,7 +566,7 @@ export default function FelioraPiesPlWorkspace({
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Błąd wysyłki do Meta Ads.');
         setNotice(
-          `Wysłano do Meta Ads (FEL NATIVE · Psy)! Utworzono Ad Set "${data.adSetName}" (${data.adSetId}) oraz ${data.createdAdsCount} reklam.`,
+          `Wysłano do Meta Ads! Utworzono Ad Set "${data.adSetName}" (${data.adSetId}) oraz ${data.createdAdsCount} reklam.`,
         );
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Błąd podczas wysyłki do Meta Ads.');
@@ -572,7 +574,7 @@ export default function FelioraPiesPlWorkspace({
         setPushingMeta(false);
       }
     },
-    [selectedAngleIds, activePreset, pushAdSetName, pushUrlMode, pushStatus],
+    [selectedAngleIds, activePreset, pushCampaignId, pushAdSetName, pushUrlMode, pushStatus],
   );
 
   const activeStageMeta = activePreset ? FELIORA_PIES_STAGES[activePreset.stageId] : null;
@@ -2196,7 +2198,30 @@ export default function FelioraPiesPlWorkspace({
             }}
           >
             <div style={{ fontSize: '12px', fontWeight: 800, color: '#fcd34d', textTransform: 'uppercase' }}>
-              🚀 Eksport do Meta Ads (FEL NATIVE · 1168927131917359)
+              🚀 Eksport do Meta Ads (Konto 1168927131917359 · Pixel ORTH F)
+            </div>
+
+            <div>
+              <label style={{ fontSize: '11px', color: '#fed7aa', fontWeight: 600 }}>Kampania docelowa (Meta CBO):</label>
+              <select
+                value={pushCampaignId}
+                onChange={e => setPushCampaignId(e.target.value)}
+                style={{
+                  width: '100%',
+                  marginTop: '4px',
+                  background: '#120904',
+                  color: '#fff',
+                  border: '1px solid #5c2f14',
+                  borderRadius: '7px',
+                  padding: '7px 10px',
+                  fontSize: '12.5px',
+                  fontWeight: 600,
+                }}
+              >
+                <option value="120250116221490298">🐶 pieski fel · CBO (120250116221490298 · Dedykowana Psy)</option>
+                <option value="CREATE_NEW_DOG_CBO">✨ Nowa osobna kampania CBO: FEL PSY NATIVE (150 zł/d · PAUSED)</option>
+                <option value="120248696945370298">🐾 FEL NATIVE · CBO (120248696945370298 · Wspólna)</option>
+              </select>
             </div>
 
             <div>
