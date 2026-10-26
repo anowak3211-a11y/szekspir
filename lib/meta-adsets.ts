@@ -650,7 +650,53 @@ export async function cleanupDuplicateAntkiCampaigns(keepCampaignId = '120249912
    deleted.push({ id: cid, name: String(c.name), ok: false, error: e instanceof Error ? e.message : 'Failed' });
   }
  }
- return { keptCampaignId: keepCampaignId, deletedCount: deleted.filter(d => d.ok).length, deleted };
+
+ const deletedStoreAds: { id: string; name: string; pageId: string; ok: boolean; error?: string }[] = [];
+ try {
+  const dorosliAdsRes = await directGraph<{
+   data?: Array<{
+    id?: string;
+    name?: string;
+    status?: string;
+    creative?: { object_story_spec?: { page_id?: string } };
+   }>;
+  }>(
+   '120249967753030300/ads',
+   { fields: 'id,name,status,creative{object_story_spec}', limit: 200 },
+   'GET',
+  );
+  const storeAds = (dorosliAdsRes.data || []).filter(
+   a => a.id && a.status !== 'DELETED' && a.creative?.object_story_spec?.page_id === '752135021308884',
+  );
+  for (let i = 0; i < storeAds.length; i += 5) {
+   const chunk = storeAds.slice(i, i + 5);
+   await Promise.all(
+    chunk.map(async sa => {
+     const aid = String(sa.id);
+     try {
+      await directGraph(aid, { status: 'DELETED' }, 'POST');
+      deletedStoreAds.push({ id: aid, name: String(sa.name || ''), pageId: '752135021308884', ok: true });
+     } catch (e) {
+      deletedStoreAds.push({
+       id: aid,
+       name: String(sa.name || ''),
+       pageId: '752135021308884',
+       ok: false,
+       error: e instanceof Error ? e.message : 'Failed',
+      });
+     }
+    }),
+   );
+  }
+ } catch {}
+
+ return {
+  keptCampaignId: keepCampaignId,
+  deletedCount: deleted.filter(d => d.ok).length,
+  deleted,
+  deletedStoreAdsCount: deletedStoreAds.filter(d => d.ok).length,
+  deletedStoreAds,
+ };
 }
 
 export const ANTKI_CC35_DEFAULT_ADSETS: Record<string, string> = {
@@ -829,7 +875,7 @@ export async function inspectAntkiTargetAssets(accountId = '1109284831182252', c
    `${campaignId}/ads`,
    {
     fields: 'id,name,status,adset_id,creative{id,name,object_story_spec,image_hash,thumbnail_url}',
-    limit: 100,
+    limit: 200,
    },
    'GET',
   ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
@@ -1048,7 +1094,7 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   try {
    const existingAdsRes = await directGraph<{ data?: { id?: string; name?: string; adset_id?: string; status?: string }[] }>(
     `${campaignId}/ads`,
-    { fields: 'id,name,adset_id,status', limit: 100 },
+    { fields: 'id,name,adset_id,status', limit: 200 },
     'GET',
    );
    for (const ea of existingAdsRes.data || []) {
