@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
+import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
 import StrydePlWorkspace from '@/app/components/stryde-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
@@ -124,7 +125,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'stryde' | 'feliora' | 'orthomax'>('stryde');
+  const [activeBrand, setActiveBrand] = useState<'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('stryde');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
   const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
@@ -1802,6 +1803,8 @@ export default function AntkiPlPage() {
     const b = params.get("brand");
     if (b === "orthomax" || b === "feliora" || b === "stryde") {
       setActiveBrand(b);
+    } else if (b === "feliora-pies" || b === "psy" || b === "pies") {
+      setActiveBrand("feliora-pies");
     }
   }, []);
 
@@ -1858,6 +1861,7 @@ export default function AntkiPlPage() {
     return (
       <StrydePlWorkspace
         onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
       />
     );
@@ -1868,6 +1872,17 @@ export default function AntkiPlPage() {
       <FelioraPlWorkspace
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
+      />
+    );
+  }
+
+  if (activeBrand === "feliora-pies") {
+    return (
+      <FelioraPiesPlWorkspace
+        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
       />
     );
   }
@@ -1935,6 +1950,7 @@ export default function AntkiPlPage() {
                 borderRadius: 10,
                 border: "1px solid #4a2610",
                 gap: 4,
+                flexWrap: "wrap",
               }}
             >
               <button
@@ -1968,6 +1984,22 @@ export default function AntkiPlPage() {
                 }}
               >
                 🐾 FELIORA PL · Batch 1: Koty (25 Antków)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveBrand("feliora-pies")}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 7,
+                  border: 0,
+                  background: "transparent",
+                  color: "#fcd34d",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                🐶 FELIORA PL · Batch 2: Psy (25 Antków)
               </button>
               <button
                 type="button"

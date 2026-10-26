@@ -1,6 +1,6 @@
 import { brainClient, brainOptions } from './account-brain';
 
-export type NativeBrandKind = 'sardian-strap' | 'feliora' | 'orthomax' | 'mellow-uk' | 'custom';
+export type NativeBrandKind = 'sardian-strap' | 'feliora' | 'feliora-dog' | 'orthomax' | 'mellow-uk' | 'custom';
 export type NativeMarketKind = 'pl' | 'uk' | 'auto';
 
 export interface NativeIphoneSceneSpec {
@@ -66,6 +66,10 @@ export function formatRawIphoneKiePrompt(
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference Feliora diffuser (compact spherical white duck-head top with tiny yellow beak and pin-dot eyes screwed directly onto a short round amber glass vial, plugged into a wall socket).'
       : 'NO COMMERCIAL PACKSHOT: Do NOT place studio product boxes in the shot.';
+  } else if (brand === 'feliora-dog') {
+    productDirective = includeProductRef
+      ? 'PRODUCT ACCURACY: Match the reference Feliora Dog diffuser (compact spherical matte-white duck-head top with a small orange-yellow beak screwed upright onto a short round clear-greenish 48 mL glass vial with a sage-green label, plugged vertically into a Polish Type-E wall socket - strictly ZERO cats anywhere in frame).'
+      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio product boxes in the shot, and strictly ZERO cats anywhere in frame.';
   } else if (brand === 'orthomax') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference bright orange contoured Orthomax StepMax shoe insole (orange breathable mesh top with raised arch support domes) held in hand or inside everyday shoes.'
@@ -111,7 +115,10 @@ function buildBrandDirectorContext(
     return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 with mechanical knee pain in everyday life (stairs, car pedals, garden/ROD allotment, bathtub, dancing, shopping, walking).${extra}`;
   }
   if (brand === 'feliora') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners dealing with peeing on duvet/sofa, night yowling, FIC bladder stress, multi-cat tension at home.${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Kotów (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners dealing with peeing on duvet/sofa, night yowling, FIC bladder stress, multi-cat tension at home.${extra}`;
+  }
+  if (brand === 'feliora-dog') {
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Psów (spherical matte-white duck-head plug-in diffuser with small orange-yellow beak screwed upright onto a clear-greenish 48 mL glass vial with sage-green label, canine D.A.P. appeasing pheromones - strictly ZERO cats!). Target: Polish dog owners aged 28-58 in Polish block-of-flats apartments and homes dealing with dog separation anxiety, howling for 8 hours by the front door, scratched MDF doors and torn rubber doorframe seals, chewed sofas, live home-camera panic, rescue dog trauma, and fireworks/thunderstorm phobia.${extra}`;
   }
   if (brand === 'orthomax') {
     return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax (bright orange contoured insoles). Segment: ${
@@ -235,6 +242,89 @@ export function buildFallbackTwelveNativeScenes(params: {
         includeProductRef: true,
         scenePrompt:
           'Unstaged handheld iPhone photo in a Polish apartment hallway under warm bulb light with slight highlight flare: the Feliora spherical white duck-head diffuser on its short round amber vial plugged into a wall socket above the baseboard, with a calm tabby cat curled up asleep on the laminate floor nearby.',
+      },
+    ];
+  } else if (brand === 'feliora-dog') {
+    const hasFireworks = /petard|burz|fajerwerk|pralk|sylwestr/i.test(lower);
+    const hasKennel = /klatk|kennel|pręt/i.test(lower);
+    baseTwelve = [
+      {
+        label: hasFireworks
+          ? '1. [HOOK LUDZKI] Przerażony pies wciśnięty za pralkę w łazience i zmartwiony opiekun (flesz)'
+          : '1. [HOOK LUDZKI] Opiekunka w płaszczu pod drzwiami mieszkania z wydrapaną futryną i psem',
+        includeProductRef: false,
+        scenePrompt: hasFireworks
+          ? 'Harsh night-time iPhone flash snapshot in a cramped Polish apartment bathroom: a trembling medium-large mixed-breed dog wedged tightly into the narrow gap between a washing machine and tiled wall panting with wide eyes, while a worried 42-year-old Polish owner kneels beside it in sweatpants.'
+          : 'Candid handheld iPhone photo in a narrow Polish block-of-flats hallway under harsh ceiling bulb glare: a stressed 36-year-old Polish woman in her work coat standing in the open doorway looking down at deep claw gouges in the MDF door and torn rubber doorframe weatherstripping, while a panting dog sits anxiously on the doormat.',
+      },
+      {
+        label: hasKennel
+          ? '2. [HOOK SYTUACJA] Pogięte pręty klatki kennelowej i wciągnięty do środka poszarpany koc'
+          : '2. [HOOK SYTUACJA] Wypatroszona gąbka z rogu kanapy na panelach i nietknięty Kong z jedzeniem',
+        includeProductRef: false,
+        scenePrompt: hasKennel
+          ? 'Slightly crooked handheld iPhone snapshot in a Polish living room with blown-out window light: a wire dog crate with bent front metal bars, a shredded fleece blanket pulled inside through the mesh, and a cracked plastic bottom tray.'
+          : 'Candid iPhone snapshot in an ordinary Polish apartment living room with overexposed window light behind the couch: torn yellow upholstery foam scattered across laminate flooring next to a chewed sofa corner and a completely untouched red rubber Kong toy stuffed with paste.',
+      },
+      {
+        label: '3. [SELFIE EKSPERTA] Polski lekarz weterynarii 54 lata w granatowym fartuchu (przednia kamera)',
+        includeProductRef: false,
+        scenePrompt:
+          'Awkward close-up front-camera iPhone selfie of a tired 54-year-old Polish male veterinarian in plain navy medical scrubs with a blank badge clip and slightly crooked glasses, standing in a brightly lit corridor with blown-out window blinds behind his shoulder, candid unposed expression, plain wall without signs.',
+      },
+      {
+        label: '4. [MECHANIZM] Weterynarz wskazujący długopisem narząd VNO na modelu anatomicznym głowy psa',
+        includeProductRef: false,
+        scenePrompt:
+          'Candid handheld iPhone photo inside a modest veterinary consultation room: a male vet in a rumpled white coat holding a plastic anatomical canine skull-and-nasal-cavity model over a stainless-steel exam table, pointing a blue pen at the vomeronasal organ above the palate, plain shelves behind.',
+      },
+      {
+        label: '5. [SCROLL-STOPPER KOSZ] Wyrzucanie fioletowej obróżki lawendowej i spalonej wtyczki do kosza',
+        includeProductRef: false,
+        scenePrompt:
+          'First-person POV iPhone photo with slightly blown-out auto-exposure looking down into an open plastic kitchen pedal bin: a hand dropping a cut-up purple lavender dog collar, an empty herbal calming spray bottle, and a cheap burnt-wick plug-in diffuser straight into household trash.',
+      },
+      {
+        label: '6. [CIEKAWOSTKA WTF] Ekran telefonu w dłoni w aucie z podglądem kamerki na wyjącego pod drzwiami psa',
+        includeProductRef: false,
+        scenePrompt:
+          'Close-up handheld iPhone photo inside a left-hand-drive car stuck in rainy Polish city traffic: a driver hand holding a second smartphone showing a grainy wide-angle home security camera live feed of a medium dog sitting right against the apartment front door with head tilted back howling.',
+      },
+      {
+        label: '7. [DETAL Z HISTORII] Zwęglony, przypalony knot taniego dyfuzora trzymany w palcach nad zlewem',
+        includeProductRef: false,
+        scenePrompt:
+          'Unflattering close-up iPhone snapshot held in an ordinary hand over a kitchen sink under harsh bulb light: a cheap generic plug-in diffuser opened to reveal a sticky blackened burnt wick from overheating.',
+      },
+      {
+        label: '8. [KARTKA NA STOLE] Mała karteczka z zeszytu od weterynarza obok kluczy i kubka herbaty',
+        includeProductRef: false,
+        scenePrompt:
+          'First-person POV iPhone photo at a scratched Polish kitchen table under warm evening bulb light: house keys, a dog leash, a half-drunk mug of tea, and a small torn notebook slip with natural handwriting reading "feromon kojący D.A.P. - dyfuzor Feliora".',
+      },
+      {
+        label: '9. [BAŁAGAN PRÓB] Kamizelka uciskowa, kapsułki ziołowe, spraye i gryzaki rzucone na komodę',
+        includeProductRef: false,
+        scenePrompt:
+          'Eye-level candid iPhone snapshot of a cluttered Polish hallway dresser next to a dog leash: a crumpled grey Velcro thunder-vest, opened blisters of herbal tryptophan capsules, two calming spray bottles, and untouched chew toys.',
+      },
+      {
+        label: '10. [SCENA Z HISTORII] Wieczorna rozmowa małżeństwa w kuchni nad rozgrzebanym legowiskiem psa',
+        includeProductRef: false,
+        scenePrompt:
+          'Candid night-time iPhone snapshot with harsh direct flash in a small Polish apartment kitchen: a tired 38-year-old Polish man in a t-shirt sitting at the table rubbing his eyes beside a cup of tea while his dog rests its chin nervously on his knee.',
+      },
+      {
+        label: '11. [EFEKT CODZIENNY] Pies śpiący głębokim snem kołami do góry na kanapie bez folii i koców',
+        includeProductRef: false,
+        scenePrompt:
+          'Slightly overexposed daytime iPhone photo in a lived-in Polish living room with bright blown-out window sunlight: a relaxed medium-large mixed-breed dog sleeping deeply on its back belly-up on an uncovered fabric sofa next to a throw pillow, completely peaceful.',
+      },
+      {
+        label: '12. [PRODUKT W RUCHU] Pionowa wtyczka Feliora dla Psów w gniazdku obok spokojnie śpiącego psa',
+        includeProductRef: true,
+        scenePrompt:
+          'Unstaged handheld iPhone photo in a Polish apartment hallway-to-living-room passage under warm bulb light: the Feliora spherical matte-white duck-head diffuser with orange-yellow beak screwed upright onto its clear-greenish 48 mL glass vial plugged vertically into a wall socket above the baseboard, with a calm dog sleeping peacefully on its bed nearby (strictly ZERO cats).',
       },
     ];
   } else if (brand === 'orthomax') {
@@ -587,6 +677,26 @@ export async function planNativeIphoneScenesFromScript(params: {
 
   try {
     const client = brainClient(brainOptions(45_000));
+    const isPetBrand = params.brand === 'feliora' || params.brand === 'feliora-dog';
+    const hook1Rule =
+      params.brand === 'feliora-dog'
+        ? '1. [HOOK HUMAN + DOG] Real 28-55yo Polish dog owner(s) AND their dog caught in the exact emotional conflict and EXACT apartment/home location of paragraph 1-3 (e.g. stressed owner in hallway by scratched MDF door, owner in car looking at live pet-cam phone feed, kneeling beside trembling dog behind washing machine; strictly ZERO cats!).'
+        : isPetBrand
+        ? '1. [HOOK HUMAN + CAT] Real 30-55yo Polish cat owner(s) AND their cat caught in the exact emotional conflict and EXACT home location of paragraph 1-3 (harsh indoor/night flash, ordinary unretouched people).'
+        : '1. [HOOK HUMAN] Real 50-75yo protagonist(s) / couple / family caught in the exact emotional conflict and EXACT location of paragraph 1-3 (candid framing or harsh direct indoor/night flash; ordinary unretouched people in frame - DO NOT shoot an empty room!).';
+    const hook2Rule =
+      params.brand === 'feliora-dog'
+        ? '2. [HOOK SYMPTOM / DAMAGE] Unflattering raw iPhone shot of the exact canine anxiety symptom or home damage from the opening of THIS script (e.g. chewed sofa foam & untouched Kong, deep claw gouges on apartment door & torn rubber seal, bent wire crate bars, dog howling by front door, puddle on rug; strictly ZERO cats!).'
+        : isPetBrand
+        ? '2. [HOOK SYMPTOM] Unflattering raw iPhone shot of the exact cat stress symptom from the opening of THIS script (wet duvet patch, painter foil on sofa, mesh in doorway, litter box strain).'
+        : '2. [HOOK SYMPTOM] Unflattering physical struggle / body / symptom shot from the opening of THIS script (e.g. older person sitting awkwardly on stairs grabbing knee, standing in church pew, struggling at bathtub edge, gripping knee in car, mirror shot).';
+    const payoff11Rule =
+      params.brand === 'feliora-dog'
+        ? '11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the relaxed dog sleeping deeply belly-up on an uncovered sofa or greeting the smiling Polish owner calmly in harsh natural daylight or indoor bulb light (strictly ZERO cats!).'
+        : isPetBrand
+        ? '11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the relaxed cat sleeping belly-up on a clean uncovered duvet/sofa or calmly sitting on the owner lap.'
+        : '11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the ordinary 55-75yo protagonist comfortably doing the exact activity they could not do at the start of THIS script (descending stairs, carrying Biedronka groceries, gardening, dancing, walking with grandchild) in harsh natural daylight or indoor bulb light.';
+
     const systemPrompt = `You are an elite Direct-Response Native Ad Visual Director creating raw, unstaged iPhone camera-roll photo prompts for Meta native long-form ads (Antki).
 ${buildBrandDirectorContext(params.brand, resolvedMarket, params.segment, params.instructionText)}
 ${localeRules}
@@ -594,17 +704,17 @@ ${localeRules}
 Read the ENTIRE script (skrypt.txt) carefully and generate EXACTLY ${targetCount} diverse, scroll-stopping raw iPhone photo prompts (in English) tailored 100% to the ACTUAL characters, conflicts, props, and locations of THIS specific script:
 
 MANDATORY ${targetCount}-SCENE ARCHETYPE MIX:
-1. [HOOK HUMAN] Real 50-75yo protagonist(s) / couple / family caught in the exact emotional conflict and EXACT location of paragraph 1-3 (candid framing or harsh direct indoor/night flash; ordinary unretouched people in frame - DO NOT shoot an empty room!).
-2. [HOOK SYMPTOM] Unflattering physical struggle / body / symptom shot from the opening of THIS script (e.g. older person sitting awkwardly on stairs grabbing knee, standing in church pew, struggling at bathtub edge, gripping knee in car, mirror shot).
+${hook1Rule}
+${hook2Rule}
 3. [EXPERT SELFIE] Awkward front-camera iPhone selfie (chin-down or arm-length) of a 50-62yo physiotherapist, orthopedist, or vet in plain unmarked medical scrubs or white coat with a blank badge clip, slightly crooked glasses, harsh ceiling light or blown-out window blinds behind head, neutral mid-thought expression, plain wall with ZERO signs.
-4. [MECHANISM MODEL] Candid snapshot of a specialist in a plain coat pointing a pen at the exact anatomical structure on a plastic skeleton/organ model (e.g. patellar tendon 2 fingers below kneecap, medial foot arch, cat VNO), plain room with ZERO wall signs.
-5. [BIN SCROLL-STOPPER] First-person POV looking into an open kitchen pedal bin with slightly blown-out iPhone exposure while a hand throws the specific failed solutions from THIS script (stretched pharmacy sleeves, ointment tubes, pill blisters, cheap insoles/collars) straight into the rubbish.
-6. [WTF CURIOSITY] Bizarre, hyper-specific scroll-stopping curiosity close-up pulled from a concrete object or detail in THIS script ("what am I looking at?" e.g. heavy hinged brace hanging on garage nail, ground-down shoe heel, burnt diffuser wick, handwritten allotment sale card, pillow wedged between knees).
-7. [STORY SCENE A] Candid iPhone snapshot of a key real-life moment or diagnostic detail explicitly described in THIS script (if the script mentions an X-ray/ultrasound, show a dim desktop monitor X-ray with a pen pointing; if the script takes place in a hair salon, allotment garden, stairwell, car, church, or dancing hall without an X-ray, show THAT real scene from the story!).
+4. [MECHANISM MODEL] Candid snapshot of a specialist in a plain coat pointing a pen at the exact anatomical structure on a plastic skeleton/organ model (e.g. canine/feline VNO above nasal palate, patellar tendon 2 fingers below kneecap, medial foot arch), plain room with ZERO wall signs.
+5. [BIN SCROLL-STOPPER] First-person POV looking into an open kitchen pedal bin with slightly blown-out iPhone exposure while a hand throws the specific failed solutions from THIS script (cut lavender collars, herbal sprays, burnt-wick cheap diffusers, stretched pharmacy sleeves, ointment tubes, pill blisters) straight into the rubbish.
+6. [WTF CURIOSITY] Bizarre, hyper-specific scroll-stopping curiosity close-up pulled from a concrete object or detail in THIS script ("what am I looking at?" e.g. burnt blackened diffuser wick, phone showing live pet-cam feed in traffic, chewed doorframe weatherstripping, heavy hinged brace hanging on garage nail, ground-down shoe heel).
+7. [STORY SCENE A] Candid iPhone snapshot of a key real-life moment or diagnostic detail explicitly described in THIS script (vet consultation room, hallway doorstep, car interior, bathroom, living room).
 8. [HANDWRITTEN PRODUCT SLIP] POV at a lived-in home kitchen table next to reading glasses and a half-drunk mug of tea (or on a car seat), showing a small torn notebook slip where ONLY the product name or biological mechanism is scribbled in natural Polish/English (NEVER add clinic headers, referrals, stamps, or words like "opinie"/"cena"/"reviews"/"price"!).
-9. [FAILED CLUTTER] Eye-level / 45-degree messy home bathroom sink or kitchen counter cluttered with the exact failed pills, blisters, gels, collagen tubs, or sprays from the story (NEVER a neat 90-degree graphic flat-lay!).
-10. [STORY SCENE B] Candid snapshot of the central social or family scene from the middle of THIS script in its true setting (allotment gazebo, hallway with postman/daughter, hair salon chair, family dinner table, car park) with ordinary everyday clothes.
-11. [EVERYDAY PAYOFF] Unstaged everyday payoff photo of the ordinary 55-75yo protagonist comfortably doing the exact activity they could not do at the start of THIS script (descending stairs, carrying Biedronka groceries, gardening, dancing, walking with grandchild) in harsh natural daylight or indoor bulb light.
+9. [FAILED CLUTTER] Eye-level / 45-degree messy home bathroom sink, hallway dresser, or kitchen counter cluttered with the exact failed items from the story (thunder-vest, herbal tryptophan blisters, sprays, untouched chew toys, gels - NEVER a neat 90-degree graphic flat-lay!).
+10. [STORY SCENE B] Candid snapshot of the central social or family scene from the middle of THIS script in its true setting with ordinary everyday clothes.
+${payoff11Rule}
 ${scene12Text}${extraArchetypesText}
 
 STRICT BANS (VIOLATION RUINS THE ENTIRE BATCH):

@@ -25,6 +25,7 @@ const BUILTIN_BRAND_REF_PATHS: Partial<Record<NativeBrandKind, string>> = {
   'mellow-uk': '/brand-references/mellow-packshot-front-uk.jpg',
   'sardian-strap': '/stryde-pl-images/sardian-ref-main.jpg',
   feliora: '/feliora-pl-images/feliora-ref-duck.jpg',
+  'feliora-dog': '/feliora-pies-pl-images/feliora-pies-diffuser-ref.jpg',
   orthomax: '/antki-pl-images/orthomax-stepmax-packshot.jpg',
 };
 

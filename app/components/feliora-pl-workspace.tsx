@@ -39,9 +39,14 @@ const STAGE_ORDER: FelioraAwarenessStageId[] = [
 interface FelioraPlWorkspaceProps {
   onSwitchToOrthomax?: () => void;
   onSwitchToStryde?: () => void;
+  onSwitchToFelioraPies?: () => void;
 }
 
-export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryde }: FelioraPlWorkspaceProps) {
+export default function FelioraPlWorkspace({
+  onSwitchToOrthomax,
+  onSwitchToStryde,
+  onSwitchToFelioraPies,
+}: FelioraPlWorkspaceProps) {
   const [presets, setPresets] = useState<FelioraAnglePreset[]>(FELIORA_PRESET_ANGLES);
   const [ads, setAds] = useState<FelioraPlGeneratedAd[]>(() => buildAllFelioraPrewrittenAds());
   const [imageLibrary, setImageLibrary] = useState<FelioraImageAsset[]>(FELIORA_IMAGE_LIBRARY);
@@ -681,6 +686,24 @@ export default function FelioraPlWorkspace({ onSwitchToOrthomax, onSwitchToStryd
             >
               🐾 FELIORA PL · Batch 1: Koty (25 Antków · 5 Stages)
             </button>
+            {onSwitchToFelioraPies && (
+              <button
+                type="button"
+                onClick={onSwitchToFelioraPies}
+                style={{
+                  background: 'transparent',
+                  color: '#fcd34d',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '7px 14px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                🐶 FELIORA PL · Batch 2: Psy (25 Antków)
+              </button>
+            )}
             {onSwitchToOrthomax && (
               <button
                 type="button"

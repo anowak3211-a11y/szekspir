@@ -21,6 +21,7 @@ import {
 
 interface StrydePlWorkspaceProps {
   onSwitchToFeliora?: () => void;
+  onSwitchToFelioraPies?: () => void;
   onSwitchToOrthomax?: () => void;
 }
 
@@ -34,6 +35,7 @@ const STAGE_ORDER: StrydeAwarenessStageId[] = [
 
 export default function StrydePlWorkspace({
   onSwitchToFeliora,
+  onSwitchToFelioraPies,
   onSwitchToOrthomax,
 }: StrydePlWorkspaceProps) {
   const [presets, setPresets] = useState<StrydeAnglePreset[]>(STRYDE_PRESET_ANGLES);
@@ -790,6 +792,25 @@ export default function StrydePlWorkspace({
                 }}
               >
                 🐾 FELIORA PL · Koty (25 Antków)
+              </button>
+            )}
+
+            {onSwitchToFelioraPies && (
+              <button
+                type="button"
+                onClick={onSwitchToFelioraPies}
+                style={{
+                  background: 'transparent',
+                  color: '#fbbf24',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '7px 14px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                🐶 FELIORA PL · Psy (25 Antków)
               </button>
             )}
 

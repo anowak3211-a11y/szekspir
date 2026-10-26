@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-type NativeBrandKind = 'custom' | 'mellow-uk' | 'sardian-strap' | 'feliora' | 'orthomax';
+type NativeBrandKind = 'custom' | 'mellow-uk' | 'sardian-strap' | 'feliora' | 'feliora-dog' | 'orthomax';
 type NativeMarketKind = 'auto' | 'uk' | 'pl';
 
 interface GeneratedCard {
@@ -742,6 +742,7 @@ export default function NativeImagesStudioPage() {
                   <option value="mellow-uk">🇬🇧 Mellow Mood Munchies UK (Saffron Gummies)</option>
                   <option value="sardian-strap">🇵🇱 SARDIAN Opaska Podrzepkowa na kolano</option>
                   <option value="feliora">🇵🇱 Feliora PL Dyfuzor Feromonowy (Koty)</option>
+                  <option value="feliora-dog">🇵🇱 Feliora PL Dyfuzor Feromonowy D.A.P. (Psy)</option>
                   <option value="orthomax">🇵🇱 Orthomax StepMax PL Wkładki</option>
                 </select>
               </div>
