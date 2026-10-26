@@ -18,7 +18,7 @@ export async function proxy(req: NextRequest) {
     if (secret && header === `Bearer ${secret}`) return NextResponse.next();
     return new NextResponse("Auth required", { status: 401 });
   }
-  if (["/api/editors/quality", "/api/antki-pl", "/api/feliora-pl", "/api/stryde-pl"].includes(req.nextUrl.pathname) && ((process.env.CRON_SECRET && header === `Bearer ${process.env.CRON_SECRET}`) || header === "Bearer szekspir-antki-sync-2026")) return NextResponse.next();
+  if (["/api/editors/quality", "/api/antki-pl", "/api/feliora-pl", "/api/feliora-pies-pl", "/api/stryde-pl"].includes(req.nextUrl.pathname) && ((process.env.CRON_SECRET && header === `Bearer ${process.env.CRON_SECRET}`) || header === "Bearer szekspir-antki-sync-2026")) return NextResponse.next();
   const pass = process.env.APP_PASSWORD;
   if (!pass) {
     if (process.env.NODE_ENV === "development") return NextResponse.next();
