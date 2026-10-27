@@ -14,9 +14,11 @@ export function narration(script:string,market:'uk'|'pl'='uk'){
  let s=script.replace(/\[[^\]]*\]/g,'').replace(/^\s*(?:scene\s*\d+|visual|b-roll|caption|on-screen text)\s*:.*$/gim,'');
  if(market==='pl')return s.replace(/^\s*(?:scena\s*\d+|ujęcie|napis|tekst na ekranie)\s*:.*$/gim,'').replace(/\n{3,}/g,'\n\n').trim();
  s=canonicalUkMedicationName(s);
- s=s.replace(/£([\d,]+)(?:\.(\d{2}))?/g,(_m,p,c)=>{const pounds=Number(p.replace(/,/g,'')),pence=Number(c||0);return numberWords(pounds)+(pounds===1?' pound':' pounds')+(pence?' and '+numberWords(pence)+(pence===1?' penny':' pence'):'');});
+ s=s.replace(/[£$]([\d,]+)(?:\.(\d{2}))?/g,(_m,p,c)=>{const pounds=Number(p.replace(/,/g,'')),pence=Number(c||0);return numberWords(pounds)+(pounds===1?' pound':' pounds')+(pence?' and '+numberWords(pence)+(pence===1?' penny':' pence'):'');});
+ s=s.replace(/\bdollars\b/gi,'pounds').replace(/\bdollar\b/gi,'pound').replace(/\bcents\b/gi,'pence').replace(/\bbucks\b/gi,'quid');
  s=s.replace(/\b(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)(?=\W|$)/gi,(_m,h,m,ap)=>numberWords(Number(h))+(m&&m!=='00'?' '+(Number(m)<10?'oh ':'')+numberWords(Number(m)):'')+' '+(ap.toLowerCase().startsWith('a')?'in the morning':'in the afternoon'));
  s=s.replace(/\b([\d,]+(?:\.\d+)?)\s*(mg|mcg|kg|%)(?=\W|$)/g,(_m,n,u)=>decimal(n)+' '+({mg:'milligrams',mcg:'micrograms',kg:'kilograms','%':'per cent'}[u as string]));
  s=s.replace(/\b\d[\d,]*(?:\.\d+)?\b/g,m=>decimal(m));
  return s.replace(/\n{3,}/g,'\n\n').trim();
 }
+

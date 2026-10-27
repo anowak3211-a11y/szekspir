@@ -89,6 +89,7 @@ const PAIRS:Record<string,string>={
  couch:'sofa',nightstand:'bedside table',dresser:'chest of drawers',washcloth:'flannel',comforter:'duvet',
  bangs:'fringe',raincoat:'mac',overalls:'dungarees',suspenders:'braces',pantyhose:'tights',soccer:'football',
  check:'cheque',checks:'cheques',gotten:'got',oftentimes:'often',fall:'autumn',
+ dollar:'pound',dollars:'pounds',cents:'pence',bucks:'quid',tv:'telly',
 };
 export function applyCritic(script:string,fixes:unknown,sourceTranscript?:string):{script:string;fixes:Note[]}{
  if(!Array.isArray(fixes))return {script,fixes:[]}; const accepted:Note[]=[];

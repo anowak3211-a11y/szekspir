@@ -4,10 +4,11 @@ import type {LocalizeResult} from './validation';
 export function isNonSpeechTranscript(text:unknown):boolean {
  if(typeof text!=='string')return false;
  if(!text.trim())return true;
- const cue='(?:music(?: intro| outro)?|instrumental(?: music)?|background music|silence|no speech|no dialogue|applause|laughter)';
+ const cue='(?:music(?: intro| outro| playing)?|instrumental(?: music)?|background music|upbeat music|sad music|gentle music|piano music|silence|no speech|no dialogue|applause|laughter|subtitles by the amara\\.org community|transcribed by https?:\\/\\/otter\\.ai)';
  const withoutCues=text.replace(new RegExp('\\[\\s*'+cue+'\\s*\\]|\\(\\s*'+cue+'\\s*\\)','gi'),'').replace(/[🎶🎵♪♫]/gu,'').trim();
  return !withoutCues || new RegExp('^'+cue+'[.!]?$','i').test(withoutCues);
 }
 export function noSpeechResult():LocalizeResult {
  return {no_speech:true,uk_script:'',narration:'',hooks:[],hook_og:'',ad_desire:'Video only',ad_angle:'No dialogue',unique_mechanism:'',funnel:'TOF',notes:[],data_gaps:[],prompt_version:'no-speech-v1'};
 }
+

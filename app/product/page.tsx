@@ -18,6 +18,12 @@ export default function ProductFolder() {
   const [editingFile,setEditingFile]=useState<ProductFile|null>(null);
   const [fileDraft,setFileDraft]=useState("");
   const [saving,setSaving]=useState(false);
+  const [creatingFile,setCreatingFile]=useState(false);
+  const [newFilename,setNewFilename]=useState("offer_brief.md");
+  const [newFileContent,setNewFileContent]=useState("");
+  const [genOpen,setGenOpen]=useState(false);
+  const [genUrl,setGenUrl]=useState("");
+  const [genNotes,setGenNotes]=useState("");
 
   async function refresh() {
     const j = await fetch("/api/products").then((r) => r.json());
@@ -105,6 +111,27 @@ export default function ProductFolder() {
     }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
   }
 
+  async function createNewFileInline(){
+    const fname = newFilename.trim();
+    if(!fname || !newFileContent.trim()){setMsg('❌ Provide filename and content.');return;}
+    setSaving(true);setMsg(`Saving ${fname}…`);
+    try{
+      const r=await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'addFile',product:selected,filename:fname.includes('.')?fname:`${fname}.md`,markdown:newFileContent})});
+      const j=await r.json();if(!r.ok)throw Error(j.error||'Create file failed');
+      await refresh();setCreatingFile(false);setNewFileContent('');setMsg(`✅ Saved ${fname} in ${selected}.`);
+    }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
+  }
+
+  async function generatePackFromBrief(){
+    if(!genUrl.trim() && !genNotes.trim()){setMsg('❌ Paste a store/product URL or brief notes first.');return;}
+    setSaving(true);setMsg(`⚡ Generating _product_profile.json, offer_brief.md & master_prompt_direct.md for ${selected}…`);
+    try{
+      const r=await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'generatePack',product:selected,url:genUrl.trim(),notes:genNotes.trim()})});
+      const j=await r.json();if(!r.ok)throw Error(j.error||'Pack generation failed');
+      await refresh();setGenOpen(false);setGenUrl('');setGenNotes('');setMsg(`✅ Generated ${(j.generated||[]).join(', ')} in ${selected}!`);
+    }catch(e){setMsg('❌ '+(e instanceof Error?e.message:String(e)));}finally{setSaving(false);}
+  }
+
   const onDrop = useCallback(
     async (e: React.DragEvent) => {
       e.preventDefault();
@@ -136,6 +163,8 @@ export default function ProductFolder() {
               setPreview(null);
               setEditingFile(null);
               setRenaming(false);
+              setCreatingFile(false);
+              setGenOpen(false);
             }}
           >
             <span className="tile-icon">📦</span>
@@ -195,10 +224,35 @@ export default function ProductFolder() {
 
       {current && (
         <div className="prodeditor">
-          <div className="prodhead">
+          <div className="prodhead" style={{flexWrap:'wrap',gap:'8px'}}>
             {renaming?<><label htmlFor="product-rename">Product name</label><input id="product-rename" autoFocus value={nameDraft} maxLength={120} disabled={saving} onChange={e=>setNameDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')void saveName();if(e.key==='Escape')setRenaming(false);}}/><button type="button" disabled={saving||!nameDraft.trim()} onClick={saveName}>{saving?'Saving…':'Save name'}</button><button type="button" disabled={saving} onClick={()=>setRenaming(false)}>Cancel</button></>
-            :<><strong>{current.name} — files</strong><button type="button" disabled={saving} onClick={()=>{setNameDraft(current.name);setRenaming(true);setMsg('');}}>Rename product</button></>}
+            :<><strong>{current.name} — files</strong><div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}><button type="button" disabled={saving} onClick={()=>{setCreatingFile(!creatingFile);setGenOpen(false);setEditingFile(null);setMsg('');}}>➕ New .md / .json file</button><button type="button" disabled={saving} onClick={()=>{setGenOpen(!genOpen);setCreatingFile(false);setEditingFile(null);setMsg('');}}>⚡ Auto-generate .md pack from URL / brief</button><button type="button" disabled={saving} onClick={()=>{setNameDraft(current.name);setRenaming(true);setMsg('');}}>Rename product</button></div></>}
           </div>
+          {creatingFile&&(
+            <div className="product-file-editor" style={{marginBottom:'14px'}}>
+              <label htmlFor="new-md-filename">Filename (.md or .json)</label>
+              <input id="new-md-filename" value={newFilename} disabled={saving} onChange={e=>setNewFilename(e.target.value)} placeholder="e.g. offer_brief.md, master_prompt_direct.md, _product_profile.json" style={{marginBottom:'8px',width:'100%'}}/>
+              <label htmlFor="new-md-content">Markdown / JSON content</label>
+              <textarea id="new-md-content" className="mdedit" rows={12} value={newFileContent} disabled={saving} onChange={e=>setNewFileContent(e.target.value)} placeholder="Paste your product facts, offer brief, or master prompt here…"/>
+              <div className="product-edit-actions">
+                <button type="button" className="go" disabled={saving||!newFilename.trim()||!newFileContent.trim()} onClick={createNewFileInline}>{saving?'Saving…':'Save file'}</button>
+                <button type="button" disabled={saving} onClick={()=>setCreatingFile(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
+          {genOpen&&(
+            <div className="product-file-editor" style={{marginBottom:'14px'}}>
+              <label htmlFor="gen-pack-url">Product / Store URL (optional)</label>
+              <input id="gen-pack-url" value={genUrl} disabled={saving} onChange={e=>setGenUrl(e.target.value)} placeholder="https://..." style={{marginBottom:'8px',width:'100%'}}/>
+              <label htmlFor="gen-pack-notes">Product brief / notes / offer details</label>
+              <textarea id="gen-pack-notes" className="mdedit" rows={8} value={genNotes} disabled={saving} onChange={e=>setGenNotes(e.target.value)} placeholder="Describe the brand, form (capsules/drops/insoles), key ingredients, price/bundles, target market (PL/UK) and forbidden claims…"/>
+              <p className="hint">Automatically generates <code>_product_profile.json</code>, <code>offer_brief.md</code> and <code>master_prompt_direct.md</code> inside {current.name}.</p>
+              <div className="product-edit-actions">
+                <button type="button" className="go" disabled={saving||(!genUrl.trim()&&!genNotes.trim())} onClick={generatePackFromBrief}>{saving?'Generating…':'⚡ Generate .md Pack'}</button>
+                <button type="button" disabled={saving} onClick={()=>setGenOpen(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
           {current.files.length===0&&<p className="hint">No files yet. Drop a research file above to add one.</p>}
           {current.files.map((f) => (
             <div key={f.filename} className="batchrow">

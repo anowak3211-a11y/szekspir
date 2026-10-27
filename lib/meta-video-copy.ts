@@ -30,8 +30,8 @@ async function sourceText(videoUrl:string){
 }
 export async function generateVideoCopy(raw:unknown){
  const v=videoCopyInput(raw);assertBrain();const source=await sourceText(v.videoUrl);
- const trimmed=source.text.trim();
- if(!trimmed||/^(?:\.|thanks for watching!?|honourable mention)$/i.test(trimmed))throw Error('No speech detected. Write the copy manually; no text generation was sent.');
+ const trimmed=source.text.replace(/[🎶🎵♪♫]/gu,'').trim();
+ if(!trimmed||/^(?:\.|thanks?(?: you)? for watching!?|honourable mention|\[?\s*(?:music|instrumental|background music|silence|no speech|applause)\s*\]?|subtitles by the amara\.org community|subscribe to my channel!?)$/i.test(trimmed))throw Error('No speech detected. Write the copy manually; no text generation was sent.');
  if(source.text.length>80000)throw Error('The saved script is too long for automatic video copy.');
  const model=process.env.ANTKI_TEXT_MODEL||'gpt-6-sol',owner=randomUUID();
  const key='meta-video-copy-'+hash(JSON.stringify(['video-copy-v2-dr',v.accountId,v.language,model,brainSettings(),source.text,v.generationId||'automatic']));
