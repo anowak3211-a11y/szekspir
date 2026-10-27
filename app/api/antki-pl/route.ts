@@ -1394,17 +1394,22 @@ export const POST = accountRoute(async (req: Request) => {
               results.push({ id: current.id, adId: current.adId, error: 'Missing video duration' });
               continue;
             }
+            const is105 = rawBody.mode === '1.05' || rawBody.factor === 1.05;
             const cleanScript = stripPlaceholderTokens(current.result.uk_script);
-            const processing = { ...v4RecordingSettings(current.voiceProcessing), matchSourcePace: true, tempoFactor: 1 };
+            const processing = is105
+              ? { ...v4RecordingSettings(current.voiceProcessing), matchSourcePace: false, pauseShorteningMs: 0, tempoFactor: 1 }
+              : { ...v4RecordingSettings(current.voiceProcessing), matchSourcePace: true, tempoFactor: 1 };
             const jobWithDuration = { ...current, duration };
-            const pace = sourcePace(jobWithDuration, cleanScript, current.voiceId, processing) || {
-              sourceSeconds: duration,
-              targetSeconds: duration,
-              sourceWords: 100,
-              scriptWords: 100,
-              speed: 1,
-              calibrated: false,
-            };
+            const pace = is105
+              ? undefined
+              : sourcePace(jobWithDuration, cleanScript, current.voiceId, processing) || {
+                  sourceSeconds: duration,
+                  targetSeconds: duration,
+                  sourceWords: 100,
+                  scriptWords: 100,
+                  speed: 1,
+                  calibrated: false,
+                };
             const nextRev = (current.revision || 0) + 1;
             const origUrl = !rawBody.forceFresh ? (current.voOriginalUrl || current.previousVo?.originalUrl) : undefined;
             let finalAudio: ArrayBuffer;
@@ -1416,7 +1421,12 @@ export const POST = accountRoute(async (req: Request) => {
               const rawAb = new Uint8Array(rawBuf).buffer;
               let cleaned = await cleanVoiceover(rawAb, t => { finalTiming = t; }, processing, 'voiceover');
               if (!finalTiming) throw new Error('Timing failed');
-              cleaned = await fitVoiceoverPace(cleaned, finalTiming, pace);
+              if (is105) {
+                const { slightlyFasterVoice } = await import('@/lib/slightly-faster-voice');
+                cleaned = await slightlyFasterVoice(cleaned, finalTiming, 1.05);
+              } else if (pace) {
+                cleaned = await fitVoiceoverPace(cleaned, finalTiming, pace);
+              }
               finalAudio = cleaned;
             } else {
               const narration = await prepareNarration(cleanScript, current.provider, current.model, current.market);
@@ -1446,8 +1456,13 @@ export const POST = accountRoute(async (req: Request) => {
               s.voTiming = finalTiming;
               s.voUrl = wavUrl;
               s.voNeedsRegeneration = false;
+              s.lease = undefined;
+              s.leaseUntil = undefined;
+              s.hookVoPending = undefined;
+              s.hookDeliveryPending = undefined;
+              delete (s as Record<string, unknown>).originalVoiceoverDelivery;
               s.stages ??= {};
-              s.stages.vo = { ...(s.stages.vo || {}), done: true, pending: false, error: undefined, finished: Date.now() };
+              s.stages.vo = { ...(s.stages.vo || {}), done: true, pending: false, uncertain: false, error: undefined, finished: Date.now() };
               s.updated = Date.now();
             });
             const updated = await getJob(current.id);
@@ -1460,11 +1475,12 @@ export const POST = accountRoute(async (req: Request) => {
               id: current.id,
               adId: current.adId,
               name: current.name,
+              mode: is105 ? '1.05x' : 'source_pace',
               videoDuration: duration,
               originalVoSeconds: finalTiming?.originalSeconds,
-              inputTrimmedSeconds: finalTiming?.paceAdjustment?.inputSeconds ?? finalTiming?.originalSeconds,
+              inputTrimmedSeconds: finalTiming?.paceAdjustment?.inputSeconds ?? finalTiming?.tempoAdjustment?.inputSeconds ?? finalTiming?.originalSeconds,
               outputVoSeconds: finalTiming?.trimmedSeconds,
-              tempoFactor: finalTiming?.paceAdjustment?.factor ?? 1,
+              tempoFactor: finalTiming?.paceAdjustment?.factor ?? finalTiming?.tempoAdjustment?.factor ?? 1,
               voUrl: wavUrl,
               reusedOriginalTake: !!origUrl,
             });
