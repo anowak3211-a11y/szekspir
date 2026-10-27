@@ -12,7 +12,7 @@ import {getJob,jobs,finalise,pythonCall} from './jobs';
 import {mutate} from './store';
 import {fetchAdVideo} from './fetchad';
 import {safeDownload} from './safe-fetch';
-import {localize,transcribeWithDuration,prepareNarration} from './localize';
+import {localize,buildGeminiRipResult,transcribeWithDuration,prepareNarration} from './localize';
 import {generateVO} from './elevenlabs';
 import {syncAssignedEditor} from './editor-sync';
 import {appendToAdminBriefs,updateReference,updateVoiceover} from './sheets';
@@ -103,7 +103,18 @@ export async function advanceParallel(id:string):Promise<number>{
       await save(s=>{s.stages![k]!.done=true;});
      });
     }else if(k==='localise'){
-     if(!job.result){await paid();const targetBrand=(!job.productName||/^mellow$/i.test(job.productName))?"MELLOW":job.productName;const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,targetBrand,job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
+     if(!job.result){
+      let activeProductName=job.productName,activeContext=job.productContext,activeSheetProduct=job.sheetProduct;
+      if(job.market!=='pl'&&/\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?)\b/i.test(job.transcript||'')&&/^(?:magnesium|mellow)$/i.test(activeProductName||'')){
+       try{const {getProducts}=await import('./products');const found=(await getProducts()).find(p=>/^pumpkin$/i.test(p.name));if(found){activeProductName=found.name;activeContext=found.markdown;activeSheetProduct=found.name;}}catch{}
+      }
+      if(job.localizationMode==='gemini'&&job.geminiScript?.trim()){
+       const r=buildGeminiRipResult(job.transcript!,job.geminiScript,job.geminiHooks,job.market);
+       await save(s=>{if(activeProductName!==s.productName){s.productName=activeProductName;s.productContext=activeContext;s.sheetProduct=activeSheetProduct;}s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};});
+      }else{
+       await paid();const targetBrand=(!activeProductName||/^mellow$/i.test(activeProductName))?"MELLOW":activeProductName;const r=await localize(job.transcript!,job.provider,job.model,activeContext,job.generateVo,job.singingAd,targetBrand,job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);await save(s=>{if(activeProductName!==s.productName){s.productName=activeProductName;s.productContext=activeContext;s.sheetProduct=activeSheetProduct;}s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});
+      }
+     }
     }else if(k==='segment'){
      const parts=job.videoParts||planParts(job.duration!);
      if(!job.videoParts)await save(s=>{s.videoParts=parts;});

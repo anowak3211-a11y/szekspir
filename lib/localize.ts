@@ -47,31 +47,64 @@ ${market==='uk'?'Use the owner-requested name Concerta XL in place of Ritalin, w
  }
  throw Error(lastError+' Your saved hook was not changed.');
 }
+export function resolveCanonicalTargetBrand(targetBrand:string,productMd?:string):string{
+ if(/^pumpkin$/i.test((targetBrand||'').trim()))return 'Bennett & Seed';
+ if(!productMd?.trim())return targetBrand;
+ try{
+  const parsed=JSON.parse(productMd),facts=Array.isArray(parsed?.facts)?parsed.facts:[];
+  for(const f of facts)if(/product_profile\.json$/i.test(String(f?.filename||''))&&typeof f?.content==='string'){
+   const profile=JSON.parse(f.content),name=String(profile?.product_name||profile?.brand||'').trim();
+   if(name&&!/^(?:mellow|magnesium|orthomax)/i.test(name))return name;
+  }
+ }catch{/* non-JSON or plain markdown context */}
+ return targetBrand;
+}
+export function buildGeminiRipResult(usScript:string,geminiScript:string,geminiHooks?:string[],market:Market='uk'):LocalizeResult{
+ market=parseMarket(market);
+ const cleanScript=market==='uk'?canonicalUkMedicationName(geminiScript.trim()):geminiScript.trim();
+ const cleanHooks=(geminiHooks||[]).map(h=>String(h||'').trim()).filter(Boolean).slice(0,2).map(h=>market==='uk'?canonicalUkMedicationName(h):h);
+ const source=usScript?.trim()||cleanScript;
+ return {
+  uk_script:cleanScript,
+  narration:narration(cleanScript,market),
+  hooks:cleanHooks,
+  hook_og:opening(cleanScript),
+  timing:timing(source,cleanScript),
+  notes:[{original:'Source script',replacement:'Gemini rip script',reason:'Provided directly via Gemini rip mode (AI rewrite skipped).'}],
+  data_gaps:[],
+  ad_desire:'Target market adaptation',
+  ad_angle:'Gemini rip',
+  unique_mechanism:'Target mechanism',
+  funnel:'TOF',
+  prompt_version:(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v2-gemini'
+ };
+}
 export async function localize(usScript:string,provider:Provider,model:string,productMd?:string,_voMode?:boolean,singingAd=false,targetBrand="MELLOW",ctaMode:CtaMode="original",generateHooks=true,market:Market='uk',localizationMode:LocalizationMode='close'):Promise<LocalizeResult>{
  const depth=parseLocalizationMode(localizationMode);
- if(singingAd&&depth==='full')throw Error('Full localisation is not available for singing ads.');
+ if(singingAd&&(depth==='full'||depth==='gemini'))throw Error('Full localisation is not available for singing ads.');
  market=parseMarket(market);
  if(market==='pl'&&singingAd)throw Error('Polish localisation does not support singing ads yet.');
  if(isNonSpeechTranscript(usScript))return noSpeechResult();
  const selectedCta=parseCtaMode(ctaMode);
  let system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+localizationInstruction(depth)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Keep the main opening in uk_script.');
- if(market==='uk'&&!singingAd)system+='\n'+ukLocalisationGuide(depth==='full'?'full-video':'video');
+ if(market==='uk'&&!singingAd)system+='\n'+ukLocalisationGuide(depth==='full'||depth==='gemini'?'full-video':'video');
  const saffronProduct=market==='uk'&&isMellowSaffronTarget(targetBrand,productMd);
  if(saffronProduct)targetBrand='Mellow Mood Munchies';
+ else targetBrand=resolveCanonicalTargetBrand(targetBrand,productMd);
  const bloomTarget=targetBrand;
- const isCustomTarget=!!productMd?.trim()&&!saffronProduct&&!/^(?:mellow|mellow\s+magnesium(?:\s+bisglycinate)?(?:\s+gummies)?|kids\s+gummies|orthomax(?:\s+stepmax)?)$/i.test(targetBrand.trim());
+ const isCustomTarget=!!productMd?.trim()&&!saffronProduct&&!/^(?:mellow|magnesium|mellow\s+magnesium(?:\s+bisglycinate)?(?:\s+gummies)?|kids\s+gummies|orthomax(?:\s+stepmax)?)$/i.test(targetBrand.trim());
  const gummyFormat=market==='uk'&&!!productMd?.trim()&&(saffronProduct||/gumm/i.test(targetBrand))&&!singingAd;
  if(gummyFormat)system+='\n'+GUMMY_FORMAT_INSTRUCTION;
  const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bbloom[\s-]*wise\b|\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,m=>/bloom/i.test(m)?bloomTarget:targetBrand):usScript):undefined;
  const disclosureInstruction=market==='pl'
   ?(isCustomTarget?`Preserve source disclosure timing. Adapt the disclosed product to ${targetBrand} using the supplied productContext. No default promotion; flag missing Polish offer facts.`:'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.')
   :isCustomTarget
-   ?`Replace any advertised source brand or product name with ${targetBrand} at the same point in the script, using the supplied productContext for product format, mechanism, ingredients and offer. Preserve source disclosure timing. Never introduce Mellow defaults.`
+   ?`Replace any advertised source brand or product name (such as Bloom & Bond, Bloom and Bond, etc.) with ${targetBrand} at the same point in the script, using the supplied productContext for product format, mechanism, ingredients and offer. Preserve source disclosure timing. Never introduce Mellow or Magnesium defaults.`
    :mayIntroduceMellow(usScript)?`Only replace explicitly named source brands at the same point in the script. Sapphire Happy Chews and Saphire Happy Chews are complete competitor product names: replace the entire phrase with the selected target, never leave Happy Chews after Mellow. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word. Bloomwise, Bloom Wise and Bloom-Wise are the confirmed competitor; in BRAND_ADAPTATION replace them with ${bloomTarget}.`:'HARD RULE: the US source contains no confirmed competitor brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic ingredients must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
  const targetProductInstruction=saffronProduct&&productMd?.trim()
   ?`The selected target is Mellow Mood Munchies. Always use this exact complete name at existing brand mentions, never Kids Gummies or bare Mellow. The owner's current guarantee is 90 days: replace an existing money-back guarantee duration with 90 days, overriding older target documents that say 100 days. Do not add a guarantee where the source has none. The owner confirmed ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve compact source phrases and change only their count: all 14 nutrients becomes all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients becomes saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Never expand these phrases into a list or change nutrients to ingredients. When the source explicitly lists ingredients, substitute the target list from product_profile or offer_brief at that sentence. Never use another brand's label as the target formulation. Dose and serving size still require explicit target facts; do not infer them from competitor copy.`
   :isCustomTarget&&market==='uk'
-   ?`CUSTOM TARGET PRODUCT: The selected target product is ${targetBrand}. Use the supplied productContext (facts, guidance and profile documents) as the authoritative source for ${targetBrand} name, format, mechanism, ingredients, offer and CTA website. Override Mellow-specific defaults (do NOT use Mellow Mood Munchies, try-mellow.co, or Buy 2 Get 1 Free unless explicitly stated in ${targetBrand} productContext).`
+   ?`CUSTOM TARGET PRODUCT: The selected target product is ${targetBrand}. Use the supplied productContext (facts, guidance and profile documents) as the authoritative source for ${targetBrand} name, format, mechanism, ingredients, offer and CTA website. Override Mellow-specific defaults (do NOT use Mellow Mood Munchies, Magnesium, try-mellow.co, or Buy 2 Get 1 Free unless in Gemini rip mode or explicitly stated in ${targetBrand} productContext).`
    :'';
  if(targetProductInstruction)system+='\n'+targetProductInstruction;
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
@@ -122,6 +155,11 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   const replace=(text:string)=>text.replace(/\bbloom[\s-]*wise\b/gi,()=>bloomTarget);
   const before=result.uk_script;result.uk_script=replace(before);result.hooks=result.hooks.map(replace);
   if(before!==result.uk_script)result.notes.push({original:'Bloomwise',replacement:bloomTarget,reason:'Confirmed competitor replaced with the selected target product.'});
+ }
+ if(market==='uk'&&isCustomTarget&&/\bbloom\s*(?:&|and)\s*bond\b/i.test(usScript)){
+  const replace=(text:string)=>text.replace(/\bbloom\s*(?:&|and)\s*bond\b/gi,()=>targetBrand);
+  const before=result.uk_script;result.uk_script=replace(before);result.hooks=result.hooks.map(replace);
+  if(before!==result.uk_script)result.notes.push({original:'Bloom & Bond',replacement:targetBrand,reason:'Confirmed competitor replaced with the selected target product.'});
  }
  if(saffronProduct&&productMd?.trim()&&mayIntroduceMellow(usScript)){
   const before=result.uk_script;

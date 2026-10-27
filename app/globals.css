@@ -344,7 +344,8 @@ body{line-height:1.55} .wrap{max-width:1180px} h1{letter-spacing:-.025em} h2,h3{
  min-width:0;border:0;padding:0;margin:24px 0;
 }
 .localization-mode-choices legend {font-size:16px;font-weight:650;line-height:1.5;margin-bottom:12px;padding:0;color:var(--text);}
-.localization-mode-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+.localization-mode-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+@media(max-width:860px){.localization-mode-grid{grid-template-columns:minmax(0,1fr);}}
 .localization-mode-option {display:flex;align-items:flex-start;gap:14px;min-width:0;min-height:140px;padding:22px;border:2px solid var(--mode-border);border-radius:18px;background:var(--card);color:var(--text);cursor:pointer;}
 .localization-mode-option:has(input:checked) {background:var(--mode-selected);border-color:var(--mode-accent);}
 .localization-mode-option input {width:20px;height:20px;margin:3px 0 0;padding:0;flex-shrink:0;accent-color:var(--mode-accent);}
