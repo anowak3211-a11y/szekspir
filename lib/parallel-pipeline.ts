@@ -135,13 +135,14 @@ export async function advanceParallel(id:string):Promise<number>{
     }else if(k==='enhancePoll'){
      if(job.videoParts){const index=job.videoParts.findIndex(p=>!p.enhancedUrl);
       if(index>=0){const part=job.videoParts[index],r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(part.enhanceTaskId!)}`);
-       if(r.failed){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
-       if(!r.done){await patch(s=>{waitForSavedProvider(s.stages![k]!,part.enhanceSubmittedAt,r.status_unavailable===true);});return;}
-       const url=r.output_urls?.[0];if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.videoParts![index].enhancedUrl=url;});repeat=index<job.videoParts.length-1;
+       const timedOut=/timeout/i.test(String(r.message||''))||(!!part.enhanceSubmittedAt&&Date.now()-part.enhanceSubmittedAt>600000);
+       if(r.failed&&!timedOut){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
+       if(!r.done&&!timedOut){await patch(s=>{waitForSavedProvider(s.stages![k]!,part.enhanceSubmittedAt,r.status_unavailable===true);});return;}
+       const url=r.output_urls?.[0]||(timedOut?part.sourceUrl:undefined);if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.videoParts![index].enhancedUrl=url;});repeat=index<job.videoParts.length-1;
       }
       if(!repeat&&job.vmakeMode==='combo'&&!job.enhancedSavedUrl){const current=(await getJob(id))!;const url=await joinParts(current.videoParts!.map(p=>p.enhancedUrl!),id,'-enhanced',job.duration);await save(s=>{s.enhancedSavedUrl=url;});}
      }else if(!job.enhancedUrl){const r=await pythonCall(`/api/vmake_status?task_id=${encodeURIComponent(job.enhanceTaskId!)}`);
-      const timedOut=job.vmakeOrder==='clean-first'&&job.vmakeMode==='combo'&&!!job.enhanceSubmittedAt&&Date.now()-job.enhanceSubmittedAt>600000;
+      const timedOut=/timeout/i.test(String(r.message||''))||(!!job.enhanceSubmittedAt&&Date.now()-job.enhanceSubmittedAt>600000);
       if(r.failed&&!timedOut){await patch(s=>{s.stages![k]!.resubmitRequired=r.resubmit_required===true;});throw Error(String(r.message||'VMake enhancement failed'));}
       if(!r.done&&!timedOut){await patch(s=>{waitForSavedProvider(s.stages![k]!,job.enhanceSubmittedAt,r.status_unavailable===true);});return;}
       const url=r.output_urls?.[0]||(timedOut?(job.resolvedVideoUrl||job.sourceUrl):undefined);if(!url)throw Error('VMake enhancement completed without video');await save(s=>{s.enhancedUrl=url;});

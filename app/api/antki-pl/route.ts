@@ -1490,6 +1490,119 @@ export const POST = accountRoute(async (req: Request) => {
       return NextResponse.json({ ok: true, results });
     }
 
+    if (rawBody.action === 'heal_vmake_timeout') {
+      const { inOwnerWorkspace, inWorkspace } = await import('@/lib/account-context');
+      const { accountRegistry } = await import('@/lib/account-repository');
+      const { jobs, getJob, finalise, scheduleJob } = await import('@/lib/jobs');
+      const { advanceParallel } = await import('@/lib/parallel-pipeline');
+      const { joinParts } = await import('@/lib/long-video');
+      const { updateReference } = await import('@/lib/sheets');
+      const { videoLinks } = await import('@/lib/video-links');
+      const { voiceLinks } = await import('@/lib/voice-links');
+      const { syncAssignedEditor } = await import('@/lib/editor-sync');
+
+      const targets: string[] = Array.isArray(rawBody.adIds) && rawBody.adIds.length ? rawBody.adIds.map(String) : ['198', 'e09eff0d'];
+      const reg = await accountRegistry().catch(() => ({ users: {} }));
+      const scopes = [undefined, ...Object.values(reg.users)];
+      const healed: Record<string, unknown>[] = [];
+
+      for (const ws of scopes) {
+        const runInScope = <T>(fn: () => Promise<T>): Promise<T> => (ws ? inWorkspace(ws, fn) : inOwnerWorkspace(fn));
+        await runInScope(async () => {
+          const allJobs = await jobs();
+          const matched = allJobs.filter(j =>
+            !j.cancelledAt &&
+            !j.abortedAt &&
+            (targets.some(t => (j.adId || '').includes(t) || j.id.startsWith(t)) || !!j.stages?.enhancePoll?.error)
+          );
+          for (const item of matched) {
+            const current = (await getJob(item.id)) || item;
+            let cleanUrl = current.cleanUrl;
+            let enhancedUrl = current.enhancedUrl;
+            let enhancedSavedUrl = current.enhancedSavedUrl;
+
+            if (current.videoParts?.length) {
+              for (const p of current.videoParts) {
+                if (!p.enhancedUrl && p.sourceUrl) p.enhancedUrl = p.sourceUrl;
+              }
+              if (current.vmakeMode === 'combo' && !enhancedSavedUrl) {
+                enhancedSavedUrl = await joinParts(current.videoParts.map(p => p.enhancedUrl!), current.id, '-enhanced', current.duration);
+              }
+              if (current.vmakeMode === 'enhance' && !cleanUrl) {
+                cleanUrl = await joinParts(current.videoParts.map(p => p.enhancedUrl!), current.id, '', current.duration);
+              }
+            } else {
+              enhancedUrl = enhancedUrl || current.resolvedVideoUrl || current.sourceUrl;
+              if (current.vmakeMode === 'combo' && !enhancedSavedUrl && enhancedUrl) {
+                enhancedSavedUrl = await finalise(enhancedUrl, current.id + '-enhanced');
+              }
+              if (current.vmakeMode === 'enhance' && !cleanUrl && enhancedUrl) {
+                cleanUrl = await finalise(enhancedUrl, current.id);
+              }
+            }
+
+            await mutate<import('@/lib/jobs').Job | null, void>(`job-${current.id}`, null, s => {
+              if (!s) return;
+              if (s.videoParts?.length) {
+                for (const p of s.videoParts) if (!p.enhancedUrl && p.sourceUrl) p.enhancedUrl = p.sourceUrl;
+              }
+              if (enhancedUrl) s.enhancedUrl = enhancedUrl;
+              if (enhancedSavedUrl) s.enhancedSavedUrl = enhancedSavedUrl;
+              if (cleanUrl) s.cleanUrl = cleanUrl;
+              s.stages ??= {};
+              s.stages.enhancePoll = { ...(s.stages.enhancePoll || {}), done: true, pending: false, uncertain: false, error: undefined, finished: Date.now() };
+              if (s.vmakeMode === 'enhance' && cleanUrl) {
+                s.stages.videoPoll = { ...(s.stages.videoPoll || {}), done: true, pending: false, uncertain: false, error: undefined, finished: Date.now() };
+              }
+              s.error = undefined;
+              s.uncertain = false;
+              s.lease = undefined;
+              s.leaseUntil = undefined;
+              if (s.status === 'Failed') s.status = 'Running';
+              s.updated = Date.now();
+            });
+
+            for (let step = 0; step < 5; step++) {
+              await advanceParallel(current.id).catch(() => {});
+              const check = await getJob(current.id);
+              if (check?.step === 'done' || check?.status === 'Complete') break;
+            }
+
+            const afterJob = (await getJob(current.id))!;
+            if (afterJob.adId && afterJob.cleanUrl && !afterJob.stages?.references?.done) {
+              await updateReference(afterJob.adId, videoLinks(afterJob), voiceLinks(afterJob)).catch(() => {});
+              await syncAssignedEditor(afterJob.adId).catch(() => {});
+              await mutate<import('@/lib/jobs').Job | null, void>(`job-${current.id}`, null, s => {
+                if (!s) return;
+                s.stages ??= {};
+                s.stages.references = { done: true, finished: Date.now() };
+                if (!s.generateVo || s.stages.vo?.done) {
+                  s.step = 'done';
+                  s.status = 'Complete';
+                  s.completedAt = Date.now();
+                }
+                s.updated = Date.now();
+              });
+            }
+            await scheduleJob(current.id).catch(() => {});
+            const finalJob = await getJob(current.id);
+            healed.push({
+              id: current.id,
+              adId: finalJob?.adId,
+              name: finalJob?.name,
+              status: finalJob?.status,
+              step: finalJob?.step,
+              vmakeMode: finalJob?.vmakeMode,
+              cleanUrl: finalJob?.cleanUrl,
+              enhancedSavedUrl: finalJob?.enhancedSavedUrl,
+              stages: finalJob?.stages,
+            });
+          }
+        });
+      }
+      return NextResponse.json({ ok: true, healed });
+    }
+
     return NextResponse.json({ error: 'Nieznana akcja API Antki PL.' }, { status: 400 });
   } catch (err) {
     return NextResponse.json(
