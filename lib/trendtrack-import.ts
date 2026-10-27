@@ -36,17 +36,21 @@ export async function connectTrendtrack(value:unknown){
  const apiKey=value.trim();await request(apiKey,'/v1/me');
  await mutate<{apiKey?:string},void>('trendtrack-connection',{},s=>{s.apiKey=apiKey;});return {connected:true};
 }
+export function normalizeAdBodyKey(text:string){
+ return text.toLowerCase().replace(/\s+/gu,' ').replace(/[^\p{L}\p{N} ]/gu,'').trim().slice(0,140);
+}
 export function selectTrendtrackAds(rows:unknown[]):Pick<Snapshot,'ads'|'skipped'> {
- const ids=new Set<string>(),collations=new Set<string>(),selected:unknown[]=[];let skipped=0;
+ const ids=new Set<string>(),collations=new Set<string>(),bodies=new Set<string>(),selected:unknown[]=[];let skipped=0;
  for(const raw of rows){const r=raw as {id?:string;collationId?:string;content?:{body?:string};media?:{type?:string}};
-  if(!r||r.media?.type!=='image'||!r.content?.body?.trim()||ids.has(r.id||'')||(r.collationId&&collations.has(r.collationId))){skipped++;continue;}
-  ids.add(r.id||'');if(r.collationId)collations.add(r.collationId);selected.push(raw);
+  const bodyKey=normalizeAdBodyKey(r?.content?.body||'');
+  if(!r||r.media?.type!=='image'||!bodyKey||ids.has(r.id||'')||(r.collationId&&collations.has(r.collationId))||bodies.has(bodyKey)){skipped++;continue;}
+  ids.add(r.id||'');if(r.collationId)collations.add(r.collationId);bodies.add(bodyKey);selected.push(raw);
  }
  return {ads:selected.length?parseNativeExport(selected).slice(0,60):[],skipped};
 }
 export async function fetchTrendtrackTop(value:unknown){
  const scope=trendtrackScope(value),apiKey=await key();if(!apiKey)throw Error('Najpierw połącz klucz API Trendtracka.');
- const name='trendtrack-top-v4-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
+ const name='trendtrack-top-v5-'+createHash('sha256').update(apiKey+'\0'+scope.kind+'\0'+scope.id).digest('hex');
  const previous=(await readState<Cache>(name,{})).value;
  if(previous.result&&Date.now()-(previous.started||0)<HOUR)return {...previous.result,cached:true};
  await mutate<Cache,void>(name,{},s=>{if(s.started&&Date.now()-s.started<HOUR)throw Error(s.error||'Pobranie już trwa. Nie uruchamiamy drugiego zapytania.');s.started=Date.now();delete s.result;delete s.error;});
