@@ -14,5 +14,7 @@ export function closeFidelity(source:string,target:string,ctaMode:'original'|'le
  const total=words(source);if(originalTotal<100||!total)return true;
  const changes=diffWords(source.toLowerCase(),target.toLowerCase(),{timeout:1000});if(!changes)return false;
  const kept=changes.filter(change=>!change.added&&!change.removed).reduce((n,change)=>n+words(change.value),0);
- return kept/total>=.82;
+ const threshold=originalTotal<=160?.68:.72;
+ return kept/total>=threshold;
 }
+

@@ -103,7 +103,7 @@ export async function advanceParallel(id:string):Promise<number>{
       await save(s=>{s.stages![k]!.done=true;});
      });
     }else if(k==='localise'){
-     if(!job.result){await paid();const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
+     if(!job.result){await paid();const targetBrand=(!job.productName||/^mellow$/i.test(job.productName))?"MELLOW":job.productName;const r=await localize(job.transcript!,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,targetBrand,job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);await save(s=>{s.result={...r,us_script:s.transcript!,video_url:s.resolvedVideoUrl||s.sourceUrl};if(r.no_speech){s.generateVo=false;s.voiceoverEnabled=false;s.generateHooks=false;}});}
     }else if(k==='segment'){
      const parts=job.videoParts||planParts(job.duration!);
      if(!job.videoParts)await save(s=>{s.videoParts=parts;});

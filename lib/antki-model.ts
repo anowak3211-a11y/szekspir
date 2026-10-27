@@ -27,17 +27,15 @@ export function antkiTargetCopy(text:string,destination=ANTKI_MELLOW_SAFFRON_URL
    linked=linked.replace(/(\b(?:EDIT:\s*)?Here(?:['’]s|\s+is)\s+the\s+link\b)(?:\s*[:.—-]\s*|\s*\.)?/i,`$1: ${destination}\n\n`);
   }
  }
+ linked=linked.replace(/\bAmazon confirmation\b/g,'order confirmation').replace(/\bat Whole Foods\b/g,'at Holland & Barrett').replace(/\bcabinet\b/g,'cupboard').replace(/\bpediatrician\b/g,'paediatrician').replace(/\bMOM\b/g,'MUM').replace(/\bMom\b/g,'Mum');
  if(targetName!=='Mellow Mood Munchies')return linked;
  let out=linked.replace(/\b(?:Bryte(?:\s+Saffron(?:\s+gummies)?)?|Mellow\s+Happy\s+Chews)\b/gi,'Mellow Mood Munchies');
- out=out.replace(/\bAmazon confirmation\b/g,'order confirmation');
  out=out.replace(/There are 7 million (children|kids) in America with an ADHD diagnosis( right now)?\.\s*(?:3\.3 million of their parents are holding a prescription|The parents of 3\.3 million of them (?:have a prescription|are holding prescriptions)) they refuse to fill\./g,(full,kids,rightNow)=>full.includes('The parents of')?`Hundreds of thousands of ${kids} across the UK now have an ADHD diagnosis${rightNow||''}. Nearly half of their parents are holding a prescription they cannot bring themselves to fill.`:`Hundreds of thousands of ${kids} across the UK have an ADHD diagnosis${rightNow||''}. Nearly half of their parents are holding a prescription they cannot bring themselves to fill.`);
  out=out.replace(/\b3\.3 million of us are in the same place\./g,'So many of us across the UK are in the exact same place.');
- out=out.replace(/\bat Whole Foods\b/g,'at Holland & Barrett');
  out=out.replace(/\$1,400\b/g,'£1,100').replace(/\$1,100\b/g,'£850').replace(/\$3,800\b/g,'£3,000').replace(/\$800\b/g,'£650').replace(/\$52\b/g,'£40').replace(/\$30\b/g,'£25').replace(/\bthirty-dollar\b/gi,'twenty-five-pound').replace(/\bless than a dollar\b/gi,'less than £1');
  out=out.replace(/\b90-day money-back guarantee\b/gi,'100-day money-back guarantee');
  out=out.replace(/Clinical-dose saffron extract\.\s*\n+The actual concentration from the study\. Not the generic kind, not the underdosed versions from Amazon\.\s*\n+Real magnesium glycinate\.\s*\n+Lion[’']s mane\.\s*\n+L-theanine\.\s*\n+B6 and B12 to fuel the entire dopamine, GABA, norepinephrine and serotonin production\./g,"Clinical-dose saffron extract.\n\nThe actual concentration from the study. Not the generic kind, not the underdosed versions from Amazon.\n\nPassion flower for GABA.\n\nSt John’s Wort for norepinephrine and broader serotonin support.\n\nDirect GABA and vitamin D2 to calm the nervous system and support all 4 pathways at once.");
  out=out.replace(/Clinical-dose saffron extract\. The concentration (?:from|used in) the study, rather than a generic(?:,|\s+or) underdosed version from Amazon\.\s*(?:Real )?[Mm]agnesium glycinate\. Lion[’']s mane\. L-theanine\. B6 and B12 to fuel dopamine, GABA, norepinephrine and serotonin production\./g,"Clinical-dose saffron extract – the concentration used in the study, rather than a generic, underdosed version from Amazon – alongside passion flower for GABA, St John’s Wort for norepinephrine and broader serotonin support, direct GABA and vitamin D2.");
- out=out.replace(/\bcabinet\b/g,'cupboard').replace(/\bpediatrician\b/g,'paediatrician').replace(/\bMOM\b/g,'MUM').replace(/\bMom\b/g,'Mum');
  if(destination&&!out.includes(destination)&&/You can answer however you (?:want|like)\.\s*\n+I just smiled\.\s*$/.test(out)){
   out=out.trimEnd()+`\n\nAlmost forgot the link. Here it is: ${destination}`;
  }

@@ -153,7 +153,8 @@ export async function advance(id:string){
    }
    await checkpoint('Localising');await beforePaid();
    const us_script=job.transcript!;
-   const result=await localize(us_script,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,(job.productName||"MELLOW").toUpperCase(),job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);
+   const targetBrand=(!job.productName||/^mellow$/i.test(job.productName))?"MELLOW":job.productName;
+   const result=await localize(us_script,job.provider,job.model,job.productContext,job.generateVo,job.singingAd,targetBrand,job.ctaMode,job.generateHooks!==false,job.market,job.localizationMode);
    job.result={...result,us_script,video_url};if(result.no_speech){job.generateVo=false;job.voiceoverEnabled=false;job.generateHooks=false;}job.step='export';job.progress='Localisation complete';
   }else if(job.step==='export'){
    const r=job.result!;

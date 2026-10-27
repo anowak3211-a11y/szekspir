@@ -40,7 +40,7 @@ ${market==='uk'?'Use the owner-requested name Concerta XL in place of Ritalin, w
   }
   if(text.split(/\s+/).length>maximum){lastError='The hook is too long.';continue;}
   if([input.currentHook,input.otherHook||'',originalOpening].some(s=>s&&signature(s)===signature(text))){lastError='The hook repeats an existing opening.';continue;}
-  if(market==='uk'&&hasUnwantedBrandReveal(originalOpening,[text])){lastError='The hook introduces a brand before the original opening.';continue;}
+  if(market==='uk'&&hasUnwantedBrandReveal(originalOpening,[text],input.productName)){lastError='The hook introduces a brand before the original opening.';continue;}
   if(hasGummyFormatAttack(text)&&(/gumm/i.test(input.productName||'')||isMellowSaffronTarget(input.productName||'',input.productContext))){lastError='The hook attacks the selected gummy format.';continue;}
   if(market==='uk'&&/^what if\b|^let me show/i.test(text)){lastError='Use a more decisive opening, without the rejected filler.';continue;}
   return text;
@@ -59,11 +59,20 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
  const saffronProduct=market==='uk'&&isMellowSaffronTarget(targetBrand,productMd);
  if(saffronProduct)targetBrand='Mellow Mood Munchies';
  const bloomTarget=targetBrand;
+ const isCustomTarget=!!productMd?.trim()&&!saffronProduct&&!/^(?:mellow|mellow\s+magnesium(?:\s+bisglycinate)?(?:\s+gummies)?|kids\s+gummies|orthomax(?:\s+stepmax)?)$/i.test(targetBrand.trim());
  const gummyFormat=market==='uk'&&!!productMd?.trim()&&(saffronProduct||/gumm/i.test(targetBrand))&&!singingAd;
  if(gummyFormat)system+='\n'+GUMMY_FORMAT_INSTRUCTION;
  const lyrics=singingAd?(productMd?.trim()?usScript.replace(/\bbloom[\s-]*wise\b|\bp\s*[-–‑]\s*nutrition\b|spenatrician\b|\bS\.?\s*P\.?(?:\s*[-–]?\s*Nutrition)?\b/gi,m=>/bloom/i.test(m)?bloomTarget:targetBrand):usScript):undefined;
- const disclosureInstruction=market==='pl'?'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.':mayIntroduceMellow(usScript)?`Only replace explicitly named source brands at the same point in the script. Sapphire Happy Chews and Saphire Happy Chews are complete competitor product names: replace the entire phrase with the selected target, never leave Happy Chews after Mellow. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word. Bloomwise, Bloom Wise and Bloom-Wise are the confirmed competitor; in BRAND_ADAPTATION replace them with ${bloomTarget}.`:'HARD RULE: the US source contains no confirmed competitor brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic ingredients must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
- const targetProductInstruction=saffronProduct&&productMd?.trim()?`The selected target is Mellow Mood Munchies. Always use this exact complete name at existing brand mentions, never Kids Gummies or bare Mellow. The owner's current guarantee is 90 days: replace an existing money-back guarantee duration with 90 days, overriding older target documents that say 100 days. Do not add a guarantee where the source has none. The owner confirmed ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve compact source phrases and change only their count: all 14 nutrients becomes all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients becomes saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Never expand these phrases into a list or change nutrients to ingredients. When the source explicitly lists ingredients, substitute the target list from product_profile or offer_brief at that sentence. Never use another brand's label as the target formulation. Dose and serving size still require explicit target facts; do not infer them from competitor copy.`:'';
+ const disclosureInstruction=market==='pl'
+  ?(isCustomTarget?`Preserve source disclosure timing. Adapt the disclosed product to ${targetBrand} using the supplied productContext. No default promotion; flag missing Polish offer facts.`:'Preserve source disclosure timing. Adapt the disclosed product to Orthomax StepMax insoles using the system product profile. No default promotion; flag missing Polish offer facts.')
+  :isCustomTarget
+   ?`Replace any advertised source brand or product name with ${targetBrand} at the same point in the script, using the supplied productContext for product format, mechanism, ingredients and offer. Preserve source disclosure timing. Never introduce Mellow defaults.`
+   :mayIntroduceMellow(usScript)?`Only replace explicitly named source brands at the same point in the script. Sapphire Happy Chews and Saphire Happy Chews are complete competitor product names: replace the entire phrase with the selected target, never leave Happy Chews after Mellow. P-nutrition and Spenatrician are confirmed transcriptions of SP Nutrition, including againSpenatrician; substitute the target brand there and preserve the preceding word. Bloomwise, Bloom Wise and Bloom-Wise are the confirmed competitor; in BRAND_ADAPTATION replace them with ${bloomTarget}.`:'HARD RULE: the US source contains no confirmed competitor brand. Do not introduce MELLOW or its full branded product name in script or hooks. Generic ingredients must stay generic. S tier is a ranking, not SP. Preserve ingredient wording and product disclosure.';
+ const targetProductInstruction=saffronProduct&&productMd?.trim()
+  ?`The selected target is Mellow Mood Munchies. Always use this exact complete name at existing brand mentions, never Kids Gummies or bare Mellow. The owner's current guarantee is 90 days: replace an existing money-back guarantee duration with 90 days, overriding older target documents that say 100 days. Do not add a guarantee where the source has none. The owner confirmed ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve compact source phrases and change only their count: all 14 nutrients becomes all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients becomes saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Never expand these phrases into a list or change nutrients to ingredients. When the source explicitly lists ingredients, substitute the target list from product_profile or offer_brief at that sentence. Never use another brand's label as the target formulation. Dose and serving size still require explicit target facts; do not infer them from competitor copy.`
+  :isCustomTarget&&market==='uk'
+   ?`CUSTOM TARGET PRODUCT: The selected target product is ${targetBrand}. Use the supplied productContext (facts, guidance and profile documents) as the authoritative source for ${targetBrand} name, format, mechanism, ingredients, offer and CTA website. Override Mellow-specific defaults (do NOT use Mellow Mood Munchies, try-mellow.co, or Buy 2 Get 1 Free unless explicitly stated in ${targetBrand} productContext).`
+   :'';
  if(targetProductInstruction)system+='\n'+targetProductInstruction;
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
  let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
@@ -72,10 +81,10 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   result=validateLocalisation(raw,generateHooks,true);
  }
  if(market==='pl')assertPolishLength(usScript,result.uk_script);
- if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks])){
+ if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand)){
   const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',120000);
   result=validateLocalisation(corrected,generateHooks,true);
-  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  // Keep both the target count and the source's compact composition wording.
  const compositionGuard=saffronProduct&&!!productMd?.trim()&&!singingAd&&mayIntroduceMellow(usScript);
@@ -83,7 +92,7 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   const corrected=await complete(provider,model,system,user+`\nCorrect only the advertised-product composition in the previous output. Mellow Mood Munchies have ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve the ORIGINAL compact phrase and change only its number: all 14 nutrients -> all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients -> saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Do not replace a counted phrase with a list of ingredient names or change its noun. Preserve all other sentences, the original hook, disclosure timing and CTA. Return the full JSON contract.\nPrevious output: `+JSON.stringify(result),60000);
   result=validateLocalisation(corrected,generateHooks,true);
   if(hasRejectedComposition(usScript,result))throw Error('Localisation changed the compact composition wording or used the wrong Mellow Mood Munchies nutrient count. No new script was saved.');
-  if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+  if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  if(gummyFormat&&[result.uk_script,...result.hooks].some(hasGummyFormatAttack)){
   const corrected=await complete(provider,model,system,user+'\nCorrect only the source format rant in the previous output. The target is a gummy product. Replace anti-gummy criticism with a positive supported gummy-format argument or the existing pill/powder refusal problem. Keep all other sentences and brand-reveal timing unchanged. Return the full JSON contract.\nPrevious output: '+JSON.stringify(result),60000);
@@ -108,7 +117,7 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   if(i===0){result.uk_script=checked.uk_script;result.notes.push(...checked.fixes);}
   else result.hooks[i-1]=checked.uk_script;
  });
- if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks]))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
+ if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  if(market==='uk'&&productMd?.trim()&&/\bbloom[\s-]*wise\b/i.test(usScript)){
   const replace=(text:string)=>text.replace(/\bbloom[\s-]*wise\b/gi,()=>bloomTarget);
   const before=result.uk_script;result.uk_script=replace(before);result.hooks=result.hooks.map(replace);
