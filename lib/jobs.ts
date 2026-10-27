@@ -222,7 +222,13 @@ export async function consumeJob(id:string){
  const before=await getJob(id);if(!before||before.step==='done'||before.status==='Failed')return;
  if(before.hookDeliveryPending!==undefined){await scheduleJob(id,15);return;}
  if((before.leaseUntil||0)>Date.now()){await scheduleJob(id,Math.ceil((before.leaseUntil!-Date.now())/1000)+1);return;}
- const delay=before.engine===2?await advanceParallel(id):(await advance(id),undefined);
+ let delay:number|undefined;
+ try{
+  delay=before.engine===2?await advanceParallel(id):(await advance(id),undefined);
+ }catch(e){
+  if((e as Error).message==='Lease expired'){await scheduleJob(id,10);return;}
+  throw e;
+ }
  const current=await getJob(id);
  if(current&&current.step!=='done'&&current.status!=='Failed')await scheduleJob(id,delay??(current.step==='poll'?20:0));
 }
@@ -256,7 +262,7 @@ export async function requestVoiceover(id:string,script:string,hooks:string[],vo
   if(regenerateRevision===undefined&&s.generateVo&&s.voApprovedRevision===(s.revision||0)&&s.result.uk_script===script&&s.voiceId===voiceId&&JSON.stringify(s.dualVoice)===JSON.stringify(speakers)&&JSON.stringify(s.voiceProcessing)===JSON.stringify(processing)&&JSON.stringify(s.result.hooks.slice(0,2))===JSON.stringify(hooks)&&s.voUrl&&s.stages?.vo?.done&&!s.stages?.vo?.error)return s;
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:script});
   const hookProcessing=(value?:VoiceProcessing)=>{const p=voiceProcessing(value);return JSON.stringify([p.mode,p.emotion??'off',p.openingReaction??'none',p.mode==='gentle'?p.breaths!==false:p.mode==='standard'&&p.breaths===true,p.pauseShorteningMs??null,p.tempoFactor??1]);};
-  const keepHook=(index:number)=>!sendsHook(s,index)||!!(s.voUrl&&s.hookVoUrls?.[index]&&!s.hookVoNeedsRegeneration?.[index]&&s.voiceId===voiceId&&s.result!.hooks[index]===hooks[index]&&(!s.hookVoInputs?.[index]||(s.hookVoInputs[index].text===hooks[index]&&s.hookVoInputs[index].voiceId===voiceId))&&hookProcessing(s.hookVoTimings?.[index]?.processing||s.voiceProcessing)===hookProcessing(processing));
+  const keepHook=(index:number)=>s.hookVoPending?.[index]||!sendsHook(s,index)||!!(s.voUrl&&s.hookVoUrls?.[index]&&!s.hookVoNeedsRegeneration?.[index]&&s.voiceId===voiceId&&s.result!.hooks[index]===hooks[index]&&(!s.hookVoInputs?.[index]||(s.hookVoInputs[index].text===hooks[index]&&s.hookVoInputs[index].voiceId===voiceId))&&hookProcessing(s.hookVoTimings?.[index]?.processing||s.voiceProcessing)===hookProcessing(processing));
   const keptHooks=new Set(Object.keys({...s.hookVoUrls,...s.hookVoOriginalUrls,...s.hookVoTimings,...s.hookVoInputs}).map(Number).filter(keepHook));
   s.history=[...(s.history||[]),{at:Date.now(),script:s.result.uk_script,promptVersion:s.result.prompt_version}].slice(-30);
   if(s.voUrl)s.previousVo={url:s.voUrl,originalUrl:s.voOriginalUrl,hooks:s.hookVoUrls,revision:s.revision||0};
@@ -265,10 +271,10 @@ export async function requestVoiceover(id:string,script:string,hooks:string[],vo
   s.dualVoice=speakers;s.speakerTakes=undefined;
   if(speakers)s.engine=2;
   s.result={...s.result,...validated,narration:''};s.revision=(s.revision||0)+1;
-  s.voOriginalUrl=undefined;s.voTiming=undefined;s.hookVoPending={};s.hookVoOriginalUrls=Object.fromEntries(Object.entries(s.hookVoOriginalUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoTimings=Object.fromEntries(Object.entries(s.hookVoTimings||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoUrls=Object.fromEntries(Object.entries(s.hookVoUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoInputs=Object.fromEntries(Object.entries(s.hookVoInputs||{}).filter(([i])=>keptHooks.has(Number(i))));s.voiceProcessing=processing;s.voApprovedRevision=s.revision;s.voiceoverEnabled=true;s.generateVo=true;s.voiceId=voiceId;s.voUrl=undefined;
+  s.voOriginalUrl=undefined;s.voTiming=undefined;if(cleanPlaceholders)s.hookVoPending={};s.hookVoOriginalUrls=Object.fromEntries(Object.entries(s.hookVoOriginalUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoTimings=Object.fromEntries(Object.entries(s.hookVoTimings||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoUrls=Object.fromEntries(Object.entries(s.hookVoUrls||{}).filter(([i])=>keptHooks.has(Number(i))));s.hookVoInputs=Object.fromEntries(Object.entries(s.hookVoInputs||{}).filter(([i])=>keptHooks.has(Number(i))));s.voiceProcessing=processing;s.voApprovedRevision=s.revision;s.voiceoverEnabled=true;s.generateVo=true;s.voiceId=voiceId;s.voUrl=undefined;
   const keepExport=!!s.adId&&!!s.stages?.export?.done;
   if(s.engine===2)s.stages={...s.stages,localise:{done:true},export:keepExport?s.stages!.export!:{},vo:{started:Date.now()},references:keepExport?{}:{}};
-  s.lease=undefined;s.leaseUntil=undefined;
+  if((s.leaseUntil||0)<=Date.now()){s.lease=undefined;s.leaseUntil=undefined;}
   s.completedAt=undefined;s.step=keepExport?'vo':'export';s.status='Running';s.error=undefined;s.updated=Date.now();return s;
  });
 }

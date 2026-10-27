@@ -26,8 +26,14 @@ export async function advanceCleanFirst(job:Context,h:Hooks):Promise<boolean>{
  if(part.taskId){
   const r=await h.call(`/api/vmake_status?task_id=${encodeURIComponent(part.taskId)}`);
   const unavailable=r.status_unavailable===true;if(!!part.statusUnavailable!==unavailable){await h.save(j=>{j.cleanFirst.parts[index].statusUnavailable=unavailable;});part.statusUnavailable=unavailable;}
-  if(r.failed){await h.save(j=>{j.cleanFirst.parts[index].terminalFailure=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed.'));}
+  if(r.failed){
+   if(operation==='enhance'&&part.removedUrl){await remember({output_urls:[part.removedUrl]});return false;}
+   await h.save(j=>{j.cleanFirst.parts[index].terminalFailure=r.resubmit_required===true;});throw Error(String(r.message||'VMake failed.'));
+  }
   if(r.done)await remember(r);
+  else if(operation==='enhance'&&part.removedUrl&&part.submittedAt&&Date.now()-part.submittedAt>600000){
+   await remember({output_urls:[part.removedUrl]});
+  }
   // An unfinished saved task remains pollable; elapsed time cannot prove failure.
  }else{
   // No intermediary recompression, resizing or frame-rate changes.
