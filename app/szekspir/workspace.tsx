@@ -61,8 +61,8 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  const polish=market==='pl',basePath=marketPath(market),voiceKey=`szekspir-${market}-voice`,productKey=`szekspir-${market}-product`,sheetProductKey=`szekspir-${market}-sheet-product`,modeKey=`szekspir-${market}-mode`;
  const language=polish?'polski':'British English';
  const [provider,setProvider]=useState('openai'),[model,setModel]=useState('gpt-6-sol');
- const [products,setProducts]=useState<Product[]>([]),[productName,setProductName]=useState(polish?'':'Mellow');
- const [sheetProduct,setSheetProduct]=useState<SheetProduct>(SHEET_PRODUCTS[0]);
+ const [products,setProducts]=useState<Product[]>([]),[productName,setProductName]=useState(()=>{try{return workspaceLocalStorage.getItem(productKey)||(polish?'':'Mellow');}catch{return polish?'':'Mellow';}});
+ const [sheetProduct,setSheetProduct]=useState<SheetProduct>(()=>{try{return (workspaceLocalStorage.getItem(sheetProductKey) as SheetProduct)||SHEET_PRODUCTS[0];}catch{return SHEET_PRODUCTS[0];}});
  useEffect(()=>{if(!polish&&products.length)setProductName(current=>{const next=copyReferenceForProduct(sheetProduct,products,current);try{if(next)workspaceLocalStorage.setItem(productKey,next);}catch{}return next;});},[sheetProduct,products,polish]);
  function selectProduct(product:SheetProduct){setSheetProduct(product);setProductName(copyReferenceForProduct(product,products));try{workspaceLocalStorage.setItem(sheetProductKey,product);}catch{}}
  const [dual,setDual]=useState<DualVoice|null>(null);
@@ -73,7 +73,7 @@ export default function Szekspir({market='uk'}:{market?:Market}){
  const editorNotes='';
  const [singingAd,setSingingAd]=useState(false);
  const [generateHooks,setGenerateHooks]=useState(true);
- const [localizationMode,setLocalizationMode]=useState<LocalizationMode>('close');
+ const [localizationMode,setLocalizationMode]=useState<LocalizationMode>(()=>{try{const saved=workspaceLocalStorage.getItem(modeKey);return saved?parseLocalizationMode(saved):'close';}catch{return 'close';}});
  const [geminiScript,setGeminiScript]=useState(''),[geminiHook1,setGeminiHook1]=useState(''),[geminiHook2,setGeminiHook2]=useState('');
  const [ctaMode,setCtaMode]=useState<CtaMode>('original');
  const [voiceProcessing,setVoiceProcessing]=useState<VoiceProcessing>(()=>v4RecordingSettings());

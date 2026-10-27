@@ -47,6 +47,16 @@ ${market==='uk'?'Use the owner-requested name Concerta XL in place of Ritalin, w
  }
  throw Error(lastError+' Your saved hook was not changed.');
 }
+export function isHairDhtSourceScript(text:string):boolean{
+ return /\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(text||'');
+}
+const BENNETT_AND_SEED_FALLBACK_CONTEXT=`Product: Bennett & Seed (bennettseed.co)
+Format: Daily softgel capsules (1 capsule / 2 softgels per serving — NEVER gummies).
+Active Ingredients & Clinical Doses: 2,000mg Cold-Pressed Styrian Pumpkin Seed Oil + 200mg Saw Palmetto.
+Mechanism: Dual-action DHT blocker for women. Cold-pressed pumpkin seed oil blocks 5-alpha-reductase to stop excess DHT from forming in the first place, while saw palmetto shields hair follicle receptors so existing DHT cannot bind and shrink follicles.
+Social Proof: Over 50,000 women across the UK.
+Guarantee: 90-day money-back guarantee.
+Offer / CTA: Buy 2, Get 1 Free today (buy two, get one free).`;
 export function resolveCanonicalTargetBrand(targetBrand:string,productMd?:string):string{
  if(/^pumpkin$/i.test((targetBrand||'').trim()))return 'Bennett & Seed';
  if(!productMd?.trim())return targetBrand;
@@ -88,7 +98,12 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
  const selectedCta=parseCtaMode(ctaMode);
  let system=(market==='pl'?POLISH_SYSTEM_PROMPT:SYSTEM_PROMPT)+'\n'+localizationInstruction(depth)+'\n'+ctaInstruction(selectedCta,singingAd)+(generateHooks?'':'\nMANUAL HOOK CHOICE: Do not generate alternative hooks. Return hooks: [] (empty array), overriding the two-hook requirement. Keep the main opening in uk_script.');
  if(market==='uk'&&!singingAd)system+='\n'+ukLocalisationGuide(depth==='full'||depth==='gemini'?'full-video':'video');
- const saffronProduct=market==='uk'&&isMellowSaffronTarget(targetBrand,productMd);
+ const hairDhtScript=market==='uk'&&isHairDhtSourceScript(usScript);
+ if(hairDhtScript&&(!targetBrand||/^(?:mellow|magnesium|pumpkin)/i.test(targetBrand.trim())||!productMd?.trim()||/magnesium\s+bisglycin/i.test(productMd))){
+  targetBrand='Bennett & Seed';
+  if(!productMd?.trim()||/magnesium\s+bisglycin/i.test(productMd))productMd=BENNETT_AND_SEED_FALLBACK_CONTEXT;
+ }
+ const saffronProduct=market==='uk'&&!hairDhtScript&&isMellowSaffronTarget(targetBrand,productMd);
  if(saffronProduct)targetBrand='Mellow Mood Munchies';
  else targetBrand=resolveCanonicalTargetBrand(targetBrand,productMd);
  const bloomTarget=targetBrand;

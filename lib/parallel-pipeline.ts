@@ -105,7 +105,7 @@ export async function advanceParallel(id:string):Promise<number>{
     }else if(k==='localise'){
      if(!job.result){
       let activeProductName=job.productName,activeContext=job.productContext,activeSheetProduct=job.sheetProduct;
-      if(job.market!=='pl'&&/\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?)\b/i.test(job.transcript||'')&&/^(?:magnesium|mellow)$/i.test(activeProductName||'')){
+      if(job.market!=='pl'&&/\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(job.transcript||'')&&(!activeProductName||/^(?:magnesium|mellow)/i.test(activeProductName))){
        try{const {getProducts}=await import('./products');const found=(await getProducts()).find(p=>/^pumpkin$/i.test(p.name));if(found){activeProductName=found.name;activeContext=found.markdown;activeSheetProduct=found.name;}}catch{}
       }
       if(job.localizationMode==='gemini'&&job.geminiScript?.trim()){

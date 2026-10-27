@@ -9,9 +9,12 @@ async function accountPOST(request:Request){
   const {id,productName:overrideProduct}=await request.json();if(typeof id!=='string')throw Error('Job ID required');
   const job=await getJob(id);if(job?.abortedAt||job?.cancelledAt)throw Error('This job was stopped.');if(!job?.result)throw Error('Wait for the original script to finish.');
   const transcript=job.transcript||job.result.us_script;if(!transcript?.trim())throw Error('No saved transcript found.');
-  const activeProductName=typeof overrideProduct==='string'&&overrideProduct.trim()?overrideProduct.trim():job.productName;
+  let activeProductName=typeof overrideProduct==='string'&&overrideProduct.trim()?overrideProduct.trim():job.productName;
   let productContext=job.productContext;
-  if(activeProductName&&(!productContext?.trim()||activeProductName!==job.productName)){
+  if(job.market!=='pl'&&/\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(transcript)&&(!activeProductName||/^(?:magnesium|mellow)/i.test(activeProductName))){
+   const found=(await getProducts()).find(p=>/^pumpkin$/i.test(p.name));
+   if(found){activeProductName=found.name;productContext=found.markdown;}
+  }else if(activeProductName&&(!productContext?.trim()||activeProductName!==job.productName)){
    const found=(await getProducts()).find(p=>p.name.toLowerCase()===activeProductName.toLowerCase());
    if(found?.markdown)productContext=found.markdown;
   }

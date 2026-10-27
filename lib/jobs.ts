@@ -155,6 +155,9 @@ export async function advance(id:string){
    }
    await checkpoint('Localising');
    const us_script=job.transcript!;
+   if(job.market!=='pl'&&/\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(us_script)&&(!job.productName||/^(?:magnesium|mellow)/i.test(job.productName))){
+    try{const found=(await getProducts()).find(p=>/^pumpkin$/i.test(p.name));if(found){job.productName=found.name;job.productContext=found.markdown;job.sheetProduct=found.name;}}catch{}
+   }
    const targetBrand=(!job.productName||/^mellow$/i.test(job.productName))?"MELLOW":job.productName;
    let result:LocalizeResult;
    if(job.localizationMode==='gemini'&&job.geminiScript?.trim()){
