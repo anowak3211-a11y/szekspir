@@ -185,7 +185,7 @@ export async function advanceParallel(id:string):Promise<number>{
      await save(s=>{s.driveUrl=url;});
     }else if(k==='export'){
      if(!job.stages?.export?.briefSaved||!job.adId){const r=job.result!,out=await appendToAdminBriefs({mediaType:job.nativeAdId?'image':'video',jobId:id,editorId:job.editorId,editorNotes:job.editorNotes,sheetProduct:job.sheetProduct,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(job)});await save(s=>{s.adId=out.adId;s.stages!.export!.briefSaved=true;});}
-     await syncAssignedEditor((await getJob(id))!.adId!);
+     await syncAssignedEditor((await getJob(id))!.adId!).catch(e=>console.warn('export_editor_sync_warn',e));
     }else if(k==='vo'){
      const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw Error('Fill in missing product details before recording narration');
      const path=`vo/${id}-r${job.revision||0}.wav`;let url=job.voUrl||await existingMedia(path)||await existingMedia(path.replace(/\.wav$/,'.mp3'));
@@ -206,7 +206,7 @@ export async function advanceParallel(id:string):Promise<number>{
       if(job.adId)await updateVoiceover(job.adId,voiceLinks((await getJob(id))!));
      }
      const completed=(await getJob(id))!;if(r.hooks.slice(0,2).some((_,i)=>sendsHook(completed,i)&&(completed.hookVoPending?.[i]||!completed.hookVoUrls?.[i]))){await patch(s=>{s.stages![k]!.nextAt=Date.now()+5000;});return;}
-    }else if(k==='references'){await updateReference(job.adId!,videoLinks(job),voiceLinks(job));await syncAssignedEditor(job.adId!);}
+    }else if(k==='references'){await updateReference(job.adId!,videoLinks(job),voiceLinks(job));await syncAssignedEditor(job.adId!).catch(e=>console.warn('references_editor_sync_warn',e));}
     await patch(s=>{s.stages![k]!.databaseRetries=0;s.stages![k]!.done=!repeat;s.stages![k]!.pending=false;s.stages![k]!.finished=Date.now();s.stages![k]!.nextAt=undefined;s.stages![k]!.retryReason=undefined;});
    }catch(e){const recovered=submission?await recoverVmakeReceipts(id,k).catch(()=>false):false;await patch(s=>{const stage=s.stages![k]!;stage.finished=Date.now();
     if(recovered&&!stage.pending&&stage.submission?.id===submission?.id){stage.error=undefined;stage.uncertain=false;stage.nextAt=stage.done?undefined:Date.now()+10000;stage.retryReason=stage.done?undefined:'Recovered saved provider request. Checking its progress.';return;}

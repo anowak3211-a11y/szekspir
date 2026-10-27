@@ -82,10 +82,18 @@ async function writeAdminBrief(row:BriefRow){
   const col=header.indexOf('Product');if(col<0)throw Error('Product column is not configured');
   data.push({range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,values:[[row.sheetProduct]]});
  }
- await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data}});
- if(row.editorNotes){const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];const col=header.indexOf('Notes');if(col<0)throw Error('Notes column is not configured');await sheets.spreadsheets.values.update({spreadsheetId,range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,valueInputOption:'RAW',requestBody:{values:[[row.editorNotes]]}});}
+ try{
+  await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data}});
+ }catch(e){
+  if(Number((e as {code?:number}).code)===403||/permission|protected/i.test((e as Error).message)){
+   for(const item of data){
+    await sheets.spreadsheets.values.update({spreadsheetId,range:item.range,valueInputOption:'RAW',requestBody:{values:item.values}}).catch(()=>{});
+   }
+  }else throw e;
+ }
+ if(row.editorNotes){const header=(await sheets.spreadsheets.values.get({spreadsheetId,range:"'Daily Briefs'!A1:AZ1"})).data.values?.[0]||[];const col=header.indexOf('Notes');if(col>=0)await sheets.spreadsheets.values.update({spreadsheetId,range:`'Daily Briefs'!${shiftAdminRange('A',col)}${n}`,valueInputOption:'RAW',requestBody:{values:[[row.editorNotes]]}}).catch(()=>{});}
  // Formula reacts to actual values, not cell fill colours. Existing workflows are preserved.
- if(!prior('T'))await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset,layout.landingPage,layout.workFirst)]]}});
+ if(!prior('T'))await sheets.spreadsheets.values.update({spreadsheetId,range:r(`'${BRIEFS_TAB}'!T${n}`),valueInputOption:'USER_ENTERED',requestBody:{values:[[productionFormula(n,offset,layout.landingPage,layout.workFirst)]]}}).catch(()=>{});
  return {adId:reserved.adId,url:`https://docs.google.com/spreadsheets/d/${spreadsheetId}`};
 }
 export function productionFormula(n:number,offset=0,landingPage=false,workFirst=false){return mapAdminRange(`=IF(A${n}="","",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"^(approved|green|🟢 approved)$"),"Launched",IF(REGEXMATCH(LOWER(TO_TEXT(R${n})),"changes requested|rejected|red|🔴"),"Changes requested",IF(P${n}<>"","Ready for review",IF(OR(U${n}<>"",V${n}<>""),"Editing","To do")))))`,{offset,landingPage,workFirst});}

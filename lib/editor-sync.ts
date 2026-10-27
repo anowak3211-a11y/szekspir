@@ -27,8 +27,19 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
   const [admin,editor]=await Promise.all([load(adminId(),'Daily Briefs'),load(editorId(),'My Tasks')]);
   const plan=planAssignedSync(admin.rows,editor.rows,saved.snapshot,editor.capacity,workspace.id);
   if(!plan.adminChanges.length&&!plan.editorChanges.length&&JSON.stringify(plan.snapshot)===JSON.stringify(saved.snapshot)){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});return {unchanged:true};}
-  const write=async(spreadsheetId:string,title:string,changes:Change[])=>{if(changes.length)await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data:changes.map(c=>({range:`'${title}'!${letter(c.col)}${c.row}`,values:[[c.value]]}))}});};
-  const formatVoice=async(spreadsheetId:string,title:string,changes:Change[])=>{const links=changes.filter(c=>typeof c.value==='string'&&(voiceLinkRuns(c.value).length||additionalLinkRuns(c.value).length));if(!links.length)return;const meta=await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'});const sheetId=meta.data.sheets?.find(s=>s.properties?.title===title)?.properties?.sheetId;if(sheetId===undefined||sheetId===null)return;await sheets.spreadsheets.batchUpdate({spreadsheetId,requestBody:{requests:links.map(c=>({updateCells:{range:{sheetId,startRowIndex:c.row-1,endRowIndex:c.row,startColumnIndex:c.col,endColumnIndex:c.col+1},rows:[{values:[{textFormatRuns:voiceLinkRuns(String(c.value)).length?voiceLinkRuns(String(c.value)):additionalLinkRuns(String(c.value))}]}],fields:'textFormatRuns'}}))}});};
+  const write=async(spreadsheetId:string,title:string,changes:Change[])=>{
+   if(!changes.length)return;
+   try{
+    await sheets.spreadsheets.values.batchUpdate({spreadsheetId,requestBody:{valueInputOption:'RAW',data:changes.map(c=>({range:`'${title}'!${letter(c.col)}${c.row}`,values:[[c.value]]}))}});
+   }catch(e){
+    if(Number((e as {code?:number}).code)===403||/permission|protected/i.test((e as Error).message)){
+     for(const c of changes){
+      await sheets.spreadsheets.values.update({spreadsheetId,range:`'${title}'!${letter(c.col)}${c.row}`,valueInputOption:'RAW',requestBody:{values:[[c.value]]}}).catch(()=>{});
+     }
+    }else throw e;
+   }
+  };
+  const formatVoice=async(spreadsheetId:string,title:string,changes:Change[])=>{const links=changes.filter(c=>typeof c.value==='string'&&(voiceLinkRuns(c.value).length||additionalLinkRuns(c.value).length));if(!links.length)return;const meta=await sheets.spreadsheets.get({spreadsheetId,fields:'sheets.properties'});const sheetId=meta.data.sheets?.find(s=>s.properties?.title===title)?.properties?.sheetId;if(sheetId===undefined||sheetId===null)return;await sheets.spreadsheets.batchUpdate({spreadsheetId,requestBody:{requests:links.map(c=>({updateCells:{range:{sheetId,startRowIndex:c.row-1,endRowIndex:c.row,startColumnIndex:c.col,endColumnIndex:c.col+1},rows:[{values:[{textFormatRuns:voiceLinkRuns(String(c.value)).length?voiceLinkRuns(String(c.value)):additionalLinkRuns(String(c.value))}]}],fields:'textFormatRuns'}}))}}).catch(()=>{});};
   // Save both review versions before any sync write, including conflicting versions.
   const reviews=(rows:unknown[][])=>{const h=rows[0]||[];return rows.slice(1).filter(r=>r[h.indexOf('Ad ID')]).map(r=>Object.fromEntries(['Ad ID','Feedback','Approval','Approval after changes'].map(k=>[k,r[h.indexOf(k)]??''])));};
   await mutate<{entries:{at:number;admin:unknown;editor:unknown}[]},void>('review-history-'+workspace.id,{entries:[]},s=>{const entry={at:Date.now(),admin:reviews(admin.rows),editor:reviews(editor.rows)};const last=s.entries.at(-1);if(!last||JSON.stringify([last.admin,last.editor])!==JSON.stringify([entry.admin,entry.editor])){s.entries.push(entry);s.entries=s.entries.slice(-200);}});
@@ -36,8 +47,8 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
   await write(adminId(),'Daily Briefs',plan.adminChanges);
   await write(editorId(),'My Tasks',plan.editorChanges);await formatVoice(editorId(),'My Tasks',plan.editorChanges);
   const time=new Date().toLocaleString('en-GB',{timeZone:'Europe/London'});
-  await sheets.spreadsheets.values.update({spreadsheetId:adminId(),range:"'Dashboard'!B23",valueInputOption:'RAW',requestBody:{values:[[`Active · ${time}${plan.conflicts?' · '+plan.conflicts+' simultaneous edit(s): review conflicts preserved for inspection':''}`]]}});
-  await sheets.spreadsheets.values.update({spreadsheetId:editorId(),range:"'Dashboard'!B4:C4",valueInputOption:'RAW',requestBody:{values:[['Connected',`Last synced ${time} · checks every 5 minutes; timestamp shows last change`]]}});
+  await sheets.spreadsheets.values.update({spreadsheetId:adminId(),range:"'Dashboard'!B23",valueInputOption:'RAW',requestBody:{values:[[`Active · ${time}${plan.conflicts?' · '+plan.conflicts+' simultaneous edit(s): review conflicts preserved for inspection':''}`]]}}).catch(()=>{});
+  await sheets.spreadsheets.values.update({spreadsheetId:editorId(),range:"'Dashboard'!B4:C4",valueInputOption:'RAW',requestBody:{values:[['Connected',`Last synced ${time} · checks every 5 minutes; timestamp shows last change`]]}}).catch(()=>{});
   await mutate<State,void>(name,initial(),s=>{if(s.lease!==token)throw Error('Sync lease expired');s.snapshot=plan.snapshot;s.lastSuccess=Date.now();s.lastError=undefined;s.lease=undefined;s.leaseUntil=undefined;});
   return {ads:plan.ads,toEditor:plan.editorChanges.length,toAdmin:plan.adminChanges.length,conflicts:plan.conflicts};
  }catch(e){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;s.lastError=(e as Error).message;}});throw e;}
