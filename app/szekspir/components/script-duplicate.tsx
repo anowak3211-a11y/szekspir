@@ -1,6 +1,6 @@
 'use client';
 import type {Job} from '@/lib/jobs';
-import {displayAdId} from '@/lib/cancellation';
+import {displayAdId} from '@/lib/ad-id';
 export default function ScriptDuplicate({job,busy,error,onContinue,onCancel,basePath}:{job:Job;busy:boolean;error:string;onContinue:()=>void;onCancel:()=>void;basePath:string}){
  return <main className="wrap duplicate-upload" role="alert"><svg aria-hidden="true" viewBox="0 0 100 100"><path d="M20 20L80 80M80 20L20 80"/></svg><h1>Already ripped</h1><p>This script matches an advert already saved in Szekspir. Localisation and video processing are paused.</p><ul>{job.scriptDuplicate?.matches.map(match=><li key={match.id}><a href={`${match.market==='pl'?'/szekspir-pl':'/szekspir'}?job=${encodeURIComponent(match.id)}`} target="_blank" rel="noopener noreferrer">Open {displayAdId(match.adId)||match.name} ↗</a>{' '}· {Math.round(match.score*100)}% script match</li>)}</ul><p>Open the earlier advert, or continue if you deliberately want another version.</p><button type="button" disabled={busy} onClick={onCancel}>Cancel this new upload</button>{' '}<button type="button" disabled={busy} onClick={onContinue}>{busy?'Please wait…':'Continue anyway'}</button>{error&&<p className="err" role="alert">{error}</p>}<p><a href={basePath}>Back to uploads</a></p></main>;
 }

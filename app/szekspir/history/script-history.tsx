@@ -1,6 +1,6 @@
 'use client';
 import {useState} from 'react';
-import {displayAdId} from '@/lib/cancellation';
+import {displayAdId} from '@/lib/ad-id';
 type Entry={market?:'uk'|'pl';id:string;adId:string;name:string;created:number;product:string;source:string;script:string;hooks:string[];history:{at:number;script:string}[]};
 export default function ScriptHistory({entries}:{entries:Entry[]}){
  const [query,setQuery]=useState(''),[message,setMessage]=useState('');

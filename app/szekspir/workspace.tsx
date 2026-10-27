@@ -41,7 +41,7 @@ import {diffWords} from 'diff';
 import type {Job} from '@/lib/jobs';
 import type {SavedNativeAd} from '@/lib/native-ad-model';
 import {deliveryVersion} from '@/lib/editor-checklist';
-import {displayAdId} from '@/lib/cancellation';
+import {displayAdId} from '@/lib/ad-id';
 type Voice={group?:string;preview_url?:string|null;voice_id:string;name:string;labels:Record<string,string>};
 function assertUploadActive(id:string){if(workspaceLocalStorage.getItem('szekspir-cancelled-'+id))throw Error('Cancelled by you');}
 function uploadStatus(id:string,status:Omit<UploadStatus,'updated'>){try{if(workspaceLocalStorage.getItem('szekspir-cancelled-'+id))return;const key='szekspir-upload-'+id;const previous=JSON.parse(workspaceLocalStorage.getItem(key)||'null');workspaceLocalStorage.setItem(key,JSON.stringify({...status,stage:status.error&&status.stage==='Upload not completed'?(previous?.stage||status.stage):status.stage,startedAt:previous?.startedAt||status.startedAt||Date.now(),updated:Date.now()}));window.dispatchEvent(new Event('szekspir-upload-status'));}catch{}}

@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
 import {checkSelectedFile,type SelectedFileCheck} from '@/lib/selected-file-check';
-import {displayAdId} from '@/lib/cancellation';
+import {displayAdId} from '@/lib/ad-id';
 export default function FileCheck({file,onChange}:{file:File;onChange:(file:File,result:SelectedFileCheck)=>void}){
  const [result,setResult]=useState<SelectedFileCheck>({status:'checking',percent:0}),[retry,setRetry]=useState(0);
  const report=useRef(onChange);report.current=onChange;
