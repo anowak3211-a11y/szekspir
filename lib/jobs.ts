@@ -169,7 +169,7 @@ export async function advance(id:string){
    job.result={...result,us_script,video_url};if(result.no_speech){job.generateVo=false;job.voiceoverEnabled=false;job.generateHooks=false;}job.step='export';job.progress='Localisation complete';
   }else if(job.step==='export'){
    const r=job.result!;
-   const exported=await appendToAdminBriefs({jobId:job.id,mediaType:job.nativeAdId?'image':'video',editorId:job.editorId,editorNotes:job.editorNotes,sheetProduct:job.sheetProduct,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:(job.name.startsWith('SYSTEM TEST')?'SYSTEM TEST / ':'')+r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:job.cleanUrl||''});
+   const exported=await appendToAdminBriefs({jobId:job.id,mediaType:job.nativeAdId?'image':'video',sourceName:job.name,editorId:job.editorId,editorNotes:job.editorNotes,sheetProduct:job.sheetProduct,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:(job.name.startsWith('SYSTEM TEST')?'SYSTEM TEST / ':'')+r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:job.cleanUrl||''});
    job.adId=exported.adId;await syncAssignedEditor(job.adId);job.step=job.generateVo?'vo':job.video&&!job.cleanUrl?'submit':'references';
   }else if(job.step==='vo'){
    const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw new Error('Script has unresolved product data. Edit the draft before recording narration.');

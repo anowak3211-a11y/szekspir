@@ -2,6 +2,7 @@
 import {workspaceLocalStorage} from '@/lib/browser-workspace';
 import {useEffect,useRef,useState} from 'react';
 import {voiceApprovalPending} from '@/lib/voice-approval';
+import {displayAdId,shortAdDescription} from '@/lib/ad-id';
 import AdVideoPreview from './ad-video-preview';
 import type {Job} from '@/lib/jobs';
 import {progressRows,type UploadStatus} from '@/lib/progress-view';
@@ -18,7 +19,8 @@ export default function ProductionProgress({job,upload,lastChecked}:{job?:Job;up
  const completion=job?.step==='done'&&job.status!=='Aborted'?`${job.id}:${job.completedAt||job.revision||0}`:'';
  useEffect(()=>{if(previous.current!==null&&completion&&completion!==previous.current&&sound){chime();}previous.current=completion;},[completion,sound]);
  const totalStart=job?.startedAt||upload?.startedAt||job?.created;
- const uploadStale=!job&&!!upload&&!upload.error&&now-upload.updated>150000;
+ const uploadComplete=!job&&!!upload?.stage?.startsWith('Upload complete');
+ const uploadStale=!job&&!!upload&&!upload.error&&!uploadComplete&&now-upload.updated>150000;
  const totalEnd=job?.completedAt||(job?.step==='done'?job.updated:!job&&upload&&(upload.error||uploadStale)?upload.updated:now);
  const rows=progressRows(job,upload).map(row=>uploadStale&&row.state==='active'?{...row,state:'waiting' as const,detail:`Last reported: ${row.detail}. No recent upload progress.`}:row),done=rows.filter(r=>r.state==='done').length;
  const progressError=job?job.error:upload?.error;
@@ -28,8 +30,10 @@ export default function ProductionProgress({job,upload,lastChecked}:{job?:Job;up
  const slow=rows.filter(r=>r.state==='active'&&r.started&&now-r.started>120000);
  const stageErrors=rows.filter(r=>r.state==='error');
  const active=rows.filter(r=>r.state==='active').map(r=>r.label);
+ const shortDesc=shortAdDescription(job);
+ const adLabel=job?.adId?`${displayAdId(job.adId,!!job.nativeAdId)}${shortDesc?` · ${shortDesc}`:''}`:(shortDesc||'LOCALISATION');
  return <section className="production-card" aria-label="Production progress">
-  <div className="production-heading"><div><p className="production-file">{job?.name||upload?.name||'New localisation'}</p><p className="production-eyebrow">{job?.adId||'LOCALISATION'}</p><h2>{job?.status==='Aborted'?'Stopped by you':complete?(job?.forceFinishedAt?'Finished with available materials':voiceApprovalPending(job)?(job?.video||job?.videoDestination==='drive'?'Script and videos ready for review':'Script ready for review'):job?.status==='Complete'?'Your localisation is ready':'Draft ready for review'):failed?'Needs attention':active.length?active.join(' + '):job?'Queued for processing':'Preparing your upload'}</h2></div><button type="button" className="sound-button" onClick={toggle} aria-pressed={sound}>{sound?'Completion sound: on':'Enable completion sound'}</button></div>
+  <div className="production-heading"><div><p className="production-file">{shortDesc||job?.name||upload?.name||'New localisation'}{shortDesc&&job?.name&&job.name!==shortDesc?` (${job.name})`:''}</p><p className="production-eyebrow">{adLabel}</p><h2>{job?.status==='Aborted'?'Stopped by you':complete?(job?.forceFinishedAt?'Finished with available materials':voiceApprovalPending(job)?(job?.video||job?.videoDestination==='drive'?'Script and videos ready for review':'Script ready for review'):job?.status==='Complete'?'Your localisation is ready':'Draft ready for review'):failed?'Needs attention':active.length?active.join(' + '):uploadComplete?'Loading saved localisation…':job?'Queued for processing':'Preparing your upload'}</h2></div><button type="button" className="sound-button" onClick={toggle} aria-pressed={sound}>{sound?'Completion sound: on':'Enable completion sound'}</button></div>
   {complete&&voiceApprovalPending(job)&&<p role="status">Review your script and choose Send to ElevenLabs to record the planned voiceover.</p>}
   {job&&<AdVideoPreview key={job.id} job={job}/>}
   {soundError&&<p role="alert">{soundError}</p>}

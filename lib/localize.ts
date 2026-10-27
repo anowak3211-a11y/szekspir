@@ -74,16 +74,18 @@ export function buildGeminiRipResult(usScript:string,geminiScript:string,geminiH
  const cleanScript=market==='uk'?canonicalUkMedicationName(geminiScript.trim()):geminiScript.trim();
  const cleanHooks=(geminiHooks||[]).map(h=>String(h||'').trim()).filter(Boolean).slice(0,2).map(h=>market==='uk'?canonicalUkMedicationName(h):h);
  const source=usScript?.trim()||cleanScript;
+ const hookOg=opening(cleanScript);
+ const shortHook=hookOg.replace(/\[\[(?:CONFIRM|REVIEW)\s*:?\s*([\s\S]*?)\]\]/gi,'$1').replace(/["“”'‘’]+/g,'').trim().split(/\s+/).slice(0,8).join(' ').replace(/[,:;—–-]+$/,'');
  return {
   uk_script:cleanScript,
   narration:narration(cleanScript,market),
   hooks:cleanHooks,
-  hook_og:opening(cleanScript),
+  hook_og:hookOg,
   timing:timing(source,cleanScript),
   notes:[{original:'Source script',replacement:'Gemini rip script',reason:'Provided directly via Gemini rip mode (AI rewrite skipped).'}],
   data_gaps:[],
   ad_desire:'Target market adaptation',
-  ad_angle:'Gemini rip',
+  ad_angle:shortHook||'Gemini rip',
   unique_mechanism:'Target mechanism',
   funnel:'TOF',
   prompt_version:(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v2-gemini'

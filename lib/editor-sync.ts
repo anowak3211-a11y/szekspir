@@ -23,8 +23,21 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
  try{saved=await mutate<State,State>(name,{snapshot:legacySnapshot},s=>{if((s.leaseUntil||0)>Date.now())throw Error('SYNC_BUSY');s.lease=token;s.leaseUntil=Date.now()+360000;return structuredClone(s);});}catch(e){if((e as Error).message==='SYNC_BUSY')return {busy:true};throw e;}
  const sheets=google.sheets({version:'v4',auth:sheetAuth()});
  try{
-  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AE':'S'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
+  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AE':'Z'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
   const [admin,editor]=await Promise.all([load(adminId(),'Daily Briefs'),load(editorId(),'My Tasks')]);
+  const editorHeaders=(editor.rows[0]||[]).map(x=>String(x??'').trim());
+  if(editorHeaders.length&&!editorHeaders.includes('Ad angle')){
+   try{
+    const newCol=editorHeaders.length;
+    const meta=await sheets.spreadsheets.get({spreadsheetId:editorId(),fields:'sheets.properties'});
+    const taskSheet=meta.data.sheets?.find(s=>s.properties?.title==='My Tasks')?.properties;
+    if(taskSheet?.sheetId!==undefined&&taskSheet?.sheetId!==null&&(taskSheet.gridProperties?.columnCount||0)<=newCol){
+     await sheets.spreadsheets.batchUpdate({spreadsheetId:editorId(),requestBody:{requests:[{appendDimension:{sheetId:taskSheet.sheetId,dimension:'COLUMNS',length:newCol+2-(taskSheet.gridProperties?.columnCount||0)}}]}}).catch(()=>{});
+    }
+    await sheets.spreadsheets.values.update({spreadsheetId:editorId(),range:`'My Tasks'!${letter(newCol)}1`,valueInputOption:'RAW',requestBody:{values:[['Ad angle']]}});
+    editor.rows[0]=[...(editor.rows[0]||[]),'Ad angle'];
+   }catch{}
+  }
   const plan=planAssignedSync(admin.rows,editor.rows,saved.snapshot,editor.capacity,workspace.id);
   if(!plan.adminChanges.length&&!plan.editorChanges.length&&JSON.stringify(plan.snapshot)===JSON.stringify(saved.snapshot)){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});return {unchanged:true};}
   const write=async(spreadsheetId:string,title:string,changes:Change[])=>{

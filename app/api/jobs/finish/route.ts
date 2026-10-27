@@ -21,6 +21,7 @@ async function syncFinishedJobInBackground(id:string){
   const r=saved.result;
   const out=await appendToAdminBriefs({
    mediaType:saved.nativeAdId?'image':'video',
+   sourceName:saved.name,
    jobId:id,
    editorId:saved.editorId,
    editorNotes:saved.editorNotes,

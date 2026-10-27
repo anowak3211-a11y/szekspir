@@ -38,7 +38,7 @@ export async function consumePublication(id:string,token:string){
    let result=await verifyEditorDelivery(saved,false);
    if(!result.ok){
     const r=saved.result!;
-    await appendToAdminBriefs({mediaType:saved.nativeAdId?'image':'video',jobId:id,editorId:saved.editorId,sheetProduct:saved.sheetProduct,uk:r.uk_script,hooks:editorHooks(saved),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(saved)});
+    await appendToAdminBriefs({mediaType:saved.nativeAdId?'image':'video',sourceName:saved.name,jobId:id,editorId:saved.editorId,sheetProduct:saved.sheetProduct,uk:r.uk_script,hooks:editorHooks(saved),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(saved)});
     if(videoLinks(saved))await updateReference(saved.adId!,videoLinks(saved));
     if(voiceLinks(saved))await updateVoiceover(saved.adId!,voiceLinks(saved));
     await syncAssignedEditor(saved.adId!);

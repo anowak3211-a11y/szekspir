@@ -39,7 +39,8 @@ async function adminLayout(sheets:ReturnType<typeof google.sheets>,spreadsheetId
 
 import {mutate} from './store';
 import {opening} from './validation';
-export interface BriefRow {mediaType?:'video'|'image';sheetProduct?:import("./sheet-product").SheetProduct;noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
+import {shortBriefDescription} from './ad-id';
+export interface BriefRow {mediaType?:'video'|'image';sourceName?:string;sheetProduct?:import("./sheet-product").SheetProduct;noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
 function slug(s:string){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
 type Reservation={adId:string;row:number};
 type Allocations={max:number;lastRow:number;reservations:Record<string,Reservation>};
@@ -72,9 +73,11 @@ async function writeAdminBrief(row:BriefRow){
  const existing=current.data.values?.[0]||[];
  const prior=(column:string)=>existing[adminColumnIndex(r(column))-adminColumnIndex(r('A'))];
  if(existing.some(x=>String(x).trim())&&prior('A')!==reserved.adId)throw new Error('Reserved row has changed outside this app. No data overwritten.');
+ const shortDesc=row.sourceName?shortBriefDescription({sourceName:row.sourceName,angle:row.angle,hookOg:row.hookOg,uk:row.uk}):'';
+ const angleValue=shortDesc||row.angle;
  const adName=`${reserved.adId}_${row.funnel}_${slug(row.desire)}_${slug(row.angle)}`;
  // Only write owned columns; landing-page choices and all editor fields survive edits/retries.
- const data=[{range:r(`'${BRIEFS_TAB}'!A${n}:F${n}`),values:[[reserved.adId,adName,row.desire,row.angle,row.mechanism,row.funnel]]},{range:r(`'${BRIEFS_TAB}'!I${n}:M${n}`),values:[[row.uk,opening(row.uk),row.hooks[0]||'',row.hooks[1]||'','']]}];
+ const data=[{range:r(`'${BRIEFS_TAB}'!A${n}:F${n}`),values:[[reserved.adId,adName,row.desire,angleValue,row.mechanism,row.funnel]]},{range:r(`'${BRIEFS_TAB}'!I${n}:M${n}`),values:[[row.uk,opening(row.uk),row.hooks[0]||'',row.hooks[1]||'','']]}];
  if(!prior('U')){data.push({range:r(`'${BRIEFS_TAB}'!U${n}`),values:[[editor.id]]});if(offset)data.push({range:`'${BRIEFS_TAB}'!A${n}`,values:[[editor.name]]});}
  if(!prior('N'))data.push({range:r(`'${BRIEFS_TAB}'!N${n}`),values:[[row.reference.replace(/^clean video:\s*/i,'')]]});
  if(row.sheetProduct&&!prior('A')){

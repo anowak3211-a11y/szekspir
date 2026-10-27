@@ -30,14 +30,15 @@ export function planSync(admin:unknown[][],editor:unknown[][],previous:Snapshot,
    else add(editorChanges,editor,er,ec[field],resolved);
    saved[field]=resolved;
   }
-  if(ac['Product']!==undefined&&ec['Product']!==undefined){
-   const field='Product',a=value(admin[ar]?.[ac[field]]),e=value(editor[er]?.[ec[field]]),old=previous[id]?.[field];
-   const manual=previous[id]?.['manual:'+field]===true||(!isNew&&(old===undefined?e!==''&&!same(a,e):!same(e,old)));
-   const resolved=manual?e:a;
-   if(manual){saved['manual:'+field]=true;add(adminChanges,admin,ar,ac[field],e);}
-   else add(editorChanges,editor,er,ec[field],resolved);
-   saved[field]=resolved;
-  }
+   for(const field of ['Product','Ad angle','Ad name'] as const){
+    if(ac[field]===undefined||ec[field]===undefined)continue;
+    const a=value(admin[ar]?.[ac[field]]),e=value(editor[er]?.[ec[field]]),old=previous[id]?.[field];
+    const manual=previous[id]?.['manual:'+field]===true||(!isNew&&(old===undefined?e!==''&&!same(a,e):!same(e,old)));
+    const resolved=manual?e:a;
+    if(manual){saved['manual:'+field]=true;add(adminChanges,admin,ar,ac[field],e);}
+    else add(editorChanges,editor,er,ec[field],resolved);
+    saved[field]=resolved;
+   }
   if(ac['Changes applied']!==undefined&&ec['Changes applied']!==undefined){
    const checked=editor[er]?.[ec['Changes applied']];
    add(adminChanges,admin,ar,ac['Changes applied'],checked===true||checked==='TRUE');
