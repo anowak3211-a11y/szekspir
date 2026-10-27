@@ -257,7 +257,7 @@ export async function requestVoiceover(id:string,script:string,hooks:string[],vo
   if(s.market!=='pl'){script=canonicalUkMedicationName(script);hooks=hooks.map(canonicalUkMedicationName);}
   hooks=hooks.map(h=>h.trim()).filter(Boolean).slice(0,2);
   const speakers=dualVoice(dualInput,script,voiceId);
-  if(regenerateRevision!==undefined){if(s.voRegeneratedFrom===regenerateRevision)return s;}
+  if(regenerateRevision!==undefined&&s.voRegeneratedFrom===regenerateRevision&&JSON.stringify(s.voiceProcessing)===JSON.stringify(processing)&&s.voiceId===voiceId&&s.result.uk_script===script)return s;
   if(hasTokens(script))throw Error('Replace unfinished placeholders in the script before recording.');
   if(regenerateRevision===undefined&&s.generateVo&&s.voApprovedRevision===(s.revision||0)&&s.result.uk_script===script&&s.voiceId===voiceId&&JSON.stringify(s.dualVoice)===JSON.stringify(speakers)&&JSON.stringify(s.voiceProcessing)===JSON.stringify(processing)&&JSON.stringify(s.result.hooks.slice(0,2))===JSON.stringify(hooks)&&s.voUrl&&s.stages?.vo?.done&&!s.stages?.vo?.error)return s;
   const validated=validateResult({...s.result,uk_script:script,hooks,narration:script});

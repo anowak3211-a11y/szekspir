@@ -1338,6 +1338,142 @@ export const POST = accountRoute(async (req: Request) => {
       return NextResponse.json(result);
     }
 
+    const rawBody = body as Record<string, unknown>;
+    if (rawBody.action === 'fit_video_pace') {
+      const { inOwnerWorkspace, inWorkspace } = await import('@/lib/account-context');
+      const { accountRegistry } = await import('@/lib/account-repository');
+      const { jobs, getJob, stripPlaceholderTokens } = await import('@/lib/jobs');
+      const { v4RecordingSettings } = await import('@/lib/voice-processing');
+      const { sourcePace } = await import('@/lib/source-pace');
+      const { safeDownload } = await import('@/lib/safe-fetch');
+      const { cleanVoiceover, audioDuration } = await import('@/lib/vo-cleanup');
+      const { fitVoiceoverPace } = await import('@/lib/vo-pace');
+      const { generateVO } = await import('@/lib/elevenlabs');
+      const { prepareNarration } = await import('@/lib/localize');
+      const { putMedia } = await import('@/lib/media');
+      const { updateVoiceover } = await import('@/lib/sheets');
+      const { voiceLinks } = await import('@/lib/voice-links');
+      const { syncAssignedEditor } = await import('@/lib/editor-sync');
+      const { mkdtemp, writeFile, rm } = await import('node:fs/promises');
+      const { tmpdir } = await import('node:os');
+      const { join } = await import('node:path');
+
+      const targets: string[] = Array.isArray(rawBody.adIds) && rawBody.adIds.length ? rawBody.adIds.map(String) : ['193', '195'];
+      const reg = await accountRegistry().catch(() => ({ users: {} }));
+      const scopes = [undefined, ...Object.values(reg.users)];
+      const results: Record<string, unknown>[] = [];
+
+      for (const ws of scopes) {
+        const runInScope = <T>(fn: () => Promise<T>): Promise<T> => (ws ? inWorkspace(ws, fn) : inOwnerWorkspace(fn));
+        await runInScope(async () => {
+          const allJobs = await jobs();
+          const matched = allJobs.filter(j =>
+            !j.cancelledAt &&
+            !j.abortedAt &&
+            targets.some(t => (j.adId || '').includes(t) || j.id === t)
+          );
+          for (const item of matched) {
+            const current = (await getJob(item.id)) || item;
+            if (!current.result) continue;
+            let duration = current.duration;
+            if (!Number.isFinite(duration) || !duration || duration < 3) {
+              const mediaUrl = current.audioUrl || current.resolvedVideoUrl || current.sourceUrl;
+              if (mediaUrl) {
+                const dir = await mkdtemp(join(tmpdir(), 'szekspir-dur-'));
+                try {
+                  const dl = await safeDownload(mediaUrl, 150 * 1024 * 1024);
+                  const tmpFile = join(dir, 'src.media');
+                  await writeFile(tmpFile, dl.buffer);
+                  duration = await audioDuration(tmpFile);
+                } catch {} finally {
+                  await rm(dir, { recursive: true, force: true });
+                }
+              }
+            }
+            if (!Number.isFinite(duration) || !duration || duration < 3) {
+              results.push({ id: current.id, adId: current.adId, error: 'Missing video duration' });
+              continue;
+            }
+            const cleanScript = stripPlaceholderTokens(current.result.uk_script);
+            const processing = { ...v4RecordingSettings(current.voiceProcessing), matchSourcePace: true, tempoFactor: 1 };
+            const jobWithDuration = { ...current, duration };
+            const pace = sourcePace(jobWithDuration, cleanScript, current.voiceId, processing) || {
+              sourceSeconds: duration,
+              targetSeconds: duration,
+              sourceWords: 100,
+              scriptWords: 100,
+              speed: 1,
+              calibrated: false,
+            };
+            const nextRev = (current.revision || 0) + 1;
+            const origUrl = !rawBody.forceFresh ? (current.voOriginalUrl || current.previousVo?.originalUrl) : undefined;
+            let finalAudio: ArrayBuffer;
+            let finalTiming: import('@/lib/vo-cleanup').VoiceTiming | undefined;
+            let savedOriginalUrl = origUrl;
+
+            if (origUrl) {
+              const rawBuf = (await safeDownload(origUrl, 150 * 1024 * 1024)).buffer;
+              const rawAb = new Uint8Array(rawBuf).buffer;
+              let cleaned = await cleanVoiceover(rawAb, t => { finalTiming = t; }, processing, 'voiceover');
+              if (!finalTiming) throw new Error('Timing failed');
+              cleaned = await fitVoiceoverPace(cleaned, finalTiming, pace);
+              finalAudio = cleaned;
+            } else {
+              const narration = await prepareNarration(cleanScript, current.provider, current.model, current.market);
+              finalAudio = await generateVO(
+                narration,
+                current.voiceId,
+                async (raw, t) => {
+                  savedOriginalUrl = await putMedia(`vo/${current.id}-r${nextRev}-original.mp3`, Buffer.from(raw), 'audio/mpeg');
+                  finalTiming = t;
+                },
+                processing,
+                'voiceover',
+                current.market,
+                pace
+              );
+            }
+
+            const wavUrl = await putMedia(`vo/${current.id}-r${nextRev}.wav`, Buffer.from(finalAudio), 'audio/wav');
+            await mutate<import('@/lib/jobs').Job | null, void>(`job-${current.id}`, null, s => {
+              if (!s) return;
+              s.duration = duration;
+              s.voiceProcessing = processing;
+              s.voPace = pace;
+              s.revision = nextRev;
+              s.voApprovedRevision = nextRev;
+              s.voOriginalUrl = savedOriginalUrl;
+              s.voTiming = finalTiming;
+              s.voUrl = wavUrl;
+              s.voNeedsRegeneration = false;
+              s.stages ??= {};
+              s.stages.vo = { ...(s.stages.vo || {}), done: true, pending: false, error: undefined, finished: Date.now() };
+              s.updated = Date.now();
+            });
+            const updated = await getJob(current.id);
+            if (updated?.adId) {
+              await updateVoiceover(updated.adId, voiceLinks(updated)).catch(() => {});
+              await syncAssignedEditor(updated.adId).catch(() => {});
+            }
+            results.push({
+              workspace: ws?.email || 'owner',
+              id: current.id,
+              adId: current.adId,
+              name: current.name,
+              videoDuration: duration,
+              originalVoSeconds: finalTiming?.originalSeconds,
+              inputTrimmedSeconds: finalTiming?.paceAdjustment?.inputSeconds ?? finalTiming?.originalSeconds,
+              outputVoSeconds: finalTiming?.trimmedSeconds,
+              tempoFactor: finalTiming?.paceAdjustment?.factor ?? 1,
+              voUrl: wavUrl,
+              reusedOriginalTake: !!origUrl,
+            });
+          }
+        });
+      }
+      return NextResponse.json({ ok: true, results });
+    }
+
     return NextResponse.json({ error: 'Nieznana akcja API Antki PL.' }, { status: 400 });
   } catch (err) {
     return NextResponse.json(

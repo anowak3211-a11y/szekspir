@@ -5,9 +5,10 @@ export const spokenWords=(text:string)=>text.replace(/\[[^\]]*\]/g,'').trim().sp
 /** Compare source and script word rates. Audio fitting uses measured output duration separately. */
 export function sourcePace(job:Pick<Job,'duration'|'transcript'|'result'|'voiceId'|'voTiming'|'singingAd'>,script:string,_voiceId:string,processing?:VoiceProcessing):SourcePace|undefined{
  if(processing?.matchSourcePace===false||(job.singingAd&&processing?.matchSourcePace!==true)||job.result?.no_speech||!Number.isFinite(job.duration)||!job.duration||job.duration<5)return;
- const sourceWords=spokenWords(job.transcript||job.result?.us_script||''),scriptWords=spokenWords(script);
+ const rawSourceWords=spokenWords(job.transcript||job.result?.us_script||''),scriptWords=spokenWords(script);
+ const sourceWords=rawSourceWords>=10?rawSourceWords:(processing?.matchSourcePace===true?scriptWords:rawSourceWords);
  if(sourceWords<10||scriptWords<10)return;
- const targetSeconds=job.duration*scriptWords/sourceWords;
+ const targetSeconds=processing?.matchSourcePace===true?job.duration:job.duration*scriptWords/sourceWords;
  // V4 has no synthesis-speed setting. Keep legacy fields honest and fit the measured take.
  return {sourceSeconds:job.duration,targetSeconds,sourceWords,scriptWords,speed:1,calibrated:false};
 }

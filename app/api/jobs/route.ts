@@ -37,18 +37,20 @@ async function runDirectVoiceover(id:string,targetRevision:number){
    url=await generateDualVoice(current,async()=>{},async fn=>{await mutate<Job|null,void>(`job-${id}`,null,s=>{if(s){fn(s);s.updated=Date.now();}});});
   }
   if(!url){
+   const {sourcePace}=await import('@/lib/source-pace');
+   const effectivePace=current.voPace||(current.dualVoice?undefined:sourcePace(current,cleanScript,current.voiceId,current.voiceProcessing));
    const narration=await prepareNarration(cleanScript,current.provider,current.model,current.market);
    const audio=await generateVO(
     narration,
     current.voiceId,
     async(raw,timing)=>{
      const original=await putMedia(`vo/${id}-r${targetRevision}-original.mp3`,Buffer.from(raw),'audio/mpeg');
-     await mutate<Job|null,void>(`job-${id}`,null,s=>{if(s){s.voOriginalUrl=original;s.voTiming=timing;s.updated=Date.now();}});
+     await mutate<Job|null,void>(`job-${id}`,null,s=>{if(s){s.voOriginalUrl=original;s.voTiming=timing;s.voPace=effectivePace;s.updated=Date.now();}});
     },
     current.voiceProcessing,
     'voiceover',
     current.market,
-    current.voPace
+    effectivePace
    );
    url=await putMedia(path,Buffer.from(audio),'audio/wav');
   }
