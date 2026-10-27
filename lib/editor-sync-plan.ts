@@ -7,7 +7,7 @@ const shared=['Your work'];
 const value=(x:unknown):Cell=>typeof x==='number'||typeof x==='boolean'?x:typeof x==='string'?x:'';
 const same=(a:unknown,b:unknown)=>String(a??'')===String(b??'');
 function columns(rows:unknown[][]){const h=(rows[0]||[]).map(x=>String(x)==='Reference file'?'Video':String(x));for(const field of ['Ad ID',...owned,...shared])if(h.filter(x=>x===field).length!==1)throw new Error('Missing or duplicate header: '+field);return Object.fromEntries(h.map((x,i)=>[x,i]));}
-function index(rows:unknown[][],idCol:number){const map=new Map<string,number>();for(let i=1;i<rows.length;i++){const id=String(rows[i]?.[idCol]||'').trim();if(!id)continue;if(!/^MEL-\d+$/.test(id))throw new Error('Invalid Ad ID at row '+(i+1));if(map.has(id))throw new Error('Duplicate Ad ID: '+id);map.set(id,i);}return map;}
+function index(rows:unknown[][],idCol:number){const map=new Map<string,number>();for(let i=1;i<rows.length;i++){const id=String(rows[i]?.[idCol]||'').trim();if(!id)continue;if(!/^(?:MEL|VID|IMG)-\d+$/i.test(id))throw new Error('Invalid Ad ID at row '+(i+1));if(map.has(id))throw new Error('Duplicate Ad ID: '+id);map.set(id,i);}return map;}
 export function planSync(admin:unknown[][],editor:unknown[][],previous:Snapshot,editorCapacity:number){
  const ac=columns(admin),ec=columns(editor),ai=index(admin,ac['Ad ID']),ei=index(editor,ec['Ad ID']);
  const adminChanges:Change[]=[],editorChanges:Change[]=[],snapshot:Snapshot={...previous};let conflicts=0;
@@ -94,7 +94,7 @@ export function planAssignedSync(admin:unknown[][],editor:unknown[][],previous:S
  const adminIdCol=(admin[0]||[]).indexOf('Ad ID');
  const assigned=new Set(scoped.slice(1).map(r=>String(r[adminIdCol]||'')));
  for(let i=1;i<editor.length;i++){const id=String(editor[i]?.[idCol]||'');if(!id||assigned.has(id))continue;
-  if(!/^MEL-\d+$/.test(id))throw Error('Unexpected editor row');
+  if(!/^(?:MEL|VID|IMG)-\d+$/i.test(id))throw Error('Unexpected editor row');
   for(let c=0;c<(editor[0]||[]).length;c++)if(c!==statusCol&&String(editor[i]?.[c]??'')!=='')result.editorChanges.push({row:i+1,col:c,value:''});
   delete result.snapshot[id];
  }

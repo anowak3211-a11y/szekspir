@@ -29,18 +29,18 @@ export async function cleanupCancelledBrief(jobId:string){
     const headers=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.tab}'!A1:${end}1`})).data.values?.[0]||[];
     const idCol=headers.indexOf('Ad ID');if(idCol<0||headers.lastIndexOf('Ad ID')!==idCol)throw Error('Cancellation could not identify the Ad ID column.');
     const ids=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.tab}'!${column(idCol)}2:${column(idCol)}${properties.gridProperties.rowCount}`})).data.values||[];
-    const rows=ids.flatMap((row,i)=>{const id=String(row[0]||'').trim();return /^MEL-\d+$/i.test(id)&&adIds.includes(canonicalAdId(id))?[i+2]:[];});
+    const rows=ids.flatMap((row,i)=>{const id=String(row[0]||'').trim();return /^(?:MEL|VID|IMG)-\d+$/i.test(id)&&adIds.includes(canonicalAdId(id))?[i+2]:[];});
     return {...target,sheetId:properties.sheetId,cols:properties.gridProperties.columnCount,end,idCol,statusCol:headers.indexOf('Production status'),rowCount:properties.gridProperties.rowCount,rows};
    }));
    for(const plan of plans){
     if(!plan.rows.length)continue;
     const backup=await api.spreadsheets.get({spreadsheetId:plan.id,ranges:plan.rows.map(row=>`'${plan.tab}'!A${row}:${plan.end}${row}`),includeGridData:true,fields:'sheets(properties(sheetId),data(startRow,rowData(values(formattedValue,userEnteredValue,userEnteredFormat,dataValidation,textFormatRuns,note))))'});
     const data=backup.data.sheets?.find(s=>s.properties?.sheetId===plan.sheetId)?.data||[];
-    for(const row of plan.rows){const cell=data.find(d=>d.startRow===row-1)?.rowData?.[0]?.values?.[plan.idCol];const id=String(cell?.formattedValue??cell?.userEnteredValue?.stringValue??'').trim();if(!/^MEL-\d+$/i.test(id)||!adIds.includes(canonicalAdId(id)))throw Error('Cancellation row changed. Retry without deleting another ad.');}
+    for(const row of plan.rows){const cell=data.find(d=>d.startRow===row-1)?.rowData?.[0]?.values?.[plan.idCol];const id=String(cell?.formattedValue??cell?.userEnteredValue?.stringValue??'').trim();if(!/^(?:MEL|VID|IMG)-\d+$/i.test(id)||!adIds.includes(canonicalAdId(id)))throw Error('Cancellation row changed. Retry without deleting another ad.');}
     await mutate<{entries:unknown[]},void>('cancelled-sheet-rows-'+jobId,{entries:[]},s=>{s.entries.push({at:Date.now(),spreadsheetId:plan.id,tab:plan.tab,rows:plan.rows,cells:backup.data});});
     await api.spreadsheets.batchUpdate({spreadsheetId:plan.id,requestBody:{requests:plan.rows.map(row=>({updateCells:{range:{sheetId:plan.sheetId,startRowIndex:row-1,endRowIndex:row,startColumnIndex:0,endColumnIndex:plan.cols},rows:[{values:Array.from({length:plan.cols},(_,col)=>{const formula=data.find(d=>d.startRow===row-1)?.rowData?.[0]?.values?.[col]?.userEnteredValue?.formulaValue;return col===plan.statusCol&&formula?{userEnteredValue:{formulaValue:formula}}:{};})}],fields:'userEnteredValue,textFormatRuns,note'}}))}});
     const remaining=(await api.spreadsheets.values.get({spreadsheetId:plan.id,range:`'${plan.tab}'!${column(plan.idCol)}2:${column(plan.idCol)}${plan.rowCount}`})).data.values||[];
-    if(remaining.some(r=>/^MEL-\d+$/i.test(String(r[0]||''))&&adIds.includes(canonicalAdId(String(r[0])))))throw Error('Cancellation sheet removal was not confirmed. Retry cleanup.');
+    if(remaining.some(r=>/^(?:MEL|VID|IMG)-\d+$/i.test(String(r[0]||''))&&adIds.includes(canonicalAdId(String(r[0])))))throw Error('Cancellation sheet removal was not confirmed. Retry cleanup.');
    }
    await mutate<{max:number;lastRow:number;reservations:Record<string,{adId:string;row:number}>},void>('sheet-allocations',{max:0,lastRow:1,reservations:{}},s=>{const reservation=s.reservations[jobId];if(reservation&&adIds.includes(canonicalAdId(reservation.adId)))reservation.row=0;});
    return adIds;

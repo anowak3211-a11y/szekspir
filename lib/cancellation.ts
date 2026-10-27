@@ -1,8 +1,13 @@
 import {readState,mutate} from './store';
 export type CancelCleanup={status:'pending'|'complete'|'failed';requestedAt:number;completedAt?:number;adIds:string[];error?:string};
 export function canonicalAdId(id:string){
- if(!/^MEL-\d+$/i.test(id))throw Error('Invalid Ad ID');
- return 'MEL-'+id.slice(4).replace(/^0+(?=\d)/,'').padStart(5,'0');
+ const m=id.match(/^(MEL|VID|IMG)-(\d+)$/i);
+ if(!m)throw Error('Invalid Ad ID');
+ return m[1].toUpperCase()+'-'+m[2].replace(/^0+(?=\d)/,'').padStart(5,'0');
+}
+export function displayAdId(adId?:string,isImage=false){
+ if(!adId)return '';
+ return adId.replace(/^MEL-(\d+)$/i,`${isImage?'IMG':'VID'}-$1`);
 }
 export async function adCancelled(adId:string){return !!(await readState<{at?:number}>('cancelled-ad-'+canonicalAdId(adId),{})).value.at;}
 export async function assertAdActive(adId:string){if(await adCancelled(adId))throw Error('This ad was cancelled.');}

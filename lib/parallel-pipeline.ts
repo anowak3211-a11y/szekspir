@@ -173,7 +173,7 @@ export async function advanceParallel(id:string):Promise<number>{
      const url=await saveOriginalToDrive(job,async fileId=>{await save(s=>{s.driveFileId=fileId;});});
      await save(s=>{s.driveUrl=url;});
     }else if(k==='export'){
-     if(!job.stages?.export?.briefSaved||!job.adId){const r=job.result!,out=await appendToAdminBriefs({jobId:id,editorId:job.editorId,editorNotes:job.editorNotes,sheetProduct:job.sheetProduct,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(job)});await save(s=>{s.adId=out.adId;s.stages!.export!.briefSaved=true;});}
+     if(!job.stages?.export?.briefSaved||!job.adId){const r=job.result!,out=await appendToAdminBriefs({mediaType:job.nativeAdId?'image':'video',jobId:id,editorId:job.editorId,editorNotes:job.editorNotes,sheetProduct:job.sheetProduct,noSpeech:r.no_speech,uk:r.uk_script,hooks:editorHooks(job),hookOg:opening(r.uk_script),desire:r.ad_desire,angle:r.ad_angle,mechanism:r.unique_mechanism,funnel:r.funnel,reference:videoLinks(job)});await save(s=>{s.adId=out.adId;s.stages!.export!.briefSaved=true;});}
      await syncAssignedEditor((await getJob(id))!.adId!);
     }else if(k==='vo'){
      const r=job.result!;if(job.voApprovedRevision!==(job.revision||0))throw Error('Review the script and click Get voiceover first');if(hasTokens(r.uk_script))throw Error('Fill in missing product details before recording narration');

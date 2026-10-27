@@ -6,7 +6,7 @@ export function additionalInput(input:Record<string,unknown>){
  const {adId,editorId,requestId,voiceId}=input;
  if(input.hookIndex!==undefined&&input.hookIndex!==0&&input.hookIndex!==1)throw Error('Choose Hook 1 or Hook 2.');
  const hookIndex=input.hookIndex as 0|1|undefined;
- if(typeof adId!=='string'||!/^MEL-\d+$/.test(adId))throw Error('Choose a valid Ad ID.');
+ if(typeof adId!=='string'||!/^(?:MEL|VID|IMG)-\d+$/i.test(adId))throw Error('Choose a valid Ad ID.');
  if(typeof editorId!=='string'||!editorId)throw Error('Choose an editor.');
  if(typeof requestId!=='string'||!/^[-a-f0-9]{36}$/i.test(requestId))throw Error('Invalid recording request.');
  if(typeof voiceId!=='string'||!/^\w{10,100}$/.test(voiceId))throw Error('Choose a voice.');
@@ -35,7 +35,7 @@ export function mergeAdditionalLinks(a:string,b:string){return [...new Set([...a
 
 export function additionalUploadInput(input:Record<string,unknown>){
  const {adId,editorId,requestId,provider,sourcePath,vmakeMode}=input;
- if(typeof adId!=='string'||!/^MEL-\d+$/.test(adId)||typeof editorId!=='string'||!editorId)throw Error('Choose a valid task.');
+ if(typeof adId!=='string'||!/^(?:MEL|VID|IMG)-\d+$/i.test(adId)||typeof editorId!=='string'||!editorId)throw Error('Choose a valid task.');
  if(typeof requestId!=='string'||!/^[-a-f0-9]{36}$/i.test(requestId))throw Error('Invalid request.');
  if(provider!=='vmake'&&provider!=='none')throw Error('Choose a processing option.');
  if(typeof sourcePath!=='string'||!/^sources\/[a-f0-9-]{36}\/source\.(mp4|mov|webm|mp3|m4a|wav)$/i.test(sourcePath))throw Error('Upload a supported video or audio file.');

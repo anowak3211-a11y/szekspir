@@ -39,7 +39,7 @@ async function adminLayout(sheets:ReturnType<typeof google.sheets>,spreadsheetId
 
 import {mutate} from './store';
 import {opening} from './validation';
-export interface BriefRow {sheetProduct?:import("./sheet-product").SheetProduct;noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
+export interface BriefRow {mediaType?:'video'|'image';sheetProduct?:import("./sheet-product").SheetProduct;noSpeech?:boolean;editorNotes?:string;editorId?:string;uk:string;hooks:string[];hookOg:string;desire:string;angle:string;mechanism:string;funnel:string;reference:string; jobId:string;}
 function slug(s:string){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
 type Reservation={adId:string;row:number};
 type Allocations={max:number;lastRow:number;reservations:Record<string,Reservation>};
@@ -54,7 +54,8 @@ async function writeAdminBrief(row:BriefRow){
  const layout=await adminLayout(sheets,spreadsheetId),offset=layout.offset,r=(value:string)=>mapAdminRange(value,layout);
  const ids=await sheets.spreadsheets.values.get({spreadsheetId,range:r(`'${BRIEFS_TAB}'!A2:A`)});
  let max=0,lastRow=1;
- (ids.data.values||[]).forEach((r,i)=>{if(r.some(x=>String(x).trim()))lastRow=i+2;const m=String(r[0]||'').match(/^MEL-(\d+)$/);if(m)max=Math.max(max,Number(m[1]));});
+ (ids.data.values||[]).forEach((r,i)=>{if(r.some(x=>String(x).trim()))lastRow=i+2;const m=String(r[0]||'').match(/^(?:MEL|VID|IMG)-(\d+)$/i);if(m)max=Math.max(max,Number(m[1]));});
+ const prefix=row.mediaType==='image'?'IMG':row.mediaType==='video'?'VID':'MEL';
  const reserved=await mutate<Allocations,Reservation>('sheet-allocations',{max:0,lastRow:1,reservations:{}},state=>{
   const prior=state.reservations[row.jobId];
   if(prior){const at=(ids.data.values||[]).findIndex(v=>v[0]===prior.adId);if(at>=0)prior.row=at+2;return prior;}
@@ -63,7 +64,7 @@ async function writeAdminBrief(row:BriefRow){
   Object.values(state.reservations).forEach(v=>occupied.add(v.row));
   let next=2;while(occupied.has(next))next++;
   state.max=Math.max(state.max,max)+1;state.lastRow=Math.max(state.lastRow,next);
-  const value={adId:`MEL-${String(state.max).padStart(5,'0')}`,row:next};state.reservations[row.jobId]=value;return value;
+  const value={adId:`${prefix}-${String(state.max).padStart(5,'0')}`,row:next};state.reservations[row.jobId]=value;return value;
  });
  await assertAdActive(reserved.adId);
  const n=reserved.row;

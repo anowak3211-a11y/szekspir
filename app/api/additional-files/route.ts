@@ -8,7 +8,7 @@ async function accountPOST(req:Request){try{
  const b=await req.json();
  if(b.action==='upload'){const file=await requestAdditionalUpload(b);if(file.status==='generating')await scheduleAdditionalVideo(file.adId,file.id);return Response.json({file},{status:202});}
  if(b.action==='generate'){const file=await requestAdditional(b);if(file.status==='generating'&&!file.startedAt)after(()=>generateAdditional(file.adId,file.id));return Response.json({file},{status:202});}
- if(typeof b.adId!=='string'||!/^MEL-\d+$/.test(b.adId)||typeof b.id!=='string'||!/^[-a-f0-9]{36}$/i.test(b.id)||typeof b.editorId!=='string')throw Error('Invalid selection.');
+ if(typeof b.adId!=='string'||!/^(?:MEL|VID|IMG)-\d+$/i.test(b.adId)||typeof b.id!=='string'||!/^[-a-f0-9]{36}$/i.test(b.id)||typeof b.editorId!=='string')throw Error('Invalid selection.');
  if(b.action==='approve')return Response.json(await approveAdditional(b.editorId,b.adId,b.id));
  if(b.action==='recover'){await recoverAdditional(b.editorId,b.adId,b.id);return Response.json({ok:true});}
  throw Error('Unknown action.');

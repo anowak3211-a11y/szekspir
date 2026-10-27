@@ -28,3 +28,7 @@ export async function releaseFile(hash:string,id:string){
  if((await readState<unknown>('job-'+id,null)).value)return;
  await mutate<{claim?:Claim},void>(key(hash),{},state=>{if(state.claim?.id===id)delete state.claim;});
 }
+export async function forceReleaseFile(hash:string){
+ await mutate<{claim?:Claim},void>(key(hash),{},state=>{delete state.claim;});
+}
+
