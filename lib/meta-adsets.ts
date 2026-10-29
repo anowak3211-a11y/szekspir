@@ -870,7 +870,7 @@ export async function inspectAntkiTargetAssets(accountId = '1109284831182252', c
   };
  });
 
- const [campAdsRes, acc1AdsPages, acc2AdsPages] = await Promise.all([
+ const [campAdsRes, acc1AdsPages, acc2AdsPages, dorosliAdSetsRes, campInsights14d, adsetInsights14d, adInsights14d] = await Promise.all([
   directGraph<{ data?: Record<string, unknown>[] }>(
    `${campaignId}/ads`,
    {
@@ -895,7 +895,63 @@ export async function inspectAntkiTargetAssets(accountId = '1109284831182252', c
    },
    'GET',
   ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   '120249967753030300/adsets',
+   {
+    fields: 'id,name,status,bid_amount,daily_budget,bid_strategy',
+    limit: 50,
+   },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/insights`,
+   {
+    level: 'campaign',
+    date_preset: 'last_14d',
+    fields: 'campaign_id,campaign_name,spend,impressions,inline_link_clicks,inline_link_click_ctr,cpc,cpm,actions,action_values',
+    limit: 100,
+   },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/insights`,
+   {
+    level: 'adset',
+    date_preset: 'last_14d',
+    fields: 'campaign_id,campaign_name,adset_id,adset_name,spend,impressions,inline_link_clicks,inline_link_click_ctr,cpc,cpm,actions,action_values',
+    limit: 200,
+   },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
+  directGraph<{ data?: Record<string, unknown>[] }>(
+   `act_${accountId}/insights`,
+   {
+    level: 'ad',
+    date_preset: 'last_14d',
+    fields: 'campaign_id,campaign_name,adset_id,adset_name,ad_id,ad_name,spend,impressions,inline_link_clicks,inline_link_click_ctr,cpc,cpm,actions,action_values',
+    limit: 500,
+   },
+   'GET',
+  ).catch(e => ({ error: e instanceof Error ? e.message : 'Failed' })),
  ]);
+
+ const dorosliCostCapUpdates: Record<string, unknown>[] = [];
+ const dorosliSets = ((dorosliAdSetsRes as { data?: Record<string, unknown>[] })?.data || []);
+ for (const ds of dorosliSets) {
+  const sid = String(ds.id || '');
+  if (!sid) continue;
+  const oldBid = Number(ds.bid_amount || 0);
+  if (oldBid !== 3500) {
+   try {
+    await directGraph(sid, { bid_amount: 3500 }, 'POST');
+    dorosliCostCapUpdates.push({ id: sid, name: ds.name, oldBid, newBid: 3500, ok: true });
+   } catch (e) {
+    dorosliCostCapUpdates.push({ id: sid, name: ds.name, oldBid, newBid: 3500, ok: false, error: e instanceof Error ? e.message : 'Failed' });
+   }
+  } else {
+   dorosliCostCapUpdates.push({ id: sid, name: ds.name, oldBid, newBid: 3500, ok: true, already35: true });
+  }
+ }
 
  const summarizeAccountPages = (list: Record<string, unknown>[]) => {
   const map = new Map<string, { count: number; igIds: Set<string>; sampleCreative: string }>();
@@ -920,6 +976,10 @@ export async function inspectAntkiTargetAssets(accountId = '1109284831182252', c
  return {
   accountId,
   campaignId,
+  dorosliCostCapUpdates,
+  campaigns14d: (campInsights14d as { data?: unknown })?.data || campInsights14d,
+  adsets14d: (adsetInsights14d as { data?: unknown })?.data || adsetInsights14d,
+  ads14d: (adInsights14d as { data?: unknown })?.data || adInsights14d,
   acc1Pages: summarizeAccountPages((acc1AdsPages as { data?: Record<string, unknown>[] })?.data || []),
   acc2Pages: summarizeAccountPages((acc2AdsPages as { data?: Record<string, unknown>[] })?.data || []),
   customImagesCount: customImages.length,
@@ -943,15 +1003,15 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
     batch: 'dorosli',
     accountId,
     campaignName: typeof opts.campaignName === 'string' && opts.campaignName.trim() ? opts.campaignName.trim() : 'ANTKI DOROSLI CC30',
-    costCapPln: Number(opts.costCapPln ?? 30),
+    costCapPln: Number(opts.costCapPln ?? 35),
     dailyBudgetPln: Number(opts.dailyBudgetPln ?? 1500),
     forceNew: false,
    });
   }
  }
 
- const targetCostCapPln = Number(opts.costCapPln ?? 30);
- const targetBidMinor = Math.round((Number.isFinite(targetCostCapPln) && targetCostCapPln > 0 ? targetCostCapPln : 30) * 100);
+ const targetCostCapPln = Number(opts.costCapPln ?? 35);
+ const targetBidMinor = Math.round((Number.isFinite(targetCostCapPln) && targetCostCapPln > 0 ? targetCostCapPln : 35) * 100);
 
  const campaignId = numericId(
   String(
