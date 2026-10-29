@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
+import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
 import StrydePlWorkspace from '@/app/components/stryde-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
@@ -125,7 +126,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('stryde');
+  const [activeBrand, setActiveBrand] = useState<'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('sardian-szampon');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
   const [stages, setStages] = useState<Record<string, StageMeta>>({});
   const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
@@ -1801,7 +1802,9 @@ export default function AntkiPlPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const b = params.get("brand");
-    if (b === "orthomax" || b === "feliora" || b === "stryde") {
+    if (b === "sardian" || b === "sardian-szampon" || b === "szampon") {
+      setActiveBrand("sardian-szampon");
+    } else if (b === "orthomax" || b === "feliora" || b === "stryde") {
       setActiveBrand(b);
     } else if (b === "feliora-pies" || b === "psy" || b === "pies") {
       setActiveBrand("feliora-pies");
@@ -1856,6 +1859,17 @@ export default function AntkiPlPage() {
     const t = (editPrimaryText || activeAd?.primaryText || "").trim();
     return t ? t.split(/\s+/).length : 0;
   }, [editPrimaryText, activeAd]);
+
+  if (activeBrand === "sardian-szampon") {
+    return (
+      <SardianPlWorkspace
+        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
+      />
+    );
+  }
 
   if (activeBrand === "stryde") {
     return (
@@ -1953,6 +1967,22 @@ export default function AntkiPlPage() {
                 flexWrap: "wrap",
               }}
             >
+              <button
+                type="button"
+                onClick={() => setActiveBrand("sardian-szampon")}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 7,
+                  border: "1px solid #f59e0b",
+                  background: "#1c1917",
+                  color: "#fcd34d",
+                  fontWeight: 800,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                🦁 SARDIAN PL · Szampon (38 Antków)
+              </button>
               <button
                 type="button"
                 onClick={() => setActiveBrand("stryde")}
