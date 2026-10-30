@@ -297,17 +297,7 @@ export async function readAntkiCostCapCampaign(batch: 'dzieci' | 'dorosli' = 'dz
  try {
   const { value } = await inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(stateKey, {}));
   if (!value?.structure) return null;
-  const s = value.structure;
-  if (!s.costCapPln || s.costCapPln === 35) {
-   void updateAntkiCampaignCostCap({ costCapPln: 30 }).catch(() => {});
-   return {
-    ...s,
-    costCapPln: 30,
-    bidAmountMinor: 3000,
-    groups: Array.isArray(s.groups) ? s.groups.map(g => ({ ...g, bidAmountMinor: 3000 })) : [],
-   };
-  }
-  return s;
+  return value.structure;
  } catch {
   return null;
  }
