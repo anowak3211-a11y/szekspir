@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v2-38ads-1300w';
+const STATE_KEY = 'sardian-pl-v3-38ads-fanpages';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
@@ -459,11 +459,34 @@ export const POST = accountRoute(async (req: Request) => {
         targetAdSetId = createdAdSet.id;
       }
 
+      // Auto-discover newly created pages on Meta (Pokonać Łysienie / Barbershop Perfekcja)
+      const discoveredPages: Record<string, string> = {};
+      try {
+        const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>('me/accounts', {
+          fields: 'id,name',
+          limit: 100,
+        });
+        for (const p of accs.data || []) {
+          const n = (p.name || '').toLowerCase();
+          if (n.includes('pokonać łysienie') || n.includes('pokonac lysienie') || n.includes('historie i testy')) {
+            discoveredPages['fp-pokonac-lysienie'] = p.id;
+          }
+          if (n.includes('barbershop perfekcja') || n.includes('perfekcja')) {
+            discoveredPages['fp-barbershop-perfekcja'] = p.id;
+          }
+        }
+      } catch {
+        // Ignore if me/accounts not needed
+      }
+
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
-        const isFemaleAngle = ad.code.startsWith('K7') || ad.code === 'ND_B5' || ad.code === 'ND_C5';
-        const pageId = isFemaleAngle ? '1276931235504931' : body.pageId || ad.pageId || '1363490303507686';
-        const pageName = pageId === '1276931235504931' ? 'Sardian' : 'Karol Mikołajczyk';
+        const rawPageId = (body.pageId || ad.pageId || '1363490303507686').trim();
+        const pageId = /^\d+$/.test(rawPageId)
+          ? rawPageId
+          : discoveredPages[rawPageId] || '1363490303507686';
+        const fpMeta = SARDIAN_FANPAGES.find(f => f.id === rawPageId || f.id === pageId);
+        const pageName = fpMeta?.name || ad.pageName || 'Karol Mikołajczyk';
         const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
         const targetLink = ad.destinationUrl || SARDIAN_DEFAULT_URL || SARDIAN_PDP_URL;
 

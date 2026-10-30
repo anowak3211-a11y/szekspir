@@ -678,7 +678,7 @@ export default function SardianPlWorkspace({
               fontWeight: 600,
             }}
           >
-            <option value="all">Wszystkie Fanpage (6 profili: Doktor, Dziennik, Centrum, Karol, Sardian, Gosia)</option>
+            <option value="all">Wszystkie Fanpage (Pokonać Łysienie, Barbershop Perfekcja, Dr Skrzypiński, Mama Gosia, Karol, Sardian)</option>
             {SARDIAN_FANPAGES.map(fp => (
               <option key={fp.id} value={fp.id}>
                 {fp.name} ({fp.id})
@@ -1361,10 +1361,10 @@ export default function SardianPlWorkspace({
               </div>
               <div style={{ fontSize: 11.5, color: '#9ca3af', marginBottom: 12 }}>
                 Tworzy nowy AdSet w kampanii <strong>CBO 5 nativ (120250060540350298)</strong> z linkiem prosto na{' '}
-                <strong>Product Page (/products/sardian-szampon-aktywujacy-korzenie)</strong>. Każda kreacja idzie z
-                dopasowanego do narratora Fanpage’a (<strong>Dr n. med. Janusz Skrzypiński</strong>,{' '}
-                <strong>Dziennik Zdrowego Ciała</strong>, <strong>Centrum Dobrego Kroku</strong>,{' '}
-                <strong>Karol Mikołajczyk</strong>, <strong>Sardian</strong> lub <strong>Porady Mamy Gosi</strong>).
+                <strong>Product Page (/products/sardian-szampon-aktywujacy-korzenie)</strong>. Kreacje są przypisane do:{' '}
+                <strong>Pokonać Łysienie — Historie i Testy</strong>, <strong>Barbershop Perfekcja</strong>,{' '}
+                <strong>Dr n. med. Janusz Skrzypiński</strong>, <strong>Porady Mamy Gosi</strong> oraz{' '}
+                <strong>Karol Mikołajczyk</strong>.
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
