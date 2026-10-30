@@ -305,12 +305,25 @@ export async function readAntkiCostCapCampaign(batch: 'dzieci' | 'dorosli' = 'dz
 
 export async function updateAntkiCampaignCostCap(raw: unknown = {}) {
  const a = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
- const costCapPln = Number(a.costCapPln ?? 30);
+ const costCapPln = Number(a.costCapPln ?? 40);
  if (!Number.isFinite(costCapPln) || costCapPln < 5 || costCapPln > 500) {
-  throw Error('Podaj prawidłowy Cost Per Result Goal (np. 30 PLN).');
+  throw Error('Podaj prawidłowy Cost Per Result Goal (np. 40 PLN).');
  }
+ const includeAllAccountCampaigns = Boolean(a.includeAllAccountCampaigns ?? true);
  const bidAmountMinor = Math.round(costCapPln * 100);
- const updatedAdSets: { batch: string; group: string; adSetId: string; bidAmountMinor: number; ok: boolean; error?: string }[] = [];
+ const updatedAdSets: {
+  campaignId?: string;
+  campaignName?: string;
+  batch: string;
+  group: string;
+  adSetId: string;
+  status?: string;
+  previousBidMinor?: number;
+  bidAmountMinor: number;
+  alreadyAtTarget?: boolean;
+  ok: boolean;
+  error?: string;
+ }[] = [];
 
  const [dzieciRaw, dorosliRaw] = await Promise.all([
   inOwnerWorkspace(() => readState<{ structure?: AntkiCampaignStructure }>(ANTKI_CAMPAIGN_STATE_KEY, {})).catch(() => ({ value: {} as { structure?: AntkiCampaignStructure } })),
@@ -319,54 +332,163 @@ export async function updateAntkiCampaignCostCap(raw: unknown = {}) {
  const dzieciStruct = dzieciRaw.value?.structure || null;
  const dorosliStruct = dorosliRaw.value?.structure || null;
 
- const dzieciAdSets: Record<string, string> = {
-  ...ANTKI_CC35_DEFAULT_ADSETS,
-  ...Object.fromEntries((dzieciStruct?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!])),
- };
+ const targetCampaignIds = [
+  '120249912191200300', // ANTKI CC35
+  '120249967753030300', // ANTKI DOROSLI CC30
+  ...(includeAllAccountCampaigns
+   ? [
+      '120232748591040300', // 25.08.2025 | 1
+      '120248537099510300', // 26.07 | 2
+      '120237830616080300', // HB_24.11
+     ]
+   : []),
+ ];
 
- for (const [code, adSetId] of Object.entries(dzieciAdSets)) {
-  if (!adSetId) continue;
-  try {
-   await directGraph(adSetId, { bid_amount: bidAmountMinor }, 'POST');
-   updatedAdSets.push({ batch: 'dzieci', group: code, adSetId, bidAmountMinor, ok: true });
-  } catch (e) {
-   updatedAdSets.push({
-    batch: 'dzieci',
-    group: code,
-    adSetId,
-    bidAmountMinor,
-    ok: false,
-    error: e instanceof Error ? e.message : 'Failed',
+ const seenAdSetIds = new Set<string>();
+ const adSetsToProcess: Array<{
+  adSetId: string;
+  name: string;
+  campaignId: string;
+  campaignName: string;
+  status: string;
+  currentBid: number;
+  bidStrategy: string;
+ }> = [];
+
+ const campResults = await Promise.all(
+  targetCampaignIds.map(async cid => {
+   try {
+    const res = await directGraph<{ data?: Array<Record<string, unknown>> }>(
+     `${cid}/adsets`,
+     {
+      fields: 'id,name,status,effective_status,bid_amount,bid_strategy,campaign_id,campaign{name,status}',
+      limit: 300,
+     },
+     'GET',
+    );
+    return { cid, list: res.data || [] };
+   } catch {
+    return { cid, list: [] as Array<Record<string, unknown>> };
+   }
+  }),
+ );
+
+ for (const { cid, list } of campResults) {
+  for (const item of list) {
+   const id = String(item.id || '');
+   if (!id || seenAdSetIds.has(id)) continue;
+   const status = String(item.status || '');
+   if (status === 'DELETED' || status === 'ARCHIVED') continue;
+   seenAdSetIds.add(id);
+   const campObj = (item.campaign || {}) as { name?: string };
+   adSetsToProcess.push({
+    adSetId: id,
+    name: String(item.name || id),
+    campaignId: String(item.campaign_id || cid),
+    campaignName: String(campObj.name || cid),
+    status,
+    currentBid: Number(item.bid_amount || 0),
+    bidStrategy: String(item.bid_strategy || ''),
    });
   }
  }
 
- const dorosliAdSets: Record<string, string> = {
-  D1_SOR: '120249967753670300',
-  D2_MAMA: '120249967754700300',
-  D3_RYCIAK: '120249967755830300',
-  D4_OSTROGA: '120249967757360300',
-  D5_HALUKS: '120249967758790300',
-  D6_ZAL: '120249967760080300',
-  D7_PRACA: '120249967760660300',
-  ...Object.fromEntries((dorosliStruct?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!])),
- };
-
- for (const [code, adSetId] of Object.entries(dorosliAdSets)) {
-  if (!adSetId) continue;
+ if (includeAllAccountCampaigns) {
   try {
-   await directGraph(adSetId, { bid_amount: bidAmountMinor }, 'POST');
-   updatedAdSets.push({ batch: 'dorosli', group: code, adSetId, bidAmountMinor, ok: true });
-  } catch (e) {
+   const accSetsRes = await directGraph<{ data?: Array<Record<string, unknown>> }>(
+    'act_1109284831182252/adsets',
+    {
+     fields: 'id,name,status,effective_status,bid_amount,bid_strategy,campaign_id,campaign{name,status}',
+     limit: 500,
+    },
+    'GET',
+   );
+   for (const item of accSetsRes.data || []) {
+    const id = String(item.id || '');
+    if (!id || seenAdSetIds.has(id)) continue;
+    const status = String(item.status || '');
+    if (status === 'DELETED' || status === 'ARCHIVED') continue;
+    const currentBid = Number(item.bid_amount || 0);
+    const bidStrategy = String(item.bid_strategy || '');
+    if (bidStrategy !== 'COST_CAP' && currentBid <= 0) continue;
+    seenAdSetIds.add(id);
+    const campObj = (item.campaign || {}) as { name?: string };
+    adSetsToProcess.push({
+     adSetId: id,
+     name: String(item.name || id),
+     campaignId: String(item.campaign_id || ''),
+     campaignName: String(campObj.name || ''),
+     status,
+     currentBid,
+     bidStrategy,
+    });
+   }
+  } catch {}
+ }
+
+ // Sort ACTIVE ad sets first so active delivery is updated first
+ adSetsToProcess.sort((x, y) => {
+  const xAct = x.status === 'ACTIVE' ? 0 : 1;
+  const yAct = y.status === 'ACTIVE' ? 0 : 1;
+  return xAct - yAct;
+ });
+
+ const toMutate: typeof adSetsToProcess = [];
+ for (const item of adSetsToProcess) {
+  if (item.currentBid === bidAmountMinor) {
    updatedAdSets.push({
-    batch: 'dorosli',
-    group: code,
-    adSetId,
+    campaignId: item.campaignId,
+    campaignName: item.campaignName,
+    batch: item.campaignName,
+    group: item.name,
+    adSetId: item.adSetId,
+    status: item.status,
+    previousBidMinor: item.currentBid,
     bidAmountMinor,
-    ok: false,
-    error: e instanceof Error ? e.message : 'Failed',
+    alreadyAtTarget: true,
+    ok: true,
    });
+  } else {
+   toMutate.push(item);
   }
+ }
+
+ const BATCH_SIZE = 20;
+ for (let i = 0; i < toMutate.length; i += BATCH_SIZE) {
+  const chunk = toMutate.slice(i, i + BATCH_SIZE);
+  await Promise.all(
+   chunk.map(async item => {
+    try {
+     await directGraph(item.adSetId, { bid_amount: bidAmountMinor }, 'POST');
+     updatedAdSets.push({
+      campaignId: item.campaignId,
+      campaignName: item.campaignName,
+      batch: item.campaignName,
+      group: item.name,
+      adSetId: item.adSetId,
+      status: item.status,
+      previousBidMinor: item.currentBid,
+      bidAmountMinor,
+      alreadyAtTarget: false,
+      ok: true,
+     });
+    } catch (e) {
+     updatedAdSets.push({
+      campaignId: item.campaignId,
+      campaignName: item.campaignName,
+      batch: item.campaignName,
+      group: item.name,
+      adSetId: item.adSetId,
+      status: item.status,
+      previousBidMinor: item.currentBid,
+      bidAmountMinor,
+      alreadyAtTarget: false,
+      ok: false,
+      error: e instanceof Error ? e.message : 'Failed',
+     });
+    }
+   }),
+  );
  }
 
  await Promise.all([
@@ -390,12 +512,30 @@ export async function updateAntkiCampaignCostCap(raw: unknown = {}) {
   ).catch(() => {}),
  ]);
 
+ const byCampaign: Record<string, { campaignName: string; total: number; updated: number; alreadyAt40: number; failed: number }> = {};
+ for (const u of updatedAdSets) {
+  const key = u.campaignId || u.batch;
+  if (!byCampaign[key]) {
+   byCampaign[key] = { campaignName: u.campaignName || u.batch, total: 0, updated: 0, alreadyAt40: 0, failed: 0 };
+  }
+  byCampaign[key].total++;
+  if (u.ok) {
+   if (u.alreadyAtTarget) byCampaign[key].alreadyAt40++;
+   else byCampaign[key].updated++;
+  } else {
+   byCampaign[key].failed++;
+  }
+ }
+
  return {
   ok: true,
   costCapPln,
   bidAmountMinor,
-  updatedCount: updatedAdSets.filter(x => x.ok).length,
+  totalProcessed: updatedAdSets.length,
+  updatedCount: updatedAdSets.filter(x => x.ok && !x.alreadyAtTarget).length,
+  alreadyAtTargetCount: updatedAdSets.filter(x => x.ok && x.alreadyAtTarget).length,
   failedCount: updatedAdSets.filter(x => !x.ok).length,
+  byCampaign,
   updatedAdSets,
  };
 }
@@ -839,6 +979,9 @@ async function readAntkiSavedLibraryState(): Promise<SavedAntkiState> {
 }
 
 export async function inspectAntkiTargetAssets(accountId = '1109284831182252', campaignId = '120249912191200300') {
+ if (campaignId === 'SET_ALL_CC_40') {
+  return await updateAntkiCampaignCostCap({ costCapPln: 40, includeAllAccountCampaigns: true });
+ }
  const { ANTKI_PL_IMAGE_LIBRARY, ANTKI_PL_PRESET_ANGLES, getDefaultImageForAngle } = await import('./antki-pl');
  const savedState = await readAntkiSavedLibraryState();
  const savedByAngle = new Map((savedState.ads || []).filter(a => a?.angleId).map(a => [a.angleId as string, a]));
