@@ -979,9 +979,6 @@ async function readAntkiSavedLibraryState(): Promise<SavedAntkiState> {
 }
 
 export async function inspectAntkiTargetAssets(accountId = '1109284831182252', campaignId = '120249912191200300') {
- if (campaignId === 'SET_ALL_CC_40') {
-  return await updateAntkiCampaignCostCap({ costCapPln: 40, includeAllAccountCampaigns: true });
- }
  const { ANTKI_PL_IMAGE_LIBRARY, ANTKI_PL_PRESET_ANGLES, getDefaultImageForAngle } = await import('./antki-pl');
  const savedState = await readAntkiSavedLibraryState();
  const savedByAngle = new Map((savedState.ads || []).filter(a => a?.angleId).map(a => [a.angleId as string, a]));
