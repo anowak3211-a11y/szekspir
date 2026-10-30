@@ -678,7 +678,7 @@ export default function SardianPlWorkspace({
               fontWeight: 600,
             }}
           >
-            <option value="all">Wszystkie Fanpage (Karol Mikołajczyk + Sardian)</option>
+            <option value="all">Wszystkie Fanpage (6 profili: Doktor, Dziennik, Centrum, Karol, Sardian, Gosia)</option>
             {SARDIAN_FANPAGES.map(fp => (
               <option key={fp.id} value={fp.id}>
                 {fp.name} ({fp.id})
@@ -1134,7 +1134,8 @@ export default function SardianPlWorkspace({
                         width: 38,
                         height: 38,
                         borderRadius: '50%',
-                        background: activeAd.pageId === '1276931235504931' ? '#1e293b' : '#b45309',
+                        background:
+                          SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.badgeColor || '#b45309',
                         color: '#fff',
                         display: 'flex',
                         alignItems: 'center',
@@ -1143,7 +1144,7 @@ export default function SardianPlWorkspace({
                         fontSize: 14,
                       }}
                     >
-                      {activeAd.pageId === '1276931235504931' ? 'SR' : 'KM'}
+                      {SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.initials || 'SR'}
                     </div>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 14, color: '#050505' }}>{activeAd.pageName}</div>
@@ -1165,9 +1166,17 @@ export default function SardianPlWorkspace({
                 </div>
 
                 {/* PREVIEW SNIPPET */}
-                <div style={{ padding: '10px 14px', fontSize: 13.5, lineHeight: 1.45, color: '#050505' }}>
-                  {activeAd.primaryText.split('\n\n').slice(0, 3).join('\n\n')}
-                  <span style={{ color: '#65676b', fontWeight: 600 }}> ... Wyświetl więcej</span>
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    fontSize: 13.5,
+                    lineHeight: 1.5,
+                    color: '#050505',
+                    whiteSpace: 'pre-wrap',
+                  }}
+                >
+                  {activeAd.primaryText.split('\n\n').slice(0, 4).join('\n\n')}
+                  <span style={{ color: '#65676b', fontWeight: 600 }}>{'\n\n'}... Wyświetl więcej</span>
                 </div>
 
                 {/* 1:1 IMAGE */}
@@ -1352,9 +1361,10 @@ export default function SardianPlWorkspace({
               </div>
               <div style={{ fontSize: 11.5, color: '#9ca3af', marginBottom: 12 }}>
                 Tworzy nowy AdSet w kampanii <strong>CBO 5 nativ (120250060540350298)</strong> z linkiem prosto na{' '}
-                <strong>Product Page (/products/sardian-szampon-aktywujacy-korzenie)</strong>. Kąty kobiece (K7, ND_B5,
-                ND_C5) automatycznie idą z fanpage’a <strong>Sardian</strong>, a męskie z{' '}
-                <strong>Karol Mikołajczyk</strong>.
+                <strong>Product Page (/products/sardian-szampon-aktywujacy-korzenie)</strong>. Każda kreacja idzie z
+                dopasowanego do narratora Fanpage’a (<strong>Dr n. med. Janusz Skrzypiński</strong>,{' '}
+                <strong>Dziennik Zdrowego Ciała</strong>, <strong>Centrum Dobrego Kroku</strong>,{' '}
+                <strong>Karol Mikołajczyk</strong>, <strong>Sardian</strong> lub <strong>Porady Mamy Gosi</strong>).
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
