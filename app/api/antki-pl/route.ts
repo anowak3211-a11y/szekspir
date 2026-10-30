@@ -127,18 +127,42 @@ async function readLibraryState(): Promise<{
 }> {
   const defaultArgonAds = buildAllArgonPrewrittenAds();
   try {
-    const { value } = await readState<AntkiPlLibraryState>(STATE_KEY, {
+    let { value } = await readState<AntkiPlLibraryState>(STATE_KEY, {
       ads: defaultArgonAds,
       customImages: [],
       deletedImageIds: [],
     });
+    if (!value?.ads?.length && !value?.customImages?.length) {
+      try {
+        const { inOwnerWorkspace } = await import('@/lib/account-context');
+        const ownerRes = await inOwnerWorkspace(() =>
+          readState<AntkiPlLibraryState>(STATE_KEY, {
+            ads: defaultArgonAds,
+            customImages: [],
+            deletedImageIds: [],
+          }),
+        );
+        if (ownerRes?.value?.ads?.length || ownerRes?.value?.customImages?.length) {
+          value = ownerRes.value;
+        }
+      } catch {
+        // Ignore owner workspace fallback error
+      }
+    }
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    const rawCustomImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    // Prevent Vercel 4.5MB response payload crash if multiple huge base64 data URLs were stored
+    const customImages = rawCustomImages
+      .filter(img => img?.url && (!img.url.startsWith('data:') || img.url.length < 180_000))
+      .map(img => ({
+        ...img,
+        kiePrompt: img.kiePrompt ? img.kiePrompt.slice(0, 300) : undefined,
+      }));
     const deletedImageIds = Array.isArray(value?.deletedImageIds) ? value.deletedImageIds : [];
     if (stored.length === 0) {
       return { ads: defaultArgonAds.map(ensureAdImage), customImages, deletedImageIds };
     }
-    // Merge stored overrides with the full 35 Argon-authored ads so code updates always apply
+    // Merge stored overrides with the full 70 Argon-authored ads so code updates always apply
     const byAngle = new Map<string, AntkiPlGeneratedAd>();
     const defaultByAngle = new Map<string, AntkiPlGeneratedAd>();
     for (const ad of defaultArgonAds) {
@@ -152,15 +176,29 @@ async function readLibraryState(): Promise<{
       const baseAd = byAngle.get(ad.angleId);
       const isUnmodifiedArgonCopy =
         ad.id.startsWith('antek-pl-argon-') || !ad.wordCount || ad.wordCount < 1050;
-      const rawPrimaryText = isUnmodifiedArgonCopy && baseAd ? baseAd.primaryText : ad.primaryText;
-      const rawHeadline = isUnmodifiedArgonCopy && baseAd ? baseAd.headline : ad.headline;
-      const rawDescription = isUnmodifiedArgonCopy && baseAd ? baseAd.description : ad.description;
-      const audited = sanitizeAndAuditAntkiPl(rawPrimaryText, rawHeadline, rawDescription);
-      const resolvedPrimaryUrl = ad.imageUrl || baseAd?.imageUrl;
+      const audited =
+        isUnmodifiedArgonCopy && baseAd
+          ? {
+              primaryText: baseAd.primaryText,
+              headline: baseAd.headline,
+              description: baseAd.description,
+              wordCount: baseAd.wordCount,
+              characterCount: baseAd.characterCount,
+              auditPassed: baseAd.auditPassed,
+              auditWarnings: baseAd.auditWarnings,
+              auditFixesApplied: baseAd.auditFixesApplied,
+            }
+          : sanitizeAndAuditAntkiPl(ad.primaryText, ad.headline, ad.description);
+      const rawImgUrl = ad.imageUrl && (!ad.imageUrl.startsWith('data:') || ad.imageUrl.length < 180_000) ? ad.imageUrl : undefined;
+      const resolvedPrimaryUrl = rawImgUrl || baseAd?.imageUrl;
       const resolvedPrimaryHash =
-        ad.imageUrl && ad.imageUrl !== baseAd?.imageUrl
-          ? ad.imageHash || customImages.find(c => c.url === ad.imageUrl)?.imageHash
+        rawImgUrl && rawImgUrl !== baseAd?.imageUrl
+          ? ad.imageHash || customImages.find(c => c.url === rawImgUrl)?.imageHash
           : ad.imageHash ?? baseAd?.imageHash;
+      const rawSecUrl =
+        ad.secondImageUrl && (!ad.secondImageUrl.startsWith('data:') || ad.secondImageUrl.length < 180_000)
+          ? ad.secondImageUrl
+          : undefined;
       byAngle.set(
         ad.angleId,
         ensureAdImage({
@@ -168,13 +206,13 @@ async function readLibraryState(): Promise<{
           ...ad,
           imageUrl: resolvedPrimaryUrl,
           imageHash: resolvedPrimaryHash,
-          secondImageUrl: ad.secondImageUrl,
+          secondImageUrl: rawSecUrl,
           secondImageHash:
-            ad.secondImageUrl && ad.secondImageUrl !== baseAd?.secondImageUrl
-              ? ad.secondImageHash || customImages.find(c => c.url === ad.secondImageUrl)?.imageHash
+            rawSecUrl && rawSecUrl !== baseAd?.secondImageUrl
+              ? ad.secondImageHash || customImages.find(c => c.url === rawSecUrl)?.imageHash
               : ad.secondImageHash,
           twoImageLayout: ad.twoImageLayout,
-          combinedSplitImageUrl: ad.combinedSplitImageUrl,
+          combinedSplitImageUrl: undefined,
           combinedSplitImageHash: ad.combinedSplitImageHash,
           primaryText: audited.primaryText,
           headline: audited.headline,

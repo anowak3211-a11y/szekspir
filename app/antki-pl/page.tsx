@@ -7,6 +7,8 @@ import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
 import StrydePlWorkspace from '@/app/components/stryde-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
+  ANTKI_PL_PRESET_ANGLES,
+  ANTKI_PL_STAGE_LABELS,
   getDefaultImageForAngle,
   type AntkiPlFunnelStage,
   type AntkiPlGeneratedAd,
@@ -14,6 +16,7 @@ import {
   type AntkiPlPresetAngle,
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
+import { buildAllArgonPrewrittenAds } from '@/lib/antki-pl-argon-library';
 
 type AngleRunStatus = 'idle' | 'queued' | 'generating' | 'done' | 'error';
 
@@ -127,12 +130,24 @@ type CampaignStructureState = {
 
 export default function AntkiPlPage() {
   const [activeBrand, setActiveBrand] = useState<'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('sardian-szampon');
-  const [presets, setPresets] = useState<AntkiPlPresetAngle[]>([]);
-  const [stages, setStages] = useState<Record<string, StageMeta>>({});
-  const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>([]);
+  const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
+    ANTKI_PL_PRESET_ANGLES.map(angle => {
+      const defaultImg = getDefaultImageForAngle(angle.number);
+      return {
+        ...angle,
+        defaultImageUrl: angle.defaultImageUrl || defaultImg.url,
+        defaultImageHash: angle.defaultImageHash || defaultImg.imageHash,
+      };
+    }),
+  );
+  const [stages, setStages] = useState<Record<string, StageMeta>>(() => ANTKI_PL_STAGE_LABELS);
+  const [savedAds, setSavedAds] = useState<AntkiPlGeneratedAd[]>(() => buildAllArgonPrewrittenAds());
   const [imageLibrary, setImageLibrary] = useState<AntkiPlImageAsset[]>(ANTKI_PL_IMAGE_LIBRARY);
-  const [brain, setBrain] = useState<{ provider: string; model: string }>({ provider: 'openai', model: 'gpt-5.4' });
-  const [loading, setLoading] = useState(true);
+  const [brain, setBrain] = useState<{ provider: string; model: string }>({
+    provider: 'argon',
+    model: 'Argon (70 autorskich punchy winnerów)',
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
@@ -211,7 +226,7 @@ export default function AntkiPlPage() {
   const [campaignStructure, setCampaignStructure] = useState<CampaignStructureState | null>(null);
   const [dorosliCampaignStructure, setDorosliCampaignStructure] = useState<CampaignStructureState | null>(null);
   const [metaCampaignName, setMetaCampaignName] = useState('ANTKI DOROSLI CC30');
-  const [metaCostCapPln, setMetaCostCapPln] = useState(30);
+  const [metaCostCapPln, setMetaCostCapPln] = useState(35);
   const [metaDailyBudgetPln, setMetaDailyBudgetPln] = useState(1500);
   const [creatingMetaCampaign, setCreatingMetaCampaign] = useState(false);
   const [updatingCostCap, setUpdatingCostCap] = useState(false);
@@ -242,59 +257,64 @@ export default function AntkiPlPage() {
     if (found) setPageName(found.name);
   }, []);
 
+  const applyLocalImageOverrides = useCallback((adsList: AntkiPlGeneratedAd[]): AntkiPlGeneratedAd[] => {
+    try {
+      const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab') : null;
+      if (!rawLocal) return adsList;
+      const parsedLocal = JSON.parse(rawLocal) as Record<
+        string,
+        {
+          imageUrl?: string;
+          imageHash?: string;
+          secondImageUrl?: string;
+          secondImageHash?: string;
+          updatedAt?: number;
+        }
+      >;
+      return adsList.map(ad => {
+        const loc = parsedLocal[ad.angleId];
+        if (!loc) return ad;
+        const serverHasKie1 = Boolean(ad.imageUrl && ad.imageUrl.startsWith('http'));
+        const serverHasKie2 = Boolean(ad.secondImageUrl && ad.secondImageUrl.startsWith('http'));
+        const locHasKie1 = Boolean(loc.imageUrl && (loc.imageUrl.startsWith('http') || loc.imageUrl.startsWith('data:')));
+        const locHasKie2 = Boolean(loc.secondImageUrl && (loc.secondImageUrl.startsWith('http') || loc.secondImageUrl.startsWith('data:')));
+        return {
+          ...ad,
+          imageUrl: serverHasKie1 && !locHasKie1 ? ad.imageUrl : loc.imageUrl || ad.imageUrl,
+          imageHash: serverHasKie1 && !locHasKie1 ? ad.imageHash : loc.imageHash || ad.imageHash,
+          secondImageUrl:
+            serverHasKie2 && !locHasKie2
+              ? ad.secondImageUrl
+              : loc.secondImageUrl !== undefined
+              ? loc.secondImageUrl || undefined
+              : ad.secondImageUrl,
+          secondImageHash:
+            serverHasKie2 && !locHasKie2
+              ? ad.secondImageHash
+              : loc.secondImageHash !== undefined
+              ? loc.secondImageHash || undefined
+              : ad.secondImageHash,
+          updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
+        };
+      });
+    } catch {
+      return adsList;
+    }
+  }, []);
+
   const loadInit = useCallback(async () => {
-    setLoading(true);
     setError('');
+    setSavedAds(prev => applyLocalImageOverrides(prev.length ? prev : buildAllArgonPrewrittenAds()));
     try {
       const res = await fetch('/api/antki-pl', { cache: 'no-store' });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Błąd ładowania Antki PL.');
-      let loadedAds: AntkiPlGeneratedAd[] = Array.isArray(data.savedAds) ? data.savedAds : [];
-      try {
-        const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab') : null;
-        if (rawLocal) {
-          const parsedLocal = JSON.parse(rawLocal) as Record<
-            string,
-            {
-              imageUrl?: string;
-              imageHash?: string;
-              secondImageUrl?: string;
-              secondImageHash?: string;
-              updatedAt?: number;
-            }
-          >;
-          loadedAds = loadedAds.map(ad => {
-            const loc = parsedLocal[ad.angleId];
-            if (!loc) return ad;
-            const serverHasKie1 = Boolean(ad.imageUrl && ad.imageUrl.startsWith('http'));
-            const serverHasKie2 = Boolean(ad.secondImageUrl && ad.secondImageUrl.startsWith('http'));
-            const locHasKie1 = Boolean(loc.imageUrl && (loc.imageUrl.startsWith('http') || loc.imageUrl.startsWith('data:')));
-            const locHasKie2 = Boolean(loc.secondImageUrl && (loc.secondImageUrl.startsWith('http') || loc.secondImageUrl.startsWith('data:')));
-            return {
-              ...ad,
-              imageUrl: serverHasKie1 && !locHasKie1 ? ad.imageUrl : loc.imageUrl || ad.imageUrl,
-              imageHash: serverHasKie1 && !locHasKie1 ? ad.imageHash : loc.imageHash || ad.imageHash,
-              secondImageUrl:
-                serverHasKie2 && !locHasKie2
-                  ? ad.secondImageUrl
-                  : loc.secondImageUrl !== undefined
-                  ? loc.secondImageUrl || undefined
-                  : ad.secondImageUrl,
-              secondImageHash:
-                serverHasKie2 && !locHasKie2
-                  ? ad.secondImageHash
-                  : loc.secondImageHash !== undefined
-                  ? loc.secondImageHash || undefined
-                  : ad.secondImageHash,
-              updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
-            };
-          });
-        }
-      } catch {
-        // Ignore localStorage parse errors
-      }
-      setPresets(data.presets || []);
-      setStages(data.stages || {});
+      if (!res.ok) return;
+      const loadedAds: AntkiPlGeneratedAd[] =
+        Array.isArray(data.savedAds) && data.savedAds.length > 0
+          ? applyLocalImageOverrides(data.savedAds)
+          : applyLocalImageOverrides(buildAllArgonPrewrittenAds());
+      if (Array.isArray(data.presets) && data.presets.length > 0) setPresets(data.presets);
+      if (data.stages && Object.keys(data.stages).length > 0) setStages(data.stages);
       setSavedAds(loadedAds);
       if (Array.isArray(data.imageLibrary) && data.imageLibrary.length > 0) {
         setImageLibrary(data.imageLibrary);
@@ -303,7 +323,7 @@ export default function AntkiPlPage() {
       if (data.dorosliAdSetBlueprints) setDorosliAdSetBlueprints(data.dorosliAdSetBlueprints);
       if (data.campaignStructure) {
         setCampaignStructure(data.campaignStructure);
-        setMetaCostCapPln(data.campaignStructure.costCapPln || 30);
+        setMetaCostCapPln(data.campaignStructure.costCapPln || 35);
         setMetaDailyBudgetPln(data.campaignStructure.dailyBudgetPln || 1500);
       }
       if (data.dorosliCampaignStructure) {
@@ -314,12 +334,12 @@ export default function AntkiPlPage() {
       if (data.presets?.length) {
         setActiveAngleId(prev => prev || data.presets[0].id);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Nie udało się załadować danych.');
+    } catch {
+      // Keep preloaded 70 Argon ads + local image overrides seamlessly
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [applyLocalImageOverrides]);
 
   useEffect(() => {
     void loadInit();

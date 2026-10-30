@@ -104,6 +104,57 @@ export interface AntkiPlImageAsset {
 }
 
 export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
+  // ==================== 5 NOWYCH NATYWNYCH ZDJĘĆ ŻAL V2 (ITERACJE WINNERA) ====================
+  {
+    id: 'zal-v2-01-skierowanie-szpital',
+    url: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
+    label: '🔥 ŻAL V2 (#1) · Skreślone skierowanie do szpitala (Oddział Ortopedyczny) obok botków i wkładek',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [26, 61],
+    aspectRatio: '1:1',
+    note: 'Iteracja ŻAL V2 #1: Wyrzucone/skreślone skierowanie na operację stopy',
+  },
+  {
+    id: 'zal-v2-02-dwa-rtg-kolano-stopa',
+    url: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
+    label: '🔥 ŻAL V2 (#2) · Ortopeda pokazuje długopisem zapadnięty łuk stopy obok RTG endoprotezy kolana',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [28, 64],
+    aspectRatio: '1:1',
+    note: 'Iteracja ŻAL V2 #2: Dwa zdjęcia RTG na monitorze w gabinecie',
+  },
+  {
+    id: 'zal-v2-03-pudelko-wstydu-2140zl',
+    url: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
+    label: '🔥 ŻAL V2 (#3) · Pudełko wstydu za 2140 zł: maści, kliny silikonowe, paragony i twarde wkładki',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [18, 58, 67],
+    aspectRatio: '1:1',
+    note: 'Iteracja ŻAL V2 #3: Pudełko po butach pełne nieudanych metod z apteki',
+  },
+  {
+    id: 'zal-v2-04-szczudla-6-rano-korytarz',
+    url: '/antki-pl-images/zal-v2-04-szczudla-6-rano-korytarz.jpg',
+    label: '🔥 ŻAL V2 (#4) · Poranne „szczudła” o 6:00 rano w przedpokoju przed postawieniem pięty na parkiecie',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [30, 32, 51, 52],
+    aspectRatio: '1:1',
+    note: 'Iteracja ŻAL V2 #4: Pierwszy krok o 6:00 rano trzymając się framugi',
+  },
+  {
+    id: 'zal-v2-05-skutek-vs-przyczyna-lustro',
+    url: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
+    label: '🔥 ŻAL V2 (#5) · Test 10 sekund przed lustrem: lewa stopa z blizną po operacji vs prawa podparta dłońmi',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [27, 62, 65],
+    aspectRatio: '1:1',
+    note: 'Iteracja ŻAL V2 #5: Skutek vs przyczyna przed lustrem w gabinecie',
+  },
   // ==================== 14 SUROWYCH ZDJĘĆ KIE.AI (SHIT QUALITY / ZERO AI GLOW) DLA BATCHA 2: DOROŚLI (#36–#70) ====================
   {
     id: 'kie-dorosli-d1-sor-krzeselko-kolano',
