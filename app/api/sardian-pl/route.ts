@@ -371,6 +371,79 @@ export const POST = accountRoute(async (req: Request) => {
       return NextResponse.json({ ok: true, savedAds: defaultAds });
     }
 
+    if (action === 'sync_fanpages') {
+      const discoveredPages: Record<string, { id: string; name: string; pictureUploaded?: boolean }> = {};
+      const allCandidatePages: Array<{ id: string; name: string; access_token?: string }> = [];
+
+      for (const endpoint of [
+        { path: 'me/accounts', fields: 'id,name,access_token' },
+        { path: '1229288098677658/owned_pages', fields: 'id,name,access_token' },
+        { path: `act_${SARDIAN_META_ACCOUNT_ID}/promote_pages`, fields: 'id,name' },
+      ]) {
+        try {
+          const res = await directGraph<{ data?: Array<{ id: string; name: string; access_token?: string }> }>(
+            endpoint.path,
+            { fields: endpoint.fields, limit: 100 },
+          );
+          for (const p of res.data || []) {
+            if (!allCandidatePages.some(existing => existing.id === p.id)) {
+              allCandidatePages.push(p);
+            } else if (p.access_token) {
+              const idx = allCandidatePages.findIndex(existing => existing.id === p.id);
+              if (idx >= 0) allCandidatePages[idx].access_token = p.access_token;
+            }
+          }
+        } catch {
+          // Continue checking other endpoints
+        }
+      }
+
+      const origin = process.env.APP_ORIGIN || 'https://szekspir-two.vercel.app';
+      for (const p of allCandidatePages) {
+        const n = (p.name || '').toLowerCase();
+        if (n.includes('pokonać łysienie') || n.includes('pokonac lysienie') || n.includes('historie i testy')) {
+          let pictureUploaded = false;
+          if (p.access_token) {
+            try {
+              const picUrl = `${origin.replace(/\/$/, '')}/sardian-pl-images/AVATAR_POKONAC_LYSIENIE.jpg`;
+              const r = await fetch(`https://graph.facebook.com/${META_VERSION}/${p.id}/picture`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ url: picUrl, access_token: p.access_token }),
+              });
+              pictureUploaded = r.ok;
+            } catch {
+              // Ignore picture upload failure
+            }
+          }
+          discoveredPages['fp-pokonac-lysienie'] = { id: p.id, name: p.name, pictureUploaded };
+        }
+        if (n.includes('barbershop perfekcja') || n.includes('perfekcja')) {
+          let pictureUploaded = false;
+          if (p.access_token) {
+            try {
+              const picUrl = `${origin.replace(/\/$/, '')}/sardian-pl-images/AVATAR_BARBERSHOP_PERFEKCJA.jpg`;
+              const r = await fetch(`https://graph.facebook.com/${META_VERSION}/${p.id}/picture`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ url: picUrl, access_token: p.access_token }),
+              });
+              pictureUploaded = r.ok;
+            } catch {
+              // Ignore picture upload failure
+            }
+          }
+          discoveredPages['fp-barbershop-perfekcja'] = { id: p.id, name: p.name, pictureUploaded };
+        }
+      }
+
+      return NextResponse.json({
+        ok: true,
+        discoveredPages,
+        totalMetaPagesChecked: allCandidatePages.length,
+      });
+    }
+
     if (action === 'push_to_meta') {
       const targetAngleIds =
         Array.isArray(body.angleIds) && body.angleIds.length > 0
@@ -461,22 +534,24 @@ export const POST = accountRoute(async (req: Request) => {
 
       // Auto-discover newly created pages on Meta (Pokonać Łysienie / Barbershop Perfekcja)
       const discoveredPages: Record<string, string> = {};
-      try {
-        const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>('me/accounts', {
-          fields: 'id,name',
-          limit: 100,
-        });
-        for (const p of accs.data || []) {
-          const n = (p.name || '').toLowerCase();
-          if (n.includes('pokonać łysienie') || n.includes('pokonac lysienie') || n.includes('historie i testy')) {
-            discoveredPages['fp-pokonac-lysienie'] = p.id;
+      for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${SARDIAN_META_ACCOUNT_ID}/promote_pages`]) {
+        try {
+          const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>(endpoint, {
+            fields: 'id,name',
+            limit: 100,
+          });
+          for (const p of accs.data || []) {
+            const n = (p.name || '').toLowerCase();
+            if (n.includes('pokonać łysienie') || n.includes('pokonac lysienie') || n.includes('historie i testy')) {
+              discoveredPages['fp-pokonac-lysienie'] = p.id;
+            }
+            if (n.includes('barbershop perfekcja') || n.includes('perfekcja')) {
+              discoveredPages['fp-barbershop-perfekcja'] = p.id;
+            }
           }
-          if (n.includes('barbershop perfekcja') || n.includes('perfekcja')) {
-            discoveredPages['fp-barbershop-perfekcja'] = p.id;
-          }
+        } catch {
+          // Ignore if endpoint not accessible
         }
-      } catch {
-        // Ignore if me/accounts not needed
       }
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];

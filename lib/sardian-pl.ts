@@ -44,6 +44,7 @@ export interface SardianFanpage {
   initials: string;
   role: string;
   badgeColor: string;
+  avatarUrl: string;
 }
 
 export interface SardianImageAsset {
@@ -93,6 +94,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'PŁ',
     role: 'Kategoria A · Forum / Społeczność Mężczyzn (K2_V2, K3_V1-V2, K3_V4-V5, ND_A2, ND_A4, ND_B2-B3, ND_C2)',
     badgeColor: '#047857',
+    avatarUrl: '/sardian-pl-images/AVATAR_POKONAC_LYSIENIE.jpg',
   },
   {
     id: 'fp-barbershop-perfekcja',
@@ -100,6 +102,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'BP',
     role: 'Kategoria B · Fryzjer Męski 35 lat & Kąty z Fotela (K4_V1-V5, K5_V1-V3, ND_A5, ND_B4)',
     badgeColor: '#d97706',
+    avatarUrl: '/sardian-pl-images/AVATAR_BARBERSHOP_PERFEKCJA.jpg',
   },
   {
     id: '1339041252618036',
@@ -107,6 +110,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'DR',
     role: 'Kategoria C · Lekarz / Gabinet Trychologiczny (K3_V3, ND_A1, ND_A3, ND_B1, ND_C1, ND_C4)',
     badgeColor: '#0284c7',
+    avatarUrl: 'https://graph.facebook.com/v22.0/1339041252618036/picture?type=large',
   },
   {
     id: '798916893308685',
@@ -114,6 +118,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'MG',
     role: 'Kategoria D · Perspektywa Żony 42-latka (K7_V1-V5, ND_B5, ND_C5)',
     badgeColor: '#be185d',
+    avatarUrl: 'https://graph.facebook.com/v22.0/798916893308685/picture?type=large',
   },
   {
     id: '1363490303507686',
@@ -121,6 +126,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'KM',
     role: 'Profil Męski 1. os. (K2_V1, K2_V3-V5, ND_C3)',
     badgeColor: '#b45309',
+    avatarUrl: 'https://graph.facebook.com/v22.0/1363490303507686/picture?type=large',
   },
   {
     id: '1276931235504931',
@@ -128,6 +134,7 @@ export const SARDIAN_FANPAGES: SardianFanpage[] = [
     initials: 'SR',
     role: 'Oficjalny Profil Marki SARDIAN (Uniwersalny)',
     badgeColor: '#1e293b',
+    avatarUrl: 'https://graph.facebook.com/v22.0/1276931235504931/picture?type=large',
   },
 ];
 

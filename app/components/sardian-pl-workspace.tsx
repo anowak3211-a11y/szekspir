@@ -276,6 +276,45 @@ export default function SardianPlWorkspace({
     }
   };
 
+  const [syncingFanpages, setSyncingFanpages] = useState(false);
+  const [discoveredFanpages, setDiscoveredFanpages] = useState<
+    Record<string, { id: string; name: string; pictureUploaded?: boolean }>
+  >({});
+
+  const handleSyncFanpages = async () => {
+    setSyncingFanpages(true);
+    setError('');
+    setNotice('');
+    try {
+      const res = await fetch('/api/sardian-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync_fanpages' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Błąd synchronizacji fanpage’y.');
+      setDiscoveredFanpages(data.discoveredPages || {});
+      const foundKeys = Object.keys(data.discoveredPages || {});
+      if (foundKeys.length > 0) {
+        const summary = foundKeys
+          .map(k => {
+            const item = data.discoveredPages[k];
+            return `${item.name} (ID: ${item.id}${item.pictureUploaded ? ' · zdjęcie profilowe ustawione!' : ''})`;
+          })
+          .join(', ');
+        setNotice(`Wykryto na Meta i zsynchronizowano: ${summary}`);
+      } else {
+        setNotice(
+          `Sprawdzono ${data.totalMetaPagesChecked || 0} stron w BM. Utwórz strony „Barbershop Perfekcja” i „Pokonać Łysienie — Historie i Testy” jednym kliknięciem poniżej i kliknij Synchronizuj ponownie.`,
+        );
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd synchronizacji fanpage’y.');
+    } finally {
+      setSyncingFanpages(false);
+    }
+  };
+
   const handlePushToMeta = async (targetIds: string[], customAdSetName?: string) => {
     if (!targetIds.length) {
       setError('Zaznacz przynajmniej 1 kreację do wysyłki na Meta Ads.');
@@ -1129,23 +1168,37 @@ export default function SardianPlWorkspace({
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div
-                      style={{
-                        width: 38,
-                        height: 38,
-                        borderRadius: '50%',
-                        background:
-                          SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.badgeColor || '#b45309',
-                        color: '#fff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontWeight: 800,
-                        fontSize: 14,
-                      }}
-                    >
-                      {SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.initials || 'SR'}
-                    </div>
+                    {SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.avatarUrl ? (
+                      <img
+                        src={SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.avatarUrl}
+                        alt={activeAd.pageName}
+                        style={{
+                          width: 38,
+                          height: 38,
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          border: '1px solid #d1d5db',
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: 38,
+                          height: 38,
+                          borderRadius: '50%',
+                          background:
+                            SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.badgeColor || '#b45309',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontWeight: 800,
+                          fontSize: 14,
+                        }}
+                      >
+                        {SARDIAN_FANPAGES.find(f => f.id === activeAd.pageId)?.initials || 'SR'}
+                      </div>
+                    )}
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 14, color: '#050505' }}>{activeAd.pageName}</div>
                       <div style={{ fontSize: 11, color: '#65676b' }}>Sponsorowane · 🌍</div>
@@ -1346,6 +1399,135 @@ export default function SardianPlWorkspace({
                 </div>
               </div>
             )}
+
+            {/* 2 NEW FANPAGES & AVATARS PANEL */}
+            <div
+              style={{
+                background: '#111827',
+                border: '1px solid #334155',
+                borderRadius: 14,
+                padding: 14,
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: '#f8fafc' }}>
+                  💈 2 Nowe Fanpage’e & Gotowe Zdjęcia Profilowe
+                </div>
+                <a
+                  href="https://www.facebook.com/pages/create"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    padding: '5px 10px',
+                    borderRadius: 6,
+                    background: '#2563eb',
+                    color: '#ffffff',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                  }}
+                >
+                  + Utwórz stronę na FB
+                </a>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 10 }}>
+                {SARDIAN_FANPAGES.slice(0, 2).map(fp => {
+                  const synced = discoveredFanpages[fp.id];
+                  return (
+                    <div
+                      key={fp.id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: 8,
+                        borderRadius: 10,
+                        background: '#1e293b',
+                        border: '1px solid #334155',
+                      }}
+                    >
+                      <img
+                        src={fp.avatarUrl}
+                        alt={fp.name}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          border: `2px solid ${fp.badgeColor}`,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#f8fafc' }}>{fp.name}</div>
+                        <div style={{ fontSize: 10.5, color: synced ? '#34d399' : '#94a3b8', marginTop: 2 }}>
+                          {synced
+                            ? `Połączono ID: ${synced.id}${synced.pictureUploaded ? ' · Avatar wgrany' : ''}`
+                            : fp.role}
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(fp.name, `Nazwę fanpage’a (${fp.name})`)}
+                          style={{
+                            padding: '4px 8px',
+                            borderRadius: 6,
+                            border: '1px solid #475569',
+                            background: '#0f172a',
+                            color: '#e2e8f0',
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          📋 Kopiuj nazwę
+                        </button>
+                        <a
+                          href={fp.avatarUrl}
+                          download
+                          style={{
+                            padding: '4px 8px',
+                            borderRadius: 6,
+                            border: '1px solid #f59e0b',
+                            background: 'rgba(245, 158, 11, 0.15)',
+                            color: '#fcd34d',
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            textDecoration: 'none',
+                            textAlign: 'center',
+                          }}
+                        >
+                          ⬇️ Pobierz avatar
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                disabled={syncingFanpages}
+                onClick={handleSyncFanpages}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  borderRadius: 8,
+                  border: '1px solid #10b981',
+                  background: 'rgba(16, 185, 129, 0.16)',
+                  color: '#6ee7b7',
+                  fontSize: 11.5,
+                  fontWeight: 800,
+                  cursor: syncingFanpages ? 'wait' : 'pointer',
+                }}
+              >
+                {syncingFanpages
+                  ? '⏳ Synchronizacja z Meta Graph API...'
+                  : '🔄 Synchronizuj ID nowych stron & ustaw zdjęcia profilowe przez API'}
+              </button>
+            </div>
 
             {/* 1-CLICK META ADS UPLOAD PANEL */}
             <div
