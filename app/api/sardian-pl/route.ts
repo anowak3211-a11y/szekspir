@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v3-38ads-fanpages';
+const STATE_KEY = 'sardian-pl-v4-names-and-enters-fixed';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
