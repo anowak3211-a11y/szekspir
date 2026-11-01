@@ -931,4 +931,120 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     defaultSecondImageUrl: '/antki-pl-images/kie-dorosli-d1-zdarte-polbuty-obcas.jpg',
     defaultSecondImageHash: 'd05552e6774415a5f297ad31d20f3b29',
   },
+  {
+    id: 'zal-v2-01-skierowanie-szpital',
+    number: 71,
+    code: 'ZAL_V2_01_skierowanie_szpital',
+    title: '[ŻAL V2 · #1 SKIEROWANIE] Miałam wyznaczony termin operacji stopy na listopad. Po 10-sekundowym teście u fizjoterapeuty skreśliłam skierowanie',
+    segment: 'dorosli',
+    funnelStage: 'zal_po_operacji',
+    funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
+    awarenessStage: 'Stage 4: Kwalifikacja ceny i produktu w 2. akapicie + obawa przed skalpelem',
+    sophistication: 'Poziom 4 (Lewa stopa po operacji ze śrubami vs prawa uratowana bez skalpela)',
+    narrator: 'Teresa (56 lat, Wrocław)',
+    protagonist: 'Teresa (56 lat)',
+    hookIdea:
+      'W zeszły czwartek wyjęłam z szuflady skierowanie na oddział ortopedyczny, przekreśliłam je długopisem na pół i pierwszy raz od 3 lat rozpłakałam się przy kuchennym stole z ulgi, a nie z bólu.',
+    sceneBeat:
+      'Kwalifikacja w 2. akapicie (wkładki Orthomax StepMax za 50 zł za parę w 1+1 zamiast operacji za 8200 zł) + 10-sekundowy test podniesienia łuku dłońmi przed lustrem + łańcuch kompensacji ↓.',
+    failedSolutionsMath:
+      'Wizyty i badania 650 zł + 10 zabiegów fali uderzeniowej i ultradźwięki 1100 zł + kliny, opaski i maści 390 zł + twarde wkładki na wymiar 420 zł = 2560 zł',
+    discoveryBridge:
+      'Grupa dla kobiet po operacjach stóp na FB i zamówienie Pakietu 1+1 GRATIS wkładek Orthomax StepMax za 99,99 zł.',
+    defaultHeadline: 'Miałam wyznaczony termin operacji stopy na listopad. Po tym 10-sekundowym teście u fizjoterapeuty skreśliłam skierowanie',
+    defaultImageUrl: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
+  },
+  {
+    id: 'zal-v2-02-dwa-rtg-kolano-stopa',
+    number: 72,
+    code: 'ZAL_V2_02_dwa_rtg_kolano_stopa',
+    title: '[ŻAL V2 · #2 DWA RTG] Ortopeda pokazał mi na ekranie 2 zdjęcia RTG i zapytał: „Woli pani podprzeć łuk stopy dzisiaj, czy za 4 lata wymieniamy kolano?"',
+    segment: 'dorosli',
+    funnelStage: 'zal_po_operacji',
+    funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
+    awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + widmo endoprotezy kolana',
+    sophistication: 'Poziom 4 (Kolano jest ofiarą, a winowajca siedzi w bucie)',
+    narrator: 'Bożena (54 lata, Poznań)',
+    protagonist: 'Bożena (54 lata)',
+    hookIdea:
+      'Kiedy lekarz wyświetlił na monitorze zdjęcie stalowej endoprotezy kolana obok prześwietlenia mojej własnej stopy i stuknął niebieskim długopisem w ekran, w gabinecie zapadła głucha cisza.',
+    sceneBeat:
+      'Kwalifikacja w 2. akapicie + porównanie 2 zdjęć RTG na ekranie w gabinecie + test podniesienia łuku dłońmi i natychmiastowe zniknięcie bólu przy ugięciu kolana.',
+    failedSolutionsMath:
+      '3 zastrzyki kwasu hialuronowego w kolano 1200 zł + maści, kolagen i Ketonal 480 zł + sztywne wkładki na zamówienie 380 zł = 2060 zł',
+    discoveryBridge:
+      'Forum dla osób ze zwyrodnieniem stawów i zamówienie Pakietu 1+1 GRATIS wkładek Orthomax StepMax za 99,99 zł.',
+    defaultHeadline: 'Ortopeda pokazał mi na ekranie 2 zdjęcia RTG i zapytał: „Woli pani podprzeć łuk stopy dzisiaj, czy za 4 lata wymieniamy kolano?"',
+    defaultImageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
+  },
+  {
+    id: 'zal-v2-03-pudelko-wstydu-2140zl',
+    number: 73,
+    code: 'ZAL_V2_03_pudelko_wstydu_2140zl',
+    title: '[ŻAL V2 · #3 PUDEŁKO WSTYDU] Wysypałam do pudełka po butach 2140 zł moich błędów: maści, silikonowe kliny i sztywne wkładki za 420 zł',
+    segment: 'dorosli',
+    funnelStage: 'zal_po_operacji',
+    funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
+    awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + rozczarowanie aptecznymi gadżetami i twardą wkładką',
+    sophistication: 'Poziom 4 (Test namiotu bez masztu u podologa - zwężenie stopy po podniesieniu łuku)',
+    narrator: 'Iwona (52 lata, Kraków)',
+    protagonist: 'Iwona (52 lata)',
+    hookIdea:
+      'Zrobiłam to zdjęcie wczoraj w kuchni, zanim wyrzuciłam całe to pudełko do śmietnika - leży w nim dokładnie 2140 zł moich naiwnych prób ratowania piekących stóp, ostrogi i rosnącego haluksa.',
+    sceneBeat:
+      'Pudełko po butach pełne nieudanych metod za 2140 zł + podolog stuka twardą wkładką o stół i pokazuje na bosej stopie, jak po podniesieniu łuku stopa sama zwęża się o centymetr.',
+    failedSolutionsMath:
+      'Silikonowe kliny i szyny 240 zł + żelowe podpiętki 160 zł + 8 tubek maści 320 zł + fala uderzeniowa 1000 zł + twarde wkładki na wymiar 420 zł = 2140 zł',
+    discoveryBridge:
+      'Polecenie dynamicznych wkładek Orthomax StepMax w Pakiecie 1+1 GRATIS za 99,99 zł.',
+    defaultHeadline: 'Wysypałam do pudełka po butach 2140 zł moich błędów: maści, silikonowe kliny i sztywne wkładki za 420 zł',
+    defaultImageUrl: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
+  },
+  {
+    id: 'zal-v2-04-szczudla-6-rano-korytarz',
+    number: 74,
+    code: 'ZAL_V2_04_szczudla_6_rano_korytarz',
+    title: '[ŻAL V2 · #4 SZCZUDŁA 6:00 RANO] O 6:00 rano szłam do łazienki jak na szczudłach, trzymając się framugi. Myślałam, że to kalectwo na całe życie',
+    segment: 'dorosli',
+    funnelStage: 'zal_po_operacji',
+    funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
+    awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + poranny dramat ostrogi i rozcięgna',
+    sophistication: 'Poziom 4 (Dlaczego pierwszy krok boso rano zrywa nocną regenerację rozcięgna)',
+    narrator: 'Grażyna (55 lat, Lublin)',
+    protagonist: 'Grażyna (55 lat)',
+    hookIdea:
+      'Przez 11 miesięcy każdy mój poranek o 6:00 wyglądał dokładnie tak samo: zanim w ogóle odważyłam się postawić stopę na parkiecie, siedziałam na brzegu łóżka i przez 2 minuty przyciągałam palce stóp do siebie, bojąc się pierwszego kroku jak ognia.',
+    sceneBeat:
+      'Poranne „szczudła" o 6:00 rano w przedpokoju + nawrót bólu po blokadzie sterydowej i fali uderzeniowej + test odciążenia pięty przez podparcie łuku podłużnego u fizjoterapeuty.',
+    failedSolutionsMath:
+      '2 blokady sterydowe w piętę 500 zł + 10 zabiegów fali uderzeniowej 1200 zł + fizykoterapia i maści 280 zł + żelowe podpiętki 90 zł = 2070 zł',
+    discoveryBridge:
+      'Zasada kapci przy łóżku z drugą parą wkładek Orthomax StepMax z Pakietu 1+1 GRATIS za 99,99 zł.',
+    defaultHeadline: 'O 6:00 rano szłam do łazienki jak na szczudłach, trzymając się framugi. Myślałam, że po 50-tce to już kalectwo na całe życie',
+    defaultImageUrl: '/antki-pl-images/zal-v2-04-szczudla-6-rano-korytarz.jpg',
+  },
+  {
+    id: 'zal-v2-05-skutek-vs-przyczyna-lustro',
+    number: 75,
+    code: 'ZAL_V2_05_skutek_vs_przyczyna_lustro',
+    title: '[ŻAL V2 · #5 TEST PRZED LUSTREM] Dlaczego po operacji za 8100 zł ból i kość wracają? Fizjoterapeuta pokazał mi to w 10 sekund przed lustrem',
+    segment: 'dorosli',
+    funnelStage: 'zal_po_operacji',
+    funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
+    awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + nawrót koślawości mimo operacji za 8100 zł',
+    sophistication: 'Poziom 4 (Skalpel ścina narośl z boku stopy, ale zostawia zapadającą się piętę)',
+    narrator: 'Hanna (55 lat, Gdańsk)',
+    protagonist: 'Hanna (55 lat)',
+    hookIdea:
+      'Spojrzyjcie na to zdjęcie moich stóp przed lustrem w gabinecie: na lewej stopie widać długą bliznę po operacji za 8100 zł, po której kostka i tak dalej zapada się do środka, a na prawej dłonie fizjoterapeuty pokazują 10-sekundowy test, który uratował mnie przed drugim zabiegiem.',
+    sceneBeat:
+      'Zestawienie przed lustrem diagnostycznym: zoperowana lewa stopa, której pięta nadal ucieka w X, vs prawa stopa wyprostowana w 3 sekundy dłońmi fizjoterapeuty.',
+    failedSolutionsMath:
+      'Operacja lewej stopy i dojazdy 8740 zł + maści i tabletki 310 zł + wkładki żelowe 140 zł + sztywne wkładki na zamówienie 400 zł = 9590 zł',
+    discoveryBridge:
+      'Polecenie dynamicznych wkładek Orthomax StepMax w Pakiecie 1+1 GRATIS za 99,99 zł dla odciążenia obu nóg naraz.',
+    defaultHeadline: 'Dlaczego po operacji za 8100 zł ból i kość wracają? Fizjoterapeuta pokazał mi to w 10 sekund przed lustrem',
+    defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
+  },
 ];
+

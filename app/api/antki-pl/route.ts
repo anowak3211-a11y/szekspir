@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v12-suma-pln';
+const STATE_KEY = 'antki-pl-library-v13-zal-v2';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
