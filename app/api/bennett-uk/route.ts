@@ -28,7 +28,7 @@ export const maxDuration = 300;
 
 const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
 const LEGACY_STATE_KEY_V8 = 'bennett-uk-lfs-v8-34-stories-1x1-fixed';
-const STATE_KEY = 'bennett-uk-lfs-v13-oakridge-fb-only';
+const STATE_KEY = 'bennett-uk-lfs-v14-4-published-pages';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-01T19:53:00+01:00');
 
 interface BennettUkLibraryState {
