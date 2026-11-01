@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v4-names-and-enters-fixed';
+const STATE_KEY = 'sardian-pl-v5-38-hooks-47k';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
