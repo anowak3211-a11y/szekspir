@@ -25,8 +25,8 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'bennett-uk-lfs-v1-30-complete-stories';
-const DEFAULT_CREATED_AT = Date.parse('2026-11-01T15:20:00+01:00');
+const STATE_KEY = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-01T17:15:00+01:00');
 
 interface BennettUkLibraryState {
   ads: BennettUkGeneratedAd[];
