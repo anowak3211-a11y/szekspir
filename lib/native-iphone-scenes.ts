@@ -60,7 +60,7 @@ export function formatRawIphoneKiePrompt(
   if (brand === 'sardian-strap') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Show a narrow, slim matte-black patellar knee strap with an 8mm contoured pad fastened 2 fingers below the kneecap (strictly ZERO text, ZERO letters, ZERO logos on the black strap; NEVER a full knee sleeve).'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio product boxes or brand logos in the shot.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO PRODUCT PACKSHOT): Do NOT show any knee strap, box, or commercial product in this shot. Depict ONLY the literal real-world Hook artifact, document, place, or moment from the prompt (e.g. orthopedic diagram "PUNKT 2 PALCE POD RZEPKĄ", red elastic marks from an old thick beige pharmacy sleeve, basket of used joint gel tubes + receipt, car door / stairs knee pain moment). All visible Polish text on documents must be 100% accurately spelled.';
   } else if (brand === 'sardian-shampoo') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference SARDIAN shampoo bottle (tall rectangular matte-black bottle with smooth chamfered edges, matte-black pump dispenser, bold white "SARDIAN" at top, warm copper-gold "SZAMPON" and bold white "AKTYWUJĄCY KORZENIE", and warm-gold bar reading "DLA GĘSTYCH I MOCNYCH WŁOSÓW"). Avoid close-up AI human faces; focus on crisp first-person POV bathroom, shower, barbershop, or trichologist desk scenes.'
@@ -68,26 +68,26 @@ export function formatRawIphoneKiePrompt(
   } else if (brand === 'feliora') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference Feliora diffuser (compact spherical white duck-head top with tiny yellow beak and pin-dot eyes screwed directly onto a short round amber glass vial, plugged neatly into a wall socket).'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio product boxes in the shot.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO DIFFUSER PRODUCT PACKSHOT): Do NOT place any plug-in diffuser bottle or commercial product box in this shot. Depict ONLY the literal real-world Hook scene, expressive real cat, or story artifact described in the prompt (e.g. sofa wrapped in clear painter plastic foil with cat on top, damp stain on white duvet, cat with clean smooth hairless pink belly patch from stress licking, 2 tense cats separated by a 10 cm door crack or mesh frame, frightened cat behind washing machine, or vet urinalysis sheet "BADANIE MOCZU KOTA: Brak bakterii — FIC / stres"). All visible Polish text must be 100% accurately spelled.';
   } else if (brand === 'feliora-dog') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference Feliora Dog diffuser (compact spherical matte-white duck-head top with a small orange-yellow beak screwed upright onto a short round clear-greenish 48 mL glass vial with a sage-green label, plugged vertically into a Polish Type-E wall socket - strictly ZERO cats anywhere in frame).'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio product boxes in the shot, and strictly ZERO cats anywhere in frame.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO DIFFUSER PRODUCT PACKSHOT & ZERO CATS): Do NOT place any plug-in diffuser or commercial product box in this shot, and strictly ZERO cats anywhere in frame. Depict ONLY the literal real-world Hook artifact, expressive real dog, or story prop described in the prompt (e.g. angry neighbor note taped to modern apartment door "ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00. DZWONIMY NA STRAŻ MIEJSKĄ!", hand in parked car holding smartphone with live home Wi-Fi camera feed of dog howling at front door, scratched door frame + pulled rubber seal + untouched red Kong, bent kennel crate bars, or large dog trembling in dry white bathtub). All visible Polish text must be 100% accurately spelled.';
   } else if (brand === 'orthomax') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference bright orange contoured Orthomax StepMax shoe insole (orange breathable mesh top with raised arch support domes) held cleanly in hand or inside everyday shoes.'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT show commercial studio product boxes or brand logos.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO ORANGE INSOLE PACKSHOT): Do NOT place any orange Orthomax insoles or commercial product boxes in this shot. Depict ONLY the literal real-world Hook artifact, physical proof, document, or moment described in the prompt (e.g. everyday shoe held upside down showing unevenly worn inner heel edge, 3 pairs of child/adult shoes tilted inward from behind, wet flat footprint "stopa jak żelazko" on matte bathroom tiles, barefoot valgus ankles "odwrócone V" on oak panels, podoscope green arch scan, orthopedic diagnostic diagram, or basket of failed foot gel tubes + Polish pharmacy receipt "PARAGON FISKALNY"). All visible Polish text must be 100% accurately spelled.';
   } else if (brand === 'mellow-uk') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference Mellow Mood Munchies UK pouch (matte light sky-blue stand-up resealable pouch with dark-navy lowercase "mellow" wordmark and glossy berry-red 5-petal flower-shaped gummies - NEVER gummy bears, NEVER purple pouches).'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio packaging or graphic ad banners in the shot.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO PRODUCT POUCH PACKSHOT): Do NOT place commercial studio packaging or graphic ad banners in the shot. Depict ONLY the literal real-world Hook artifact, school email, or UK home moment described in the prompt.';
   } else {
     const customTrimmed = customProductInstruction.trim().slice(0, 450);
     productDirective = includeProductRef
       ? customTrimmed
         ? `PRODUCT ACCURACY: Match the supplied product naturally in a real home setting (${customTrimmed}).`
         : 'PRODUCT ACCURACY: Match the supplied reference product naturally held in hand or on a clean home table without studio lighting.'
-      : 'NO COMMERCIAL PACKSHOT: Do NOT place commercial studio product boxes or graphic ad overlays in the shot.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO COMMERCIAL PACKSHOT): Do NOT place commercial studio product boxes or graphic ad overlays in the shot. Depict ONLY the literal real-world Hook artifact, document, or scene from the copy.';
   }
 
   const localeLine =
@@ -116,12 +116,18 @@ function buildBrandDirectorContext(
     : '';
 
   if (brand === 'sardian-strap') {
-    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 in bright, tidy, contemporary Polish homes, sunny gardens, clean cars, and bright physiotherapy offices. Prefer crisp first-person POV / medium candid shots (hands on knee, stairs, narrow black strap) — avoid awkward close-up AI faces.${extra}`;
+    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap).
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR SARDIAN OPASKA (ZERO PRODUCT SHOEHORNING):
+NEVER force the black knee strap into every photo! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, document, number, place, or physical proof from the first 3 sentences of the copy:
+- If the Hook mentions knee surgery / NFZ orthopedic queue / injection cost: show a clean printed Polish orthopedic sheet ("SKIEROWANIE DO PORADNI ORTOPEDYCZNEJ" or "KWALIFIKACJA DO ENDOPROTEZOPLASTYKI KOLANA") or a pharmacy receipt for hyaluronic acid injections on a wooden table!
+- If the Hook mentions thick pharmacy sleeves rolling down or cutting off circulation: show a rolled-up trouser leg with red elastic pressure indentations on the skin next to a stretched-out thick beige pharmacy knee sleeve!
+- If the Hook mentions the physiotherapist's 2-finger patellar tendon test: show a clean clinical diagram "TEST 2 PALCÓW POD RZEPKĄ — ODCIĄŻENIE WIĘZADŁA RZEPKI" or two fingers placed horizontally 2 fingers below the kneecap!
+- If the Hook mentions stairs, getting out of a car on a parking lot, or a garden allotment (działka ROD): show that exact candid first-person POV / medium moment in bright natural light!${extra}`;
   }
   if (brand === 'sardian-shampoo') {
-    return `BRAND & AUDIENCE: Szampon SARDIAN Aktywujący Korzenie (tall rectangular matte-black shampoo bottle with pump dispenser, Polish label "SARDIAN / SZAMPON AKTYWUJĄCY KORZENIE / DLA GĘSTYCH I MOCNYCH WŁOSÓW").
-CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR SARDIAN:
-NEVER generate boring, generic photos of a shampoo bottle sitting on a bathroom shelf for Scenes 1–10! Instead, Scenes 1–10 MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, location, document, number, or physical proof from the first 3 sentences of the copy:
+    return `BRAND & AUDIENCE: Szampon SARDIAN Aktywujący Korzenie.
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR SARDIAN (ZERO PRODUCT SHOEHORNING):
+NEVER generate boring, generic photos of a shampoo bottle sitting on a bathroom shelf! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, location, document, number, or physical proof from the first 3 sentences of the copy:
 - If the Hook mentions Turkey / Istanbul / 17 000 zł hair transplant ("Stambuł", "Turcja", "17 000 zł", "przeszczep"): show Hagia Sophia in Istanbul with a Turkish hair clinic brochure ("STAMBUŁ HAIR CLINIC — 17 000 ZŁ") on a cafe table, or a printed flight booking "WARSZAWA (WAW) -> STAMBUŁ (IST) — REZERWACJA ANULOWANA" next to a maroon Polish passport!
 - If the Hook mentions throwing away a dermatologist prescription or reading side effects ("recepta", "ulotka", "skutki uboczne", "libido"): show a man's hand in a parked car holding an unfolded Polish pharmacy leaflet ("ULOTKA DLA PACJENTA — Częste działania niepożądane: spadek libido, zaburzenia erekcji") circled in red pen next to a crumpled prescription!
 - If the Hook mentions checking the shampoo ingredient list for SLS ("Sodium Laureth Sulfate", "2. słowo po Aqua", "SLS"): show a close-up POV hand holding a generic plastic supermarket shampoo bottle turned to its back INCI label, pointing a finger directly at "INGREDIENTS: Aqua, Sodium Laureth Sulfate (SLS)" circled in red!
@@ -129,30 +135,50 @@ NEVER generate boring, generic photos of a shampoo bottle sitting on a bathroom 
 - If the Hook mentions a 79 zł USB microscope ("mikroskop USB za 79 zł", "1-2 mm włoski na zakolach"): show a small black handheld USB digital microscope plugged into a laptop displaying 200x tiny 1-2 mm sprouting hairs on scalp skin!
 - If the Hook mentions the 2-finger scalp test or waxy sebum-DHT plug ("test 2 palców", "nad uchem vs czubek głowy", "woskowy czop"): show a trichologist diagnostic sheet "TEST 2 PALCÓW: 1. Nad uchem (miękka skóra) vs 2. Czubek głowy (napięty czepiec + woskowy czop DHT)" or a 200x trichoscope monitor!
 - If the Hook mentions pouring out 320 zł hair serums/wcierki ("wcierki za 320 zł", "wylałem do zlewu"): show 4 half-used pharmacy dropper bottles and ampoules tossed in a basket by the sink with a "320 ZŁ" receipt while a dropper is poured into the drain!
-- If the Hook mentions catching the wife cleaning the shower drain ("przyłapałem żonę", "na kolanach przy kabinie", "sitko odpływu"): show a candid doorway shot of a Polish wife kneeling by the OPEN walk-in glass shower door, reaching her hand with a tissue INSIDE the white shower tray (brodzik) to clean dark hair from the shower drain (strictly NO floor drain on the dry tiles outside the shower!).
-Only Scenes 11–12 at the very end may have includeProductRef: true and show the matte-black SARDIAN bottle.${extra}`;
+- If the Hook mentions catching the wife cleaning the shower drain ("przyłapałem żonę", "na kolanach przy kabinie", "sitko odpływu"): show a candid doorway shot of a Polish wife kneeling by the OPEN walk-in glass shower door, reaching her hand with a tissue INSIDE the white shower tray (brodzik) to clean dark hair from the shower drain (strictly NO floor drain on the dry tiles outside the shower!).${extra}`;
   }
   if (brand === 'feliora') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Kotów (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners in bright, clean, contemporary modern Polish apartments (light oak floors, clean white/beige walls, modern Scandinavian-style Polish living rooms and spotless bathrooms) dealing with peeing outside the litter box, 2 tense cats separated by a clean doorway, stress-licked pink belly fur, hiding beside a clean white washing machine, or vet exam room scenes. Prefer crisp POV shots of expressive real cats, hands, and clean apartment props — avoid gloomy/shabby rooms and awkward close-up AI human faces.${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Kotów (M.A.P. + F3 cat pheromones).
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR FELIORA KOT (ZERO PRODUCT SHOEHORNING):
+NEVER force the Feliora plug-in diffuser bottle into the photo! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, cat behavior, document, or physical proof from the first 3 sentences of the copy in a bright, spotless modern Polish apartment:
+- If the Hook mentions wrapping the living room sofa in painter's foil ("folia malarska na kanapie", "kanapa za 4500 zł") or peeing on the duvet/shoes: show a grey modern sofa covered with clear crinkly painter's foil with an expressive domestic cat sitting right on top of the foil, or a damp stain on a white duvet with the cat sitting on the headboard!
+- If the Hook mentions a stress-licked bald pink belly ("wylizany do gołej różowej skóry brzuch", "alopecia psychogenna"): show owner hands gently holding a tabby cat upright on their lap, clearly showing a clean, smooth pale-pink hairless belly patch (healthy smooth pink skin, strictly no blood or sores)!
+- If the Hook mentions 2 cats fighting / failed cat introduction ("dokocenie", "2 koty", "szpara w drzwiach", "siatka w futrynie", "krew na futrze"): show a white bedroom door cracked open 10 cm with one cat peering out with dilated pupils and airplane ears while the second cat stands arched with a puffed tail in the hallway, or a wooden mesh frame in the doorway separating the 2 cats!
+- If the Hook mentions vet bills / sterile urine test ("badanie moczu", "680 zł u weterynarza", "idiopatyczne zapalenie pęcherza FIC"): show a vet consultation table with a clear urine specimen cup and a printed Polish vet lab sheet reading "BADANIE MOCZU KOTA: Brak bakterii — Idiopatyczne zapalenie pęcherza (FIC / stres)"!
+- If the Hook mentions a terrified cat hiding behind the washing machine ("za pralką", "spłaszczony jak naleśnik"): show a frightened cat huddled tightly in the narrow 20 cm gap beside a clean white washing machine with huge black pupils!${extra}`;
   }
   if (brand === 'feliora-dog') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Psów (spherical matte-white duck-head plug-in diffuser with small orange-yellow beak screwed upright onto a clear-greenish 48 mL glass vial with sage-green label, canine D.A.P. appeasing pheromones - strictly ZERO cats!). Target: Polish dog owners in bright, clean, newly renovated contemporary Polish apartments (warm oak floors, clean white walls, modern sleek doors, bright sunlit living rooms, clean modern Polish veterinary clinics) dealing with dog separation anxiety: angry neighbor note taped on a clean modern apartment door ("ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00"), howling on a smartphone home Wi-Fi camera app held in a hand (real hand holding phone, NEVER a raw UI screenshot), scratched lower door trim next to a cute anxious dog, torn corner of a clean modern grey sofa with an untouched red Kong, or a scared dog curled in a spotless white modern bathroom during fireworks. Prefer crisp Sardian-style first-person POV shots of real expressive dogs, hands, and story props — NEVER dingy Eastern-bloc hallways, NEVER stained mugs, NEVER camera timestamps, NEVER awkward close-up AI human faces.${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Psów (canine D.A.P. appeasing pheromones - strictly ZERO cats!).
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR FELIORA PIES (ZERO PRODUCT SHOEHORNING):
+NEVER force the Feliora plug-in diffuser into the photo, and strictly ZERO cats anywhere in frame! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, note, gadget, or dog behavior from the first 3 sentences of the copy in a bright, spotless modern Polish apartment:
+- If the Hook mentions an angry neighbor's note taped to the apartment door ("kartka na drzwiach", "Straż Miejska", "Art. 51 KW", "wyje od 8:00 do 16:00"): show a crisp straight-on iPhone 15 close-up of a sleek walnut apartment door where a squared notebook sheet taped with grey tape reads in bold black Polish marker: "ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00. DZWONIMY NA STRAŻ MIEJSKĄ!" (or a hand holding house keys in front of that note)!
+- If the Hook mentions watching the dog howl on a live home Wi-Fi camera from a car or office ("kamerka Wi-Fi", "aplikacja w telefonie", "w korku"): show a real hand inside a parked car or at an office desk holding a smartphone displaying a crisp live home camera view ("LIVE") of the dog sitting right against the closed front door with head tilted upward howling (NEVER a raw full-screen phone UI screenshot)!
+- If the Hook mentions scratched door frames, chewed sofa corners, or an untouched Kong ("wydrapana futryna", "uszczelka", "rozdarta kanapa", "nietknięty Kong"): show a sweet anxious dog sitting on a clean oak floor right beside the scratched lower doorframe / pulled black rubber seal or torn sofa cushion with a peanut-butter-stuffed red Kong lying completely untouched in front of it!
+- If the Hook mentions a dog kennel crate with bent bars ("klatka kennelowa", "wygięte pręty") or a large dog trembling in a dry bathtub/beside a washing machine during fireworks/storm ("burza", "petardy", "wanna", "za pralką"): show that exact literal scene in a bright, clean Polish home!${extra}`;
   }
   if (brand === 'orthomax') {
-    return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax (bright orange contoured insoles) in bright, clean modern Polish homes and bright physiotherapy clinics. Segment: ${
+    return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax. Segment: ${
       segment === 'dzieci'
-        ? 'Polish mothers of children aged 4-12 (valgus ankles, flat feet, worn inner shoe heels, PE pain)'
-        : 'Polish adults/seniors aged 45-70 (bunions, heel spurs, collapsed arches, knee/hip/back compensation, long shifts on feet)'
-    }.${extra}`;
+        ? 'Polish mothers of children aged 4-12 (valgus ankles "odwrócone V", flat feet "stopa jak żelazko", unevenly worn inner shoe heels, PE pain)'
+        : 'Polish adults/seniors aged 45-70 (bunions/haluksy, heel spurs/ostroga piętowa, collapsed arches, knee/hip/back compensation, long shifts on feet)'
+    }.
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR ORTHOMAX (ZERO PRODUCT SHOEHORNING):
+NEVER force the bright orange Orthomax insole or product box into every photo! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, physical proof, shoe detail, diagnostic test, or receipt from the first 3 sentences of the copy in a bright, clean modern Polish home or clinic:
+- If the Hook mentions unevenly worn shoe heels ("zdarte od wewnątrz obcasy", "podeszwa starta pod skosem", "3 pary butów wykrzywione do środka", "halówki z WF-u"): show a crisp first-person POV hand holding the everyday shoe or child's sneaker upside down clearly showing the inner heel edge ground down at a slant, or 3 pairs of shoes lined up from behind on a clean hallway floor all tilting inward!
+- If the Hook mentions the wet footprint test on bathroom tiles ("mokry ślad stopy", "stopa płaska jak żelazko", "test mokrej stopy"): show a crisp iPhone 15 photo of wet bare footprints on matte grey bathroom tiles comparing a flat "iron-shaped" footprint with zero arch curve!
+- If the Hook mentions a child's valgus ankles ("koślawe kostki", "odwrócone V", "uciekanie pięt do środka") or an adult's bunion/collapsed arch: show a crisp floor-level iPhone 15 shot from behind of bare feet standing on light oak panels clearly showing the ankles rolling inward!
+- If the Hook mentions wasted money on pharmacy gels, heel pads, or rigid insoles ("wydałam 340 zł / 480 zł w aptece", "paragon", "maści i podpiętki w koszu") or an X-ray / orthopedic referral ("ostroga piętowa", "RTG", "skierowanie"): show a basket of half-used foot pain gel tubes and flat foam insoles next to a crisp Polish receipt ("PARAGON FISKALNY — RAZEM: 340,00 ZŁ") or a printed Polish orthopedic diagnostic card ("DIAGNOSTYKA STOPY: Koślawość pięty i zapadnięty łuk podłużny") on a wooden table!${extra}`;
   }
   if (brand === 'mellow-uk') {
-    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (matte light sky-blue stand-up pouch with berry-red 5-petal flower saffron gummies for calm, focus & emotional balance). Target: British parents in bright, tidy modern British kitchens and homes.${extra}`;
+    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (saffron gummies for calm, focus & emotional balance).
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR MELLOW UK (ZERO PRODUCT SHOEHORNING):
+NEVER force the Mellow pouch into every photo! All 12 scenes MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, school email, note, or UK home moment from the first 3 sentences of the copy.${extra}`;
   }
   return `MARKET & AUDIENCE: ${
     market === 'uk'
       ? 'United Kingdom (bright, clean, contemporary everyday British homes, kitchens, stairs, gardens, right-hand-drive UK cars)'
       : 'Poland (bright, clean, contemporary modern Polish apartments, houses, kitchens, gardens, modern clinics, left-hand-drive cars - strictly NO gloomy Soviet-era grime)'
-  }. Infer the exact product, target demographic, symptoms, and real locations directly from skrypt.txt and instruction.txt.${extra}`;
+  }. Infer the exact product, target demographic, symptoms, and real locations directly from skrypt.txt and instruction.txt. NEVER force the commercial product packshot into the photo (includeProductRef: false on all scenes).${extra}`;
 }
 
 /**
@@ -497,85 +523,103 @@ export function buildFallbackTwelveNativeScenes(params: {
       },
     ];
   } else if (brand === 'orthomax') {
-    const isDzieci = segment === 'dzieci' || /dziec|syn|córk|szkoł|wf|przedszkol/i.test(lower);
+    const isDzieci = segment === 'dzieci' || /dziec|syn|córk|szkoł|wf|przedszkol|halówk|kapci/i.test(lower);
+    const hasWetFoot = /mokr|żelazk|łazien|ślad|kafelk/i.test(lower);
+    const hasReceipt = /paragon|aptek|wydałam|wydałem|\d+\s*zł|rachunek/i.test(lower);
+    const hasSorOrXray = /sor|rtg|prześwietlen|ostrog|haluks|operacj|skierowan/i.test(lower);
+    const amountMatch = params.primaryText.match(/(\d[\d\s]{1,5})\s*zł/i);
+    const detectedPln = amountMatch?.[1]?.trim() || '340';
     baseTwelve = [
       {
         label: isDzieci
-          ? '1. [HOOK DZIECKO] Dziecko siedzące na ławce w szatni i trzymające się za bolącą piętę'
-          : '1. [HOOK STOPY] Kobieta 58 lat masująca zmęczoną stopę obok zdjętych butów w domu',
+          ? '1. [HOOK OBRAZ #1] Podeszwy dziecięcych butów starte pod skosem od wewnętrznej strony'
+          : '1. [HOOK OBRAZ #1] Podeszwy codziennych butów starte pod skosem od wewnątrz w przedpokoju',
         includeProductRef: false,
         scenePrompt: isDzieci
-          ? 'Clean, sharp iPhone 15 photo in a bright school changing room: a 9-year-old Polish boy in gym clothes sitting on a wooden bench holding his aching bare heel beside his indoor sneakers.'
-          : 'Clean, sharp indoor iPhone 15 photo in a tidy Polish living room: a 58-year-old Polish woman sitting on a sofa massaging her tired, slightly reddened bare foot beside her everyday leather shoes.',
+          ? 'Clean, sharp first-person iPhone 15 POV photo in a bright Polish apartment hallway: a mother’s hands holding her 9-year-old child’s indoor school sneakers (halówki) upside down, clearly showing the inner rubber heel edge worn down at a sharp diagonal slant.'
+          : 'Clean, sharp first-person iPhone 15 POV photo in a bright Polish hallway: a hand holding a pair of everyday leather walking shoes upside down, clearly showing the inner heel rubber edge unevenly ground down at a slant.',
+      },
+      {
+        label: hasWetFoot
+          ? '2. [HOOK OBRAZ #2] Mokry ślad stopy płaski jak żelazko na płytkach w łazience'
+          : isDzieci
+            ? '2. [HOOK OBRAZ #2] Kostki dziecka uciekające do środka („odwrócone V”) na jasnych panelach'
+            : '2. [HOOK OBRAZ #2] Bose stopy z zapadniętym łukiem i zaczerwienieniem na płytkach',
+        includeProductRef: false,
+        scenePrompt: hasWetFoot
+          ? 'Clean, sharp top-down iPhone 15 photo on matte grey Polish bathroom floor tiles right after a bath: two wet footprints side by side showing a completely flat, wide imprint ("stopa jak żelazko") with zero medial arch curve.'
+          : isDzieci
+            ? 'Clean floor-level iPhone 15 photo in a bright Polish room: a 9-year-old child standing barefoot on oak laminate panels seen from behind from calves down, ankles visibly rolling inward ("odwrócone V" / valgus tilt).'
+            : 'Clean, sharp iPhone 15 POV photo looking down in a bright Polish bathroom: bare feet standing on beige ceramic tiles showing a flattened medial arch and mild redness at the heel and bunion joint.',
+      },
+      {
+        label: hasReceipt
+          ? `3. [DOWÓD Z HOOKA] Paragon z apteki i bezużyteczne żelowe podpiętki (${detectedPln} zł w błoto)`
+          : '3. [DOWÓD Z HOOKA] Spłaszczone cienkie wkładki z apteki obok zwykłych butów',
+        includeProductRef: false,
+        scenePrompt: hasReceipt
+          ? `Clean, sharp first-person iPhone 15 photo on a wooden Polish home table: 3 flattened pharmacy gel heel pads and a half-used foot pain ointment tube lying next to a Polish thermal receipt with ONLY 2 large bold lines reading "PARAGON FISKALNY" and "RAZEM: ${detectedPln},00 ZŁ" (zero small-print text, zero insoles product box).`
+          : 'Clean, sharp iPhone 15 photo in a Polish hallway: worn-out flat foam pharmacy insoles pulled out of everyday shoes resting on a wooden bench, compressed paper-thin under the heel.',
+      },
+      {
+        label: hasSorOrXray
+          ? '4. [DIAGNOSTYKA Z HOOKA] Karta informacyjna badania stóp / RTG pięty na biurku'
+          : '4. [DIAGNOSTYKA Z HOOKA] Bose stopy na podświetlanym podoskopie diagnostycznym w gabinecie',
+        includeProductRef: false,
+        scenePrompt: hasSorOrXray
+          ? 'Clean, sharp first-person iPhone 15 photo on a wooden consultation desk: a printed Polish orthopedic sheet with ONLY 3 large bold lines reading "BADANIE BIOMECHANICZNE STOPY", "ROZPOZNANIE: PRONACJA / PRZECIĄŻENIE PIĘTY", and "ZALECENIE: KOREKCJA OSI PIĘTY" next to reading glasses and a pen (zero small print).'
+          : 'Clean, sharp iPhone 15 photo in a bright Polish rehabilitation room: bare feet standing on a glowing green glass diagnostic podoscope mirror clearly showing flat-foot pressure distribution.',
+      },
+      {
+        label: '5. [TEST 3 PAR BUTÓW] 3 pary butów ustawione w rzędzie od tyłu z przekrzywionymi zapiętkami',
+        includeProductRef: false,
+        scenePrompt:
+          'Clean floor-level iPhone 15 photo in a bright Polish apartment hallway: 3 pairs of everyday shoes lined up from behind on oak flooring, all showing the exact same inward tilt of the heel counters.',
+      },
+      {
+        label: '6. [EKSPERT FIZJOTERAPEUTA] Polski fizjoterapeuta tłumaczący biomechanikę stopy w gabinecie',
+        includeProductRef: false,
+        scenePrompt:
+          'Clean, sharp iPhone 15 photo in a bright Polish physiotherapy office: physiotherapist hands in navy scrubs holding a clean everyday shoe and pointing with a pen at the heel counter to demonstrate how heel axis collapse affects the knee.',
+      },
+      {
+        label: '7. [SZAFKA PRÓB] Odstawione maści przeciwbólowe, wałek do stóp i cienkie żelowe podpiętki',
+        includeProductRef: false,
+        scenePrompt:
+          'Clean iPhone 15 photo on a tidy bathroom shelf: several half-used foot pain gel tubes, silicone toe separators, and flat gel heel pads pushed aside into a small basket.',
+      },
+      {
+        label: '8. [KARTKA OD FIZJOTERAPEUTY] Notatka „wkładki Orthomax StepMax” na stole obok herbaty',
+        includeProductRef: false,
+        scenePrompt:
+          'Clean, sharp first-person iPhone 15 POV photo at a wooden Polish kitchen table: reading glasses, a mug of tea, and a small white doctor notepad slip with ONLY 2 large clear handwritten Polish lines reading "wkładki Orthomax StepMax" and "(podparcie łuku + stabilizacja pięty)".',
       },
       {
         label: isDzieci
-          ? '2. [HOOK KOŚLAWOŚĆ] Kostki dziecka uciekające do środka na jasnych panelach'
-          : '2. [HOOK PŁASKOSTOPIE] Bose stopy z zapadniętym łukiem na płytkach w łazience',
+          ? '9. [MOMENT Z HISTORII] Dziecko siedzące na ławce w szatni obok butów na zmianę'
+          : '9. [MOMENT Z HISTORII] Moczenie zmęczonych stóp w misce z ciepłą wodą wieczorem',
         includeProductRef: false,
         scenePrompt: isDzieci
-          ? 'Clean floor-level iPhone 15 photo in a bright Polish room: a 9-year-old child standing barefoot on oak laminate panels seen from behind, ankles visibly rolling inward (valgus tilt).'
-          : 'Clean, sharp iPhone 15 POV photo in a bright Polish bathroom: bare feet of a 56-year-old woman standing on beige tiles showing a flattened medial arch and mild bunion redness.',
+          ? 'Clean, sharp iPhone 15 photo in a bright school hallway bench: a 9-year-old Polish child sitting in tracksuits holding his heel next to his indoor gym shoes.'
+          : 'Clean, warm indoor iPhone 15 photo in a tidy Polish bathroom: bare feet soaking in a clean white basin of warm water with a folded grey towel beside it.',
       },
       {
-        label: '3. [EKSPERT] Polski fizjoterapeuta w granatowym stroju w jasnym gabinecie',
+        label: '10. [BADANIE W GABINECIE] Fizjoterapeuta pokazujący dłonią prawidłowe wysklepienie łuku stopy',
         includeProductRef: false,
         scenePrompt:
-          'Clean, natural iPhone 15 portrait in a bright physiotherapy room: a trustworthy 55-year-old Polish male physiotherapist in plain navy scrubs with glasses looking warmly at the camera, plain clean wall.',
+          'Clean, sharp iPhone 15 photo in a Polish physiotherapy room: physiotherapist hands gently supporting a patient’s bare foot above a treatment couch to demonstrate natural medial arch alignment.',
       },
       {
-        label: '4. [BADANIE STOPY] Fizjoterapeuta pokazujący dłonią zapadający się łuk stopy pacjenta',
+        label: '11. [EFEKT CODZIENNY] Swobodny spacer po słonecznej alejce w polskim parku',
         includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a physiotherapy room: physiotherapist hands gently supporting a patient bare foot above a treatment couch to demonstrate the medial arch alignment.',
+          'Clean, bright daytime iPhone 15 photo on a sunny Polish park path: seen from a natural candid angle, comfortable walking in everyday sneakers on a leafy footpath.',
       },
       {
-        label: '5. [ZUŻYTE WKŁADKI] Spłaszczone cienkie wkładki z apteki obok zwykłych butów',
+        label: '12. [PRZEDPOKÓJ PO ZMIANIE] 2 pary prostych, zadbanych butów gotowych do wyjścia w przedpokoju',
         includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a Polish hallway: worn-out flat foam insoles pulled out of everyday shoes resting on a bench, clearly compressed paper-thin under the heel.',
-      },
-      {
-        label: '6. [ZDARTA PODESZWA] Podeszwa codziennego buta zdarta pod skosem od wewnętrznej strony',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean, sharp close-up iPhone 15 photo in natural hallway light: a hand holding a worn everyday walking shoe upside down showing the inner heel rubber edge unevenly worn at an angle.',
-      },
-      {
-        label: '7. [PODOSKOP] Bose stopy na podświetlanym podoskopie diagnostycznym',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean iPhone 15 photo in a rehabilitation room: bare feet standing on a glowing green glass podoscope mirror clearly showing flat-foot contact areas.',
-      },
-      {
-        label: '8. [KARTKA NA STOLE] Czytelna notatka „wkładki Orthomax StepMax” na stole obok okularów',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean, sharp iPhone 15 POV photo at a wooden Polish kitchen table: reading glasses, tea mug, and a small notebook slip reading clearly "wkładki Orthomax StepMax".',
-      },
-      {
-        label: '9. [MAŚCI I ŻELE] Tubki żeli przeciwbólowych i plastry odłożone na szafce',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean iPhone 15 photo on a bathroom shelf: several half-used foot pain gel tubes, heel pads, and blister packs set aside neatly.',
-      },
-      {
-        label: '10. [ULGA WIECZOREM] Moczenie zmęczonych stóp w misce z ciepłą wodą w domu',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean, warm indoor iPhone 15 photo in a tidy Polish bathroom: a 58-year-old woman sitting on the bathtub edge soaking her feet in a clean basin of warm water with a folded towel.',
-      },
-      {
-        label: '11. [EFEKT CODZIENNY] Swobodny spacer po polskim parku w słoneczny dzień',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean, bright daytime iPhone 15 photo on a sunny Polish park path: an ordinary smiling 60-year-old Polish woman in a casual jacket walking comfortably.',
-      },
-      {
-        label: '12. [WYGODNE BUTY W PRZEDPOKOJU] Codzienne buty gotowe do wyjścia w jasnym przedpokoju',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean, sharp iPhone 15 photo in a bright Polish hallway: a pair of comfortable everyday walking shoes standing neatly by the door in morning light.',
+          'Clean, sharp iPhone 15 photo in a bright Polish hallway: two pairs of comfortable everyday walking shoes standing straight and neatly by the front door in warm morning light.',
       },
     ];
   } else if (resolvedMarket === 'uk') {
@@ -655,76 +699,82 @@ export function buildFallbackTwelveNativeScenes(params: {
     ];
   } else {
     const isFemaleNarrator = /zrobiłam|poszłam|miałam|męża|córka zarezerwowała|tańczyłam|wannie|toalety|babcia/i.test(lower);
+    const hasNfzOrSurgery = /nfz|skierowan|operacj|endoprotez|ortoped|szpital|kolejk/i.test(lower);
+    const amountMatch = params.primaryText.match(/(\d[\d\s]{1,5})\s*zł/i);
+    const detectedPln = amountMatch?.[1]?.trim() || '280';
     baseTwelve = [
       {
-        label: '1. [HOOK LUDZKI] Senior trzymający się za bolące kolano przy domowych schodach',
+        label: '1. [HOOK OBRAZ #1] Zatrzymanie się w połowie domowych schodów z dłonią na bolącym kolanie',
         includeProductRef: false,
-        scenePrompt: `Clean, sharp iPhone 15 photo in a bright Polish home hallway staircase: an ordinary ${
+        scenePrompt: `Clean, sharp first-person/candid iPhone 15 photo on a bright Polish home wooden staircase: an ordinary ${
           isFemaleNarrator ? '66-year-old Polish woman in cardigan and trousers' : '65-year-old Polish man in sweater and trousers'
-        } pausing on wooden stairs with one hand on the banister and the other gently pressing below their aching kneecap.`,
+        } pausing mid-step with one hand gripping the wooden banister and the other pressing just below their aching kneecap.`,
       },
       {
-        label: '2. [HOOK OBJAW] Zbliżenie na kolano z odgnieceniami po grubej opasce z apteki',
+        label: '2. [HOOK OBRAZ #2] Czerwone odgniecenia na kolanie po grubej opasce uciskowej z apteki',
         includeProductRef: false,
         scenePrompt:
-          'Clean, sharp indoor iPhone 15 photo in a Polish living room: rolled-up trouser leg of a 65-year-old person sitting on a chair showing red elastic pressure marks left by a thick beige pharmacy knee sleeve resting beside them.',
+          'Clean, sharp indoor iPhone 15 POV photo in a bright Polish living room: rolled-up trouser leg of a 65-year-old person sitting on a sofa showing red elastic pressure marks around the knee left by a thick, stretched-out beige pharmacy knee sleeve lying discarded beside them.',
       },
       {
-        label: '3. [EKSPERT] Polski fizjoterapeuta 56 lat w granatowym stroju w jasnym gabinecie',
+        label: hasNfzOrSurgery
+          ? '3. [DOKUMENT Z HOOKA] Skierowanie do poradni ortopedycznej / kolejka NFZ na stole'
+          : `3. [DOWÓD Z HOOKA] Tubki maści końskich, żeli i paragon z apteki (${detectedPln} zł)`,
+        includeProductRef: false,
+        scenePrompt: hasNfzOrSurgery
+          ? 'Clean, sharp first-person iPhone 15 photo on a wooden Polish kitchen table next to reading glasses: a printed Polish medical referral sheet with ONLY 3 large bold lines reading "SKIEROWANIE DO PORADNI ORTOPEDYCZNEJ", "ROZPOZNANIE: PRZECIĄŻENIE STAWU KOLANOWEGO", and "TERMIN NFZ: ZA 14 MIESIĘCY" (zero small-print text).'
+          : `Clean, sharp first-person iPhone 15 photo on a wooden Polish table: 3 half-squeezed joint pain gel tubes, a green horse-balm jar, and a Polish thermal receipt with ONLY 2 large bold lines reading "PARAGON FISKALNY - APTEKA" and "RAZEM: ${detectedPln},00 ZŁ" (zero small-print text).`,
+      },
+      {
+        label: '4. [MECHANIZM 2 PALCÓW] Dłoń wskazująca punkt 2 palce poniżej rzepki na więzadle',
         includeProductRef: false,
         scenePrompt:
-          'Clean, natural iPhone 15 portrait in a bright rehabilitation room: a 56-year-old Polish male orthopedic physiotherapist in plain navy scrubs and glasses, calm trustworthy expression, plain clean wall.',
+          'Clean, sharp close-up iPhone 15 photo in natural window light: an older person sitting on a sofa with trouser leg rolled up, placing two fingers horizontally just below the kneecap on the patellar tendon (zero brace on the knee).',
       },
       {
-        label: '4. [PUNKT 2 PALCÓW] Dłoń wskazująca punkt 2 palce poniżej rzepki na kolanie',
+        label: '5. [STARE ORTEZY W KĄCIE] Rozciągnięte opaski z apteki i zsuwające się rękawy uciskowe',
         includeProductRef: false,
         scenePrompt:
-          'Clean, sharp close-up iPhone 15 photo in natural window light: an older person sitting on a sofa with trouser leg rolled up, placing two fingers horizontally just below the kneecap on the patellar tendon.',
+          'Clean, sharp iPhone 15 photo on a Polish home table: three stretched-out beige and grey pharmacy elastic knee sleeves and half-used joint ointment tubes laid aside.',
       },
       {
-        label: '5. [STARE OPASKI] Rozciągnięte grube ortezy i tubki żeli odłożone na ławę',
+        label: '6. [FOTEL KIEROWCY] Dłoń podtrzymująca kolano przy wysiadaniu z samochodu na parkingu',
         includeProductRef: false,
         scenePrompt:
-          'Clean iPhone 15 photo on a Polish home table: two stretched-out beige elastic knee sleeves, a bulky hinged brace, and half-used joint gel tubes laid aside.',
+          'Clean daytime iPhone 15 photo by an open left-hand-drive car door: a 64-year-old Polish person stepping out onto a parking lot while supporting their right knee with their hand.',
       },
       {
-        label: '6. [FOTEL KIEROWCY] Dłoń na kolanie przy wysiadaniu z samochodu na parkingu',
+        label: '7. [EKSPERT FIZJOTERAPEUTA] Polski fizjoterapeuta 56 lat w granatowym stroju w jasnym gabinecie',
         includeProductRef: false,
         scenePrompt:
-          'Clean daytime iPhone 15 photo by an open left-hand-drive car door: a 64-year-old Polish man stepping out onto a parking lot while supporting his right knee.',
+          'Clean, natural iPhone 15 photo in a bright Polish rehabilitation room: a 56-year-old Polish male orthopedic physiotherapist in plain navy scrubs and glasses sitting by a consultation desk, calm trustworthy expression, plain clean wall.',
       },
       {
-        label: '7. [DZIAŁKA / OGRÓD] Chwila odpoczynku na ławce na zadbanej polskiej działce ROD',
+        label: '8. [KARTKA OD FIZJOTERAPEUTY] Czytelna notatka „pasek podrzepkowy SARDIAN” obok okularów',
         includeProductRef: false,
         scenePrompt:
-          'Clean sunny iPhone 15 photo on a green Polish garden allotment (ROD): a 66-year-old Polish person sitting on a wooden bench beside garden beds.',
+          'Clean, sharp first-person iPhone 15 POV photo on a wooden Polish kitchen table: reading glasses, tea glass, and a small white notebook slip with ONLY 2 large clear handwritten Polish lines reading "pasek podrzepkowy SARDIAN" and "(punkt 2 palce pod rzepką)".',
       },
       {
-        label: '8. [KARTKA NA STOLE] Czytelna notatka „pasek podrzepkowy SARDIAN” obok okularów',
+        label: '9. [SZAFKA PRÓB] Puszki kolagenu do picia i maści odstawione na kuchennym blacie',
         includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 POV photo on a wooden Polish kitchen table: reading glasses, tea glass, and a small notebook slip clearly reading "pasek podrzepkowy SARDIAN".',
+          'Clean iPhone 15 photo on a tidy Polish kitchen counter next to a kettle: two opened collagen powder tubs, glucosamine blister packs, and green horse-balm jars pushed aside.',
       },
       {
-        label: '9. [SZAFKA PRÓB] Puszki kolagenu i maści odstawione na kuchennym blacie',
+        label: '10. [DZIAŁKA / OGRÓD] Chwila odpoczynku na ławce na zadbanej polskiej działce ROD',
         includeProductRef: false,
         scenePrompt:
-          'Clean iPhone 15 photo on a tidy Polish kitchen counter next to a kettle: opened collagen powder tubs and green horse-balm jars pushed aside.',
+          'Clean sunny iPhone 15 photo on a green Polish garden allotment (ROD): a 66-year-old Polish person sitting on a wooden bench beside garden beds in natural daylight.',
       },
       {
-        label: '10. [ROZMOWA W DOMU] Para 60+ przy herbacie w jasnej polskiej kuchni',
+        label: '11. [EFEKT CODZIENNY] Swobodne schodzenie ze schodów w domu w słoneczny dzień',
         includeProductRef: false,
         scenePrompt:
-          'Clean warm natural-light iPhone 15 photo in a cozy Polish kitchen: an ordinary 64-year-old Polish couple talking warmly across the table over mugs of tea.',
+          'Clean bright daytime iPhone 15 photo: a smiling 66-year-old Polish person walking comfortably down wooden home stairs in natural sunlight.',
       },
       {
-        label: '11. [EFEKT CODZIENNY] Uśmiechnięty 66-latek schodzący swobodnie ze schodów w słońcu',
-        includeProductRef: false,
-        scenePrompt:
-          'Clean bright daytime iPhone 15 photo: a smiling 66-year-old Polish person walking comfortably down home steps in natural sunlight.',
-      },
-      {
-        label: '12. [SPACER W SŁOŃCU] Swobodny spacer po alejce parkowej bez bólu kolana',
+        label: '12. [SPACER W SŁOŃCU] Swobodny spacer po słonecznej alejce parkowej bez bólu kolana',
         includeProductRef: false,
         scenePrompt:
           'Clean, sharp daytime iPhone 15 photo on a sunny Polish footpath: a smiling 65-year-old Polish person walking comfortably outdoors.',

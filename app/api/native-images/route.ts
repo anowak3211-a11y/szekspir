@@ -116,7 +116,7 @@ export const POST = accountRoute(async (req: Request) => {
     const headline = (body.headline || '').trim();
     const title = (body.title || 'Folder skryptu').trim();
     const instructionText = (body.instructionText || '').trim();
-    const aspectRatio = body.aspectRatio || '3:4';
+    const aspectRatio = body.aspectRatio || '1:1';
     const resolvedMarket = detectScriptMarket(primaryText, body.market || 'auto');
 
     let refKieUrl = '';
@@ -131,7 +131,7 @@ export const POST = accountRoute(async (req: Request) => {
       } catch {
         refKieUrl = '';
       }
-    } else if (BUILTIN_BRAND_REF_PATHS[brand]) {
+    } else if (body.includeProductRef && BUILTIN_BRAND_REF_PATHS[brand]) {
       try {
         refKieUrl = await uploadPublicReferenceToKie(BUILTIN_BRAND_REF_PATHS[brand]!);
       } catch {
@@ -203,7 +203,7 @@ export const POST = accountRoute(async (req: Request) => {
         chunk.map(async (scene, offset) => {
           const index = i + offset + 1;
           try {
-            const useRef = Boolean(scene.includeProductRef && refKieUrl);
+            const useRef = Boolean(body.includeProductRef && scene.includeProductRef && refKieUrl);
             const prompt = formatRawIphoneKiePrompt(
               scene.scenePrompt,
               brand,

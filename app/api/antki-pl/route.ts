@@ -19,7 +19,6 @@ import {
   type AntkiPlSegment,
 } from '@/lib/antki-pl';
 import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/antki-pl-argon-library';
-import { HOOK_SCENES_FROM_ANTEK_45, buildNoomThreeScenesForAngle } from '@/lib/antki-pl-hook-scenes';
 
 export const maxDuration = 300;
 
@@ -380,273 +379,6 @@ export const GET = accountRoute(async () => {
   }
 });
 
-function buildRawShitQualityKiePrompt(sceneDescription: string, includeProductRef: boolean): string {
-  const isFlatLay = /90-degree|flat-lay|tabletop/i.test(sceneDescription);
-  const styleSuffix = isFlatLay
-    ? 'Raw, unpolished amateur smartphone photo, visible high-ISO sensor grain, natural Polish indoor lighting. STRICT RULES: 90-degree flat-lay tabletop filling 100% of the frame (NO floating table edges), all visible text must be in Polish only (SUMA PLN, never TOTAL), zero AI glow, zero studio bokeh.'
-    : 'Raw, unpolished amateur smartphone snapshot, visible high-ISO sensor grain, candid framing, natural Polish home lighting. STRICT BAN: zero AI glow, zero studio lighting, zero fake bokeh, zero English text.';
-  const productRule = includeProductRef
-    ? 'Include the bright orange contoured Orthomax StepMax shoe insole (matching the reference image: orange breathable mesh top with raised oval arch/massage domes) lying naturally on the surface.'
-    : 'Do NOT include any orange insoles or commercial product boxes in this shot.';
-
-  return `${sceneDescription} ${productRule} ${styleSuffix}`;
-}
-
-interface KiePlannedScene {
-  label: string;
-  scenePrompt: string;
-  includeProductRef: boolean;
-}
-
-function detectShoppingListAndBuildReceiptScene(primaryText: string): {
-  hasShoppingList: boolean;
-  totalPln: string | null;
-  receiptScene: KiePlannedScene;
-} {
-  const lines = primaryText.split('\n').map(l => l.trim());
-  const bulletExpenses = lines.filter(l => /^[-•*]\s+.+\b\d+\s*zł/i.test(l));
-  const totalMatch = primaryText.match(/Razem:\s*(\d[\d\s]*)\s*zł/i) || primaryText.match(/wydałam\s*(?:łącznie\s*)?(\d[\d\s]*)\s*zł/i);
-  const totalPln = totalMatch?.[1]?.replace(/\s+/g, '') || null;
-  const hasShoppingList =
-    bulletExpenses.length >= 2 ||
-    Boolean(totalPln) ||
-    /paragon|aptek|wydałam|rachunek|podsumowałam|podliczyłam/i.test(primaryText);
-
-  const hasPharmacy = /maść|maści|żel|ketonal|diklofenak|nurofen|aptek|plastr|opask|podpiętk|klin/i.test(primaryText);
-  const totalLabel = totalPln ? ` (${totalPln} zł)` : '';
-
-  const receiptScene: KiePlannedScene = {
-    label: `2. Polski paragon fiskalny (SUMA PLN) i lista wydatków${totalLabel}`,
-    includeProductRef: false,
-    scenePrompt: hasPharmacy
-      ? `Close-up photo pointing straight down (90-degree flat-lay) at a wooden tabletop surface that fills 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the wood grain is a crumpled white Polish thermal receipt printed in Polish with header "PARAGON FISKALNY" and the summary line reading "SUMA PLN 186,00" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"), next to a plain white pharmacy ointment tube and a squared paper notepad page with handwritten Polish expenses${totalPln ? ` ending with "Razem: ${totalPln} zł"` : ''}. Warm indoor ceiling bulb light, natural phone shadow, realistic phone camera grain.`
-      : `Close-up photo pointing straight down (90-degree flat-lay) at a wooden tabletop surface that fills 100% of the entire image frame (NO table edges visible, NO room background, NO floating table). Lying flat on the table are two crumpled white Polish thermal receipts printed in Polish with header "PARAGON FISKALNY" and summary line "SUMA PLN" (strictly Polish "SUMA PLN", NEVER the English word "TOTAL"), next to a blue ballpoint pen and a squared notebook page with handwritten Polish expenses in zł${totalPln ? ` and "Razem: ${totalPln} zł" at the bottom` : ''}. Indoor lighting, realistic amateur phone camera quality.`,
-  };
-
-  return { hasShoppingList, totalPln, receiptScene };
-}
-
-function buildFallbackTenScenesFromCopy(params: {
-  angleId?: string;
-  primaryText: string;
-  headline: string;
-  title: string;
-  segment?: string;
-}): KiePlannedScene[] {
-  const text = `${params.headline}\n${params.primaryText}`.toLowerCase();
-  const isDorosli = params.segment === 'dorosli' || text.includes('wnucz') || text.includes('emeryt') || text.includes('55 ') || text.includes('60 ') || text.includes('sor') || text.includes('koszem');
-  const hasSor = text.includes('sor') || text.includes('szpital') || text.includes('izb') || text.includes('gabinet');
-  const hasWetFoot = text.includes('mokr') || text.includes('łazien') || text.includes('żelazk');
-  const hasPeWf = text.includes('wf') || text.includes('szatni') || text.includes('halówk');
-  const { totalPln } = detectShoppingListAndBuildReceiptScene(params.primaryText);
-  const [noomScene1, noomScene2, noomScene3] = buildNoomThreeScenesForAngle({
-    ...params,
-    totalPln,
-  });
-  const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
-
-  if (customHookScenes && customHookScenes.length >= 5) {
-    return [
-      customHookScenes[0], // Scena #1 (Hook 1/5 — główna scena otwarcia 1:1 z pierwszych zdań copy)
-      noomScene1,          // Scena #2 (WZÓR NOOM #1 — wydruk badania + żółty Post-it + polski paragon SUMA PLN w rzucie 90°)
-      customHookScenes[1], // Scena #3 (Hook 2/5 — mikro-detal / rekwizyt z hooka)
-      customHookScenes[2], // Scena #4 (Hook 3/5 — dowód fizyczny z hooka)
-      customHookScenes[3], // Scena #5 (Hook 4/5 — moment emocjonalny / miejsce z hooka)
-      customHookScenes[4], // Scena #6 (Hook 5/5 — połowa z 10 zdjęć nawiązuje bezpośrednio do hooka!)
-      noomScene2,          // Scena #7 (WZÓR NOOM #2 — podkładka z odręczną listą „TEST 10 SEKUND [✓]” na drewnianym stole 90°)
-      noomScene3,          // Scena #8 (WZÓR NOOM #3 — 4 coraz większe blistry tabletek + RTG na drewnianym stole 90°)
-      {
-        label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
-        includeProductRef: true,
-        scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish apartment hallway. A woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe resting flat on the hallway floor. Warm indoor bulb light.',
-      },
-      {
-        label: '10. Dwie pary butów w przedpokoju z widocznymi wkładkami Orthomax (Pakiet 1+1)',
-        includeProductRef: true,
-        scenePrompt: 'Top-down 90-degree flat-lay amateur smartphone snapshot looking straight down at a rubber shoe mat on a hallway floor filling 100% of the frame, showing two pairs of everyday shoes (outdoor walking shoes and indoor slippers/work shoes) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs.',
-      },
-    ];
-  }
-
-  if (isDorosli) {
-    return [
-      {
-        label: hasSor ? '1. Nocny korytarz SOR / plastikowe krzesełko i spuchnięte kolano' : '1. Wieczorny ból kolana i stopy po całym dniu na nogach',
-        includeProductRef: false,
-        scenePrompt: hasSor
-          ? 'First-person POV amateur phone snapshot looking down while sitting on a blue plastic chair in a Polish hospital emergency room (SOR) hallway at night under cold fluorescent tube lighting. A 54-year-old Polish woman in rolled-up dark trousers holding her swollen right knee with her hand, grey hospital linoleum floor below. Natural level perspective, grainy phone photo.'
-          : 'First-person POV amateur phone snapshot taken in a dim Polish apartment living room at night. A 56-year-old woman sitting on a couch rubbing her swollen bare ankle and knee under a warm ceiling bulb. Natural perspective, grainy phone camera.',
-      },
-      noomScene1,
-      {
-        label: '3. Surowe zbliżenie z góry na płaską stopę i uciekającą kostkę',
-        includeProductRef: false,
-        scenePrompt: 'First-person POV smartphone photo looking straight down at the floor: a middle-aged Polish woman standing barefoot on beige ceramic floor tiles filling the frame, showing her bare feet flattening inward at the arches with tired, slightly swollen ankles. Overhead indoor light, natural perspective.',
-      },
-      {
-        label: '4. Zdarte od wewnątrz codzienne buty w polskim przedpokoju',
-        includeProductRef: false,
-        scenePrompt: 'Amateur phone snapshot in a Polish apartment hallway (przedpokój) at night. A woman’s hand holding an everyday worn leather walking shoe upside down, showing the inner edge of the rubber heel visibly ground down at an uneven slant from pronation. Hallway floor below, realistic indoor lighting.',
-      },
-      {
-        label: '5. Miska z ciepłą wodą i solą na kafelkach w łazience wieczorem',
-        includeProductRef: false,
-        scenePrompt: 'First-person POV amateur smartphone photo looking down at the bathroom floor: a middle-aged woman soaking her tired, reddened bare feet in a blue plastic basin of warm water resting flat on ceramic floor tiles next to a towel. Fluorescent bathroom light, realistic phone photo.',
-      },
-      {
-        label: '6. Ciasny przedpokój - siedzenie na stołku przy zdejmowaniu butów',
-        includeProductRef: false,
-        scenePrompt: 'First-person POV amateur phone snapshot taken while sitting in a narrow Polish apartment hallway (przedpokój) after coming home from work. Kicked-off everyday shoes resting flat on a rubber doormat, bare tired feet with red pressure marks on the heels, dim hallway light.',
-      },
-      noomScene2,
-      noomScene3,
-      {
-        label: '9. Dłoń wsuwająca pomarańczową wkładkę Orthomax do codziennego buta',
-        includeProductRef: true,
-        scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish apartment hallway. A middle-aged woman’s hand sliding a bright orange contoured Orthomax StepMax insole into her everyday leather walking shoe resting on a hallway bench. Warm indoor bulb light.',
-      },
-      {
-        label: '10. Dwie pary butów w przedpokoju z widocznymi wkładkami Orthomax (Pakiet 1+1)',
-        includeProductRef: true,
-        scenePrompt: 'Top-down amateur smartphone snapshot looking straight down at a rubber shoe mat on a hallway floor filling the frame, showing two pairs of everyday shoes (outdoor walking shoes and house slippers) with the bright orange contoured Orthomax StepMax insoles visible inside both pairs.',
-      },
-    ];
-  }
-
-  return [
-    {
-      label: hasPeWf
-        ? '1. Wykoślawione halówki i buty na zmianę w przedpokoju'
-        : '1. Zdarte od wewnątrz dziecięce buty trzymane w dłoni w przedpokoju',
-      includeProductRef: false,
-      scenePrompt: hasPeWf
-        ? 'Amateur phone snapshot on a Polish apartment hallway floor (panele podłogowe) in the evening. A 10-year-old child’s navy indoor PE sneakers (halówki z białą podeszwą) resting flat on the floor with the shoe heels noticeably tilted and worn down on the inside edge. Dim yellow hallway light.'
-        : 'First-person POV smartphone photo in a narrow Polish apartment hallway at night. A mother’s hands holding a 10-year-old child’s everyday sneakers upside down, showing the inner heel edge of the rubber sole badly worn down at a slant. Shoe mat below, indoor bulb light.',
-    },
-    noomScene1,
-    {
-      label: hasWetFoot
-        ? '3. Mokre płaskie ślady stóp dziecka na kafelkach w łazience'
-        : '3. Koślawe kostki dziecka od tyłu na panelach w domu',
-      includeProductRef: false,
-      scenePrompt: hasWetFoot
-        ? 'Top-down smartphone photo pointing straight down at dark grey matte bathroom floor tiles filling 100% of the frame right after a bath: two small 8-year-old child wet footprints side by side — both footprints are completely flat and wide like an iron ("stopa żelazka") with zero arch curve.'
-        : 'Raw, unretouched amateur phone photo taken from behind at floor level in a Polish living room on wooden laminate panels. A 9-year-old child standing barefoot in cotton shorts, showing both ankles collapsing inward ("odwrócone V" / valgus ankles). Level horizon, indoor evening light.',
-    },
-    {
-      label: '4. Rzucone w kąt stare sztywne wkładki / wałek do ćwiczeń stóp',
-      includeProductRef: false,
-      scenePrompt: 'Candid amateur phone photo looking down at a Polish apartment living room floor in the evening. A pair of stiff, uncomfortable old grey medical shoe insoles lying flat on the floor next to a children’s sneaker and an unused rubber foot massage roller.',
-    },
-    {
-      label: '5. Trzy pary dziecięcych butów w przedpokoju starte po wewnętrznej stronie',
-      includeProductRef: false,
-      scenePrompt: 'Eye-level floor smartphone photo in a Polish flat hallway: three pairs of a 9-year-old child’s shoes (winter boots, school indoor sneakers, everyday trainers) lined up from behind on the floor, all showing the exact same inward tilt and worn-down inner heel edge.',
-    },
-    {
-      label: '6. Dziecko siedzące na schodach i trzymające się za piętę / kolano',
-      includeProductRef: false,
-      scenePrompt: 'Candid first-person POV smartphone snapshot taken by a mother looking down at her 9-year-old child sitting on steps in tracksuits holding his aching heel and ankle after school PE class.',
-    },
-    noomScene2,
-    noomScene3,
-    {
-      label: '9. Pomarańczowe wkładki Orthomax StepMax wsuwane do dziecięcych butów',
-      includeProductRef: true,
-      scenePrompt: 'Candid first-person POV amateur phone snapshot in a Polish hallway. A mother’s hand sliding a bright orange contoured Orthomax StepMax insole (with raised arch domes) into a child’s everyday sneaker resting on a hallway bench.',
-    },
-    {
-      label: '10. Buty zimowe i szkolne z wkładkami Orthomax w środku (Pakiet 1+1)',
-      includeProductRef: true,
-      scenePrompt: 'Top-down smartphone snapshot pointing straight down at a hallway doormat filling the frame, showing a child’s outdoor boots and school indoor sneakers side by side, both with bright orange contoured Orthomax StepMax insoles visible inside.',
-    },
-  ];
-}
-
-async function extractTenRawScenesFromAntekCopy(params: {
-  angleId?: string;
-  primaryText: string;
-  headline: string;
-  title: string;
-  segment?: string;
-}): Promise<KiePlannedScene[]> {
-  const fallback = buildFallbackTenScenesFromCopy(params);
-  const { totalPln } = detectShoppingListAndBuildReceiptScene(params.primaryText);
-  const [noomScene1, noomScene2, noomScene3] = buildNoomThreeScenesForAngle({
-    ...params,
-    totalPln,
-  });
-  const customHookScenes = params.angleId ? HOOK_SCENES_FROM_ANTEK_45[params.angleId] : undefined;
-
-  // For Antek #45–#70, we have 5 hand-crafted hook scenes (50%) + 3 Noom.pl winner templates (30%) + 2 product shots (20%).
-  if (customHookScenes && customHookScenes.length >= 5) {
-    return fallback;
-  }
-
-  try {
-    const client = brainClient(brainOptions(40_000));
-    const completion = await client.chat.completions.create({
-      model: 'gpt-4.1-mini',
-      temperature: 0.5,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: `You are a creative director for ultra-raw, authentic Polish Facebook native stories (Antki), modeled on top Polish direct-response winners (noom.pl / Zdrowotne SOS / Orthomax).
-Read the provided Polish ad copy and extract EXACTLY 10 distinct visual scenes:
-- Scenes 1, 3, 4, 5, 6 (5 HOOK SCENES WITHOUT product, includeProductRef: false):
-  * Must be 5 different camera angles / close-up details of the EXACT opening hook of THIS copy. Pull literal details from paragraph 1-3!
-- Scenes 2, 7, 8 (3 NOOM.PL WINNER TEMPLATES WITHOUT product, includeProductRef: false):
-  * Scene 2: 90-degree wooden tabletop flat-lay filling 100% of frame showing clinic printout + yellow Post-it note + Polish receipt ("PARAGON FISKALNY", "SUMA PLN").
-  * Scene 7: 90-degree wooden tabletop flat-lay filling 100% of frame showing a brown clipboard with handwritten blue-marker checklist "TEST 10 SEKUND: [✓]...".
-  * Scene 8: 90-degree wooden tabletop flat-lay filling 100% of frame showing 4 escalating silver pill blisters from small to large next to an X-ray printout ("TABLETKI CORAZ MOCNIEJSZE...").
-- Scenes 9 and 10 (2 scenes WITH product, includeProductRef: true):
-  * Scene 9: A hand sliding the bright orange Orthomax StepMax insole into the specific shoe mentioned in the hook.
-  * Scene 10: Top-down 90-degree flat-lay shot of two pairs of shoes from the story (1+1 bundle) on a hallway mat with the bright orange Orthomax StepMax insoles visible inside both pairs.
-
-CRITICAL RULES FOR EVERY scenePrompt (in English):
-1. NO FLOATING TABLES / NO WEIRD PERSPECTIVES: Whenever an object is on a table or counter, specify: "90-degree flat-lay close-up pointing straight down at the wooden tabletop surface filling 100% of the frame (NO table edges, NO background room visible, NO floating table)".
-2. POLISH TEXT ONLY ("SUMA PLN", NEVER "TOTAL").
-3. Describe it as a realistic, unpolished amateur smartphone photo (harsh indoor bulb or fluorescent light, sensor grain, zero AI glow, zero bokeh).
-4. Never include people's full faces looking at the camera — prefer first-person POV looking down at knees/feet/shoes/receipts/hands.
-
-Return JSON:
-{
-  "scenes": [
-    { "label": "Short Polish title (max 65 chars)", "scenePrompt": "Detailed English scene description following all rules above", "includeProductRef": false }
-  ]
-}`,
-        },
-        {
-          role: 'user',
-          content: `TYTUŁ KĄTA: ${params.title}\nSEGMENT: ${params.segment || 'dzieci'}\nNAGŁÓWEK: ${params.headline}\nTEKST REKLAMY:\n${params.primaryText.slice(0, 5500)}`,
-        },
-      ],
-    });
-    const rawContent = completion.choices?.[0]?.message?.content;
-    if (!rawContent) return fallback;
-    const parsed = JSON.parse(rawContent) as { scenes?: KiePlannedScene[] };
-    if (!Array.isArray(parsed.scenes) || parsed.scenes.length < 5) return fallback;
-    const scenes = Array.from({ length: 10 }, (_, idx) => {
-      const s = parsed.scenes?.[idx];
-      return {
-        label: (s?.label || fallback[idx]?.label || `Scena #${idx + 1}`).trim(),
-        scenePrompt: (s?.scenePrompt || fallback[idx]?.scenePrompt || '').trim(),
-        includeProductRef: idx >= 8 ? Boolean(s?.includeProductRef ?? true) : false,
-      };
-    });
-
-    // HARD GUARANTEE: Always enforce the 3 exact Noom.pl winner templates in slots #2, #7, #8!
-    scenes[1] = noomScene1;
-    scenes[6] = noomScene2;
-    scenes[7] = noomScene3;
-
-    return scenes;
-  } catch {
-    return fallback;
-  }
-}
-
 export const POST = accountRoute(async (req: Request) => {
   try {
     const origin = req.headers.get('origin');
@@ -671,6 +403,9 @@ export const POST = accountRoute(async (req: Request) => {
       segment?: string;
       taskId?: string;
       prompt?: string;
+      customPrompt?: string;
+      includeProductRef?: boolean;
+      count?: number;
       imagesByAngle?: Record<
         string,
         {
@@ -729,6 +464,57 @@ export const POST = accountRoute(async (req: Request) => {
       const title = (body.title || preset?.title || angleId || 'Antek PL').trim();
       const segment = body.segment || preset?.segment || 'dzieci';
       const isManual = Boolean((body as Record<string, unknown>).isManual);
+      const customPrompt = (body.customPrompt || '').trim();
+      const includeRef = Boolean(body.includeProductRef);
+
+      let productRefKieUrl: string | undefined;
+      if (includeRef) {
+        try {
+          productRefKieUrl = await uploadPublicReferenceToKie('/antki-pl-images/lib-antki-kolaz-ugc-4x5.jpg');
+        } catch {
+          productRefKieUrl = undefined;
+        }
+      }
+
+      if (customPrompt) {
+        const count = Math.min(Math.max(Number(body.count) || 4, 1), 12);
+        const customScenes = Array.from({ length: count }, (_, i) => ({
+          label: `${i + 1}. [WŁASNY PROMPT #${i + 1}] ${customPrompt.slice(0, 52)}`,
+          scenePrompt: `${customPrompt} (Variation #${i + 1}: candid everyday iPhone 15 angle #${i + 1} in natural Polish daylight).`,
+          includeProductRef: includeRef,
+        }));
+        const customResults = await Promise.all(
+          customScenes.map(async (scene, idx) => {
+            const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'orthomax', scene.includeProductRef);
+            const payload = buildKieCreateTaskPayload({
+              model: 'nano-banana-pro',
+              prompt: fullPrompt,
+              imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+              aspectRatio: '1:1',
+              resolution: '2K',
+            });
+            try {
+              const taskId = await submitKieRipperTask(payload);
+              return { index: idx + 1, label: scene.label, prompt: fullPrompt, includeProductRef: scene.includeProductRef, taskId };
+            } catch (err) {
+              return {
+                index: idx + 1,
+                label: scene.label,
+                prompt: fullPrompt,
+                includeProductRef: scene.includeProductRef,
+                taskId: '',
+                error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+              };
+            }
+          }),
+        );
+        const tasks = customResults.filter(t => Boolean(t.taskId));
+        if (tasks.length === 0) {
+          const firstErr = customResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+          return NextResponse.json({ error: firstErr }, { status: 500 });
+        }
+        return NextResponse.json({ ok: true, angleId, tasks });
+      }
 
       if (!primaryText) {
         return NextResponse.json({ error: 'Brak tekstu Antka (primaryText) do wygenerowania 12 zdjęć.' }, { status: 400 });
@@ -742,13 +528,6 @@ export const POST = accountRoute(async (req: Request) => {
         title,
         segment,
       });
-
-      let productRefKieUrl: string | undefined;
-      try {
-        productRefKieUrl = await uploadPublicReferenceToKie('/antki-pl-images/lib-antki-kolaz-ugc-4x5.jpg');
-      } catch {
-        productRefKieUrl = undefined;
-      }
 
       const { customImages: existingCustomImages } = await readLibraryState();
       const normalizeSceneKey = (label = '') =>
@@ -772,11 +551,12 @@ export const POST = accountRoute(async (req: Request) => {
 
       const taskResults = await Promise.all(
         scenesToGenerate.map(async (scene, idx) => {
-          const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'orthomax', scene.includeProductRef);
+          const useProductRef = Boolean(includeRef && scene.includeProductRef);
+          const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'orthomax', useProductRef);
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
-            imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+            imageUrls: useProductRef && productRefKieUrl ? [productRefKieUrl] : [],
             aspectRatio: '1:1',
             resolution: '2K',
           });
@@ -786,7 +566,7 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: scene.includeProductRef,
+              includeProductRef: useProductRef,
               taskId,
             };
           } catch (err) {
@@ -794,7 +574,7 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: scene.includeProductRef,
+              includeProductRef: useProductRef,
               taskId: '',
               error: err instanceof Error ? err.message : 'Kie.ai createTask error',
             };

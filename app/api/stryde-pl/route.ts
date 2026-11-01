@@ -408,25 +408,70 @@ export const POST = accountRoute(async (req: Request) => {
           });
 
       const scenes = filteredScenes.length > 0 ? filteredScenes : allScenes;
+      const customPrompt = String((body as Record<string, unknown>).customPrompt || '').trim();
+      const includeRef = Boolean((body as Record<string, unknown>).includeProductRef);
 
       let productRefKieUrl: string | undefined;
-      try {
-        productRefKieUrl = await uploadPublicReferenceToKie('/stryde-pl-images/stryde-pl-08-senior-trzyma-opaske.jpg');
-      } catch {
-        productRefKieUrl = undefined;
+      if (includeRef) {
+        try {
+          productRefKieUrl = await uploadPublicReferenceToKie('/stryde-pl-images/stryde-pl-08-senior-trzyma-opaske.jpg');
+        } catch {
+          productRefKieUrl = undefined;
+        }
+      }
+
+      if (customPrompt) {
+        const count = Math.min(Math.max(Number((body as Record<string, unknown>).count) || 4, 1), 12);
+        const customScenes = Array.from({ length: count }, (_, i) => ({
+          label: `${i + 1}. [WŁASNY PROMPT #${i + 1}] ${customPrompt.slice(0, 52)}`,
+          scenePrompt: `${customPrompt} (Variation #${i + 1}: candid everyday iPhone 15 angle #${i + 1} in natural Polish daylight).`,
+          includeProductRef: includeRef,
+        }));
+        const customResults = await Promise.all(
+          customScenes.map(async (scene, idx) => {
+            const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'sardian-strap', scene.includeProductRef);
+            const payload = buildKieCreateTaskPayload({
+              model: 'nano-banana-pro',
+              prompt: fullPrompt,
+              imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+              aspectRatio: '1:1',
+              resolution: '2K',
+            });
+            try {
+              const taskId = await submitKieRipperTask(payload);
+              return { index: idx + 1, label: scene.label, prompt: fullPrompt, includeProductRef: scene.includeProductRef, taskId };
+            } catch (err) {
+              return {
+                index: idx + 1,
+                label: scene.label,
+                prompt: fullPrompt,
+                includeProductRef: scene.includeProductRef,
+                taskId: '',
+                error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+              };
+            }
+          }),
+        );
+        const tasks = customResults.filter(t => Boolean(t.taskId));
+        if (tasks.length === 0) {
+          const firstErr = customResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+          return NextResponse.json({ error: firstErr }, { status: 500 });
+        }
+        return NextResponse.json({ ok: true, angleId, tasks });
       }
 
       const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
+          const useProductRef = Boolean(includeRef && scene.includeProductRef);
           const fullPrompt = formatRawIphoneKiePrompt(
             scene.scenePrompt,
             'sardian-strap',
-            scene.includeProductRef,
+            useProductRef,
           );
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
-            imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+            imageUrls: useProductRef && productRefKieUrl ? [productRefKieUrl] : [],
             aspectRatio: '1:1',
             resolution: '2K',
           });
@@ -436,7 +481,7 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: scene.includeProductRef,
+              includeProductRef: useProductRef,
               taskId,
             };
           } catch (err) {
@@ -444,7 +489,7 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: scene.includeProductRef,
+              includeProductRef: useProductRef,
               taskId: '',
               error: err instanceof Error ? err.message : 'Kie.ai createTask error',
             };
