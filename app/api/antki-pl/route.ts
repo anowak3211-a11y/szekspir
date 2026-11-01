@@ -1439,6 +1439,12 @@ export const POST = accountRoute(async (req: Request) => {
       return NextResponse.json({ ok: true, ...result });
     }
 
+    if (action === 'set_meta_status') {
+      const { updateUploaderAdsStatus } = await import('@/lib/meta-adsets');
+      const result = await updateUploaderAdsStatus(body);
+      return NextResponse.json({ ok: true, ...result });
+    }
+
     return NextResponse.json({ error: 'Nieznana akcja API Antki PL.' }, { status: 400 });
   } catch (err) {
     return NextResponse.json(
