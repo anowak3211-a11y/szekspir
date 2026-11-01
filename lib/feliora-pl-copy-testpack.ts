@@ -70,42 +70,39 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   },
 
   'fel-27-tp-as-wet-23-procent': {
-    headline: 'Dyfuzor Feliora u 23% kotów nie da żadnego efektu. Jako weterynarz wyjaśniam, kiedy NIE wolno zaczynać od wtyczki',
+    headline: '„U 23% kotów ten dyfuzor nie da żadnego efektu!" - nasz weterynarz pokazał na stole wynik moczu, przy którym NIE wolno zaczynać od wtyczki',
     description: 'Uczciwa kwalifikacja weterynaryjna: kryształy w pęcherzu vs stresowe zapalenie FIC (30 dni gwarancji)',
-    primaryText: `Dyfuzor Feliora u około 23% kotów sikających poza kuwetą nie zmieni absolutnie nic - i piszę to wprost jako lekarz weterynarii z 25-letnim stażem przy stole zabiegowym.
+    primaryText: `„U około 23% kotów sikających poza kuwetą dyfuzor Feliora nie zmieni absolutnie nic!" - usłyszałam już od progu od naszego lekarza weterynarii z 25-letnim stażem przy stole zabiegowym.
 
-Spójrz na wydruk badania ogólnego moczu ze stołu w moim gabinecie dołączony do tego posta. Jeśli u Twojego kota w osadzie obok kubeczka z próbką wyjdzie dokładnie taki wynik jak ten zakreślony długopisem, zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
+Spójrz na zdjęcie z naszego gabinetu dołączone do tego posta: dłoń doktora z kubeczkiem próbki i wydruk z analizatora tuż obok transportera. Jeśli u Twojego kota w osadzie moczu wyjdzie dokładnie taki wynik jak ten zakreślony niebieskim długopisem (kryształy struwitowe +++), zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
 
-Przez 25 lat pracy z kotami w gabinecie napatrzyłem się na 2 skrajne błędy polskich opiekunów, które kosztują zwierzęta ogromne cierpienie, a właścicieli tysiące złotych i niepotrzebną frustrację.
+Piszę to ku przestrodze po tym, jak sama chciałam zacząć od złej strony, a w poprzedniej przychodni zostawiłam wcześniej 890 zł bez efektu. Nasz obecny doktor wytłumaczył mi w 3 brutalnie szczerych punktach, kiedy te 23% opiekunów popełnia błąd, kupuje feromony w ciemno, a po tygodniu wypisuje wściekłe komentarze w sieci, że „wtyczka nie działa":
 
-Błąd 1. popełniają właśnie te 23% osób, które kupują w internecie dyfuzor feromonowy całkowicie w ciemno w sytuacji ostrego stanu medycznego albo rażącego błędu w kuwecie - a po tygodniu wypisują wściekłe komentarze w sieci, że „feromony nie działają".
+1. Jeżeli Twój kocur wchodzi do kuwety co 10 minut, napina grzbiet w pałąk, pomiaukuje gardłowo z bólu i zostawia tylko 2 różowe kropelki albo zupełnie suchy żwirek - to NIE jest moment na czekanie na kuriera! U samców ostre zatkanie cewki moczowej czopem ze struwitów prowadzi do zatrucia mocznicowego w 24 do 48 godzin. Tu ratuje życie cewnik, rozkurcz i kroplówka w gabinecie, a nie dyfuzor w kontakcie.
+2. Jeżeli w pęcherzu pływają ostre kryształy struwitowe lub szczawiany wapnia szorujące śluzówkę jak papier ścierny (dokładnie jak na tym wydruku poglądowym ze stołu doktora) - najpierw trzeba rozpuścić fizyczny piasek mokrą dietą, wodą i leczeniem, bo żaden sygnał feromonowy nie znieczuli mechanicznie pociętej ścianki pęcherza.
+3. Żadne feromony świata nie zmuszą też czystego z natury kota do korzystania z 1 małej, krytej plastikowej kuwety z klapką postawionej tuż obok wirującej pralki, sprzątanej raz na 3 dni i zasypanej grubym żwirkiem o zapachu lawendy, który kłuje delikatne opuszki łap jak szkło.
 
-Powiedzmy to sobie brutalnie szczerze w 3 punktach, zanim wydasz choćby 1 złotówkę:
-1. Jeżeli Twój kocur wchodzi do kuwety co 10 minut, napina grzbiet w pałąk, pomiaukuje gardłowo z bólu i zostawia tylko 2 różowe kropelki albo zupełnie suchy żwirek - to NIE jest moment na czekanie na kuriera! U samców ostre zatkanie cewki moczowej czopem ze struwitów prowadzi do zatrucia mocznicowego i zatrzymania akcji serca w 24 do 48 godzin. Tu ratuje życie cewnik, rozkurcz i kroplówka w gabinecie, a nie wtyczka w kontakcie.
-2. Jeżeli w pęcherzu pływają ostre kryształy struwitowe lub szczawiany wapnia szorujące śluzówkę jak papier ścierny przy każdym skurczu - najpierw musimy rozpuścić osad odpowiednią dietą mokrą, wodą i leczeniem, bo żaden sygnał zapachowy nie znieczuli mechanicznie pociętej ścianki pęcherza.
-3. Żadne feromony świata nie zmuszą też czystego z natury kota do korzystania z 1 małej, krytej plastikowej kuwety z klapką postawionej tuż obok wirującej pralki, sprzątanej raz na 3 dni i zasypanej grubym żwirkiem silikonowym o zapachu lawendy albo morskiej bryzy, który kłuje delikatne opuszki łap jak potłuczone szkło.
+Jeśli jeszcze nie zbadałaś moczu u kota sikającego na łóżko albo trzymasz 2 dorosłe koty na 1 kuwecie we wnęce łazienkowej - NIE zamawiaj na razie Feliory. Najpierw zrób badanie osadu moczu za 50 zł i dostaw 2. otwartą kuwetę z drobnym, bezzapachowym bentonitem.
 
-Jeśli jeszcze nie zbadałeś moczu u kota sikającego na łóżko albo trzymasz 2 dorosłe koty na 1 brudnej kuwecie we wnęce łazienkowej - NIE kupuj na razie Feliory. Najpierw zrób badanie osadu moczu za 50 zł i dostaw 2. otwartą, szeroką kuwetę z drobnym, bezzapachowym bentonitem.
+Skąd więc wzięło się pozostałe 77% przypadków - w tym mój 4-letni kocur Leon - u których po wykluczeniu kamieni to właśnie dyfuzor Feliora uratował spokój całej rodziny?
 
-Skąd więc bierze się pozostałe 77% przypadków w mojej codziennej praktyce, w których to właśnie dyfuzor Feliora okazuje się brakującym ogniwem ratującym spokój całej rodziny?
+U mojego Leona badanie moczu, posiew z punkcji i USG wyszły idealnie czysto: zero bakterii, zero kryształów, a mimo to pralka chodziła na okrągło, narożnik za 4 500 zł stał pod folią malarską, a kot wylizywał dół brzucha do gołej, różowej skóry! Wcześniej wydałam 890 zł na 3 wizyty, pasty wciskane strzykawką do pyszczka i ziołowe kapsułki, po których Leon tylko się ślinił i uciekał pod łóżko.
 
-Z choroby cywilizacyjnej kotów niewychodzących, która doprowadza do rozpaczy tysiące opiekunów w blokach: idiopatycznego, stresowego zapalenia pęcherza u kotów (FIC) oraz lękowego znaczenia terytorialnego.
+Doktor wyjaśnił mi przy stole czystą biologię choroby cywilizacyjnej kotów niewychodzących w blokach - idiopatycznego, stresowego zapalenia pęcherza (FIC):
+Wiertarka u sąsiada za ścianą, przestawienie mebli, obcy zapach na butach gości czy 8 godzin ciszy, gdy jesteśmy w pracy, uruchamiają w ciele migdałowatym kota przewlekły alarm i zalewają krew kortyzolem. Hormony stresu niszczą warstwę ochronną glikozaminoglikanów wyściełającą pęcherz od wewnątrz. Zwykły mocz zaczyna piec odsłonięte nerwy jak kwas, kot kojarzy kuwetę z bólem i ucieka sikać tam, gdzie jest miękko i czuć zapach opiekuna - prosto na Twoją kołdrę albo kanapę!
 
-W gabinecie ten scenariusz powtarza się niemal codziennie jak przez kalkę. Wchodzi wykończona opiekunka z podkrążonymi oczami po 4 nieprzespanych nocach. Pralka w domu chodzi na okrągło, narożnik w salonie za 4 500 zł przykryty szeleszczącą folią malarską z marketu budowlanego, domownicy kłócą się o oddanie kota. Robimy pełne USG pęcherza i nerek, badamy ciężar właściwy moczu, oglądamy osad pod mikroskopem i robimy posiew z punkcji. I co widzimy na wyniku? Zero bakterii! Zero kamieni i kryształów! Pęcherz jest klinicznie jałowy, a mimo to jego ścianki są obrzęknięte i pieką kota żywym ogniem.
+Kiedy lekarz zapisał mi na kartce z bloczka nazwę mechanizmu: podwójny kompleks biomimetyczny M.A.P. + F3 - dyfuzor Feliora, spojrzałam na niego z ogromnym niedowierzaniem i wypaliłam szczerze: „Panie doktorze, bez urazy, ale nie wierzę, że mała bezwonna wtyczka w kontakcie zatrzyma sikanie 6-kilogramowego kocura na nasze łóżko".
 
-Dlaczego tak się dzieje? Ponieważ u kota domowego pęcherz moczowy oraz skóra na podbrzuszu (którą zestresowane koty często wylizują szorstkim językiem do gołego, różowego placka) są bezpośrednio sprzężone z układem współczulnym i nadnerczami.
+Doktor spokojnie rozrysował mi różnicę: nad podniebieniem kota znajduje się narząd Jacobsona połączony nerwami prosto z układem limbicznym mózgu. Starsze wtyczki ze sklepu zoologicznego mają wyłącznie 1 frakcję policzkową F3 (dobrą na drapanie mebli, ale za słabą na głęboki lęk i FIC). Feliora łączy w 1 fiolce 2 sygnały naraz: frakcję terytorialną F3 oraz matczyny kompleks kojący M.A.P. - biologiczny odpowiednik cząsteczek wydzielanych przez karmiącą kotkę, które dają kociętom bezwarunkowe poczucie bezpieczeństwa. Stabilny rdzeń ceramiczny 5W utrzymuje to stężenie 24 godziny na dobę przez pełne 30 dni, wyciszając wyrzut kortyzolu u źródła.
 
-Kot to terytorialny łowca zamknięty na 45 czy 60 metrach kwadratowych w bloku. Wiertarka u sąsiada za ścianą, przestawienie szafy, pojawienie się 2. kota albo dziecka w domu, obcy zapach na butach gości czy 9 godzin ciszy, gdy jesteś w pracy - to wszystko uruchamia w ciele migdałowatym kota przewlekły alarm i zalewa krew kortyzolem oraz noradrenaliną. Hormony stresu niszczą warstwę ochronną glikozaminoglikanów wyściełającą pęcherz od wewnątrz. Zwykły mocz zaczyna drażnić odsłonięte zakończenia nerwowe jak kwas, kot błyskawicznie kojarzy plastikową kuwetę z piekącym bólem i ucieka oddać mocz tam, gdzie jest miękko i gdzie najmocniej czuć bezpieczny zapach opiekuna - czyli prosto na Twoją kołdrę, poduszkę albo kanapę!
+Wieczorem w domu wpisałam nazwę z kartki w Google, dopisałam słowo opinie i zamówiłam zestaw na 2 pokoje wyłącznie dlatego, że producent daje 30 dni gwarancji zwrotu pieniędzy nawet po zużyciu wkładu. Powiedziałam mężowi krótko: „Sprawdzam przez 3 tygodnie, pudełka z szafy nie wyrzucamy".
 
-Pani Agnieszka, opiekunka 4-letniego rudego Leona z zeszłego miesiąca, po usłyszeniu tej diagnozy spojrzała na mnie z ogromną rezerwą. Pokazała mi w teczce rachunki na łącznie 890 zł: 3 wizyty w innej przychodni, pasty zakwaszające wciskane strzykawką do pyszczka i ziołowe kapsułki wyciszające, po których kocur tylko się ślinił i uciekał pod łóżko. Kiedy zapisałem jej na kartce podwójny kompleks biomimetyczny M.A.P. + F3 (dyfuzor Feliora), powiedziała szczerze: „Panie doktorze, bez urazy, ale nie chce mi się wierzyć, że mała wtyczka w kontakcie bez żadnego zapachu zatrzyma sikanie 6-kilogramowego kocura na nasze łóżko".
+Oto jak wyglądała rzeczywistość u nas w domu tydzień po tygodniu:
+- W 1. tygodniu pracy dyfuzorów zdarzyła się jeszcze 1 mała wpadka na dywaniku łazienkowym - wysycenie mieszkania i odbudowa śluzówki pęcherza zajmuje fizjologicznie od 7 do 12 dni, to biologia, a nie magiczny przycisk w pilocie.
+- Od 11. dnia Leon załatwia się wyłącznie w kuwecie, bez napinania grzbietu i bez wyskakiwania jak oparzony.
+- Po miesiącu na wizycie kontrolnej u doktora wylizany placek na brzuchu był już zarośnięty gęstym futrem. Oczywiście Leon nadal ma swój wrażliwy charakter i gdy pod blokiem hałasuje śmieciarka, potrafi schować się na kwadrans za fotel - to żywy kot, a nie pluszak. Ale w sypialni od tygodni mamy suchą pościel bez foliowych podkładów.
 
-Nie przekonywałem jej słowami - wytłumaczyłem czystą fizjologię. Nad podniebieniem kota znajduje się narząd Jacobsona (VNO) połączony nerwami prosto z układem limbicznym mózgu. Starsze wtyczki z zoologicznego mają wyłącznie 1 frakcję policzkową F3 (dobrą na drapanie mebli, ale za słabą na głęboki lęk i FIC). Feliora łączy w 1 fiolce 2 sygnały naraz: frakcję terytorialną F3 oraz matczyny kompleks kojący M.A.P. - biologiczny odpowiednik cząsteczek wydzielanych przez karmiącą kotkę, które dają kociętom bezwarunkowe poczucie bezpieczeństwa. Stabilny rdzeń ceramiczny 5W utrzymuje to stężenie w pokojach 24 godziny na dobę przez pełne 30 dni, obniżając wyrzut kortyzolu u samego źródła.
-
-Pani Agnieszka zamówiła zestaw na 2 pokoje wyłącznie dlatego, że producent daje 30 dni gwarancji zwrotu pieniędzy nawet po zużyciu wkładu. Wychodząc z gabinetu rzuciła krótko: „Sprawdzę przez 3 tygodnie, ale pudełka z szafy nie wyrzucam".
-
-Po miesiącu przyszła z Leonem na rutynowe odrobaczenie. W 1. tygodniu pracy dyfuzorów zdarzyła się jeszcze 1 mała wpadka na dywaniku łazienkowym - wysycenie mieszkania i odbudowa śluzówki pęcherza zajmuje fizjologicznie od 7 do 12 dni, to medycyna, a nie magiczny guzik w pilocie. Od 11. dnia Leon załatwia się wyłącznie w kuwecie, przestał warczeć przy oknie na koty z podwórka, a wylizany brzuch pokrył się z powrotem gęstym rudym futrem.
-
-Kolejność zawsze musi być uczciwa: najpierw badanie moczu u lekarza i wykluczenie kryształów. A jeśli pęcherz cierpi z powodu stresu, daj kotu stałą osłonę M.A.P. + F3 na 30 dni próby bez żadnego ryzyka finansowego:
+Kolejność zawsze musi być uczciwa: najpierw badanie moczu u weterynarza za 50 zł i wykluczenie kryształów ze zdjęcia. A jeśli pęcherz cierpi ze stresu (FIC), przetestuj stałą osłonę M.A.P. + F3 przez 30 dni bez żadnego ryzyka finansowego:
 https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   },
 
@@ -264,54 +261,56 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   },
 
   'fel-31-tp-al-wet-f3-vs-map': {
-    headline: 'Pacjentka przyniosła do gabinetu 2 tanie wtyczki z Allegro: „Panie doktorze, po 12 dniach są puste, a koty dalej się gryzą!"',
+    headline: 'Wysypałem na stół w lecznicy 2 wtyczki z Allegro: „Panie doktorze, po 12 dniach są puste do dna, a koty dalej się gryzą!"',
     description: 'Porównanie weterynaryjne: jednoskładnikowe zamienniki F3 (grzałka 95°C) vs podwójny kompleks M.A.P. + F3 w Feliorze',
-    primaryText: `W zeszły wtorek pacjentka wysypała mi na stół zabiegowy w lecznicy 2 przegrzane plastikowe wtyczki kupione na Allegro i zapytała z rozpaczą w głosie, dlaczego po zaledwie 12 dniach szklane fiolki są puste do dna, a jej 2 koty dalej drą z siebie futro i sikają na dywan w salonie.
+    primaryText: `Wysypałem na stół zabiegowy w lecznicy 2 przegrzane plastikowe wtyczki kupione na Allegro i zapytałem wprost: „Panie doktorze, po zaledwie 12 dniach szklane fiolki są puste do dna, a nasze 2 koty dalej drą z siebie futro i sikają na dywan!".
 
-Spójrz na zdjęcie 2 dyfuzorów w moich dłoniach w gabinecie dołączone do tego posta. Po lewej stronie trzymam tę pożółkłą od gorąca, wysuszoną do zera wtyczkę z aukcji po 12 dniach, a po prawej oryginalny dyfuzor Feliora z połową bursztynowej fiolki - widać na nim jak na dłoni ukryty haczyk tanich zamienników.
+Spójrz na zdjęcie 2 dyfuzorów w dłoniach naszego weterynarza dołączone do tego posta - zrobiłem je telefonem prosto nad stołem w gabinecie. Po lewej stronie kadru doktor trzyma moją pożółkłą od gorąca, wysuszoną do zera wtyczkę z aukcji po 12 dniach, a po prawej oryginalny dyfuzor Feliora z połową bursztynowej fiolki. Widać na nim jak na dłoni cały haczyk tanich zamienników.
 
-Jako lekarz weterynarii doskonale rozumiem, że przy dzisiejszych cenach w sklepach każdy liczy domowy budżet. Kiedy właściciel słyszy w gabinecie albo czyta w sieci o dyfuzorach feromonowych do gniazdka, naturalnym odruchem jest otwarcie aplikacji Allegro i wpisanie hasła „feromony dla kota wkład 48 ml tanio". Wyskakują dziesiątki ofert po 35, 39 czy 45 zł z dostawą do Paczkomatu. Na małym ekranie telefonu każda buteleczka wygląda przecież niemal tak samo: biały plastik, gwint, przezroczysty lub brązowy płyn.
+Nie będę udawał świętego: przy dzisiejszych cenach w sklepach liczę każdą złotówkę w domowym budżecie. Kiedy miesiąc wcześniej usłyszałem o dyfuzorach feromonowych do gniazdka, moim odruchem było otwarcie aplikacji Allegro i wpisanie hasła „feromony dla kota wkład 48 ml tanio". Wyskoczyły oferty po 35, 39 i 45 zł z dostawą do Paczkomatu. Na małym ekranie telefonu każda buteleczka wyglądała dla mnie identycznie: biały plastik, gwint i płyn w szkle.
 
-Problem w tym, że o realnym wyciszeniu zestresowanego kota w mieszkaniu decydują 2 parametry ukryte wewnątrz urządzenia, na których budżetowe fabryki tną koszty w 1. kolejności: profil biochemiczny frakcji oraz termostabilizacja grzałki elektrycznej.
+Dopiero w gabinecie lekarz pokazał mi na żywo 2 parametry ukryte wewnątrz wtyczki, na których budżetowe fabryki tną koszty w 1. kolejności: profil biochemiczny frakcji oraz termostabilizacja grzałki elektrycznej.
 
-Oto dlaczego pozorna oszczędność 40 złotych na aukcji internetowej kończy się w 9 na 10 przypadków podwójnym wydatkiem i powrotem problemu:
+Oto dlaczego moja pozorna oszczędność 40 złotych na aukcji skończyła się podwójnym wydatkiem:
 
 1. Pojedyncza frakcja policzkowa F3 kontra podwójny kompleks M.A.P. + F3.
 
-Zdecydowana większość tanich zamienników z internetu (a także przestarzałych wtyczek 1. generacji projektowanych ponad 20 lat temu) opiera się wyłącznie na pojedynczym, często mocno rozcieńczonym analogu frakcji policzkowej F3.
+Doktor wyjaśnił mi, że przytłaczająca większość tanich zamienników z internetu (oraz przestarzałych wtyczek 1. generacji projektowanych ponad 20 lat temu) opiera się wyłącznie na pojedynczym, mocno rozcieńczonym analogu frakcji policzkowej F3.
 
-Co ta frakcja robi w kociej biologii? F3 to lekki sygnał znajomości otoczenia, który spokojny kot zostawia gruczołami policzkowymi, kiedy ociera się pyszczkiem o nogę stołu albo róg kanapy. Komunikat brzmi prosto: „znam ten przedmiot, nie trzeba go drapać". Sprawdza się przy łagodnym drapaniu tapicerki przez 1 kota.
+Co ta frakcja robi w kociej biologii? F3 to lekki sygnał znajomości otoczenia, który spokojny kot zostawia gruczołami policzkowymi, gdy ociera się pyszczkiem o nogę stołu albo róg kanapy („znam ten mebel, nie trzeba go drapać"). Sprawdza się przy łagodnym drapaniu tapicerki przez 1 kota.
 
-Ale kiedy w polskim mieszkaniu w bloku wybucha prawdziwy kryzys kortyzolowy - sikanie na kołdrę opiekuna i narożnik, idiopatyczne zapalenie pęcherza (FIC), wygryzanie futra na brzuchu do różowej skóry albo agresja terytorialna 2 kotów pod drzwiami - pojedyncza cząsteczka policzkowa F3 to za mało, żeby przebić się przez pobudzone ciało migdałowate w mózgu kota!
+Ale kiedy w mieszkaniu w bloku wybucha prawdziwy kryzys kortyzolowy - sikanie na kołdrę i narożnik, idiopatyczne zapalenie pęcherza (FIC), wygryzanie futra na brzuchu albo agresja terytorialna 2 kotów pod drzwiami - pojedyncza cząsteczka F3 to za mało, żeby przebić się przez pobudzone ciało migdałowate w mózgu kota!
 
-W takich stanach układ nerwowy zwierzęcia potrzebuje 2. kluczowego wektora: matczynego kompleksu kojącego M.A.P. (Cat Appeasing Pheromone). To wierny odpowiednik sygnału biologicznego wydzielanego przez gruczoły listwy mlecznej karmiącej kotki, który wygasza agresję między rodzeństwem w gnieździe i obniża napięcie nadnerczy. Dyfuzor Feliora jako formuła 2. generacji łączy w każdej fiolce 48 ml 2 mechanizmy naraz w pełnym 5% stężeniu: kompleks matczyny M.A.P. + frakcję terytorialną F3.
+W takich stanach układ nerwowy zwierzęcia potrzebuje 2. kluczowego sygnału: matczynego kompleksu kojącego M.A.P. (Cat Appeasing Pheromone). To wierny odpowiednik cząsteczek wydzielanych przez gruczoły listwy mlecznej karmiącej kotki, który wygasza agresję między rodzeństwem w gnieździe i obniża napięcie nadnerczy. Dyfuzor Feliora łączy w każdej fiolce 48 ml 2 mechanizmy naraz w pełnym 5% stężeniu: kompleks matczyny M.A.P. + frakcję terytorialną F3.
 
 2. Fizyka przegrzanej grzałki 95°C kontra rdzeń ceramiczny 5W.
 
-Kiedy wziąłem w palce tanią wtyczkę przyniesioną przez panią Dorotę, biały plastik wokół górnego kominka był aż zżółknięty i kruchy od gorąca, a ścianki pustej fiolki oblepione żółtym osadem! W tanich wtyczkach z aukcji montuje się najprostszy opornik bez stabilizacji termicznej, który przy napięciu 230V w nocy rozgrzewa rdzeń powyżej 95, a czasem 110 stopni Celsjusza.
+Kiedy lekarz obrócił w palcach moją tanią wtyczkę z aukcji, biały plastik wokół górnego kominka był zżółknięty i kruchy od gorąca, a ścianki pustej fiolki oblepione żółtym osadem! W tanich wtyczkach montuje się najprostszy opornik bez stabilizacji termicznej, który przy napięciu 230V w nocy rozgrzewa rdzeń powyżej 95, a czasem 110 stopni Celsjusza.
 
-Co wtedy dzieje się z płynem? Przez początkowe 4 dni przegrzany rdzeń gwałtownie wygotowuje lekkie frakcje w powietrze i utlenia resztę roztworu, a około 11. lub 12. dnia buteleczka 48 ml jest już całkowicie sucha! Płyn kończy się w niecałe 2 tygodnie - dokładnie w tym momencie, w którym układ limbiczny kota po 10 dniach nasycania dopiero zaczyna schodzić z wysokiego kortyzolu! Kupując 2 takie tanie wkłady na miesiąc, w praktyce płacisz więcej niż za oryginał, a kot dostaje poszarpaną dawkę utlenionej parafiny.
+Przez początkowe 4 dni przegrzany rdzeń wygotowuje lekkie frakcje w powietrze i utlenia resztę roztworu, a około 11. lub 12. dnia buteleczka 48 ml jest całkowicie sucha! Płyn kończy się w niecałe 2 tygodnie - dokładnie w tym momencie, gdy układ limbiczny kota po 10 dniach nasycania dopiero zaczyna schodzić z wysokiego kortyzolu! Kupując 2 takie tanie wkłady na miesiąc, w praktyce płacisz więcej niż za oryginał.
 
-W dyfuzorze Feliora zastosowano niskonapięciowy, stabilizowany rdzeń ceramiczny o poborze mocy zaledwie 5W (mniej niż zwykła ładowarka do telefonu), zamknięty w niepalnej obudowie klasy V-0. Utrzymuje on równą, niską temperaturę dyfuzji 24 godziny na dobę przez pełne 30 dni z 1 fiolki 48 ml - od 1. do 30. dnia kot odbiera dokładnie to samo stabilne stężenie M.A.P. + F3.
+Natomiast w dyfuzorze Feliora pracuje niskonapięciowy, stabilizowany rdzeń ceramiczny o poborze mocy zaledwie 5W (mniej niż ładowarka do telefonu) w niepalnej obudowie klasy V-0. Utrzymuje równą, niską temperaturę dyfuzji 24 godziny na dobę przez pełne 30 dni z 1 fiolki 48 ml.
 
-Pani Dorota słuchała tego w moim gabinecie, kręcąc z niedowierzaniem głową. Podliczyła przy mnie na głos swój dotychczasowy bilans „oszczędzania":
+Podliczyłem przy biurku doktora swój dotychczasowy rachunek za „oszczędzanie":
 - 2 tanie dyfuzory z zapasami z portalu aukcyjnego z przesyłką: 148 zł (wyparowały w 12 dni bez śladu poprawy).
 - Pranie dywanu z salonu i neutralizatory zapachu moczu: 190 zł.
 - Konsultacja w lecznicy i badanie kontrolne moczu młodszej kotki: 180 zł.
 
-Razem: 518 zł i 2 skłócone koty nadal izolowane w osobnych pokojach.
+Razem: 518 zł w błoto i 2 skłócone koty nadal zamykane w osobnych pokojach.
 
-Powiedziała mi przy biurku całkiem po ludzku: „Panie doktorze, ja już mam odruch alergiczny na słowo dyfuzor, boję się utopić kolejne prawie 200 zł".
+Powiedziałem doktorowi całkiem po męsku: „Panie doktorze, ja już mam odruch alergiczny na słowo dyfuzor, boję się utopić kolejne prawie 200 zł".
 
-Odpowiedziałem jej tak, jak odpowiadam każdemu opiekunowi w gabinecie: oryginalna Feliora celowo nie jest sprzedawana przez pośredników na Allegro, żeby nikt nie handlował przegrzanymi podróbkami, a producent bierze 100% ryzyka na siebie, dając pełne 30 dni gwarancji zwrotu pieniędzy - nawet na puste, zużyte przez miesiąc fiolki.
+Lekarz zapisał mi na kartce samą nazwę: dyfuzor Feliora (kompleks M.A.P. + F3) i dodał krótko, że oryginał celowo nie jest sprzedawany przez pośredników na Allegro, a producent daje pełne 30 dni gwarancji zwrotu pieniędzy - nawet na puste, zużyte przez miesiąc fiolki.
 
-Pani Dorota zamówiła zestaw na 2 pokoje bezpośrednio u producenta i wpięła dyfuzory w odkryte gniazdka w salonie oraz sypialni. Zadzwoniła do naszej rejestracji po 26 dniach, kiedy zamawiała mokrą karmę:
-- Po 26 dniach nieprzerwanej pracy 24/7 na dnie 2 szklanych fiolek wciąż było widać zapas płynu na ostatnie dni miesiąca, a obudowy były ledwie letnie.
-- Od 10. dnia młodsza kotka przestała sikać ze strachu na dywan w salonie, a po 18 dniach 2 koty zaczęły normalnie jeść śniadanie w 1 kuchni i mijać się w przedpokoju bez stroszenia sierści.
+Wieczorem w domu wpisałem nazwę w telefon, dopisałem słowo opinie i zamówiłem zestaw na 2 pokoje prosto u producenta, zostawiając karton w szafie na wypadek zwrotu.
 
-Oczywiście jak to przy 2 młodych kotach pod 1 dachem - wieczorem nadal potrafią przebiec galopem przez korytarz i pacnąć się łapą w zabawie o karton po butach, bo feromony nie są środkiem nasennym i nie zamieniają zwierząt w wypchane kukiełki. Ale zniknęły krwawe zadrapania na nosie, syczenie pod drzwiami i plamy moczu na dywanie.
+Oto twarde podsumowanie po 26 dniach w naszym mieszkaniu:
+- Po 26 dniach ciągłej pracy 24/7 na dnie 2 szklanych fiolek wciąż widać zapas płynu na ostatnie dni miesiąca, a obudowy są ledwie letnie pod palcem.
+- Od 10. dnia młodsza kotka przestała sikać ze strachu na dywan w salonie, a po 18 dniach 2 koty zaczęły normalnie jeść śniadanie w 1 kuchni i mijać się w korytarzu bez stroszenia grzbietu.
 
-Zanim klikniesz na aukcji „podobną wtyczkę" za 39 zł, sprawdź 2 rzeczy: czy oprócz zwykłego F3 zawiera matczyny kompleks M.A.P. i czy nie wygotuje się do zera po 12 dniach. Oryginalny zestaw Feliora z pełną 30-dniową gwarancją zwrotu zamówisz tutaj:
+Oczywiście jak to przy 2 młodych kotach pod 1 dachem - wieczorem nadal potrafią przebiec galopem przez przedpokój i pacnąć się łapą bez pazurów o pusty karton po butach, bo feromony to nie środek nasenny i nie zamieniają zwierząt w wypchane kukiełki. Ale zniknęły krwawe zadrapania na nosie, wrzaski pod drzwiami i plamy moczu na dywanie.
+
+Zanim klikniesz na aukcji „podobną wtyczkę" za 39 zł, spójrz jeszcze raz na lewą stronę mojego zdjęcia z gabinetu. Oryginalny zestaw Feliora (M.A.P. + F3) z pełną 30-dniową gwarancją zwrotu zamówisz tutaj:
 https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   },
 };
