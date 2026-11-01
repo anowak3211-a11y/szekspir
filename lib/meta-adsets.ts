@@ -4,37 +4,47 @@ import {graph,MetaError,rememberCreatedAdSet,metaToken,metaProof,META_VERSION} f
 import {MetaBudgetWait} from './meta-rate-limit';
 import {numericId} from './meta-uploader-model';
 import {mutate,readState} from './store';
-async function resolveMetaAuth():Promise<{token:string;proof?:string}>{
- try{const token=await metaToken();return {token,proof:await metaProof(token)};}
- catch{
-  try{const token=await inOwnerWorkspace(()=>metaToken());return {token,proof:await inOwnerWorkspace(()=>metaProof(token))};}
-  catch{
-   try{
-    const {accountRegistry}=await import('./account-repository');
-    const {inWorkspace}=await import('./account-context');
-    const reg=await accountRegistry();
-    for(const u of Object.values(reg.users||{})){
-     try{const token=await inWorkspace(u,()=>metaToken()),proof=await inWorkspace(u,()=>metaProof(token));return {token,proof};}catch{}
-    }
-   }catch{}
-   throw Error('Connect Meta in the uploader settings.');
+async function resolveAllMetaAuthCandidates():Promise<Array<{token:string;proof?:string}>>{
+ const candidates:Array<{token:string;proof?:string}>=[],seen=new Set<string>();
+ const add=(t?:string,p?:string)=>{const clean=(t||'').trim();if(!clean||seen.has(clean))return;seen.add(clean);candidates.push({token:clean,proof:p});};
+ try{const t=await metaToken();add(t,await metaProof(t).catch(()=>undefined));}catch{}
+ try{const t=await inOwnerWorkspace(()=>metaToken());add(t,await inOwnerWorkspace(()=>metaProof(t)).catch(()=>undefined));}catch{}
+ try{
+  const {accountRegistry}=await import('./account-repository');
+  const {inWorkspace}=await import('./account-context');
+  const reg=await accountRegistry();
+  for(const u of Object.values(reg.users||{})){
+   try{const t=await inWorkspace(u,()=>metaToken()),p=await inWorkspace(u,()=>metaProof(t)).catch(()=>undefined);add(t,p);}catch{}
   }
- }
+ }catch{}
+ if(process.env.META_ACCESS_TOKEN)add(process.env.META_ACCESS_TOKEN,undefined);
+ if(!candidates.length)throw Error('Connect Meta in the uploader settings.');
+ return candidates;
 }
+let cachedWorkingMetaAuth:{token:string;proof?:string}|null=null;
 async function directGraph<T=Record<string,unknown>>(path:string,params:Record<string,unknown>={},method:'GET'|'POST'='GET'):Promise<T>{
- const {token,proof}=await resolveMetaAuth();
- const url=new URL(`https://graph.facebook.com/${META_VERSION}/${path}`),body=new URLSearchParams();
- for(const [k,v] of Object.entries(params))if(v!==undefined)body.set(k,typeof v==='string'?v:JSON.stringify(v));
- if(proof)body.set('appsecret_proof',proof);
- if(method==='GET')url.search=body.toString();
- const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(45000)});
- const data=await r.json() as Record<string,unknown>;
- if(!r.ok||data.error){
-  const e=data.error as {code?:number;error_subcode?:number;message?:string;error_user_msg?:string}|undefined;
-  const buc=r.headers.get('x-business-use-case-usage')||r.headers.get('x-ad-account-usage')||'';
-  throw Error(`Meta (${e?.code||r.status}/${e?.error_subcode||0}): ${e?.error_user_msg||e?.message||'Request failed'}${buc?` | usage=${buc}`:''}`);
+ const all=await resolveAllMetaAuthCandidates();
+ const candidates=cachedWorkingMetaAuth?[cachedWorkingMetaAuth,...all.filter(c=>c.token!==cachedWorkingMetaAuth!.token)]:all;
+ let lastErr:Error|undefined;
+ for(const {token,proof} of candidates){
+  const url=new URL(`https://graph.facebook.com/${META_VERSION}/${path}`),body=new URLSearchParams();
+  for(const [k,v] of Object.entries(params))if(v!==undefined)body.set(k,typeof v==='string'?v:JSON.stringify(v));
+  if(proof)body.set('appsecret_proof',proof);
+  if(method==='GET')url.search=body.toString();
+  const r=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(method==='POST'?{'Content-Type':'application/x-www-form-urlencoded'}:{})},body:method==='POST'?body:undefined,cache:'no-store',signal:AbortSignal.timeout(45000)});
+  const data=await r.json() as Record<string,unknown>;
+  if(!r.ok||data.error){
+   const e=data.error as {code?:number;error_subcode?:number;message?:string;error_user_msg?:string}|undefined;
+   const code=e?.code||r.status,sub=e?.error_subcode||0;
+   const buc=r.headers.get('x-business-use-case-usage')||r.headers.get('x-ad-account-usage')||'';
+   lastErr=Error(`Meta (${code}/${sub}): ${e?.error_user_msg||e?.message||'Request failed'}${buc?` | usage=${buc}`:''}`);
+   if(code===190||(code===100&&sub===33)||sub===1815199)continue;
+   throw lastErr;
+  }
+  cachedWorkingMetaAuth={token,proof};
+  return data as T;
  }
- return data as T;
+ throw lastErr||Error('Meta Graph request failed.');
 }
 function canonical(value:unknown):string{if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';return JSON.stringify(value);}
 type Input={accountId:string;campaignId:string;templateId:string;name:string;minimumDaily?:number;costCap?:number};
@@ -2163,16 +2173,42 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
    let usedActor = spec.actors[0];
    let lastErr: Error | undefined;
 
+   type OrthomaxActorAttempt = {
+    pId: string;
+    pName: string;
+    igId?: string;
+    requireFbOnly?: boolean;
+   };
+   const rawAttempts: OrthomaxActorAttempt[] = [];
    for (const actor of spec.actors) {
-    if (switchedAdSetToFbOnly && actor.igId) continue;
+    if (actor.igId) {
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: actor.igId, requireFbOnly: false });
+    } else {
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, requireFbOnly: false });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: '17841473314157729', requireFbOnly: true });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: '17841472034688013', requireFbOnly: true });
+    }
+   }
+   const seenOrthomaxKeys = new Set<string>();
+   const attemptList = rawAttempts.filter(a => {
+    const k = `${a.pId}|${a.igId || ''}`;
+    if (seenOrthomaxKeys.has(k)) return false;
+    seenOrthomaxKeys.add(k);
+    return true;
+   });
+
+   for (const actor of attemptList) {
+    if (actor.requireFbOnly) {
+     await ensureOrthomaxFbOnlyPlacements();
+    }
     const adName = `${ad.code} | PDP STEPMAX | ${actor.pName}`;
-    const buildPayload = (withIg: boolean) => ({
+    const creativePayload = {
      name: `${adName} - Creative`,
      url_tags:
       'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
      object_story_spec: {
       page_id: actor.pId,
-      ...(withIg && actor.igId ? { instagram_user_id: actor.igId } : {}),
+      ...(actor.igId ? { instagram_user_id: actor.igId } : {}),
       link_data: {
        image_hash: imgHash,
        link: url,
@@ -2185,14 +2221,14 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
        },
       },
      },
-    });
+    };
     try {
      createdAd = await directGraph<{ id: string }>(
       `act_${accountId}/ads`,
       {
        name: adName,
        adset_id: targetAdSetId,
-       creative: buildPayload(!switchedAdSetToFbOnly),
+       creative: creativePayload,
        status: adStatus,
       },
       'POST',
@@ -2201,29 +2237,6 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
      break;
     } catch (err) {
      lastErr = err instanceof Error ? err : new Error(String(err));
-     if (
-      !actor.igId &&
-      !switchedAdSetToFbOnly &&
-      (lastErr.message.includes('1815199') || lastErr.message.toLowerCase().includes('instagram'))
-     ) {
-      try {
-       await ensureOrthomaxFbOnlyPlacements();
-       createdAd = await directGraph<{ id: string }>(
-        `act_${accountId}/ads`,
-        {
-         name: adName,
-         adset_id: targetAdSetId,
-         creative: buildPayload(false),
-         status: adStatus,
-        },
-        'POST',
-       );
-       usedActor = actor;
-       break;
-      } catch (retryErr) {
-       lastErr = retryErr instanceof Error ? retryErr : new Error(String(retryErr));
-      }
-     }
     }
    }
 

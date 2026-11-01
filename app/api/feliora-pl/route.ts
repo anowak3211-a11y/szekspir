@@ -31,61 +31,100 @@ interface FelioraPlLibraryState {
   customImages?: FelioraImageAsset[];
 }
 
-async function resolveMetaAuth(): Promise<{ token: string; proof?: string }> {
+async function resolveAllMetaAuthCandidates(): Promise<Array<{ token: string; proof?: string }>> {
+  const candidates: Array<{ token: string; proof?: string }> = [];
+  const seen = new Set<string>();
+  const addCandidate = (token?: string, proof?: string) => {
+    const t = (token || '').trim();
+    if (!t || seen.has(t)) return;
+    seen.add(t);
+    candidates.push({ token: t, proof });
+  };
+
   try {
-    const token = await metaToken();
-    return { token, proof: await metaProof(token) };
+    const t = await metaToken();
+    addCandidate(t, await metaProof(t).catch(() => undefined));
   } catch {
-    try {
-      const token = await inOwnerWorkspace(() => metaToken());
-      return { token, proof: await inOwnerWorkspace(() => metaProof(token)) };
-    } catch {
-      const { accountRegistry } = await import('@/lib/account-repository');
-      const { inWorkspace } = await import('@/lib/account-context');
-      const reg = await accountRegistry();
-      for (const u of Object.values(reg.users || {})) {
-        try {
-          const token = await inWorkspace(u, () => metaToken());
-          const proof = await inWorkspace(u, () => metaProof(token));
-          return { token, proof };
-        } catch {
-          // continue
-        }
-      }
-      throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
-    }
+    // ignore
   }
+  try {
+    const t = await inOwnerWorkspace(() => metaToken());
+    addCandidate(t, await inOwnerWorkspace(() => metaProof(t)).catch(() => undefined));
+  } catch {
+    // ignore
+  }
+  try {
+    const { accountRegistry } = await import('@/lib/account-repository');
+    const { inWorkspace } = await import('@/lib/account-context');
+    const reg = await accountRegistry();
+    for (const u of Object.values(reg.users || {})) {
+      try {
+        const t = await inWorkspace(u, () => metaToken());
+        const p = await inWorkspace(u, () => metaProof(t)).catch(() => undefined);
+        addCandidate(t, p);
+      } catch {
+        // continue
+      }
+    }
+  } catch {
+    // ignore
+  }
+  if (process.env.META_ACCESS_TOKEN) {
+    addCandidate(process.env.META_ACCESS_TOKEN, undefined);
+  }
+  if (!candidates.length) {
+    throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
+  }
+  return candidates;
 }
+
+let cachedWorkingAuth: { token: string; proof?: string } | null = null;
 
 async function directGraph<T = Record<string, unknown>>(
   graphPath: string,
   params: Record<string, unknown> = {},
   method: 'GET' | 'POST' = 'GET',
 ): Promise<T> {
-  const { token, proof } = await resolveMetaAuth();
-  const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
-  const body = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+  const allCandidates = await resolveAllMetaAuthCandidates();
+  const candidates = cachedWorkingAuth
+    ? [cachedWorkingAuth, ...allCandidates.filter(c => c.token !== cachedWorkingAuth!.token)]
+    : allCandidates;
+  let lastError: Error | undefined;
+
+  for (const { token, proof } of candidates) {
+    const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
+    const body = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) {
+      if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+    }
+    if (proof) body.set('appsecret_proof', proof);
+    if (method === 'GET') url.search = body.toString();
+    const r = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
+      },
+      body: method === 'POST' ? body : undefined,
+      cache: 'no-store',
+      signal: AbortSignal.timeout(45000),
+    });
+    const data = (await r.json()) as Record<string, unknown>;
+    if (!r.ok || data.error) {
+      const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
+      const code = e?.code || r.status;
+      const subcode = e?.error_subcode || 0;
+      lastError = new Error(`Meta (${code}/${subcode}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
+      if (code === 190 || (code === 100 && subcode === 33) || subcode === 1815199) {
+        continue;
+      }
+      throw lastError;
+    }
+    cachedWorkingAuth = { token, proof };
+    return data as T;
   }
-  if (proof) body.set('appsecret_proof', proof);
-  if (method === 'GET') url.search = body.toString();
-  const r = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
-    },
-    body: method === 'POST' ? body : undefined,
-    cache: 'no-store',
-    signal: AbortSignal.timeout(45000),
-  });
-  const data = (await r.json()) as Record<string, unknown>;
-  if (!r.ok || data.error) {
-    const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
-    throw new Error(`Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
-  }
-  return data as T;
+
+  throw lastError || new Error('Meta Graph request failed across all workspace tokens.');
 }
 
 async function uploadBytesToFelioraMeta(bytesBase64: string, fileName: string): Promise<string | undefined> {
@@ -960,44 +999,100 @@ export const POST = accountRoute(async (req: Request) => {
                   thId: '17841479143358057',
                 };
 
-          const actorCandidates: Array<{ pId: string; pName: string; igId?: string; thId?: string }> = [];
+          type FelioraActorAttempt = {
+            pId: string;
+            pName: string;
+            igId?: string;
+            thId?: string;
+            requireFbOnly?: boolean;
+          };
+          const rawCandidates: FelioraActorAttempt[] = [];
           if (!switchedAdSetToFbOnly && actors.instagram_user_id && actors.threads_user_id) {
-            actorCandidates.push({
+            rawCandidates.push({
               pId: pageId,
               pName: ad.pageName,
               igId: actors.instagram_user_id,
               thId: actors.threads_user_id,
+              requireFbOnly: false,
             });
           }
-          if (!switchedAdSetToFbOnly && actors.instagram_user_id) {
-            actorCandidates.push({ pId: pageId, pName: ad.pageName, igId: actors.instagram_user_id });
+          if (actors.instagram_user_id) {
+            rawCandidates.push({
+              pId: pageId,
+              pName: ad.pageName,
+              igId: actors.instagram_user_id,
+              requireFbOnly: false,
+            });
           }
-          actorCandidates.push({ pId: pageId, pName: ad.pageName });
-          if (pageId !== fallbackCommunityPage.pId && pageId !== '1287239777799682' && pageId !== '1304624172730017' && pageId !== '1231925240008683') {
+          rawCandidates.push({ pId: pageId, pName: ad.pageName, requireFbOnly: false });
+          for (const validatorIg of [
+            '17841473314157729',
+            '17841472034688013',
+            '17841441008488573',
+            '17841438210859048',
+            '17841437522153551',
+          ]) {
+            rawCandidates.push({
+              pId: pageId,
+              pName: ad.pageName,
+              igId: validatorIg,
+              requireFbOnly: true,
+            });
+          }
+          if (
+            pageId !== fallbackCommunityPage.pId &&
+            pageId !== '1287239777799682' &&
+            pageId !== '1304624172730017' &&
+            pageId !== '1231925240008683'
+          ) {
             if (!switchedAdSetToFbOnly) {
-              actorCandidates.push(fallbackCommunityPage);
-              actorCandidates.push({
+              rawCandidates.push({ ...fallbackCommunityPage, requireFbOnly: false });
+            }
+            rawCandidates.push({
+              pId: fallbackCommunityPage.pId,
+              pName: fallbackCommunityPage.pName,
+              igId: fallbackCommunityPage.igId,
+              requireFbOnly: false,
+            });
+            rawCandidates.push({
+              pId: fallbackCommunityPage.pId,
+              pName: fallbackCommunityPage.pName,
+              requireFbOnly: true,
+            });
+            for (const validatorIg of ['17841473314157729', '17841472034688013']) {
+              rawCandidates.push({
                 pId: fallbackCommunityPage.pId,
                 pName: fallbackCommunityPage.pName,
-                igId: fallbackCommunityPage.igId,
+                igId: validatorIg,
+                requireFbOnly: true,
               });
             }
-            actorCandidates.push({ pId: fallbackCommunityPage.pId, pName: fallbackCommunityPage.pName });
           }
+
+          const seenAttemptKeys = new Set<string>();
+          const actorCandidates = rawCandidates.filter(c => {
+            const key = `${c.pId}|${c.igId || ''}|${c.thId || ''}`;
+            if (seenAttemptKeys.has(key)) return false;
+            seenAttemptKeys.add(key);
+            return true;
+          });
 
           let createdAd: { id: string } | undefined;
           let usedCand = actorCandidates[0];
           let lastErr: Error | undefined;
           for (const cand of actorCandidates) {
+            if (cand.requireFbOnly) {
+              await ensureFacebookOnlyPlacementsOnAdSet();
+            }
             const candidateAdName = `${ad.code} | ${variant.suffix} | ${cand.pName}`;
-            const buildSpec = (withActors: boolean) => ({
+            const creativePayload = {
               name: `${candidateAdName} - Creative`,
               url_tags:
                 'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
               object_story_spec: {
                 page_id: cand.pId,
-                ...(withActors && cand.igId ? { instagram_user_id: cand.igId } : {}),
-                ...(withActors && cand.thId ? { threads_user_id: cand.thId } : {}),
+                ...(cand.igId ? { instagram_user_id: cand.igId } : {}),
+                ...(!switchedAdSetToFbOnly && cand.thId ? { threads_user_id: cand.thId } : {}),
                 link_data: {
                   image_hash: variant.hash,
                   link: variant.link,
@@ -1010,14 +1105,14 @@ export const POST = accountRoute(async (req: Request) => {
                   },
                 },
               },
-            });
+            };
             try {
               createdAd = await directGraph<{ id: string }>(
                 `act_${FELIORA_META_ACCOUNT_ID}/ads`,
                 {
                   name: candidateAdName,
                   adset_id: targetAdSetId,
-                  creative: buildSpec(!switchedAdSetToFbOnly),
+                  creative: creativePayload,
                   status: adStatus,
                 },
                 'POST',
@@ -1026,30 +1121,6 @@ export const POST = accountRoute(async (req: Request) => {
               break;
             } catch (err) {
               lastErr = err instanceof Error ? err : new Error(String(err));
-              // When omitting IG fails with 1815199 (unshared page-connected IG), switch Ad Set to Facebook placements and retry immediately without foreign IG!
-              if (
-                !cand.igId &&
-                !switchedAdSetToFbOnly &&
-                (lastErr.message.includes('1815199') || lastErr.message.toLowerCase().includes('instagram'))
-              ) {
-                try {
-                  await ensureFacebookOnlyPlacementsOnAdSet();
-                  createdAd = await directGraph<{ id: string }>(
-                    `act_${FELIORA_META_ACCOUNT_ID}/ads`,
-                    {
-                      name: candidateAdName,
-                      adset_id: targetAdSetId,
-                      creative: buildSpec(false),
-                      status: adStatus,
-                    },
-                    'POST',
-                  );
-                  usedCand = cand;
-                  break;
-                } catch (retryErr) {
-                  lastErr = retryErr instanceof Error ? retryErr : new Error(String(retryErr));
-                }
-              }
             }
           }
 
