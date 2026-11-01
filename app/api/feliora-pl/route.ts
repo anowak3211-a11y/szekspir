@@ -848,7 +848,19 @@ export const POST = accountRoute(async (req: Request) => {
       let switchedAdSetToFbOnly = false;
       const ensureFacebookOnlyPlacementsOnAdSet = async () => {
         if (switchedAdSetToFbOnly) return;
-        const fbTargeting: Record<string, unknown> = JSON.parse(JSON.stringify(rawTargeting || {}));
+        const currentAdSet = await directGraph<{ targeting?: Record<string, unknown> }>(targetAdSetId, {
+          fields: 'targeting',
+        }).catch(() => ({ targeting: rawTargeting }));
+        const existingPlatforms = Array.isArray(currentAdSet.targeting?.publisher_platforms)
+          ? (currentAdSet.targeting?.publisher_platforms as string[])
+          : [];
+        if (existingPlatforms.length === 1 && existingPlatforms[0] === 'facebook') {
+          switchedAdSetToFbOnly = true;
+          return;
+        }
+        const fbTargeting: Record<string, unknown> = JSON.parse(
+          JSON.stringify(currentAdSet.targeting || rawTargeting || {}),
+        );
         delete fbTargeting.instagram_positions;
         delete fbTargeting.threads_positions;
         delete fbTargeting.messenger_positions;
@@ -872,6 +884,70 @@ export const POST = accountRoute(async (req: Request) => {
           ),
         );
         switchedAdSetToFbOnly = true;
+      };
+
+      const accountAuthorizedIgIds = new Set<string>(['17841437606417391']);
+      try {
+        const accIgs = await directGraph<{ data?: Array<{ id?: string }> }>(
+          `act_${FELIORA_META_ACCOUNT_ID}/instagram_accounts`,
+          { fields: 'id', limit: 50 },
+        );
+        for (const item of accIgs.data || []) {
+          if (item.id) accountAuthorizedIgIds.add(item.id);
+        }
+      } catch {
+        // Ignore
+      }
+      try {
+        const accPbIgs = await directGraph<{ data?: Array<{ id?: string }> }>(
+          `act_${FELIORA_META_ACCOUNT_ID}/page_backed_instagram_accounts`,
+          { fields: 'id', limit: 50 },
+        );
+        for (const item of accPbIgs.data || []) {
+          if (item.id) accountAuthorizedIgIds.add(item.id);
+        }
+      } catch {
+        // Ignore
+      }
+      for (const knownIg of [
+        '17841473314157729',
+        '17841472034688013',
+        '17841441008488573',
+        '17841438210859048',
+        '17841437522153551',
+      ]) {
+        accountAuthorizedIgIds.add(knownIg);
+      }
+
+      const pageBackedIgCache = new Map<string, string[]>();
+      const resolvePageBackedIgIds = async (pId: string): Promise<string[]> => {
+        if (pageBackedIgCache.has(pId)) return pageBackedIgCache.get(pId)!;
+        const found: string[] = [];
+        try {
+          const res = await directGraph<{ data?: Array<{ id?: string }> }>(
+            `${pId}/page_backed_instagram_accounts`,
+            { fields: 'id' },
+          );
+          for (const row of res.data || []) {
+            if (row.id && !found.includes(row.id)) found.push(row.id);
+          }
+        } catch {
+          // Ignore
+        }
+        if (!found.length) {
+          try {
+            const createdPb = await directGraph<{ id?: string }>(
+              `${pId}/page_backed_instagram_accounts`,
+              {},
+              'POST',
+            );
+            if (createdPb.id) found.push(createdPb.id);
+          } catch {
+            // Ignore
+          }
+        }
+        pageBackedIgCache.set(pId, found);
+        return found;
       };
 
       const existingAdsByName = new Map<string, string>();
@@ -1007,66 +1083,50 @@ export const POST = accountRoute(async (req: Request) => {
             requireFbOnly?: boolean;
           };
           const rawCandidates: FelioraActorAttempt[] = [];
-          if (!switchedAdSetToFbOnly && actors.instagram_user_id && actors.threads_user_id) {
-            rawCandidates.push({
-              pId: pageId,
-              pName: ad.pageName,
-              igId: actors.instagram_user_id,
-              thId: actors.threads_user_id,
-              requireFbOnly: false,
-            });
-          }
-          if (actors.instagram_user_id) {
-            rawCandidates.push({
-              pId: pageId,
-              pName: ad.pageName,
-              igId: actors.instagram_user_id,
-              requireFbOnly: false,
-            });
-          }
-          rawCandidates.push({ pId: pageId, pName: ad.pageName, requireFbOnly: false });
-          for (const validatorIg of [
-            '17841473314157729',
-            '17841472034688013',
-            '17841441008488573',
-            '17841438210859048',
-            '17841437522153551',
-          ]) {
-            rawCandidates.push({
-              pId: pageId,
-              pName: ad.pageName,
-              igId: validatorIg,
-              requireFbOnly: true,
-            });
-          }
+          const pushPageAttempts = async (pId: string, pName: string, ownIg?: string, ownTh?: string) => {
+            if (!switchedAdSetToFbOnly && ownIg && ownTh) {
+              rawCandidates.push({ pId, pName, igId: ownIg, thId: ownTh, requireFbOnly: false });
+            }
+            if (ownIg) {
+              rawCandidates.push({ pId, pName, igId: ownIg, requireFbOnly: false });
+            }
+            rawCandidates.push({ pId, pName, requireFbOnly: false });
+            const pbIds = await resolvePageBackedIgIds(pId);
+            for (const pbId of pbIds) {
+              rawCandidates.push({ pId, pName, igId: pbId, requireFbOnly: true });
+            }
+            for (const validatorIg of accountAuthorizedIgIds) {
+              rawCandidates.push({ pId, pName, igId: validatorIg, requireFbOnly: true });
+            }
+          };
+
+          await pushPageAttempts(pageId, ad.pageName, actors.instagram_user_id, actors.threads_user_id);
+
           if (
             pageId !== fallbackCommunityPage.pId &&
             pageId !== '1287239777799682' &&
             pageId !== '1304624172730017' &&
             pageId !== '1231925240008683'
           ) {
-            if (!switchedAdSetToFbOnly) {
-              rawCandidates.push({ ...fallbackCommunityPage, requireFbOnly: false });
-            }
+            await pushPageAttempts(
+              fallbackCommunityPage.pId,
+              fallbackCommunityPage.pName,
+              fallbackCommunityPage.igId,
+              fallbackCommunityPage.thId,
+            );
+          }
+
+          if (
+            pageId === '1194345203770949' ||
+            pageId === '1231925240008683' ||
+            ad.angleId === 'fel-29-tp-al-wklad-lawenda-29zl'
+          ) {
             rawCandidates.push({
-              pId: fallbackCommunityPage.pId,
-              pName: fallbackCommunityPage.pName,
-              igId: fallbackCommunityPage.igId,
+              pId: '798916893308685',
+              pName: 'Porady Mamy Gosi',
+              igId: '17841473314157729',
               requireFbOnly: false,
             });
-            rawCandidates.push({
-              pId: fallbackCommunityPage.pId,
-              pName: fallbackCommunityPage.pName,
-              requireFbOnly: true,
-            });
-            for (const validatorIg of ['17841473314157729', '17841472034688013']) {
-              rawCandidates.push({
-                pId: fallbackCommunityPage.pId,
-                pName: fallbackCommunityPage.pName,
-                igId: validatorIg,
-                requireFbOnly: true,
-              });
-            }
           }
 
           const seenAttemptKeys = new Set<string>();
@@ -1079,6 +1139,7 @@ export const POST = accountRoute(async (req: Request) => {
 
           let createdAd: { id: string } | undefined;
           let usedCand = actorCandidates[0];
+          const attemptDiag: string[] = [];
           let lastErr: Error | undefined;
           for (const cand of actorCandidates) {
             if (cand.requireFbOnly) {
@@ -1121,11 +1182,14 @@ export const POST = accountRoute(async (req: Request) => {
               break;
             } catch (err) {
               lastErr = err instanceof Error ? err : new Error(String(err));
+              attemptDiag.push(`${cand.pId}/${cand.igId || 'no-ig'}: ${lastErr.message.slice(0, 90)}`);
             }
           }
 
           if (!createdAd) {
-            throw lastErr || new Error(`Nie udało się utworzyć reklamy ${ad.code}`);
+            throw new Error(
+              `Nie udało się utworzyć reklamy ${ad.code}: ${lastErr?.message || 'Unknown'} | attempts=${attemptDiag.slice(0, 8).join(' ; ')}`,
+            );
           }
 
           createdAds.push({
