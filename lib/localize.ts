@@ -48,7 +48,63 @@ ${market==='uk'?'Use the owner-requested name Concerta XL in place of Ritalin, w
  throw Error(lastError+' Your saved hook was not changed.');
 }
 export function isHairDhtSourceScript(text:string):boolean{
- return /\b(?:saw\s+palmetto|bloom\s*(?:&|and)\s*bond|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(text||'');
+ return /\b(?:saw\s+palmetto|salt\s+palmetto|bloom\s*(?:&|and)\s*bond|bloomin'?\s*bond|blumenbahn|hair\s+follicles?|5-alpha-reductase|pumpkin\s+seed\s+oil)\b/i.test(text||'');
+}
+export function sanitizeUkScriptText(text:string,isHairDht=false,targetBrand='Bennett & Seed'):string{
+ if(!text)return text;
+ let out=text
+  // RULE_VID_01 & RULE_VID_02: across/in/throughout the US/U.S./USA -> the UK
+  .replace(/\b(across|in|throughout|all\s+over|from)\s+the\s+U\.?S\.?(?:A\.?)?(?=$|[^\w])/gi,(_m,prep:string)=>`${prep} the UK`)
+  .replace(/\bU\.?S\.?\s+(dermatologists|doctors|women|mums|mothers|parents|customers|clinics)\b/gi,(_m,noun:string)=>`UK ${noun}`)
+  // RULE_VID_03: in/across America -> in the UK / across Britain
+  .replace(/\b(across|in|throughout)\s+America\b/gi,(_m,prep:string)=>`${prep} the UK`)
+  // RULE_VID_04: $ -> £ before numbers
+  .replace(/\$(?=\d)/g,'£')
+  // RULE_VID_07: two pounds / 2 pounds of (pumpkin) seeds -> nearly a kilo of (pumpkin) seeds (before generic dollars->pounds)
+  .replace(/\b(?:two|2)\s+pounds\s+of\s+((?:pumpkin\s+)?seeds)\b/gi,'nearly a kilo of $1')
+  // RULE_VID_05 & RULE_VID_06: dollars/bucks -> pounds/£, cents -> pence
+  .replace(/\b(\d+)\s+bucks\b/gi,'£$1')
+  .replace(/\bdollars\b/gi,m=>m[0]==='D'?'Pounds':'pounds')
+  .replace(/\bcents\b/gi,m=>m[0]==='C'?'Pence':'pence')
+  // RULE_VID_26: US idioms/professions (licensed cosmetologist, band-aid fix, No ma'am)
+  .replace(/\blicensed\s+cosmetologists?\b/gi,m=>/s$/i.test(m)?'qualified hairstylists':'qualified hairstylist')
+  .replace(/\bband-aid\s+fix\b/gi,'quick fix')
+  .replace(/\bNo,\s*ma'am\./gi,'Honestly, no.')
+  // RULE_VID_08: shower drain(s) -> shower plughole(s)
+  .replace(/\bshower\s+drains\b/gi,'shower plugholes')
+  .replace(/\bshower\s+drain\b/gi,'shower plughole')
+  // RULE_VID_09: mustache(s) -> moustache(s)
+  .replace(/\bmustaches\b/gi,m=>m[0]==='M'?'Moustaches':'moustaches')
+  .replace(/\bmustache\b/gi,m=>m[0]==='M'?'Moustache':'moustache')
+  // RULE_VID_10: estrogen -> oestrogen
+  .replace(/\bestrogen\b/gi,m=>m[0]==='E'?'Oestrogen':'oestrogen')
+  // RULE_VID_11: pediatrician(s) / pediatric -> paediatrician(s) / paediatric
+  .replace(/\bpediatricians\b/gi,m=>m[0]==='P'?'Paediatricians':'paediatricians')
+  .replace(/\bpediatrician\b/gi,m=>m[0]==='P'?'Paediatrician':'paediatrician')
+  .replace(/\bpediatric\b/gi,m=>m[0]==='P'?'Paediatric':'paediatric')
+  // RULE_VID_12: Whisper ASR salt palmetto -> saw palmetto
+  .replace(/\bsalt\s+palmetto\b/gi,'saw palmetto')
+  // RULE_VID_13: Whisper ASR hairline in part / hairline and part -> hairline and parting
+  .replace(/\bhairline\s+(?:in|and)\s+part\b/gi,'hairline and parting')
+  // RULE_VID_14: Whisper ASR just change the math(s) -> just changed the maths
+  .replace(/\bjust\s+change\s+the\s+maths?\b/gi,'just changed the maths')
+  // RULE_VID_15: Whisper ASR duplicated noun fuller hair that keeps building
+  .replace(/\bmakes\s+your\s+hair\s+stronger\s+and\s+fuller\s+hair\s+that\s+keeps\s+building\b/gi,'makes your hair stronger and fuller, building results')
+  // RULE_VID_16: Whisper ASR spliced conjunction saving hundreds of pounds and while saving
+  .replace(/\bsaving\s+hundreds\s+of\s+pounds\s+and\s+while\s+saving\b/gi,'saving hundreds of pounds while saving')
+  // RULE_VID_17: US colloquial work(s) good -> work(s) well
+  .replace(/\bmost\s+of\s+them\s+work\s+good\b/gi,'most of them work well')
+  .replace(/\bworks\s+good\b/gi,'works well');
+ if(isHairDht||isHairDhtSourceScript(out)){
+  const brand=targetBrand&&!/^(?:mellow|magnesium|pumpkin)$/i.test(targetBrand.trim())&&!/^bennett\s*(?:&|and)\s*seed\s*[—–-]/i.test(targetBrand.trim())?targetBrand:'Bennett & Seed';
+  out=out
+   // RULE_VID_18: Competitor/ASR brand variants -> Bennett & Seed
+   .replace(/\b(?:bloom\s*(?:&|and)\s*bond|bloomin'?\s*bond|blumenbahn|benett\s*&?\s*seed|prostagenix|gorilla\s+flow|fluxactive(?:\s+complete)?|prostadine|confitrol\s*24)\b/gi,()=>brand)
+   // RULE_VID_19: one/1 jar for free -> 1 bottle for free
+   .replace(/\b(?:one|1)\s+jar\s+for\s+free\b/gi,'1 bottle for free')
+   .replace(/\b(?:one|1)\s+jar\s+free\b/gi,'1 bottle free');
+ }
+ return out;
 }
 const BENNETT_AND_SEED_FALLBACK_CONTEXT=`Product: Bennett & Seed (bennettseed.co)
 Format: Daily softgel capsules (1 capsule / 2 softgels per serving — NEVER gummies).
@@ -58,12 +114,15 @@ Social Proof: Over 50,000 women across the UK.
 Guarantee: 90-day money-back guarantee.
 Offer / CTA: Buy 2, Get 1 Free today (buy two, get one free).`;
 export function resolveCanonicalTargetBrand(targetBrand:string,productMd?:string):string{
- if(/^pumpkin$/i.test((targetBrand||'').trim()))return 'Bennett & Seed';
+ const trimmed=(targetBrand||'').trim();
+ if(/^pumpkin$/i.test(trimmed)||/^bennett\s*(?:&|and)\s*seed\b/i.test(trimmed))return 'Bennett & Seed';
  if(!productMd?.trim())return targetBrand;
  try{
   const parsed=JSON.parse(productMd),facts=Array.isArray(parsed?.facts)?parsed.facts:[];
-  for(const f of facts)if(/product_profile\.json$/i.test(String(f?.filename||''))&&typeof f?.content==='string'){
-   const profile=JSON.parse(f.content),name=String(profile?.product_name||profile?.brand||'').trim();
+  for(const f of facts)if(/product_profile\.json$/i.test(String(f?.file||f?.filename||''))){
+   const profile=typeof f?.content==='string'?JSON.parse(f.content):f?.content;
+   const name=String(profile?.brand||profile?.product_name||'').trim();
+   if(/^bennett\s*(?:&|and)\s*seed\b/i.test(name))return 'Bennett & Seed';
    if(name&&!/^(?:mellow|magnesium|orthomax)/i.test(name))return name;
   }
  }catch{/* non-JSON or plain markdown context */}
@@ -71,8 +130,9 @@ export function resolveCanonicalTargetBrand(targetBrand:string,productMd?:string
 }
 export function buildGeminiRipResult(usScript:string,geminiScript:string,geminiHooks?:string[],market:Market='uk'):LocalizeResult{
  market=parseMarket(market);
- const cleanScript=market==='uk'?canonicalUkMedicationName(geminiScript.trim()):geminiScript.trim();
- const cleanHooks=(geminiHooks||[]).map(h=>String(h||'').trim()).filter(Boolean).slice(0,2).map(h=>market==='uk'?canonicalUkMedicationName(h):h);
+ const isHair=market==='uk'&&(isHairDhtSourceScript(usScript)||isHairDhtSourceScript(geminiScript));
+ const cleanScript=market==='uk'?sanitizeUkScriptText(canonicalUkMedicationName(geminiScript.trim()),isHair,'Bennett & Seed'):geminiScript.trim();
+ const cleanHooks=(geminiHooks||[]).map(h=>String(h||'').trim()).filter(Boolean).slice(0,2).map(h=>market==='uk'?sanitizeUkScriptText(canonicalUkMedicationName(h),isHair,'Bennett & Seed'):h);
  const source=usScript?.trim()||cleanScript;
  const hookOg=opening(cleanScript);
  const shortHook=hookOg.replace(/\[\[(?:CONFIRM|REVIEW)\s*:?\s*([\s\S]*?)\]\]/gi,'$1').replace(/["“”'‘’]+/g,'').trim().split(/\s+/).slice(0,8).join(' ').replace(/[,:;—–-]+$/,'');
@@ -195,6 +255,8 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
   const previous=[result.uk_script,...result.hooks];
   result.uk_script=canonicalUkMedicationName(result.uk_script);result.hooks=result.hooks.map(canonicalUkMedicationName);
   if(previous.some((text,i)=>text!==[result.uk_script,...result.hooks][i]))result.notes.push({original:'Ritalin',replacement:'Concerta XL',reason:'Owner-requested literal UK name substitution.'});
+  result.uk_script=sanitizeUkScriptText(result.uk_script,hairDhtScript||isCustomTarget,targetBrand);
+  result.hooks=result.hooks.map(h=>sanitizeUkScriptText(h,hairDhtScript||isCustomTarget,targetBrand));
  }
 
  result.narration=singingAd?result.uk_script:narration(result.uk_script,market);result.hook_og=opening(result.uk_script);result.timing=timing(usScript,result.uk_script);result.prompt_version=(market==='pl'?POLISH_PROMPT_VERSION:PROMPT_VERSION)+'-depth-v2-'+depth+(singingAd?"-singing":selectedCta==='learn-more'?"-cta-learn-more":"");
