@@ -27,6 +27,7 @@
 import { ANTKI_DOROSLI_PRESET_ANGLES } from './antki-dorosli-presets';
 
 export type AntkiPlFunnelStage =
+  | 'anti_sales_allegro'
   | 'stage1_domowe_odkrycie'
   | 'stage2_efekt_domina'
   | 'stage2_szkola_wf'
@@ -814,6 +815,73 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     aspectRatio: '4:5',
     note: 'Surowe zdjęcie z opinii klientki — domyślne dla #33 (8 godzin na nogach w pracy)',
   },
+  // ==================== TEST PACK (01.11): 6 CZYSTYCH ZDJĘĆ 1:1 (ANTI-SALES 👎 + ANTI-ALLEGRO) ====================
+  {
+    id: 'tp-orthomax-as-01-kapcie-kciuk-w-dol',
+    url: '/antki-pl-images/tp-orthomax-as-01-kapcie-kciuk-w-dol.jpg',
+    label: '👎 TP #76 (Anti-Sales Dzieci) · Trzewiki z wkładką StepMax obok płaskich kapci szkolnych + kciuk w dół',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [76],
+    aspectRatio: '1:1',
+    angleId: 'tp-76-as-dzieci-kapcie-szkolne',
+    note: 'Test Pack 01.11: Błąd 1 pary zamiast Pakietu 1+1 do szkoły',
+  },
+  {
+    id: 'tp-orthomax-as-02-okno-4-12-lat',
+    url: '/antki-pl-images/tp-orthomax-as-02-okno-4-12-lat.jpg',
+    label: '📋 TP #77 (Anti-Sales Fizjo · bez wkładki) · Kartka diagnostyczna: „5-12 LAT (TAK) / 2 LATA (NIE)”',
+    source: 'ai',
+    groupCode: 'RYCIAK',
+    defaultForAngles: [77],
+    aspectRatio: '1:1',
+    angleId: 'tp-77-as-dzieci-fizjo-okno',
+    note: 'Test Pack 01.11: Dyskwalifikacja 2-latków vs okno korekcyjne 5-12 lat',
+  },
+  {
+    id: 'tp-orthomax-as-03-szatnia-kciuk-w-dol',
+    url: '/antki-pl-images/tp-orthomax-as-03-szatnia-kciuk-w-dol.jpg',
+    label: '👎 TP #78 (Anti-Sales Dorośli) · Szatnia pracownicza: wyjęta wkładka StepMax z buta + kciuk w dół (2. dzień)',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [78],
+    aspectRatio: '1:1',
+    angleId: 'tp-78-as-dorosli-szatnia-2dzien',
+    note: 'Test Pack 01.11: Kryzys adaptacji 2. dnia w pracy stojącej',
+  },
+  {
+    id: 'tp-orthomax-al-01-plaski-nalesnik-23zl',
+    url: '/antki-pl-images/tp-orthomax-al-01-plaski-nalesnik-23zl.jpg',
+    label: '🛒 TP #79 (Anti-Allegro Dzieci · bez StepMax) · „WKŁADKI Z ALLEGRO 23,99 ZŁ: PO 9 DNIACH — PŁASKI NALEŚNIK”',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [79],
+    aspectRatio: '1:1',
+    angleId: 'tp-79-al-dzieci-nalesnik-23zl',
+    note: 'Test Pack 01.11: Zgnieciona na papier tania gąbka z aukcji po 9 dniach',
+  },
+  {
+    id: 'tp-orthomax-al-02-zelowa-podpietka-19zl',
+    url: '/antki-pl-images/tp-orthomax-al-02-zelowa-podpietka-19zl.jpg',
+    label: '🛒 TP #80 (Anti-Allegro Dorośli · bez StepMax) · „ŻEL POD PIĘTĘ 19,90 ZŁ: BRAK PODPARCIA ŁUKU STOPY”',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [80],
+    aspectRatio: '1:1',
+    angleId: 'tp-80-al-dorosli-zel-19zl',
+    note: 'Test Pack 01.11: Galaretowata podpiętka silikonowa bez podparcia sklepienia',
+  },
+  {
+    id: 'tp-orthomax-al-03-podrobka-vs-oryginal',
+    url: '/antki-pl-images/tp-orthomax-al-03-podrobka-vs-oryginal.jpg',
+    label: '⚖️ TP #81 (Anti-Allegro Dorośli) · Porównanie na ławce w szatni: „PODRÓBKA 27 ZŁ” vs „ORYGINAŁ”',
+    source: 'ai',
+    groupCode: 'MIT',
+    defaultForAngles: [81],
+    aspectRatio: '1:1',
+    angleId: 'tp-81-al-dorosli-podrobka-27zl',
+    note: 'Test Pack 01.11: Odklejona po 4h podróbka z aukcji vs oryginał Orthomax StepMax',
+  },
 ];
 
 export function getDefaultImageForAngle(angleNumber: number): AntkiPlImageAsset {
@@ -832,6 +900,15 @@ export const ANTKI_PL_STAGE_LABELS: Record<
   AntkiPlFunnelStage,
   { label: string; shortLabel: string; badge: string; awareness: string; sophistication: string; description: string }
 > = {
+  anti_sales_allegro: {
+    label: 'Test Pack (01.11): 3x Anti-Sales 👎 + 3x Anti-Allegro (Dzieci & Dorośli)',
+    shortLabel: 'Test Pack · Anti-Sales 👎 & Allegro (6)',
+    badge: 'TEST PACK · STAGE 5',
+    awareness: 'Stage 5: Hyper-Skeptical (Odwrócenie Sprzedaży & Demaskacja Allegro)',
+    sophistication: 'Poziom 5 (Błąd kapci szkolnych, okno 5-12 lat, 2. dzień w szatni, naleśnik 23,99 zł, żel 19,90 zł, podróbka 27 zł)',
+    description:
+      '6 kreacji Test Pack (3x Dzieci + 3x Dorośli): rozbicie najwyższego sceptycyzmu (kciuk w dół / prawie odesłane) oraz zdemaskowanie gąbek i żeli z Allegro.',
+  },
   stage1_domowe_odkrycie: {
     label: 'Stage 1: Unaware (Sofistykacja 3) · Domowy Detektyw',
     shortLabel: 'Stage 1 · Unaware (Dom)',

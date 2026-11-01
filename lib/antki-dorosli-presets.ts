@@ -1046,5 +1046,145 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     defaultHeadline: 'Dlaczego po operacji za 8100 zł ból i kość wracają? Fizjoterapeuta pokazał mi to w 10 sekund przed lustrem',
     defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
   },
+
+  // ==================== TEST PACK (01.11): 3x ANTI-SALES 👎 + 3x ANTI-ALLEGRO (#76–#81) ====================
+  {
+    id: 'tp-76-as-dzieci-kapcie-szkolne',
+    number: 76,
+    code: 'TP_76_AS_dzieci_kapcie_szkolne',
+    title: '[TEST PACK · ANTI-SALES 👎 DZIECI #1] Po 8 dniach robiłam już zdjęcie z kciukiem w dół do zwrotu. Zapomniałam o kapciach szkolnych w szatni',
+    segment: 'dzieci',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Hyper-Skeptical Anti-Sales (Błąd 1 pary zamiast Pakietu 1+1 do szkoły)',
+    sophistication: 'Poziom 5 (25 min w zimowych butach vs 7 godzin w płaskich kapciach szkolnych na betonie)',
+    narrator: 'Małgorzata (39 lat, Poznań · Porady Mamy Gosi)',
+    protagonist: 'Kuba (9 lat)',
+    hookIdea:
+      'Kupiłam 9-letniemu synowi tylko 1 parę wkładek Orthomax StepMax i włożyłam je do zimowych trzewików, w których szedł 12 minut do szkoły, podczas gdy przez 7 godzin biegał po szkolnym betonie w płaskich kapciach z cienkiej gumy.',
+    sceneBeat:
+      'Zdjęcie w przedpokoju z kciukiem w dół nad rozdeptanymi kapciami ze szkolnej szatni + rozmowa z sąsiadką fizjoterapeutką o matematyce 7 godzin na betonie i dokupieniu 2. pary w Pakiecie 1+1 GRATIS za 99,99 zł.',
+    failedSolutionsMath:
+      'Zimowe buty 389 zł + 2 pary rozdeptanych kapci szkolnych 118 zł + maści chłodzące i syrop przeciwbólowy 84 zł = 591 zł',
+    discoveryBridge:
+      'Sąsiadka fizjoterapeutka dziecięca wskazuje błąd 1 pary i rolę Pakietu 1+1 GRATIS (2 pary po 50 zł: buty wyjściowe + obuwie szkolne).',
+    defaultHeadline: 'Po 8 dniach chciałam odesłać wkładki syna jako bubel. Dopiero spojrzenie na jego kapcie ze szkoły otworzyło mi oczy',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-as-01-kapcie-kciuk-w-dol.jpg',
+  },
+  {
+    id: 'tp-77-as-dzieci-fizjo-okno',
+    number: 77,
+    code: 'TP_77_AS_dzieci_fizjo_okno',
+    title: '[TEST PACK · ANTI-SALES 👎 DZIECI #2] Fizjoterapeuta dziecięcy: „NIE kupuj żadnych wkładek 2-latkowi! Ale między 5. a 12. rokiem życia zegar tyka"',
+    segment: 'dzieci',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Hyper-Skeptical Anti-Sales (Dyskwalifikacja 2-latków vs okno plastyczności 5-12 lat)',
+    sophistication: 'Poziom 5 (Fizjologiczna poduszeczka tłuszczowa u malucha vs twardniejący kościec u 5-12 latka)',
+    narrator: 'Fizjoterapeuta dziecięcy (Centrum Dobrego Kroku)',
+    protagonist: 'Dzieci 5-12 lat (np. 8-letni Franek)',
+    hookIdea:
+      'Fizjoterapeuta odsyła z gabinetu mamy 2-latków bez wydawania złotówki, ale bije na alarm u dzieci w wieku 5-12 lat spędzających 14 godzin na szkolnym betonie i panelach.',
+    sceneBeat:
+      'Rozpiska z biurka fizjoterapeuty: „5-12 LAT - WIĘZADŁA PLASTYCZNE (TAK) / 2 LATA - FIZJOLOGICZNY TŁUSZCZYK (NIE)" + łańcuch kompensacji do kolan i łopatek.',
+    failedSolutionsMath:
+      'Prywatna wizyta lekarska 280 zł + twarde wkładki termoplastyczne na wymiar (z których noga wyrasta w 5 miesięcy) 420 zł + wysokie sztywne buty 360 zł = 1060 zł',
+    discoveryBridge:
+      'Zalecenie gabinetowe dynamicznych wkładek Orthomax StepMax w Pakiecie 1+1 GRATIS za 99,99 zł (50 zł za parę).',
+    defaultHeadline: 'Fizjoterapeuta dziecięcy mówi wprost: „2-latkowi NIE kupuj żadnych wkładek! Ale między 5. a 12. rokiem życia zegar tyka"',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-as-02-okno-4-12-lat.jpg',
+  },
+  {
+    id: 'tp-78-as-dorosli-szatnia-2dzien',
+    number: 78,
+    code: 'TP_78_AS_dorosli_szatnia_2dzien',
+    title: '[TEST PACK · ANTI-SALES 👎 DOROŚLI #3] 2. dnia w szatni pracowniczej wyjęłam wkładkę z buta i wysłałam siostrze zdjęcie z kciukiem w dół',
+    segment: 'dorosli',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Hyper-Skeptical Anti-Sales (Adaptacja 3-5 dni po 10 latach chodzenia na płasko)',
+    sophistication: 'Poziom 5 (Uczucie „piłeczki pod łukiem" w pierwsze dni = dowód pracy podparcia pod zapadniętym sklepieniem)',
+    narrator: 'Iwona (53 lata · Iwona Kożuchowska)',
+    protagonist: 'Iwona (53 lata, 9h na nogach w pracy)',
+    hookIdea:
+      '2. dnia noszenia wkładek w pracy stojącej Iwona wyjmuje pomarańczową wkładkę na ławce w szatni i wysyła siostrze zdjęcie z kciukiem w dół, bo czuje wyraźny „górkę" pod śródstopiem.',
+    sceneBeat:
+      'Siostra po rehabilitacji tłumaczy fizjologię 4-dniowej adaptacji powięzi podeszwowej po latach zapadnięcia łuku + przełom od 6. dnia i rano o 6:00 bez trzymania się ściany.',
+    failedSolutionsMath:
+      '8 zabiegów fali uderzeniowej 960 zł + twarde wkładki ze sklepu medycznego 390 zł + maści i tabletki 310 zł = 1660 zł',
+    discoveryBridge:
+      'Siostra tłumaczy błąd wyrzucenia fabrycznej wkładki i adaptacji 4 dni w Pakiecie 1+1 GRATIS za 99,99 zł (buty do pracy + kapcie domowe).',
+    defaultHeadline: '2. dnia w pracy wyjęłam te wkładki w szatni i chciałam je odesłać. Dobrze, że siostra powstrzymała mnie jednym zdaniem',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-as-03-szatnia-kciuk-w-dol.jpg',
+  },
+  {
+    id: 'tp-79-al-dzieci-nalesnik-23zl',
+    number: 79,
+    code: 'TP_79_AL_dzieci_nalesnik_23zl',
+    title: '[TEST PACK · ANTI-ALLEGRO DZIECI #4] Kupiłam córce „wkładki profilowane" z Allegro za 23,99 zł. Po 9 dniach wyjęłam z buta płaski naleśnik',
+    segment: 'dzieci',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Anti-Allegro (Tania gąbka z aukcji ubita na 2-milimetrowy naleśnik po 9 dniach)',
+    sophistication: 'Poziom 5 (Zwykła pianka meblowa bez pamięci kształtu vs sprężysta pianka Orthomax StepMax)',
+    narrator: 'Małgorzata (38 lat · Porady Mamy Gosi)',
+    protagonist: 'Maja (8 lat)',
+    hookIdea:
+      'Chciałam zaoszczędzić 26 złotych na parze i zamówiłam 8-letniej córce szare wkładki z Allegro za 23,99 zł - po 9 dniach pod piętą został zgnieciony na papier 2-milimetrowy naleśnik.',
+    sceneBeat:
+      'Zdjęcie rozgniecionej szarej wkładki na stole kuchennym z kartką „WKŁADKI Z ALLEGRO 23,99 ZŁ: PO 9 DNIACH - PŁASKI NALEŚNIK" + test kciuka na zamienniku vs oryginalnych Orthomax StepMax.',
+    failedSolutionsMath:
+      '2 pary gąbkowych wkładek z aukcji 47,98 zł + nowe jesienne półbuty zniszczone od środka w 3 tygodnie 279 zł + konsultacja u fizjoterapeuty 200 zł = 526,98 zł',
+    discoveryBridge:
+      'Porównanie z mamą koleżanki z klasy, której syn od 3 miesięcy biega w oryginalnych wkładkach Orthomax StepMax (Pakiet 1+1 za 99,99 zł).',
+    defaultHeadline: 'Chciałam przyoszczędzić i kupiłam dziecku wkładki z Allegro za 23,99 zł. Zobaczcie, co wyjęłam z buta po 9 dniach',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-al-01-plaski-nalesnik-23zl.jpg',
+  },
+  {
+    id: 'tp-80-al-dorosli-zel-19zl',
+    number: 80,
+    code: 'TP_80_AL_dorosli_zel_19zl',
+    title: '[TEST PACK · ANTI-ALLEGRO DOROŚLI #5] Kupiłaś na Allegro „żelowe podpiętki na ostrogę" za 19,90 zł? Oto dlaczego o 6:00 rano pięta boli Cię jeszcze mocniej',
+    segment: 'dorosli',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Anti-Allegro (Pułapka galaretowatego silikonu za 19,90 zł bez podparcia łuku stopy)',
+    sophistication: 'Poziom 5 (Zapadanie pięty w miękki żel mocniej naciąga rozcięgno podeszwowe i chwieje kostką)',
+    narrator: 'Specjalista biomechaniki chodu (Centrum Dobrego Kroku)',
+    protagonist: 'Pacjentka 51 lat z bólem pięty o 6:00 rano',
+    hookIdea:
+      'Niebiesko-przezroczysta żelowa podpiętka z aukcji za 19,90 zł zgnieciona w 2 palcach na stole w gabinecie: zero podparcia łuku podłużnego powoduje głębsze zapadanie pięty i naciąg rozcięgna.',
+    sceneBeat:
+      'Zdjęcie silikonowego żelu pod piętę za 19,90 zł + wyjaśnienie mechanizmu cięciwy łuku między kością piętową a śródstopiem i konieczności podparcia sklepienia w Orthomax StepMax.',
+    failedSolutionsMath:
+      '3 komplety żelowych podpiętek i wkładek z internetu 89 zł + prywatna seria fali uderzeniowej 900 zł + maści i leki przeciwzapalne 240 zł = 1229 zł',
+    discoveryBridge:
+      'Przejście z miękkich żelowych podkładek na dynamiczne podparcie łuku Orthomax StepMax w Pakiecie 1+1 GRATIS za 99,99 zł.',
+    defaultHeadline: 'Nosisz żelowe podpiętki z internetu za 19,90 zł na ból pięty? Fizjoterapeuta tłumaczy, dlaczego pogarszają stan zapalny',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-al-02-zelowa-podpietka-19zl.jpg',
+  },
+  {
+    id: 'tp-81-al-dorosli-podrobka-27zl',
+    number: 81,
+    code: 'TP_81_AL_dorosli_podrobka_27zl',
+    title: '[TEST PACK · ANTI-ALLEGRO DOROŚLI #6] Kolega z magazynu wyśmiał mnie, że dałem 50 zł za parę, i zamówił „takie same pomarańczowe" na aukcji za 27 zł',
+    segment: 'dorosli',
+    funnelStage: 'anti_sales_allegro',
+    funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
+    awarenessStage: 'Stage 5: Anti-Allegro (Porównanie 1:1 na ławce w szatni: odklejona podróbka za 27 zł po 4h vs oryginał StepMax)',
+    sophistication: 'Poziom 5 (Dlaczego Orthomax nie sprzedaje na portalach aukcyjnych: klejona flizelina podróbki vs oryginał z 30-dniową gwarancją)',
+    narrator: 'Marek (49 lat · Dziennik Zdrowego Ciała)',
+    protagonist: 'Marek i kolega z pracy Darek (zmiana 10h na betonie)',
+    hookIdea:
+      'Kolega z pracy zamówił na portalu aukcyjnym tanie „pomarańczowe wkładki" za 27 zł - po 4 godzinach na hali odkleiła się szmata z wierzchu i zrolowała pod palcami w bucie roboczym.',
+    sceneBeat:
+      'Zestawienie 1:1 na drewnianej ławce w szatni („PODRÓBKA 27 ZŁ" vs „ORYGINAŁ") po wielu tygodniach 10-godzinnych zmian na betonie.',
+    failedSolutionsMath:
+      'Podróbki z aukcji z przesyłką 36 zł + wcześniejsze wkładki żelowe z marketu budowlanego 69 zł + ketonal, plastry rozgrzewające i maści na kolana 280 zł = 385 zł',
+    discoveryBridge:
+      'Bezpośrednie zamówienie z oficjalnej strony orthomax.pl w Pakiecie 1+1 GRATIS za 99,99 zł (50 zł za parę) z 30-dniową gwarancją zwrotu.',
+    defaultHeadline: 'Kolega wyśmiał mnie w szatni i kupił na aukcji podróbkę za 27 zł. Po 4 godzinach pracy położyliśmy obie wkładki na ławce',
+    defaultImageUrl: '/antki-pl-images/tp-orthomax-al-03-podrobka-vs-oryginal.jpg',
+  },
 ];
 

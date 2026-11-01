@@ -10,6 +10,7 @@ import { ANTKI_DOROSLI_COPY_PART3 } from './antki-dorosli-copy-part3';
 import { ANTKI_DOROSLI_COPY_PART4 } from './antki-dorosli-copy-part4';
 import { ANTKI_DOROSLI_COPY_PART5 } from './antki-dorosli-copy-part5';
 import { ANTKI_DOROSLI_COPY_PART6 } from './antki-dorosli-copy-part6';
+import { ANTKI_PL_COPY_TESTPACK } from './antki-pl-copy-testpack';
 import {
   ANTKI_PL_PRESET_ANGLES,
   ORTHOMAX_PL_DEFAULT_URL,
@@ -34,6 +35,7 @@ export const ANTKI_PL_ARGON_AUTHORED_COPY: Record<
   ...ANTKI_DOROSLI_COPY_PART4,
   ...ANTKI_DOROSLI_COPY_PART5,
   ...ANTKI_DOROSLI_COPY_PART6,
+  ...ANTKI_PL_COPY_TESTPACK,
   'zal-v2-01-skierowanie-szpital': {
     headline: 'Miałam wyznaczony termin operacji stopy na listopad. Po tym 10-sekundowym teście u fizjoterapeuty skreśliłam skierowanie',
     description: '',
@@ -334,6 +336,15 @@ P.S. Nawet jeśli miałaś już kiedyś zabieg na jedną stopę albo kolano, tym
   },
 };
 
+const TESTPACK_NATIVE_PAGE_NAME_MAP: Record<string, string> = {
+  'tp-76-as-dzieci-kapcie-szkolne': 'Porady Mamy Gosi',
+  'tp-77-as-dzieci-fizjo-okno': 'Centrum Dobrego Kroku',
+  'tp-78-as-dorosli-szatnia-2dzien': 'Iwona Kożuchowska',
+  'tp-79-al-dzieci-nalesnik-23zl': 'Porady Mamy Gosi',
+  'tp-80-al-dorosli-zel-19zl': 'Centrum Dobrego Kroku',
+  'tp-81-al-dorosli-podrobka-27zl': 'Dziennik Zdrowego Ciała',
+};
+
 export function buildAllArgonPrewrittenAds(
   destinationUrl = ORTHOMAX_PL_DEFAULT_URL,
   pageName = 'Porady Mamy Gosi',
@@ -344,11 +355,14 @@ export function buildAllArgonPrewrittenAds(
   const batch2Updated = Date.parse('2026-10-23T18:00:00+02:00');
   const batch3Created = Date.parse('2026-10-29T14:30:00+01:00');
   const batch3Updated = Date.parse('2026-10-29T16:00:00+01:00');
+  const batch4Created = Date.parse('2026-11-01T16:30:00+01:00');
+  const batch4Updated = Date.parse('2026-11-01T16:40:00+01:00');
   return ANTKI_PL_PRESET_ANGLES.map((angle, index) => {
-    const isBatch3 = angle.number >= 71;
+    const isBatch4 = angle.number >= 76;
+    const isBatch3 = angle.number >= 71 && angle.number < 76;
     const isBatch2 = angle.number >= 36 && angle.number < 71;
-    const baseCreated = isBatch3 ? batch3Created : isBatch2 ? batch2Created : batch1Created;
-    const baseUpdated = isBatch3 ? batch3Updated : isBatch2 ? batch2Updated : batch1Updated;
+    const baseCreated = isBatch4 ? batch4Created : isBatch3 ? batch3Created : isBatch2 ? batch2Created : batch1Created;
+    const baseUpdated = isBatch4 ? batch4Updated : isBatch3 ? batch3Updated : isBatch2 ? batch2Updated : batch1Updated;
     const createdAt = baseCreated + index * 60_000;
     const updatedAt = baseUpdated + index * 60_000;
     const raw = ANTKI_PL_ARGON_AUTHORED_COPY[angle.id];
@@ -362,6 +376,7 @@ export function buildAllArgonPrewrittenAds(
       angle.defaultHeadline,
     );
     const defaultImg = getDefaultImageForAngle(angle.number);
+    const resolvedPageName = TESTPACK_NATIVE_PAGE_NAME_MAP[angle.id] || pageName;
     return {
       id: `antek-pl-argon-${angle.code}`,
       angleId: angle.id,
@@ -369,7 +384,7 @@ export function buildAllArgonPrewrittenAds(
       title: angle.title,
       segment: angle.segment,
       funnelStage: angle.funnelStage,
-      pageName,
+      pageName: resolvedPageName,
       headline: audited.headline,
       description: audited.description,
       primaryText: audited.primaryText,

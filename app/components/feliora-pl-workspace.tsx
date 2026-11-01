@@ -23,6 +23,8 @@ import {
 } from '@/lib/feliora-pl';
 
 const PROBLEM_CLUSTER_LABELS: Record<FelioraProblemCluster, { label: string; color: string }> = {
+  ANTI_SALES_ZWROT: { label: '👎 Test Pack: Anti-Sales (3)', color: '#dc2626' },
+  ANTI_ALLEGRO_PODROBKI: { label: '🛒 Test Pack: Anti-Allegro (3)', color: '#ea580c' },
   SIKANIE_KOLDRA: { label: '💦 Sikanie na kołdrę / poza kuwetą', color: '#7c3aed' },
   WSTYD_DOM: { label: '🛋️ Wstyd w domu / folia / wycie 3:15', color: '#8b5cf6' },
   ODDANIE_SCHRONISko: { label: '💔 Ultimatum w domu / strach i paraliż', color: '#d97706' },
@@ -34,6 +36,7 @@ const PROBLEM_CLUSTER_LABELS: Record<FelioraProblemCluster, { label: string; col
 };
 
 const STAGE_ORDER: FelioraAwarenessStageId[] = [
+  'stage6_anti_sales_allegro',
   'stage1_unaware',
   'stage2_problem_aware',
   'stage3_solution_aware',
@@ -72,7 +75,7 @@ export default function FelioraPlWorkspace({
   const [showMatrixModal, setShowMatrixModal] = useState(false);
 
   // Active angle & Selection
-  const [activeAngleId, setActiveAngleId] = useState<string>('fel-01-koldra-pachnaca-toba');
+  const [activeAngleId, setActiveAngleId] = useState<string>('fel-26-tp-as-kciuk-w-dol');
   const [selectedAngleIds, setSelectedAngleIds] = useState<string[]>([]);
 
   // Reader vs Editor mode
@@ -80,8 +83,8 @@ export default function FelioraPlWorkspace({
   const [editHeadline, setEditHeadline] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editPrimaryText, setEditPrimaryText] = useState('');
-  const [editDestinationUrl, setEditDestinationUrl] = useState(FELIORA_ADVERTORIAL_URL);
-  const [editPageId, setEditPageId] = useState('1287239777799682');
+  const [editDestinationUrl, setEditDestinationUrl] = useState(FELIORA_DEFAULT_URL);
+  const [editPageId, setEditPageId] = useState('1194345203770949');
   const [editDirty, setEditDirty] = useState(false);
   const [savingEdit, setSavingEdit] = useState(false);
 
@@ -94,12 +97,12 @@ export default function FelioraPlWorkspace({
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Meta Push state
-  const [pushUrlMode, setPushUrlMode] = useState<'advertorial' | 'pdp' | 'split_ab'>('advertorial');
-  const [pushAdSetName, setPushAdSetName] = useState('22.04 - FELIORA ANTEK BATCH');
+  const [pushUrlMode, setPushUrlMode] = useState<'advertorial' | 'pdp' | 'split_ab'>('pdp');
+  const [pushAdSetName, setPushAdSetName] = useState('01.11 - FELIORA KOTY TEST PACK (ANTI-SALES & ALLEGRO)');
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
-  const FELIORA_LOCAL_IMAGES_KEY = 'feliora_pl_saved_images_v5_nanobanana';
+  const FELIORA_LOCAL_IMAGES_KEY = 'feliora_pl_saved_images_v6_testpack';
 
   const applyLocalImageOverrides = useCallback((list: FelioraPlGeneratedAd[]): FelioraPlGeneratedAd[] => {
     try {

@@ -35,6 +35,7 @@ interface StageMeta {
 }
 
 const STAGE_ORDER: AntkiPlFunnelStage[] = [
+  'anti_sales_allegro',
   'stage1_domowe_odkrycie',
   'stage2_efekt_domina',
   'stage2_szkola_wf',
@@ -61,10 +62,10 @@ const AVAILABLE_META_FANPAGES: Array<{
   instagramUserId?: string;
   note: string;
 }> = [
-  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'D3_RYCIAK, D4_OSTROGA, D32/D34/D35' },
-  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33' },
-  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'D06/D08/D10 (córka o mamie) + Batch 1 Dzieci' },
-  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'D5_HALUKS, D6_ZAL (profil osobowy 50+)' },
+  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'D3_RYCIAK, D4_OSTROGA, D32/D34/D35, TP#77/TP#80' },
+  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33, TP#81' },
+  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'D06/D08/D10 (córka o mamie) + Batch 1 Dzieci + TP#76/TP#79' },
+  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'D5_HALUKS, D6_ZAL, TP#78 (profil osobowy 50+)' },
   { id: '1204366092764321', name: 'Dr. Magdalena Rokicińska', initials: 'MR', instagramUserId: '17841439381913725', note: 'Profil ekspercki' },
   { id: '1339041252618036', name: 'Dr n. med. Janusz Skrzypiński', initials: 'JS', instagramUserId: '17841437463666297', note: 'Profil lekarski' },
 ];
@@ -105,6 +106,12 @@ const DOROSLI_ANGLE_NATIVE_PAGE_MAP: Record<string, string> = {
   'dorosli-33-praca-12h-dyzur-szpitalny-beton': '945290751994002',
   'dorosli-34-praca-mechanizm-4-kroki': '866702399857726',
   'dorosli-35-powrot-dorosli-14h-w-domu-i-pracy': '866702399857726',
+  'tp-76-as-dzieci-kapcie-szkolne': '798916893308685',
+  'tp-77-as-dzieci-fizjo-okno': '866702399857726',
+  'tp-78-as-dorosli-szatnia-2dzien': '1194345203770949',
+  'tp-79-al-dzieci-nalesnik-23zl': '798916893308685',
+  'tp-80-al-dorosli-zel-19zl': '866702399857726',
+  'tp-81-al-dorosli-podrobka-27zl': '945290751994002',
 };
 
 type CampaignStructureState = {
@@ -151,7 +158,7 @@ export default function AntkiPlPage() {
   const [imageLibrary, setImageLibrary] = useState<AntkiPlImageAsset[]>(ANTKI_PL_IMAGE_LIBRARY);
   const [brain, setBrain] = useState<{ provider: string; model: string }>({
     provider: 'argon',
-    model: 'Argon (70 autorskich punchy winnerów)',
+    model: 'Argon (81 autorskich punchy winnerów)',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -167,7 +174,7 @@ export default function AntkiPlPage() {
   const customImageInputRef = useRef<HTMLInputElement | null>(null);
   const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
-  // Domyślnie pokazujemy nowy Batch 2: 35 Copy dla Dorosłych (#36-#70, D01-D35) z łatwym przełącznikiem na Batch 1: Dzieci CC35 (#1-#35)
+  // Domyślnie pokazujemy wszystkie 81 Antków posortowane od najnowszych (01.11 Test Pack na samej górze)
   const [stageFilter, setStageFilter] = useState<
     | 'dorosli_35'
     | 'dorosli_d1'
@@ -180,15 +187,15 @@ export default function AntkiPlPage() {
     | 'all_kids'
     | 'all'
     | AntkiPlFunnelStage
-  >('dorosli_35');
+  >('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeAngleId, setActiveAngleId] = useState<string | null>('dorosli-01-sor-zablokowane-kolano');
+  const [activeAngleId, setActiveAngleId] = useState<string | null>('tp-76-as-dzieci-kapcie-szkolne');
 
   // Generation & Fanpage settings (domyślnie dla Batch 2 Dorośli: natywny fanpage dopasowany do kąta)
   const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
-  const [selectedPageId, setSelectedPageId] = useState('945290751994002');
-  const [pageName, setPageName] = useState('Dziennik Zdrowego Ciała');
+  const [selectedPageId, setSelectedPageId] = useState('798916893308685');
+  const [pageName, setPageName] = useState('Porady Mamy Gosi');
   const [manualPageOverride, setManualPageOverride] = useState(false);
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);
@@ -243,11 +250,15 @@ export default function AntkiPlPage() {
 
   useEffect(() => {
     if (manualPageOverride) return;
-    if (isDorosliBatchView) {
-      const mappedId = (activeAngleId && DOROSLI_ANGLE_NATIVE_PAGE_MAP[activeAngleId]) || '866702399857726';
-      const found = AVAILABLE_META_FANPAGES.find(p => p.id === mappedId);
-      setSelectedPageId(mappedId);
+    const explicitMappedId = activeAngleId ? DOROSLI_ANGLE_NATIVE_PAGE_MAP[activeAngleId] : undefined;
+    if (explicitMappedId) {
+      const found = AVAILABLE_META_FANPAGES.find(p => p.id === explicitMappedId);
+      setSelectedPageId(explicitMappedId);
       setPageName(found?.name || 'Centrum Dobrego Kroku');
+      setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
+    } else if (isDorosliBatchView) {
+      setSelectedPageId('866702399857726');
+      setPageName('Centrum Dobrego Kroku');
       setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
     } else {
       setSelectedPageId('798916893308685');
@@ -2583,6 +2594,31 @@ export default function AntkiPlPage() {
               <button
                 type="button"
                 onClick={() => {
+                  setStageFilter("anti_sales_allegro");
+                  const first = presets.find(p => p.number === 76);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter === "anti_sales_allegro" ? "1px solid #fb923c" : "1px solid #4a2610",
+                  background:
+                    stageFilter === "anti_sales_allegro"
+                      ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+                      : "#160b04",
+                  color: stageFilter === "anti_sales_allegro" ? "#ffffff" : "#fed7aa",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter === "anti_sales_allegro" ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
+                }}
+              >
+                👎 Test Pack: Anti-Sales & Anti-Allegro (#76–#81 · 01.11)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
                   setStageFilter("dorosli_35");
                   const first = presets.find(p => p.number === 36);
                   if (first) setActiveAngleId(first.id);
@@ -2614,15 +2650,25 @@ export default function AntkiPlPage() {
                 style={{
                   padding: "7px 14px",
                   borderRadius: 8,
-                  border: stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
-                    ? "1px solid #fb923c"
-                    : "1px solid #4a2610",
+                  border:
+                    stageFilter === "all_kids" ||
+                    (!stageFilter.startsWith("dorosli_") &&
+                      stageFilter !== "all" &&
+                      stageFilter !== "anti_sales_allegro")
+                      ? "1px solid #fb923c"
+                      : "1px solid #4a2610",
                   background:
-                    stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
+                    stageFilter === "all_kids" ||
+                    (!stageFilter.startsWith("dorosli_") &&
+                      stageFilter !== "all" &&
+                      stageFilter !== "anti_sales_allegro")
                       ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
                       : "#160b04",
                   color:
-                    stageFilter === "all_kids" || (!stageFilter.startsWith("dorosli_") && stageFilter !== "all")
+                    stageFilter === "all_kids" ||
+                    (!stageFilter.startsWith("dorosli_") &&
+                      stageFilter !== "all" &&
+                      stageFilter !== "anti_sales_allegro")
                       ? "#ffffff"
                       : "#fed7aa",
                   fontSize: 12.5,
@@ -2647,7 +2693,7 @@ export default function AntkiPlPage() {
                   cursor: "pointer",
                 }}
               >
-                📚 Wszystkie ({presets.length || 70})
+                📚 Wszystkie ({presets.length || 81})
               </button>
             </div>
 

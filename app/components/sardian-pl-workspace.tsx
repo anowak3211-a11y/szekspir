@@ -22,6 +22,8 @@ import {
 } from '@/lib/sardian-pl';
 
 const PROBLEM_CLUSTER_LABELS: Record<SardianProblemCluster, { label: string; color: string }> = {
+  TEST_PACK_ANTI_SALES: { label: '👎 Test Pack: Anti-Sales (3)', color: '#dc2626' },
+  TEST_PACK_ANTI_ALLEGRO: { label: '🛒 Test Pack: Anti-Allegro (3)', color: '#ea580c' },
   K2_PRYSZNIC_ODPLYW: { label: '🚿 Kąt 2: Prysznic, Sitko & Żona (5)', color: '#d97706' },
   K3_SZWAGIER_TURCJA: { label: '✈️ Kąt 3: Szwagier Turcja 17 000 zł vs Trycholog (5)', color: '#dc2626' },
   K4_STARY_FRYZJER: { label: '💈 Kąt 4: Stary Fryzjer Męski 35 lat (5)', color: '#b45309' },
@@ -33,6 +35,7 @@ const PROBLEM_CLUSTER_LABELS: Record<SardianProblemCluster, { label: string; col
 };
 
 const STAGE_ORDER: SardianAwarenessStageId[] = [
+  'stage5_anti_sales_allegro',
   'stage1_batch1_winner_desire',
   'stage2_new_desire_a',
   'stage3_new_desire_b',
@@ -68,7 +71,7 @@ export default function SardianPlWorkspace({
   const [searchQuery, setSearchQuery] = useState('');
 
   // Active angle & Selection
-  const [activeAngleId, setActiveAngleId] = useState<string>('sardian_k2_v1');
+  const [activeAngleId, setActiveAngleId] = useState<string>('sardian_tp_as_01');
   const [selectedAngleIds, setSelectedAngleIds] = useState<string[]>([]);
 
   // Reader vs Editor mode

@@ -11,13 +11,15 @@ import { FELIORA_PL_COPY_STAGE2 } from './feliora-pl-copy-stage2';
 import { FELIORA_PL_COPY_STAGE3 } from './feliora-pl-copy-stage3';
 import { FELIORA_PL_COPY_STAGE4 } from './feliora-pl-copy-stage4';
 import { FELIORA_PL_COPY_STAGE5 } from './feliora-pl-copy-stage5';
+import { FELIORA_PL_COPY_TESTPACK } from './feliora-pl-copy-testpack';
 
 export type FelioraAwarenessStageId =
   | 'stage1_unaware'
   | 'stage2_problem_aware'
   | 'stage3_solution_aware'
   | 'stage4_product_aware'
-  | 'stage5_most_aware';
+  | 'stage5_most_aware'
+  | 'stage6_anti_sales_allegro';
 
 export type FelioraSophisticationLevel = 3 | 4 | 5;
 
@@ -29,11 +31,13 @@ export type FelioraProblemCluster =
   | 'DOKOCENIE_WALKI'
   | 'ZDEMASKOWANIE_ZOO'
   | 'F3_VS_MAP_FIZYKA'
-  | 'MATEMATYKA_GWARANCJA';
+  | 'MATEMATYKA_GWARANCJA'
+  | 'ANTI_SALES_ZWROT'
+  | 'ANTI_ALLEGRO_PODROBKI';
 
 export interface FelioraStageMeta {
   id: FelioraAwarenessStageId;
-  stageNumber: 1 | 2 | 3 | 4 | 5;
+  stageNumber: 1 | 2 | 3 | 4 | 5 | 6;
   shortLabel: string;
   title: string;
   subtitle: string;
@@ -73,7 +77,7 @@ export interface FelioraAnglePreset {
   title: string;
   shortTitle: string;
   stageId: FelioraAwarenessStageId;
-  stageNumber: 1 | 2 | 3 | 4 | 5;
+  stageNumber: 1 | 2 | 3 | 4 | 5 | 6;
   sophisticationLevel: FelioraSophisticationLevel;
   sophisticationBadge: string;
   problemCluster: FelioraProblemCluster;
@@ -99,7 +103,7 @@ export const FELIORA_FANPAGES: FelioraFanpage[] = [
     id: '1287239777799682',
     name: 'Dr. wet. Edmund Newelski',
     initials: 'EN',
-    role: 'Autorytet Weterynaryjny (25 lat w lecznicy · Najwyższy ROAS na Listicle)',
+    role: 'Autorytet Weterynaryjny (25 lat w lecznicy · Ekspert Kliniczny)',
     badgeColor: '#1d4ed8',
   },
   {
@@ -117,10 +121,24 @@ export const FELIORA_FANPAGES: FelioraFanpage[] = [
     badgeColor: '#d97706',
   },
   {
+    id: '1194345203770949',
+    name: 'Iwona Kożuchowska',
+    initials: 'IK',
+    role: 'Profil Osobowy Klientki 1. os. r. żeński (Anti-Sales / Domowe Historie)',
+    badgeColor: '#be185d',
+  },
+  {
+    id: '1363490303507686',
+    name: 'Karol Mikołajczyk',
+    initials: 'KM',
+    role: 'Profil Osobowy Opiekuna 1. os. r. męski (Anti-Sales / Sceptyczny Facet)',
+    badgeColor: '#b45309',
+  },
+  {
     id: '1338513126001175',
     name: 'Feliora',
     initials: 'FL',
-    role: 'Oficjalny Profil Marki (Stage 4/5 · Porównania, Matematyka i Gwarancja)',
+    role: 'Oficjalny Profil Marki (Wyłącznie Oficjalne FAQ / Gwarancja Sklepu)',
     badgeColor: '#047857',
   },
 ];
@@ -190,6 +208,19 @@ export const FELIORA_STAGES: Record<FelioraAwarenessStageId, FelioraStageMeta> =
     bgLight: '#ecfdf5',
     borderColor: '#a7f3d0',
     vocSummary: 'Rachunek 1 960 zł za „oszczędzanie” vs 94,99 zł/szt., przewodnik rozmieszczenia w bloku (Pakiet 2/3 Pokoje), oś czasu 14 dni, bezpieczeństwo 5W i 30 dni gwarancji.',
+  },
+  stage6_anti_sales_allegro: {
+    id: 'stage6_anti_sales_allegro',
+    stageNumber: 6,
+    shortLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro (6)',
+    title: 'TEST PACK (01.11): 3x ANTI-SALES 👎 + 3x ANTI-ALLEGRO (Koty · 1:1 Single Image PDP)',
+    subtitle: '3 kreacje Anti-Sales (kciuk w dół przez wpięcie za komodą, zakaz kupowania bez badania moczu przy struwitach, zwątpienie 6. dnia „zero zapachu?!”) + 3 kreacje Anti-Allegro (olejek lawendowy za 29,99 zł, rozcięta obróżka za 38 zł, przegrzana grzałka 95°C na 12 dni vs rdzeń 5W M.A.P.+F3).',
+    sophisticationLabel: 'Test Pack · Sofistykacja 5 (Hyper-Skeptical)',
+    sophisticationLevel: 5,
+    color: '#dc2626',
+    bgLight: '#fef2f2',
+    borderColor: '#fca5a5',
+    vocSummary: 'Kciuk w dół po 4 dniach za komodą, badanie osadu moczu (struwity), karteczka „DZIEŃ 6: ZERO ZAPACHU?!”, skład wkładu z lawendą za 29,99 zł, rozcięta obróżka za 38 zł i porównanie F3 vs M.A.P.+F3.',
   },
 };
 
@@ -344,6 +375,72 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
     adOrigin: 'S5-25 Dwa Koty Razem',
     aspectRatio: '1:1',
     source: 'ai',
+  },
+  {
+    id: 'fel-tp-as-01-kciuk-w-dol',
+    url: '/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg',
+    imageHash: '',
+    label: '👎 TP-AS-26 (Anti-Sales) · Dyfuzor Feliora nad paczką zwrotową + kciuk w dół i kot w sypialni',
+    adsetOrigin: 'Test Pack 01.11: Anti-Sales',
+    adOrigin: 'TP-AS-26 Kciuk w dół',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-26-tp-as-kciuk-w-dol',
+  },
+  {
+    id: 'fel-tp-as-02-badanie-moczu',
+    url: '/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg',
+    imageHash: '',
+    label: '🩺 TP-AS-27 (Anti-Sales · 1:1 bez wtyczki) · Wynik badania moczu kota: „Liczne kryształy struwitowe +++”',
+    adsetOrigin: 'Test Pack 01.11: Anti-Sales',
+    adOrigin: 'TP-AS-27 Badanie moczu struwity',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-27-tp-as-wet-23-procent',
+  },
+  {
+    id: 'fel-tp-as-03-dzien6-zero-zapachu',
+    url: '/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg',
+    imageHash: '',
+    label: '🔌 TP-AS-28 (Anti-Sales) · Karteczka nad gniazdkiem „DZIEŃ 6: ZERO ZAPACHU?!” i 2 koty w salonie',
+    adsetOrigin: 'Test Pack 01.11: Anti-Sales',
+    adOrigin: 'TP-AS-28 Dzień 6 Zero Zapachu',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-28-tp-as-dzien6-zero-zapachu',
+  },
+  {
+    id: 'fel-tp-al-01-sklad-lawenda',
+    url: '/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg',
+    imageHash: '',
+    label: '🛒 TP-AL-29 (Anti-Allegro · 1:1 bez produktu) · Skład wkładu 29,99 zł: „Olejek lawendowy, waleriana”',
+    adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
+    adOrigin: 'TP-AL-29 Skład lawenda 29,99 zł',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-29-tp-al-wklad-lawenda-29zl',
+  },
+  {
+    id: 'fel-tp-al-02-rozcieta-obrozka',
+    url: '/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg',
+    imageHash: '',
+    label: '✂️ TP-AL-30 (Anti-Allegro · 1:1 bez produktu) · Rozcięta fioletowa obróżka 38 zł + notatka o odparzeniu',
+    adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
+    adOrigin: 'TP-AL-30 Rozcięta obróżka 38 zł',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-30-tp-al-obrozka-38zl',
+  },
+  {
+    id: 'fel-tp-al-03-f3-vs-map',
+    url: '/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg',
+    imageHash: '',
+    label: '📋 TP-AL-31 (Anti-Allegro · 1:1 bez produktu) · Rozpiska weterynarza: Zamienniki F3 (12 dni) vs Feliora M.A.P.+F3 (30 dni)',
+    adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
+    adOrigin: 'TP-AL-31 Porównanie F3 vs M.A.P.',
+    aspectRatio: '1:1',
+    source: 'ai',
+    angleId: 'fel-31-tp-al-wet-f3-vs-map',
   },
 ];
 
@@ -922,6 +1019,126 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "defaultSecondImageId": "kie-feliora-s5-kartka-rachunek-1960zl-i-feliora",
     "defaultSecondImageUrl": "/feliora-pl-images/kie-feliora-s5-kartka-rachunek-1960zl-i-feliora.jpg",
     "defaultSecondImageHash": "b3de33f667c7a55c00a8b31663670ba8"
+  },
+  {
+    "id": "fel-26-tp-as-kciuk-w-dol",
+    "number": 26,
+    "code": "TP-AS-26",
+    "title": "[Anti-Sales 👎] Po 4 dniach pakowałam dyfuzor Feliora do zwrotu (wpięłam 1 wtyczkę za komodą na 64 m²)",
+    "shortTitle": "Anti-Sales 👎: Zwrot po 4 dniach (błąd za komodą)",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "ANTI_SALES_ZWROT",
+    "problemLabel": "Anti-Sales 👎 · Błąd montażu za komodą i oszczędzania 2. sztuki",
+    "recommendedFanpageId": "1194345203770949",
+    "recommendedFanpageName": "Iwona Kożuchowska",
+    "vocTrigger": "„Wpięłam 1 wtyczkę za komodą w przedpokoju, 2. schowałam na zapas i po 4 dniach wysłałam weterynarzowi zdjęcie z kciukiem w dół.”",
+    "mechanismCore": "Ciężkie lipidy M.A.P. + F3 nie przenikają przez płyty meblowe ani przymknięte drzwi - wymagają odkrytego gniazdka w pokoju docelowym.",
+    "defaultImageId": "fel-tp-as-01-kciuk-w-dol",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "fel-27-tp-as-wet-23-procent",
+    "number": 27,
+    "code": "TP-AS-27",
+    "title": "[Anti-Sales 👎] Lekarz weterynarii: NIE zamawiaj dyfuzora Feliora, dopóki nie wykluczysz kryształów struwitowych w moczu!",
+    "shortTitle": "Anti-Sales 👎: Zakaz zakupu bez badania moczu",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "ANTI_SALES_ZWROT",
+    "problemLabel": "Anti-Sales 👎 · Dyskwalifikacja kamicy struwitowej przed FIC",
+    "recommendedFanpageId": "1287239777799682",
+    "recommendedFanpageName": "Dr. wet. Edmund Newelski",
+    "vocTrigger": "„Żaden feromon na świecie nie rozpuści fizycznego piasku w pęcherzu. Ale u 7 na 10 kotów z czystym osadem przyczyną jest stresowe FIC.”",
+    "mechanismCore": "Uczciwa selekcja medyczna budująca 100% zaufania: najpierw badanie osadu moczu, potem wyciszenie osi mózg-nadnercza-pęcherz kompleksem M.A.P.+F3.",
+    "defaultImageId": "fel-tp-as-02-badanie-moczu",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "fel-28-tp-as-dzien6-zero-zapachu",
+    "number": 28,
+    "code": "TP-AS-28",
+    "title": "[Anti-Sales 👎] 6. dnia przykleiłem nad gniazdkiem karteczkę „ZERO ZAPACHU?!” i uznałem, że nabili mnie w butelkę",
+    "shortTitle": "Anti-Sales 👎: „Dzień 6: Zero Zapachu?!”",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "ANTI_SALES_ZWROT",
+    "problemLabel": "Anti-Sales 👎 · Zwątpienie 6. dnia i bezwonność feromonów",
+    "recommendedFanpageId": "1363490303507686",
+    "recommendedFanpageName": "Karol Mikołajczyk",
+    "vocTrigger": "„Wąchałem wtyczkę z 3 cm i nie czułem kompletnie nic, a koty do 6. dnia dalej syczały pod drzwiami.”",
+    "mechanismCore": "Prawdziwe feromony M.A.P. + F3 są w 100% bezwonne dla ludzkiego nabłonka węchowego (odbiera je wyłącznie narząd Jacobsona po 7-12 dobach nasycenia).",
+    "defaultImageId": "fel-tp-as-03-dzien6-zero-zapachu",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "fel-29-tp-al-wklad-lawenda-29zl",
+    "number": 29,
+    "code": "TP-AL-29",
+    "title": "[Anti-Allegro] Kupiłam na Allegro „wkład uspokajający dla kota” za 29,99 zł. Przeczytajcie 2. linijkę składu (lawenda!)",
+    "shortTitle": "Anti-Allegro: Wkład z lawendą za 29,99 zł",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "ANTI_ALLEGRO_PODROBKI",
+    "problemLabel": "Anti-Allegro · Toksyczne olejki eteryczne udające feromony",
+    "recommendedFanpageId": "1304624172730017",
+    "recommendedFanpageName": "Koty Bez Ściemy",
+    "vocTrigger": "„Po 2 dniach taniej wtyczki z aukcji za 29,99 zł kotka zaczęła kichać i zalała nam kanapę — w środku nie było grama feromonów, tylko lawenda!”",
+    "mechanismCore": "Kocia wątroba nie posiada enzymów glukuronylotransferazy do metabolizowania terpenów z olejku lawendowego - tani odświeżacz wywołuje panikę węchową.",
+    "defaultImageId": "fel-tp-al-01-sklad-lawenda",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "fel-30-tp-al-obrozka-38zl",
+    "number": 30,
+    "code": "TP-AL-30",
+    "title": "[Anti-Allegro] Zamiast dyfuzora kupiłam kotu w sieci fioletową obróżkę za 38 zł. Po 6 dniach rozcinałam ją nożyczkami",
+    "shortTitle": "Anti-Allegro: Rozcięta obróżka 38 zł (odparzenie)",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "ANTI_ALLEGRO_PODROBKI",
+    "problemLabel": "Anti-Allegro · Duszące obróżki z internetu vs bezdotykowa dyfuzja",
+    "recommendedFanpageId": "1231925240008683",
+    "recommendedFanpageName": "Kociary: Wasze Historie",
+    "vocTrigger": "„Chciałam zaoszczędzić 50 zł na obróżce za 38 zł — skończyło się odparzeniem szyi wielkości 5-złotówki i 278 zł u weterynarza.”",
+    "mechanismCore": "14x czulszy węch kota + terytorialna natura bezpieczeństwa wymagają bezdotykowej i bezwonnej dyfuzji M.A.P.+F3 w pokoju, nie pętli pod nosem.",
+    "defaultImageId": "fel-tp-al-02-rozcieta-obrozka",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "fel-31-tp-al-wet-f3-vs-map",
+    "number": 31,
+    "code": "TP-AL-31",
+    "title": "[Anti-Allegro] Weterynarz: Pacjentka przyniosła 2 wtyczki z Allegro — puste po 12 dniach (grzałka 95°C i samo F3)",
+    "shortTitle": "Anti-Allegro: Zamienniki F3 (12 dni) vs M.A.P.+F3 (30 dni)",
+    "stageId": "stage6_anti_sales_allegro",
+    "stageNumber": 6,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "ANTI_ALLEGRO_PODROBKI",
+    "problemLabel": "Anti-Allegro · Przegrzane grzałki 95°C i pojedyncze F3 vs M.A.P.+F3",
+    "recommendedFanpageId": "1287239777799682",
+    "recommendedFanpageName": "Dr. wet. Edmund Newelski",
+    "vocTrigger": "„Tanie wtyczki z aukcji rozgrzewają się do 95°C, wygotowują płyn w 12 dni i mają tylko słabe F3 bez kompleksu matczynego M.A.P.”",
+    "mechanismCore": "Podwójny kompleks 5% M.A.P. + F3 + stabilizowany rdzeń ceramiczny 5W działający równe 30 dni 24/7 z 30-dniową gwarancją zwrotu.",
+    "defaultImageId": "fel-tp-al-03-f3-vs-map",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg",
+    "defaultImageHash": ""
   }
 ];
 
@@ -938,6 +1155,7 @@ export const FELIORA_ALL_COPY: Record<
   ...FELIORA_PL_COPY_STAGE3,
   ...FELIORA_PL_COPY_STAGE4,
   ...FELIORA_PL_COPY_STAGE5,
+  ...FELIORA_PL_COPY_TESTPACK,
 };
 
 export const FELIORA_META_ACCOUNT_ID = FELIORA_AD_ACCOUNT_ID;
@@ -1033,13 +1251,16 @@ export function buildAllFelioraPrewrittenAds(): FelioraPlGeneratedAd[] {
   const batch1Updated = Date.parse('2026-10-23T20:00:00+02:00');
   const batch2Created = Date.parse('2026-10-23T21:00:00+02:00');
   const batch2Updated = Date.parse('2026-10-24T17:00:00+02:00');
+  const batch3Created = Date.parse('2026-11-01T16:30:00+01:00');
+  const batch3Updated = Date.parse('2026-11-01T16:40:00+01:00');
   return FELIORA_PRESET_ANGLES.map((preset, idx) => {
-    const isBatch2 = preset.number >= 16;
-    const createdAt = (isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
-    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
+    const isBatch3 = preset.number >= 26;
+    const isBatch2 = preset.number >= 16 && preset.number < 26;
+    const createdAt = (isBatch3 ? batch3Created : isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
+    const updatedAt = (isBatch3 ? batch3Updated : isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
     const rawCopy = FELIORA_ALL_COPY[preset.id] || {
       headline: preset.title,
-      description: '30-dniowa gwarancja zwrotu · Darmowy poradnik e-book w pakietach',
+      description: '30-dniowa gwarancja zwrotu · Bezdotykowy kompleks M.A.P. + F3',
       primaryText: '',
     };
     const audited = sanitizeAndAuditFelioraPl(rawCopy.primaryText, rawCopy.headline, rawCopy.description);
@@ -1057,12 +1278,12 @@ export function buildAllFelioraPrewrittenAds(): FelioraPlGeneratedAd[] {
       headline: audited.headline,
       description: audited.description,
       primaryText: audited.primaryText,
-      destinationUrl: FELIORA_LISTICLE_URL,
+      destinationUrl: isBatch3 ? FELIORA_PDP_URL : FELIORA_LISTICLE_URL,
       cta: 'LEARN_MORE',
       imageUrl: preset.defaultImageUrl,
       imageHash: preset.defaultImageHash,
-      secondImageUrl: preset.defaultSecondImageUrl || secondImg?.url,
-      secondImageHash: preset.defaultSecondImageHash || secondImg?.imageHash,
+      secondImageUrl: isBatch3 ? undefined : preset.defaultSecondImageUrl || secondImg?.url,
+      secondImageHash: isBatch3 ? undefined : preset.defaultSecondImageHash || secondImg?.imageHash,
       wordCount: audited.wordCount,
       characterCount: audited.characterCount,
       auditPassed: audited.auditPassed,

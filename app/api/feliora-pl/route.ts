@@ -22,7 +22,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v5-all25-rewritten';
+const STATE_KEY = 'feliora-pl-library-v6-testpack-antisales-allegro';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];

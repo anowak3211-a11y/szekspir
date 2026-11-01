@@ -6,11 +6,14 @@
  * Docelowy URL (100% Product Page): https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie
  */
 
+import { SARDIAN_PL_COPY_TESTPACK } from './sardian-pl-copy-testpack';
+
 export type SardianAwarenessStageId =
   | 'stage1_batch1_winner_desire'
   | 'stage2_new_desire_a'
   | 'stage3_new_desire_b'
-  | 'stage4_new_desire_c';
+  | 'stage4_new_desire_c'
+  | 'stage5_anti_sales_allegro';
 
 export type SardianSophisticationLevel = 3 | 4 | 5;
 
@@ -22,11 +25,13 @@ export type SardianProblemCluster =
   | 'K7_PERSPEKTYWA_ZONY'
   | 'NOWY_DESIRE_A_CZOP_DHT'
   | 'NOWY_DESIRE_B_ZEGAR_ANAGENU'
-  | 'NOWY_DESIRE_C_REBOUND_SLS';
+  | 'NOWY_DESIRE_C_REBOUND_SLS'
+  | 'TEST_PACK_ANTI_SALES'
+  | 'TEST_PACK_ANTI_ALLEGRO';
 
 export interface SardianStageMeta {
   id: SardianAwarenessStageId;
-  stageNumber: 1 | 2 | 3 | 4;
+  stageNumber: 1 | 2 | 3 | 4 | 5;
   shortLabel: string;
   title: string;
   subtitle: string;
@@ -66,7 +71,7 @@ export interface SardianAnglePreset {
   title: string;
   shortTitle: string;
   stageId: SardianAwarenessStageId;
-  stageNumber: 1 | 2 | 3 | 4;
+  stageNumber: 1 | 2 | 3 | 4 | 5;
   sophisticationLevel: SardianSophisticationLevel;
   sophisticationBadge: string;
   problemCluster: SardianProblemCluster;
@@ -190,6 +195,19 @@ export const SARDIAN_STAGES: Record<SardianAwarenessStageId, SardianStageMeta> =
     bgLight: '#f5f3ff',
     borderColor: '#c4b5fd',
     vocSummary: '„Myjesz głowę o 7:00 rano, a o 14:00 włosy na czubku są już oklapnięte i prześwitują? To paniczny Efekt Odbicia DHT po siarczanach SLS.”',
+  },
+  stage5_anti_sales_allegro: {
+    id: 'stage5_anti_sales_allegro',
+    stageNumber: 5,
+    shortLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro (6)',
+    title: 'Test Pack (01.11): 3x Anti-Sales 👎 (Odwrócenie Sprzedaży) + 3x Anti-Allegro (Demaskacja Zamienników z SLS)',
+    subtitle: '3 kąty Anti-Sales (kciuk w dół na zwrocie po 5 dniach, błąd spłukiwania po 30 sekundach u 21% facetów, kryzys 4. dnia pod prysznicem) oraz 3 kąty Anti-Allegro (test 2 szklanek za 24,99 zł, 2. słowo po Aqua u barbera, przekręt z gwiazdkami 4,9★ wystawianymi w dzień odbioru z Paczkomatu).',
+    sophisticationLabel: 'Test Pack · Stage 5 Hyper-Skeptical',
+    sophisticationLevel: 5,
+    color: '#dc2626',
+    bgLight: '#fef2f2',
+    borderColor: '#fca5a5',
+    vocSummary: '„Już pakowałem butelkę SARDIAN do zwrotu po 5 dniach — dopóki nie zrozumiałem błędu 30 sekund i różnicy między ziołami a SLS za 24,99 zł z Allegro.”',
   },
 };
 
@@ -766,6 +784,72 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
     "aspectRatio": "1:1 (1024x1024)",
     "source": "ai",
     "angleId": "sardian_k3_v1"
+  },
+  {
+    "id": "TP_AS_01_KCIUK_W_DOL",
+    "url": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg",
+    "imageHash": "",
+    "label": "TP_AS_01 (Anti-Sales 👎) · Butelka SARDIAN nad kartonem zwrotowym + kciuk w dół w łazience",
+    "adsetOrigin": "Test Pack 01.11: Anti-Sales",
+    "adOrigin": "TP_AS_01_KCIUK_W_DOL",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_as_01"
+  },
+  {
+    "id": "TP_AS_02_KARTKA_21_PROCENT",
+    "url": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg",
+    "imageHash": "",
+    "label": "TP_AS_02 (Anti-Sales · 1:1 bez butelki) · Notatka trychologa: „21% — ZERO EFEKTU (BŁĄD 30 SEKUND)”",
+    "adsetOrigin": "Test Pack 01.11: Anti-Sales",
+    "adOrigin": "TP_AS_02_KARTKA_21_PROCENT",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_as_02"
+  },
+  {
+    "id": "TP_AS_03_SITKO_ODSYLAMY",
+    "url": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg",
+    "imageHash": "",
+    "label": "TP_AS_03 (Anti-Sales · 1:1 bez butelki) · Kratka prysznica + karteczka „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!”",
+    "adsetOrigin": "Test Pack 01.11: Anti-Sales",
+    "adOrigin": "TP_AS_03_SITKO_ODSYLAMY",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_as_03"
+  },
+  {
+    "id": "TP_AL_01_DWIE_SZKLANKI_SLS",
+    "url": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg",
+    "imageHash": "",
+    "label": "TP_AL_01 (Anti-Allegro · 1:1 bez butelki) · Test 2 szklanek: „ALLEGRO 24,99 ZŁ (SLS)” vs „BEZ SLS (ZIOŁA)”",
+    "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
+    "adOrigin": "TP_AL_01_DWIE_SZKLANKI_SLS",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_al_01"
+  },
+  {
+    "id": "TP_AL_02_ETYKIETA_INCI_SLS",
+    "url": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg",
+    "imageHash": "",
+    "label": "TP_AL_02 (Anti-Allegro · Barber POV) · Zakreślone „Aqua, Sodium Laureth Sulfate / Dimethicone”",
+    "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
+    "adOrigin": "TP_AL_02_ETYKIETA_INCI_SLS",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_al_02"
+  },
+  {
+    "id": "TP_AL_03_SZUFLADA_189ZL",
+    "url": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg",
+    "imageHash": "",
+    "label": "TP_AL_03 (Anti-Allegro · 1:1 bez butelki) · Szuflada z wcierkami + „ALLEGRO 4,9★ = 189 ZŁ · ZERO ODROSTU”",
+    "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
+    "adOrigin": "TP_AL_03_SZUFLADA_189ZL",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_tp_al_03"
   }
 ];
 
@@ -1529,6 +1613,126 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "defaultImageId": "ND_C5_DWIE_BUTELKI_SARDIAN_LAZIENKA",
     "defaultImageUrl": "/sardian-pl-images/ND_C5_DWIE_BUTELKI_SARDIAN_LAZIENKA.jpg",
     "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_as_01",
+    "number": 39,
+    "code": "TP_AS_01",
+    "title": "TP_AS_01 · [Anti-Sales 👎] Pakowałem butelkę SARDIAN do zwrotu po 5 dniach (kciuk w dół w łazience)",
+    "shortTitle": "[Anti-Sales 👎] Pakowałem butelkę SARDIAN do zwrotu po 5 dniach",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "TEST_PACK_ANTI_SALES",
+    "problemLabel": "Test Pack · Anti-Sales 👎 (Odwrócenie Sprzedaży)",
+    "recommendedFanpageId": "1363490303507686",
+    "recommendedFanpageName": "Karol Mikołajczyk",
+    "vocTrigger": "Po 5 dniach zrobiłem zdjęcie z kciukiem w dół i pakowałem butelkę do zwrotu — myłem głowę przez 20 sekund zamiast 3 minut",
+    "mechanismCore": "Odwrócenie sprzedaży: błąd spłukiwania piany po 20 sekundach + brak użycia szczotki silikonowej rozbijającej czop łojowo-DHT",
+    "defaultImageId": "TP_AS_01_KCIUK_W_DOL",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_as_02",
+    "number": 40,
+    "code": "TP_AS_02",
+    "title": "TP_AS_02 · [Anti-Sales 👎] Trycholog: NIE zamawiaj szamponu SARDIAN, jeśli robisz błąd 30 sekund (21% porażek)",
+    "shortTitle": "[Anti-Sales 👎] Trycholog: NIE zamawiaj, jeśli spłukujesz po 30 sekundach",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "TEST_PACK_ANTI_SALES",
+    "problemLabel": "Test Pack · Anti-Sales 👎 (Odwrócenie Sprzedaży)",
+    "recommendedFanpageId": "1339041252618036",
+    "recommendedFanpageName": "Dr n. med. Janusz Skrzypiński",
+    "vocTrigger": "U 21% moich pacjentów szampon nie dał odrostu przez 2 błędy: 100% zabliźniona skóra lub spłukiwanie po 30 sekundach",
+    "mechanismCore": "Dyskwalifikacja kliniczna: kinetyka przenikania ekstraktów przez woskowy czop DHT wymaga pełnych 2-3 minut kontaktu ze skórą",
+    "defaultImageId": "TP_AS_02_KARTKA_21_PROCENT",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_as_03",
+    "number": 41,
+    "code": "TP_AS_03",
+    "title": "TP_AS_03 · [Anti-Sales 👎] Karteczka na kabinie: „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!” (perspektywa żony)",
+    "shortTitle": "[Anti-Sales 👎] Karteczka na prysznicu: „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!”",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Sales 👎",
+    "problemCluster": "TEST_PACK_ANTI_SALES",
+    "problemLabel": "Test Pack · Anti-Sales 👎 (Odwrócenie Sprzedaży)",
+    "recommendedFanpageId": "798916893308685",
+    "recommendedFanpageName": "Porady Mamy Gosi",
+    "vocTrigger": "4. dnia mąż nakleił na szybie prysznica żółtą karteczkę „ODSYŁAMY!” — nie wiedział, że martwy telogen siedzi w porze jeszcze 14 dni",
+    "mechanismCore": "Fizjologia fazy telogenu: włosy odcięte przez DHT 2 tygodnie wcześniej muszą fizycznie opuścić oczyszczany mieszek przed nowym anagenem",
+    "defaultImageId": "TP_AS_03_SITKO_ODSYLAMY",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_al_01",
+    "number": 42,
+    "code": "TP_AL_01",
+    "title": "TP_AL_01 · [Anti-Allegro] Test 2 szklanek na umywalce: „ziołowy szampon z Allegro za 24,99 zł” vs bez SLS",
+    "shortTitle": "[Anti-Allegro] Test 2 szklanek: Allegro 24,99 zł (SLS) vs czyste zioła",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "TEST_PACK_ANTI_ALLEGRO",
+    "problemLabel": "Test Pack · Anti-Allegro (Demaskacja Zamienników)",
+    "recommendedFanpageId": "1470476022807427",
+    "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
+    "vocTrigger": "Chciałem zaoszczędzić 75 zł i kupiłem „ziołowy szampon” z Allegro za 24,99 zł — 2. słowo w składzie to żrący SLS",
+    "mechanismCore": "Demaskacja tanich szamponów z Allegro: detergent SLS + sól kuchenna + 0,1% pokrzywy wywołują o 13:00 podwójny wyrzut łoju z DHT",
+    "defaultImageId": "TP_AL_01_DWIE_SZKLANKI_SLS",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_al_02",
+    "number": 43,
+    "code": "TP_AL_02",
+    "title": "TP_AL_02 · [Anti-Allegro] Barber: Klient przyniósł z aukcji „czarny szampon” za 34 zł — zakreśliłem mu 2. linijkę INCI",
+    "shortTitle": "[Anti-Allegro] Barber: podróbka za 34 zł z SLS i silikonem Dimethicone",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "TEST_PACK_ANTI_ALLEGRO",
+    "problemLabel": "Test Pack · Anti-Allegro (Demaskacja Zamienników)",
+    "recommendedFanpageId": "1352085037995209",
+    "recommendedFanpageName": "Barbershop Perfekcja",
+    "vocTrigger": "Klient kupił w sieci czarny plastik za 34 zł i drapał głowę do krwi: Aqua, Sodium Laureth Sulfate, Dimethicone",
+    "mechanismCore": "SARDIAN nigdy nie jest sprzedawany na Allegro: tanie klony zaklejają mieszki silikonem Dimethicone i palą naskórek siarczanem SLS",
+    "defaultImageId": "TP_AL_02_ETYKIETA_INCI_SLS",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg",
+    "defaultImageHash": ""
+  },
+  {
+    "id": "sardian_tp_al_03",
+    "number": 44,
+    "code": "TP_AL_03",
+    "title": "TP_AL_03 · [Anti-Allegro] Wydałem 189 zł na Allegro na 3 „bestsellery 4,9★” — odkryłem przekręt z gwiazdkami po Paczkomacie",
+    "shortTitle": "[Anti-Allegro] Przekręt z gwiazdkami 4,9★ na Allegro (189 zł w błoto)",
+    "stageId": "stage5_anti_sales_allegro",
+    "stageNumber": 5,
+    "sophisticationLevel": 5,
+    "sophisticationBadge": "Test Pack · Anti-Allegro",
+    "problemCluster": "TEST_PACK_ANTI_ALLEGRO",
+    "problemLabel": "Test Pack · Anti-Allegro (Demaskacja Zamienników)",
+    "recommendedFanpageId": "1363490303507686",
+    "recommendedFanpageName": "Karol Mikołajczyk",
+    "vocTrigger": "90% ocen 5/5 na Allegro ludzie wystawiają 2 godziny po wyjęciu paczki z Paczkomatu („ładnie pachnie, szybka wysyłka”), a nie po 60 dniach!",
+    "mechanismCore": "Złudzenie ocen 4,9★ za logistykę i alkoholowe wcierki z 1 składnikiem (max 30% efektu) vs 60-dniowa gwarancja SARDIAN na puste butelki",
+    "defaultImageId": "TP_AL_03_SZUFLADA_189ZL",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg",
+    "defaultImageHash": ""
   }
 ];
 
@@ -1722,7 +1926,8 @@ export const SARDIAN_ALL_COPY: Record<string, { headline: string; description: s
     "headline": "Mój mąż mył głowę codziennie szamponem z apteki. Nie wiedział, że 5 godzin później sam zalewa cebulki DHT",
     "description": "Przerwij Efekt Odbicia DHT — formuła 3 z 3 bez SLS (60 dni gwarancji)",
     "primaryText": "Mój 42-letni mąż Michał mył głowę codziennie o 7:00 rano drogim szamponem „przeciw wypadaniu włosów” z apteki, a po powrocie z pracy jego włosy i tak były oklapnięte i rzadkie.\n\nKażdego popołudnia pasma na czubku jego głowy rozchodziły się na boki, odsłaniając coraz większe, błyszczące gniazdo.\n\nWidziałam, jak wieczorem na kanapie odruchowo drapie się po czubku głowy, a rano pod prysznicem znowu szoruje włosy podwójną porcją aptecznego szamponu, żeby „porządnie domyć skórę”.\n\nIm dokładniej mył głowę tymi szamponami, tym więcej jego ciemnych włosów wyciągałam każdego tygodnia z sitka odpływu i tym głębiej cofały się jego zakola!\n\nPrawda wyszła na jaw dopiero wtedy, gdy sprawdziłam tylną etykietę jego aptecznego szamponu i dowiedziałam się o zjawisku, które lekarze nazywają Efektem Odbicia DHT (Rebound Sebum).\n\nOkazało się, że mój mąż codziennie rano sam nieświadomie wywoływał na swojej głowie podwójny wyrzut hormonu łysienia dokładnie 5 godzin po prysznicu!\n\nMy, kobiety, widzimy u naszych mężczyzn rzeczy, do których oni sami nie przyznaliby się nawet na torturach.\n\nMój mąż Michał ma 42 lata.\n\nZawsze był przystojnym, pewnym siebie facetem, który lubił dobrze wyglądać w koszuli i dbał o swoje ciemne, gęste włosy.\n\n2 lata temu zaczęłam jednak zauważać drobne zmiany w jego zachowaniu, które na początku składałam na karb zmęczenia pracą.\n\nNajpierw zauważyłam, że rano spędza w zamkniętej łazience o 10 minut dłużej niż kiedyś — słyszałam przez drzwi, jak włącza i wyłącza suszarkę, przestawia pasma grzebieniem i wzdycha przed lustrem.\n\nPotem zobaczyłam, że przestał zapalać górną, mocną lampę LED nad umywalką i goli się wyłącznie przy bocznym, przygaszonym kinkiecie.\n\nKiedy wychodziliśmy w niedzielę na spacer z dziećmi albo jechaliśmy na grilla do znajomych, Michał zawsze w ostatniej chwili wracał się do szafy po czapkę z daszkiem.\n\nA kiedy na rodzinnym obiedzie u moich rodziców ktoś wyciągał telefon, żeby zrobić wspólne zdjęcie przy stole, mój mąż natychmiast wstawał pod pretekstem przyniesienia herbaty z kuchni albo ustawiał się tak, żeby nikt nie zrobił mu zdjęcia z góry.\n\nKiedy wieczorem w łóżku zapytałam go delikatnie, czy wszystko w porządku, uśmiechnął się tylko sztucznie i rzucił: Daj spokój, Kochanie, przecież mam już ponad 40 lat, nie jestem nastolatkiem.\n\nUdawał twardziela, ale tydzień później podczas sprzątania łazienki otworzyłam jego dolną szufladę pod umywalką.\n\nZnalazłam tam schowane za ręcznikami 4 różne butelki szamponów „przeciw wypadaniu włosów” z apteki, 2 opakowania ampułek z kofeiną za 160 zł i 3 blistry tabletek z biotyną.\n\nPróbował z tym walczyć sam, po cichu, wydając co miesiąc kilkaset złotych na apteczne preparaty, które nie dawały kompletnie żadnego rezultatu.\n\nKażdego ranka po jego prysznicu wchodziłam do kabiny i widziałam na metalowym sitku odpływu czarny, mokry kłębek jego włosów — i za każdym razem pękało mi serce, bo wiedziałam, jak bardzo go to w środku boli.\n\nWszystko zrozumiałam dopiero wtedy, gdy poszliśmy razem z Michałem do zaprzyjaźnionego lekarza dermatologa-trychologa, a ja zabrałam w torebce zdjęcie etykiety szamponu, którym mąż mył głowę codziennie o 7:00 rano.\n\nLekarz spojrzał na pierwsze 3 linijki składu INCI na moim telefonie, pokręcił głową i powiedział zdanie, które zapamiętam do końca życia.\n\n— Pani mężowi nie wypadają włosy od samego wieku — powiedział.\n\n— On codziennie o 7:00 rano sam wywołuje na swojej głowie chemiczny wyrzut hormonu DHT tym szamponem!\n\nWytłumaczył nam mechanizm, który lekarze nazywają efektem odbicia SLS.\n\nMichał, jak większość facetów, mył głowę codziennie rano mocno pieniącym się szamponem z drogerii/apteki, bo po południu włosy robiły mu się tłuste, a skóra na czubku głowy swędziała.\n\nOkazało się, że agresywne siarczany SLS zawarte w 96% szamponów o 7:00 rano zdzierają ze skóry głowy całą naturalną barierę ochronną do gołego mięsa.\n\nW odpowiedzi obronnej organizm mężczyzny po 5–6 godzinach (około godziny 13:00–14:00 w pracy) uruchamia paniczny wyrzut ratunkowy — gruczoły łojowe produkują 2 razy więcej łoju nasyconego hormonem DHT, który dosłownie zalewa i topi cebulki włosowe!\n\nA zwykłe szampony przeciw wypadaniu robią najwyżej 1 rzecz z 3 (dając góra 30% efektu), ale przez SLS dalej podkręcają tę spiralę.\n\n— Swoim pacjentom polecam odstawienie wszystkich szamponów z SLS jeszcze dzisiaj wieczorem i przejście na szampon SARDIAN — powiedział nam lekarz.\n\nDlaczego SARDIAN? Bo nie ma w nim ani grama SLS, SLES ani silikonów, więc już od 1. tygodnia wyłącza ten popołudniowy wyrzut łoju i DHT, a podczas mycia robi wszystkie 3 rzeczy naraz.\n\nKorzeń lukrecji, rdest wielokwiatowy i Eclipta Prostrata blokują DHT w skórze głowy, mięta pieprzowa i mentol od razu gaszą świąd i otwierają krążenie krwi, a żeń-szeń (Ginsenozyd F2 — o 20% szybszy wzrost w badaniach) i Biota Orientalis budzą uśpione korzenie (dając 2,6 razy więcej aktywnych włosów).\n\nKiedy 2 dni później odebrałam paczkę z Paczkomatu, nie robiłam żadnego wykładu ani wielkiej rozmowy.\n\nPo prostu wieczorem weszłam do naszej łazienki, wyrzuciłam do kosza ten jego niebieski szampon z supermarketu z SLS, a na półce pod prysznicem postawiłam czarną, matową butelkę SARDIAN i położyłam obok silikonową szczotkę.\n\nKiedy Michał wyszedł spod prysznica tamtego wieczoru, od razu zapytał z uśmiechem: Co to za czarny szampon kupiłaś? Tak mocno chłodzi miętą i ziołami, że aż czuję mrowienie na całej głowie.\n\n— Używaj — odpowiedziałam krótko i pocałowałam go w policzek. — Podobno świetny dla facetów.\n\nOd tamtego dnia obserwowałam po cichu naszą łazienkę i mojego męża tydzień po tygodniu.\n\nPo 1 tygodniu jego włosy przestały wyglądać na przetłuszczone i przyklapnięte już po powrocie z pracy o 17:00.\n\nPrzestał też odruchowo drapać się po tyle głowy wieczorami przed telewizorem.\n\nPo 3 tygodniach weszłam rano do łazienki po jego prysznicu, żeby jak zwykle wyczyścić odpływ.\n\nSpojrzałam na metalowe sitko i aż usiadłam na brzegu wanny.\n\nSitko było czyste. Zamiast mokrego kłębka kilkudziesięciu ciemnych włosów leżały tam może 3 pojedyncze włoski.\n\nPo 6 tygodniach Michał stał rano w łazience przed lustrem, czesał się do pracy i nagle zawołał mnie z przedpokoju.\n\n— Chodź tu na sekundę i spójrz na to — powiedział, odchylając palcami włosy nad skronią i na czubku głowy.\n\nPod ostrym światłem lampy nad lustrem widziałam gęsty, ciemny, sztywny jeżyk nowych włosów, które wybiły się dokładnie tam, gdzie jeszcze 2 miesiące temu świeciła goła skóra.\n\nDzisiaj mija 10 tygodni, odkąd SARDIAN stoi pod naszym prysznicem.\n\nWczoraj zamówiłam kolejny pakiet 2+1, żeby nigdy nam go nie zabrakło.\n\nNajpiękniejsze w tym wszystkim nie są nawet same włosy — tylko to, że odzyskałam mojego pewnego siebie męża.\n\nCzapki z daszkiem leżą nietknięte w szufladzie, rano w łazience znów słyszę, jak gwiżdże pod prysznicem, a kiedy robimy wspólne zdjęcie na spacerze z dziećmi, już nie ustawia się bokiem i nie ucieka z kadru.\n\nPiszę to dla każdej żony i partnerki, która widzi, jak jej facet udaje twardziela, a w środku gryzie się tym, że z każdym miesiącem ubywa mu włosów.\n\nOni sami nigdy się do tego nie przyznają i będą dalej kupować w drogerii szampony, które dają najwyżej 30% efektu i palą skórę głowy chemią SLS.\n\nNajlepsze jest to, że producent SARDIAN daje pełną, 60-dniową gwarancję zwrotu pieniędzy — nawet na puste butelki.\n\nMożesz postawić ten szampon swojemu mężowi pod prysznicem na pełne 2 miesiące.\n\nJeśli nie zobaczysz czystego sitka w odpływie i nowych, gęstych włosów na jego głowie — zwracają 100% pieniędzy.\n\nSzampon ma już ponad 47 000 opinii w Polsce ze średnią 4,7 na 5 gwiazdek.\n\nKliknij link poniżej i sprawdź na oficjalnej stronie SARDIAN pakiety 2+1 (3 butelka gratis + szczotka do masażu głowy w zestawie).\n\nP.S. Nie czekaj, aż Twój mąż sam poprosi o pomoc, bo męska duma mu na to nie pozwoli. Dopóki w przerzedzonych miejscach ma jeszcze drobny meszek, cebulki żyją i można je wybudzić podczas zwykłego mycia.\n\nP.P.S. On nie musi zmieniać żadnych nawyków — i tak codziennie bierze prysznic i myje głowę, wystarczy że pod ręką będzie miał czarną butelkę SARDIAN.\n\nP.P.P.S. Masz pełne 60 dni gwarancji satysfakcji bez żadnego ryzyka.\n\n— Gosia, 38 lat, żona Michała\n\n👉 https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie"
-  }
+  },
+  ...SARDIAN_PL_COPY_TESTPACK,
 };
 
 export interface SardianPlGeneratedAd {
@@ -1803,10 +2008,13 @@ export function buildAllSardianPrewrittenAds(): SardianPlGeneratedAd[] {
   const batch1Updated = Date.parse('2026-10-30T14:00:00+01:00');
   const batch2Created = Date.parse('2026-10-31T18:00:00+01:00');
   const batch2Updated = Date.parse('2026-11-01T09:30:00+01:00');
+  const batch3Created = Date.parse('2026-11-01T16:30:00+01:00');
+  const batch3Updated = Date.parse('2026-11-01T16:40:00+01:00');
   return SARDIAN_PRESET_ANGLES.map((preset, idx) => {
-    const isBatch2 = preset.number >= 24;
-    const createdAt = (isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
-    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
+    const isBatch3 = preset.number >= 39;
+    const isBatch2 = preset.number >= 24 && preset.number < 39;
+    const createdAt = (isBatch3 ? batch3Created : isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
+    const updatedAt = (isBatch3 ? batch3Updated : isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
     const rawCopy = SARDIAN_ALL_COPY[preset.id] || {
       headline: preset.title,
       description: '60-dniowa gwarancja zwrotu · Formuła 3 z 3 na uśpione cebulki',

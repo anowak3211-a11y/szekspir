@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v9-live-fanpages-connected';
+const STATE_KEY = 'sardian-pl-v10-testpack-antisales-allegro';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
