@@ -167,7 +167,7 @@ type CampaignStructureState = {
 
 export default function AntkiPlPage() {
   const [activeBrand, setActiveBrand] = useState<'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('bennett-uk');
-  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'days'>('newest');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
     ANTKI_PL_PRESET_ANGLES.map(angle => {
       const defaultImg = getDefaultImageForAngle(angle.number);
@@ -183,7 +183,7 @@ export default function AntkiPlPage() {
   const [imageLibrary, setImageLibrary] = useState<AntkiPlImageAsset[]>(ANTKI_PL_IMAGE_LIBRARY);
   const [brain, setBrain] = useState<{ provider: string; model: string }>({
     provider: 'argon',
-    model: 'Argon (81 autorskich punchy winnerów)',
+    model: 'Argon (101 autorskich punchy winnerów · 5 Batchy)',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -199,8 +199,11 @@ export default function AntkiPlPage() {
   const customImageInputRef = useRef<HTMLInputElement | null>(null);
   const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
-  // Domyślnie pokazujemy wszystkie 81 Antków posortowane od najnowszych (01.11 Test Pack na samej górze)
+  // Domyślnie pokazujemy wszystkie 101 Antków posortowane po batchach i dniach od najnowszych (Batch 5 Sport 01.11 na samej górze)
   const [stageFilter, setStageFilter] = useState<
+    | 'batch5_sport'
+    | 'batch4_testpack'
+    | 'batch3_zal_v2'
     | 'dorosli_35'
     | 'dorosli_d1'
     | 'dorosli_d2'
@@ -210,17 +213,21 @@ export default function AntkiPlPage() {
     | 'dorosli_d6'
     | 'dorosli_d7'
     | 'all_kids'
+    | 'day_01_11'
+    | 'day_29_10'
+    | 'day_23_10'
+    | 'day_20_10'
     | 'all'
     | AntkiPlFunnelStage
   >('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeAngleId, setActiveAngleId] = useState<string | null>('tp-76-as-dzieci-kapcie-szkolne');
+  const [activeAngleId, setActiveAngleId] = useState<string | null>('sport-82-gory-zejscie-morskie-oko-kolana');
 
-  // Generation & Fanpage settings (domyślnie dla Batch 2 Dorośli: natywny fanpage dopasowany do kąta)
-  const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
-  const [selectedPageId, setSelectedPageId] = useState('798916893308685');
-  const [pageName, setPageName] = useState('Porady Mamy Gosi');
+  // Generation & Fanpage settings (domyślnie natywny fanpage dopasowany do kąta)
+  const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax-pro');
+  const [selectedPageId, setSelectedPageId] = useState('1363490303507686');
+  const [pageName, setPageName] = useState('Karol Mikołajczyk');
   const [manualPageOverride, setManualPageOverride] = useState(false);
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);
@@ -271,15 +278,35 @@ export default function AntkiPlPage() {
   const [syncingMetaCc35, setSyncingMetaCc35] = useState(false);
   const [showCampaignPanel, setShowCampaignPanel] = useState(false);
 
-  const isDorosliBatchView = stageFilter.startsWith('dorosli_');
+  const isDorosliBatchView =
+    stageFilter.startsWith('dorosli_') ||
+    stageFilter === 'batch3_zal_v2' ||
+    stageFilter === 'batch4_testpack' ||
+    stageFilter === 'batch5_sport' ||
+    stageFilter === 'day_01_11' ||
+    stageFilter === 'day_29_10' ||
+    stageFilter === 'day_23_10';
 
   useEffect(() => {
+    const activeObj = presets.find(a => a.id === activeAngleId);
+    if (activeObj?.defaultDestinationUrl) {
+      setDestinationUrl(activeObj.defaultDestinationUrl);
+    } else if (activeObj && activeObj.number >= 82 && activeObj.number <= 101) {
+      setDestinationUrl('https://orthomax.pl/products/orthomax-stepmax-pro');
+    } else {
+      setDestinationUrl('https://orthomax.pl/products/orthomax-stepmax');
+    }
+
     if (manualPageOverride) return;
     const explicitMappedId = activeAngleId ? DOROSLI_ANGLE_NATIVE_PAGE_MAP[activeAngleId] : undefined;
     if (explicitMappedId) {
       const found = AVAILABLE_META_FANPAGES.find(p => p.id === explicitMappedId);
       setSelectedPageId(explicitMappedId);
       setPageName(found?.name || 'Centrum Dobrego Kroku');
+      setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
+    } else if (activeObj && activeObj.number >= 71 && activeObj.number <= 75) {
+      setSelectedPageId('1194345203770949');
+      setPageName('Iwona Kożuchowska');
       setMetaCampaignName(dorosliCampaignStructure?.campaignName || 'ANTKI DOROSLI CC30');
     } else if (isDorosliBatchView) {
       setSelectedPageId('866702399857726');
@@ -290,7 +317,7 @@ export default function AntkiPlPage() {
       setPageName('Porady Mamy Gosi');
       setMetaCampaignName(campaignStructure?.campaignName || 'ANTKI CC35');
     }
-  }, [isDorosliBatchView, activeAngleId, manualPageOverride, dorosliCampaignStructure, campaignStructure]);
+  }, [isDorosliBatchView, activeAngleId, manualPageOverride, dorosliCampaignStructure, campaignStructure, presets]);
 
   const handleSelectFanpage = useCallback((newPageId: string) => {
     setManualPageOverride(true);
@@ -372,12 +399,11 @@ export default function AntkiPlPage() {
         setDorosliCampaignStructure(data.dorosliCampaignStructure);
       }
       if (data.brain) setBrain(data.brain);
-      if (data.defaultUrl) setDestinationUrl(data.defaultUrl);
       if (data.presets?.length) {
-        setActiveAngleId(prev => prev || data.presets[0].id);
+        setActiveAngleId(prev => prev || 'sport-82-gory-zejscie-morskie-oko-kolana');
       }
     } catch {
-      // Keep preloaded 70 Argon ads + local image overrides seamlessly
+      // Keep preloaded 101 Argon ads + local image overrides seamlessly
     } finally {
       setLoading(false);
     }
@@ -425,7 +451,13 @@ export default function AntkiPlPage() {
 
   const filteredPresets = useMemo(() => {
     return presets.filter(item => {
-      if (stageFilter === 'dorosli_35') {
+      if (stageFilter === 'batch5_sport') {
+        if (item.number < 82 || item.number > 101) return false;
+      } else if (stageFilter === 'batch4_testpack' || stageFilter === 'anti_sales_allegro') {
+        if (item.number < 76 || item.number > 81) return false;
+      } else if (stageFilter === 'batch3_zal_v2') {
+        if (item.number < 71 || item.number > 75) return false;
+      } else if (stageFilter === 'dorosli_35' || stageFilter === 'day_23_10') {
         if (item.number < 36 || item.number > 70) return false;
       } else if (stageFilter === 'dorosli_d1') {
         if (item.number < 36 || item.number > 40) return false;
@@ -441,8 +473,12 @@ export default function AntkiPlPage() {
         if (item.number < 61 || item.number > 65) return false;
       } else if (stageFilter === 'dorosli_d7') {
         if (item.number < 66 || item.number > 70) return false;
-      } else if (stageFilter === 'all_kids') {
-        if (item.number > 35 || item.funnelStage === 'dorosli_jesien_zima') return false;
+      } else if (stageFilter === 'all_kids' || stageFilter === 'day_20_10') {
+        if (item.number < 1 || item.number > 35) return false;
+      } else if (stageFilter === 'day_01_11') {
+        if (item.number < 76 || item.number > 101) return false;
+      } else if (stageFilter === 'day_29_10') {
+        if (item.number < 71 || item.number > 75) return false;
       } else if (stageFilter !== 'all') {
         if (item.funnelStage !== stageFilter) return false;
       }
@@ -1876,75 +1912,139 @@ export default function AntkiPlPage() {
   }, []);
 
   const groupedPresetsForSidebar = useMemo(() => {
-    if (sidebarSort !== "stages") {
-      const sorted = [...filteredPresets].sort((a, b) => {
-        const adA = adByAngleId[a.id];
-        const adB = adByAngleId[b.id];
-        const tsA = adA?.updatedAt || adA?.createdAt || 0;
-        const tsB = adB?.updatedAt || adB?.createdAt || 0;
-        if (tsA !== tsB) {
-          return sidebarSort === "oldest" ? tsA - tsB : tsB - tsA;
-        }
-        return a.number - b.number;
-      });
+    const getBatchRank = (num: number): number => {
+      if (num >= 82 && num <= 101) return 5; // Batch 5: Sport (01.11 wieczór)
+      if (num >= 76 && num <= 81) return 4; // Batch 4: Test Pack (01.11)
+      if (num >= 71 && num <= 75) return 3; // Batch 3: Żal V2 (29.10)
+      if (num >= 36 && num <= 70) return 2; // Batch 2: Dorośli 35 (23.10)
+      return 1; // Batch 1: Dzieci 35 (20.10)
+    };
+
+    const getDayKeyForAngle = (num: number, ad?: AntkiPlGeneratedAd): string => {
+      if (num >= 76 && num <= 101) return '01.11.2026';
+      if (num >= 71 && num <= 75) return '29.10.2026';
+      if (num >= 36 && num <= 70) return '23.10.2026';
+      if (num >= 1 && num <= 35) return '20.10.2026';
+      return formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
+    };
+
+    // Sortowanie wewnątrz grupy: po batchRank (najnowsze lub najstarsze), a w ramach batcha naturalnie po numerze kąta (#82 -> #101)
+    const sorted = [...filteredPresets].sort((a, b) => {
+      const rankA = getBatchRank(a.number);
+      const rankB = getBatchRank(b.number);
+      if (rankA !== rankB) {
+        return sidebarSort === 'oldest' ? rankA - rankB : rankB - rankA;
+      }
+      return a.number - b.number;
+    });
+
+    if (sidebarSort === 'days') {
+      const dayDefs: Array<{ day: string; badge: string; label: string; color: string }> = [
+        {
+          day: '01.11.2026',
+          badge: '📅 DZIEŃ 01.11.2026 · DZISIAJ',
+          label: 'Batch 5: Sport & Aktywni (#82–#101 · 20 szt.) + Batch 4: Test Pack Anti-Sales & Allegro (#76–#81 · 6 szt.)',
+          color: '#16a34a',
+        },
+        {
+          day: '29.10.2026',
+          badge: '📅 DZIEŃ 29.10.2026',
+          label: 'Batch 3: ŻAL V2 Iteracje Winnera (#71–#75 · 5 szt.)',
+          color: '#dc2626',
+        },
+        {
+          day: '23.10.2026',
+          badge: '📅 DZIEŃ 23.10.2026',
+          label: 'Batch 2: DOROŚLI 35 (#36–#70 · D01–D35 · 35 szt.)',
+          color: '#ea580c',
+        },
+        {
+          day: '20.10.2026',
+          badge: '📅 DZIEŃ 20.10.2026',
+          label: 'Batch 1: DZIECI CC35 (#1–#35 · 35 szt.)',
+          color: '#0284c7',
+        },
+      ];
+
       const map = new Map<string, AntkiPlPresetAngle[]>();
       for (const item of sorted) {
-        const ad = adByAngleId[item.id];
-        const dayLabel = formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
-        const bucket = map.get(dayLabel) || [];
+        const dayKey = getDayKeyForAngle(item.number, adByAngleId[item.id]);
+        const bucket = map.get(dayKey) || [];
         bucket.push(item);
-        map.set(dayLabel, bucket);
+        map.set(dayKey, bucket);
       }
-      return Array.from(map.entries()).map(([dayLabel, items]) => ({
-        key: `date-${dayLabel}`,
-        badge: `📅 ${dayLabel}`,
-        label: `Data utworzenia / ostatniej edycji (${items.length} Antków)`,
-        color: "#f97316",
-        items,
-      }));
+
+      return dayDefs
+        .map(d => ({
+          key: `day-${d.day}`,
+          badge: `${d.badge} (${(map.get(d.day) || []).length} Antków)`,
+          label: d.label,
+          color: d.color,
+          items: map.get(d.day) || [],
+        }))
+        .filter(g => g.items.length > 0);
     }
 
-    const groups: Array<{
+    const batchGroups: Array<{
       key: string;
+      rank: number;
       badge: string;
       label: string;
       color: string;
       items: AntkiPlPresetAngle[];
     }> = [
-      { key: "d1", badge: "GRUPA D1 · #36–#40", label: "Zablokowane kolano, schody i SOR (Wariant 19)", color: "#ea580c", items: [] },
-      { key: "d2", badge: "GRUPA D2 · #41–#45", label: "Moja 64-letnia mama i szafka z maściami (M_Jakuba)", color: "#d97706", items: [] },
-      { key: "d3", badge: "GRUPA D3 · #46–#50", label: "Fizjoterapeuta i test podniesienia łuku u dorosłych", color: "#0284c7", items: [] },
-      { key: "d4", badge: "GRUPA D4 · #51–#55", label: "6:00 rano, ostroga piętowa i zamrożona butelka", color: "#dc2626", items: [] },
-      { key: "d5", badge: "GRUPA D5 · #56–#60", label: "Haluks, zimowe botki i test mokrej stopy", color: "#ea580c", items: [] },
-      { key: "d6", badge: "GRUPA D6 · #61–#65", label: "Żal po operacji jednej stopy vs druga stopa", color: "#be123c", items: [] },
-      { key: "d7", badge: "GRUPA D7 · #66–#70", label: "8–12h na nogach w pracy (pielęgniarka, nauczycielka)", color: "#16a34a", items: [] },
-      { key: "dom", badge: "DOM · #1–#5", label: "Stage 1: Domowe odkrycie (zdarte buty, mokra stopa)", color: "#f97316", items: [] },
-      { key: "ruch", badge: "RUCH · #6–#10", label: "Stage 2: Efekt Domina (plecak, kolana, kostki)", color: "#d97706", items: [] },
-      { key: "grupa", badge: "GRUPA · #11–#15", label: "Stage 2: Szkoła, WF i rówieśnicy", color: "#0284c7", items: [] },
-      { key: "mit", badge: "MIT · #16–#20", label: "Stage 3: Wypalone matki i wojna o ćwiczenia", color: "#dc2626", items: [] },
-      { key: "ryciak", badge: "RYCIAK · #21–#25", label: "Stage 4: Gabinet fizjoterapeuty i test łuku", color: "#ea580c", items: [] },
-      { key: "zal", badge: "ŻAL · #26–#30", label: "Stage 4: Żal po operacji i skierowanie na zabieg", color: "#be123c", items: [] },
-      { key: "zima", badge: "ZIMA · #31–#35", label: "Stage 5: Zimowe botki i dorośli (Batch 1)", color: "#16a34a", items: [] },
+      {
+        key: 'batch5_sport',
+        rank: 5,
+        badge: '🏔️⚽🎾🏃 BATCH 5 · 📅 01.11.2026 · #82–#101 (20 ANTKÓW)',
+        label: 'SPORT & AKTYWNI: Góry (#82–86), Padel/Tenis (#87–91), Orlik (#92–96), Bieganie/Marsze (#97–101) · LP: orthomax-stepmax-pro',
+        color: '#16a34a',
+        items: [],
+      },
+      {
+        key: 'batch4_testpack',
+        rank: 4,
+        badge: '👎 BATCH 4 · 📅 01.11.2026 · #76–#81 (6 ANTKÓW)',
+        label: 'TEST PACK: 3x Odwrócenie Winy (Anti-Sales #76–78) + 3x Demaskacja tanich wkładek z Allegro (#79–81)',
+        color: '#f97316',
+        items: [],
+      },
+      {
+        key: 'batch3_zal_v2',
+        rank: 3,
+        badge: '🔥 BATCH 3 · 📅 29.10.2026 · #71–#75 (5 ANTKÓW)',
+        label: 'ŻAL V2 ITERACJE WINNERA: 5 kątów dorosłych na szkielecie winnera ZAL (6,29x ROAS)',
+        color: '#dc2626',
+        items: [],
+      },
+      {
+        key: 'batch2_dorosli',
+        rank: 2,
+        badge: '👩 BATCH 2 · 📅 23.10.2026 · #36–#70 (35 ANTKÓW)',
+        label: 'DOROŚLI 35 (D01–D35): SOR, 64-letnia Mama, Fizjo Test Łuku, Ostroga 6:00, Haluks, Żal, Praca 8–12h',
+        color: '#d97706',
+        items: [],
+      },
+      {
+        key: 'batch1_dzieci',
+        rank: 1,
+        badge: '👶 BATCH 1 · 📅 20.10.2026 · #1–#35 (35 ANTKÓW)',
+        label: 'DZIECI CC35: 35 kątów dziecięcych (Dom, Efekt Domina, Szkoła/WF, Wypalone matki, Ryciak, Żal, Zima)',
+        color: '#0284c7',
+        items: [],
+      },
     ];
 
-    for (const item of filteredPresets) {
-      if (item.number >= 36 && item.number <= 40) groups[0].items.push(item);
-      else if (item.number >= 41 && item.number <= 45) groups[1].items.push(item);
-      else if (item.number >= 46 && item.number <= 50) groups[2].items.push(item);
-      else if (item.number >= 51 && item.number <= 55) groups[3].items.push(item);
-      else if (item.number >= 56 && item.number <= 60) groups[4].items.push(item);
-      else if (item.number >= 61 && item.number <= 65) groups[5].items.push(item);
-      else if (item.number >= 66 && item.number <= 70) groups[6].items.push(item);
-      else if (item.funnelStage === "stage1_domowe_odkrycie") groups[7].items.push(item);
-      else if (item.funnelStage === "stage2_efekt_domina") groups[8].items.push(item);
-      else if (item.funnelStage === "stage2_szkola_wf") groups[9].items.push(item);
-      else if (item.funnelStage === "stage3_wypalone_matki") groups[10].items.push(item);
-      else if (item.funnelStage === "ryciak_rip3_variations") groups[11].items.push(item);
-      else if (item.funnelStage === "zal_po_operacji") groups[12].items.push(item);
-      else groups[13].items.push(item);
+    for (const item of sorted) {
+      if (item.number >= 82 && item.number <= 101) batchGroups[0].items.push(item);
+      else if (item.number >= 76 && item.number <= 81) batchGroups[1].items.push(item);
+      else if (item.number >= 71 && item.number <= 75) batchGroups[2].items.push(item);
+      else if (item.number >= 36 && item.number <= 70) batchGroups[3].items.push(item);
+      else batchGroups[4].items.push(item);
     }
 
-    return groups.filter(g => g.items.length > 0);
+    const nonEmpty = batchGroups.filter(g => g.items.length > 0);
+    return sidebarSort === 'oldest' ? [...nonEmpty].sort((a, b) => a.rank - b.rank) : nonEmpty;
   }, [filteredPresets, sidebarSort, adByAngleId]);
 
   const activeWordCount = useMemo(() => {
@@ -2072,7 +2172,7 @@ export default function AntkiPlPage() {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: 18, fontWeight: 900, color: "#ffffff", letterSpacing: "-0.02em" }}>
-                  ANTKI PL · Orthomax StepMax ({isDorosliBatchView ? "Batch 2: 35 Dorośli #36–#70" : "Batch 1: 35 Dzieci #1–#35"})
+                  ANTKI PL · Orthomax StepMax (5 Batchy wg Dni · #1–#101)
                 </span>
                 <span
                   style={{
@@ -2085,7 +2185,7 @@ export default function AntkiPlPage() {
                     border: "1px solid rgba(249, 115, 22, 0.45)",
                   }}
                 >
-                  7 GRUP TEMATYCZNYCH · {totalGeneratedCount}/{presets.length || 70} GOTOWYCH (1300+ SŁÓW)
+                  5 BATCHY (20.10 → 01.11) · {totalGeneratedCount}/{presets.length || 101} GOTOWYCH (1200+ SŁÓW)
                 </span>
               </div>
               <div style={{ fontSize: 12, color: "#fdba74", marginTop: 2 }}>
@@ -2600,7 +2700,7 @@ export default function AntkiPlPage() {
           </div>
         )}
 
-        {/* FILTER & BATCH SELECTOR BAR */}
+        {/* FILTER & BATCH SELECTOR BAR (PO BATCHACH I DNIACH) */}
         <div
           style={{
             marginTop: 14,
@@ -2613,32 +2713,113 @@ export default function AntkiPlPage() {
             gap: 10,
           }}
         >
-          {/* ROW 1: BATCH PILLS + FANPAGE + SEARCH */}
+          {/* ROW 1: 5 BATCH PILLS (CHRONOLOGICAL NEWEST -> OLDEST) + FANPAGE + SEARCH */}
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
               <button
                 type="button"
                 onClick={() => {
-                  setStageFilter("anti_sales_allegro");
+                  setStageFilter("all");
+                  const first = presets.find(p => p.number === 82);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 13px",
+                  borderRadius: 8,
+                  border: stageFilter === "all" ? "1px solid #fb923c" : "1px solid #4a2610",
+                  background: stageFilter === "all" ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)" : "#160b04",
+                  color: stageFilter === "all" ? "#ffffff" : "#fdba74",
+                  fontSize: 12,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter === "all" ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
+                }}
+              >
+                📚 Wszystkie Batche ({presets.length || 101})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("batch5_sport");
+                  const first = presets.find(p => p.number === 82);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter === "batch5_sport" ? "1px solid #4ade80" : "1px solid #4a2610",
+                  background:
+                    stageFilter === "batch5_sport"
+                      ? "linear-gradient(135deg, #16a34a 0%, #15803d 100%)"
+                      : "#160b04",
+                  color: stageFilter === "batch5_sport" ? "#ffffff" : "#bbf7d0",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter === "batch5_sport" ? "0 2px 10px rgba(22, 163, 74, 0.35)" : "none",
+                }}
+              >
+                🏔️ Batch 5 · 01.11: SPORT & AKTYWNI (20 · #82–#101)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("batch4_testpack");
                   const first = presets.find(p => p.number === 76);
                   if (first) setActiveAngleId(first.id);
                 }}
                 style={{
                   padding: "7px 14px",
                   borderRadius: 8,
-                  border: stageFilter === "anti_sales_allegro" ? "1px solid #fb923c" : "1px solid #4a2610",
+                  border:
+                    stageFilter === "batch4_testpack" || stageFilter === "anti_sales_allegro"
+                      ? "1px solid #fb923c"
+                      : "1px solid #4a2610",
                   background:
-                    stageFilter === "anti_sales_allegro"
+                    stageFilter === "batch4_testpack" || stageFilter === "anti_sales_allegro"
                       ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
                       : "#160b04",
-                  color: stageFilter === "anti_sales_allegro" ? "#ffffff" : "#fed7aa",
+                  color:
+                    stageFilter === "batch4_testpack" || stageFilter === "anti_sales_allegro"
+                      ? "#ffffff"
+                      : "#fed7aa",
                   fontSize: 12.5,
                   fontWeight: 800,
                   cursor: "pointer",
-                  boxShadow: stageFilter === "anti_sales_allegro" ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
+                  boxShadow:
+                    stageFilter === "batch4_testpack" || stageFilter === "anti_sales_allegro"
+                      ? "0 2px 10px rgba(234, 88, 12, 0.35)"
+                      : "none",
                 }}
               >
-                👎 Test Pack: Anti-Sales & Anti-Allegro (#76–#81 · 01.11)
+                👎 Batch 4 · 01.11: TEST PACK (6 · #76–#81)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("batch3_zal_v2");
+                  const first = presets.find(p => p.number === 71);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter === "batch3_zal_v2" ? "1px solid #f87171" : "1px solid #4a2610",
+                  background:
+                    stageFilter === "batch3_zal_v2"
+                      ? "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)"
+                      : "#160b04",
+                  color: stageFilter === "batch3_zal_v2" ? "#ffffff" : "#fecaca",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter === "batch3_zal_v2" ? "0 2px 10px rgba(220, 38, 38, 0.35)" : "none",
+                }}
+              >
+                🔥 Batch 3 · 29.10: ŻAL V2 (5 · #71–#75)
               </button>
 
               <button
@@ -2662,7 +2843,7 @@ export default function AntkiPlPage() {
                   boxShadow: stageFilter.startsWith("dorosli_") ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
                 }}
               >
-                👵 Batch 2: DOROŚLI 35 NOWE (#36–#70 · D01–D35)
+                👩 Batch 2 · 23.10: DOROŚLI 35 (#36–#70)
               </button>
 
               <button
@@ -2675,50 +2856,19 @@ export default function AntkiPlPage() {
                 style={{
                   padding: "7px 14px",
                   borderRadius: 8,
-                  border:
-                    stageFilter === "all_kids" ||
-                    (!stageFilter.startsWith("dorosli_") &&
-                      stageFilter !== "all" &&
-                      stageFilter !== "anti_sales_allegro")
-                      ? "1px solid #fb923c"
-                      : "1px solid #4a2610",
+                  border: stageFilter === "all_kids" ? "1px solid #38bdf8" : "1px solid #4a2610",
                   background:
-                    stageFilter === "all_kids" ||
-                    (!stageFilter.startsWith("dorosli_") &&
-                      stageFilter !== "all" &&
-                      stageFilter !== "anti_sales_allegro")
-                      ? "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+                    stageFilter === "all_kids"
+                      ? "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)"
                       : "#160b04",
-                  color:
-                    stageFilter === "all_kids" ||
-                    (!stageFilter.startsWith("dorosli_") &&
-                      stageFilter !== "all" &&
-                      stageFilter !== "anti_sales_allegro")
-                      ? "#ffffff"
-                      : "#fed7aa",
+                  color: stageFilter === "all_kids" ? "#ffffff" : "#bae6fd",
                   fontSize: 12.5,
                   fontWeight: 800,
                   cursor: "pointer",
+                  boxShadow: stageFilter === "all_kids" ? "0 2px 10px rgba(2, 132, 199, 0.35)" : "none",
                 }}
               >
-                👶 Batch 1: DZIECI CC35 (#1–#35)
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setStageFilter("all")}
-                style={{
-                  padding: "7px 12px",
-                  borderRadius: 8,
-                  border: stageFilter === "all" ? "1px solid #fb923c" : "1px solid #4a2610",
-                  background: stageFilter === "all" ? "#ea580c" : "#160b04",
-                  color: stageFilter === "all" ? "#ffffff" : "#fdba74",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                📚 Wszystkie ({presets.length || 81})
+                👶 Batch 1 · 20.10: DZIECI CC35 (35 · #1–#35)
               </button>
             </div>
 
@@ -2745,7 +2895,7 @@ export default function AntkiPlPage() {
 
               <input
                 type="search"
-                placeholder="Szukaj kąta, hooka, kodu D01..."
+                placeholder="Szukaj kąta, hooka, #82, D01..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 style={{
@@ -2761,85 +2911,79 @@ export default function AntkiPlPage() {
             </div>
           </div>
 
-          {/* ROW 2: SUB-GROUP FILTER PILLS */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-            {stageFilter.startsWith("dorosli_") ? (
-              <>
-                {(
-                  [
-                    { id: "dorosli_35", label: "Wszystkie Dorośli (35)" },
-                    { id: "dorosli_d1", label: "D1: SOR & Kolano (#36–#40)" },
-                    { id: "dorosli_d2", label: "D2: 64-letnia Mama (#41–#45)" },
-                    { id: "dorosli_d3", label: "D3: Fizjo Test Łuku (#46–#50)" },
-                    { id: "dorosli_d4", label: "D4: Ostroga 6:00 Rano (#51–#55)" },
-                    { id: "dorosli_d5", label: "D5: Haluks & Botki (#56–#60)" },
-                    { id: "dorosli_d6", label: "D6: Żal po Operacji (#61–#65)" },
-                    { id: "dorosli_d7", label: "D7: 8–12h w Pracy (#66–#70)" },
-                  ] as const
-                ).map(item => (
+          {/* ROW 2: DAY CALENDAR FILTER PILLS & SORT ORDER (ZERO MESSY CATEGORIES) */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c", marginRight: 4 }}>
+                🗓️ FILTR PO DNIACH:
+              </span>
+              {(
+                [
+                  { id: "all", label: "Wszystkie dni (101)", firstNum: 82 },
+                  { id: "day_01_11", label: "📅 01.11.2026 · Dzisiaj (26 szt. · Batch 5 Sport + Batch 4 Test Pack)", firstNum: 82 },
+                  { id: "day_29_10", label: "📅 29.10.2026 (5 szt. · Batch 3 Żal V2 #71–#75)", firstNum: 71 },
+                  { id: "day_23_10", label: "📅 23.10.2026 (35 szt. · Batch 2 Dorośli #36–#70)", firstNum: 36 },
+                  { id: "day_20_10", label: "📅 20.10.2026 (35 szt. · Batch 1 Dzieci #1–#35)", firstNum: 1 },
+                ] as const
+              ).map(dayItem => {
+                const active = stageFilter === dayItem.id;
+                return (
                   <button
-                    key={item.id}
+                    key={dayItem.id}
                     type="button"
-                    onClick={() => setStageFilter(item.id)}
+                    onClick={() => {
+                      setStageFilter(dayItem.id);
+                      const first = presets.find(p => p.number === dayItem.firstNum);
+                      if (first) setActiveAngleId(first.id);
+                    }}
                     style={{
                       padding: "5px 11px",
                       borderRadius: 7,
-                      border: stageFilter === item.id ? "1px solid #fb923c" : "1px solid #3b1d0a",
-                      background: stageFilter === item.id ? "rgba(234, 88, 12, 0.28)" : "#160b04",
-                      color: stageFilter === item.id ? "#ffffff" : "#fdba74",
+                      border: active ? "1px solid #fb923c" : "1px solid #3b1d0a",
+                      background: active ? "rgba(234, 88, 12, 0.28)" : "#160b04",
+                      color: active ? "#ffffff" : "#fdba74",
                       fontSize: 11.5,
                       fontWeight: 700,
                       cursor: "pointer",
                     }}
                   >
-                    {item.label}
+                    {dayItem.label}
                   </button>
-                ))}
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setStageFilter("all_kids")}
-                  style={{
-                    padding: "5px 11px",
-                    borderRadius: 7,
-                    border: stageFilter === "all_kids" ? "1px solid #fb923c" : "1px solid #3b1d0a",
-                    background: stageFilter === "all_kids" ? "rgba(234, 88, 12, 0.28)" : "#160b04",
-                    color: stageFilter === "all_kids" ? "#ffffff" : "#fdba74",
-                    fontSize: 11.5,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                  }}
-                >
-                  Wszystkie Dzieci (35)
-                </button>
-                {STAGE_ORDER.map(stKey => {
-                  const meta = stages[stKey];
-                  if (!meta) return null;
-                  const active = stageFilter === stKey;
-                  return (
-                    <button
-                      key={stKey}
-                      type="button"
-                      onClick={() => setStageFilter(stKey)}
-                      style={{
-                        padding: "5px 11px",
-                        borderRadius: 7,
-                        border: active ? "1px solid #fb923c" : "1px solid #3b1d0a",
-                        background: active ? "rgba(234, 88, 12, 0.28)" : "#160b04",
-                        color: active ? "#ffffff" : "#fdba74",
-                        fontSize: 11.5,
-                        fontWeight: 700,
-                        cursor: "pointer",
-                      }}
-                    >
-                      {meta.shortLabel || meta.badge}
-                    </button>
-                  );
-                })}
-              </>
-            )}
+                );
+              })}
+            </div>
+
+            <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c" }}>SORTOWANIE:</span>
+              {(
+                [
+                  { key: "newest", label: "🕒 Od najnowszych (Batch 5 → 1)" },
+                  { key: "oldest", label: "📅 Od najstarszych (Batch 1 → 5)" },
+                  { key: "days", label: "🗓️ Kalendarz Dni" },
+                ] as const
+              ).map(opt => {
+                const active = sidebarSort === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setSidebarSort(opt.key)}
+                    style={{
+                      padding: "5px 10px",
+                      borderRadius: 7,
+                      border: active ? "1px solid #f97316" : "1px solid #3b1d0a",
+                      background: active ? "rgba(234, 88, 12, 0.28)" : "#160b04",
+                      color: active ? "#ffffff" : "#fdba74",
+                      fontSize: 11,
+                      fontWeight: active ? 800 : 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -2856,7 +3000,7 @@ export default function AntkiPlPage() {
           minHeight: "calc(100vh - 135px)",
         }}
       >
-        {/* LEFT COLUMN: SORTED & GROUPED LIST OF 70 ANGLES */}
+        {/* LEFT COLUMN: SORTED & GROUPED LIST OF 101 ANGLES BY BATCH & DAY */}
         <aside
           style={{
             borderRight: "1px solid #4a2610",
@@ -2885,7 +3029,7 @@ export default function AntkiPlPage() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: 12, fontWeight: 800, color: "#ffedd5" }}>
-                KĄTY ({filteredPresets.length} / {presets.length || 70})
+                ANTKI WG BATCHY ({filteredPresets.length} / {presets.length || 101})
               </span>
               <div style={{ display: "flex", gap: 6 }}>
                 <button
@@ -2926,9 +3070,9 @@ export default function AntkiPlPage() {
             <div style={{ display: "flex", gap: 4 }}>
               {(
                 [
-                  { key: "newest", label: "🕒 Najnowsze" },
-                  { key: "oldest", label: "📅 Najstarsze" },
-                  { key: "stages", label: "📊 Grupy" },
+                  { key: "newest", label: "🕒 Najnowsze Batche" },
+                  { key: "oldest", label: "📅 Najstarsze Batche" },
+                  { key: "days", label: "🗓️ Po Dniach" },
                 ] as const
               ).map(opt => {
                 const active = sidebarSort === opt.key;
@@ -2959,7 +3103,7 @@ export default function AntkiPlPage() {
           <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 14 }}>
             {loading && (
               <div style={{ padding: 24, textAlign: "center", color: "#fdba74", fontSize: 13 }}>
-                Ładowanie 70 polskich Antków Orthomax StepMax...
+                Ładowanie 101 polskich Antków Orthomax StepMax...
               </div>
             )}
             {groupedPresetsForSidebar.map(group => (
@@ -2987,7 +3131,26 @@ export default function AntkiPlPage() {
                   const ad = adByAngleId[angle.id];
                   const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
                   const status = statuses[angle.id] || "idle";
-                  const dateShort = formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
+                  const dateShort =
+                    angle.number >= 76
+                      ? "01.11"
+                      : angle.number >= 71
+                      ? "29.10"
+                      : angle.number >= 36
+                      ? "23.10"
+                      : angle.number >= 1
+                      ? "20.10"
+                      : formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
+                  const batchTag =
+                    angle.number >= 82
+                      ? "🏔️ Batch 5 · Sport (01.11)"
+                      : angle.number >= 76
+                      ? "👎 Batch 4 · Test Pack (01.11)"
+                      : angle.number >= 71
+                      ? "🔥 Batch 3 · Żal V2 (29.10)"
+                      : angle.number >= 36
+                      ? "👩 Batch 2 · Dorośli (23.10)"
+                      : "👶 Batch 1 · Dzieci (20.10)";
 
                   return (
                     <div
@@ -3085,16 +3248,15 @@ export default function AntkiPlPage() {
                         <span
                           style={{
                             fontSize: 10,
-                            fontWeight: 600,
-                            color: "#fdba74",
+                            fontWeight: 700,
+                            color: "#fed7aa",
                             background: "rgba(249, 115, 22, 0.14)",
                             border: "1px solid rgba(249, 115, 22, 0.35)",
-                            padding: "1px 5px",
+                            padding: "1px 6px",
                             borderRadius: 4,
                           }}
                         >
-                          {angle.number >= 36 ? "Dorośli · " : "Dzieci · "}
-                          {angle.code.toUpperCase()}
+                          {batchTag}
                         </span>
                         {ad?.secondImageUrl && (
                           <span

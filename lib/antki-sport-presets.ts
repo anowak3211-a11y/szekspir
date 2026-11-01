@@ -34,7 +34,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z napisem Orthomax StepMax i wieczorne wyszukanie „Orthomax StepMax opinie" przed kolejnym wyjazdem w Tatry.',
     defaultHeadline: 'Ostatnie 3 kilometry zejścia z Tatr szedłem tyłem. Ratownik w schronisku kazał mi wyjąć wkładkę z butów za 850 zł',
-    defaultImageUrl: '/antki-pl-images/sport_tab_1_marek_gory.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_82.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -58,7 +58,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty i zamówienie Pakietu 1+1 GRATIS z 30-dniową gwarancją zwrotu.',
     defaultHeadline: 'Zapłaciłem 799 zł za buty górskie z podeszwą Vibram. Kiedy wyjąłem ze środka fabryczną wkładkę, myślałem, że to żart',
-    defaultImageUrl: '/antki-pl-images/sport_tab_1_marek_gory.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_83.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -82,7 +82,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z gabinetu z nazwą Orthomax StepMax i dopisanie w domu „opinie" w wyszukiwarce.',
     defaultHeadline: 'Znajomi zeszli ze Śnieżki na obiad, a ja siedziałam na kamieniu przy szlaku i łykałam 2. tabletkę Ketonalu',
-    defaultImageUrl: '/antki-pl-images/sport_rev_1_elzbieta_58_gory.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_84.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -106,7 +106,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Zalecenie gabinetowe wkładek Orthomax StepMax w Pakiecie 1+1 GRATIS (buty górskie + buty codzienne).',
     defaultHeadline: 'Co poniedziałek w moim gabinecie siadają ludzie, którzy weszli na szczyt bez zadyszki, a na zejściu zniszczyli kolana',
-    defaultImageUrl: '/antki-pl-images/sport_tab_1_marek_gory.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_85.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -130,7 +130,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka od fizjoterapeuty z nazwą Orthomax StepMax i test Pakietu 1+1 GRATIS z gwarancją 30 dni.',
     defaultHeadline: 'Po pierwszym dniu w Beskidach rano w pensjonacie nie mogłam postawić bosej pięty na podłodze. Mąż odwrócił moje buty',
-    defaultImageUrl: '/antki-pl-images/sport_rev_1_elzbieta_58_gory.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_86.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
 
@@ -156,7 +156,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Fizjoterapeuta sportowy zapisuje na kartce „Orthomax StepMax", a Tomasz wieczorem sprawdza opinie i bierze Pakiet 1+1.',
     defaultHeadline: 'W czwartek wieczorem wygrałem mecz w padla, a w piątek o 6:00 rano szedłem do łazienki trzymając się framugi',
-    defaultImageUrl: '/antki-pl-images/sport_tab_2_tomek_padel.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_87.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -180,7 +180,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty i powrót na kort z pełną stabilizacją pięty.',
     defaultHeadline: 'Przy dobiegu do skrótu na korcie moja prawa stopa wyjechała w bucie, a w kolanie strzeliło tak, że usłyszeli to obok',
-    defaultImageUrl: '/antki-pl-images/sport_tab_2_tomek_padel.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_88.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -204,7 +204,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty i zamówienie Pakietu 1+1 GRATIS.',
     defaultHeadline: 'Przez 4 miesiące przed każdym meczem tenisa smarowałem Achillesa żelem. Fizjoterapeuta pokazał mi dziurę w mojej wkładce',
-    defaultImageUrl: '/antki-pl-images/sport_rev_5_michal_36_tenis.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_89.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -228,7 +228,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Rekomendacja nr 5 (9,5/10): dynamiczne wkładki Orthomax StepMax w Pakiecie 1+1 GRATIS z 30-dniową gwarancją.',
     defaultHeadline: 'Jako fizjoterapeuta sportowy oceniłem 5 metod, którymi gracze tenisa i padla po 30-tce próbują ratować pięty i kolana',
-    defaultImageUrl: '/antki-pl-images/sport_tab_2_tomek_padel.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_90.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -252,7 +252,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i zamówienie Pakietu 1+1 GRATIS (1 para na kort, 2. para do butów codziennych).',
     defaultHeadline: 'Po godzinie gry w tenisa czułam pod śródstopiem żywy ogień, jakbym biegała boso po rozgrzanym betonie',
-    defaultImageUrl: '/antki-pl-images/sport_rev_5_michal_36_tenis.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_91.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
 
@@ -278,7 +278,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty sportowego i Pakiet 1+1 GRATIS (1 para do korków, 2. para do butów szkolnych).',
     defaultHeadline: 'Mój 11-letni syn wsiadł po treningu na Orliku do auta, zdjął korki i rozpłakał się z bólu pięt',
-    defaultImageUrl: '/antki-pl-images/sport_tab_3_orlik_pilka.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_92.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -302,7 +302,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty i zamówienie Pakietu 1+1 GRATIS.',
     defaultHeadline: 'Mam 39 lat i po każdym wtorkowym meczu na Orliku przez 2 dni schodziłem po schodach bokiem, trzymając się poręczy',
-    defaultImageUrl: '/antki-pl-images/sport_rev_6_pawel_41_orlik_tatry.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_93.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -326,7 +326,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i test 30 dni gwarancji w wąskich butach piłkarskich.',
     defaultHeadline: 'Zapłaciłem 449 zł za markowe turfy na sztuczną trawę. Wyjąłem ze środka fabryczną wkładkę i zgiąłem ją w 2 palcach',
-    defaultImageUrl: '/antki-pl-images/sport_rev_6_pawel_41_orlik_tatry.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_94.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -350,7 +350,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax z gabinetu i zamówienie Pakietu 1+1 GRATIS (1 para dla syna, 2. para dla ojca).',
     defaultHeadline: 'Myślałem, że mój 12-letni syn przesadza z bólem pięt po treningu, dopóki sam nie zagrałem 90 minut w turnieju ojców na tym Orliku',
-    defaultImageUrl: '/antki-pl-images/sport_tab_3_orlik_pilka.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_95.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -374,7 +374,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i zamówienie Pakietu 1+1 GRATIS (korki + buty szkolne).',
     defaultHeadline: 'Trener ze szkółki piłkarskiej zawołał mnie po sparingu i kazał spojrzeć na tył korków mojego 10-letniego syna',
-    defaultImageUrl: '/antki-pl-images/sport_tab_3_orlik_pilka.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_96.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
 
@@ -400,7 +400,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax od fizjoterapeuty i przebiegnięcie 10 km po asfalcie bez bólu kolana.',
     defaultHeadline: 'Za każdym razem, gdy zegarek pokazywał 5. kilometr po asfalcie, moje kolano i piszczele zaczynały palić żywym ogniem',
-    defaultImageUrl: '/antki-pl-images/sport_tab_4_bieganie_marsze.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_97.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -424,7 +424,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i powrót do codziennych 15 000 kroków dzięki Pakietowi 1+1 GRATIS.',
     defaultHeadline: 'Zaczęłam robić 15 000 kroków dziennie i chodzić z kijkami dla zdrowia. Po 3 tygodniach nie mogłam dojść do własnej kuchni',
-    defaultImageUrl: '/antki-pl-images/sport_rev_2_kasia_42_marsz_pies.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_98.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -448,7 +448,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i drugie nagranie na bieżni pokazujące prostą oś pięty.',
     defaultHeadline: 'Fizjoterapeuta nagrał moje stopy na bieżni w 25. minucie biegu. Kiedy zwolnił film na telefonie, zamarłam',
-    defaultImageUrl: '/antki-pl-images/sport_rev_3_asia_38_bieganie.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_99.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -472,7 +472,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Kartka z nazwą Orthomax StepMax i test Pakietu 1+1 GRATIS (buty halowe + buty codzienne).',
     defaultHeadline: 'Po 2 godzinach siatkówki na twardym parkiecie wracałem do domu z piętami i kolanami obitymi jak po skokach na beton',
-    defaultImageUrl: '/antki-pl-images/sport_rev_4_marta_39_siatkowka.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_100.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
   {
@@ -496,7 +496,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Zamówienie oryginalnych wkładek Orthomax StepMax w Pakiecie 1+1 GRATIS za 99,99 zł z 30-dniową gwarancją zwrotu.',
     defaultHeadline: 'Kupiłem w markecie sportowym żelowe wkładki „Sport" za 29,99 zł. Po 10 kilometrach wyjąłem z buta rozgniecioną galaretę',
-    defaultImageUrl: '/antki-pl-images/sport_tab_4_bieganie_marsze.jpg',
+    defaultImageUrl: '/antki-pl-images/sport_antek_101.jpg',
     defaultDestinationUrl: ORTHOMAX_SPORT_PDP_URL,
   },
 ];

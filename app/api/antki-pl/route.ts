@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v16-sport-20';
+const STATE_KEY = 'antki-pl-library-v17-batches-native-sport';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -67,6 +67,20 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
     preset?.defaultImageUrl?.includes('/kie-dorosli-') &&
     nextAd.imageUrl &&
     !nextAd.imageUrl.includes('/kie-dorosli-') &&
+    !nextAd.imageUrl.startsWith('data:image/') &&
+    !nextAd.imageUrl.startsWith('http')
+  ) {
+    nextAd = {
+      ...nextAd,
+      imageUrl: preset.defaultImageUrl,
+      imageHash: preset.defaultImageHash,
+    };
+  }
+  if (
+    angleNum >= 82 &&
+    preset?.defaultImageUrl?.includes('/sport_antek_') &&
+    nextAd.imageUrl &&
+    !nextAd.imageUrl.includes('/sport_antek_') &&
     !nextAd.imageUrl.startsWith('data:image/') &&
     !nextAd.imageUrl.startsWith('http')
   ) {
