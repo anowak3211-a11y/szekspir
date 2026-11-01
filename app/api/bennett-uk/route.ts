@@ -303,6 +303,8 @@ export const POST = accountRoute(async (req: Request) => {
       fileName?: string;
       label?: string;
       adSetName?: string;
+      targetAdSetId?: string;
+      deleteAdSetIds?: string[];
       campaignId?: string;
       templateAdSetId?: string;
       urlMode?: 'pdp' | 'split_ab';
@@ -901,23 +903,31 @@ export const POST = accountRoute(async (req: Request) => {
         targeting_automation: { advantage_audience: 0 },
       };
 
-      let targetAdSetId = '';
-      try {
-        const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
-          `${campaignId}/adsets`,
-          { fields: 'id,name', limit: 50 },
-        );
-        const match = (existingAdSets.data || []).find(s => s.name === adSetName);
-        if (match?.id) {
-          targetAdSetId = match.id;
-          await directGraph(
-            targetAdSetId,
-            { targeting: rawTargeting },
-            'POST',
-          ).catch(() => null);
+      let targetAdSetId = (body.targetAdSetId || '').trim();
+      if (targetAdSetId) {
+        await directGraph(
+          targetAdSetId,
+          { targeting: rawTargeting },
+          'POST',
+        ).catch(() => null);
+      } else {
+        try {
+          const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+            `${campaignId}/adsets`,
+            { fields: 'id,name', limit: 100 },
+          );
+          const match = (existingAdSets.data || []).find(s => s.name === adSetName);
+          if (match?.id) {
+            targetAdSetId = match.id;
+            await directGraph(
+              targetAdSetId,
+              { targeting: rawTargeting },
+              'POST',
+            ).catch(() => null);
+          }
+        } catch {
+          // Fallback to creating new Ad Set
         }
-      } catch {
-        // Fallback to creating new Ad Set
       }
 
       if (!targetAdSetId) {
@@ -1077,6 +1087,20 @@ export const POST = accountRoute(async (req: Request) => {
         createdAdsCount: createdAds.length,
         createdAds,
       });
+    }
+
+    if (action === 'delete_adsets') {
+      const ids = Array.isArray(body.deleteAdSetIds) ? body.deleteAdSetIds : [];
+      const deleted: string[] = [];
+      for (const id of ids) {
+        try {
+          await directGraph(id, { status: 'DELETED' }, 'POST');
+          deleted.push(id);
+        } catch {
+          // ignore
+        }
+      }
+      return NextResponse.json({ ok: true, deleted });
     }
 
     return NextResponse.json({ error: 'Nieznana akcja API Bennett & Seed UK.' }, { status: 400 });
