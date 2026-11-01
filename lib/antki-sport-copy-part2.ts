@@ -6,7 +6,9 @@ export const ANTKI_SPORT_COPY_PART2: Record<
     headline:
       'W czwartek wieczorem wygrałem mecz w padla, a w piątek o 6:00 rano szedłem do łazienki trzymając się framugi',
     description: '',
-    primaryText: `Gwóźdź wbity prosto w środek pięty. Dokładnie to poczułem w piątek o 6:00 rano, kiedy po wygranym wieczornym meczu w padla postawiłem bosą stopę z łóżka na dębowy parkiet w sypialni. Spójrz na zdjęcie dołączone do tego posta. Widzisz tę cienką, wygniecioną na placek wkładkę wyjętą z mojego buta kortowego za 580 zł obok kartki z narysowanym długopisem schematem stopy? Przez 5 miesięcy myślałem, że ten poranny paraliż pod piętą to zwykłe zakwasy po bieganiu do siatki i że w wieku 39 lat po prostu wolniej się regeneruję.
+    primaryText: `W czwartek o 21:30 wygrałem z chłopakami mecz w padla, a w piątek o 6:00 rano stałem boso w przedpokoju obok spakowanej torby z rakietą, trzymałem się kurczowo framugi drzwi i nie byłem w stanie postawić prawej pięty na podłodze.
+
+Początkowe 10 kroków do łazienki szedłem na samych palcach jak po potłuczonym szkle, bo przy każdej próbie dociśnięcia pięty do dębowego parkietu w rozcięgno podeszwowe wbijał się żywy gwóźdź. Przez 5 miesięcy myślałem, że w wieku 39 lat to po prostu wolniejsza regeneracja po grze na hali - dopóki fizjoterapeuta nie wyjął płaskiej jak naleśnik wkładki z moich butów kortowych za 580 zł.
 
 Mam na imię Tomasz, mam 39 lat i mieszkam w Warszawie. Przez 8 godzin dziennie siedzę przy biurku przed 2 monitorami, więc wtorkowe i czwartkowe mecze w padla o 20:00 z chłopakami na hali na Ursynowie były dla mnie wentylem bezpieczeństwa. Przez 90 minut na korcie, kiedy ciało było rozgrzane, nie czułem prawie nic. Schody zaczynały się po powrocie do domu, kiedy po prysznicu siadałem na 40 minut na kanapie i próbowałem wstać po wodę.
 
@@ -77,7 +79,9 @@ P.S. Nie bierz 1 pary, żeby przekładać ją z przepoconych butów kortowych do
     headline:
       'Przy dobiegu do skrótu na korcie moja prawa stopa wyjechała w bucie, a w kolanie strzeliło tak, że usłyszeli to obok',
     description: '',
-    primaryText: `Suchy trzask pod rzepką i uczucie, jakby ktoś wbił mi rozgrzany śrubokręt po wewnętrznej stronie prawego kolana. Tak skończył się mój środowy mecz w padla w 2. secie przy stanie 4:4, kiedy ruszyłem z głębi kortu do niskiego skrótu przy siatce i zahamowałem bokiem na prawej nodze. Spójrz na zdjęcie dołączone do tego posta. Widzisz tę wyjętą z mojego buta do padla fabryczną wkładkę z wygniecionym, zapadniętym do środka brzegiem pod piętą? Przez 6 miesięcy obwiniałem swoje chrząstki i wiek, nie mając pojęcia, że przy każdym zwrocie o 180 stopni moja stopa pływa wewnątrz buta jak na kawałku mokrego kartonu.
+    primaryText: `W 2. secie środowego meczu w padla przy stanie 4:4 ruszyłem z głębi kortu do niskiego skrótu przy siatce, zahamowałem bokiem na prawej nodze i w moim kolanie strzeliło tak głośno, że usłyszeli to koledzy na sąsiednim korcie.
+
+Usiadłem na niebieskiej murawie obok rakiety, rozsznurowałem prawy but drżącymi rękami i byłem przekonany, że w wieku 42 lat właśnie rozwaliłem łąkotkę i czekają mnie 4 miesiące o kulach. Następnego dnia w gabinecie w Gdańsku fizjoterapeuta nawet nie wypisał mi skierowania na zabieg - wyjął wkładkę z mojego buta do padla i pokazał mi w lustrze, jak przy każdym zwrocie o 180 stopni moja stopa pływa wewnątrz buta jak na mokrym kartonie.
 
 Nazywam się Michał, mam 42 lata i mieszkam w Gdańsku. Kiedy 2 lata temu zamieniłem bieganie po asfalcie na padla i tenisa 2 razy w tygodniu na kortach na Przymorzu, byłem zachwycony. Tyle że w bieganiu poruszasz się w 95% prosto przed siebie, natomiast w padlu i tenisie aż 80% ruchów to gwałtowny naskok dzielony (split-step), nagłe hamowanie bokiem na krawędzi stopy, wykrok przy szybie i zwrot o 180 stopni.
 
@@ -148,7 +152,9 @@ P.S. Przed włożeniem Orthomax StepMax wyjmij z butów kortowych fabryczną wk�
     headline:
       'Przez 4 miesiące przed każdym meczem tenisa smarowałem Achillesa żelem. Fizjoterapeuta pokazał mi dziurę w mojej wkładce',
     description: '',
-    primaryText: `Stalowa, zardzewiała lina naciągnięta nad piętą do granicy pęknięcia. Dokładnie takie uczucie towarzyszyło mi przez 4 miesiące po każdym 2-godzinnym meczu tenisa, kiedy zdejmowałem buty w szatni i próbowałem zejść po 6 schodkach do wyjścia z klubu. Spójrz na zdjęcie dołączone do tego posta. Widzisz tę wyjętą z moich butów tenisowych za 620 zł oryginalną wkładkę z wytartą na wylot dziurą pod dużym palcem i zgniecioną do zera wewnętrzną krawędzią pięty? Przez całą wiosnę i lato wcierałem w ścięgno Achillesa apteczne żele za 185 zł, podczas gdy przy każdym wybiciu do serwisu i returnu moja własna pięta wyginała to ścięgno jak cięciwę łuku.
+    primaryText: `Przez 4 miesiące po każdym 2-godzinnym meczu tenisa siedziałem na drewnianej ławce przy korcie ze zdjętym butem, rozcierałem zesztywniałe jak stalowa lina ścięgno Achillesa i bałem się, że przy kolejnym starcie do skrótu usłyszę za plecami trzask pękającego ścięgna.
+
+Miesiąc wcześniej mój 41-letni kolega z ligi tenisowej zerwał Achillesa przy wybiciu do serwisu i skończył w ortezie po operacji, więc ze strachu przed każdym wyjściem na kort wcierałem w piętę i łydki apteczne żele za 185 zł. Dopiero fizjoterapeuta w Poznaniu wyciągnął z moich butów tenisowych za 620 zł wytartą na wylot fabryczną wkładkę i pokazał mi, jak przy każdym lądowaniu moja własna pięta wygina ścięgno Achillesa w łuk.
 
 Mam na imię Łukasz, mam 44 lata i mieszkam w Poznaniu. W tenisa gram amatorsko od 10 lat na kortach na Grunwaldzie i nad Maltą, w środy wieczorem i w soboty rano. Problem zaczął się w kwietniu po przejściu z balonu na twarde korty. Po każdym meczu moje lewe ścięgno Achillesa robiło się grube, gorące i sztywne jak kawałek drewna, a 2 łydki piekły tak, jakbym przebiegł maraton.
 
@@ -219,7 +225,9 @@ P.S. Wyjmij wkładkę ze swoich butów tenisowych i przyjrzyj się jej pod świa
     headline:
       'Jako fizjoterapeuta sportowy oceniłem 5 metod, którymi gracze tenisa i padla po 30-tce próbują ratować pięty i kolana',
     description: '',
-    primaryText: `500 wyhamowań na litym betonie przykrytym 12-milimetrowym dywanikiem ze sztucznej trawy. Dokładnie tyle mikro-zderzeń przyjmują Twoje pięty, ścięgna Achillesa i kolana podczas 1,5-godzinnego meczu w padla lub tenisa, kiedy po 8 godzinach siedzenia za biurkiem wychodzisz wieczorem na kort. Spójrz na zdjęcie dołączone do tego posta. Widzisz ten rząd 5 wyjętych z butów sportowych wkładek i opasek, które moi pacjenci przynieśli do gabinetu w samym ostatnim miesiącu, obok kartki z moim podsumowaniem biomechanicznym? Przez ostatnie 3 lata padel i tenis stały się najpopularniejszymi sportami wśród 30- i 40-latków w Polsce, ale w moim gabinecie we Wrocławiu wywołały prawdziwą falę identycznych urazów przeciążeniowych.
+    primaryText: `Jako fizjoterapeuta sportowy we Wrocławiu w każdy poniedziałek widzę w gabinecie to samo: 30- i 40-latków, którzy po 8 godzinach siedzenia za biurkiem wychodzą wieczorem na 90 minut padla albo tenisa, a następnego dnia o 6:00 rano nie mogą stanąć na pięcie ani zejść po schodach.
+
+Mało kto zdaje sobie sprawę, że pod cienkim, 12-milimetrowym dywanikiem ze sztucznej trawy na korcie do padla leży lity beton, na którym podczas 1 meczu Twoje stopy i kolana przyjmują ponad 500 gwałtownych wyhamowań bokiem. Przez ostatnie miesiące spisałem 5 najczęstszych metod, na które moi pacjenci z kortów wydają po 1500 zł bez efektu - i oceniłem każdą z nich w skali od 1/10 do 10/10.
 
 Nazywam się Tomasz, mam 41 lat i od 16 lat pracuję jako fizjoterapeuta sportowy i ortopedyczny we Wrocławiu. W każdym tygodniu na mojej kozetce ląduje od 8 do 12 amatorów sportów rakietowych - programistów, menedżerów, prawników i przedsiębiorców, którzy grają 2-3 razy w tygodniu i nagle w piątek o 6:00 rano nie mogą stanąć na pięcie albo schodzą po schodach z palącym kłuciem pod rzepką.
 
@@ -292,7 +300,9 @@ P.S. Jako fizjoterapeuta powtarzam to każdemu pacjentowi z kortu: noszenie wkł
     headline:
       'Po godzinie gry w tenisa czułam pod śródstopiem żywy ogień, jakbym biegała boso po rozgrzanym betonie',
     description: '',
-    primaryText: `Żywy ogień pod poduszkami palców, jakbym biegała boso po rozżarzonym węglu albo rozgrzanym do czerwoności betonie. Dokładnie to czułam w 45. minucie każdego treningu tenisa i padla, kiedy stojąc na linii końcowej musiałam czekać na serwis na ugiętych nogach i przodostopiu. Spójrz na zdjęcie dołączone do tego posta. Widzisz tę wyjętą z mojego damskiego buta tenisowego cienką jak tektura wkładkę z 2 ciemnymi, wgniecionymi na wylot wgłębieniami pod śródstopiem i piętą? Przez 5 miesięcy myślałam, że kupuję za ciasne buty albo mam za słabe stopy po 40-tce, nie wiedząc, że przy każdym podskoku na korcie miażdżę własne nerwy śródstopia o twardą podeszwę.
+    primaryText: `Po 45 minutach każdego treningu tenisa musiałam schodzić na ławkę przy korcie, ściągać prawy but i rozmasowywać spód stopy dłońmi, bo pod poduszkami palców czułam żywy ogień, jakbym biegała boso po rozgrzanym do czerwoności betonie.
+
+Kiedy po odchowaniu dzieci wreszcie znalazłam w wieku 41 lat 3 godziny w tygodniu na korty w Krakowie, zamiast radości z gry wracałam do domu z palącym śródstopiem, zesztywniałymi łydkami i kłuciem pod rzepką na schodach. Wydałam 1050 zł na 2 pary markowych butów kortowych, zanim podolog pokazał mi w 10 sekund, jak na 2-milimetrowej fabrycznej piance przy każdym podskoku miażdżę własne nerwy śródstopia.
 
 Mam na imię Magdalena, mam 41 lat i mieszkam w Krakowie. Kiedy dzieci podrosły, wróciłam do dawnej pasji ze studiów i zapisałam się na treningi tenisa oraz kobiece rozgrywki padla 2 razy w tygodniu na kortach na Woli Justowskiej i Czyżynach.
 

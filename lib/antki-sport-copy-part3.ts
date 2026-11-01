@@ -6,9 +6,9 @@ export const ANTKI_SPORT_COPY_PART3: Record<
     headline:
       "Mój 11-letni syn wsiadł po treningu na Orliku do auta, zdjął korki i rozpłakał się z bólu pięt",
     description: "",
-    primaryText: `Pięty palą żywym ogniem.
+    primaryText: `Kiedy w czwartek o 19:00 skończył się trening na Orliku, mój 11-letni syn Kuba nawet nie doszedł o własnych siłach do samochodu - usiadł na ławce przy boisku, zsunął ze stóp korki i rozpłakał się z bezsilności, bo nie mógł dotknąć piętą ziemi.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz mojego 11-letniego syna Kubę, który siedzi w zielonym stroju piłkarskim na tylnej kanapie samochodu przy siatce oświetlonego Orlika, trzyma się 2 dłońmi za gołą piętę i zaciska powieki, a obok na wycieraczce leżą jego czarne korki? Zrobiłam to zdjęcie w czwartkowy wieczór na parkingu pod boiskiem w Poznaniu, kiedy po raz 4. w tym miesiącu nie był w stanie przejść 30 metrów z szatni do auta.
+Chłopiec, który rok wcześniej rozciął kolano na betonie i nie pisnął przy szyciu, schodził ze sztucznej murawy na samych czubkach palców z twarzą białą jak kreda. W przychodni ortopeda pomacał jego piętę przez 2 minuty i rzucił wyrok: „Choroba Severa, 6 miesięcy zakazu gry w piłkę" - dopóki fizjoterapeuta sportowy nie wyrwał z jego korków za 389 zł fabrycznej wkładki grubości kartki papieru.
 
 Mam na imię Małgorzata, mam 38 lat i mieszkam w Poznaniu. Dla mojego 11-letniego Kuby piłka nożna to cały świat. Trenuje 3 razy w tygodniu w klubie plus w soboty gra mecze ligowe. Sam czyści buty po każdym treningu i zasypia z piłką przy łóżku.
 
@@ -91,9 +91,9 @@ P.S. Wyjmij dziś wieczorem fabryczną wkładkę z korków swojego dziecka i zeg
     headline:
       "Mam 39 lat i po każdym wtorkowym meczu na Orliku przez 2 dni schodziłem po schodach bokiem, trzymając się poręczy",
     description: "",
-    primaryText: `Schody pokonane bokiem.
+    primaryText: `Mam 39 lat i przez ostatnie pół roku w każdą środę o 6:30 rano, dzień po naszym wtorkowym meczu na Orliku, schodziłem ze schodów we własnym mieszkaniu bokiem, kurczowo trzymając się poręczy jak 80-letni staruszek.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz moje kolano owinięte czarną opaską uciskową, moje zdarte turfy pod szafką i puszkę żelu chłodzącego na schodach w mieszkaniu? Zrobiłem to zdjęcie w środę o 6:30 rano we Wrocławiu, kiedy po wtorkowym meczu na Orliku musiałem schodzić z 2. piętra do samochodu krokiem dostawnym, kurczowo trzymając się barierki, bo przy każdym zgięciu kolan czułem pod rzepkami wbijane gwoździe.
+Kiedy miałem 25 lat, mogłem grać 2 godziny na betonie i rano biec na autobus bez 1 skurczu, a teraz po 90 minutach na sztucznej murawie przy każdym zgięciu kolan czułem pod rzepkami wbijane gwoździe, a żona straszyła mnie stołem operacyjnym. Wydałem 1131 zł na nowe turfy, opaski uciskowe i kolagen, zanim fizjoterapeuta we Wrocławiu pokazał mi przed lustrem, jak po 20 minutach gry w wąskich butach piłkarskich sam wykręcam sobie kolano.
 
 Mam na imię Kamil, mam 39 lat, pracuję przy biurku we Wrocławiu, a wtorkowa piłka o 20:00 z ekipą ze studiów to mój święty rytuał. Przez 90 minut na boisku człowiek zapomina o kredycie i mailach. Kiedy miałem 25 lat, mogłem grać 2 godziny na betonie, przespać 6 godzin i rano biec na autobus bez 1 skurczu.
 
@@ -174,9 +174,9 @@ P.S. Zanim wydasz kolejne 400 zł na nowe buty piłkarskie albo kolagen, wyjmij 
     headline:
       "Zapłaciłem 449 zł za markowe turfy na sztuczną trawę. Wyjąłem ze środka fabryczną wkładkę i zgiąłem ją w 2 palcach",
     description: "",
-    primaryText: `2 milimetry zwykłej pianki.
+    primaryText: `W zeszłym miesiącu zapłaciłem 449 zł za nowe, markowe turfy na sztuczną trawę, a po 45 minutach czwartkowego meczu na Orliku w Katowicach siedziałem na ławce ze zdjętymi butami, bo moje pięty i śródstopie paliły tak, jakbym biegał boso po żwirze.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz w mojej dłoni tę cienką, neonową wkładkę wyjętą z markowych butów piłkarskich za 449 zł, którą bez oporu zgiąłem w 2 palcach jak mokry karton po mleku? Zrobiłem to zdjęcie na ławce w szatni w Katowicach po tym, jak po 45 minutach gry w zupełnie nowych butach moje pięty i śródstopie paliły tak, jakbym biegał boso po żwirze.
+Kiedy wyszarpałem ze środka fabryczną wkładkę, położyłem ją na ławce obok buta i zgiąłem w 2 palcach jak mokry karton po mleku, zbaraniałem: w bucie za 449 zł leżał płaski kawałek najtańszej pianki o grubości 2 milimetrów, który na wadze kuchennej ważył dokładnie 14 gramów.
 
 Nazywam się Rafał, mam 36 lat, mieszkam w Katowicach i gram w amatorskiej lidze szóstek na sztucznej murawie 2 razy w tygodniu. Przez lata wydawało mi się, że ból stóp, piekące pięty i ciągnące rozcięgno podeszwowe po meczu na Orliku to wina tanich butów za 200-250 zł.
 
@@ -255,9 +255,9 @@ P.S. Nie musisz kupować kolejnej pary butów piłkarskich za 500 zł w nadziei,
     headline:
       "Myślałem, że mój 12-letni syn przesadza z bólem pięt po treningu, dopóki sam nie zagrałem 90 minut w turnieju ojców na tym Orliku",
     description: "",
-    primaryText: `Wstyd przed własnym dzieckiem.
+    primaryText: `Przez 2 miesiące powtarzałem mojemu 12-letniemu synowi Bartkowi, żeby się nie mazał, kiedy po każdym treningu na Orliku wracał do domu i narzekał na kłucie w piętach oraz pod rzepką.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz te 2 pary ubłoconych czarnym granulatem butów piłkarskich stojące obok siebie w przedpokoju - mniejsze korki rozmiar 40 mojego 12-letniego syna i moje dorosłe turfy rozmiar 44? Zrobiłem to zdjęcie w niedzielny poranek w Gdańsku, kiedy po sobotnim turnieju Ojcowie kontra Synowie stałem w korytarzu na 1 nodze, gryzłem się w język z bólu pięt i czułem palący wstyd za każde słowo, które przez ostatnie 2 miesiące powiedziałem dziecku.
+Mówiłem mu jak typowy, mądry tata: „Rozbiegasz to, za moich czasów graliśmy na betonie w trampkach z bazaru i nikt nie płakał" - dopóki w sobotę sam nie zagrałem 90 minut w turnieju Ojcowie kontra Synowie na tym samym boisku. Schodziliśmy z murawy przez furtkę obaj w samych skarpetkach, niosąc korki w rękach, a w niedzielę o 7:30 rano postawiłem stopy na parkiecie z takim ogniem w piętach, że ze wstydu przed własnym dzieckiem nie wiedziałem, gdzie podziać oczy.
 
 Mam na imię Marcin, mam 41 lat i mieszkam w Gdańsku. Mój 12-letni syn Bartek trenuje piłkę nożną w szkółce. Od września po każdym treningu na szkolnym Orliku wracał do domu, siadał w przedpokoju i mówił, że kłują go pięty oraz miejsce pod rzepką w prawym kolanie.
 
@@ -344,9 +344,9 @@ P.S. Przeprosiłem Bartka przy całej drużynie na kolejnym turnieju. Jeśli Two
     headline:
       "Trener ze szkółki piłkarskiej zawołał mnie po sparingu i kazał spojrzeć na tył korków mojego 10-letniego syna",
     description: "",
-    primaryText: `Wykrzywione jak litera X.
+    primaryText: `W sobotę po 40 minutach sparingu trener zdjął mojego 10-letniego syna Filipa z boiska, zawołał mnie za linię boczną i kazał spojrzeć na tył jego korków.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz postawione od tyłu na trawie korki mojego 10-letniego syna Filipa, w których 2 cholewki są przechylone do wewnątrz pod ostrym kątem, a wewnętrzne kołki pod piętą są starte niemal na płasko w porównaniu z zewnętrznymi? Zrobiłam to zdjęcie w sobotę na boisku w Krakowie, dokładnie 2 minuty po tym, jak trener ze szkółki zawołał mnie po sparingu za linię boczną i pokazał palcem, co dzieje się z nogami mojego dziecka w trakcie gry.
+Cholewki obu butów, które kupiliśmy 6 tygodni wcześniej za 399 zł, były wygięte do środka tak mocno, że wewnętrzne kostki Filipa niemal ocierały o sztuczną trawę, a jego kolana schodziły się w kształt litery X. Kiedy Filip usiadł na ławce i odwróciliśmy podeszwy, wewnętrzne kołki pod piętą i śródstopiem były starte o połowę mocniej niż zewnętrzne.
 
 Mam na imię Marta, mam 37 lat i mieszkam w Krakowie. Mój 10-letni Filip trenuje w akademii piłkarskiej od 3 lat. Zawsze był szybkim skrzydłowym. Ale tej jesieni przez początkowe 25 minut meczu biegał normalnie, a po 35-40 minutach nagle tracił zwrotność, potykał się przy zwrotach z piłką i łapał się ręką za wewnętrzną stronę kolana oraz pachwinę.
 

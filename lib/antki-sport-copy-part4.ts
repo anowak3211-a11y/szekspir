@@ -6,9 +6,9 @@ export const ANTKI_SPORT_COPY_PART4: Record<
     headline:
       "Za każdym razem, gdy zegarek pokazywał 5. kilometr po asfalcie, moje kolano i piszczele zaczynały palić żywym ogniem",
     description: "",
-    primaryText: `5,02 km na zegarku. I znowu ten sam paraliżujący ogień w piszczelach.
+    primaryText: `Przez 6 miesięcy każdy mój wieczorny bieg po warszawskim Ursynowie kończył się dokładnie w tym samym miejscu: równo na 5. kilometrze pod prawą rzepką i wzdłuż piszczeli wybuchał taki ogień, że musiałem siadać na ławce w parku i wracać 2,5 kilometra do bloku kuśtykając po chodniku.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten wykres tempa na ekranie zegarka obok stopy opartej o krawężnik na warszawskim Ursynowie? Przez początkowe 4 kilometry linia jest równa, a równo na 5. kilometrze urywa się pionowo w dół. To dokładny moment, w którym moje prawe kolano przeszył taki prąd, że musiałem zatrzymać się przy latarni i wracać 2,5 kilometra do bloku kuśtykając po chodniku.
+Początkowe 4 kilometry biegłem lekko i z równym oddechem, a po 20 minutach moje nogi nagle zamieniały się w betonowe kłody, jakby ktoś wbijał mi w kość piszczelową rozgrzany śrubokręt. Wydałem 1370 zł na 2 pary butów biegowych z najgrubszą pianką amortyzującą, zanim fizjoterapeuta pokazał mi w 10 sekund, dlaczego im miększy but kupowałem, tym mocniej wykręcałem sobie kolano.
 
 Mam 37 lat, pracuję po 9 godzin dziennie przed komputerem w Warszawie i biegam 3 razy w tygodniu wieczorami tylko po to, żeby nie zwariować od stresu i nie zapuścić brzucha. Chciałem po prostu przebiec spokojne 7 albo 8 kilometrów po osiedlowych ścieżkach, zresetować głowę i wrócić do domu z uśmiechem.
 
@@ -74,9 +74,9 @@ P.S. Nie wyrzucaj swoich obecnych butów do biegania - wyjmij z nich oryginalną
     headline:
       "Zaczęłam robić 15 000 kroków dziennie i chodzić z kijkami dla zdrowia. Po 3 tygodniach nie mogłam dojść do własnej kuchni",
     description: "",
-    primaryText: `Miało być zdrowe serce i 5 kilogramów mniej. A skończyło się łzami przy czajniku o 6:00 rano.
+    primaryText: `Lekarz kazał mi robić po 15 000 kroków dziennie i chodzić z kijkami dla zdrowego serca oraz zbicia cukru, a po 3 tygodniach ambitnych marszów po wrocławskich parkach nie byłam w stanie dojść o 6:00 rano do własnej kuchni.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz te 2 kijki do Nordic Walking oparte o szafkę w przedpokoju, niebieską miskę z wodą i pudełko soli bocheńskiej obok moich butów? Zrobiłam to zdjęcie w dzień, w którym po 3 tygodniach ambitnego marszu „dla zdrowia” nie byłam w stanie postawić gołej pięty na płytkach w łazience.
+Zamiast formy i 5 kilogramów mniej dorobiłam się takiego zapalenia rozcięgna podeszwowego, że w połowie spaceru musiałam siadać na ławce przy alejce, zsuwać but i rozmasowywać piekącą piętę. Dopiero fizjoterapeuta wytłumaczył mi brutalną matematykę: zwiększając dzienną dawkę ruchu z 4000 do 15 000 kroków po asfalcie na płaskiej wkładce, pomnożyłam mikrourazy zapadającego się łuku stopy dokładnie razy 4.
 
 Mam 53 lata, mieszkam we Wrocławiu i pracuję na siedząco w biurze rachunkowym. Podczas badań okresowych lekarz spojrzał na moje wyniki cukru, ciśnienie oraz wagę i powiedział wprost: „Pani Beato, tabletki to nie wszystko. Musi pani zacząć codziennie szybko maszerować, robić od 12 000 do 15 000 kroków dziennie, to cukier i waga same pójdą w dół”.
 
@@ -140,9 +140,9 @@ P.S. Koniecznie weź zestaw z 2 parami i włóż 2. parę do obuwia domowego, w 
     headline:
       "Fizjoterapeuta nagrał moje stopy na bieżni w 25. minucie biegu. Kiedy zwolnił film na telefonie, zamarłam",
     description: "",
-    primaryText: `13 stopni przechyłu do środka. Moja kostka prawie szorowała o taśmę bieżni, a ja nawet o tym nie wiedziałam.
+    primaryText: `Kiedy poszłam do sklepu dla biegaczy w Gdańsku, sprzedawca kazał mi przebiec 15 sekund po dywaniku, powiedział, że ląduję prosto, i sprzedał mi buty za 680 zł, po których moje prawe kolano, biodro i lędźwie rwały jeszcze gorzej.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten ekran telefonu trzymanego w dłoni, na którym w zwolnionym tempie widać tył moich butów biegowych i czerwoną linię załamującą się na wysokości kostki? Po lewej stronie jest 1. minuta mojego biegu, a po prawej 25. minuta. Kiedy fizjoterapeuta w Gdańsku zatrzymał tę klatkę filmu i przybliżył obraz 2 palcami, zrobiło mi się słabo.
+Dopiero fizjoterapeuta biomechanik ustawił kamerę za bieżnią elektryczną i nagrał moje stopy od tyłu w 25. minucie biegu, kiedy mięśnie stóp zaczęły opadać z sił. Gdy zatrzymał nagranie i zobaczyłam, jak moja prawa kostka przy każdym kroku łamie się do środka pod kątem 13 stopni i niemal szoruje o taśmę bieżni, zrobiło mi się słabo.
 
 Mam 38 lat, 2 dzieci w wieku szkolnym, pracuję w Gdańsku i biegam 3 razy w tygodniu po 40 minut wzdłuż pasa nadmorskiego. To moje jedyne 40 minut ciszy w ciągu doby, kiedy nikt ode mnie niczego nie chce i mogę przewietrzyć głowę. Chciałam po prostu utrzymać formę i zdrowy kręgosłup.
 
@@ -206,11 +206,11 @@ P.S. Możesz zrobić ten sam test w domu - poproś kogoś bliskiego, żeby nagra
     headline:
       "Po 2 godzinach siatkówki na twardym parkiecie wracałem do domu z piętami i kolanami obitymi jak po skokach na beton",
     description: "",
-    primaryText: `150 wyskoków w 2 godziny na szkolnym parkiecie. A rano schodziłem z łóżka na rękach.
+    primaryText: `W 3. secie naszego czwartkowego meczu siatkówki po kolejnym lądowaniu z bloku pod prawą rzepką zapiekło mnie tak mocno, że musiałem usiąść na ławce pod ścianą, rozsznurować halówki i patrzeć, jak chłopaki kończą grę w 5 osób.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten drewniany parkiet hali sportowej w Poznaniu, moje halówki z odpiętą rzepą i dłoń przyciśniętą dokładnie pod rzepką prawego kolana? Zrobiłem to zdjęcie na ławce rezerwowych w 3. secie naszego czwartkowego meczu siatkówki, kiedy po kolejnym lądowaniu z bloku pod moim kolanem zapiekło tak mocno, że musiałem zejść z boiska i patrzeć, jak chłopaki kończą grę w 5 osób.
+Mam 35 lat, ważę 88 kilogramów i przez ostatnie pół roku po każdych 2 godzinach grania na twardym szkolnym parkiecie w Poznaniu wracałem do domu z obitymi kośćmi piętowymi i więzadłem rzepki palącym żywym ogniem. Kupiłem buty siatkarskie z poduszką powietrzną za 550 zł i opaski podrzepkowe, ale dopiero fizjoterapeuta pokazał mi, jak przy 150 wyskokach na mecz moja stopa rozlewa się w bucie na płasko.
 
-Mam 35 lat, mieszkam w Poznaniu i 2 razy w tygodniu - we wtorki i czwartki o 20:00 - spotykamy się ze znajomymi na szkolnej hali, żeby pograć 2 godziny w siatkówkę i koszykówkę. Po całym tygodniu pracy w firmie te 2 godziny rywalizacji pod siatką trzymają mnie przy życiu.
+Mieszkam w Poznaniu i 2 razy w tygodniu - we wtorki i czwartki o 20:00 - spotykamy się ze znajomymi na szkolnej hali, żeby pograć 2 godziny w siatkówkę i koszykówkę. Po całym tygodniu pracy w firmie te 2 godziny rywalizacji pod siatką trzymają mnie przy życiu.
 
 Problem w tym, że szkolny parkiet ułożony na betonowej wylewce nie wybacza niczego, gdy masz 35 lat i ważysz 88 kilogramów. Przez ostatnie 6 miesięcy każdy wtorek i czwartek kończył się identycznym scenariuszem. Na rozgrzewce i w 1. secie było znośnie. Ale po 60 minutach gry i 80 wyskokach do bloku moje stopy i kolana zamieniały się w pobojowisko.
 
@@ -272,9 +272,9 @@ P.S. 2. para z pakietu 1+1 GRATIS robi gigantyczną robotę w codziennych butach
     headline:
       "Kupiłem w markecie sportowym żelowe wkładki „Sport” za 29,99 zł. Po 10 kilometrach wyjąłem z buta rozgniecioną galaretę",
     description: "",
-    primaryText: `29,99 zł w błoto. I ścięgno Achillesa napuchnięte tak, że nie mogłem zapiąć buta.
+    primaryText: `Chciałem zaoszczędzić 70 zł na wkładkach do biegania, więc kupiłem w markecie sportowym niebiesko-żółte wkładki żelowe „Active Sport" za 29,99 zł - a po 10 kilometrach marszobiegu wróciłem do domu z tak spuchniętym ścięgnem Achillesa, że w przedpokoju ledwo zdjąłem buty.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz te 2 przecięte wkładki leżące obok siebie na stole w gabinecie fizjoterapeuty w Krakowie? Po lewej stronie leży niebiesko-żółty, rozgnieciony na naleśnik kawałek silikonu z dużego marketu sportowego za 29,99 zł, który pod piętą ma zaledwie 1 milimetr grubości. A po prawej wielowarstwowa konstrukcja ze sztywnym korytkiem i sprężystym mostkiem. To zdjęcie pokazuje dokładnie, jak prawie załatwiłem sobie ścięgno Achillesa i śródstopie, chcąc zaoszczędzić 70 zł.
+Kiedy wyciągnąłem ten marketowy silikon ze środka, był mokry od potu, odklejony na brzegach, a pod piętą pod ciężarem moich 86 kilogramów ugniótł się na 1-milimetrowy naleśnik. W poniedziałek fizjoterapeuta w Krakowie przeciął tę żelową galaretę nożyczkami na 2 części i w 10 sekund pokazał mi, dlaczego miękki żel bez sztywnego korytka to największa pułapka dla ścięgna Achillesa.
 
 Mam 45 lat, mieszkam w Krakowie i w każdy weekend oraz 2 razy w tygodniu po pracy robię szybkie marszobiegi po 10 - 15 kilometrów po Błoniach i bulwarach wiślanych. Po przekroczeniu 40. roku życia moje stopy zaczęły dawać o sobie znać: po 7 - 8 kilometrach marszobiegu po asfalcie zaczynało mnie palić całe śródstopie pod palcami, a rano czułem ciągnięcie i sztywność w prawym ścięgnie Achillesa.
 

@@ -6,9 +6,9 @@ export const ANTKI_SPORT_COPY_PART1: Record<
     headline:
       "Ostatnie 3 kilometry zejścia z Tatr szedłem tyłem. Ratownik w schronisku kazał mi wyjąć wkładkę z butów za 850 zł",
     description: "",
-    primaryText: `Szedłem tyłem.
+    primaryText: `Ostatnie 3 kilometry zejścia znad Morskiego Oka do parkingu w Palenicy Białczańskiej schodziłem tyłem, trzymając się drewnianej barierki jak 80-letni starzec po operacji biodra.
 
-Ostatnie 3 kilometry asfaltu znad Morskiego Oka do parkingu w Palenicy Białczańskiej pokonałem odwrócony plecami do kierunku marszu, trzymając się drewnianej barierki jak 80-letni starzec po operacji biodra. Spójrz na zdjęcie dołączone do tego posta. Widzisz ten cienki, wygnieciony kawałek szarej pianki leżący na drewnianej ławie obok mojego buta trekkingowego z podeszwą Vibram? To właśnie na tym 2-milimetrowym listku gąbki moje stopy oraz kolana przyjęły ponad 18 000 uderzeń o tatrzański granit.
+Mijali mnie 60-latkowie w zwykłych butach sportowych i rodziny z małymi dziećmi, a ja musiałem co 400 metrów zatrzymywać się na kamiennych stopniach przy drewnianej barierce, łapać się za prawe kolano i nie rozumiałem, dlaczego w nowych butach górskich za 850 zł pod rzepką wbija mi się żywy gwóźdź. Dopiero ratownik i fizjoterapeuta pod schroniskiem kazał mi wyciągnąć ze środka ten 2-milimetrowy listek szarej gąbki - i w 10 sekund pokazał mi, jak przy każdym kroku w dół sam miażdżę sobie kolano.
 
 Mam 46 lat, mieszkam w Krakowie i zawsze uważałem się za faceta w dobrej formie. Ważę 83 kilogramy, 2 razy w tygodniu chodzę na basen albo kręcę 30 kilometrów na rowerze wzdłuż Wisły. Kiedy ze znajomymi zaplanowaliśmy weekendowe przejście z Doliny 5 Stawów przez Szpiglasową Przełęcz do Morskiego Oka, wydałem w sklepie górskim 850 zł na nowe, sztywne buty trekkingowe znanej włoskiej marki.
 
@@ -77,9 +77,9 @@ P.S. Nie zamawiaj tylko 1 pary do przekładania między butami - w pakiecie 1+1 
     headline:
       "Zapłaciłem 799 zł za buty górskie z podeszwą Vibram. Kiedy wyjąłem ze środka fabryczną wkładkę, myślałem, że to żart",
     description: "",
-    primaryText: `Myślałem, że to ponury żart producenta.
+    primaryText: `Przez 2 sezony wmawiałem sobie, że piekące jak żywy ogień pięty i spuchnięte kolana po 12 kilometrach w Karkonoszach to wina moich 49 lat i 6 dodatkowych kilogramów po zimie.
 
-Wyjąłem ze środka mojego buta górskiego za 799 zł fabryczną wkładkę, położyłem ją na biurku i zgiąłem w 2 palcach. Złożyła się bez oporu jak zwykła tekturka. Spójrz na zdjęcie dołączone do tego posta. Widzisz ten płaski, wygnieciony listek cienkiej pianki z odbitym śladem mojej pięty leżący obok buta z podeszwą Vibram? Na tym czymś przez 2 sezony chodziłem po Karkonoszach oraz Górach Stołowych, obwiniając swój wiek i wagę o to, że po 12 kilometrach marszu moje pięty palą jak żywy ogień, a kolana puchną jak balony.
+Wydałem 799 zł na nowe buty górskie z membraną Gore-Tex i podeszwą Vibram, ale po pierwszym zejściu z Gór Stołowych rano w przedpokoju znów siedziałem na ławce, trzymałem się za piętę i nie mogłem postawić bosej stopy na podłodze. Kiedy wyjąłem ze środka butów za 799 zł te cienkie jak papier fabryczne wkładki, które leżą obok moich butów na podłodze, a fizjoterapeuta zgiął je w 2 palcach jak tekturkę po mleku, zrozumiałem, na czym przez 2 lata tłukłem swoje stawy.
 
 Mam 49 lat, mieszkam we Wrocławiu i wyjazdy w góry od lat były moim sposobem na reset po całym tygodniu pracy. Mam godzinę drogi do Karpacza czy Szklarskiej Poręby, więc znałem każdy szlak pod Śnieżką. Kiedy 2 sezony temu po 12-kilometrowej pętli przez Samotnię ledwo doszedłem do auta na parkingu, zrzuciłem winę na 49 lat w dowodzie oraz 6 dodatkowych kilogramów po zimie.
 
@@ -144,9 +144,9 @@ P.S. Przed włożeniem Orthomax StepMax koniecznie wyjmij z butów fabryczną wk
     headline:
       "Znajomi zeszli ze Śnieżki na obiad, a ja siedziałam na kamieniu przy szlaku i łykałam 2. tabletkę Ketonalu",
     description: "",
-    primaryText: `Łykałam 2. tabletkę Ketonalu na sucho.
+    primaryText: `Kiedy 4 naszych znajomych siedziało już na dole w Karpaczu przy ciepłym obiedzie, ja siedziałam na drewnianej ławie w połowie zejścia ze Śnieżki z rozsznurowanym butem, łykałam 2. tabletkę Ketonalu i modliłam się, żeby mijający nas turyści nie patrzyli na moje mokre od łez oczy.
 
-Siedziałam na zimnym głazie w połowie zejścia ze Śnieżki do Karpacza, popijałam tabletkę resztką wody z termosu i modliłam się, żeby mijający nas turyści nie patrzyli na moje mokre od łez oczy, podczas gdy 4 naszych znajomych siedziało już na dole w restauracji przy ciepłym obiedzie. Spójrz na zdjęcie dołączone do tego posta. Widzisz ten stromy, ułożony z granitowych kostek bruk i moje buty górskie oparte o kamień przy szlaku? Na tym zejściu moje lewe kolano oraz pięty zablokowały się tak brutalnie, że z bólu i wstydu przed grupą nie byłam w stanie zrobić kolejnego kroku w dół.
+Podczas podejścia pod górę nie miałam nawet zadyszki, ale po 25 minutach schodzenia po twardym, karkonoskim bruku moje lewe kolano oraz pięty zablokowały się tak brutalnie, że z bólu i wstydu przed grupą nie byłam w stanie zrobić kolejnego kroku w dół. Myślałam, że w wieku 52 lat moje stawy po prostu się skończyły - dopóki fizjoterapeutka w Poznaniu nie kazała mi wyjąć wkładki z butów górskich i nie zrobiła 10-sekundowego testu przed lustrem.
 
 Mam 52 lata, mieszkam w Poznaniu i zawsze byłam osobą w ruchu. Chodzę na spacery wokół Jeziora Maltańskiego, a co 2 miesiące wyjeżdżamy z mężem oraz paczką przyjaciół w góry. Zawsze szłam z przodu i trzymałam tempo.
 
@@ -209,13 +209,11 @@ P.S. 1. parę włóż na stałe do butów górskich, a 2. parę do butów codzie
     headline:
       "Co poniedziałek w moim gabinecie siadają ludzie, którzy weszli na szczyt bez zadyszki, a na zejściu zniszczyli kolana",
     description: "",
-    primaryText: `Wszedł na szczyt bez zadyszki, a na zejściu prawie znosili go na plecach.
+    primaryText: `W każdy poniedziałek od wiosny do późnej jesieni w moim gabinecie fizjoterapii w Katowicach powtarza się dokładnie ten sam widok: otwierają się drzwi i wchodzi pacjent między 35. a 60. rokiem życia, który utyka na sztywnej nodze po weekendzie w Beskidach, Tatrach lub Bieszczadach.
 
-Od wiosny do późnej jesieni w każdy poniedziałek rano w moim gabinecie w Katowicach powtarza się dokładnie ten sam widok. Otwierają się drzwi i wchodzi pacjent w wieku od 35 do 60 lat, który utyka na sztywnej nodze po weekendzie w Beskidach, Tatrach lub Bieszczadach. Spójrz na zdjęcie dołączone do tego posta. Widzisz tę cienką, płaską fabryczną wkładkę wyjętą z markowego buta trekkingowego leżącą obok modelu stopy na moim biurku? Przez ten 2-milimetrowy kawałek pianki ludzie ze świetną wydolnością wracają ze szlaków z rozbitymi kolanami i palącymi piętami.
+Wszyscy siadają na kozetce i powtarzają niemal słowo w słowo to samo: „Panie Tomku, na szczyt wszedłem bez zadyszki, a w połowie zejścia pod rzepką i w piętach poczułem taki ogień, że ostatnie 4 kilometry do parkingu szedłem 2 godziny z zaciśniętymi zębami". Kiedy miesiąc temu przyszedł do mnie 47-letni Andrzej po zejściu z Pilska, nawet nie zaczynałem od badania kolana - kazałem mu zdjąć buty trekkingowe za 820 zł i w 10 sekund pokazałem mu na jego własnej stopie, dlaczego na zejściu niszczy sobie stawy.
 
-Nazywam się Tomasz, mam 41 lat i od 16 lat pracuję jako fizjoterapeuta w Katowicach. Sam chodzę po górach i doskonale znam ten schemat. Wszyscy ci pacjenci w poniedziałek powtarzają niemal słowo w słowo to samo: „Panie Tomku, kondycyjnie wszedłem na górę bez problemu, oddech równy, a dramat zaczął się w połowie zejścia - pod rzepką i w piętach poczułem taki ogień, że ostatnie 4 kilometry do parkingu szedłem 2 godziny z zaciśniętymi zębami".
-
-Miesiąc temu przyszedł do mnie 47-letni Andrzej z Tychów. Inżynier budownictwa, szczupły, regularnie chodzący po górach. Przyniósł teczkę z badaniami oraz markowe buty trekkingowe za 820 zł.
+Nazywam się Tomasz, mam 41 lat i od 16 lat pracuję jako fizjoterapeuta w Katowicach. Sam chodzę po górach i doskonale znam ten schemat. Miesiąc temu przyszedł do mnie wspomniany 47-letni Andrzej z Tychów. Inżynier budownictwa, szczupły, regularnie chodzący po górach. Przyniósł teczkę z badaniami oraz markowe buty trekkingowe za 820 zł.
 
 Przez 7 dni obserwacji po zejściu z Pilska Andrzej notował wszystko, co działo się z jego nogami w ciągu tygodnia. Przez cały tydzień po weekendzie schodził ze schodów w domu bokiem, trzymając się kurczowo poręczy. Rano po wstaniu z łóżka przez 10 minut chodził po sypialni na sztywnych piętach jak po rozżarzonym węglu. Podczas jazdy autem do Katowic po 30 minutach trzymania nogi na pedale gazu pod prawą rzepką czuł tak ostre, rozpierające kłucie, że musiał zjeżdżać na parking i prostować nogę. Nawet wyjście z biura po 2 godzinach siedzenia kończyło się głośnym chrupnięciem w stawie.
 
@@ -274,9 +272,9 @@ P.S. Jako fizjoterapeuta zalecam włożyć 1. parę do butów górskich, a 2. pa
     headline:
       "Po pierwszym dniu w Beskidach rano w pensjonacie nie mogłam postawić bosej pięty na podłodze. Mąż odwrócił moje buty",
     description: "",
-    primaryText: `Nie mogłam postawić bosej pięty na podłodze.
+    primaryText: `O 6:00 rano w pensjonacie w Wiśle, po 1. dniu naszego wyjazdu w Beskidy, spuściłam nogi z łóżka na podłogę i syknęłam z bólu tak głośno, że obudziłam męża.
 
-Była 6:00 rano w pensjonacie w Wiśle, zaczynał się 2. dzień naszego 4-dniowego wyjazdu w Beskidy, a ja siedziałam na brzegu łóżka ze łzami w oczach. Spójrz na zdjęcie dołączone do tego posta. Widzisz moje buty górskie postawione przez męża na drewnianym stole podeszwą do góry oraz wyjętą ze środka, wgniecioną na naleśnik fabryczną wkładkę? Kiedy mąż pokazał mi zdartą od wewnętrznej strony piętę buta i ten cienki listek pianki, zrozumiałam, dlaczego po 18 kilometrach na szlaku rano szłam do łazienki jak na szczudłach, trzymając się ściany.
+Pod obiema piętami i śródstopiem poczułam żywy ogień, jakbym stanęła boso na rozżarzonym węglu - do łazienki oddalonej o 4 metry szłam ponad minutę na sztywnych kostkach jak na szczudłach, trzymając się oburącz ściany i framugi. Kiedy mąż postawił moje buty górskie na drewnianym stole przy oknie, odwrócił podeszwy i wyjął ze środka wgniecione na naleśnik fabryczne wkładki, po raz 1. zobaczyłam czarno na białym, dlaczego po 18 kilometrach na szlaku moje stopy wołały o ratunek.
 
 Mam 48 lat, mieszkam w Łodzi i razem z mężem od lat każdą wolną chwilę spędzamy na górskich szlakach. Chodzimy równym tempem po 18-20 kilometrów dziennie, podziwiamy widoki i odpoczywamy od miasta.
 

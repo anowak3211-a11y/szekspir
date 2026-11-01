@@ -26,7 +26,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Marek (46 lat, Kraków · Karol Mikołajczyk)',
     protagonist: 'Marek (46 lat)',
     hookIdea:
-      'Ostatnie 3 kilometry zejścia z Doliny Pięciu Stawów szedłem tyłem i bokiem, bo pod prawą rzepką czułem wbijany gwóźdź. Na dole ratownik i fizjoterapeuta kazał mi wyjąć wkładkę z butów za 850 zł.',
+      'Ostatnie 3 kilometry zejścia znad Morskiego Oka do parkingu w Palenicy Białczańskiej schodziłem tyłem, trzymając się drewnianej barierki jak 80-letni starzec po operacji biodra.',
     sceneBeat:
       'Wyjęcie 2-milimetrowej płaskiej gąbki z buta trekkingowego za 850 zł + 10-sekundowy test podniesienia łuku stopy + fizyka zejścia (300 kg nacisku przy każdym kroku w dół).',
     failedSolutionsMath:
@@ -50,7 +50,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Piotr (49 lat, Wrocław · Karol Mikołajczyk)',
     protagonist: 'Piotr (49 lat)',
     hookIdea:
-      'Wydał 799 zł na buty z membraną i podeszwą Vibram, a po 12 km w Karkonoszach pięty paliły żywym ogniem. Fizjoterapeuta wyjął ze środka fabryczną wkładkę i zgiął ją w 2 palcach jak mokry karton.',
+      'Przez 2 sezony wmawiałem sobie, że piekące jak żywy ogień pięty i spuchnięte kolana po 12 kilometrach w Karkonoszach to wina moich 49 lat i 6 dodatkowych kilogramów po zimie.',
     sceneBeat:
       'Zestawienie fabrycznej wkładki z buta za 799 zł ze zwykłą tekturką na biurku fizjoterapeuty + test podniesienia łuku i łańcuch kompensacji.',
     failedSolutionsMath:
@@ -74,7 +74,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Iwona (52 lata, Poznań · Iwona Kożuchowska)',
     protagonist: 'Iwona (52 lata)',
     hookIdea:
-      'Wszyscy znajomi zeszli już do Karpacza na obiad, a ja siedziałam na mokrym głazie przy szlaku i łykałam 2. tabletkę Ketonalu, bo lewe kolano i pięty zablokowały się na zejściu.',
+      'Kiedy 4 naszych znajomych siedziało już na dole w Karpaczu przy ciepłym obiedzie, ja siedziałam na drewnianej ławie w połowie zejścia ze Śnieżki z rozsznurowanym butem, łykałam 2. tabletkę Ketonalu i modliłam się, żeby mijający nas turyści nie patrzyli na moje mokre od łez oczy.',
     sceneBeat:
       'Upokorzenie na szlaku w Karkonoszach + schodzenie po schodach jak na szczudłach przez tydzień + 10-sekundowy test u fizjoterapeuty.',
     failedSolutionsMath:
@@ -98,7 +98,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Fizjoterapeuta Tomasz (41 lat, Katowice · Centrum Dobrego Kroku)',
     protagonist: 'Pacjent Andrzej (47 lat)',
     hookIdea:
-      'W każdy poniedziałek od wiosny do późnej jesieni do mojego gabinetu wchodzą pacjenci utykający po weekendzie w Tatrach czy Beskidach i powtarzają jedno zdanie: „Kondycyjnie wszedłem bez problemu, dramat zaczął się na zejściu".',
+      'W każdy poniedziałek od wiosny do późnej jesieni w moim gabinecie fizjoterapii w Katowicach powtarza się dokładnie ten sam widok: otwierają się drzwi i wchodzi pacjent między 35. a 60. rokiem życia, który utyka na sztywnej nodze po weekendzie w Beskidach, Tatrach lub Bieszczadach.',
     sceneBeat:
       'Badanie 47-letniego Andrzeja w gabinecie: test podniesienia łuku przed lustrem + wyjaśnienie różnicy między sztywną deską za 420 zł a dynamiczną sprężyną Orthomax StepMax.',
     failedSolutionsMath:
@@ -122,7 +122,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Katarzyna (48 lat, Łódź · Iwona Kożuchowska)',
     protagonist: 'Katarzyna (48 lat)',
     hookIdea:
-      'Po 18 km szlakiem w Beskidach następnego ranka o 6:00 w pensjonacie nie mogłam postawić bosej pięty na podłodze. Mąż postawił moje buty górskie na stole i pokazał zdarte od środka pięty.',
+      'O 6:00 rano w pensjonacie w Wiśle, po 1. dniu naszego wyjazdu w Beskidy, spuściłam nogi z łóżka na podłogę i syknęłam z bólu tak głośno, że obudziłam męża.',
     sceneBeat:
       'Poranne „szczudła" na wyjeździe w góry + wgnieciona na naleśnik wkładka fabryczna + 10-sekundowy test u fizjoterapeuty po powrocie.',
     failedSolutionsMath:
@@ -148,7 +148,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Tomasz (39 lat, Warszawa · Karol Mikołajczyk)',
     protagonist: 'Tomasz (39 lat)',
     hookIdea:
-      'Na rozgrzanym ciele podczas czwartkowego meczu padla wygrywałem każdą piłkę, a w piątek o 6:00 rano pierwszy krok z łóżka smakował jak wbicie gwoździa w sam środek pięty.',
+      'W czwartek o 21:30 wygrałem z chłopakami mecz w padla, a w piątek o 6:00 rano stałem boso w przedpokoju obok spakowanej torby z rakietą, trzymałem się kurczowo framugi drzwi i nie byłem w stanie postawić prawej pięty na podłodze.',
     sceneBeat:
       'Kontrast między euforią na korcie a porannym kalectwem o 6:00 rano + demaskacja płaskiej wkładki z butów kortowych za 580 zł + łańcuch kompensacji.',
     failedSolutionsMath:
@@ -172,7 +172,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Michał (42 lata, Gdańsk · Karol Mikołajczyk)',
     protagonist: 'Michał (42 lata)',
     hookIdea:
-      'Przy dobiegu do skrótu przy szybie zahamowałem prawą nogą — stopa na płaskiej fabrycznej wkładce wyjechała do środka, a w kolanie strzeliło tak głośno, że koledzy z sąsiedniego kortu przerwali wymianę.',
+      'W 2. secie środowego meczu w padla przy stanie 4:4 ruszyłem z głębi kortu do niskiego skrótu przy siatce, zahamowałem bokiem na prawej nodze i w moim kolanie strzeliło tak głośno, że usłyszeli to koledzy na sąsiednim korcie.',
     sceneBeat:
       'Mechanika hamowania bocznego na korcie + test stabilizacji kości piętowej u fizjoterapeuty sportowego.',
     failedSolutionsMath:
@@ -196,7 +196,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Łukasz (44 lata, Poznań · Karol Mikołajczyk)',
     protagonist: 'Łukasz (44 lata)',
     hookIdea:
-      'Kolega z kortu w wieku 41 lat zerwał Achillesa i skończył w gipsie, a moje ścięgno po każdym meczu było sztywne jak stalowa lina. Fizjoterapeuta wyjął wkładkę z moich butów tenisowych za 620 zł i pokazał wytartą dziurę od środka.',
+      'Przez 4 miesiące po każdym 2-godzinnym meczu tenisa siedziałem na drewnianej ławce przy korcie ze zdjętym butem, rozcierałem zesztywniałe jak stalowa lina ścięgno Achillesa i bałem się, że przy kolejnym starcie do skrótu usłyszę za plecami trzask pękającego ścięgna.',
     sceneBeat:
       'Pokazanie asymetrycznego wyginania ścięgna Achillesa przez pronację pięty + 10-sekundowy test wyprostowania osi ścięgna dłońmi.',
     failedSolutionsMath:
@@ -220,7 +220,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Fizjoterapeuta Tomasz (41 lat, Wrocław · Centrum Dobrego Kroku)',
     protagonist: 'Gracze tenisa i padla 30-55 lat',
     hookIdea:
-      'Pod zielonym dywanikiem na korcie do padla leży lity beton. Jako fizjoterapeuta sportowy oceniłem 5 metod, którymi moi pacjenci z kortów próbują ratować bolące pięty, Achillesa i kolana.',
+      'Jako fizjoterapeuta sportowy we Wrocławiu w każdy poniedziałek widzę w gabinecie to samo: 30- i 40-latków, którzy po 8 godzinach siedzenia za biurkiem wychodzą wieczorem na 90 minut padla albo tenisa, a następnego dnia o 6:00 rano nie mogą stanąć na pięcie ani zejść po schodach.',
     sceneBeat:
       'Twarda ocena 5 metod (1/10 do 9,5/10) + wyjaśnienie łańcucha kompensacji przy grze na korcie.',
     failedSolutionsMath:
@@ -244,7 +244,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Magdalena (41 lat, Kraków · Porady Mamy Gosi)',
     protagonist: 'Magdalena (41 lat)',
     hookIdea:
-      'Po 45 minutach treningu na korcie musiałam usiąść na ławce i rozwiązać buty, bo pod poduszkami palców czułam żywy ogień, jakbym grała boso na rozżarzonym węglu.',
+      'Po 45 minutach każdego treningu tenisa musiałam schodzić na ławkę przy korcie, ściągać prawy but i rozmasowywać spód stopy dłońmi, bo pod poduszkami palców czułam żywy ogień, jakbym biegała boso po rozgrzanym do czerwoności betonie.',
     sceneBeat:
       'Test podniesienia łuku poprzecznego i podłużnego u fizjoterapeuty + łańcuch od przodostopia i pięty do kolana.',
     failedSolutionsMath:
@@ -270,7 +270,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Małgorzata (38 lat, Poznań · Porady Mamy Gosi)',
     protagonist: 'Syn Kuba (11 lat)',
     hookIdea:
-      'Po czwartkowym treningu na Orliku mój 11-letni syn szedł do samochodu na samych palcach, a kiedy zdjął korki na tylnym siedzeniu, rozpłakał się z piekącego bólu pięt.',
+      'Kiedy w czwartek o 19:00 skończył się trening na Orliku, mój 11-letni syn Kuba nawet nie doszedł o własnych siłach do samochodu - usiadł na ławce przy boisku, zsunął ze stóp korki i rozpłakał się z bezsilności, bo nie mógł dotknąć piętą ziemi.',
     sceneBeat:
       'Wyrok lekarza w przychodni („pół roku zakazu gry w piłkę") vs fizjoterapeuta sportowy wyjmujący tekturową wkładkę z korków za 389 zł i pokazujący test 10 sekund.',
     failedSolutionsMath:
@@ -294,7 +294,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Kamil (39 lat, Wrocław · Karol Mikołajczyk)',
     protagonist: 'Kamil (39 lat)',
     hookIdea:
-      'Co wtorek o 20:00 gram z chłopakami 90 minut na Orliku, a w środę i czwartek rano schodziłem z 2. piętra bokiem jak 80-latek, trzymając się barierki.',
+      'Mam 39 lat i przez ostatnie pół roku w każdą środę o 6:30 rano, dzień po naszym wtorkowym meczu na Orliku, schodziłem ze schodów we własnym mieszkaniu bokiem, kurczowo trzymając się poręczy jak 80-letni staruszek.',
     sceneBeat:
       'Wizyta u fizjoterapeuty: pokazanie, dlaczego w wąskich butach piłkarskich na ubitej sztucznej murawie łuk stopy opada i miażdży łąkotkę.',
     failedSolutionsMath:
@@ -318,7 +318,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Rafał (36 lat, Katowice · Karol Mikołajczyk)',
     protagonist: 'Rafał (36 lat)',
     hookIdea:
-      'Zapłaciłem 449 zł za nowe turfy na Orlik. Kiedy po 3 meczach rozbolały mnie pięty i piszczele, wyjąłem ze środka fabryczną wkładkę — miała 2 mm grubości i zgięła się w 2 palcach jak bilet autobusowy.',
+      'W zeszłym miesiącu zapłaciłem 449 zł za nowe, markowe turfy na sztuczną trawę, a po 45 minutach czwartkowego meczu na Orliku w Katowicach siedziałem na ławce ze zdjętymi butami, bo moje pięty i śródstopie paliły tak, jakbym biegał boso po żwirze.',
     sceneBeat:
       'Dlaczego grube żelowe wkładki z marketu ślizgają się w korkach, a sztywne deski za 380 zł nie wchodzą do wąskiej cholewki vs dopasowanie Orthomax StepMax.',
     failedSolutionsMath:
@@ -342,7 +342,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Marcin (41 lat, Gdańsk · Karol Mikołajczyk)',
     protagonist: 'Marcin (41 lat) i syn Bartek (12 lat)',
     hookIdea:
-      'Przez 2 miesiące mówiłem mojemu 12-letniemu synowi, że przesadza z bólem pięt po treningu. Aż w sobotę sam zagrałem 90 minut w turnieju ojców na tym samym Orliku i w niedzielę rano nie mogłem stanąć na nogi.',
+      'Przez 2 miesiące powtarzałem mojemu 12-letniemu synowi Bartkowi, żeby się nie mazał, kiedy po każdym treningu na Orliku wracał do domu i narzekał na kłucie w piętach oraz pod rzepką.',
     sceneBeat:
       'Wyrzuty sumienia ojca + wspólna wizyta u fizjoterapeuty pokazująca identyczną pronację pięty u ojca i syna + Pakiet 1+1 GRATIS.',
     failedSolutionsMath:
@@ -366,7 +366,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Marta (37 lat, Kraków · Porady Mamy Gosi)',
     protagonist: 'Syn Filip (10 lat)',
     hookIdea:
-      'Po sobotnim sparingu trener zawołał mnie do linii bocznej i kazał spojrzeć od tyłu na korki mojego 10-letniego syna: obie pięty uciekały do środka jak litera X, a wewnętrzne kołki były starte o połowę.',
+      'W sobotę po 40 minutach sparingu trener zdjął mojego 10-letniego syna Filipa z boiska, zawołał mnie za linię boczną i kazał spojrzeć na tył jego korków.',
     sceneBeat:
       'Pokazanie przez fizjoterapeutę, jak uciekająca w korkach pięta odbiera dziecku szybkość startu i przeciąża kolano oraz biodro.',
     failedSolutionsMath:
@@ -392,7 +392,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Paweł (37 lat, Warszawa · Karol Mikołajczyk)',
     protagonist: 'Paweł (37 lat)',
     hookIdea:
-      'Przez pół roku każdy mój bieg wyglądał jak z zegarkiem w ręku: 4 kilometry bez bólu, a równo na 5. kilometrze po asfalcie ostre kłucie w kolanie i palący ogień wzdłuż piszczeli.',
+      'Przez 6 miesięcy każdy mój wieczorny bieg po warszawskim Ursynowie kończył się dokładnie w tym samym miejscu: równo na 5. kilometrze pod prawą rzepką i wzdłuż piszczeli wybuchał taki ogień, że musiałem siadać na ławce w parku i wracać 2,5 kilometra do bloku kuśtykając po chodniku.',
     sceneBeat:
       'Demaskacja mitu „im grubsza pianka w bucie biegowym, tym lepiej" u fizjoterapeuty + test stabilizacji pięty i łuku.',
     failedSolutionsMath:
@@ -416,7 +416,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Beata (53 lata, Wrocław · Iwona Kożuchowska)',
     protagonist: 'Beata (53 lata)',
     hookIdea:
-      'Lekarz kazał mi robić 15 000 kroków dziennie dla serca i zrzucenia wagi. Po 3 tygodniach szybkich marszów po parku i chodnikach rano o 6:00 nie mogłam dojść o własnych siłach do kuchni.',
+      'Lekarz kazał mi robić po 15 000 kroków dziennie i chodzić z kijkami dla zdrowego serca oraz zbicia cukru, a po 3 tygodniach ambitnych marszów po wrocławskich parkach nie byłam w stanie dojść o 6:00 rano do własnej kuchni.',
     sceneBeat:
       'Matematyka 15 000 kroków po twardej kostce brukowej + 10-sekundowy test podniesienia łuku u fizjoterapeuty.',
     failedSolutionsMath:
@@ -440,7 +440,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Aleksandra (38 lat, Gdańsk · Porady Mamy Gosi)',
     protagonist: 'Aleksandra (38 lat)',
     hookIdea:
-      'W sklepie biegowym badali mnie przez 30 sekund na wypoczętych nogach i mówili, że mam prostą stopę. Fizjoterapeuta nagrał moje pięty na bieżni dopiero w 25. minucie biegu i pokazał mi film w zwolnionym tempie.',
+      'Kiedy poszłam do sklepu dla biegaczy w Gdańsku, sprzedawca kazał mi przebiec 15 sekund po dywaniku, powiedział, że ląduję prosto, i sprzedał mi buty za 680 zł, po których moje prawe kolano, biodro i lędźwie rwały jeszcze gorzej.',
     sceneBeat:
       'Szokujący kontrast na nagraniu slow-motion między 1. a 25. minutą biegu + łańcuch kompensacji do kolana i biodra.',
     failedSolutionsMath:
@@ -464,7 +464,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Dawid (35 lat, Poznań · Karol Mikołajczyk)',
     protagonist: 'Dawid (35 lat)',
     hookIdea:
-      'Gram 2 razy w tygodniu w siatkówkę na szkolnej hali. Po 150 wyskokach do bloku i ataku wracałem do domu z piętami i więzadłami pod rzepką obitymi tak, jakbym skakał boso na beton.',
+      'W 3. secie naszego czwartkowego meczu siatkówki po kolejnym lądowaniu z bloku pod prawą rzepką zapiekło mnie tak mocno, że musiałem usiąść na ławce pod ścianą, rozsznurować halówki i patrzeć, jak chłopaki kończą grę w 5 osób.',
     sceneBeat:
       'Fizyka lądowania z wyskoku na parkiecie + test podparcia łuku i stabilizacji kości piętowej u fizjoterapeuty.',
     failedSolutionsMath:
@@ -488,7 +488,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     narrator: 'Krzysztof (45 lat, Kraków · Karol Mikołajczyk)',
     protagonist: 'Krzysztof (45 lat)',
     hookIdea:
-      'Chciałem przyoszczędzić i kupiłem niebiesko-żółte żelowe wkładki „Active Sport" za 29,99 zł. Po 10 kilometrach marszobiegu wyjąłem z buta odklejoną, rozgniecioną na 1 mm galaretę, a ścięgno Achillesa paliło 2 razy mocniej.',
+      'Chciałem zaoszczędzić 70 zł na wkładkach do biegania, więc kupiłem w markecie sportowym niebiesko-żółte wkładki żelowe „Active Sport" za 29,99 zł - a po 10 kilometrach marszobiegu wróciłem do domu z tak spuchniętym ścięgnem Achillesa, że w przedpokoju ledwo zdjąłem buty.',
     sceneBeat:
       'Przecięcie taniej żelowej wkładki u fizjoterapeuty i porównanie jej z dynamiczną konstrukcją Orthomax StepMax.',
     failedSolutionsMath:
