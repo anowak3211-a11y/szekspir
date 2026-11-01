@@ -25,8 +25,8 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pies-pl-v5-pazur-sardian-pages';
-const DEFAULT_CREATED_AT = Date.parse('2026-11-01T11:05:00+01:00');
+const STATE_KEY = 'feliora-pies-pl-v6-single-image-25-native';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-01T12:40:00+01:00');
 
 interface FelioraPiesPlLibraryState {
   ads: FelioraPiesPlGeneratedAd[];
@@ -174,8 +174,8 @@ async function readFelioraPiesLibraryState(): Promise<{
         auditFixesApplied: audited.auditFixesApplied,
         imageUrl: ad.imageUrl || baseAd.imageUrl,
         imageHash: ad.imageHash || baseAd.imageHash,
-        secondImageUrl: ad.secondImageUrl || baseAd.secondImageUrl,
-        secondImageHash: ad.secondImageHash || baseAd.secondImageHash,
+        secondImageUrl: undefined,
+        secondImageHash: undefined,
       });
     }
 
@@ -190,20 +190,15 @@ async function readFelioraPiesLibraryState(): Promise<{
         return (mA ? Number(mA[1]) : 99) - (mB ? Number(mB[1]) : 99);
       });
       const scene1 = sorted.find(img => /(?:^|·\s*)1\./.test(img.label || '')) || sorted[0];
-      const scene2 =
-        sorted.find(img => /(?:^|·\s*)2\./.test(img.label || '')) ||
-        sorted.find(img => img.url !== scene1?.url);
       const baseAd = defaultByAngle.get(ad.angleId);
       const storedAd = storedByAngle.get(ad.angleId);
       const userModified = Boolean(storedAd?.updatedAt && storedAd.updatedAt > DEFAULT_CREATED_AT);
       const needsScene1 = !ad.imageUrl || (!userModified && ad.imageUrl === baseAd?.imageUrl);
-      const needsScene2 = !ad.secondImageUrl || (!userModified && ad.secondImageUrl === baseAd?.secondImageUrl);
       return {
         ...ad,
         ...(needsScene1 && scene1 ? { imageUrl: scene1.url, imageHash: scene1.imageHash || ad.imageHash } : {}),
-        ...(needsScene2 && scene2
-          ? { secondImageUrl: scene2.url, secondImageHash: scene2.imageHash || ad.secondImageHash }
-          : {}),
+        secondImageUrl: undefined,
+        secondImageHash: undefined,
       };
     });
 
@@ -357,7 +352,8 @@ export const POST = accountRoute(async (req: Request) => {
         return NextResponse.json({ ok: true, angleId, tasks });
       }
 
-      const scenes = isCompact ? allScenes.slice(0, 4) : allScenes.slice(0, 12);
+      const isSingle = Boolean((body as Record<string, unknown>).single) || Number((body as Record<string, unknown>).count) === 1;
+      const scenes = isSingle ? allScenes.slice(0, 1) : isCompact ? allScenes.slice(0, 4) : allScenes.slice(0, 12);
 
       const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
@@ -457,7 +453,6 @@ export const POST = accountRoute(async (req: Request) => {
       };
 
       const isScene1 = /^1\./.test(label);
-      const isScene2 = /^2\./.test(label);
       const now = Date.now();
       const defaultAds = buildAllFelioraPiesPrewrittenAds();
       const updatedState = await mutate<
@@ -474,24 +469,16 @@ export const POST = accountRoute(async (req: Request) => {
         state.customImages = customList.slice(0, 1500);
 
         const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
-        if (angleId && (isScene1 || isScene2)) {
+        if (angleId && isScene1) {
           const adIdx = adsList.findIndex(item => item.angleId === angleId);
           const baseAd = adIdx >= 0 ? adsList[adIdx] : defaultAds.find(a => a.angleId === angleId);
           if (baseAd) {
             const updatedAd: FelioraPiesPlGeneratedAd = {
               ...baseAd,
-              ...(isScene1
-                ? {
-                    imageUrl: newAsset.url,
-                    imageHash: newAsset.imageHash || baseAd.imageHash,
-                  }
-                : {}),
-              ...(isScene2
-                ? {
-                    secondImageUrl: newAsset.url,
-                    secondImageHash: newAsset.imageHash || baseAd.secondImageHash,
-                  }
-                : {}),
+              imageUrl: newAsset.url,
+              imageHash: newAsset.imageHash || baseAd.imageHash,
+              secondImageUrl: undefined,
+              secondImageHash: undefined,
               updatedAt: now,
             };
             if (adIdx >= 0) {
@@ -954,33 +941,15 @@ export const POST = accountRoute(async (req: Request) => {
         const resolvedPageName = fpMeta?.name || ad.pageName || 'Porady Mamy Gosi';
         const actors = FELIORA_PIES_PAGE_ACTORS[resolvedPageId];
         const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
-        const hasSecond = Boolean(ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl);
-        const secondHash = hasSecond
-          ? await ensureMetaImageHash(ad.secondImageUrl!, ad.secondImageHash)
-          : '';
         const targetLink = ad.destinationUrl || FELIORA_PIES_DEFAULT_URL || FELIORA_PIES_PDP_URL;
 
-        const urlsToPush: Array<{ suffix: string; link: string; hash: string }> =
-          urlMode === 'split_ab' || secondHash
-            ? [
-                {
-                  suffix: 'PDP PIES · Kreacja A',
-                  link: targetLink,
-                  hash: primaryHash,
-                },
-                {
-                  suffix: 'PDP PIES · Kreacja B',
-                  link: targetLink,
-                  hash: secondHash || primaryHash,
-                },
-              ]
-            : [
-                {
-                  suffix: 'PDP PIES',
-                  link: targetLink,
-                  hash: primaryHash,
-                },
-              ];
+        const urlsToPush: Array<{ suffix: string; link: string; hash: string }> = [
+          {
+            suffix: 'PDP PIES',
+            link: targetLink,
+            hash: primaryHash,
+          },
+        ];
 
         for (const variant of urlsToPush) {
           const adName = `${ad.code} | ${variant.suffix} | ${resolvedPageName}`;

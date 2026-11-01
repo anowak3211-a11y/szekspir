@@ -83,21 +83,19 @@ export default function FelioraPiesPlWorkspace({
   const [savingEdit, setSavingEdit] = useState(false);
 
   // Image Picker Modal & Fullscreen Lightbox
-  const [imagePickerSlot, setImagePickerSlot] = useState<null | 'primary' | 'secondary'>(null);
+  const [imagePickerSlot, setImagePickerSlot] = useState<null | 'primary'>(null);
   const [lightboxAsset, setLightboxAsset] = useState<FelioraPiesImageAsset | null>(null);
-  const [fbPreviewSlot, setFbPreviewSlot] = useState<'primary' | 'secondary'>('primary');
   const [showVocDetails, setShowVocDetails] = useState(false);
   const customFileRef = useRef<HTMLInputElement | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Meta Push state
   const [pushCampaignId, setPushCampaignId] = useState<string>('120250116221490298');
-  const [pushUrlMode, setPushUrlMode] = useState<'pdp' | 'split_ab'>('pdp');
   const [pushAdSetName, setPushAdSetName] = useState('01.11 - FELIORA PSY ANTEK BATCH');
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
-  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v2';
+  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v3';
 
   const applyLocalImageOverrides = useCallback((list: FelioraPiesPlGeneratedAd[]): FelioraPiesPlGeneratedAd[] => {
     try {
@@ -109,8 +107,6 @@ export default function FelioraPiesPlWorkspace({
         {
           imageUrl?: string;
           imageHash?: string;
-          secondImageUrl?: string;
-          secondImageHash?: string;
           updatedAt?: number;
         }
       >;
@@ -120,9 +116,8 @@ export default function FelioraPiesPlWorkspace({
         return {
           ...ad,
           ...(loc.imageUrl ? { imageUrl: loc.imageUrl, imageHash: loc.imageHash || ad.imageHash } : {}),
-          ...(loc.secondImageUrl
-            ? { secondImageUrl: loc.secondImageUrl, secondImageHash: loc.secondImageHash || ad.secondImageHash }
-            : {}),
+          secondImageUrl: undefined,
+          secondImageHash: undefined,
           updatedAt: Math.max(ad.updatedAt || 0, loc.updatedAt || 0),
         };
       });
@@ -137,8 +132,6 @@ export default function FelioraPiesPlWorkspace({
       patch: {
         imageUrl?: string;
         imageHash?: string;
-        secondImageUrl?: string;
-        secondImageHash?: string;
         updatedAt: number;
       },
     ) => {
@@ -329,7 +322,7 @@ export default function FelioraPiesPlWorkspace({
   }, [activeAd, activePreset, editHeadline, editDescription, editPrimaryText, editDestinationUrl, editPageId, applyLocalImageOverrides]);
 
   const handleAssignImage = useCallback(
-    async (asset: FelioraPiesImageAsset, slot: 'primary' | 'secondary', closeLightbox = false) => {
+    async (asset: FelioraPiesImageAsset, closeLightbox = false) => {
       if (!activePreset) return;
       const targetAngleId = activePreset.id;
       const now = Date.now();
@@ -339,54 +332,42 @@ export default function FelioraPiesPlWorkspace({
           ad.angleId === targetAngleId
             ? {
                 ...ad,
-                ...(slot === 'primary'
-                  ? { imageUrl: asset.url, imageHash: asset.imageHash || ad.imageHash }
-                  : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || ad.secondImageHash }),
+                imageUrl: asset.url,
+                imageHash: asset.imageHash || ad.imageHash,
+                secondImageUrl: undefined,
+                secondImageHash: undefined,
                 updatedAt: now,
               }
             : ad,
         ),
       );
-      persistLocalImageOverride(
-        targetAngleId,
-        slot === 'primary'
-          ? { imageUrl: asset.url, imageHash: asset.imageHash || '', updatedAt: now }
-          : { secondImageUrl: asset.url, secondImageHash: asset.imageHash || '', updatedAt: now },
-      );
-      setFbPreviewSlot(slot);
+      persistLocalImageOverride(targetAngleId, {
+        imageUrl: asset.url,
+        imageHash: asset.imageHash || '',
+        updatedAt: now,
+      });
       setImagePickerSlot(null);
       if (closeLightbox) {
         setLightboxAsset(null);
       }
       setError('');
-      const msg =
-        slot === 'primary'
-          ? `✅ Ustawiono Kreację A (Główną) dla Kąta #${activePreset.number}: „${asset.label}”`
-          : `🟦 Ustawiono Kreację B (Split A/B) dla Kąta #${activePreset.number}: „${asset.label}”`;
+      const msg = `✅ Ustawiono obrazek 1:1 dla Kąta #${activePreset.number}: „${asset.label}”`;
       setNotice(msg);
       setTimeout(() => {
         setNotice(prev => (prev === msg ? '' : prev));
       }, 3500);
 
       try {
-        const payload =
-          slot === 'primary'
-            ? {
-                action: 'set_image',
-                angleId: targetAngleId,
-                imageUrl: asset.url,
-                imageHash: asset.imageHash,
-              }
-            : {
-                action: 'set_image',
-                angleId: targetAngleId,
-                secondImageUrl: asset.url,
-                secondImageHash: asset.imageHash,
-              };
         await fetch('/api/feliora-pies-pl', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            action: 'set_image',
+            angleId: targetAngleId,
+            imageUrl: asset.url,
+            imageHash: asset.imageHash,
+            secondImageUrl: null,
+          }),
         });
       } catch {
         // Optimistic + localStorage already saved
@@ -501,7 +482,7 @@ export default function FelioraPiesPlWorkspace({
       setGeneratingKie5(true);
       setError('');
       setNotice(
-        `Analizuję skrypt i wysyłam 12 czystych scen iPhone 15 Pro 1:1 (Styl Sardian · 2K) do Kie.ai dla kąta #${targetPreset.number}...`,
+        `Analizuję Hook i generuję 1 dedykowany obrazek iPhone 15 Pro 1:1 (Styl Sardian · 2K) w Kie.ai dla kąta #${targetPreset.number}...`,
       );
       try {
         const res = await fetch('/api/feliora-pies-pl', {
@@ -513,12 +494,14 @@ export default function FelioraPiesPlWorkspace({
             primaryText: copyText,
             headline: copyHeadline,
             title: targetPreset.title,
+            single: true,
+            count: 1,
             isManual: true,
           }),
         });
         const data = await res.json();
         if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
-          throw new Error(data.error || 'Błąd uruchamiania 12 zadań Kie.ai.');
+          throw new Error(data.error || 'Błąd uruchamiania zadania Kie.ai.');
         }
         const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
         setNotice(
@@ -547,18 +530,11 @@ export default function FelioraPiesPlWorkspace({
                   if (Array.isArray(pollData.imageLibrary)) {
                     setImageLibrary(pollData.imageLibrary);
                   }
-                  const isScene1 = /^1\./.test(t.label);
-                  const isScene2 = /^2\./.test(t.label);
+                  const isScene1 = /^1\./.test(t.label) || tasks.length === 1;
                   if (isScene1) {
                     persistLocalImageOverride(targetAngleId, {
                       imageUrl: pollData.asset.url,
                       imageHash: pollData.asset.imageHash,
-                      updatedAt: Date.now(),
-                    });
-                  } else if (isScene2) {
-                    persistLocalImageOverride(targetAngleId, {
-                      secondImageUrl: pollData.asset.url,
-                      secondImageHash: pollData.asset.imageHash,
                       updatedAt: Date.now(),
                     });
                   }
@@ -627,14 +603,14 @@ export default function FelioraPiesPlWorkspace({
             angleIds: targetIds,
             campaignId: pushCampaignId,
             adSetName: pushAdSetName,
-            urlMode: pushUrlMode,
+            urlMode: 'pdp',
             adStatus: pushStatus,
           }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Błąd wysyłki do Meta Ads.');
         setNotice(
-          `Wysłano do Meta Ads! Utworzono Ad Set "${data.adSetName}" (${data.adSetId}) oraz ${data.createdAdsCount} reklam.`,
+          `Wysłano do Meta Ads! Utworzono Ad Set "${data.adSetName}" (${data.adSetId}) oraz ${data.createdAdsCount} reklam (1 obrazek / kopię).`,
         );
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Błąd podczas wysyłki do Meta Ads.');
@@ -642,7 +618,7 @@ export default function FelioraPiesPlWorkspace({
         setPushingMeta(false);
       }
     },
-    [selectedAngleIds, activePreset, pushCampaignId, pushAdSetName, pushUrlMode, pushStatus],
+    [selectedAngleIds, activePreset, pushCampaignId, pushAdSetName, pushStatus],
   );
 
   const activeStageMeta = activePreset ? FELIORA_PIES_STAGES[activePreset.stageId] : null;
@@ -1648,159 +1624,81 @@ export default function FelioraPiesPlWorkspace({
                 }}
               >
                 {generatingKie5
-                  ? '⏳ Generuję 12 czystych zdjęć iPhone 15 Pro 1:1 (Styl Sardian · 2K) w Kie.ai...'
-                  : '📸 Generuj 12 czystych zdjęć iPhone 1:1 (Styl Sardian · 2K · Sceny 1:1 pod ten kąt)'}
+                  ? '⏳ Generuję 1 czysty obrazek iPhone 15 Pro 1:1 pod Hook tego kąta (Styl Sardian · 2K)...'
+                  : '📸 Wygeneruj 1 nowy obrazek iPhone 1:1 pod Hook tego kąta (Bez Splitu A/B)'}
               </button>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                {/* Primary Image (Kreacja A) */}
-                <div
-                  style={{
-                    background: '#120904',
-                    border: '1px solid #5c2f14',
-                    borderRadius: '10px',
-                    padding: '10px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#34d399' }}>Kreacja A (Główna)</span>
-                    <button
-                      type="button"
-                      onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
-                      style={{
-                        background: 'rgba(16, 185, 129, 0.18)',
-                        color: '#6ee7b7',
-                        border: '1px solid rgba(16, 185, 129, 0.45)',
-                        borderRadius: '5px',
-                        padding: '2px 7px',
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🔍 Powiększ
-                    </button>
-                  </div>
-                  <div
-                    onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
-                    title="Kliknij, aby powiększyć na cały ekran"
-                    style={{ position: 'relative', cursor: 'zoom-in' }}
-                  >
-                    <img
-                      src={activeAd.imageUrl}
-                      alt="Kreacja A"
-                      style={{
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        borderRadius: '8px',
-                        background: '#261308',
-                        display: 'block',
-                      }}
-                    />
-                  </div>
+              {/* Single Active 1:1 Hook-Congruent Image */}
+              <div
+                style={{
+                  background: '#120904',
+                  border: '1px solid #5c2f14',
+                  borderRadius: '10px',
+                  padding: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 800, color: '#34d399' }}>
+                    ✓ Aktywny Obrazek 1:1 · Kąt #{activePreset.number} (Bez A/B Testu)
+                  </span>
                   <button
                     type="button"
-                    onClick={() => setImagePickerSlot('primary')}
+                    onClick={() => openLightboxForUrl(activeAd.imageUrl, `Obrazek · Kąt #${activePreset.number}`)}
                     style={{
-                      background: '#361b0b',
-                      color: '#ffedd5',
-                      border: '1px solid #5c2f14',
-                      borderRadius: '6px',
-                      padding: '6px',
-                      fontSize: '11.5px',
+                      background: 'rgba(16, 185, 129, 0.18)',
+                      color: '#6ee7b7',
+                      border: '1px solid rgba(16, 185, 129, 0.45)',
+                      borderRadius: '5px',
+                      padding: '3px 8px',
+                      fontSize: '11px',
                       fontWeight: 700,
                       cursor: 'pointer',
                     }}
                   >
-                    Zmień Kreację A
+                    🔍 Powiększ
                   </button>
                 </div>
-
-                {/* Secondary Image (Kreacja B) */}
                 <div
+                  onClick={() => openLightboxForUrl(activeAd.imageUrl, `Obrazek · Kąt #${activePreset.number}`)}
+                  title="Kliknij, aby powiększyć na cały ekran"
+                  style={{ position: 'relative', cursor: 'zoom-in', maxWidth: '340px', width: '100%', margin: '0 auto' }}
+                >
+                  <img
+                    src={activeAd.imageUrl}
+                    alt={`Kąt #${activePreset.number}`}
+                    style={{
+                      width: '100%',
+                      aspectRatio: '1 / 1',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      borderRadius: '8px',
+                      background: '#261308',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setImagePickerSlot('primary')}
                   style={{
-                    background: '#120904',
+                    background: '#361b0b',
+                    color: '#ffedd5',
                     border: '1px solid #5c2f14',
-                    borderRadius: '10px',
-                    padding: '10px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
+                    borderRadius: '6px',
+                    padding: '7px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fbbf24' }}>Kreacja B (Split A/B)</span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        openLightboxForUrl(
-                          activeAd.secondImageUrl || activeAd.imageUrl,
-                          `Kreacja B · Kąt #${activePreset.number}`,
-                        )
-                      }
-                      style={{
-                        background: 'rgba(251, 191, 36, 0.15)',
-                        color: '#fde68a',
-                        border: '1px solid rgba(251, 191, 36, 0.4)',
-                        borderRadius: '5px',
-                        padding: '2px 7px',
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🔍 Powiększ
-                    </button>
-                  </div>
-                  <div
-                    onClick={() =>
-                      openLightboxForUrl(
-                        activeAd.secondImageUrl || activeAd.imageUrl,
-                        `Kreacja B · Kąt #${activePreset.number}`,
-                      )
-                    }
-                    title="Kliknij, aby powiększyć na cały ekran"
-                    style={{ position: 'relative', cursor: 'zoom-in' }}
-                  >
-                    <img
-                      src={activeAd.secondImageUrl || activeAd.imageUrl}
-                      alt="Kreacja B"
-                      style={{
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        borderRadius: '8px',
-                        background: '#261308',
-                        display: 'block',
-                      }}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setImagePickerSlot('secondary')}
-                    style={{
-                      background: '#361b0b',
-                      color: '#ffedd5',
-                      border: '1px solid #5c2f14',
-                      borderRadius: '6px',
-                      padding: '6px',
-                      fontSize: '11.5px',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Zmień Kreację B
-                  </button>
-                </div>
+                  Zmień obrazek z biblioteki (25 dedykowanych 1:1)
+                </button>
               </div>
 
-              {/* ANGLE-SPECIFIC GENERATED PHOTOS */}
+              {/* ANGLE-SPECIFIC PHOTOS */}
               {imageLibrary.some(img => img.angleId === activePreset.id) && (
                 <div
                   style={{
@@ -1814,13 +1712,12 @@ export default function FelioraPiesPlWorkspace({
                   }}
                 >
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fcd34d' }}>
-                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Clean iPhone 1:1 Sardian ·{' '}
-                    {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
+                    ✨ Dedykowany obrazek 1:1 pod Hook Kąta #{activePreset.number} ({imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
                   </span>
                   <div
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                      gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
                       gap: '8px',
                     }}
                   >
@@ -1828,7 +1725,6 @@ export default function FelioraPiesPlWorkspace({
                       .filter(img => img.angleId === activePreset.id)
                       .map(img => {
                         const isA = activeAd.imageUrl === img.url;
-                        const isB = activeAd.secondImageUrl === img.url;
                         return (
                           <div
                             key={`angle-${img.id}`}
@@ -1837,11 +1733,7 @@ export default function FelioraPiesPlWorkspace({
                               borderRadius: '8px',
                               overflow: 'hidden',
                               background: '#221208',
-                              border: isB
-                                ? '2px solid #fbbf24'
-                                : isA
-                                ? '2px solid #10b981'
-                                : '1px solid #5c2f14',
+                              border: isA ? '2px solid #10b981' : '1px solid #5c2f14',
                               display: 'flex',
                               flexDirection: 'column',
                             }}
@@ -1862,13 +1754,13 @@ export default function FelioraPiesPlWorkspace({
                                   display: 'block',
                                 }}
                               />
-                              {(isA || isB) && (
+                              {isA && (
                                 <span
                                   style={{
                                     position: 'absolute',
                                     top: '4px',
                                     right: '4px',
-                                    background: isA && isB ? '#059669' : isB ? '#d97706' : '#047857',
+                                    background: '#047857',
                                     color: '#fff',
                                     fontSize: '9.5px',
                                     fontWeight: 800,
@@ -1876,50 +1768,26 @@ export default function FelioraPiesPlWorkspace({
                                     borderRadius: '4px',
                                   }}
                                 >
-                                  {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
+                                  Aktywny
                                 </span>
                               )}
                             </div>
-                            <div
+                            <button
+                              type="button"
+                              onClick={() => void handleAssignImage(img)}
                               style={{
-                                display: 'grid',
-                                gridTemplateColumns: '1fr 1fr',
+                                background: isA ? '#047857' : '#120904',
+                                color: isA ? '#ffffff' : '#6ee7b7',
+                                border: 'none',
                                 borderTop: '1px solid #5c2f14',
-                                background: '#120904',
+                                padding: '6px 4px',
+                                fontSize: '10.5px',
+                                fontWeight: 800,
+                                cursor: 'pointer',
                               }}
                             >
-                              <button
-                                type="button"
-                                onClick={() => void handleAssignImage(img, 'primary')}
-                                style={{
-                                  background: isA ? '#047857' : 'transparent',
-                                  color: isA ? '#ffffff' : '#6ee7b7',
-                                  border: 'none',
-                                  borderRight: '1px solid #5c2f14',
-                                  padding: '5px 4px',
-                                  fontSize: '10px',
-                                  fontWeight: 800,
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                {isA ? '✓ Kreacja A' : 'Ustaw A'}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => void handleAssignImage(img, 'secondary')}
-                                style={{
-                                  background: isB ? '#d97706' : 'transparent',
-                                  color: isB ? '#ffffff' : '#fcd34d',
-                                  border: 'none',
-                                  padding: '5px 4px',
-                                  fontSize: '10px',
-                                  fontWeight: 800,
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                {isB ? '✓ Kreacja B' : 'Ustaw B'}
-                              </button>
-                            </div>
+                              {isA ? '✓ Aktywny obrazek' : 'Ustaw ten obrazek'}
+                            </button>
                           </div>
                         );
                       })}
@@ -1941,7 +1809,7 @@ export default function FelioraPiesPlWorkspace({
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fcd34d' }}>
-                    📸 Biblioteka kreacji Feliora Psy ({imageLibrary.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
+                    📸 Wszystkie 25 dedykowanych kreacji 1:1 ({imageLibrary.length} szt. · Kliknij = Powiększ 🔍):
                   </span>
                 </div>
                 <div
@@ -1953,7 +1821,6 @@ export default function FelioraPiesPlWorkspace({
                 >
                   {imageLibrary.map(img => {
                     const isA = activeAd.imageUrl === img.url;
-                    const isB = activeAd.secondImageUrl === img.url;
                     return (
                       <div
                         key={img.id}
@@ -1962,11 +1829,7 @@ export default function FelioraPiesPlWorkspace({
                           borderRadius: '8px',
                           overflow: 'hidden',
                           background: '#221208',
-                          border: isB
-                            ? '2px solid #fbbf24'
-                            : isA
-                            ? '2px solid #10b981'
-                            : '1px solid #5c2f14',
+                          border: isA ? '2px solid #10b981' : '1px solid #5c2f14',
                           display: 'flex',
                           flexDirection: 'column',
                         }}
@@ -2001,13 +1864,13 @@ export default function FelioraPiesPlWorkspace({
                           >
                             🔍
                           </span>
-                          {(isA || isB) && (
+                          {isA && (
                             <span
                               style={{
                                 position: 'absolute',
                                 top: '5px',
                                 right: '5px',
-                                background: isA && isB ? '#059669' : isB ? '#d97706' : '#047857',
+                                background: '#047857',
                                 color: '#fff',
                                 fontSize: '10px',
                                 fontWeight: 800,
@@ -2015,51 +1878,27 @@ export default function FelioraPiesPlWorkspace({
                                 borderRadius: '4px',
                               }}
                             >
-                              {isA && isB ? 'Aktywna A+B' : isB ? 'Aktywna B' : 'Aktywna A'}
+                              Aktywny
                             </span>
                           )}
                         </div>
 
-                        <div
+                        <button
+                          type="button"
+                          onClick={() => void handleAssignImage(img)}
                           style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
+                            background: isA ? '#047857' : '#180c05',
+                            color: isA ? '#ffffff' : '#6ee7b7',
+                            border: 'none',
                             borderTop: '1px solid #5c2f14',
-                            background: '#180c05',
+                            padding: '6px 4px',
+                            fontSize: '10.5px',
+                            fontWeight: 800,
+                            cursor: 'pointer',
                           }}
                         >
-                          <button
-                            type="button"
-                            onClick={() => void handleAssignImage(img, 'primary')}
-                            style={{
-                              background: isA ? '#047857' : 'transparent',
-                              color: isA ? '#ffffff' : '#6ee7b7',
-                              border: 'none',
-                              borderRight: '1px solid #5c2f14',
-                              padding: '5px 4px',
-                              fontSize: '10.5px',
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {isA ? '✓ Kreacja A' : 'Ustaw A'}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => void handleAssignImage(img, 'secondary')}
-                            style={{
-                              background: isB ? '#d97706' : 'transparent',
-                              color: isB ? '#ffffff' : '#fcd34d',
-                              border: 'none',
-                              padding: '5px 4px',
-                              fontSize: '10.5px',
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {isB ? '✓ Kreacja B' : 'Ustaw B'}
-                          </button>
-                        </div>
+                          {isA ? '✓ Aktywny obrazek' : 'Ustaw obrazek'}
+                        </button>
                       </div>
                     );
                   })}
@@ -2151,40 +1990,19 @@ export default function FelioraPiesPlWorkspace({
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '7px' }}>
-                  <button
-                    type="button"
-                    onClick={() => setFbPreviewSlot('primary')}
-                    style={{
-                      background: fbPreviewSlot === 'primary' ? '#047857' : 'transparent',
-                      color: fbPreviewSlot === 'primary' ? '#ffffff' : '#475569',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '4px 8px',
-                      fontSize: '10.5px',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Kreacja A
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFbPreviewSlot('secondary')}
-                    style={{
-                      background: fbPreviewSlot === 'secondary' ? '#d97706' : 'transparent',
-                      color: fbPreviewSlot === 'secondary' ? '#ffffff' : '#475569',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '4px 8px',
-                      fontSize: '10.5px',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Kreacja B
-                  </button>
-                </div>
+                <span
+                  style={{
+                    background: '#ecfdf5',
+                    color: '#047857',
+                    border: '1px solid #a7f3d0',
+                    borderRadius: '6px',
+                    padding: '3px 8px',
+                    fontSize: '10.5px',
+                    fontWeight: 800,
+                  }}
+                >
+                  1:1 Hook Photo
+                </span>
               </div>
 
               <div style={{ padding: '10px 12px', fontSize: '13.5px', lineHeight: 1.45, color: '#050505' }}>
@@ -2193,20 +2011,9 @@ export default function FelioraPiesPlWorkspace({
               </div>
 
               <img
-                src={
-                  fbPreviewSlot === 'secondary'
-                    ? activeAd.secondImageUrl || activeAd.imageUrl
-                    : activeAd.imageUrl
-                }
+                src={activeAd.imageUrl}
                 alt={editHeadline}
-                onClick={() =>
-                  openLightboxForUrl(
-                    fbPreviewSlot === 'secondary'
-                      ? activeAd.secondImageUrl || activeAd.imageUrl
-                      : activeAd.imageUrl,
-                    editHeadline,
-                  )
-                }
+                onClick={() => openLightboxForUrl(activeAd.imageUrl, editHeadline)}
                 title="Kliknij, aby powiększyć"
                 style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
               />
@@ -2314,26 +2121,18 @@ export default function FelioraPiesPlWorkspace({
               />
             </div>
 
-            <div>
-              <label style={{ fontSize: '11px', color: '#fed7aa', fontWeight: 600 }}>Tryb Kreacji i Linku (Karta Produktu Psy):</label>
-              <select
-                value={pushUrlMode}
-                onChange={e => setPushUrlMode(e.target.value as 'pdp' | 'split_ab')}
-                style={{
-                  width: '100%',
-                  marginTop: '4px',
-                  background: '#120904',
-                  color: '#fff',
-                  border: '1px solid #5c2f14',
-                  borderRadius: '7px',
-                  padding: '7px 10px',
-                  fontSize: '12.5px',
-                  fontWeight: 600,
-                }}
-              >
-                <option value="pdp">🐶 Karta Produktu Feliora Pies (PDP + Kreacja A/B)</option>
-                <option value="split_ab">⚡ Wymuś 2 reklamy Split A/B (Kreacja A + Kreacja B)</option>
-              </select>
+            <div
+              style={{
+                background: '#120904',
+                border: '1px solid #5c2f14',
+                borderRadius: '7px',
+                padding: '7px 10px',
+                fontSize: '12px',
+                color: '#6ee7b7',
+                fontWeight: 700,
+              }}
+            >
+              🐶 1 Obrazek 1:1 pod Hook → Karta Produktu Feliora Pies (Bez Splitu A/B)
             </div>
 
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -2471,39 +2270,20 @@ export default function FelioraPiesPlWorkspace({
                 type="button"
                 onClick={e => {
                   e.stopPropagation();
-                  void handleAssignImage(lightboxAsset, 'primary', true);
+                  void handleAssignImage(lightboxAsset, true);
                 }}
                 style={{
                   background: activeAd?.imageUrl === lightboxAsset.url ? '#047857' : '#059669',
                   color: '#ffffff',
                   border: activeAd?.imageUrl === lightboxAsset.url ? '2px solid #6ee7b7' : 'none',
                   borderRadius: '7px',
-                  padding: '8px 13px',
+                  padding: '8px 14px',
                   fontSize: '12px',
                   fontWeight: 800,
                   cursor: 'pointer',
                 }}
               >
-                {activeAd?.imageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja A' : '✅ Ustaw jako Kreację A'}
-              </button>
-              <button
-                type="button"
-                onClick={e => {
-                  e.stopPropagation();
-                  void handleAssignImage(lightboxAsset, 'secondary', true);
-                }}
-                style={{
-                  background: activeAd?.secondImageUrl === lightboxAsset.url ? '#d97706' : '#0284c7',
-                  color: '#ffffff',
-                  border: activeAd?.secondImageUrl === lightboxAsset.url ? '2px solid #fde68a' : 'none',
-                  borderRadius: '7px',
-                  padding: '8px 13px',
-                  fontSize: '12px',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                }}
-              >
-                {activeAd?.secondImageUrl === lightboxAsset.url ? '✓ Aktywna Kreacja B' : '🟦 Ustaw jako Kreację B'}
+                {activeAd?.imageUrl === lightboxAsset.url ? '✓ Aktywny obrazek tego kąta' : '✅ Ustaw ten obrazek dla kąta'}
               </button>
               <a
                 href={lightboxAsset.url}
@@ -2648,8 +2428,7 @@ export default function FelioraPiesPlWorkspace({
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h3 style={{ margin: 0, fontSize: '17px', fontWeight: 800 }}>
-                Wybierz grafikę ({imagePickerSlot === 'primary' ? 'Kreacja A - Główna' : 'Kreacja B - Split A/B'}) dla Kąta #
-                {activePreset?.number}
+                Wybierz obrazek 1:1 dla Kąta #{activePreset?.number}
               </h3>
               <button
                 type="button"
@@ -2675,14 +2454,11 @@ export default function FelioraPiesPlWorkspace({
               }}
             >
               {imageLibrary.map(asset => {
-                const isSelected =
-                  imagePickerSlot === 'primary'
-                    ? activeAd?.imageUrl === asset.url
-                    : activeAd?.secondImageUrl === asset.url;
+                const isSelected = activeAd?.imageUrl === asset.url;
                 return (
                   <div
                     key={asset.id}
-                    onClick={() => void handleAssignImage(asset, imagePickerSlot)}
+                    onClick={() => void handleAssignImage(asset)}
                     style={{
                       background: '#0f172a',
                       border: isSelected ? '2px solid #fbbf24' : '1px solid #334155',
