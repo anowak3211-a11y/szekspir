@@ -84,17 +84,18 @@ async function resolveAllMetaAuthCandidates(): Promise<Array<{ token: string; pr
   return candidates;
 }
 
+let cachedWorkingAuth: { token: string; proof?: string } | null = null;
+
 async function directGraph<T = Record<string, unknown>>(
   graphPath: string,
   params: Record<string, unknown> = {},
   method: 'GET' | 'POST' = 'GET',
 ): Promise<T> {
-  const candidates = await resolveAllMetaAuthCandidates();
+  const candidates = cachedWorkingAuth ? [cachedWorkingAuth] : await resolveAllMetaAuthCandidates();
   let lastError: Error | undefined;
 
   for (const { token, proof } of candidates) {
-    // Try both with appsecret_proof (if present) and without (in case token belongs to a different app ID)
-    const proofVariants = proof ? [proof, undefined] : [undefined];
+    const proofVariants = proof ? [proof] : [undefined];
     for (const activeProof of proofVariants) {
       try {
         const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
@@ -117,14 +118,26 @@ async function directGraph<T = Record<string, unknown>>(
         const data = (await r.json()) as Record<string, unknown>;
         if (!r.ok || data.error) {
           const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
+          const code = Number(e?.code || r.status);
+          const subcode = Number(e?.error_subcode || 0);
           lastError = new Error(
-            `Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`,
+            `Meta (${code}/${subcode}): ${e?.error_user_msg || e?.message || 'Request failed'}`,
           );
+          // Only try another token candidate if this token itself is invalid/unauthorized (190 or 100/33)
+          if (code !== 190 && !(code === 100 && subcode === 33)) {
+            cachedWorkingAuth = { token, proof: activeProof };
+            throw lastError;
+          }
           continue;
         }
+        cachedWorkingAuth = { token, proof: activeProof };
         return data as T;
       } catch (err) {
-        lastError = err instanceof Error ? err : new Error(String(err));
+        const e = err instanceof Error ? err : new Error(String(err));
+        lastError = e;
+        if (!e.message.includes('Meta (190/') && !e.message.includes('Meta (100/33)')) {
+          throw e;
+        }
       }
     }
   }
@@ -854,6 +867,27 @@ export const POST = accountRoute(async (req: Request) => {
       });
     }
 
+    if (action === 'delete_adsets') {
+      const ids = Array.isArray((body as { adSetIds?: string[] }).adSetIds)
+        ? (body as { adSetIds?: string[] }).adSetIds!
+        : [];
+      const deleted: string[] = [];
+      for (const id of ids) {
+        await directGraph(id, { status: 'DELETED' }, 'POST');
+        deleted.push(id);
+      }
+      return NextResponse.json({ ok: true, deleted });
+    }
+
+    if (action === 'list_campaign_state') {
+      const campaignId = body.campaignId || SARDIAN_META_NATIVE_CAMPAIGN_ID;
+      const adsets = await directGraph<{ data?: Array<Record<string, unknown>> }>(
+        `${campaignId}/adsets`,
+        { fields: 'id,name,status,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id}}}', limit: 50 },
+      );
+      return NextResponse.json({ ok: true, adsets: adsets.data || [] });
+    }
+
     if (action === 'push_to_meta') {
       const targetAngleIds =
         Array.isArray(body.angleIds) && body.angleIds.length > 0
@@ -875,45 +909,43 @@ export const POST = accountRoute(async (req: Request) => {
       const adSetName = (body.adSetName || `29.10 - SARDIAN ANTEK BATCH (${selectedAds.length}x)`).trim();
       const adStatus = body.adStatus || 'PAUSED';
 
-      const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
-        fields:
-          'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
-      }).catch(() =>
-        directGraph<Record<string, unknown>>('120250060540410298', {
-          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
-        }),
-      );
-
-      const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
-        string,
-        unknown
-      >;
-      if (Array.isArray(rawTargeting.instagram_positions)) {
-        const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
-          pos => pos !== 'explore' && pos !== 'explore_home',
-        );
-        if (cleanedIgPos.length > 0) {
-          rawTargeting.instagram_positions = cleanedIgPos;
-        } else {
-          delete rawTargeting.instagram_positions;
-        }
-      }
-
-      let targetAdSetId = '';
-      try {
-        const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+      let targetAdSetId = ((body as { targetAdSetId?: string }).targetAdSetId || '').trim();
+      if (!targetAdSetId) {
+        const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string; status?: string }> }>(
           `${campaignId}/adsets`,
-          { fields: 'id,name', limit: 50 },
+          { fields: 'id,name,status', limit: 50 },
         );
-        const match = (existingAdSets.data || []).find(s => s.name === adSetName);
+        const match = (existingAdSets.data || []).find(s => s.name === adSetName && s.status !== 'DELETED');
         if (match?.id) {
           targetAdSetId = match.id;
         }
-      } catch {
-        // Fallback to creating new Ad Set
       }
 
       if (!targetAdSetId) {
+        const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
+          fields:
+            'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+        }).catch(() =>
+          directGraph<Record<string, unknown>>('120250060540410298', {
+            fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
+          }),
+        );
+
+        const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
+          string,
+          unknown
+        >;
+        if (Array.isArray(rawTargeting.instagram_positions)) {
+          const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
+            pos => pos !== 'explore' && pos !== 'explore_home',
+          );
+          if (cleanedIgPos.length > 0) {
+            rawTargeting.instagram_positions = cleanedIgPos;
+          } else {
+            delete rawTargeting.instagram_positions;
+          }
+        }
+
         const dsaEntity =
           (typeof source.dsa_beneficiary === 'string' && source.dsa_beneficiary.trim()) ||
           '14530 ARROW HIGHWAY, LLC';
@@ -940,8 +972,6 @@ export const POST = accountRoute(async (req: Request) => {
           'POST',
         );
         targetAdSetId = createdAdSet.id;
-      } else if (adStatus === 'ACTIVE') {
-        await directGraph(targetAdSetId, { status: 'ACTIVE' }, 'POST').catch(() => {});
       }
 
       const existingAdsByName = new Map<string, string>();
@@ -958,6 +988,20 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       const imageHashCache = new Map<string, string>();
+      try {
+        const imgsRes = await directGraph<{ data?: Array<{ hash?: string; name?: string }> }>(
+          `act_${SARDIAN_META_ACCOUNT_ID}/adimages`,
+          { fields: 'hash,name', limit: 150 },
+        );
+        for (const im of imgsRes.data || []) {
+          if (im.name && im.hash) {
+            imageHashCache.set(`/sardian-pl-images/${im.name}`, im.hash);
+          }
+        }
+      } catch {
+        // Ignore
+      }
+
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
         const rawPageId = resolveRealSardianPageId(body.pageId || ad.pageId || '1363490303507686');
@@ -967,11 +1011,9 @@ export const POST = accountRoute(async (req: Request) => {
         const targetLink = ad.destinationUrl || SARDIAN_DEFAULT_URL || SARDIAN_PDP_URL;
         const adName = `${ad.code} | PDP SARDIAN | ${pageName}`;
 
-        const existingAdId = existingAdsByName.get(adName);
+        const existingAdId = existingAdsByName.get(adName) ||
+          Array.from(existingAdsByName.entries()).find(([n]) => n.startsWith(`${ad.code} |`))?.[1];
         if (existingAdId) {
-          if (adStatus === 'ACTIVE') {
-            await directGraph(existingAdId, { status: 'ACTIVE' }, 'POST').catch(() => {});
-          }
           createdAds.push({
             id: existingAdId,
             name: adName,
@@ -987,12 +1029,12 @@ export const POST = accountRoute(async (req: Request) => {
           if (ad.imageUrl && primaryHash) imageHashCache.set(ad.imageUrl, primaryHash);
         }
 
-        const buildCreativeSpec = (igUserId?: string) => ({
+        const buildCreativeSpec = (pId: string, igUserId?: string) => ({
           name: `${adName} - Creative`,
           url_tags:
             'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
           object_story_spec: {
-            page_id: pageId,
+            page_id: pId,
             ...(igUserId ? { instagram_user_id: igUserId } : {}),
             link_data: {
               image_hash: primaryHash,
@@ -1008,16 +1050,31 @@ export const POST = accountRoute(async (req: Request) => {
           },
         });
 
+        // Optimal exact actor sequence per page so we never waste API calls
+        const actorCandidates: Array<{ pId: string; igId?: string }> =
+          pageId === '1470476022807427' || pageId === '1352085037995209'
+            ? [{ pId: pageId, igId: undefined }]
+            : pageId === '1363490303507686' || pageId === '798916893308685'
+            ? [
+                { pId: pageId, igId: '17841472034688013' },
+                { pId: pageId, igId: undefined },
+              ]
+            : [
+                // 1339041252618036 (Dr n. med. Janusz Skrzypiński): try its own IG first, then Pokonać Łysienie: Historie i Testy
+                { pId: pageId, igId: '17841437463666297' },
+                { pId: '1470476022807427', igId: undefined },
+              ];
+
         let createdAd: { id: string } | undefined;
         let lastAdErr: Error | undefined;
-        for (const igCandidate of [undefined, '17841472034688013', '17841434083191798']) {
+        for (const cand of actorCandidates) {
           try {
             createdAd = await directGraph<{ id: string }>(
               `act_${SARDIAN_META_ACCOUNT_ID}/ads`,
               {
                 name: adName,
                 adset_id: targetAdSetId,
-                creative: buildCreativeSpec(igCandidate),
+                creative: buildCreativeSpec(cand.pId, cand.igId),
                 status: adStatus,
               },
               'POST',
