@@ -216,6 +216,17 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
     "source": "ai",
     "angleId": "K2_V2_SITKO_W_DLONI_PRZED_PO"
   },
+    {
+    "id": "K2_V3_ZONA_PRZY_KABINIE_V2",
+    "url": "/sardian-pl-images/K2_V3_ZONA_PRZY_KABINIE_V2.jpg",
+    "imageHash": "",
+    "label": "K2_V3 (Wariant 2) · Żona wyciągająca włosy prosto z odpływu w brodziku",
+    "adsetOrigin": "Kąt 2: Prysznic & Odpływ",
+    "adOrigin": "K2_V3_ZONA_PRZY_KABINIE_V2",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k2_v3"
+  },
   {
     "id": "K2_V3_ZONA_PRZY_KABINIE",
     "url": "/sardian-pl-images/K2_V3_ZONA_PRZY_KABINIE.jpg",
@@ -1689,8 +1700,14 @@ export function sanitizeAndAuditSardianPl(
 }
 
 export function buildAllSardianPrewrittenAds(): SardianPlGeneratedAd[] {
-  const now = 1793000000000;
-  return SARDIAN_PRESET_ANGLES.map((preset) => {
+  const batch1Created = Date.parse('2026-10-29T10:00:00+01:00');
+  const batch1Updated = Date.parse('2026-10-30T14:00:00+01:00');
+  const batch2Created = Date.parse('2026-10-31T18:00:00+01:00');
+  const batch2Updated = Date.parse('2026-11-01T09:30:00+01:00');
+  return SARDIAN_PRESET_ANGLES.map((preset, idx) => {
+    const isBatch2 = preset.number >= 24;
+    const createdAt = (isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
+    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
     const rawCopy = SARDIAN_ALL_COPY[preset.id] || {
       headline: preset.title,
       description: '60-dniowa gwarancja zwrotu · Formuła 3 z 3 na uśpione cebulki',
@@ -1719,8 +1736,8 @@ export function buildAllSardianPrewrittenAds(): SardianPlGeneratedAd[] {
       auditPassed: audited.auditPassed,
       auditWarnings: audited.auditWarnings,
       auditFixesApplied: audited.auditFixesApplied,
-      createdAt: now,
-      updatedAt: now,
+      createdAt,
+      updatedAt,
     };
   });
 }
