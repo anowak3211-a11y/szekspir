@@ -11,6 +11,10 @@ import { ANTKI_DOROSLI_COPY_PART4 } from './antki-dorosli-copy-part4';
 import { ANTKI_DOROSLI_COPY_PART5 } from './antki-dorosli-copy-part5';
 import { ANTKI_DOROSLI_COPY_PART6 } from './antki-dorosli-copy-part6';
 import { ANTKI_PL_COPY_TESTPACK } from './antki-pl-copy-testpack';
+import { ANTKI_SPORT_COPY_PART1 } from './antki-sport-copy-part1';
+import { ANTKI_SPORT_COPY_PART2 } from './antki-sport-copy-part2';
+import { ANTKI_SPORT_COPY_PART3 } from './antki-sport-copy-part3';
+import { ANTKI_SPORT_COPY_PART4 } from './antki-sport-copy-part4';
 import {
   ANTKI_PL_PRESET_ANGLES,
   ORTHOMAX_PL_DEFAULT_URL,
@@ -36,6 +40,10 @@ export const ANTKI_PL_ARGON_AUTHORED_COPY: Record<
   ...ANTKI_DOROSLI_COPY_PART5,
   ...ANTKI_DOROSLI_COPY_PART6,
   ...ANTKI_PL_COPY_TESTPACK,
+  ...ANTKI_SPORT_COPY_PART1,
+  ...ANTKI_SPORT_COPY_PART2,
+  ...ANTKI_SPORT_COPY_PART3,
+  ...ANTKI_SPORT_COPY_PART4,
   'zal-v2-01-skierowanie-szpital': {
     headline: 'Miałam wyznaczony termin operacji stopy na listopad. Po tym 10-sekundowym teście u fizjoterapeuty skreśliłam skierowanie',
     description: '',
@@ -342,7 +350,27 @@ const TESTPACK_NATIVE_PAGE_NAME_MAP: Record<string, string> = {
   'tp-78-as-dorosli-szatnia-2dzien': 'Iwona Kożuchowska',
   'tp-79-al-dzieci-nalesnik-23zl': 'Porady Mamy Gosi',
   'tp-80-al-dorosli-zel-19zl': 'Centrum Dobrego Kroku',
-  'tp-81-al-dorosli-podrobka-27zl': 'Dziennik Zdrowego Ciała',
+  'tp-81-al-dorosli-podrobka-27zl': 'Karol Mikołajczyk',
+  'sport-82-gory-zejscie-morskie-oko-kolana': 'Karol Mikołajczyk',
+  'sport-83-gory-wyjeta-wkladka-800zl': 'Karol Mikołajczyk',
+  'sport-84-gory-karkonosze-zona-schronisko': 'Iwona Kożuchowska',
+  'sport-85-gory-fizjo-3x-masa-ciala': 'Centrum Dobrego Kroku',
+  'sport-86-gory-palace-piety-po-20km': 'Iwona Kożuchowska',
+  'sport-87-padel-poranny-gwozdz-w-piete': 'Karol Mikołajczyk',
+  'sport-88-padel-hamowanie-bokiem-kostka': 'Karol Mikołajczyk',
+  'sport-89-tenis-achilles-sztywny-jak-lina': 'Karol Mikołajczyk',
+  'sport-90-padel-ranking-fizjo-kort': 'Centrum Dobrego Kroku',
+  'sport-91-tenis-kobieta-pieczenie-srodstopia': 'Porady Mamy Gosi',
+  'sport-92-pilka-syn-orlik-bol-piet-severa': 'Porady Mamy Gosi',
+  'sport-93-pilka-dorosli-orlik-kolana-38lat': 'Karol Mikołajczyk',
+  'sport-94-pilka-korki-tektura-test': 'Karol Mikołajczyk',
+  'sport-95-pilka-ojciec-i-syn-pakiet-1plus1': 'Karol Mikołajczyk',
+  'sport-96-pilka-zdarte-korki-od-srodka': 'Porady Mamy Gosi',
+  'sport-97-bieganie-asfalt-piszczele-5km': 'Karol Mikołajczyk',
+  'sport-98-marsze-nordic-walking-15tys-krokow': 'Iwona Kożuchowska',
+  'sport-99-bieganie-slow-mo-pronacja-asfalt': 'Porady Mamy Gosi',
+  'sport-100-hala-siatkowka-parkiet-ladowanie': 'Karol Mikołajczyk',
+  'sport-101-bieganie-anti-allegro-zel-vs-sprezyna': 'Karol Mikołajczyk',
 };
 
 export function buildAllArgonPrewrittenAds(
@@ -357,12 +385,31 @@ export function buildAllArgonPrewrittenAds(
   const batch3Updated = Date.parse('2026-10-29T16:00:00+01:00');
   const batch4Created = Date.parse('2026-11-01T16:30:00+01:00');
   const batch4Updated = Date.parse('2026-11-01T16:40:00+01:00');
+  const batch5Created = Date.parse('2026-11-01T19:30:00+01:00');
+  const batch5Updated = Date.parse('2026-11-01T20:00:00+01:00');
   return ANTKI_PL_PRESET_ANGLES.map((angle, index) => {
-    const isBatch4 = angle.number >= 76;
+    const isBatch5 = angle.number >= 82;
+    const isBatch4 = angle.number >= 76 && angle.number < 82;
     const isBatch3 = angle.number >= 71 && angle.number < 76;
     const isBatch2 = angle.number >= 36 && angle.number < 71;
-    const baseCreated = isBatch4 ? batch4Created : isBatch3 ? batch3Created : isBatch2 ? batch2Created : batch1Created;
-    const baseUpdated = isBatch4 ? batch4Updated : isBatch3 ? batch3Updated : isBatch2 ? batch2Updated : batch1Updated;
+    const baseCreated = isBatch5
+      ? batch5Created
+      : isBatch4
+      ? batch4Created
+      : isBatch3
+      ? batch3Created
+      : isBatch2
+      ? batch2Created
+      : batch1Created;
+    const baseUpdated = isBatch5
+      ? batch5Updated
+      : isBatch4
+      ? batch4Updated
+      : isBatch3
+      ? batch3Updated
+      : isBatch2
+      ? batch2Updated
+      : batch1Updated;
     const createdAt = baseCreated + index * 60_000;
     const updatedAt = baseUpdated + index * 60_000;
     const raw = ANTKI_PL_ARGON_AUTHORED_COPY[angle.id];
@@ -377,6 +424,7 @@ export function buildAllArgonPrewrittenAds(
     );
     const defaultImg = getDefaultImageForAngle(angle.number);
     const resolvedPageName = TESTPACK_NATIVE_PAGE_NAME_MAP[angle.id] || pageName;
+    const resolvedDestinationUrl = angle.defaultDestinationUrl || destinationUrl;
     return {
       id: `antek-pl-argon-${angle.code}`,
       angleId: angle.id,
@@ -388,7 +436,7 @@ export function buildAllArgonPrewrittenAds(
       headline: audited.headline,
       description: audited.description,
       primaryText: audited.primaryText,
-      destinationUrl,
+      destinationUrl: resolvedDestinationUrl,
       cta: 'LEARN_MORE',
       imageUrl: angle.defaultImageUrl || defaultImg.url,
       imageHash: angle.defaultImageHash || defaultImg.imageHash,

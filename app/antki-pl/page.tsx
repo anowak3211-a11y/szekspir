@@ -35,6 +35,10 @@ interface StageMeta {
 }
 
 const STAGE_ORDER: AntkiPlFunnelStage[] = [
+  'sport_gory_szlaki',
+  'sport_tenis_padel',
+  'sport_pilka_orlik',
+  'sport_bieganie_marsze',
   'anti_sales_allegro',
   'stage1_domowe_odkrycie',
   'stage2_efekt_domina',
@@ -62,10 +66,11 @@ const AVAILABLE_META_FANPAGES: Array<{
   instagramUserId?: string;
   note: string;
 }> = [
-  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'D3_RYCIAK, D4_OSTROGA, D32/D34/D35, TP#77/TP#80' },
-  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33, TP#81' },
-  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'D06/D08/D10 (córka o mamie) + Batch 1 Dzieci + TP#76/TP#79' },
-  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'D5_HALUKS, D6_ZAL, TP#78 (profil osobowy 50+)' },
+  { id: '1363490303507686', name: 'Karol Mikołajczyk', initials: 'KM', note: 'SPORT (#82-#83, #87-#89, #93-#95, #97, #100-#101) + TP#81 (1. os. męski)' },
+  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'SPORT (#85, #90 Fizjo), D3_RYCIAK, D4_OSTROGA, D32/D34/D35, TP#77/TP#80' },
+  { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33' },
+  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'SPORT (#91-#92, #96, #99) + D06/D08/D10 + Batch 1 Dzieci + TP#76/TP#79' },
+  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'SPORT (#84, #86, #98) + D5_HALUKS, D6_ZAL, TP#78 (profil osobowy 50+)' },
   { id: '1204366092764321', name: 'Dr. Magdalena Rokicińska', initials: 'MR', instagramUserId: '17841439381913725', note: 'Profil ekspercki' },
   { id: '1339041252618036', name: 'Dr n. med. Janusz Skrzypiński', initials: 'JS', instagramUserId: '17841437463666297', note: 'Profil lekarski' },
 ];
@@ -111,7 +116,27 @@ const DOROSLI_ANGLE_NATIVE_PAGE_MAP: Record<string, string> = {
   'tp-78-as-dorosli-szatnia-2dzien': '1194345203770949',
   'tp-79-al-dzieci-nalesnik-23zl': '798916893308685',
   'tp-80-al-dorosli-zel-19zl': '866702399857726',
-  'tp-81-al-dorosli-podrobka-27zl': '945290751994002',
+  'tp-81-al-dorosli-podrobka-27zl': '1363490303507686',
+  'sport-82-gory-zejscie-morskie-oko-kolana': '1363490303507686',
+  'sport-83-gory-wyjeta-wkladka-800zl': '1363490303507686',
+  'sport-84-gory-karkonosze-zona-schronisko': '1194345203770949',
+  'sport-85-gory-fizjo-3x-masa-ciala': '866702399857726',
+  'sport-86-gory-palace-piety-po-20km': '1194345203770949',
+  'sport-87-padel-poranny-gwozdz-w-piete': '1363490303507686',
+  'sport-88-padel-hamowanie-bokiem-kostka': '1363490303507686',
+  'sport-89-tenis-achilles-sztywny-jak-lina': '1363490303507686',
+  'sport-90-padel-ranking-fizjo-kort': '866702399857726',
+  'sport-91-tenis-kobieta-pieczenie-srodstopia': '798916893308685',
+  'sport-92-pilka-syn-orlik-bol-piet-severa': '798916893308685',
+  'sport-93-pilka-dorosli-orlik-kolana-38lat': '1363490303507686',
+  'sport-94-pilka-korki-tektura-test': '1363490303507686',
+  'sport-95-pilka-ojciec-i-syn-pakiet-1plus1': '1363490303507686',
+  'sport-96-pilka-zdarte-korki-od-srodka': '798916893308685',
+  'sport-97-bieganie-asfalt-piszczele-5km': '1363490303507686',
+  'sport-98-marsze-nordic-walking-15tys-krokow': '1194345203770949',
+  'sport-99-bieganie-slow-mo-pronacja-asfalt': '798916893308685',
+  'sport-100-hala-siatkowka-parkiet-ladowanie': '1363490303507686',
+  'sport-101-bieganie-anti-allegro-zel-vs-sprezyna': '1363490303507686',
 };
 
 type CampaignStructureState = {

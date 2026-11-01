@@ -25,8 +25,13 @@
  */
 
 import { ANTKI_DOROSLI_PRESET_ANGLES } from './antki-dorosli-presets';
+import { ANTKI_SPORT_PRESET_ANGLES } from './antki-sport-presets';
 
 export type AntkiPlFunnelStage =
+  | 'sport_gory_szlaki'
+  | 'sport_tenis_padel'
+  | 'sport_pilka_orlik'
+  | 'sport_bieganie_marsze'
   | 'anti_sales_allegro'
   | 'stage1_domowe_odkrycie'
   | 'stage2_efekt_domina'
@@ -59,6 +64,7 @@ export interface AntkiPlPresetAngle {
   defaultImageHash?: string;
   defaultSecondImageUrl?: string;
   defaultSecondImageHash?: string;
+  defaultDestinationUrl?: string;
 }
 
 export interface AntkiPlGeneratedAd {
@@ -882,6 +888,107 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     angleId: 'tp-81-al-dorosli-podrobka-27zl',
     note: 'Test Pack 01.11: Odklejona po 4h podróbka z aukcji vs oryginał Orthomax StepMax',
   },
+  // ==================== SPORT PACK (01.11): 10 ZDJĘĆ AKCJI 1:1 (GÓRY, PADEL, TENIS, ORLIK, BIEGANIE, HALA) ====================
+  {
+    id: 'sport-tab-1-marek-gory',
+    url: '/antki-pl-images/sport_tab_1_marek_gory.jpg',
+    label: '🏔️ SPORT (Góry · Tatry) · 46-letni Marek na zejściu kamiennym szlakiem z kijkami trekkingowymi',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [82, 83, 85],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Góry i szlaki (#82, #83, #85)',
+  },
+  {
+    id: 'sport-rev-1-elzbieta-58-gory',
+    url: '/antki-pl-images/sport_rev_1_elzbieta_58_gory.jpg',
+    label: '🏔️ SPORT (Góry · Karkonosze) · Kobieta na szlaku górskim pod Śnieżką z kijkami',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [84, 86],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Góry kobiety (#84, #86)',
+  },
+  {
+    id: 'sport-tab-2-tomek-padel',
+    url: '/antki-pl-images/sport_tab_2_tomek_padel.jpg',
+    label: '🎾 SPORT (Padel · Kort) · 39-letni Tomek przy dynamicznym hamowaniu bokiem (split-step) na korcie do padla',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [87, 88, 90],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Padel i korty (#87, #88, #90)',
+  },
+  {
+    id: 'sport-rev-5-michal-36-tenis',
+    url: '/antki-pl-images/sport_rev_5_michal_36_tenis.jpg',
+    label: '🎾 SPORT (Tenis · Mączka) · Gracz przy uderzeniu z forhendu i pracy stóp na korcie tenisowym',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [89, 91],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Tenis (#89, #91)',
+  },
+  {
+    id: 'sport-tab-3-orlik-pilka',
+    url: '/antki-pl-images/sport_tab_3_orlik_pilka.jpg',
+    label: '⚽ SPORT (Piłka Nożna · Ojciec i Syn) · 40-letni ojciec i 12-letni syn w korkach na sztucznej murawie Orlika',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [92, 95, 96],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Orlik ojciec i syn (#92, #95, #96)',
+  },
+  {
+    id: 'sport-rev-6-pawel-41-orlik-tatry',
+    url: '/antki-pl-images/sport_rev_6_pawel_41_orlik_tatry.jpg',
+    label: '⚽ SPORT (Piłka Nożna · Dorośli Orlik) · 41-letni Paweł podczas wieczornego meczu na Orliku pod jupiterami',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [93, 94],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Dorośli na Orliku (#93, #94)',
+  },
+  {
+    id: 'sport-tab-4-bieganie-marsze',
+    url: '/antki-pl-images/sport_tab_4_bieganie_marsze.jpg',
+    label: '🏃 SPORT (Bieganie · Asfalt) · Biegaczka na asfaltowej alejce w parku jesienią',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [97, 101],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Bieganie po asfalcie (#97, #101)',
+  },
+  {
+    id: 'sport-rev-2-kasia-42-marsz-pies',
+    url: '/antki-pl-images/sport_rev_2_kasia_42_marsz_pies.jpg',
+    label: '🚶‍♀️ SPORT (Szybkie Marsze 15 000 kroków) · Szybki marsz w parku z psem po twardej ścieżce',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [98],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Szybkie marsze i 15 000 kroków (#98)',
+  },
+  {
+    id: 'sport-rev-3-asia-38-bieganie',
+    url: '/antki-pl-images/sport_rev_3_asia_38_bieganie.jpg',
+    label: '🏃‍♀️ SPORT (Bieganie · Pronacja) · 38-letnia biegaczka w trakcie treningu biegowego',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [99],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Bieganie i pronacja zmęczeniowa (#99)',
+  },
+  {
+    id: 'sport-rev-4-marta-39-siatkowka',
+    url: '/antki-pl-images/sport_rev_4_marta_39_siatkowka.jpg',
+    label: '🏐 SPORT (Hala i Parkiet · Siatkówka) · Gra w siatkówkę i lądowanie na twardym szkolnym parkiecie',
+    source: 'ai',
+    groupCode: 'RUCH',
+    defaultForAngles: [100],
+    aspectRatio: '1:1',
+    note: 'Sport Pack 01.11: Hala i parkiet (#100)',
+  },
 ];
 
 export function getDefaultImageForAngle(angleNumber: number): AntkiPlImageAsset {
@@ -900,6 +1007,42 @@ export const ANTKI_PL_STAGE_LABELS: Record<
   AntkiPlFunnelStage,
   { label: string; shortLabel: string; badge: string; awareness: string; sophistication: string; description: string }
 > = {
+  sport_gory_szlaki: {
+    label: '🏔️ Sport #1 (01.11): Góry, Szlaki i Trekking (#82–#86 · orthomax-stepmax-pro)',
+    shortLabel: '🏔️ Sport · Góry i Szlaki (5)',
+    badge: 'SPORT · GÓRY (5)',
+    awareness: 'Stage 2/3/4: Ból kolan na zejściu z gór, palące pięty po 20 km i płaska wkładka w bucie za 850 zł',
+    sophistication: 'Poziom 4 (Na zejściu w stopę uderza 3-4x masa ciała — dynamiczna stabilizacja pięty i łuku)',
+    description:
+      '5 Antków pod chodzenie po górach i trekking (#82–#86): zejście tyłem z Tatr, wyjęta 2-mm gąbka z buta za 799 zł, kryzys na Śnieżce, raport fizjoterapeuty i poranne pięty w Beskidach.',
+  },
+  sport_tenis_padel: {
+    label: '🎾 Sport #2 (01.11): Tenis, Padel i Sporty Kortowe (#87–#91 · orthomax-stepmax-pro)',
+    shortLabel: '🎾 Sport · Tenis i Padel (5)',
+    badge: 'SPORT · TENIS & PADEL (5)',
+    awareness: 'Stage 2/3/4: Poranny gwóźdź w pięcie po padlu, hamowanie bokiem (split-step), sztywny Achilles i pieczenie śródstopia',
+    sophistication: 'Poziom 4/5 (Pod sztuczną trawą na korcie leży beton + ranking 5 metod fizjoterapeuty sportowego)',
+    description:
+      '5 Antków pod tenis i padel (#87–#91): poranna ostroga po meczu padla, uciekająca stopa przy hamowaniu bokiem, sztywny Achilles, ranking 5 metod fizjo i żywy ogień pod śródstopiem.',
+  },
+  sport_pilka_orlik: {
+    label: '⚽ Sport #3 (01.11): Piłka Nożna — Orlik, Korki i Turfy (#92–#96 · orthomax-stepmax-pro)',
+    shortLabel: '⚽ Sport · Piłka i Orlik (5)',
+    badge: 'SPORT · PIŁKA & ORLIK (5)',
+    awareness: 'Stage 2/3/4: Ból pięt u młodych piłkarzy (choroba Severa), dorośli 35+ po Orliku, tekturowa wkładka w korkach za 449 zł',
+    sophistication: 'Poziom 4 (Wąskie korki/turfy na betonowej podbudowie Orlika vs smukła dynamiczna sprężyna StepMax)',
+    description:
+      '5 Antków pod piłkę nożną i Orlik (#92–#96): płacz 11-latka z bólu pięt po treningu, 39-latek schodzący bokiem po schodach, test wkładki z turfów za 449 zł, turniej ojców i synów (Pakiet 1+1) oraz zdarte korki od środka.',
+  },
+  sport_bieganie_marsze: {
+    label: '🏃 Sport #4 (01.11): Bieganie po Asfalcie, Szybkie Marsze 15 000 Kroków i Hala (#97–#101 · orthomax-stepmax-pro)',
+    shortLabel: '🏃 Sport · Bieganie i Marsze (5)',
+    badge: 'SPORT · BIEGANIE & HALA (5)',
+    awareness: 'Stage 2/3/5: Ból kolan i piszczeli na 5. km, 15 000 kroków / Nordic Walking, slow-mo w 25. minucie biegu, siatkówka na parkiecie i Anti-Allegro żel 29,99 zł',
+    sophistication: 'Poziom 4/5 (Miękka pianka biegowa bez korytka pięty działa jak materac wodny + demaskacja ciężkiego żelu za 29,99 zł)',
+    description:
+      '5 Antków pod bieganie, marsze i halę (#97–#101): ściana bólu na 5. km po asfalcie, pułapka 15 000 kroków po kostce brukowej, nagranie slow-mo w 25. minucie, lądowanie na parkiecie (siatkówka) i rozgnieciony żel za 29,99 zł.',
+  },
   anti_sales_allegro: {
     label: 'Test Pack (01.11): 3x Anti-Sales 👎 + 3x Anti-Allegro (Dzieci & Dorośli)',
     shortLabel: 'Test Pack · Anti-Sales 👎 & Allegro (6)',
@@ -1759,6 +1902,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     defaultHeadline: 'Przez 30 lat nosiłam rozmiar 38, a tej jesieni nie weszłam nawet w 39. Oto co naprawdę dzieje się ze stopą po 40-tce',
   },
   ...ANTKI_DOROSLI_PRESET_ANGLES,
+  ...ANTKI_SPORT_PRESET_ANGLES,
 ];
 
 export const ANTKI_PL_SYSTEM_PROMPT = `Jesteś elitarnym polskim copywriterem direct-response piszącym natywne długie posty sprzedażowe (MSL / Antki) na Facebooka pod markę Orthomax (profilowane wkładki dynamiczne StepMax, sklep: orthomax.pl).
@@ -1928,8 +2072,11 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Poprawiono formę gramatyczną Orthomax StepMax z liczby pojedynczej na mnogą.');
   }
 
-  // 4. Strip brochure product descriptions ("zmiennej gęstości", "głębokie korytko", "wypustki")
-  if (/zmiennej\s+gęstości|głębokie\s+korytko|wypustki\s+(?:na\s+powierzchni|sensoryczne|pobudzają)/i.test(text)) {
+  // 4. Strip brochure product descriptions ("zmiennej gęstości", "głębokie korytko", "wypustki") on legacy non-sport copies
+  if (
+    !text.includes('orthomax-stepmax-pro') &&
+    /zmiennej\s+gęstości|głębokie\s+korytko|wypustki\s+(?:na\s+powierzchni|sensoryczne|pobudzają)/i.test(text)
+  ) {
     const paras = text.split(/\n\s*\n/);
     let replacedBrochure = false;
     const cleanedParas: string[] = [];

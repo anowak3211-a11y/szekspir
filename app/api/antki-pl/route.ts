@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v15-raw-testpack';
+const STATE_KEY = 'antki-pl-library-v16-sport-20';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -228,9 +228,11 @@ async function readLibraryState(): Promise<{
           auditWarnings: audited.auditWarnings,
           auditFixesApplied: audited.auditFixesApplied,
           destinationUrl:
-            ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
+            baseAd?.destinationUrl?.includes('orthomax-stepmax-pro')
+              ? baseAd.destinationUrl
+              : ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
               ? ORTHOMAX_PL_DEFAULT_URL
-              : ad.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
+              : ad.destinationUrl || baseAd?.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
         }),
       );
     }
@@ -1033,7 +1035,7 @@ export const POST = accountRoute(async (req: Request) => {
           headline: audited.headline,
           description: audited.description,
           primaryText: audited.primaryText,
-          destinationUrl: body.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
+          destinationUrl: preset.defaultDestinationUrl || body.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
           cta: 'LEARN_MORE',
           imageUrl: body.imageUrl || preset.defaultImageUrl || defaultImg.url,
           imageHash: body.imageHash || preset.defaultImageHash || defaultImg.imageHash,
