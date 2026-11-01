@@ -5,6 +5,7 @@ import AntkiPlBrandSwitcher, {
   formatAntekFullDate,
   formatAntekShortDate,
 } from '@/app/components/antki-pl-brand-switcher';
+import BennettUkWorkspace from '@/app/components/bennett-uk-workspace';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
 import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
@@ -133,7 +134,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('feliora-pies');
+  const [activeBrand, setActiveBrand] = useState<'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('bennett-uk');
   const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
     ANTKI_PL_PRESET_ANGLES.map(angle => {
@@ -1827,7 +1828,9 @@ export default function AntkiPlPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const b = params.get("brand");
-    if (b === "sardian" || b === "sardian-szampon" || b === "szampon") {
+    if (b === "bennett" || b === "bennett-uk" || b === "bennettseed") {
+      setActiveBrand("bennett-uk");
+    } else if (b === "sardian" || b === "sardian-szampon" || b === "szampon") {
       setActiveBrand("sardian-szampon");
     } else if (b === "orthomax" || b === "feliora" || b === "stryde") {
       setActiveBrand(b);
@@ -1913,9 +1916,22 @@ export default function AntkiPlPage() {
     return t ? t.split(/\s+/).length : 0;
   }, [editPrimaryText, activeAd]);
 
+  if (activeBrand === "bennett-uk") {
+    return (
+      <BennettUkWorkspace
+        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
+        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
+        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
+      />
+    );
+  }
+
   if (activeBrand === "sardian-szampon") {
     return (
       <SardianPlWorkspace
+        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
@@ -1927,6 +1943,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "stryde") {
     return (
       <StrydePlWorkspace
+        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
@@ -1938,6 +1955,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "feliora") {
     return (
       <FelioraPlWorkspace
+        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
@@ -1949,6 +1967,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "feliora-pies") {
     return (
       <FelioraPiesPlWorkspace
+        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}

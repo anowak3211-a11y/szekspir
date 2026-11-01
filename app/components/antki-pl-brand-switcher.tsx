@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 export type AntkiPlBrandKey =
+  | 'bennett-uk'
   | 'feliora-pies'
   | 'sardian-szampon'
   | 'stryde'
@@ -24,6 +25,19 @@ export interface AntkiPlBrandBatchMeta {
 }
 
 export const ANTKI_PL_BRAND_BATCHES: AntkiPlBrandBatchMeta[] = [
+  {
+    key: 'bennett-uk',
+    emoji: '🎃',
+    shortLabel: 'BENNETT & SEED UK',
+    countLabel: '30 LFS',
+    createdDateLabel: '30.10',
+    updatedDateLabel: '01.11.2026',
+    sortTimestamp: Date.parse('2026-11-01T15:30:00+01:00'),
+    activeGradient: 'linear-gradient(135deg, #16a34a 0%, #0d9488 100%)',
+    activeShadow: '0 2px 10px rgba(22, 163, 74, 0.45)',
+    inactiveColor: '#6ee7b7',
+    badgeColor: '#d1fae5',
+  },
   {
     key: 'feliora-pies',
     emoji: '🐶',

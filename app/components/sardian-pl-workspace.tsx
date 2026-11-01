@@ -40,6 +40,7 @@ const STAGE_ORDER: SardianAwarenessStageId[] = [
 ];
 
 interface SardianPlWorkspaceProps {
+  onSwitchToBennettUk?: () => void;
   onSwitchToStryde?: () => void;
   onSwitchToFeliora?: () => void;
   onSwitchToFelioraPies?: () => void;
@@ -47,6 +48,7 @@ interface SardianPlWorkspaceProps {
 }
 
 export default function SardianPlWorkspace({
+  onSwitchToBennettUk,
   onSwitchToStryde,
   onSwitchToFeliora,
   onSwitchToFelioraPies,
@@ -180,7 +182,10 @@ export default function SardianPlWorkspace({
 
   const handleBrandSelect = useCallback(
     (brand: AntkiPlBrandKey) => {
-      if (brand === 'stryde') {
+      if (brand === 'bennett-uk') {
+        if (onSwitchToBennettUk) onSwitchToBennettUk();
+        else window.location.href = '/antki-pl?brand=bennett-uk';
+      } else if (brand === 'stryde') {
         if (onSwitchToStryde) onSwitchToStryde();
         else window.location.href = '/antki-pl?brand=stryde';
       } else if (brand === 'feliora') {
@@ -194,7 +199,7 @@ export default function SardianPlWorkspace({
         else window.location.href = '/antki-pl?brand=orthomax';
       }
     },
-    [onSwitchToStryde, onSwitchToFeliora, onSwitchToFelioraPies, onSwitchToOrthomax],
+    [onSwitchToBennettUk, onSwitchToStryde, onSwitchToFeliora, onSwitchToFelioraPies, onSwitchToOrthomax],
   );
 
   const toggleSelectAngle = (id: string) => {

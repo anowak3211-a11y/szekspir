@@ -41,6 +41,7 @@ const STAGE_ORDER: FelioraPiesAwarenessStageId[] = [
 ];
 
 interface FelioraPiesPlWorkspaceProps {
+  onSwitchToBennettUk?: () => void;
   onSwitchToSardianSzampon?: () => void;
   onSwitchToStryde?: () => void;
   onSwitchToFeliora?: () => void;
@@ -48,6 +49,7 @@ interface FelioraPiesPlWorkspaceProps {
 }
 
 export default function FelioraPiesPlWorkspace({
+  onSwitchToBennettUk,
   onSwitchToSardianSzampon,
   onSwitchToStryde,
   onSwitchToFeliora,
@@ -247,7 +249,10 @@ export default function FelioraPiesPlWorkspace({
 
   const handleBrandSelect = useCallback(
     (brand: AntkiPlBrandKey) => {
-      if (brand === 'sardian-szampon') {
+      if (brand === 'bennett-uk') {
+        if (onSwitchToBennettUk) onSwitchToBennettUk();
+        else window.location.href = '/antki-pl?brand=bennett-uk';
+      } else if (brand === 'sardian-szampon') {
         if (onSwitchToSardianSzampon) onSwitchToSardianSzampon();
         else window.location.href = '/antki-pl?brand=sardian-szampon';
       } else if (brand === 'stryde') {
@@ -261,7 +266,7 @@ export default function FelioraPiesPlWorkspace({
         else window.location.href = '/antki-pl?brand=orthomax';
       }
     },
-    [onSwitchToSardianSzampon, onSwitchToStryde, onSwitchToFeliora, onSwitchToOrthomax],
+    [onSwitchToBennettUk, onSwitchToSardianSzampon, onSwitchToStryde, onSwitchToFeliora, onSwitchToOrthomax],
   );
 
   const handleSyncFanpages = useCallback(async () => {
