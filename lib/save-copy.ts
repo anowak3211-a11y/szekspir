@@ -7,7 +7,7 @@ import {google} from 'googleapis';
 import {getJob,type Job} from './jobs';
 import {mutate} from './store';
 import {assertAdActive,assertJobActive} from './cancellation';
-import {editorAssignment} from './editor-sync';
+import {editorAssignment,syncWorkspace} from './editor-sync';
 import {withEditorLocks} from './editor-locks';
 import {EDITOR_WORKSPACES} from './editor-workspaces';
 import {sheetAuth,shiftAdminRange} from './sheets';
@@ -16,6 +16,7 @@ import {hasTokens,opening} from './validation';
 import {sendsHook} from './hook-delivery';
 import {canonicalUkMedicationName} from './uk-medication';
 import {canonicalMellowSaffronName,isMellowSaffronTarget} from './mellow-saffron-brand';
+import {sanitizeUkScriptText,isHairDhtSourceScript,resolveCanonicalTargetBrand} from './localize';
 export type CopyInput={id:string;script:string;hooks:string[];expectedScript:string;expectedHooks:string[];productName?:string;expectedProductName?:string;productOnly?:boolean};
 type ProductTarget={name:string;context:string;version:string;sheetProduct:NonNullable<Job['sheetProduct']>};
 type PendingCopy={token:string;input:CopyInput;target?:ProductTarget;error?:string};
@@ -41,10 +42,12 @@ export async function saveCopy(input:CopyInput):Promise<{job:Job;editor:string;u
  if(before!.result!.hooks.length===3&&input.hooks.length===2)input={...input,hooks:[...input.hooks,before!.result!.hooks[2]]};
  if(input.hooks.length!==before!.result!.hooks.length)throw Error('Hook count changed. Refresh before saving.');
  if(before!.market!=='pl'&&!input.productOnly){
-  const normalise=(text:string)=>canonicalUkMedicationName(isMellowSaffronTarget(before!.productName,before!.productContext,before!.sheetProduct)?canonicalMellowSaffronName(text):text);
+  const isHair=isHairDhtSourceScript(before!.transcript||before!.result?.uk_script||'')||isHairDhtSourceScript(input.script);
+  const brand=resolveCanonicalTargetBrand(target?.name||before!.productName||'',target?.context||before!.productContext);
+  const normalise=(text:string)=>sanitizeUkScriptText(canonicalUkMedicationName(isMellowSaffronTarget(before!.productName,before!.productContext,before!.sheetProduct)?canonicalMellowSaffronName(text):text),isHair,brand);
   input={...input,script:normalise(input.script),hooks:input.hooks.map(normalise)};
  }
- const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=accountEditors().find(x=>x.id===assignment.current);if(!workspace)throw Error('Assigned editor not found.');
+ const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=accountEditors(EDITOR_WORKSPACES).find(x=>x.id===assignment.current);if(!workspace)throw Error('Assigned editor not found.');
  return withEditorLocks(['ad-'+adId,'sheet-write-'+adId,'workspace-'+workspace.id],async()=>{
   await assertJobActive(input.id);await assertAdActive(adId);
   if((await editorAssignment(adId)).current!==workspace.id)throw Error('Editor changed. Refresh and try again.');
@@ -62,10 +65,15 @@ export async function saveCopy(input:CopyInput):Promise<{job:Job;editor:string;u
    if(input.script!==reserved.result!.uk_script){fields['Adapted script']=input.script;fields['HOOK OG']=opening(input.script);}
    for(let i=0;i<input.hooks.length;i++)if(input.hooks[i]!==reserved.result!.hooks[i])fields[`Hook ${i+1}`]=sendsHook(reserved,i)?input.hooks[i]:'';
    const api=google.sheets({version:'v4',auth:sheetAuth()});
-   const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE2000'},{id:workspace.sheetId,title:'My Tasks',range:'A1:Z2000'}];
    for(const target of targets){
-    const rows=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=rows[0]||[],idCol=headers.indexOf('Ad ID');
-    const matches=rows.map((row,index)=>({row,index})).filter(x=>x.index>0&&x.row[idCol]===adId);
+    let rows=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=rows[0]||[],idCol=headers.indexOf('Ad ID');
+    let matches=rows.map((row,index)=>({row,index})).filter(x=>x.index>0&&x.row[idCol]===adId);
+    if(matches.length===0&&target.title==='My Tasks'&&typeof syncWorkspace==='function'){
+     await syncWorkspace(workspace);
+     rows=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];headers=rows[0]||[];idCol=headers.indexOf('Ad ID');
+     matches=rows.map((row,index)=>({row,index})).filter(x=>x.index>0&&x.row[idCol]===adId);
+    }
     if(idCol<0||matches.length!==1)throw Error('Ad is missing or duplicated in the sheet.');
     for(const [field,text] of Object.entries(fields)){
      const col=headers.indexOf(field);if(col<0||headers.lastIndexOf(field)!==col)throw Error('Copy column missing or duplicated.');

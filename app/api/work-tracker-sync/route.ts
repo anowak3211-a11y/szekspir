@@ -360,6 +360,121 @@ export async function POST(req: NextRequest) {
 
 async function handleSync(req: NextRequest) {
   const url = req.nextUrl;
+  if (url.searchParams.get('initProducts') === '1') {
+    const { getProducts, createProduct, addFile } = await import('@/lib/products');
+    if (req.method === 'POST') {
+      const body = await req.json().catch(() => ({}));
+      if (Array.isArray(body.create)) {
+        for (const p of body.create) {
+          if (typeof p === 'string' && p.trim()) await createProduct(p.trim());
+        }
+      }
+      if (Array.isArray(body.files)) {
+        for (const f of body.files) {
+          if (f?.product && f?.filename) {
+            await addFile(String(f.product), String(f.filename), String(f.markdown || ''));
+          }
+        }
+      }
+    } else {
+      await createProduct('pumpkin');
+    }
+    const products = await getProducts();
+    return NextResponse.json({
+      ok: true,
+      productNames: products.map(p => ({ name: p.name, fileCount: p.files.length })),
+    });
+  }
+  const migrateEmail = url.searchParams.get('migrateDriveTo')?.trim().toLowerCase();
+  if (migrateEmail && migrateEmail.includes('@')) {
+    const auth = sheetAuth();
+    const saDrive = google.drive({ version: 'v3', auth });
+    const saEmail = process.env.GOOGLE_CREDENTIALS_JSON
+      ? JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON).client_email
+      : '';
+    const knownIds = new Set<string>(
+      [
+        process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID || '',
+        process.env.SPREADSHEET_ID || '',
+        process.env.ADMIN_SHEET_ID || '',
+        '1wgVFDpgV37Icw83tr6bpByR0oJR8wLCq',
+        '1EHu8adk2phzvb0fT5qBcX8H4ewKpjNQ6',
+        '1Qfne73m1QTIGNM_KxPw2ti-DNFHf3FN_',
+        '1YPRTrJJ5EwK1ikObQolg9vua6bNCCsng',
+        '1Gzn9PiT1IkFcZ3WNCb8k_pbCjdNbA63G',
+        '17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY',
+        '1zi8uoLMsuRTK5cTpBNOiAkKXjEZs1MhNHqbyK5u5zk4',
+        '1LZoHkbJGrtXqRHjF3rO6t0VT3wm4Qur4RAKgnLtp1c4',
+        '116RyS6EAPj8DY9lXyGadMtX-2JeNk1CyODIkrKxDVnE',
+        '1D5-fQI1SI0LA2UL1XktEraD8zjmadEuLOGSiRSNQF0M',
+        '1HK8q1zZJLSGSIPrEno0ZsJNTBhWHHaezrHt24EK7kto',
+        '1n5vtQPBy5i23Z4GmdTp-Nm-Q2wHmqb8LOZReg0Mwu9k',
+        '1b0HrsQ4UXIyokR4evvl63I7twS4b9AeJ0Ori2tWrLZw',
+        '1Op4OsZKsDQynWT1mZBuv55kkQP9HQGgo6NkDL3vvIY0',
+        '1aAOOKixjHdSVK5EyMORObOH_pvYRVHTyMrT_3xqawo0',
+        MASTER_SHEET_ID,
+      ].filter(Boolean),
+    );
+    try {
+      const listed = await saDrive.files.list({
+        q: "trashed = false and (mimeType = 'application/vnd.google-apps.folder' or mimeType = 'application/vnd.google-apps.spreadsheet')",
+        pageSize: 100,
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+        fields: 'files(id,name,mimeType)',
+      });
+      for (const f of listed.data.files || []) {
+        if (f.id) knownIds.add(f.id);
+      }
+    } catch {
+      // ignore list errors
+    }
+
+    const sharedResults: Array<{ id: string; name?: string; mimeType?: string; status: string }> = [];
+    for (const fileId of knownIds) {
+      try {
+        const meta = await saDrive.files.get({
+          fileId,
+          supportsAllDrives: true,
+          fields: 'id,name,mimeType,owners(emailAddress)',
+        });
+        await saDrive.permissions.create({
+          fileId,
+          supportsAllDrives: true,
+          sendNotificationEmail: false,
+          requestBody: {
+            type: 'user',
+            role: 'writer',
+            emailAddress: migrateEmail,
+          },
+        });
+        sharedResults.push({
+          id: fileId,
+          name: meta.data.name || undefined,
+          mimeType: meta.data.mimeType || undefined,
+          status: 'shared_writer',
+        });
+      } catch (e) {
+        sharedResults.push({
+          id: fileId,
+          status: `err: ${e instanceof Error ? e.message : String(e)}`,
+        });
+      }
+    }
+    const conn = await driveConnection();
+    return NextResponse.json({
+      ok: true,
+      migratedTo: migrateEmail,
+      serviceAccountEmail: saEmail,
+      envVideoFolderId: process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID || null,
+      envSpreadsheetId: process.env.SPREADSHEET_ID || null,
+      activeOAuthFolderId: conn.active?.folderId || null,
+      hasActiveOAuth: Boolean(conn.active),
+      sharedCount: sharedResults.filter(r => r.status === 'shared_writer').length,
+      sharedResults,
+    });
+  }
+
   const now = new Date();
   const year = Number(url.searchParams.get('year')) || now.getFullYear();
   const monthsParam = url.searchParams.get('months');

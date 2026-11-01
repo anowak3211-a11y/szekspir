@@ -1,4 +1,4 @@
-import {accountEnv} from './account-context';
+import {accountEnv,currentWorkspace} from './account-context';
 import {google} from 'googleapis';
 import {Readable} from 'node:stream';
 import {sheetAuth} from './sheets';
@@ -6,15 +6,33 @@ import {openVideoStream} from './stream-media';
 import {MEDIA_LIMIT} from './media';
 import type {Job} from './jobs';
 import {driveConnection,oauthClient} from './drive-oauth';
+function withServiceAccountReadFallback(drive:ReturnType<typeof google.drive>,skipFileId?:string){
+ const origGet=drive.files.get.bind(drive.files);
+ drive.files.get=((params:unknown,options?:unknown)=>{
+  const p=params as {fileId?:string};
+  const call=origGet(params as never,options as never) as Promise<unknown>;
+  if(p?.fileId&&p.fileId===skipFileId)return call;
+  return call.catch(e=>{
+   const code=Number((e as {code?:number})?.code||(e as {response?:{status?:number}})?.response?.status);
+   if(code===404||code===403){
+    const saDrive=google.drive({version:'v3',auth:sheetAuth()});
+    return saDrive.files.get(params as never,options as never);
+   }
+   throw e;
+  });
+ }) as typeof drive.files.get;
+ return drive;
+}
 export async function driveClient(){
  const {active}=await driveConnection();
- if(active){const auth=oauthClient(active);auth.setCredentials({refresh_token:active.refreshToken});return {drive:google.drive({version:'v3',auth}),human:true};}
+ if(active){const auth=oauthClient(active);auth.setCredentials({refresh_token:active.refreshToken});return {drive:withServiceAccountReadFallback(google.drive({version:'v3',auth}),active.folderId),human:true};}
  const {GOOGLE_DRIVE_CLIENT_ID:clientId,GOOGLE_DRIVE_CLIENT_SECRET:clientSecret,GOOGLE_DRIVE_REFRESH_TOKEN:refreshToken}=process.env;
- if(clientId&&clientSecret&&refreshToken){const auth=new google.auth.OAuth2(clientId,clientSecret);auth.setCredentials({refresh_token:refreshToken});return {drive:google.drive({version:'v3',auth}),human:true};}
+ if(clientId&&clientSecret&&refreshToken){const auth=new google.auth.OAuth2(clientId,clientSecret);auth.setCredentials({refresh_token:refreshToken});return {drive:withServiceAccountReadFallback(google.drive({version:'v3',auth})),human:true};}
  return {drive:google.drive({version:'v3',auth:sheetAuth()}),human:false};
 }
 export async function driveUploadTarget(){
- const folderId=accountEnv('GOOGLE_DRIVE_VIDEO_FOLDER_ID');
+ const {active}=await driveConnection();
+ const folderId=(!currentWorkspace()&&active?.folderId)||accountEnv('GOOGLE_DRIVE_VIDEO_FOLDER_ID');
  if(!folderId||!/^[-\w]+$/.test(folderId))throw Error('Google Drive is not connected yet. Configure the video folder before choosing Send to Drive.');
  const {drive,human}=await driveClient();const {data:folder}=await drive.files.get({fileId:folderId,supportsAllDrives:true,fields:'id,mimeType,driveId,capabilities(canAddChildren)'},{timeout:15000,retry:false});
  if(folder.mimeType!=='application/vnd.google-apps.folder'||!folder.capabilities?.canAddChildren)throw Error('The app cannot upload to the selected Google Drive folder.');

@@ -27,7 +27,8 @@ import {
 export const maxDuration = 300;
 
 const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
-const STATE_KEY = 'bennett-uk-lfs-v7-34-stories-stealth-clean';
+const LEGACY_STATE_KEY_V8 = 'bennett-uk-lfs-v8-34-stories-1x1-fixed';
+const STATE_KEY = 'bennett-uk-lfs-v10-carys-morgan-fosters';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-01T19:53:00+01:00');
 
 interface BennettUkLibraryState {
@@ -144,6 +145,12 @@ async function readBennettUkLibraryState(): Promise<{
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     let customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    if (customImages.length === 0) {
+      const legacyV8 = await readState<BennettUkLibraryState>(LEGACY_STATE_KEY_V8, { ads: [], customImages: [] }).catch(() => null);
+      if (Array.isArray(legacyV8?.value?.customImages) && legacyV8.value.customImages.length > 0) {
+        customImages = legacyV8.value.customImages;
+      }
+    }
     if (customImages.length === 0) {
       const legacy = await readState<BennettUkLibraryState>(LEGACY_STATE_KEY_V2, { ads: [], customImages: [] }).catch(() => null);
       if (Array.isArray(legacy?.value?.customImages) && legacy.value.customImages.length > 0) {
@@ -898,7 +905,9 @@ export const POST = accountRoute(async (req: Request) => {
         targetAdSetId = createdAdSet.id;
       }
 
-      const discoveredPages: Record<string, string> = {};
+      const discoveredPages: Record<string, string> = {
+        'fp-bennett-seed-uk': '1338513126001175',
+      };
       for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${BENNETT_UK_META_ACCOUNT_ID}/promote_pages`]) {
         try {
           const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>(endpoint, {
@@ -907,8 +916,20 @@ export const POST = accountRoute(async (req: Request) => {
           });
           for (const p of accs.data || []) {
             const n = (p.name || '').toLowerCase();
-            if (n.includes('psy bez ściemy') || n.includes('psy bez sciemy') || n.includes('psiarze')) {
-              discoveredPages['fp-psy-bez-sciemy'] = p.id;
+            if (n.includes('claire foster') || n.includes('helen ward') || n.includes('rebecca')) {
+              discoveredPages['fp-dr-claire-foster'] = p.id;
+            }
+            if (n.includes('richard foster')) {
+              discoveredPages['fp-dr-richard-foster-urology'] = p.id;
+            }
+            if (n.includes('carys morgan') || n.includes('carys') || n.includes('margaret') || n.includes('catherine')) {
+              discoveredPages['fp-margaret-h-uk'] = p.id;
+            }
+            if (n.includes('david') || n.includes('yorkshire') || n.includes('arthur') || n.includes('mark reynolds')) {
+              discoveredPages['fp-david-t-yorkshire'] = p.id;
+            }
+            if (n.includes('bennett & seed') || n.includes('bennett and seed') || n.includes('bennett seed')) {
+              discoveredPages['fp-bennett-seed-uk'] = p.id;
             }
           }
         } catch {
@@ -916,29 +937,29 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
-      const FELIORA_PIES_PAGE_ACTORS: Record<string, { instagram_user_id?: string; threads_user_id?: string }> = {
+      const BENNETT_UK_PAGE_ACTORS: Record<string, { instagram_user_id?: string; threads_user_id?: string }> = {
         '1338513126001175': { instagram_user_id: '17841437606417391', threads_user_id: '17841467398928017' }, // Bennett & Seed UK
-        '1287239777799682': { instagram_user_id: '17841441008488573', threads_user_id: '17841419447824408' }, // Dr. wet. Edmund Newelski
-        '798916893308685': { instagram_user_id: '17841473314157729' }, // Porady Mamy Gosi
-        '1194345203770949': { instagram_user_id: '17841412233487287' }, // Iwona Kożuchowska
-        '1363490303507686': {}, // Karol Mikołajczyk (FB Page only — never attach mismatched IG ID)
+        '1327661883769549': {}, // Graceful Ageing UK (FB Page only — omit mismatched IG ID per Rule #2)
+        '1277952565400407': {}, // Over 50s Health & Wellbeing UK (FB Page only — omit mismatched IG ID per Rule #2)
       };
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
-        const rawPageId = (body.pageId || ad.pageId || '798916893308685').trim();
+        const defaultFallbackUkPage =
+          ad.problemCluster === 'BOFU_BRAND_OFFER' ? '1338513126001175' : '1327661883769549';
+        const rawPageId = (body.pageId || ad.pageId || defaultFallbackUkPage).trim();
         const resolvedPageId = /^\d+$/.test(rawPageId)
           ? rawPageId
-          : discoveredPages[rawPageId] || '798916893308685';
+          : discoveredPages[rawPageId] || defaultFallbackUkPage;
         const fpMeta = BENNETT_UK_FANPAGES.find(f => f.id === rawPageId || f.id === resolvedPageId);
-        const resolvedPageName = fpMeta?.name || ad.pageName || 'Porady Mamy Gosi';
-        const actors = FELIORA_PIES_PAGE_ACTORS[resolvedPageId];
+        const resolvedPageName = fpMeta?.name || ad.pageName || 'Graceful Ageing UK';
+        const actors = BENNETT_UK_PAGE_ACTORS[resolvedPageId];
         const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
         const targetLink = ad.destinationUrl || BENNETT_UK_DEFAULT_URL || BENNETT_UK_PDP_URL;
 
         const urlsToPush: Array<{ suffix: string; link: string; hash: string }> = [
           {
-            suffix: 'PDP PIES',
+            suffix: targetLink.includes('/pages/') ? 'ADV UK' : 'PDP UK',
             link: targetLink,
             hash: primaryHash,
           },
@@ -949,7 +970,7 @@ export const POST = accountRoute(async (req: Request) => {
           const creativeSpec = {
             name: `${adName} - Creative`,
             url_tags:
-              'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
+              'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.id}}&utm_term={{adset.id}}&utm_content={{ad.id}}',
             object_story_spec: {
               page_id: resolvedPageId,
               ...(actors?.instagram_user_id ? { instagram_user_id: actors.instagram_user_id } : {}),

@@ -10,7 +10,7 @@ export const ANTKI_SPORT_COPY_PART2: Record<
 
 Początkowe 10 kroków do łazienki szedłem na samych palcach jak po potłuczonym szkle, bo przy każdej próbie dociśnięcia pięty do dębowego parkietu w rozcięgno podeszwowe wbijał się żywy gwóźdź. Przez 5 miesięcy myślałem, że w wieku 39 lat to po prostu wolniejsza regeneracja po grze na hali - dopóki fizjoterapeuta nie wyjął płaskiej jak naleśnik wkładki z moich butów kortowych za 580 zł.
 
-Mam na imię Tomasz, mam 39 lat i mieszkam w Warszawie. Przez 8 godzin dziennie siedzę przy biurku przed 2 monitorami, więc wtorkowe i czwartkowe mecze w padla o 20:00 z chłopakami na hali na Ursynowie były dla mnie wentylem bezpieczeństwa. Przez 90 minut na korcie, kiedy ciało było rozgrzane, nie czułem prawie nic. Schody zaczynały się po powrocie do domu, kiedy po prysznicu siadałem na 40 minut na kanapie i próbowałem wstać po wodę.
+Mam na imię Karol, mam 39 lat i mieszkam w Warszawie. Przez 8 godzin dziennie siedzę przy biurku przed 2 monitorami, więc wtorkowe i czwartkowe mecze w padla o 20:00 z chłopakami na hali na Ursynowie były dla mnie wentylem bezpieczeństwa. Przez 90 minut na korcie, kiedy ciało było rozgrzane, nie czułem prawie nic. Schody zaczynały się po powrocie do domu, kiedy po prysznicu siadałem na 40 minut na kanapie i próbowałem wstać po wodę.
 
 Szurałem do łazienki na zewnętrznej krawędzi stopy, trzymając się framugi drzwi, a w myślach kłębił się wstyd: „Mam 39 lat, a rano ruszam się jak mój 75-letni sąsiad. Jak żona zobaczy, że znów idę po ścianie, każe mi sprzedać rakietę”.
 
@@ -85,7 +85,7 @@ P.S. Nie bierz 1 pary, żeby przekładać ją z przepoconych butów kortowych do
 
 Usiadłem na niebieskiej murawie obok rakiety, rozsznurowałem prawy but drżącymi rękami i byłem przekonany, że w wieku 42 lat właśnie rozwaliłem łąkotkę i czekają mnie 4 miesiące o kulach. Następnego dnia w gabinecie w Gdańsku fizjoterapeuta nawet nie wypisał mi skierowania na zabieg - wyjął wkładkę z mojego buta do padla i pokazał mi w lustrze, jak przy każdym zwrocie o 180 stopni moja stopa pływa wewnątrz buta jak na mokrym kartonie.
 
-Nazywam się Michał, mam 42 lata i mieszkam w Gdańsku. Kiedy 2 lata temu zamieniłem bieganie po asfalcie na padla i tenisa 2 razy w tygodniu na kortach na Przymorzu, byłem zachwycony. Tyle że w bieganiu poruszasz się w 95% prosto przed siebie, natomiast w padlu i tenisie aż 80% ruchów to gwałtowny naskok dzielony (split-step), nagłe hamowanie bokiem na krawędzi stopy, wykrok przy szybie i zwrot o 180 stopni.
+Nazywam się Karol, mam 42 lata i mieszkam w Gdańsku. Kiedy 2 lata temu zamieniłem bieganie po asfalcie na padla i tenisa 2 razy w tygodniu na kortach na Przymorzu, byłem zachwycony. Tyle że w bieganiu poruszasz się w 95% prosto przed siebie, natomiast w padlu i tenisie aż 80% ruchów to gwałtowny naskok dzielony (split-step), nagłe hamowanie bokiem na krawędzi stopy, wykrok przy szybie i zwrot o 180 stopni.
 
 Przez początkowe miesiące czułem po meczach tylko dziwne „rozbicie” w kostkach i kłucie pod prawą rzepką, kiedy schodziłem po schodach z szatni. W głowie włączał się strach: „Mam 42 lata, ważę 91 kg, zaraz rozwalę sobie łąkotkę albo zerwę więzadło krzyżowe jak koledzy z ligi amatorskiej i wezmę 4 miesiące zwolnienia”.
 
@@ -160,7 +160,7 @@ P.S. Przed włożeniem Orthomax StepMax wyjmij z butów kortowych fabryczną wk�
 
 Miesiąc wcześniej mój 41-letni kolega z ligi tenisowej zerwał Achillesa przy wybiciu do serwisu i skończył w ortezie po operacji, więc ze strachu przed każdym wyjściem na kort wcierałem w piętę i łydki apteczne żele za 185 zł. Dopiero fizjoterapeuta w Poznaniu wyciągnął z moich butów tenisowych za 620 zł wytartą na wylot fabryczną wkładkę i pokazał mi, jak przy każdym lądowaniu moja własna pięta wygina ścięgno Achillesa w łuk.
 
-Mam na imię Łukasz, mam 44 lata i mieszkam w Poznaniu. W tenisa gram amatorsko od 10 lat na kortach na Grunwaldzie i nad Maltą, w środy wieczorem i w soboty rano. Problem zaczął się w kwietniu po przejściu z balonu na twarde korty. Po każdym meczu moje lewe ścięgno Achillesa robiło się grube, gorące i sztywne jak kawałek drewna, a 2 łydki piekły tak, jakbym przebiegł maraton.
+Mam na imię Karol, mam 44 lata i mieszkam w Poznaniu. W tenisa gram amatorsko od 10 lat na kortach na Grunwaldzie i nad Maltą, w środy wieczorem i w soboty rano. Problem zaczął się w kwietniu po przejściu z balonu na twarde korty. Po każdym meczu moje lewe ścięgno Achillesa robiło się grube, gorące i sztywne jak kawałek drewna, a 2 łydki piekły tak, jakbym przebiegł maraton.
 
 Prawdziwy paraliż w głowie zaczął się miesiąc temu. Mój 41-letni kolega z ligi tenisowej podczas wyskoku do piłki przy linii końcowej usłyszał za plecami huk jak wystrzał z bata - pękło mu ścięgno Achillesa i skończył w ortezie na 12 tygodni po operacji. Od tamtego dnia podczas każdego meczu w mojej głowie siedział strach: „Mam 44 lata, ścięgno mam zgrubiałe i bolesne przy ucisku 2 palcami - przy kolejnym starcie do skrótu będę następny na SOR-ze”.
 
@@ -310,7 +310,7 @@ P.S. Jako fizjoterapeuta powtarzam to każdemu pacjentowi z kortu: noszenie wkł
 
 Kiedy po odchowaniu dzieci wreszcie znalazłam w wieku 41 lat 3 godziny w tygodniu na korty w Krakowie, zamiast radości z gry wracałam do domu z palącym śródstopiem, zesztywniałymi łydkami i kłuciem pod rzepką na schodach. Wydałam 1050 zł na 2 pary markowych butów kortowych, zanim podolog pokazał mi w 10 sekund, jak na 2-milimetrowej fabrycznej piance przy każdym podskoku miażdżę własne nerwy śródstopia.
 
-Mam na imię Magdalena, mam 41 lat i mieszkam w Krakowie. Kiedy dzieci podrosły, wróciłam do dawnej pasji ze studiów i zapisałam się na treningi tenisa oraz kobiece rozgrywki padla 2 razy w tygodniu na kortach na Woli Justowskiej i Czyżynach.
+Mam na imię Małgorzata, mam 41 lat i mieszkam w Krakowie. Kiedy dzieci podrosły, wróciłam do dawnej pasji ze studiów i zapisałam się na treningi tenisa oraz kobiece rozgrywki padla 2 razy w tygodniu na kortach na Woli Justowskiej i Czyżynach.
 
 Po 3 tygodniach zaczęło się piekło pod stopami. Po 45 minutach gry na korcie pod stopami, dokładnie za palcami na wysokości śródstopia, wybuchało palące pieczenie połączone z prądowaniem do 3. i 4. palca. Po treningu moje łydki robiły się twarde jak z betonu, a przy wchodzeniu po schodach na 2. piętro w kamienicy czułam ostre kłucie pod rzepkami. W głowie krążyła smutna myśl: „Mam dopiero 41 lat, znalazłam 3 godziny w tygodniu dla siebie, a w 45. minucie treningu marzę tylko o tym, żeby usiąść na ławce i zdjąć buty”.
 
@@ -353,7 +353,7 @@ Uciekająca z osi pięta i podświadome odciążanie przodostopia przeciążają
 
 Fizjoterapeuta wytłumaczył mi spokojnie: „Zmiana butów na kolejną parę za 600 zł nic pani nie da, bo producenci obuwia kortowego wkładają do środka płaską piankę EVA. Dopóki nie podeprze pani łuku stopy od dołu i nie odciąży przodostopia sprężystą strefą amortyzującą, nerwy pod palcami będą piekły przy każdym meczu”.
 
-Wieczorem po wizycie zadzwoniłam do mojej starszej siostry i opowiedziałam jej o tym teście podskoków. Siostra od razu skojarzyła: „Magda, przecież moja koleżanka Dorota z apteki miała identyczny ogień pod palcami od stania 10 godzin przy okienku i grania 3 razy w tygodniu w squasha! Czekaj, już do niej piszę, co ona włożyła do butów”. Po 5 minutach siostra przesłała mi na Messengerze zrzut ekranu od Doroty z linkiem do wkładek Orthomax StepMax i wiadomością: „Niech Magda bierze pakiet 1+1 - 1 para na kort, 2. para na co dzień”.
+Wieczorem po wizycie zadzwoniłam do mojej starszej siostry i opowiedziałam jej o tym teście podskoków. Siostra od razu skojarzyła: „Gosia, przecież moja koleżanka Dorota z apteki miała identyczny ogień pod palcami od stania 10 godzin przy okienku i grania 3 razy w tygodniu w squasha! Czekaj, już do niej piszę, co ona włożyła do butów”. Po 5 minutach siostra przesłała mi na Messengerze zrzut ekranu od Doroty z linkiem do wkładek Orthomax StepMax i wiadomością: „Niech Magda bierze pakiet 1+1 - 1 para na kort, 2. para na co dzień”.
 
 Zobaczyłam Pakiet 1+1 GRATIS za 99,99 zł i w mojej głowie pojawił się sceptycyzm: „Wydałam 1050 zł na 2 pary markowych butów kortowych i 233 zł na skarpetki oraz podkładki, a teraz wkładki za 50 zł od pary polecone przez koleżankę siostry mają sprawić, że przestanie mnie palić śródstopie?”. Zamknęłam stronę.
 

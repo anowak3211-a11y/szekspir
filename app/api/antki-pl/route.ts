@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v19-diverse-discovery';
+const STATE_KEY = 'antki-pl-library-v20-name-congruence';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];

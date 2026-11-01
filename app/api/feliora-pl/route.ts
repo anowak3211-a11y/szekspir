@@ -24,7 +24,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v8-raw-testpack';
+const STATE_KEY = 'feliora-pl-library-v9-name-congruence';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];

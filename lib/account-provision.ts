@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import {google} from 'googleapis';
 import {driveClient} from './drive-video';
+import {driveConnection} from './drive-oauth';
 import {sheetAuth} from './sheets';
 import {inOwnerWorkspace} from './account-context';
 import {workspaceById,reserveWorkspace,updateWorkspace,type UserWorkspace} from './account-repository';
@@ -37,7 +38,7 @@ export async function provisionWorkspace(email:string,name:string,employeeNames:
  return withEditorLocks(['provision-'+user.id],async()=>{
   user=(await workspaceById(user.id))!;if(!user)throw Error('Nie znaleziono zestawu użytkownika.');if(user.state==='ready')return user;
   const {drive}=await driveClient();
-  if(!user.folderId){const parent=process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID;if(!parent)throw Error('Najpierw podłącz folder Drive administratora.');const q=`trashed = false and appProperties has { key='szekspirWorkspace' and value='${user.id}' }`;const found=(await drive.files.list({q,fields:'files(id)',supportsAllDrives:true,includeItemsFromAllDrives:true,pageSize:2})).data.files||[];if(found.length>1)throw Error('Podwójny folder użytkownika wymaga sprawdzenia.');const folder=found[0]|| (await drive.files.create({supportsAllDrives:true,requestBody:{name:'Szekspir · '+user.name,mimeType:'application/vnd.google-apps.folder',parents:[parent],appProperties:{szekspirWorkspace:user.id}},fields:'id'},{timeout:30000,retry:false})).data;if(!folder.id)throw Error('Drive nie potwierdził folderu.');user=await updateWorkspace(user.id,u=>{u.folderId=folder.id!;});}
+  if(!user.folderId){const parent=(await driveConnection()).active?.folderId||process.env.GOOGLE_DRIVE_VIDEO_FOLDER_ID;if(!parent)throw Error('Najpierw podłącz folder Drive administratora.');const q=`trashed = false and appProperties has { key='szekspirWorkspace' and value='${user.id}' }`;const found=(await drive.files.list({q,fields:'files(id)',supportsAllDrives:true,includeItemsFromAllDrives:true,pageSize:2})).data.files||[];if(found.length>1)throw Error('Podwójny folder użytkownika wymaga sprawdzenia.');const folder=found[0]|| (await drive.files.create({supportsAllDrives:true,requestBody:{name:'Szekspir · '+user.name,mimeType:'application/vnd.google-apps.folder',parents:[parent],appProperties:{szekspirWorkspace:user.id}},fields:'id'},{timeout:30000,retry:false})).data;if(!folder.id)throw Error('Drive nie potwierdził folderu.');user=await updateWorkspace(user.id,u=>{u.folderId=folder.id!;});}
   const serviceEmail=(await sheetAuth().getCredentials()).client_email;
   if(serviceEmail){const permissions=(await drive.permissions.list({fileId:user.folderId!,supportsAllDrives:true,fields:'permissions(emailAddress,role)'})).data.permissions||[];if(!permissions.some(p=>p.emailAddress===serviceEmail))await drive.permissions.create({fileId:user.folderId!,supportsAllDrives:true,sendNotificationEmail:false,requestBody:{type:'user',role:'writer',emailAddress:serviceEmail}});}
   const admin=await createSheet(user,'admin',user.name+' · Admin Sheet',process.env.ADMIN_SHEET_ID||'17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY');

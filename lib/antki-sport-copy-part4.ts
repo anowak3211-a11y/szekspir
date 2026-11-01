@@ -25,7 +25,7 @@ Kiedy podliczyłem to w arkuszu, zobaczyłem czarno na białym: 1809 zł wywalon
 Żona w końcu zapisała mnie do fizjoterapeuty sportowego za 250 zł. Poszedłem tam z torbą pełną moich butów, przekonany, że mam zniszczoną łąkotkę.
 
 Fizjoterapeuta wziął mój but za 720 zł, ścisnął 2 palcami gigantyczną piankę pod piętą, wyjął fabryczną wkładkę grubości tekturki i powiedział 1 zdanie:
-- Panie Pawle, pan nie ma chorych kolan ani słabych kości, tylko próbuje pan biegać po betonie na materacu wodnym, który po 20 minutach wykręca panu piszczel jak mokry ręcznik.
+- Panie Karolu, pan nie ma chorych kolan ani słabych kości, tylko próbuje pan biegać po betonie na materacu wodnym, który po 20 minutach wykręca panu piszczel jak mokry ręcznik.
 
 Zrobił ze mną test, który trwał 10 sekund. Kazał mi stanąć boso na 1 nodze i zrobić 15 szybkich przysiadów. Na początkowych 8 powtórzeniach moja stopa trzymała pion. Ale przy 12. powtórzeniu, kiedy drobne mięśnie stopy się zmęczyły, mój łuk podłużny runął do środka, kostka zjechała w dół, a rzepka w kolanie uciekła ostro do wewnątrz.
 
@@ -76,7 +76,7 @@ P.S. Nie wyrzucaj swoich obecnych butów do biegania - wyjmij z nich oryginalną
 
 Zamiast formy i 5 kilogramów mniej dorobiłam się takiego zapalenia rozcięgna podeszwowego, że w połowie spaceru musiałam siadać na ławce przy alejce, zsuwać but i rozmasowywać piekącą piętę. Dopiero fizjoterapeuta wytłumaczył mi brutalną matematykę: zwiększając dzienną dawkę ruchu z 4000 do 15 000 kroków po asfalcie na płaskiej wkładce, pomnożyłam mikrourazy zapadającego się łuku stopy dokładnie razy 4.
 
-Mam 53 lata, mieszkam we Wrocławiu i pracuję na siedząco w biurze rachunkowym. Podczas badań okresowych lekarz spojrzał na moje wyniki cukru, ciśnienie oraz wagę i powiedział wprost: „Pani Beato, tabletki to nie wszystko. Musi pani zacząć codziennie szybko maszerować, robić od 12 000 do 15 000 kroków dziennie, to cukier i waga same pójdą w dół”.
+Mam 53 lata, mieszkam we Wrocławiu i pracuję na siedząco w biurze rachunkowym. Podczas badań okresowych lekarz spojrzał na moje wyniki cukru, ciśnienie oraz wagę i powiedział wprost: „Pani Iwono, tabletki to nie wszystko. Musi pani zacząć codziennie szybko maszerować, robić od 12 000 do 15 000 kroków dziennie, to cukier i waga same pójdą w dół”.
 
 Wzięłam to sobie do serca w 100 procentach. Kupiłam zegarek liczący kroki, kijki do Nordic Walking i umówiłam się z sąsiadką, że codziennie po 17:00 robimy szybką pętlę po wrocławskich parkach i chodnikach. Przez 1. tydzień czułam dumę. Zegarek co wieczór pokazywał 13 500, 14 200, a w weekendy nawet 16 000 kroków! Waga drgnęła o 1,5 kilograma w dół.
 
@@ -91,7 +91,7 @@ Zaczęłam wydawać pieniądze na wszystko, co polecały panie na grupach w inte
 Podliczyłam paragony w portfelu: 560 zł wydane w niecałe 30 dni! Kijki stały w kącie przedpokoju, a ja siedziałam na kanapie z nogami na poduszce.
 
 W końcu poszłam prywatnie do fizjoterapeuty za 220 zł. Pokazałam mu swój zegarek z historią po 15 000 kroków dziennie i nowe buty. Spojrzał na moje stopy na podświetlanej szybie podoskopu i powiedział 1 zdanie:
-- Pani Beato, zwiększyła pani dawkę uderzeń o beton z 4000 do 15 000 dziennie, czyli pomnożyła pani mikrourazy zapadającego się łuku stopy dokładnie razy 4.
+- Pani Iwono, zwiększyła pani dawkę uderzeń o beton z 4000 do 15 000 dziennie, czyli pomnożyła pani mikrourazy zapadającego się łuku stopy dokładnie razy 4.
 
 Zrobił ze mną prosty test, który trwał 10 sekund. Kazał mi stanąć boso prosto, a potem spróbował wsunąć czubek palca wskazującego pod wewnętrzną krawędź mojej stopy. Palec nie wszedł nawet na 1 milimetr - moja stopa leżała na szybie płasko jak naleśnik, a ścięgno pod spodem było napięte jak struna.
 
@@ -146,7 +146,7 @@ Mam 38 lat, 2 dzieci w wieku szkolnym, pracuję w Gdańsku i biegam 3 razy w tyg
 
 Tylko że od jesieni moje „bieganie dla zdrowia” zamieniło się w powolną torturę. Podczas samego początku biegu nic mi nie dolegało. Ale po każdym powrocie do domu, gdy tylko wzięłam prysznic i ciało ostygło, zaczynał się festiwal bólu: rwanie po wewnętrznej stronie prawego kolana, palące ukłucia w prawym biodrze przy wstawaniu z krzesła i tępy ból w dole pleców, przez który nie mogłam schylić się nad wanną, żeby pomóc synowi umyć głowę.
 
-W głowie miałam wtedy natrętny monolog: „Ola, masz 38 lat, ważysz normalnie, biegasz spokojnym truchtem, a po 5 kilometrach ruszasz się jak po wypadku. Co będzie za 10 lat?”. Wszyscy wokół powtarzali mi to samo: „Za mało się rozciągasz po bieganiu!”, „Masz słabe mięśnie pośladków!”, „Kup lepsze buty!”.
+W głowie miałam wtedy natrętny monolog: „Gosia, masz 38 lat, ważysz normalnie, biegasz spokojnym truchtem, a po 5 kilometrach ruszasz się jak po wypadku. Co będzie za 10 lat?”. Wszyscy wokół powtarzali mi to samo: „Za mało się rozciągasz po bieganiu!”, „Masz słabe mięśnie pośladków!”, „Kup lepsze buty!”.
 
 Zrobiłam sobie 7 dni szczerej obserwacji własnego ciała. W poniedziałek po 35 minutach truchtu wróciłam do domu i przy zdejmowaniu butów nie mogłam zgiąć prawego kolana bez głośnego chrupnięcia pod rzepką. We wtorek w pracy po 2 godzinach siedzenia przy biurku wstałam po dokumenty i musiałam przytrzymać się szafki, bo w prawym biodrze coś mnie tak zakłuło, że ugięła mi się noga. W środę zrobiłam 40 minut ćwiczeń rozciągających na macie - zero ulgi, dół pleców bolał jeszcze mocniej. W czwartek podczas wieczornego biegu w okolicach 25. minuty poczułam, że prawa stopa zaczyna dziwnie „klapać” o asfalt, a kolano ucieka mi do środka. W piątek bolało mnie nawet przy wchodzeniu na 2. piętro z zakupami. W sobotę rano mąż musiał sam jechać z dziećmi na basen, bo leżałam na dywanie z poduszką pod lędźwiami, a w niedzielę rzuciłam buty biegowe na dno szafy.
 
@@ -155,7 +155,7 @@ Zanim trafiłam do specjalisty, wydałam kupę pieniędzy na ślepo. Poszłam do
 Kiedy zsumowałam to z wyciągu bankowego, wyszło 1414 zł. Wydałam 1414 zł, a moje biodro, lędźwie i prawe kolano po każdym biegu powyżej 20 minut bolały dokładnie tak samo jak 1. dnia!
 
 W końcu koleżanka dała mi namiar na fizjoterapeutę biomechanika w Gdańsku Wrzeszczu (wizyta 240 zł). Kiedy weszłam do gabinetu, wskazał ręką na bieżnię elektryczną, ustawił za nią statyw z telefonem na wysokości moich kostek i powiedział 1 zdanie:
-- Pani Aleksandro, badanie stopy przez 15 sekund w sklepie na świeżych mięśniach to fikcja, dlatego dzisiaj pobiegnie pani 25 minut i zobaczymy, co pani stopy robią, gdy zaczynają opadać z sił.
+- Pani Małgorzato, badanie stopy przez 15 sekund w sklepie na świeżych mięśniach to fikcja, dlatego dzisiaj pobiegnie pani 25 minut i zobaczymy, co pani stopy robią, gdy zaczynają opadać z sił.
 
 Włączył bieżnię. Przez początkowe 10 minut biegłam lekko. W 15. minucie poczułam opór w łydkach. W 25. minucie fizjoterapeuta włączył nagrywanie w trybie 240 klatek na sekundę (slow-motion), a chwilę później zatrzymał taśmę. Zrobił ze mną analizę wideo, która trwała 10 sekund, a ja stałam z otwartymi ustami.
 
@@ -214,7 +214,7 @@ Problem w tym, że szkolny parkiet ułożony na betonowej wylewce nie wybacza ni
 
 Pod rzepkami zaczynało się piekące rwanie - klasyczne „kolano skoczka” - a kości piętowe były tak zbite, jakbym przez 2 godziny zeskakiwał boso z drabiny na goły beton. Kiedy o 22:30 wysiadałem z auta pod domem po 15 minutach jazdy z hali, moje stawy skokowe i kolana były już tak zesztywniałe, że szedłem do drzwi z zaciśniętymi zębami.
 
-W głowie huczała mi wtedy myśl: „Dawid, kończysz się. Chłopaki w Twoim wieku jeszcze skaczą pod taśmę, a Ty boisz się wyskoczyć do bloku, bo wiesz, że przy lądowaniu strzeli Ci w kolanie”. Zamiast skakać na 100 procent, zacząłem podświadomie markować wyskoki i oszczędzać prawą nogę.
+W głowie huczała mi wtedy myśl: „Karol, kończysz się. Chłopaki w Twoim wieku jeszcze skaczą pod taśmę, a Ty boisz się wyskoczyć do bloku, bo wiesz, że przy lądowaniu strzeli Ci w kolanie”. Zamiast skakać na 100 procent, zacząłem podświadomie markować wyskoki i oszczędzać prawą nogę.
 
 Zrobiłem sobie 7 dni chłodnego rachunku sumienia między czwartkami. W piątek rano po meczu wstawałem z łóżka podpierając się rękami o materac, bo więzadło pod rzepką paliło przy każdym zgięciu kolana, a pięty bolały przy kontakcie z podłogą. W sobotę na zakupach z narzeczoną w galerii po 40 minutach chodzenia po kafelkach musiałem szukać ławki. W niedzielę ból lekko przycichał, w poniedziałek czułem już tylko delikatne kłucie na schodach, więc we wtorek o 20:00 znowu szedłem na halę. We wtorek o 21:30 po 100 wyskokach ból wracał ze zdwojoną siłą, w środę rano kuśtykałem po biurze, a w czwartek przed meczem łykałem 2 tabletki przeciwbólowe w szatni, żeby w ogóle wyjść na parkiet!
 
@@ -223,7 +223,7 @@ Zacząłem pompować pieniądze w sprzęt halowy. Kupiłem buty siatkarskie z po
 Kiedy podliczyłem to w głowie, wyszło 859 zł. Wydałem 859 zł na buty, paski i żele, a w czwartek wieczorem siedziałem na ławce rezerwowych w 3. secie, trzymając się za kolano!
 
 W piątek rano poszedłem do fizjoterapeuty pracującego z siatkarzami w Poznaniu (wizyta 230 zł). Położyłem na biurku moje halówki za 550 zł z żelowymi wkładkami z marketu. Fizjoterapeuta wyjął tę ciężką wkładkę, wygiął ją w palcach jak naleśnik i powiedział 1 zdanie:
-- Panie Dawidzie, przy lądowaniu z wyskoku na parkiet na pana stopę działa ciężar rzędu 300 do 400 kilogramów, a ten płaski żel rozlewa się na boki i puszcza całe uderzenie prosto w więzadło rzepki.
+- Panie Karolu, przy lądowaniu z wyskoku na parkiet na pana stopę działa ciężar rzędu 300 do 400 kilogramów, a ten płaski żel rozlewa się na boki i puszcza całe uderzenie prosto w więzadło rzepki.
 
 Zrobił ze mną test, który trwał 10 sekund. Kazał mi zeskoczyć boso z 20-centymetrowego stopnia rehabilitacyjnego na 2 nogi i zatrzymać się w przysiadzie. W momencie kontaktu z podłogą moje stopy rozjechały się do środka, łuki podłużne uderzyły w ziemię, a kolana zeszły się do wewnątrz jak nożyce.
 
@@ -282,14 +282,14 @@ Poszedłem do marketu sportowego i znalazłem pudełko z napisem „Active Gel S
 
 Przez początkowe 15 minut szedłem uśmiechnięty: „Ale miękko pod stopą, po co przepłacać!”. Koszmar zaczął się po 40 minutach, na 5. kilometrze. Po 1.: ciężki, nieoddychający silikon zatkał obieg powietrza w bucie jak gumowy kalosz. Moja stopa spociła się tak, że skarpetka zaczęła jeździć po śliskim materiale, parząc skórę na śródstopiu. Po 2.: pod ciężarem moich 86 kilogramów miękki żel pod piętą rozlał się na boki i ugniótł niemal do zera, a środek stopy wisiał w pustce!
 
-W głowie miałem wtedy tylko 1 myśl: „Krzysiek, chciałeś przycebulić 70 zł, a teraz wracasz znad Wisły ze stopą zapaloną jak pochodnia i Achillesem, który zaraz strzeli”. Kiedy na 10. kilometrze zdjąłem but na ławce przy Wawelu i wyjąłem tę niebiesko-żółtą wkładkę, była gorąca, mokra, a pod piętą został z niej płaski placek.
+W głowie miałem wtedy tylko 1 myśl: „Karol, chciałeś przycebulić 70 zł, a teraz wracasz znad Wisły ze stopą zapaloną jak pochodnia i Achillesem, który zaraz strzeli”. Kiedy na 10. kilometrze zdjąłem but na ławce przy Wawelu i wyjąłem tę niebiesko-żółtą wkładkę, była gorąca, mokra, a pod piętą został z niej płaski placek.
 
 Przez kolejne 7 dni płaciłem cenę za ten eksperyment. W poniedziałek rano prawe ścięgno Achillesa było tak zgrubiałe i bolesne, że schodziłem po schodach z 3. piętra krok za krokiem. We wtorek w pracy piekło mnie całe przodostopie nawet w szerokich półbutach. W środę zamówiłem na aukcji wkładki z zielonej pianki „Memory Foam” za 34,99 zł z dostawą - po 1 wyjściu na 6 kilometrów pianka została płaska jak kartka papieru i już nigdy nie odbiła w górę! W czwartek moczyłem stopy w wodzie z lodem, w piątek kupiłem w aptece żel z diklofenakiem za 42 zł i opaskę na staw skokowy za 65 zł, w sobotę odwołałem wyjście w Gorce ze znajomymi, a w niedzielę siedziałem w domu wściekły na własną głupotę.
 
 Zanim poszedłem po rozum do głowy, straciłem: 29,99 zł na żel z marketu, 34,99 zł na piankę z aukcji, 42 zł na żel z apteki, 65 zł na opaskę i 240 zł na 2 pary skarpetek kompresyjnych. Razem 411,98 zł wywalone w błoto przez chęć „zaoszczędzenia”!
 
 W poniedziałek poszedłem do fizjoterapeuty w Krakowie (wizyta 200 zł) i zabrałem w reklamówce te niebiesko-żółte żelowe wkładki oraz zielone pianki. Fizjoterapeuta wyjął nożyczki techniczne, przeciął moją żelową wkładkę z marketu na 2 części i powiedział 1 zdanie:
-- Panie Krzysztofie, miękki żel i zwykła gąbka to największa pułapka dla biegacza, bo zamiast podtrzymać łuk stopy, zapadają się pod piętą o 4 milimetry i naciągają ścięgno Achillesa jak gumę od procy przy każdym kroku.
+- Panie Karolu, miękki żel i zwykła gąbka to największa pułapka dla biegacza, bo zamiast podtrzymać łuk stopy, zapadają się pod piętą o 4 milimetry i naciągają ścięgno Achillesa jak gumę od procy przy każdym kroku.
 
 Pokazał mi ten przekrój i zrobił test trwający 10 sekund: ścisnął kciukiem niebieski żel pod piętą. Silikon natychmiast rozlał się na boki, a palec dotknął stołu. Potem ścisnął środek wkładki - zero stelaża, miękka galareta.
 

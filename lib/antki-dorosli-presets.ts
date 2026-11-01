@@ -19,7 +19,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D1 (SOR)',
     awarenessStage: 'Stage 2: Ostry kryzys / SOR (Re-inżynieria 14.03 SOR SOL A)',
     sophistication: 'Poziom 3/4 (10-sekundowy test łuku stopy na SOR-ze + łańcuch kompensacji)',
-    narrator: 'Anna (51 lat, Poznań)',
+    narrator: 'Iwona (51 lat, Poznań)',
     protagonist: 'Anna (51 lat)',
     hookIdea:
       'Siedziałam 4 godziny na nocnym SOR-ze z kolanem spuchniętym jak grejpfrut po zwykłym zejściu ze schodów z koszem prania. Młody ortopeda dyżurny po obejrzeniu RTG nie dotknął nawet kolana - kazał mi zdjąć oba buty i pokazał, co robi moja prawa pięta.',
@@ -45,7 +45,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D1 (SOR)',
     awarenessStage: 'Stage 2: Ostry ból kręgosłupa lędźwiowego / Rwa kulszowa (SOR)',
     sophistication: 'Poziom 3/4 (Zdarte obcasy od wewnątrz -> rotacja miednicy -> zacisk L4-L5)',
-    narrator: 'Katarzyna (48 lat, Wrocław)',
+    narrator: 'Iwona (48 lat, Wrocław)',
     protagonist: 'Katarzyna (48 lat)',
     hookIdea:
       'W niedzielę przed południem schyliłam się po kubek z herbatą i zostałam na podłodze. Mąż musiał wnosić mnie pod rękę na izbę przyjęć. Po zastrzyku rozkurczowym fizjoterapeuta w szpitalu wziął do ręki moje półbuty i odwrócił je podeszwą do góry.',
@@ -71,7 +71,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D1 (SOR)',
     awarenessStage: 'Stage 2: Strach przed zwyrodnieniem biodra i operacją',
     sophistication: 'Poziom 3/4 (Rotacja wewnętrzna uda przez zapadnięty łuk stopy)',
-    narrator: 'Bożena (54 lata, Kraków)',
+    narrator: 'Iwona (54 lata, Kraków)',
     protagonist: 'Bożena (54 lata)',
     hookIdea:
       'Na wieczornym spacerze z psem nagle poczułam takie ukłucie w prawej pachwinie i biodrze, że musiałam oprzeć się o ogrodzenie i zadzwonić po syna. Jechaliśmy na ostry dyżur ortopedyczny z myślą, że to już koniec i czeka mnie wymiana stawu.',
@@ -97,7 +97,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D1 (SOR)',
     awarenessStage: 'Stage 2: Pieczenie przodostopia / Płaskostopie poprzeczne / Obrzęk',
     sophistication: 'Poziom 3/4 (Opadnięty łuk poprzeczny miażdżący nerwy między kośćmi śródstopia)',
-    narrator: 'Dorota (49 lat, Łódź)',
+    narrator: 'Iwona (49 lat, Łódź)',
     protagonist: 'Dorota (49 lat)',
     hookIdea:
       'Na weselu mojego chrześniaka wytrzymałam w butach dokładnie godzinę. Potem pod stołem poczułam między trzecim a czwartym palcem taki ogień, jakby ktoś przypalał mi podeszwę stopy zapalniczką. Kiedy zdjęłam but, stopa spuchła tak, że mąż musiał wieźć mnie w samych rajstopach na nocną pomoc.',
@@ -123,7 +123,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D1 (SOR)',
     awarenessStage: 'Stage 2: Nawracające skręcenia kostki i ból ścięgna Achillesa',
     sophistication: 'Poziom 3/4 (Koślawość kości piętowej 11° i brak stabilnego korytka pod piętą)',
-    narrator: 'Joanna (46 lat, Gdańsk)',
+    narrator: 'Małgorzata (46 lat, Gdańsk)',
     protagonist: 'Joanna (46 lat)',
     hookIdea:
       'Trzeci raz w ciągu dwunastu miesięcy siedziałam na korytarzu SOR-u z nogą owiniętą lodem. Nawet nie biegłam - szłam zwykłym, równym chodnikiem z zakupami i nagle kostka znów uciekła mi do boku, a w ścięgnie Achillesa strzeliło jak z bicza.',
@@ -309,7 +309,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D3 (Ryciak Dorośli)',
     awarenessStage: 'Stage 2/3: Przewlekły ból krzyża i lędźwi wracający po rehabilitacji',
     sophistication: 'Poziom 4 (Łańcuch kompensacji od stóp do odcinka L4-L5)',
-    narrator: 'Monika (50 lat, Warszawa)',
+    narrator: 'Iwona (50 lat, Warszawa)',
     protagonist: 'Monika (50 lat)',
     hookIdea:
       'Przez dwa lata wierzyłam, że mój ból w dole pleców to „po prostu wiek i dyskopatia siedzącej pracy". Wydałam 2150 zł na prądy, masaże i osteopatów, a ból wracał w tydzień po zakończeniu serii. Dopiero dr Ryciak kazał mi zdjąć buty i stanąć na podoskopie.',
@@ -335,7 +335,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D3 (Ryciak Dorośli)',
     awarenessStage: 'Stage 3: Kobiety przed zastrzykami w kolano (kwas hialuronowy / osocze)',
     sophistication: 'Poziom 4 (Dlaczego zastrzyk w kolano nie zadziała, gdy pięta ucieka do środka)',
-    narrator: 'Ewa (53 lata, Bydgoszcz)',
+    narrator: 'Iwona (53 lata, Bydgoszcz)',
     protagonist: 'Ewa (53 lata)',
     hookIdea:
       'Miałam już wypisaną receptę na zastrzyk z kwasu hialuronowego prosto w kolano za 900 zł. Lekarz w przychodni powiedział: „Chrząstka się ściera, wstrzykniemy smarowanie na pół roku". Zanim wydałam te pieniądze, poszłam po drugą opinię - i tam usłyszałam pytanie, którego wcześniej nikt mi nie zadał: „Proszę zdjąć buty, zobaczymy dlaczego ta chrząstka się ściera".',
@@ -361,7 +361,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D3 (Ryciak Dorośli)',
     awarenessStage: 'Stage 2: Asymetria miednicy, utykanie i ból biodra z jednej strony',
     sophistication: 'Poziom 3/4 (Pozorny skrót kończyny przez zapadnięcie jednego łuku stopy)',
-    narrator: 'Urszula (55 lat, Szczecin)',
+    narrator: 'Iwona (55 lat, Szczecin)',
     protagonist: 'Urszula (55 lat)',
     hookIdea:
       'Przez ponad rok każda moja spódnica przekręcała się w pasie na prawą stronę, lewa nogawka spodni brudziła się o chodnik, a po 30 minutach spaceru zaczynałam utykać na lewe biodro. Byłam przekonana, że na starość jedna noga zrobiła mi się krótsza.',
@@ -387,7 +387,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D3 (Ryciak Dorośli)',
     awarenessStage: 'Stage 2/3: Wizualny szok z analizy chodu w zwolnionym tempie',
     sophistication: 'Poziom 4 (Co dzieje się ze stopą w 0,2 sekundy po uderzeniu o podłogę)',
-    narrator: 'Magdalena (45 lat, Katowice)',
+    narrator: 'Małgorzata (45 lat, Katowice)',
     protagonist: 'Magdalena (45 lat)',
     hookIdea:
       'Kiedy człowiek patrzy na swoje stopy z góry, stojąc w miejscu, wszystko wygląda w miarę normalnie. Dopiero kiedy fizjoterapeuta postawił telefon na małym statywie przy samej podłodze i kazał mi przejść boso po bieżni w zwolnionym tempie, zobaczyłam na ekranie coś, od czego przeszły mnie ciarki.',
@@ -415,7 +415,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D4 (Ostroga)',
     awarenessStage: 'Stage 2: Ostroga piętowa i zapalenie rozcięgna podeszwowego rano',
     sophistication: 'Poziom 4 (Mechanizm nocnego zrostu rozcięgna zrywanego przy pierwszym kroku)',
-    narrator: 'Grażyna (52 lata, Lublin)',
+    narrator: 'Iwona (52 lata, Lublin)',
     protagonist: 'Grażyna (52 lata)',
     hookIdea:
       'Każdy mój poranek od pół roku zaczynał się od strachu przed opuszczeniem nóg z łóżka na podłogę. Kiedy o 6:00 rano dzwonił budzik, pierwsze dziesięć kroków do łazienki robiłam na czubkach palców, trzymając się oburącz ściany i framug drzwi, bo stanięcie na pięcie smakowało jak wbicie rozżarzonego gwoździa prosto w kość.',
@@ -441,7 +441,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D4 (Ostroga)',
     awarenessStage: 'Stage 3/4: Rozczarowanie falą uderzeniową i blokadami sterydowymi',
     sophistication: 'Poziom 4 (Rozbijanie zwapnienia głowicą bez podparcia łuku to syzyfowa praca)',
-    narrator: 'Barbara (57 lat, Toruń)',
+    narrator: 'Iwona (57 lat, Toruń)',
     protagonist: 'Barbara (57 lat)',
     hookIdea:
       'Zaciskałam zęby na kozetce przez dziesięć zabiegów fali uderzeniowej z zimnym żelem na pięcie, a potem dałam sobie wbić trzy blokady sterydowe prosto w żywe ciało. Zostawiłam w gabinetach 1490 zł. Przez sześć tygodni myślałam, że wygrałam - a potem pewnego ranka ból wrócił dwa razy silniejszy.',
@@ -467,7 +467,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D4 (Ostroga)',
     awarenessStage: 'Stage 3: Zmęczenie domowymi sposobami (zamrożona butelka, piłeczka, maści)',
     sophistication: 'Poziom 4 (15 minut rolowania wieczorem vs 10 godzin stania na betonie w dzień)',
-    narrator: 'Renata (49 lat, Rzeszów)',
+    narrator: 'Iwona (49 lat, Rzeszów)',
     protagonist: 'Renata (49 lat)',
     hookIdea:
       'Przez osiem miesięcy na środkowej półce mojej zamrażarki między pierogami a koperkiem leżała plastikowa butelka z zamarzniętą wodą. Co wieczór siadałam na kanapie i przez dwadzieścia minut ze łzami w oczach turlałam ten lód pod piekącą piętą i podbiciem.',
@@ -493,7 +493,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D4 (Ostroga)',
     awarenessStage: 'Stage 3: Obalenie mitu miękkich żelowych podpiętek z apteki',
     sophistication: 'Poziom 4 (Dlaczego sama podpiętka pod piętą bez podparcia łuku nasila szarpanie ostrogi)',
-    narrator: 'Jolanta (53 lata, Kielce)',
+    narrator: 'Iwona (53 lata, Kielce)',
     protagonist: 'Jolanta (53 lata)',
     hookIdea:
       'Miałam w szafce na buty całą kolekcję silikonowych i żelowych podpiętek z niebieskim kółkiem na środku. Wydawało mi się to logiczne: skoro boli pięta, to trzeba podłożyć pod nią coś miękkiego. Dopiero fizjoterapeuta wziął moje podpiętki do ręki i pokazał mi, dlaczego z każdym tygodniem robiłam sobie coraz większą krzywdę.',
@@ -519,7 +519,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D4 (Ostroga)',
     awarenessStage: 'Stage 2: Ból startowy po siedzeniu w pracy / w samochodzie',
     sophistication: 'Poziom 3/4 (Wykres podobarograficzny nacisku + odciążenie pięty i łuku)',
-    narrator: 'Sylwia (46 lat, Gdynia)',
+    narrator: 'Małgorzata (46 lat, Gdynia)',
     protagonist: 'Sylwia (46 lat)',
     hookIdea:
       'W wieku 46 lat czułam się w pracy jak staruszka. Najgorszy był moment, kiedy po godzinie siedzenia przy komputerze ktoś wołał mnie do drukarki albo do pokoju obok. Wstawałam z krzesła i przez pierwsze pięć sekund udawałam, że szukam długopisu na biurku, bo przy pierwszym kroku moja prawa pięta i kostka były sztywne jak z betonu.',
@@ -573,7 +573,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D5 (Haluks i Rozmiar)',
     awarenessStage: 'Stage 2: Upokorzenie w sklepie obuwniczym (kupowanie coraz większych butów)',
     sophistication: 'Poziom 3/4 (Kości dorosłego nie rosną - opada łuk stopy)',
-    narrator: 'Danuta (54 lata, Poznań)',
+    narrator: 'Iwona (54 lata, Poznań)',
     protagonist: 'Danuta (54 lata)',
     hookIdea:
       'Przez trzydzieści lat nosiłam klasyczne 38. Tej jesieni w galerii handlowej siedziałam na pufie otoczona sześcioma pudełkami po butach i z piekącymi ze wstydu policzkami musiałam poprosić młodą ekspedientkę o przyniesienie rozmiaru 40. Na długość palce pływały w pustym czubku, ale w 38 moja stopa na szerokość dusiła się jak w imadle.',
@@ -599,7 +599,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D5 (Haluks i Rozmiar)',
     awarenessStage: 'Stage 3: Kobiety zmęczone nieskutecznymi separatorami, klinami i aparatami nocnymi na haluksy',
     sophistication: 'Poziom 4 (Haluks nie zaczyna się na palcu - zaczyna się w zapadniętej kostce i łuku)',
-    narrator: 'Elżbieta (51 lat, Kraków)',
+    narrator: 'Iwona (51 lat, Kraków)',
     protagonist: 'Elżbieta (51 lat)',
     hookIdea:
       'W mojej szafce nocnej leżało całe cmentarzysko obietnic z internetu: silikonowe kliny między palce, żelowe osłonki, które zsuwały się w skarpetce po pięciu minutach, i plastikowe szyny korekcyjne na noc, z których budziłam się z bólu nad ranem. Wydałam na to 640 zł, a kość przy dużym palcu z miesiąca na miesiąc wystawała coraz bardziej.',
@@ -625,7 +625,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D5 (Haluks i Rozmiar)',
     awarenessStage: 'Stage 1 (Unaware): Odkrycie problemu przez zdarte podeszwy i wykrzywione zapiętki własnych butów',
     sophistication: 'Poziom 3 (To nie wina szewca ani fabryki - to kość piętowa uciekająca o 12 stopni)',
-    narrator: 'Agnieszka (44 lata, Łódź)',
+    narrator: 'Małgorzata (44 lata, Łódź)',
     protagonist: 'Agnieszka (44 lata)',
     hookIdea:
       'Podczas jesiennego porządkowania szafki w przedpokoju ustawiłam w rzędzie cztery pary moich butów: skórzane sztyblety, adidasy, mokasyny do pracy i zeszłoroczne kozaki. Spojrzałam na nie z poziomu podłogi i zamarłam - każdy lewy i prawy but był przechylony do środka, a wewnętrzne krawędzie obcasów były zjedzone pod skosem jak ścięte tarnikiem.',
@@ -651,7 +651,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D5 (Haluks i Rozmiar)',
     awarenessStage: 'Stage 1 (Unaware): Domowy test mokrej stopy na kafelkach + ciężkie, spuchnięte łydki wieczorem',
     sophistication: 'Poziom 3/4 (Zapadnięte sklepienie stopy blokuje pompę mięśniową łydki)',
-    narrator: 'Marzena (47 lat, Warszawa)',
+    narrator: 'Małgorzata (47 lat, Warszawa)',
     protagonist: 'Marzena (47 lat)',
     hookIdea:
       'W zeszły czwartek wieczorem wyszłam spod prysznica i stanęłam mokrymi stopami na ciemnoszarych kafelkach w łazience. Kiedy zrobiłam krok po ręcznik i odwróciłam się, zobaczyłam na podłodze dwa pełne, szerokie prostokąty wody - bez najmniejszego wcięcia po wewnętrznej stronie.',
@@ -679,7 +679,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D6 (Żal po operacji)',
     awarenessStage: 'Stage 4: High Stakes - Kobiety rozważające operację stopy / haluksa',
     sophistication: 'Poziom 4 (Brutalna prawda o 6 tygodniach w bucie Baruka vs ratunek drugiej stopy)',
-    narrator: 'Teresa (58 lat, Wrocław)',
+    narrator: 'Iwona (58 lat, Wrocław)',
     protagonist: 'Teresa (58 lat)',
     hookIdea:
       'Patrzę teraz na moje dwie stopy oparte na dywanie. Na lewej mam 7-centymetrową bliznę, dwie tytanowe śruby wkręcone w kość śródstopia i rachunek z prywatnej kliniki na 8200 zł. Na mojej lewej stopie chirurdzy zrobili już swoje. Ale moją prawą stopę - która rok po zabiegu zaczęła boleć dokładnie tak samo - uratowałam bez skalpela.',
@@ -705,7 +705,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D6 (Żal po operacji)',
     awarenessStage: 'Stage 4: Dlaczego haluksy wracają po operacji (wycięcie skutku zamiast przyczyny)',
     sophistication: 'Poziom 4 (Chirurg spiłował kość, ale zostawił koślawą piętę i zapadnięty łuk)',
-    narrator: 'Hanna (53 lata, Kraków)',
+    narrator: 'Iwona (53 lata, Kraków)',
     protagonist: 'Hanna (53 lata) i siostra Ania (56 lat)',
     hookIdea:
       'Dwa lata temu moja starsza siostra Ania wzięła pożyczkę i zapłaciła 8100 zł za operację haluksa. Pamiętam, jak zmieniałam jej zakrwawione opatrunki i nosiłam jej talerz z zupą do łóżka, bo nie była w stanie stanąć na nodze. W zeszłą sobotę Ania przyjechała do mnie, zdjęła półbuty w przedpokoju i rozpłakała się - kość przy paluchu wyszła z powrotem.',
@@ -731,7 +731,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D6 (Żal po operacji)',
     awarenessStage: 'Stage 4: Egzystencjalny strach przed utratą samodzielności i powtórzeniem losu matki',
     sophistication: 'Poziom 4 (Zatrzymanie kaskady zwyrodnieniowej od stóp przez kolana do bioder)',
-    narrator: 'Beata (52 lata, Łódź)',
+    narrator: 'Iwona (52 lata, Łódź)',
     protagonist: 'Beata (52 lata)',
     hookIdea:
       'Moja mama przestała wychodzić z mieszkania w wieku 56 lat, bo jej kolana i stopy były już tak wykrzywione, że każde wyjście na schody kończyło się płaczem. Ja mam dziś 52 lata. W zeszłą sobotę siedziałam w kuchni i słuchałam, jak mąż wiertarką udarową wierci dziury w kafelkach pod prysznicem, żeby zamontować mi biały uchwyt dla niepełnosprawnych.',
@@ -757,7 +757,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D6 (Żal po operacji)',
     awarenessStage: 'Stage 3/4: Re-inżynieria kąta „Kubson copy za 5 lat..." - ostrzeżenie lekarza przed endoprotezą',
     sophistication: 'Poziom 4 (Każdy miesiąc zwłoki to 240 000 kroków ścierających chrząstkę kolana)',
-    narrator: 'Alicja (55 lat, Poznań)',
+    narrator: 'Iwona (55 lat, Poznań)',
     protagonist: 'Alicja (55 lat)',
     hookIdea:
       'Przez trzy lata powtarzałam sobie to samo zdanie, które mówią miliony Polek po pięćdziesiątce: „W tym wieku to już każdego coś boli, wezmę tabletkę i rozchodzę". Przestałam tak mówić w zeszły czwartek, kiedy ortopeda powiesił moje zdjęcie RTG na podświetlanej tablicy, spojrzał na moje bose stopy i powiedział: „Pani Alicjo, jeśli nie zatrzymamy zapadania pięty dzisiaj, za 5 lat spotkamy się na stole operacyjnym na wymianie stawu kolanowego".',
@@ -783,7 +783,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D6 (Żal po operacji)',
     awarenessStage: 'Stage 4: Pacjentki po artroskopii / czyszczeniu łąkotki, którym wraca ból',
     sophistication: 'Poziom 4 (Czyszczenie łąkotki bez korekty stopy to naprawa opony bez ustawienia zbieżności kół)',
-    narrator: 'Krystyna (56 lat, Gdańsk)',
+    narrator: 'Iwona (56 lat, Gdańsk)',
     protagonist: 'Krystyna (56 lat)',
     hookIdea:
       'Kiedy rok temu szłam na artroskopię prawego kolana, lekarz zapewniał mnie, że wyczyszczą postrzępioną łąkotkę i zapomnę o bólu. Przeszłam zabieg, trzy miesiące chodziłam na bolesną rehabilitację, a pół roku później przy schodzeniu ze schodów usłyszałam ten sam trzask w lewym kolanie - i w prawym ból też zaczął wracać.',
@@ -811,7 +811,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D7 (Praca i 4 Kroki)',
     awarenessStage: 'Stage 2: Kobiety pracujące na stojąco (sklep, szkoła, usługi, produkcja)',
     sophistication: 'Poziom 3/4 (Odciążenie łuku i pięty podczas 8 godzin na betonie i gresie)',
-    narrator: 'Edyta (48 lat, Katowice)',
+    narrator: 'Iwona (48 lat, Katowice)',
     protagonist: 'Edyta (48 lat)',
     hookIdea:
       'Przez ostatni rok moje popołudnia wyglądały identycznie: wracałam po 8 godzinach stania w pracy, zrzucałam buty w przedpokoju, a kiedy podchodziłam do kuchenki, żeby ugotować obiad dla rodziny, musiałam opierać się łokciami i biodrem o blat, bo stopy i dół pleców paliły mnie żywym ogniem.',
@@ -837,7 +837,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D7 (Praca i 4 Kroki)',
     awarenessStage: 'Stage 3/4: Rozczarowanie drogimi, sztywnymi wkładkami termoplastycznymi na wymiar',
     sophistication: 'Poziom 4 (Mit Gipsu: dlaczego twardy plastik za 420 zł odparza stopę i osłabia mięśnie)',
-    narrator: 'Izabela (50 lat, Warszawa)',
+    narrator: 'Iwona (50 lat, Warszawa)',
     protagonist: 'Izabela (50 lat)',
     hookIdea:
       'Zapłaciłam 180 zł za komputerowe badanie i 420 zł za indywidualne wkładki ortopedyczne robione na zamówienie. Miały być moim wybawieniem. Trzeciego dnia w pracy w południe zamknęłam się w kabinie w toalecie, zdjęłam buty i ze łzami w oczach wyjęłam te dwa kawałki twardego jak kamień plastiku, bo na podbiciu miałam już krwawy odcisk.',
@@ -863,7 +863,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D7 (Praca i 4 Kroki)',
     awarenessStage: 'Stage 3: Dlaczego najdroższe buty z grubą pianką nie wystarczają na 12h pracy',
     sophistication: 'Poziom 4 (Miękka podeszwa buta bez profilowanego korytka pięty pogłębia uciekanie kostki)',
-    narrator: 'Dorota (51 lat, Łódź)',
+    narrator: 'Iwona (51 lat, Łódź)',
     protagonist: 'Dorota (51 lat, pielęgniarka)',
     hookIdea:
       'Pracuję na 12-godzinnych zmianach na twardym szpitalnym korytarzu i mój zegarek pokazuje każdego dnia ponad 12 000 kroków. Kupiłam sobie markowe buty biegowe z najgrubszą pianką za 650 zł, myśląc, że im bardziej miękki but, tym mniej będą boleć nogi. Po miesiącu moje kolana i pięty bolały jeszcze gorzej niż w zwykłych butach.',
@@ -889,7 +889,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · Grupa D7 (Praca i 4 Kroki)',
     awarenessStage: 'Stage 3/4: Re-inżynieria adset2 4kroki z kampanii CBO 5',
     sophistication: 'Poziom 4 (4 jednoczesne punkty podparcia i amortyzacji dorosłej stopy)',
-    narrator: 'Paulina (46 lat, Wrocław)',
+    narrator: 'Małgorzata (46 lat, Wrocław)',
     protagonist: 'Paulina (46 lat)',
     hookIdea:
       'Zanim trafiłam na właściwego fizjoterapeutę, miałam w szafie pudełko po butach pełne rozczarowań: cienkie wkładki skórzane z apteki, żelowe wkładki z drogerii, które spłaszczyły się po pięciu dniach, i twarde korkowe podpiętki. Myślałam, że „wkładki po prostu na mnie nie działają" - dopóki specjalista nie narysował mi na kartce 4 rzeczy, które muszą zadziałać jednocześnie w ułamku sekundy.',
@@ -941,7 +941,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
     awarenessStage: 'Stage 4: Kwalifikacja ceny i produktu w 2. akapicie + obawa przed skalpelem',
     sophistication: 'Poziom 4 (Lewa stopa po operacji ze śrubami vs prawa uratowana bez skalpela)',
-    narrator: 'Teresa (56 lat, Wrocław)',
+    narrator: 'Iwona (56 lat, Wrocław)',
     protagonist: 'Teresa (56 lat)',
     hookIdea:
       'W zeszły czwartek wyjęłam z szuflady skierowanie na oddział ortopedyczny, przekreśliłam je długopisem na pół i pierwszy raz od 3 lat rozpłakałam się przy kuchennym stole z ulgi, a nie z bólu.',
@@ -964,7 +964,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
     awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + widmo endoprotezy kolana',
     sophistication: 'Poziom 4 (Kolano jest ofiarą, a winowajca siedzi w bucie)',
-    narrator: 'Bożena (54 lata, Poznań)',
+    narrator: 'Iwona (54 lata, Poznań)',
     protagonist: 'Bożena (54 lata)',
     hookIdea:
       'Kiedy lekarz wyświetlił na monitorze zdjęcie stalowej endoprotezy kolana obok prześwietlenia mojej własnej stopy i stuknął niebieskim długopisem w ekran, w gabinecie zapadła głucha cisza.',
@@ -1010,7 +1010,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
     awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + poranny dramat ostrogi i rozcięgna',
     sophistication: 'Poziom 4 (Dlaczego pierwszy krok boso rano zrywa nocną regenerację rozcięgna)',
-    narrator: 'Grażyna (55 lat, Lublin)',
+    narrator: 'Iwona (55 lat, Lublin)',
     protagonist: 'Grażyna (55 lat)',
     hookIdea:
       'Przez 11 miesięcy każdy mój poranek o 6:00 wyglądał dokładnie tak samo: zanim w ogóle odważyłam się postawić stopę na parkiecie, siedziałam na brzegu łóżka i przez 2 minuty przyciągałam palce stóp do siebie, bojąc się pierwszego kroku jak ognia.',
@@ -1033,7 +1033,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Dorośli · ŻAL V2 (Nowe Iteracje)',
     awarenessStage: 'Stage 4: Kwalifikacja w 2. akapicie + nawrót koślawości mimo operacji za 8100 zł',
     sophistication: 'Poziom 4 (Skalpel ścina narośl z boku stopy, ale zostawia zapadającą się piętę)',
-    narrator: 'Hanna (55 lat, Gdańsk)',
+    narrator: 'Iwona (55 lat, Gdańsk)',
     protagonist: 'Hanna (55 lat)',
     hookIdea:
       'Spojrzyjcie na to zdjęcie moich stóp przed lustrem w gabinecie: na lewej stopie widać długą bliznę po operacji za 8100 zł, po której kostka i tak dalej zapada się do środka, a na prawej dłonie fizjoterapeuty pokazują 10-sekundowy test, który uratował mnie przed drugim zabiegiem.',
@@ -1127,7 +1127,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
     awarenessStage: 'Stage 5: Anti-Allegro (Tania gąbka z aukcji ubita na 1-milimetrowy naleśnik po 9 dniach)',
     sophistication: 'Poziom 5 (Zwykła pianka opakowaniowa bez pamięci kształtu vs sprężysta pianka Orthomax StepMax)',
-    narrator: 'Marta (37 lat · Porady Mamy Gosi)',
+    narrator: 'Małgorzata (37 lat · Porady Mamy Gosi)',
     protagonist: 'Maja (8 lat)',
     hookIdea:
       'Mąż namówił mnie na szare wkładki z Allegro za 23,99 zł zamiast oryginału - po 9 dniach chodzenia do szkoły wewnętrzny łuk i pięta ubiły się w 1-milimetrowy naleśnik.',
@@ -1173,7 +1173,7 @@ export const ANTKI_DOROSLI_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Test Pack · Anti-Sales 👎 & Anti-Allegro',
     awarenessStage: 'Stage 5: Anti-Allegro (Porównanie 1:1 w dłoniach w szatni: odklejona podróbka za 27 zł po 4h vs oryginał StepMax)',
     sophistication: 'Poziom 5 (Tani klej butaprenowy i zgnieciona wata podróbki vs zgrzewana elastyczna pianka oryginału z 30-dniową gwarancją)',
-    narrator: 'Darek (47 lat, 94 kg · Karol Mikołajczyk)',
+    narrator: 'Karol (47 lat, 94 kg · Karol Mikołajczyk)',
     protagonist: 'Darek (47 lat, magazyn 15 000 kroków na betonie)',
     hookIdea:
       'Chciałem przyoszczędzić i zamówiłem na aukcji tanie „pomarańczowe wkładki" za 27 zł - po 4 godzinach na hali w bucie BHP odkleiła się szmatka z wierzchu i ubiła pianka pod piętą.',

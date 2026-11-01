@@ -23,8 +23,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Góry i Trekking (5)',
     awarenessStage: 'Stage 2/3: Ból kolan na zejściu ze szlaku mimo drogich butów trekkingowych',
     sophistication: 'Poziom 4 (Na zejściu w stopę uderza 3-4x masa ciała, a fabryczna wkładka w bucie za 850 zł to 2 mm płaskiej gąbki)',
-    narrator: 'Marek (46 lat, Kraków · Karol Mikołajczyk)',
-    protagonist: 'Marek (46 lat)',
+    narrator: 'Karol (46 lat, Kraków · Karol Mikołajczyk)',
+    protagonist: 'Karol (46 lat)',
     hookIdea:
       'Ostatnie 3 kilometry zejścia znad Morskiego Oka do parkingu w Palenicy Białczańskiej schodziłem tyłem, trzymając się drewnianej barierki jak 80-letni starzec po operacji biodra.',
     sceneBeat:
@@ -47,8 +47,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Góry i Trekking (5)',
     awarenessStage: 'Stage 3: Demaskacja fabrycznych wkładek w markowych butach górskich',
     sophistication: 'Poziom 4 (Twarda podeszwa chroni od kamieni z dołu, ale od środka stopa uderza w deskę bez korytka pięty)',
-    narrator: 'Piotr (49 lat, Wrocław · Karol Mikołajczyk)',
-    protagonist: 'Piotr (49 lat)',
+    narrator: 'Karol (49 lat, Wrocław · Karol Mikołajczyk)',
+    protagonist: 'Karol (49 lat)',
     hookIdea:
       'Przez 2 sezony wmawiałem sobie, że piekące jak żywy ogień pięty i spuchnięte kolana po 12 kilometrach w Karkonoszach to wina moich 49 lat i 6 dodatkowych kilogramów po zimie.',
     sceneBeat:
@@ -119,8 +119,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Góry i Trekking (5)',
     awarenessStage: 'Stage 2/3: Poranny ból pięt i rozcięgna po długiej trasie górskiej',
     sophistication: 'Poziom 4 (25 000 kroków po kamieniach na zapadniętym łuku naciąga rozcięgno jak cięciwę łuku)',
-    narrator: 'Katarzyna (48 lat, Łódź · Iwona Kożuchowska)',
-    protagonist: 'Katarzyna (48 lat)',
+    narrator: 'Iwona (48 lat, Łódź · Iwona Kożuchowska)',
+    protagonist: 'Iwona (48 lat)',
     hookIdea:
       'O 6:00 rano w pensjonacie w Wiśle, po 1. dniu naszego wyjazdu w Beskidy, spuściłam nogi z łóżka na podłogę i syknęłam z bólu tak głośno, że obudziłam męża.',
     sceneBeat:
@@ -145,7 +145,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Tenis i Padel (5)',
     awarenessStage: 'Stage 2/3: Poranny „gwóźdź w pięcie" (rozcięgno podeszwowe) dzień po meczu padla lub tenisa',
     sophistication: 'Poziom 4 (Pod sztuczną trawą na korcie do padla leży lity beton — setki zrywów na płaskiej wkładce rwią rozcięgno)',
-    narrator: 'Tomasz (39 lat, Warszawa · Karol Mikołajczyk)',
+    narrator: 'Karol (39 lat, Warszawa · Karol Mikołajczyk)',
     protagonist: 'Tomasz (39 lat)',
     hookIdea:
       'W czwartek o 21:30 wygrałem z chłopakami mecz w padla, a w piątek o 6:00 rano stałem boso w przedpokoju obok spakowanej torby z rakietą, trzymałem się kurczowo framugi drzwi i nie byłem w stanie postawić prawej pięty na podłodze.',
@@ -169,8 +169,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Tenis i Padel (5)',
     awarenessStage: 'Stage 2/3: Przeciążenia boczne (split-step), uciekająca kostka i kłucie w kolanie na korcie',
     sophistication: 'Poziom 4 (80% ruchów na korcie to hamowanie bokiem — bez głębokiego korytka pięta wyjeżdża, a siła skrętna idzie w łąkotkę)',
-    narrator: 'Michał (42 lata, Gdańsk · Karol Mikołajczyk)',
-    protagonist: 'Michał (42 lata)',
+    narrator: 'Karol (42 lata, Gdańsk · Karol Mikołajczyk)',
+    protagonist: 'Karol (42 lata)',
     hookIdea:
       'W 2. secie środowego meczu w padla przy stanie 4:4 ruszyłem z głębi kortu do niskiego skrótu przy siatce, zahamowałem bokiem na prawej nodze i w moim kolanie strzeliło tak głośno, że usłyszeli to koledzy na sąsiednim korcie.',
     sceneBeat:
@@ -193,8 +193,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Tenis i Padel (5)',
     awarenessStage: 'Stage 3: Sztywne, bolesne ścięgno Achillesa i strach przed zerwaniem u graczy 35-50 lat',
     sophistication: 'Poziom 4 (Uciekająca do środka pięta wygina ścięgno Achillesa jak cięciwę łuku przy każdym wybiciu do serwisu)',
-    narrator: 'Łukasz (44 lata, Poznań · Karol Mikołajczyk)',
-    protagonist: 'Łukasz (44 lata)',
+    narrator: 'Karol (44 lata, Poznań · Karol Mikołajczyk)',
+    protagonist: 'Karol (44 lata)',
     hookIdea:
       'Przez 4 miesiące po każdym 2-godzinnym meczu tenisa siedziałem na drewnianej ławce przy korcie ze zdjętym butem, rozcierałem zesztywniałe jak stalowa lina ścięgno Achillesa i bałem się, że przy kolejnym starcie do skrótu usłyszę za plecami trzask pękającego ścięgna.',
     sceneBeat:
@@ -241,8 +241,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Tenis i Padel (5)',
     awarenessStage: 'Stage 2/3: Kobiety na korcie — palący ból przodostopia, spięte łydki i kłucie w kolanie',
     sophistication: 'Poziom 4 (Tysiące lądowań na palcach przy zapadniętym łuku poprzecznym miażdżą nerwy śródstopia)',
-    narrator: 'Magdalena (41 lat, Kraków · Porady Mamy Gosi)',
-    protagonist: 'Magdalena (41 lat)',
+    narrator: 'Małgorzata (41 lat, Kraków · Porady Mamy Gosi)',
+    protagonist: 'Małgorzata (41 lat)',
     hookIdea:
       'Po 45 minutach każdego treningu tenisa musiałam schodzić na ławkę przy korcie, ściągać prawy but i rozmasowywać spód stopy dłońmi, bo pod poduszkami palców czułam żywy ogień, jakbym biegała boso po rozgrzanym do czerwoności betonie.',
     sceneBeat:
@@ -291,8 +291,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Piłka Nożna i Orlik (5)',
     awarenessStage: 'Stage 2/3: Dorośli gracze na Orliku (30-45 lat) — ból kolan, Achillesa i pleców przez 2 dni po meczu',
     sophistication: 'Poziom 4 (Wąskie turfy piłkarskie nie podpierają łuku stopy — po 20 min gry kostka wali się do środka i skręca kolano)',
-    narrator: 'Kamil (39 lat, Wrocław · Karol Mikołajczyk)',
-    protagonist: 'Kamil (39 lat)',
+    narrator: 'Karol (39 lat, Wrocław · Karol Mikołajczyk)',
+    protagonist: 'Karol (39 lat)',
     hookIdea:
       'Mam 39 lat i przez ostatnie pół roku w każdą środę o 6:30 rano, dzień po naszym wtorkowym meczu na Orliku, schodziłem ze schodów we własnym mieszkaniu bokiem, kurczowo trzymając się poręczy jak 80-letni staruszek.',
     sceneBeat:
@@ -315,8 +315,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Piłka Nożna i Orlik (5)',
     awarenessStage: 'Stage 3: Demaskacja fabrycznej wkładki w butach piłkarskich (korkach i turfach)',
     sophistication: 'Poziom 4 (2 mm płaskiej pianki w bucie piłkarskim vs smukła dynamiczna sprężyna ze stabilizacją pięty)',
-    narrator: 'Rafał (36 lat, Katowice · Karol Mikołajczyk)',
-    protagonist: 'Rafał (36 lat)',
+    narrator: 'Karol (36 lat, Katowice · Karol Mikołajczyk)',
+    protagonist: 'Karol (36 lat)',
     hookIdea:
       'W zeszłym miesiącu zapłaciłem 449 zł za nowe, markowe turfy na sztuczną trawę, a po 45 minutach czwartkowego meczu na Orliku w Katowicach siedziałem na ławce ze zdjętymi butami, bo moje pięty i śródstopie paliły tak, jakbym biegał boso po żwirze.',
     sceneBeat:
@@ -339,8 +339,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Piłka Nożna i Orlik (5)',
     awarenessStage: 'Stage 2/3: Ojciec i syn na Orliku — wspólny genetycznie opadający łuk stopy i Pakiet 1+1',
     sophistication: 'Poziom 4 (Turniej Ojcowie vs Synowie na twardej sztucznej murawie + wspólny test 10 sekund u fizjoterapeuty)',
-    narrator: 'Marcin (41 lat, Gdańsk · Karol Mikołajczyk)',
-    protagonist: 'Marcin (41 lat) i syn Bartek (12 lat)',
+    narrator: 'Karol (41 lat, Gdańsk · Karol Mikołajczyk)',
+    protagonist: 'Karol (41 lat) i syn Bartek (12 lat)',
     hookIdea:
       'Przez 2 miesiące powtarzałem mojemu 12-letniemu synowi Bartkowi, żeby się nie mazał, kiedy po każdym treningu na Orliku wracał do domu i narzekał na kłucie w piętach oraz pod rzepką.',
     sceneBeat:
@@ -363,7 +363,7 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Piłka Nożna i Orlik (5)',
     awarenessStage: 'Stage 1/2: Wykoślawione korki od środka, utrata zwrotności i ból kolan u młodego piłkarza',
     sophistication: 'Poziom 4 (Uciekająca do środka pięta w korkach zabiera ułamek sekundy przy starcie do piłki i wykręca kolano w X)',
-    narrator: 'Marta (37 lat, Kraków · Porady Mamy Gosi)',
+    narrator: 'Małgorzata (37 lat, Kraków · Porady Mamy Gosi)',
     protagonist: 'Syn Filip (10 lat)',
     hookIdea:
       'W sobotę po 40 minutach sparingu trener zdjął mojego 10-letniego syna Filipa z boiska, zawołał mnie za linię boczną i kazał spojrzeć na tył jego korków.',
@@ -389,8 +389,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Bieganie, Marsze i Hala (5)',
     awarenessStage: 'Stage 2/3: Biegacze asfaltowi — kłucie w kolanie i palące piszczele (shin splints) po 5 km',
     sophistication: 'Poziom 4 (Gruba miękka pianka w bucie biegowym za 700 zł bez korytka pięty działa jak materac wodny i wzmaga pronację)',
-    narrator: 'Paweł (37 lat, Warszawa · Karol Mikołajczyk)',
-    protagonist: 'Paweł (37 lat)',
+    narrator: 'Karol (37 lat, Warszawa · Karol Mikołajczyk)',
+    protagonist: 'Karol (37 lat)',
     hookIdea:
       'Przez 6 miesięcy każdy mój wieczorny bieg po warszawskim Ursynowie kończył się dokładnie w tym samym miejscu: równo na 5. kilometrze pod prawą rzepką i wzdłuż piszczeli wybuchał taki ogień, że musiałem siadać na ławce w parku i wracać 2,5 kilometra do bloku kuśtykając po chodniku.',
     sceneBeat:
@@ -413,8 +413,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Bieganie, Marsze i Hala (5)',
     awarenessStage: 'Stage 2/3: Szybkie marsze, Nordic Walking i wyzwanie 10 000–15 000 kroków dziennie',
     sophistication: 'Poziom 4 (Zwiększenie kroków z 4000 do 15 000 po kostce brukowej na płaskiej wkładce mnoży mikrourazy rozcięgna razy 4)',
-    narrator: 'Beata (53 lata, Wrocław · Iwona Kożuchowska)',
-    protagonist: 'Beata (53 lata)',
+    narrator: 'Iwona (53 lata, Wrocław · Iwona Kożuchowska)',
+    protagonist: 'Iwona (53 lata)',
     hookIdea:
       'Lekarz kazał mi robić po 15 000 kroków dziennie i chodzić z kijkami dla zdrowego serca oraz zbicia cukru, a po 3 tygodniach ambitnych marszów po wrocławskich parkach nie byłam w stanie dojść o 6:00 rano do własnej kuchni.',
     sceneBeat:
@@ -437,8 +437,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Bieganie, Marsze i Hala (5)',
     awarenessStage: 'Stage 2/3: Nagranie slow-motion na bieżni — zmęczeniowe zapadanie się łuku stopy po 20 minutach',
     sophistication: 'Poziom 4 (Na świeżo w 1. minucie stopa trzyma oś, ale w 25. minucie zmęczone mięśnie puszczają i pięta wali się o 13 stopni)',
-    narrator: 'Aleksandra (38 lat, Gdańsk · Porady Mamy Gosi)',
-    protagonist: 'Aleksandra (38 lat)',
+    narrator: 'Małgorzata (38 lat, Gdańsk · Porady Mamy Gosi)',
+    protagonist: 'Małgorzata (38 lat)',
     hookIdea:
       'Kiedy poszłam do sklepu dla biegaczy w Gdańsku, sprzedawca kazał mi przebiec 15 sekund po dywaniku, powiedział, że ląduję prosto, i sprzedał mi buty za 680 zł, po których moje prawe kolano, biodro i lędźwie rwały jeszcze gorzej.',
     sceneBeat:
@@ -461,8 +461,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Bieganie, Marsze i Hala (5)',
     awarenessStage: 'Stage 2/3: Sporty halowe (siatkówka, koszykówka, piłka ręczna) — lądowanie z wyskoku i kolano skoczka',
     sophistication: 'Poziom 4 (150 wyskoków w meczu na szkolnym parkiecie na betonie — bez korytka pięty stopa rozlewa się przy lądowaniu)',
-    narrator: 'Dawid (35 lat, Poznań · Karol Mikołajczyk)',
-    protagonist: 'Dawid (35 lat)',
+    narrator: 'Karol (35 lat, Poznań · Karol Mikołajczyk)',
+    protagonist: 'Karol (35 lat)',
     hookIdea:
       'W 3. secie naszego czwartkowego meczu siatkówki po kolejnym lądowaniu z bloku pod prawą rzepką zapiekło mnie tak mocno, że musiałem usiąść na ławce pod ścianą, rozsznurować halówki i patrzeć, jak chłopaki kończą grę w 5 osób.',
     sceneBeat:
@@ -485,8 +485,8 @@ export const ANTKI_SPORT_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     funnelLabel: 'Sport · Bieganie, Marsze i Hala (5)',
     awarenessStage: 'Stage 5: Demaskacja tanich wkładek żelowych z marketu/Allegro (29,99 zł) w sporcie vs dynamiczna sprężyna StepMax',
     sophistication: 'Poziom 5 (Ciężki silikon parzy stopę, waży 2x więcej i zapada się pod piętą do 1 mm, zostawiając łuk stopy w pustce)',
-    narrator: 'Krzysztof (45 lat, Kraków · Karol Mikołajczyk)',
-    protagonist: 'Krzysztof (45 lat)',
+    narrator: 'Karol (45 lat, Kraków · Karol Mikołajczyk)',
+    protagonist: 'Karol (45 lat)',
     hookIdea:
       'Chciałem zaoszczędzić 70 zł na wkładkach do biegania, więc kupiłem w markecie sportowym niebiesko-żółte wkładki żelowe „Active Sport" za 29,99 zł - a po 10 kilometrach marszobiegu wróciłem do domu z tak spuchniętym ścięgnem Achillesa, że w przedpokoju ledwo zdjąłem buty.',
     sceneBeat:

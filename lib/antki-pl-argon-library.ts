@@ -109,7 +109,7 @@ P.S. Koniecznie weź pakiet 2 par i włóż drugą parę do obuwia domowego. Rob
     description: '',
     primaryText: `Kiedy lekarz wyświetlił na monitorze zdjęcie stalowej endoprotezy kolana obok prześwietlenia mojej własnej stopy i stuknął niebieskim długopisem w ekran, w gabinecie zapadła głucha cisza.
 
-- Pani Bożeno, wybór należy do pani - powiedział krótko. - Albo ustawimy tę zapadniętą kostkę i łuk stopy dzisiaj za grosze, albo za 4 lata spotkamy się na oddziale na wycięciu stawu kolanowego. Decyzję podjęłam w 10 sekund, a moje kolana i pięty uratowały dynamiczne wkładki ortopedyczne Orthomax StepMax z pakietu 1+1 za 99,99 zł (50 zł za parę), które dzisiaj noszę w każdej parze butów.
+- Pani Iwono, wybór należy do pani - powiedział krótko. - Albo ustawimy tę zapadniętą kostkę i łuk stopy dzisiaj za grosze, albo za 4 lata spotkamy się na oddziale na wycięciu stawu kolanowego. Decyzję podjęłam w 10 sekund, a moje kolana i pięty uratowały dynamiczne wkładki ortopedyczne Orthomax StepMax z pakietu 1+1 za 99,99 zł (50 zł za parę), które dzisiaj noszę w każdej parze butów.
 
 Mam 54 lata i przez ostatnie 2 lata żyłam w przekonaniu, że moje kolana i biodra po prostu „zużyły się z wiekiem". Zaczęło się niewinnie - najpierw piekący ból pod piętą i śródstopiem po całym dniu na nogach, a potem chrupanie i kłucie po wewnętrznej stronie kolan przy każdym schodzeniu ze schodów.
 
@@ -345,6 +345,34 @@ P.S. Nawet jeśli miałaś już kiedyś zabieg na jedną stopę albo kolano, tym
 };
 
 const TESTPACK_NATIVE_PAGE_NAME_MAP: Record<string, string> = {
+  'pl-29-zal-wozek-inwalidzki-beata': 'Iwona Kożuchowska',
+  'dorosli-01-sor-zablokowane-kolano': 'Iwona Kożuchowska',
+  'dorosli-02-sor-rwa-kulszowa-kregoslup': 'Iwona Kożuchowska',
+  'dorosli-03-sor-biodro-blokada-schody': 'Iwona Kożuchowska',
+  'dorosli-04-sor-piekacy-nerwiak-przodostopie': 'Iwona Kożuchowska',
+  'dorosli-12-ryciak-dorosli-ledzwie-dyskopatia': 'Iwona Kożuchowska',
+  'dorosli-13-ryciak-dorosli-kolano-zwyrodnienie': 'Iwona Kożuchowska',
+  'dorosli-14-ryciak-dorosli-biodro-asymetria': 'Iwona Kożuchowska',
+  'dorosli-16-ostroga-pierwszy-krok-6-rano': 'Iwona Kożuchowska',
+  'dorosli-17-ostroga-fala-uderzeniowa-1500zl': 'Iwona Kożuchowska',
+  'dorosli-18-ostroga-zamrozona-butelka': 'Iwona Kożuchowska',
+  'dorosli-19-ostroga-zelowe-podpietki-mit': 'Iwona Kożuchowska',
+  'dorosli-21-haluks-zimowe-botki-zamek': 'Iwona Kożuchowska',
+  'dorosli-22-haluks-wstyd-rozmiar-40': 'Iwona Kożuchowska',
+  'dorosli-23-haluks-separatory-i-szyny-mit': 'Iwona Kożuchowska',
+  'dorosli-26-zal-lewa-stopa-sruby-8200zl': 'Iwona Kożuchowska',
+  'dorosli-27-zal-haluks-siostry-wrocil': 'Iwona Kożuchowska',
+  'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata': 'Iwona Kożuchowska',
+  'dorosli-29-zal-za-5-lat-endoproteza': 'Iwona Kożuchowska',
+  'dorosli-30-zal-artroskopia-kolana-powrot-bolu': 'Iwona Kożuchowska',
+  'dorosli-31-praca-8h-na-nogach-kuchnia': 'Iwona Kożuchowska',
+  'dorosli-32-praca-mit-twardych-wkladek-400zl': 'Iwona Kożuchowska',
+  'dorosli-33-praca-12h-dyzur-szpitalny-beton': 'Iwona Kożuchowska',
+  'zal-v2-01-skierowanie-szpital': 'Iwona Kożuchowska',
+  'zal-v2-02-dwa-rtg-kolano-stopa': 'Iwona Kożuchowska',
+  'zal-v2-03-pudelko-wstydu-2140zl': 'Iwona Kożuchowska',
+  'zal-v2-04-szczudla-6-rano-korytarz': 'Iwona Kożuchowska',
+  'zal-v2-05-skutek-vs-przyczyna-lustro': 'Iwona Kożuchowska',
   'tp-76-as-dzieci-kapcie-szkolne': 'Porady Mamy Gosi',
   'tp-77-as-dzieci-fizjo-okno': 'Centrum Dobrego Kroku',
   'tp-78-as-dorosli-szatnia-2dzien': 'Iwona Kożuchowska',

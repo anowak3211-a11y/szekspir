@@ -16,10 +16,11 @@ export async function openVideoStream(input:string,hops=0,deadline=Date.now()+23
 }
 export async function storeVideoStream(url:string,id:string){
  if(!/^[\w-]{8,100}$/.test(id))throw Error('Invalid video ID');const path=accountMediaPath(`clean/${id}.mp4`),prior=await existingMedia(path);if(prior)return prior;
- const deadline=Date.now()+230000,response=await openVideoStream(url,0,deadline);let total=0,first=true;
+ const deadline=Date.now()+280000,response=await openVideoStream(url,0,deadline);let total=0,first=true;
+ const contentLength=Number(response.headers['content-length']||0);
  const body=Readable.from((async function*(){for await(const piece of response){const b=Buffer.from(piece);if(first){first=false;if(!/^video\//.test(String(response.headers['content-type']))&&!b.subarray(4,12).includes(Buffer.from('ftyp')))throw Error('Output is not a video');}total+=b.length;if(total>MEDIA_LIMIT)throw Error('Video exceeds the 2 GB limit');yield b;}if(!total)throw Error('Empty video');})());
  const origin=process.env.SUPABASE_URL!,key=process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY;if(!origin||!key){response.destroy();throw Error('Storage is not configured');}
- try{const r=await fetch(`${origin}/storage/v1/object/${MEDIA_BUCKET}/${path}`,{method:'POST',headers:{Authorization:`Bearer ${key}`,apikey:key,'Content-Type':'video/mp4','x-upsert':'false'},body:body as unknown as BodyInit,duplex:'half',signal:AbortSignal.timeout(Math.max(1,deadline-Date.now()))} as RequestInit);
+ try{const r=await fetch(`${origin}/storage/v1/object/${MEDIA_BUCKET}/${path}`,{method:'POST',headers:{Authorization:`Bearer ${key}`,apikey:key,'Content-Type':'video/mp4',...(contentLength>0?{'Content-Length':String(contentLength)}:{}),'x-upsert':'false'},body:body as unknown as BodyInit,duplex:'half',signal:AbortSignal.timeout(Math.max(1,deadline-Date.now()))} as RequestInit);
  if(!r.ok){if(r.status===409){const saved=await existingMedia(path);if(saved)return saved;}throw Error(`Video storage returned HTTP ${r.status}`);}return `${origin}/storage/v1/object/public/${MEDIA_BUCKET}/${path}`;
  }finally{body.destroy();response.destroy();}
 }

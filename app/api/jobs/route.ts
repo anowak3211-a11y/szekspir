@@ -100,7 +100,9 @@ async function runDirectVoiceover(id:string,targetRevision:number){
   await mutate<Job|null,void>(`job-${id}`,null,s=>{
    if(!s)return;
    s.stages??={};
-   s.stages.vo={...(s.stages.vo||{}),done:true,pending:false,error:undefined,finished:Date.now()};
+   s.stages.vo={...(s.stages.vo||{}),done:true,pending:false,uncertain:false,error:undefined,finished:Date.now()};
+   s.uncertain=false;
+   if(s.error&&/interrupted|voiceover/i.test(s.error))s.error=undefined;
    const videoDone=!s.video||!!s.cleanUrl||!!s.stages.videoPoll?.done||!!s.stages.cleanFirst?.done;
    const driveDone=s.videoDestination!=='drive'||!!s.driveUrl||!!s.stages.driveUpload?.done;
    if(videoDone&&driveDone&&s.adId){
@@ -151,8 +153,9 @@ async function accountPOST(req:Request){let hash:string|undefined,id:string|unde
    const workspace=currentWorkspace();
    const rev=job.revision||0;
    after(async()=>{await inWorkspace(workspace,()=>runDirectVoiceover(job.id,rev));});
+  }else{
+   await scheduleJob(job.id).catch(()=>{});
   }
-  await scheduleJob(job.id).catch(()=>{});
  }
  return Response.json({job});
  }catch(e){if(e instanceof DuplicateFileError)return Response.json({duplicate:e.duplicate},{status:409});if(hash&&id)await releaseFile(hash,id).catch(()=>{});return Response.json({error:(e as Error).message},{status:400});}}

@@ -232,7 +232,7 @@ Przyznałam mu wtedy rację. Dopiero dzisiaj rozumiem, skąd bierze się to 4,9 
 
 Zabrałam tego szarego naleśnika w torebce na kolejną wizytę kontrolną do naszej fizjoterapeutki dziecięcej. Kiedy położyłam go na kozetce, pani Karolina wzięła wkładkę w 2 palce, ścisnęła profil jak gąbkę do mycia naczyń i pokręciła głową.
 
-- Pani Marto, to jest zwykła spieniona pianka opakowaniowa oklejona szarą szmatką z hurtowni za 2 złote - powiedziała wprost. - Wie pani, co zrobiła ta wkładka w bucie córki po 3 dniach? Ponieważ Maja naciska mocniej wewnętrzną krawędzią stopy, miękka gąbka zapadła się właśnie od wewnątrz, a od zewnątrz została wysoka. Zrobiła pani dziecku w bucie pochylnię nachyloną do środka, która spychała piętę w koślawość jeszcze mocniej niż płaska podeszwa!
+- Pani Małgosiu, to jest zwykła spieniona pianka opakowaniowa oklejona szarą szmatką z hurtowni za 2 złote - powiedziała wprost. - Wie pani, co zrobiła ta wkładka w bucie córki po 3 dniach? Ponieważ Maja naciska mocniej wewnętrzną krawędzią stopy, miękka gąbka zapadła się właśnie od wewnątrz, a od zewnątrz została wysoka. Zrobiła pani dziecku w bucie pochylnię nachyloną do środka, która spychała piętę w koślawość jeszcze mocniej niż płaska podeszwa!
 
 Postawiła Maję boso na macie przed lustrem i wykonała przy mężu 10-sekundowy test: 2 palcami uniosła od dołu wewnętrzne sklepienie 2 stóp córki i wypoziomowała pięty. Kolana w ułamku sekundy przestały dotykać się w literę X, a łopatki stanęły na 1 wysokości.
 
@@ -363,7 +363,7 @@ Resztę zmiany dokończyłem na gołej wkładce fabrycznej, kulejąc na prawą n
 
 Po południu poszedłem do naszego fizjoterapeuty współpracującego z zakładem, bo prawe kolano znów spuchło mi od wewnętrznej strony. Pokazałem mu tego rozklejonego trupa za 27 zł. Parsknął śmiechem, po czym kazał mi zdjąć buty i stanąć boso przed lustrem.
 
-- Panie Darku, pan waży prawie 100 kg i uderza piętą w beton 15 000 razy dziennie - powiedział rzeczowo. - Przy każdym kroku na hali działa na pana stopy nacisk ponad 120 kg! Niech pan spojrzy w lustro na swoje kostki.
+- Panie Karolu, pan waży prawie 100 kg i uderza piętą w beton 15 000 razy dziennie - powiedział rzeczowo. - Przy każdym kroku na hali działa na pana stopy nacisk ponad 120 kg! Niech pan spojrzy w lustro na swoje kostki.
 
 Podłożył dłonie pod moje stopy i uniósł wewnętrzne łuki 2 stóp w górę, ustawiając pięty w pionie. Uczucie ciągnięcia pod rzepką w prawym kolanie wyłączyło się w tej samej sekundzie!
 

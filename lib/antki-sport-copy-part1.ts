@@ -32,7 +32,7 @@ W sumie wydałem 713 zł, nie licząc 850 zł za buty trekkingowe, czyli łączn
 
 Przełom nastąpił 3 tygodnie później, kiedy poszedłem do Michała - zaprzyjaźnionego fizjoterapeuty górskiego i ratownika z 15-letnim doświadczeniem. Przyniosłem ze sobą w torbie moje buty za 850 zł. Michał włożył rękę do środka, wyrwał fabryczną wkładkę i rzucił ją na biurko.
 
-- Marek, kupiłeś pancerny but z podeszwą Vibram za 850 zł, a pod gołą stopę położyłeś sobie 2-milimetrowy płatek gąbki przyklejony dla estetyki? - zapytał Michał, zginając wkładkę w 2 palcach jak serwetkę.
+- Karol, kupiłeś pancerny but z podeszwą Vibram za 850 zł, a pod gołą stopę położyłeś sobie 2-milimetrowy płatek gąbki przyklejony dla estetyki? - zapytał Michał, zginając wkładkę w 2 palcach jak serwetkę.
 
 Michał kazał mi zdjąć skarpetki i stanąć boso przed lustrem. Uklęknął przy moich stopach, wsunął po 2 palce pod wewnętrzny łuk mojej prawej stopy i uniósł go o 6 milimetrów w górę, ustawiając piętę w pionie. Przytrzymał stopę przez 10 sekund i kazał mi zrobić półprzysiad na prawej nodze.
 
@@ -101,7 +101,7 @@ Kiedy podliczyłem to z kalkulatorem, wyszło 1081 zł wydane na maści, opaski,
 
 Dopiero na wizycie kontrolnej trafiłem do Bartka - fizjoterapeuty biomechanika, który poprosił mnie o postawienie butów górskich za 799 zł na biurku. Wyjął ze środka fabryczną wkładkę i położył ją obok zwykłej tekturki z opakowania po lekach.
 
-- Panie Piotrze, twarda podeszwa Vibram chroni pańską stopę przed ostrymi kamieniami od spodu, ale od środka pańska pięta uderza 15 000 razy w twardą deskę przykrytą 2-milimetrowym listkiem papierowej pianki - powiedział Bartek, zginając fabryczną wkładkę w 2 palcach.
+- Panie Karolu, twarda podeszwa Vibram chroni pańską stopę przed ostrymi kamieniami od spodu, ale od środka pańska pięta uderza 15 000 razy w twardą deskę przykrytą 2-milimetrowym listkiem papierowej pianki - powiedział Bartek, zginając fabryczną wkładkę w 2 palcach.
 
 Spojrzałem na nią i myślałem, że to żart. Zero korytka pod piętą, zero podparcia łuku podłużnego, zwykły płaski wykrojnik za 3 zł włożony do buta za 799 zł.
 
@@ -119,7 +119,7 @@ Naciągnięte rozcięgno odrywa się mikroskopijnymi włóknami od pięty, co po
 ↓
 Żeby uciec przed bólem pięt, stawiasz stopy do środka i usztywniasz nogi, przez co piszczel rotuje, a kolana puchną na każdym zejściu.
 
-Na koniec wizyty Bartek powiedział mi wprost: „Panie Piotrze, niech pan wywali z tych butów fabryczną tekturkę i poszuka dynamicznych wkładek z głębokim korytkiem pięty oraz sprężystym mostkiem pod łukiem podłużnym - tylko błagam, żadnych miękkich żeli z marketu".
+Na koniec wizyty Bartek powiedział mi wprost: „Panie Karolu, niech pan wywali z tych butów fabryczną tekturkę i poszuka dynamicznych wkładek z głębokim korytkiem pięty oraz sprężystym mostkiem pod łukiem podłużnym - tylko błagam, żadnych miękkich żeli z marketu".
 
 Wieczorem w domu we Wrocławiu otworzyłem YouTube na laptopie i wpisałem hasło „ból pięt i kolan przy schodzeniu z gór wkładki". Trafiłem na 15-minutowy film fizjoterapeuty omawiającego pronację w butach z podeszwą Vibram. Zjechałem do sekcji komentarzy pod filmem i zobaczyłem wpis, który miał ponad 140 łapek w górę od ludzi po 40-tce chodzących po Karkonoszach i Tatrach. Gość w moim wieku pisał tam krótko: „Przerobiłem 3 pary wkładek z sieciówek sportowych i dopiero jak włożyłem do trekkingów Orthomax StepMax, zszedłem ze Śnieżki bez ognia pod piętami". Pod spodem 15 kolejnych osób potwierdzało to samo.
 
@@ -298,7 +298,7 @@ W tamten poranek w Beskidach mąż odwrócił moje buty na stole, pokazał zdart
 
 Pan Łukasz spojrzał na moje buty postawione na biurku i pokręcił głową.
 
-- Pani Kasiu, żadne ultradźwięki za 450 zł nie pomogą, dopóki na każdym zejściu pani pięta wali się do środka na tym płaskim naleśniku i rwie powięź podeszwową żywcem - powiedział.
+- Pani Iwono, żadne ultradźwięki za 450 zł nie pomogą, dopóki na każdym zejściu pani pięta wali się do środka na tym płaskim naleśniku i rwie powięź podeszwową żywcem - powiedział.
 
 Kazał mi stanąć boso na podłodze. Uklęknął, chwycił dłońmi moje pięty, wyprostował je do pionu, a palcami uniósł moje łuki podłużne o 6 milimetrów w górę. Przytrzymał stopy przez 10 sekund i poprosił, żebym mocno obciążyła pięty. Pod stopami, które od tygodnia paliły przy każdym kroku, poczułam natychmiastową ulgę i rozluźnienie w łydkach. Gdy zabrał dłonie, kostki znów uciekły do środka i wróciło ukłucie.
 

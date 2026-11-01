@@ -337,7 +337,7 @@ Przecież automat aukcyjny wysyła kupującemu prośbę o wystawienie oceny 48 g
 
 Kilka dni później mój szwagier (który rok temu miał już odłożone pieniądze na lot na przeszczep do Turcji za 17 000 zł, ale uratował górę głowy bez skalpela) dał mi namiar na swojego diagnostę trychologicznego na Śląsku. Poszedłem na badanie kamerą 200x, pokazałem w telefonie zdjęcie mojej szuflady za 189 zł i usłyszałem brutalną prawdę o rynku kosmetycznym.
 
-- Panie Pawle, te wszystkie pojedyncze szampony kofeinowe, skrzypowe i wcierki na alkoholu z internetu robią w najlepszym razie 1 rzecz z 3, czyli dają ułamek tego, czego potrzebuje duszona cebulka - wyjaśnił specjalista, pokazując na ekranie moje żywe, ale zminiaturyzowane włoski. - Sama kofeina pobudzi krążenie na kwadrans, ale w żaden sposób nie blokuje hormonu DHT w gruczole łojowym i nie wydłuża skróconego do 21 dni cyklu wzrostu włosa. A SLS w szamponie oraz wysuszający alkohol w kroplach dodatkowo podrażniają ujście mieszka i nasilają łojotok z odbicia!
+- Panie Karolu, te wszystkie pojedyncze szampony kofeinowe, skrzypowe i wcierki na alkoholu z internetu robią w najlepszym razie 1 rzecz z 3, czyli dają ułamek tego, czego potrzebuje duszona cebulka - wyjaśnił specjalista, pokazując na ekranie moje żywe, ale zminiaturyzowane włoski. - Sama kofeina pobudzi krążenie na kwadrans, ale w żaden sposób nie blokuje hormonu DHT w gruczole łojowym i nie wydłuża skróconego do 21 dni cyklu wzrostu włosa. A SLS w szamponie oraz wysuszający alkohol w kroplach dodatkowo podrażniają ujście mieszka i nasilają łojotok z odbicia!
 
 Zapisał mi wtedy na małej karteczce z gabinetu samą nazwę: szampon aktywujący korzenie SARDIAN.
 

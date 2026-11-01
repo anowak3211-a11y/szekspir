@@ -23,7 +23,7 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
  try{saved=await mutate<State,State>(name,{snapshot:legacySnapshot},s=>{if((s.leaseUntil||0)>Date.now())throw Error('SYNC_BUSY');s.lease=token;s.leaseUntil=Date.now()+360000;return structuredClone(s);});}catch(e){if((e as Error).message==='SYNC_BUSY')return {busy:true};throw e;}
  const sheets=google.sheets({version:'v4',auth:sheetAuth()});
  try{
-  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?502:501;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AE':'Z'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
+  const load=async(spreadsheetId:string,title:string)=>{const capacity=title==='Daily Briefs'?2000:2000;const r=await sheets.spreadsheets.values.get({spreadsheetId,range:`'${title}'!A1:${title==='Daily Briefs'?'AE':'Z'}${capacity}`,valueRenderOption:'UNFORMATTED_VALUE'});return {rows:r.data.values||[],capacity};};
   const [admin,editor]=await Promise.all([load(adminId(),'Daily Briefs'),load(editorId(),'My Tasks')]);
   const editorHeaders=(editor.rows[0]||[]).map(x=>String(x??'').trim());
   if(editorHeaders.length&&!editorHeaders.includes('Ad angle')){
@@ -39,6 +39,16 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
    }catch{}
   }
   const plan=planAssignedSync(admin.rows,editor.rows,saved.snapshot,editor.capacity,workspace.id);
+  const maxEditorRow=plan.editorChanges.reduce((m,c)=>Math.max(m,c.row),0);
+  if(maxEditorRow>=500){
+   try{
+    const meta=await sheets.spreadsheets.get({spreadsheetId:editorId(),fields:'sheets.properties'});
+    const taskSheet=meta.data.sheets?.find(s=>s.properties?.title==='My Tasks')?.properties;
+    if(taskSheet?.sheetId!==undefined&&taskSheet?.sheetId!==null&&(taskSheet.gridProperties?.rowCount||0)<=maxEditorRow){
+     await sheets.spreadsheets.batchUpdate({spreadsheetId:editorId(),requestBody:{requests:[{appendDimension:{sheetId:taskSheet.sheetId,dimension:'ROWS',length:maxEditorRow+200-(taskSheet.gridProperties?.rowCount||0)}}]}}).catch(()=>{});
+    }
+   }catch{}
+  }
   if(!plan.adminChanges.length&&!plan.editorChanges.length&&JSON.stringify(plan.snapshot)===JSON.stringify(saved.snapshot)){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;}});return {unchanged:true};}
   const write=async(spreadsheetId:string,title:string,changes:Change[])=>{
    if(!changes.length)return;
@@ -67,7 +77,7 @@ async function syncOne(workspace:import('./account-context').EmployeeWorkspace){
  }catch(e){await mutate<State,void>(name,initial(),s=>{if(s.lease===token){s.lease=undefined;s.leaseUntil=undefined;s.lastError=(e as Error).message;}});throw e;}
 }
 
-async function syncWorkspace(workspace:import('./account-context').EmployeeWorkspace){
+export async function syncWorkspace(workspace:import('./account-context').EmployeeWorkspace){
  const result=await syncOne(workspace);if('busy' in result)throw new EditorSyncBusyError();return result;
 }
 export async function syncEditorWorkspace(){
@@ -77,7 +87,7 @@ export async function syncEditorWorkspace(){
 }
 export async function editorAssignment(adId:string){
  await assertAdActive(adId);
- const api=google.sheets({version:'v4',auth:sheetAuth()});const r=await api.spreadsheets.values.get({spreadsheetId:adminId(),range:"'Daily Briefs'!A1:X502"});const rows=r.data.values||[],idCol=rows[0]?.indexOf('Ad ID'),assignmentCol=rows[0]?.indexOf('Editor ID'),nameCol=rows[0]?.indexOf('Editor name'),row=rows.findIndex((r,i)=>i>0&&r[idCol]===adId);if(row<1)throw Error('Ad not found in master sheet');return {api,row:row+1,assignmentCol,nameCol,current:String(rows[row][assignmentCol]||'mine')};
+ const api=google.sheets({version:'v4',auth:sheetAuth()});const r=await api.spreadsheets.values.get({spreadsheetId:adminId(),range:"'Daily Briefs'!A1:AE2000"});const rows=r.data.values||[],idCol=rows[0]?.indexOf('Ad ID'),assignmentCol=rows[0]?.indexOf('Editor ID'),nameCol=rows[0]?.indexOf('Editor name'),row=rows.findIndex((r,i)=>i>0&&r[idCol]===adId);if(row<1)throw Error('Ad not found in master sheet');return {api,row:row+1,assignmentCol,nameCol,current:String(rows[row][assignmentCol]||'mine')};
 }
 export async function assignEditor(adId:string,editorId:string){
  editorId=editorId||'mine';
@@ -109,14 +119,21 @@ export async function verifyEditorDelivery(job:import('./jobs').Job,synchronise=
  const verify=async()=>{
   const {api,current}=await editorAssignment(job.adId!);const workspace=accountEditors().find(w=>w.id===current);if(!workspace)throw Error('Assigned editor not found.');
   const read=async()=>{
-   const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:S501",valueRenderOption:'UNFORMATTED_VALUE'});
+   const response=await api.spreadsheets.values.get({spreadsheetId:workspace.sheetId,range:"'My Tasks'!A1:Z2000",valueRenderOption:'UNFORMATTED_VALUE'});
    const rows=response.data.values||[],headers=(rows[0]||[]).map(String),idCol=headers.indexOf('Ad ID');
    const matching=rows.slice(1).filter(row=>row[idCol]===job.adId);if(matching.length>1)throw Error('The editor sheet contains duplicate rows for this ad.');
    const {editorChecklist,deliveryVersion}=await import('./editor-checklist');const checks=editorChecklist(job,headers,matching[0]||[]);
-   return {version:deliveryVersion(job),ok:checks.every(check=>check.ok),checks,editor:workspace.name,url:`https://docs.google.com/spreadsheets/d/${workspace.sheetId}/edit#gid=801`,checkedAt:Date.now()};
+   return {receipt:{version:deliveryVersion(job),ok:checks.every(check=>check.ok),checks,editor:workspace.name,url:`https://docs.google.com/spreadsheets/d/${workspace.sheetId}/edit#gid=801`,checkedAt:Date.now()},hasRow:matching.length>0};
   };
-  if(!synchronise)return read();
-  return withEditorLocks(['workspace-'+workspace.id],async()=>{await syncWorkspace(workspace);return read();});
+  if(!synchronise){
+   const first=await read();
+   if(!first.hasRow){
+    await withEditorLocks(['workspace-'+workspace.id],async()=>{await syncWorkspace(workspace).catch(()=>{});}).catch(()=>{});
+    return (await read()).receipt;
+   }
+   return first.receipt;
+  }
+  return withEditorLocks(['workspace-'+workspace.id],async()=>{await syncWorkspace(workspace);return (await read()).receipt;});
  };
  // Read-only status checks must not queue behind a complete workspace sync.
  return synchronise?withEditorLocks(['ad-'+job.adId],verify):verify();

@@ -218,6 +218,9 @@ export async function advanceParallel(id:string):Promise<number>{
     if(['export','references','vo'].includes(k)&&!stage.pending&&isSheetsQuotaError(e)&&(stage.quotaRetries||0)<5){
      stage.quotaRetries=(stage.quotaRetries||0)+1;stage.nextAt=Date.now()+sheetRetryDelay(stage.quotaRetries);stage.error=undefined;stage.uncertain=false;stage.retryReason=SHEET_QUOTA_WAIT;return;
     }
+    if(['videoPoll','enhancePoll','cleanFirst','driveUpload'].includes(k)&&!stage.pending&&/aborted due to timeout|Video (?:transfer|headers|DNS lookup) (?:timed out|stalled)|Video storage returned HTTP 5\d\d|fetch failed|ECONNRESET|ETIMEDOUT/i.test((e as Error).message||'')&&(stage.attempts||0)<5){
+     stage.nextAt=Date.now()+8000;stage.error=undefined;stage.uncertain=false;stage.retryReason='Retrying large video transfer to storage automatically.';return;
+    }
     const safe=(e as Error&{safeToRetry?:boolean}).safeToRetry===true;
     if(safe)stage.pending=false;
     stage.uncertain=!!stage.pending;

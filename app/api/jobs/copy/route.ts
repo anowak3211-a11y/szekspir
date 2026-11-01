@@ -14,6 +14,7 @@ import {opening} from '@/lib/validation';
 import {sendsHook} from '@/lib/hook-delivery';
 import {canonicalUkMedicationName} from '@/lib/uk-medication';
 import {canonicalMellowSaffronName,isMellowSaffronTarget} from '@/lib/mellow-saffron-brand';
+import {sanitizeUkScriptText,isHairDhtSourceScript,resolveCanonicalTargetBrand} from '@/lib/localize';
 import type {Snapshot} from '@/lib/editor-sync-plan';
 export const maxDuration=300;
 
@@ -91,7 +92,9 @@ async function accountPOST(request:Request){
    let hooks=Array.isArray(body.hooks)?body.hooks:before.result.hooks;
    if(before.result.hooks.length===3&&hooks.length===2)hooks=[...hooks,before.result.hooks[2]];
    if(before.market!=='pl'){
-    const normalise=(text:string)=>canonicalUkMedicationName(isMellowSaffronTarget(before.productName,before.productContext,before.sheetProduct)?canonicalMellowSaffronName(text):text);
+    const isHair=isHairDhtSourceScript(before.transcript||before.result?.uk_script||'')||isHairDhtSourceScript(script);
+    const brand=resolveCanonicalTargetBrand(before.productName||'',before.productContext);
+    const normalise=(text:string)=>sanitizeUkScriptText(canonicalUkMedicationName(isMellowSaffronTarget(before.productName,before.productContext,before.sheetProduct)?canonicalMellowSaffronName(text):text),isHair,brand);
     script=normalise(script);
     hooks=hooks.map(normalise);
    }

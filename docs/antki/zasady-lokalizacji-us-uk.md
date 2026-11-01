@@ -325,3 +325,38 @@ He was still in his pyjamas, refusing to put his school trousers on.
 I was sweating, clock-watching and fighting back tears.
 And the day hadn’t even properly started yet.
 ```
+
+---
+
+## 10. Katalog 25 Twardych Przypadków Lokalizacji Wideo / VSL / ASR (Każdy Przypadek Osobno — Bezwzględny Zakaz Przepuszczania)
+
+Poniższe 25 przypadków (wykrytych na produkcyjnych skryptach VSL / UGC / Podcast) ma status **twardej blokady (Zero Tolerance)**. Każdy z nich jest osobną, bezwzględną regułą obowiązującą zarówno model główny, Critic, jak i deterministyczny post-processor `sanitizeUkScriptText`:
+
+| ID Reguły | Błąd z USA / Whisper ASR (ZAKAZANE w UK) | Wymagana Forma Docelowa (en-GB) | Wyjaśnienie każdego przypadku osobno |
+| :--- | :--- | :--- | :--- |
+| **`RULE_VID_01`** | `across the US` / `across the U.S.` / `across the USA` | **`across the UK`** | Nigdy nie zostawiaj w brytyjskim VSL odwołań do „dermatologists across the US” lub „women across the US”. |
+| **`RULE_VID_02`** | `in the US` / `in the U.S.` / `throughout the US` | **`in the UK` / `throughout the UK`** | Każde odwołanie terytorialne do rynku docelowego reklamy musi wskazywać Wielką Brytanię (`the UK`). |
+| **`RULE_VID_03`** | `in America` / `across America` / `American women` | **`in the UK` / `across Britain` / `British women`** | Amerykańska tożsamość geograficzna w reklamie na UK natychmiast zdradza obcy rip. |
+| **`RULE_VID_04`** | `$30` / `$50` / `$100` / `$1,000` (symbol `$` przed kwotą) | **`£30` / `£50` / `£100` / `£1,000`** | Bezwzględna konwersja symbolu dolara (`$`) na funta szterlinga (`£`) we wszystkich kwotach i porównaniach cenowych. |
+| **`RULE_VID_05`** | `dollars` / `hundreds of dollars` / `thousands of dollars` | **`pounds` / `hundreds of pounds` / `thousands of pounds`** | Słowo `dollars` w tekście lub voiceoverze UK jest niedopuszczalne — zawsze zamieniaj na `pounds` (lub potocznie `quid`). |
+| **`RULE_VID_06`** | `cents` / `pennies on the dollar` | **`pence` / `pennies`** | Amerykańskie `cents` w UK to zawsze `pence` (`p`). |
+| **`RULE_VID_07`** | `two pounds of seeds` / `2 pounds of pumpkin seeds` | **`nearly a kilo of seeds` / `nearly a kilo of pumpkin seeds`** | W UK słowo `pounds` oznacza walutę (`£`) albo wagę imperialną. W zdaniu o jedzeniu nasion (szczególnie gdy wcześniej padło „hundreds of pounds” o pieniądzach!) zawsze zamieniaj wagę na metryczne `nearly a kilo`. |
+| **`RULE_VID_08`** | `shower drain` / `shower drains` | **`shower plughole` / `shower plugholes`** | W Wielkiej Brytanii odpływ pod prysznicem lub w wannie to `plughole` (`shower plughole`), nigdy amerykańskie `shower drain`. |
+| **`RULE_VID_09`** | `mustache` / `mustaches` | **`moustache` / `moustaches`** | Amerykańska pisownia `mustache` (bez `o`) jest błędem ortograficznym w en-GB — zawsze `moustache`. |
+| **`RULE_VID_10`** | `estrogen` | **`oestrogen`** | Hormon żeński w brytyjskiej ortografii medycznej zawsze zaczyna się od ligatury `oe-` (`oestrogen`). |
+| **`RULE_VID_11`** | `pediatrician` / `pediatricians` / `pediatric` | **`paediatrician` / `paediatricians` / `paediatric`** | Zawsze brytyjska pisownia z `ae` (`paediatrician`) lub zamiana na `GP` w kontekście podstawowej opieki zdrowotnej NHS. |
+| **`RULE_VID_12`** | `salt palmetto` (błąd transkrypcji Whisper ASR) | **`saw palmetto`** | Whisper nagminnie transkrybuje składnik `saw palmetto` (palma sabałowa) jako `salt palmetto`. Bezwzględna korekta na `saw palmetto`. |
+| **`RULE_VID_13`** | `hairline in part` / `my hairline in part` (błąd Whisper ASR) | **`hairline and parting` / `my hairline and parting`** | Błąd fonetyczny ASR z amerykańskiego „hairline and part” + amerykanizm `part` (przedziałek na głowie). W UK przedziałek to zawsze `parting` (`hairline and parting`). |
+| **`RULE_VID_14`** | `Just change the math` / `Just change the maths` (błąd ASR) | **`just changed the maths`** | Whisper gubi końcówkę czasu przeszłego `-ed` przed słowem `the` (`just changed the math` $\rightarrow$ `just change the math`). W połączeniu z nazwą marki tworzy bezsensowny rozkaz. Zawsze przywracaj czas przeszły `just changed the maths`. |
+| **`RULE_VID_15`** | `makes your hair stronger and fuller hair that keeps building` | **`makes your hair stronger and fuller, building results`** | Kalkowanie uszkodzonego powtórzenia rzeczownika `hair` z surowego ASR (`stronger and fuller hair that keeps building`). Zawsze czyść składnię do naturalnego zdania. |
+| **`RULE_VID_16`** | `saving hundreds of pounds and while saving` | **`saving hundreds of pounds while saving`** | Zdublowany spójnik `and while` z pociętego montażu wideo — zawsze usuwaj zbędne `and` przed `while`. |
+| **`RULE_VID_17`** | `most of them work good` / `works good` | **`most of them work well` / `works well`** | Amerykański kolokwializm gramatyczny (`work good` zamiast przysłówka `work well`). W en-GB zawsze `work well`. |
+| **`RULE_VID_18`** | `Bloomin' Bond` / `Bloom & Bond` / `Bloom and Bond` / `Blumenbahn` / `Benett & Seed` | **`Bennett & Seed`** (lub wybrana docelowa marka z profilu) | Wszystkie warianty i przekręcenia ASR amerykańskiej marki konkurenta (`Bloom & Bond`) oraz literówki (`Benett` przez jedno `n`) muszą być bezwzględnie zamienione na dokładną nazwę marki docelowej (`Bennett & Seed`). |
+| **`RULE_VID_19`** | `one jar for free` / `1 jar for free` / `one jar free` (dla kapsułek/softgeli) | **`1 bottle for free` / `1 bottle free`** | Kapsułki typu softgel (`Bennett & Seed`) są sprzedawane w buteleczkach (`bottle` / `pack`), a nie w słoikach (`jar`). |
+| **`RULE_VID_20`** | `FDA` / `FDA-approved` | **`MHRA` / `NHS` / `UK food supplement standards`** | Amerykańska agencja `FDA` nie ma jurysdykcji w Wielkiej Brytanii. |
+| **`RULE_VID_21`** | `CVS` / `Walgreens` / `Rite Aid` | **`Boots` / `Superdrug`** | Amerykańskie sieci apteczne/drogeryjne zamieniaj na brytyjskie `Boots`. |
+| **`RULE_VID_22`** | `Costco` / `Walmart` / `Target` | **`Tesco` / `Sainsbury's` / `Asda`** | Amerykańskie supermarkety zamieniaj na brytyjskie `Tesco`. |
+| **`RULE_VID_23`** | `Nature Made bottle` (w przykładzie taniego suplementu z apteki) | **`a cheap bottle`** | Amerykańska marka marketowa `Nature Made` nie jest powszechna w UK — zamieniaj na generyczne `a cheap bottle`. |
+| **`RULE_VID_24`** | `Ritalin` (w skryptach ADHD / skupienie) | **`Concerta XL`** | Zgodnie z twardą regułą właściciela, każde wystąpienie leku `Ritalin` w skryptach UK jest zamieniane na `Concerta XL`. |
+| **`RULE_VID_25`** | `Happy Chews` / `Sapphire Happy Chews` / `Saphire Happy Chews` / `Bloomwise` / `SP Nutrition` / `P-nutrition` / `Spenatrician` | **`Mellow Mood Munchies`** (dla szafranu) / **`MELLOW`** | Wszystkie warianty i błędy ASR nazw amerykańskich marek żelków konkurencji muszą być zamieniane na kanoniczną nazwę produktu docelowego. |
+

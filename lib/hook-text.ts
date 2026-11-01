@@ -3,7 +3,7 @@ import {accountEnv,accountDefault} from './account-context';
 import {randomUUID} from 'node:crypto';
 import {google} from 'googleapis';
 import {assertAdActive,assertJobActive} from './cancellation';
-import {editorAssignment} from './editor-sync';
+import {editorAssignment,syncWorkspace} from './editor-sync';
 import {withEditorLocks} from './editor-locks';
 import {EDITOR_WORKSPACES} from './editor-workspaces';
 import type {Snapshot} from './editor-sync-plan';
@@ -44,7 +44,7 @@ export async function saveHookText(input:HookTextInput):Promise<Job>{
  assertEditable(before,input.index);
  // This is the owner's explicit UK literal edit, not a rewrite of the hook.
  if(before!.market!=='pl')input={...input,text:canonicalUkMedicationName(input.text)};
- const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=accountEditors().find(w=>w.id===assignment.current);
+ const adId=before!.adId!,assignment=await editorAssignment(adId),workspace=accountEditors(EDITOR_WORKSPACES).find(w=>w.id===assignment.current);
  if(!workspace)throw Error('Editor not found.');
  return withEditorLocks(['ad-'+adId,'sheet-write-'+adId,'workspace-'+workspace.id],async()=>{
   await assertJobActive(input.id);await assertAdActive(adId);
@@ -61,12 +61,18 @@ export async function saveHookText(input:HookTextInput):Promise<Job>{
    job!.hookDeliveryPending=input.index;job!.hookTextDelivery={token,index:input.index,previousText:input.expectedText,text:input.text};job!.updated=Date.now();return structuredClone(job!);
   });
   try{
-   const api=google.sheets({version:'v4',auth:sheetAuth()}),targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+   const api=google.sheets({version:'v4',auth:sheetAuth()}),targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE2000'},{id:workspace.sheetId,title:'My Tasks',range:'A1:Z2000'}];
    const sheets=await Promise.all(targets.map(async target=>{
-    const data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
-    const idCol=headers.indexOf('Ad ID'),hookCol=headers.indexOf(`Hook ${input.index+1}`);
+    let data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
+    let idCol=headers.indexOf('Ad ID'),hookCol=headers.indexOf(`Hook ${input.index+1}`);
     if(idCol<0||hookCol<0)throw Error('Ad ID or hook column missing.');
-    const matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[idCol]===adId);
+    let matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[idCol]===adId);
+    if(matches.length===0&&target.title==='My Tasks'&&typeof syncWorkspace==='function'){
+     await syncWorkspace(workspace);
+     data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];headers=data[0]||[];
+     idCol=headers.indexOf('Ad ID');hookCol=headers.indexOf(`Hook ${input.index+1}`);
+     matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[idCol]===adId);
+    }
     if(matches.length!==1)throw Error('Ad is missing or duplicated in the sheet.');
     return {...target,row:matches[0].i+1,hookCol};
    }));

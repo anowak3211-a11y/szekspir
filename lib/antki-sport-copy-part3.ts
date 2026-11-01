@@ -95,12 +95,12 @@ P.S. Wyjmij dziś wieczorem fabryczną wkładkę z korków swojego dziecka i zeg
 
 Kiedy miałem 25 lat, mogłem grać 2 godziny na betonie i rano biec na autobus bez 1 skurczu, a teraz po 90 minutach na sztucznej murawie przy każdym zgięciu kolan czułem pod rzepkami wbijane gwoździe, a żona straszyła mnie stołem operacyjnym. Wydałem 1131 zł na nowe turfy, opaski uciskowe i kolagen, zanim fizjoterapeuta we Wrocławiu pokazał mi przed lustrem, jak po 20 minutach gry w wąskich butach piłkarskich sam wykręcam sobie kolano.
 
-Mam na imię Kamil, mam 39 lat, pracuję przy biurku we Wrocławiu, a wtorkowa piłka o 20:00 z ekipą ze studiów to mój święty rytuał. Przez 90 minut na boisku człowiek zapomina o kredycie i mailach. Kiedy miałem 25 lat, mogłem grać 2 godziny na betonie, przespać 6 godzin i rano biec na autobus bez 1 skurczu.
+Mam na imię Karol, mam 39 lat, pracuję przy biurku we Wrocławiu, a wtorkowa piłka o 20:00 z ekipą ze studiów to mój święty rytuał. Przez 90 minut na boisku człowiek zapomina o kredycie i mailach. Kiedy miałem 25 lat, mogłem grać 2 godziny na betonie, przespać 6 godzin i rano biec na autobus bez 1 skurczu.
 
 W wieku 39 lat rachunek za 90 minut na sztucznej trawie zaczął przychodzić w środę rano z odsetkami.
 
 Żona patrzyła, jak w środę i czwartek wstaję z łóżka jak 80-letni staruszek, idę do łazienki na sztywnych jak drewno łydkach i syczę przy siadaniu. Co tydzień słyszałem w kuchni to samo:
-- Kamil, masz prawie 40 lat, a nie 20. Zobacz, jak ty chodzisz przez 2 dni po tym Orliku. W końcu zerwiesz więzadło albo rozwalisz łąkotkę, trafisz na stół operacyjny i kto będzie woził dzieci do szkoły?
+- Karol, masz prawie 40 lat, a nie 20. Zobacz, jak ty chodzisz przez 2 dni po tym Orliku. W końcu zerwiesz więzadło albo rozwalisz łąkotkę, trafisz na stół operacyjny i kto będzie woził dzieci do szkoły?
 
 Zrobiłem ze samym sobą uczciwe 7 dni obserwacji od wtorkowego meczu do kolejnego tygodnia.
 
@@ -124,7 +124,7 @@ Razem wydałem 1131 zł. Efekt? Na kolejnym meczu w nowych turfach za 420 zł po
 W czwartek poszedłem do fizjoterapeuty sportowego we Wrocławiu. Zabrałem ze sobą nowe turfy i opaski na kolana.
 
 Fizjoterapeuta spojrzał na opaski, wyjął z moich turfów cienką fabryczną wkładkę, położył ją na biurku i powiedział 1 zdanie:
-- Kamil, możesz wydać jeszcze 2000 zł na kolagen i opaski na kolana, ale dopóki w tych wąskich butach Twoja stopa po 20 minutach meczu zapada się do środka na twardym Orliku, sam wykręcasz sobie kolano przy każdym kontakcie z murawą.
+- Karol, możesz wydać jeszcze 2000 zł na kolagen i opaski na kolana, ale dopóki w tych wąskich butach Twoja stopa po 20 minutach meczu zapada się do środka na twardym Orliku, sam wykręcasz sobie kolano przy każdym kontakcie z murawą.
 
 Kazał mi zdjąć buty i zrobić przysiad na 1 nodze przed lustrem. Zobaczyłem coś, z czego przez 39 lat nie zdawałem sobie sprawy: jak tylko obciążałem stopę, mój łuk podłużny całkowicie się rozpłaszczał, pięta uciekała do środka, a za nią całe kolano nurkowało do wewnątrz.
 
@@ -176,7 +176,7 @@ P.S. Zanim wydasz kolejne 400 zł na nowe buty piłkarskie albo kolagen, wyjmij 
 
 Kiedy wyszarpałem ze środka fabryczną wkładkę, położyłem ją na ławce obok buta i zgiąłem w 2 palcach jak mokry karton po mleku, zbaraniałem: w bucie za 449 zł leżał płaski kawałek najtańszej pianki o grubości 2 milimetrów, który na wadze kuchennej ważył dokładnie 14 gramów.
 
-Nazywam się Rafał, mam 36 lat, mieszkam w Katowicach i gram w amatorskiej lidze szóstek na sztucznej murawie 2 razy w tygodniu. Przez lata wydawało mi się, że ból stóp, piekące pięty i ciągnące rozcięgno podeszwowe po meczu na Orliku to wina tanich butów za 200-250 zł.
+Nazywam się Karol, mam 36 lat, mieszkam w Katowicach i gram w amatorskiej lidze szóstek na sztucznej murawie 2 razy w tygodniu. Przez lata wydawało mi się, że ból stóp, piekące pięty i ciągnące rozcięgno podeszwowe po meczu na Orliku to wina tanich butów za 200-250 zł.
 
 W zeszłym miesiącu wydałem 449 zł na wyższy model markowych turfów na sztuczną trawę. Założyłem je na czwartkowy mecz ligowy. Przez początkowe 15 minut but leżał świetnie, ale po 30 minutach gry zaczął się koszmar. Przy każdym wybiciu z palców, hamowaniu i lądowaniu na murawie czułem, jak moja pięta przebija się przez podeszwę i uderza w twarde, gumowe kołki pod spodem. Po meczu zdjąłem buty w szatni, wyszarpałem fabryczną wkładkę i zbaraniałem.
 
@@ -255,7 +255,7 @@ P.S. Nie musisz kupować kolejnej pary butów piłkarskich za 500 zł w nadziei,
 
 Mówiłem mu jak typowy, mądry tata: „Rozbiegasz to, za moich czasów graliśmy na betonie w trampkach z bazaru i nikt nie płakał" - dopóki w sobotę sam nie zagrałem 90 minut w turnieju Ojcowie kontra Synowie na tym samym boisku. Schodziliśmy z murawy przez furtkę obaj w samych skarpetkach, niosąc korki w rękach, a w niedzielę o 7:30 rano postawiłem stopy na parkiecie z takim ogniem w piętach, że ze wstydu przed własnym dzieckiem nie wiedziałem, gdzie podziać oczy.
 
-Mam na imię Marcin, mam 41 lat i mieszkam w Gdańsku. Mój 12-letni syn Bartek trenuje piłkę nożną w szkółce. Od września po każdym treningu na szkolnym Orliku wracał do domu, siadał w przedpokoju i mówił, że kłują go pięty oraz miejsce pod rzepką w prawym kolanie.
+Mam na imię Karol, mam 41 lat i mieszkam w Gdańsku. Mój 12-letni syn Bartek trenuje piłkę nożną w szkółce. Od września po każdym treningu na szkolnym Orliku wracał do domu, siadał w przedpokoju i mówił, że kłują go pięty oraz miejsce pod rzepką w prawym kolanie.
 
 A co ja na to odpowiadałem jako twardy ojciec? Aż mi głupio to cytować:
 - Bartek, nie maż się. Za moich czasów graliśmy na żużlu i betonie w zwykłych trampkach z bazaru i nikt nie płakał. Rozbiegasz to, to zwykłe zakwasy po treningu, musisz być twardy.
@@ -307,7 +307,7 @@ Kość piętowa wykrzywia się do wewnątrz, przez co ścięgno Achillesa ciągn
 ↓
 Piszczel rotuje do środka i przeciąża więzadło rzepki w kolanie przy każdym hamowaniu na sztucznej murawie
 
-W niedzielę po obiedzie, kiedy i ja i Bartek nadal kuśtykaliśmy po mieszkaniu w samych skarpetkach, moja żona nie wytrzymała i zadzwoniła do swojej przyjaciółki ze studiów - Eweliny, która od 12 lat prowadzi gabinet rehabilitacji dzieci i młodzieży sportowej. Ewelina wysłuchała nas przez głośnik i powiedziała krótko: „Marcin, nie dajcie się naciągnąć na sztywne wkładki za 400 zł, bo nie wejdą młodemu do korków. Zamówcie ze strony producenta pakiet 1+1 Orthomax StepMax - ponad 50% chłopaków z akademii, którzy do mnie przychodzą z bólem pięt po Orliku, biega na tym modelu". Wysłała żonie link SMS-em.
+W niedzielę po obiedzie, kiedy i ja i Bartek nadal kuśtykaliśmy po mieszkaniu w samych skarpetkach, moja żona nie wytrzymała i zadzwoniła do swojej przyjaciółki ze studiów - Eweliny, która od 12 lat prowadzi gabinet rehabilitacji dzieci i młodzieży sportowej. Ewelina wysłuchała nas przez głośnik i powiedziała krótko: „Karol, nie dajcie się naciągnąć na sztywne wkładki za 400 zł, bo nie wejdą młodemu do korków. Zamówcie ze strony producenta pakiet 1+1 Orthomax StepMax - ponad 50% chłopaków z akademii, którzy do mnie przychodzą z bólem pięt po Orliku, biega na tym modelu". Wysłała żonie link SMS-em.
 
 Usiedliśmy z Bartkiem przy stole i otworzyliśmy stronę w telefonie. I wtedy odezwał się we mnie niedowiarek, który wydał 905 zł na sprzęt i aptekę. Pomyślałem głośno: wydaliśmy 648 zł na same buty piłkarskie, kupowaliśmy podpiętki i opaski, a teraz wkładki z internetu sprawią, że młody przestanie narzekać po 3 treningach w tygodniu?
 
@@ -342,12 +342,12 @@ P.S. Przeprosiłem Bartka przy całej drużynie na kolejnym turnieju. Jeśli Two
 
 Cholewki obu butów, które kupiliśmy 6 tygodni wcześniej za 399 zł, były wygięte do środka tak mocno, że wewnętrzne kostki Filipa niemal ocierały o sztuczną trawę, a jego kolana schodziły się w kształt litery X. Kiedy Filip usiadł na ławce i odwróciliśmy podeszwy, wewnętrzne kołki pod piętą i śródstopiem były starte o połowę mocniej niż zewnętrzne.
 
-Mam na imię Marta, mam 37 lat i mieszkam w Krakowie. Mój 10-letni Filip trenuje w akademii piłkarskiej od 3 lat. Zawsze był szybkim skrzydłowym. Ale tej jesieni przez początkowe 25 minut meczu biegał normalnie, a po 35-40 minutach nagle tracił zwrotność, potykał się przy zwodach z piłką i łapał się ręką za wewnętrzną stronę kolana oraz pachwinę.
+Mam na imię Małgorzata, mam 37 lat i mieszkam w Krakowie. Mój 10-letni Filip trenuje w akademii piłkarskiej od 3 lat. Zawsze był szybkim skrzydłowym. Ale tej jesieni przez początkowe 25 minut meczu biegał normalnie, a po 35-40 minutach nagle tracił zwrotność, potykał się przy zwodach z piłką i łapał się ręką za wewnętrzną stronę kolana oraz pachwinę.
 
 Podczas sobotniego sparingu stałam przy barierce, kiedy trener po 40 minutach gry zdjął Filipa z boiska i poprosił mnie do ławki.
 
 Trener kazał Filipowi stanąć w korkach prosto przede mną, tyłem do mnie i zapytał:
-- Pani Marto, widzi pani, jak stoją jego pięty w tych butach po 40 minutach biegania po Orliku?
+- Pani Małgorzato, widzi pani, jak stoją jego pięty w tych butach po 40 minutach biegania po Orliku?
 
 Spojrzałam w dół i zesztywniałam. Cholewki 2 drogich korków, które kupiliśmy 6 tygodni wcześniej, były wygięte do środka tak mocno, że wewnętrzne kostki Filipa prawie ocierały o sztuczną trawę, a jego kolana schodziły się w kształt litery X. Kiedy Filip zdjął buty, odwróciliśmy podeszwy: plastikowe korki od wewnętrznej strony pięty i śródstopia były zdarte o 50% mocniej niż te od zewnątrz.
 
@@ -388,7 +388,7 @@ Pięta ucieka do środka, cholewka korka wygina się w kształt litery X, a wewn
 ↓
 Za wykrzywioną piętą piszczel i kolano zapadają się do środka, co ciągnie za przywodziciele w pachwinie i odbiera młodemu piłkarzowi szybkość oraz zwrotność po 30 minutach meczu
 
-Fizjoterapeuta wytłumaczył mi, że potrzebujemy smukłej, sprężystej wkładki z głębokim korytkiem pięty. Jeszcze tego samego popołudnia na treningu stałam pod siatką Orlika i opowiedziałam o tym panu Darkowi - ojcu Maćka, który gra z Filipem na obronie. Pan Darek uśmiechnął się od razu: „Pani Marto, 6 miesięcy temu korki mojego Maćka wyglądały od tyłu identycznie i też wywaliliśmy 380 zł na sztywne wkładki z zakładu, które nie weszły do buta". Po gwizdku zawołał Maćka do ławki, kazał mu zdjąć prawego korka i pokazał mi wyprofilowaną wkładkę Orthomax StepMax, która leżała w wąskim bucie jak ulał.
+Fizjoterapeuta wytłumaczył mi, że potrzebujemy smukłej, sprężystej wkładki z głębokim korytkiem pięty. Jeszcze tego samego popołudnia na treningu stałam pod siatką Orlika i opowiedziałam o tym panu Darkowi - ojcu Maćka, który gra z Filipem na obronie. Pan Darek uśmiechnął się od razu: „Pani Małgorzato, 6 miesięcy temu korki mojego Maćka wyglądały od tyłu identycznie i też wywaliliśmy 380 zł na sztywne wkładki z zakładu, które nie weszły do buta". Po gwizdku zawołał Maćka do ławki, kazał mu zdjąć prawego korka i pokazał mi wyprofilowaną wkładkę Orthomax StepMax, która leżała w wąskim bucie jak ulał.
 
 Wróciłam do domu i otworzyłam stronę producenta w telefonie. Po wydaniu 1167 zł, w tym 380 zł na wkładki z zakładu ortopedycznego, które leżały na dnie szafy, byłam nastawiona skrajnie nieufnie. Pomyślałam sobie: zakład ortopedyczny zrobił wkładki, które nie weszły do korków, a teraz kupię dynamiczne wkładki przez internet i nagle utrzymają piętę Filipa?
 

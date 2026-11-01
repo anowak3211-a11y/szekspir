@@ -16,15 +16,16 @@ export function planSync(admin:unknown[][],editor:unknown[][],previous:Snapshot,
  for(const [id,ar] of ai){let er=ei.get(id);const isNew=er===undefined;
   // A previously delivered row that disappears was deliberately removed in the workspace.
   // Keep a durable marker: a later master update must never recreate it.
-  if(isNew&&previous[id]){snapshot[id]={...previous[id],'deleted:row':true};continue;}
-  if(er===undefined){er=1;while(er<editorCapacity&&(occupied.has(er)||(editor[er]||[]).some((v,c)=>c!==ec['Production status']&&!((c===ec['Ready for review']||c===ec['Changes applied'])&&(v===false||v==='FALSE'))&&String(v??'').trim()!=='')))er++;if(er>=editorCapacity)throw new Error('Editor Workspace has no empty task rows');occupied.add(er);add(editorChanges,editor,er,ec['Ad ID'],id);}
+  if(isNew&&previous[id]&&(previous[id]['deleted:row']===true||previous[id]['Adapted script']!==undefined)){snapshot[id]={...previous[id],'deleted:row':true};continue;}
+  const rowHasContent=(row:unknown[]|undefined)=>!!row&&[ec['Ad ID'],ec['Adapted script'],ec['Your work'],ec['Video'],ec['Voice Over'],ec['Notes']].some(c=>c!==undefined&&c>=0&&String(row[c]??'').trim()!==''&&row[c]!==false&&row[c]!=='FALSE');
+  if(er===undefined){er=1;while(er<editorCapacity&&(occupied.has(er)||rowHasContent(editor[er])))er++;if(er>=editorCapacity)throw new Error('Editor Workspace has no empty task rows');occupied.add(er);add(editorChanges,editor,er,ec['Ad ID'],id);}
   const saved:Record<string,Cell>={};
   // Once edited in the workspace, including deletion, a cell stays editor-owned.
   // Missing historical baselines never justify replacing existing workspace data.
   for(const field of [...owned.filter(f=>f!=='Feedback'&&f!=='Approval'),'Notes']){
    if(ac[field]===undefined||ec[field]===undefined)continue;
    const a=value(admin[ar]?.[ac[field]]),e=value(editor[er]?.[ec[field]]),old=previous[id]?.[field];
-   const manual=previous[id]?.['manual:'+field]===true||(!isNew&&(old===undefined?!same(a,e):!same(e,old)));
+   const manual=field!=='Voice Over'&&field!=='Video'&&(previous[id]?.['manual:'+field]===true||(!isNew&&(old===undefined?!same(a,e):!same(e,old))));
    const resolved=manual?e:a;
    if(manual){saved['manual:'+field]=true;add(adminChanges,admin,ar,ac[field],e);}
    else add(editorChanges,editor,er,ec[field],resolved);

@@ -186,7 +186,7 @@ export async function POST(req: NextRequest) {
             action_source: 'website',
             event_source_url: 'https://bennettseed.co/',
             user_data: seedUser,
-            custom_data: { tier_group: tier, content_category: 'Botanical Softgels' },
+            custom_data: { tier_group: tier, content_category: 'Toys & Games' },
           },
           {
             event_name: 'BS_Select_Tier',
@@ -195,7 +195,7 @@ export async function POST(req: NextRequest) {
             action_source: 'website',
             event_source_url: 'https://bennettseed.co/',
             user_data: seedUser,
-            custom_data: { value: 63.98, currency: 'GBP', content_type: 'product', content_category: 'Botanical Softgels', tier_group: tier },
+            custom_data: { value: 63.98, currency: 'GBP', content_type: 'product', content_category: 'Toys & Games', tier_group: tier },
           },
           {
             event_name: 'BS_Step_Next',
@@ -204,7 +204,7 @@ export async function POST(req: NextRequest) {
             action_source: 'website',
             event_source_url: 'https://bennettseed.co/',
             user_data: seedUser,
-            custom_data: { value: 63.98, currency: 'GBP', content_type: 'product', content_category: 'Botanical Softgels', tier_group: tier },
+            custom_data: { value: 63.98, currency: 'GBP', content_type: 'product', content_category: 'Toys & Games', tier_group: tier },
           },
           {
             event_name: 'BS_Order_Confirmed',
@@ -213,7 +213,7 @@ export async function POST(req: NextRequest) {
             action_source: 'website',
             event_source_url: 'https://bennettseed.co/',
             user_data: seedUser,
-            custom_data: { value: 63.98, currency: 'GBP', num_items: 3, content_type: 'product', content_category: 'Botanical Softgels', tier_group: tier },
+            custom_data: { value: 63.98, currency: 'GBP', num_items: 3, content_type: 'product', content_category: 'Toys & Games', tier_group: tier },
           },
         ];
         results[px] = await sendCapiEvents(px, events);
@@ -315,7 +315,7 @@ export async function POST(req: NextRequest) {
         num_items: numItems,
         content_type: 'product',
         ...(contentIds.length > 0 ? { content_ids: Array.from(new Set(contentIds)) } : {}),
-        content_category: 'Botanical Softgels',
+        content_category: 'Toys & Games',
         tier_group: tierGroup,
       },
     };

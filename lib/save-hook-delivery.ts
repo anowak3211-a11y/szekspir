@@ -3,7 +3,7 @@ import {accountEnv,accountDefault} from './account-context';
 import {google} from 'googleapis';
 import {sheetAuth,shiftAdminRange} from './sheets';
 import {getJob,type Job} from './jobs';
-import {editorAssignment} from './editor-sync';
+import {editorAssignment,syncWorkspace} from './editor-sync';
 import {EDITOR_WORKSPACES} from './editor-workspaces';
 import {withEditorLocks} from './editor-locks';
 import {mutate} from './store';
@@ -14,15 +14,21 @@ import {voiceLinkRuns} from './voice-links';
 export async function saveHookDelivery(id:string,index:number,enabled:boolean){
  if(!Number.isInteger(index)||index<0||index>1||typeof enabled!=='boolean')throw Error('Invalid hook selection.');
  const before=await getJob(id);if(!before?.result?.hooks[index]||!before.adId)throw Error('Wait for the brief to be saved.');if('hookTextDelivery' in before&&before.hookTextDelivery)throw Error('Finish saving the hook text first.');
- const adId=before.adId,assignment=await editorAssignment(adId),workspace=accountEditors().find(w=>w.id===assignment.current);if(!workspace)throw Error('Editor not found.');
+ const adId=before.adId,assignment=await editorAssignment(adId),workspace=accountEditors(EDITOR_WORKSPACES).find(w=>w.id===assignment.current);if(!workspace)throw Error('Editor not found.');
  return withEditorLocks(['ad-'+adId,'voice-'+adId,'workspace-'+workspace.id],async()=>{
   if((await editorAssignment(adId)).current!==workspace.id)throw Error('Editor changed. Refresh and try again.');
   const api=google.sheets({version:'v4',auth:sheetAuth()});
-  const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AC502'},{id:workspace.sheetId,title:'My Tasks',range:'A1:S501'}];
+  const targets=[{id:accountEnv('ADMIN_SHEET_ID')||accountDefault('ADMIN_SHEET_ID','17o5TwwWgdjnkmRZIh8qQloGnhT3otWo8PGEw-nPrKRY'),title:'Daily Briefs',range:'A1:AE2000'},{id:workspace.sheetId,title:'My Tasks',range:'A1:Z2000'}];
   const sheets=await Promise.all(targets.map(async target=>{
    const meta=await api.spreadsheets.get({spreadsheetId:target.id,fields:'sheets.properties'}),sheetId=meta.data.sheets?.find(s=>s.properties?.title===target.title)?.properties?.sheetId;if(sheetId==null)throw Error('Sheet missing.');
-   const data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
-   const matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[headers.indexOf('Ad ID')]===adId);if(matches.length!==1)throw Error('Ad is missing or duplicated in the sheet.');
+   let data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[],headers=data[0]||[];
+   let matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[headers.indexOf('Ad ID')]===adId);
+   if(matches.length===0&&target.title==='My Tasks'&&typeof syncWorkspace==='function'){
+    await syncWorkspace(workspace);
+    data=(await api.spreadsheets.values.get({spreadsheetId:target.id,range:`'${target.title}'!${target.range}`,valueRenderOption:'UNFORMATTED_VALUE'})).data.values||[];headers=data[0]||[];
+    matches=data.map((row,i)=>({row,i})).filter(x=>x.i>0&&x.row[headers.indexOf('Ad ID')]===adId);
+   }
+   if(matches.length!==1)throw Error('Ad is missing or duplicated in the sheet.');
    const hookCol=headers.indexOf(`Hook ${index+1}`),voiceCol=headers.indexOf('Voice Over');if(hookCol<0||voiceCol<0)throw Error('Hook or voiceover column missing.');
    return {...target,sheetId,hookCol,voiceCol,row:matches[0].i+1,links:String(matches[0].row[voiceCol]||'')};
   }));
