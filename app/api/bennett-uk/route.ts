@@ -891,27 +891,14 @@ export const POST = accountRoute(async (req: Request) => {
           'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
       }).catch(() => ({} as Record<string, unknown>));
 
-      const rawTargeting = (
-        source.targeting
-          ? JSON.parse(JSON.stringify(source.targeting))
-          : {
-              geo_locations: { countries: ['GB'] },
-              age_min: 45,
-              age_max: 65,
-              publisher_platforms: ['facebook'],
-              facebook_positions: ['feed', 'video_feeds', 'facebook_reels', 'story'],
-            }
-      ) as Record<string, unknown>;
-      if (Array.isArray(rawTargeting.instagram_positions)) {
-        const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
-          pos => pos !== 'explore' && pos !== 'explore_home',
-        );
-        if (cleanedIgPos.length > 0) {
-          rawTargeting.instagram_positions = cleanedIgPos;
-        } else {
-          delete rawTargeting.instagram_positions;
-        }
-      }
+      const rawTargeting: Record<string, unknown> = {
+        geo_locations: { countries: ['GB'] },
+        age_min: 45,
+        age_max: 65,
+        publisher_platforms: ['facebook'],
+        facebook_positions: ['feed', 'video_feeds', 'facebook_reels', 'story'],
+        targeting_automation: { advantage_audience: 0 },
+      };
 
       let targetAdSetId = '';
       try {
@@ -922,6 +909,11 @@ export const POST = accountRoute(async (req: Request) => {
         const match = (existingAdSets.data || []).find(s => s.name === adSetName);
         if (match?.id) {
           targetAdSetId = match.id;
+          await directGraph(
+            targetAdSetId,
+            { targeting: rawTargeting },
+            'POST',
+          ).catch(() => null);
         }
       } catch {
         // Fallback to creating new Ad Set
