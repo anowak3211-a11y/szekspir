@@ -987,12 +987,13 @@ export const POST = accountRoute(async (req: Request) => {
           if (ad.imageUrl && primaryHash) imageHashCache.set(ad.imageUrl, primaryHash);
         }
 
-        const creativeSpec = {
+        const buildCreativeSpec = (igUserId?: string) => ({
           name: `${adName} - Creative`,
           url_tags:
             'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
           object_story_spec: {
             page_id: pageId,
+            ...(igUserId ? { instagram_user_id: igUserId } : {}),
             link_data: {
               image_hash: primaryHash,
               link: targetLink,
@@ -1005,18 +1006,33 @@ export const POST = accountRoute(async (req: Request) => {
               },
             },
           },
-        };
+        });
 
-        const createdAd = await directGraph<{ id: string }>(
-          `act_${SARDIAN_META_ACCOUNT_ID}/ads`,
-          {
-            name: adName,
-            adset_id: targetAdSetId,
-            creative: creativeSpec,
-            status: adStatus,
-          },
-          'POST',
-        );
+        let createdAd: { id: string } | undefined;
+        let lastAdErr: Error | undefined;
+        for (const igCandidate of [undefined, '17841472034688013', '17841434083191798']) {
+          try {
+            createdAd = await directGraph<{ id: string }>(
+              `act_${SARDIAN_META_ACCOUNT_ID}/ads`,
+              {
+                name: adName,
+                adset_id: targetAdSetId,
+                creative: buildCreativeSpec(igCandidate),
+                status: adStatus,
+              },
+              'POST',
+            );
+            break;
+          } catch (adErr) {
+            lastAdErr = adErr instanceof Error ? adErr : new Error(String(adErr));
+            if (!lastAdErr.message.includes('1815199') && !lastAdErr.message.toLowerCase().includes('instagram')) {
+              throw lastAdErr;
+            }
+          }
+        }
+        if (!createdAd) {
+          throw lastAdErr || new Error(`Nie udało się utworzyć reklamy ${adName}`);
+        }
 
         createdAds.push({
           id: createdAd.id,
