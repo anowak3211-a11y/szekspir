@@ -45,7 +45,7 @@ A potem utknęłam w korku i kliknęłam podgląd.
 
 Tamten dzień w firmie był najdłuższym dniem mojego życia. Siedziałam przed monitorem z kamienną twarzą, a w głowie miałam tylko 1 myśl: „Wszyscy w biurze myślą, że normalnie pracuję, a ja co 10 minut chowam telefon pod biurkiem i patrzę, jak mój pies cierpi”.
 
-O 10:00 dalej biegał w amoku od drzwi do okna. O 12:00 siedział pod klamką na sztywnych łapach i dyszał w szparę przy podłodze, a roztopiony pasztet wypłynął z zabawki na dywan - Tofik nie polizał go nawet 1 raz.
+O 10:00 dalej biegał w amoku od drzwi do okna. O 12:00 siedział pod klamką na sztywnych łapach i dyszał w szparę przy podłodze, a roztopiony pasztet wypłynął z zabawki na dywan - Tofik nie polizał go ani razu.
 
 Czułam bezsilną złość na te wszystkie mądre porady o matach węchowych. Jeszcze bardziej byłam zła na samą siebie, że przez 6 miesięcy zostawiałam go w takim piekle.
 
@@ -63,7 +63,7 @@ Zapytał mnie, czy kiedyś na trasie ktoś zajechał mi drogę tak, że o włos 
 
 „U Tofika dzieje się to samo, gdy słyszy szczęk zamka po zewnętrznej stronie drzwi” - wyjaśnił doktor. „Jego mózg wciska alarm zagrożenia życia: stado zniknęło, zostałem sam. Adrenalina oraz kortyzol zalewają krew w 3 sekundy i odcinają żołądek - może pani rozłożyć 5 mat węchowych, a on po nich przebiegnie”.
 
-Siedziałam w ciszy, bo po raz 1. ktoś nazwał po imieniu to, na co patrzyłam pod biurkiem.
+Siedziałam w ciszy, bo wreszcie ktoś nazwał po imieniu to, na co patrzyłam pod biurkiem.
 
 „Najpierw musimy zdjąć z niego ten strach w samym mieszkaniu” - mówił dalej lekarz. Opowiedział mi o naturalnym, niewyczuwalnym dla ludzi sygnale zapachowym, który karmiąca suka wydziela przy brzuchu w 1. dniach po porodzie - matczynym feromonie kojącym D.A.P.
 
@@ -93,23 +93,29 @@ Powtarzałam sobie w myślach: „Mam kamerkę, nie oszukają mnie - jak za 3 ty
 
 Przez początkowe 3 dni klęłam w duchu na czym świat stoi, pewna, że znowu dałam się nabrać. Rano klękałam przy kontakcie i wąchałam gniazdko z 5 centymetrów - żadnego zapachu, żadnego dymku, nic. A na podglądzie w pracy Tofik dalej kręcił się nerwowo pod drzwiami przez dobre 20 minut i drapał wycieraczkę.
 
-Aż przyszedł 4. dzień.
+4. dnia też nie zdarzył się żaden cud z telewizji. Po moim wyjściu dalej jeszcze kręcił się pod drzwiami przez 15 minut i popiskiwał pod klamką - tyle że wreszcie po 6 miesiącach nie wpadł w wielogodzinny amok, nie toczył z pyska śliny i w końcu sam odszedł na koc.
 
-Pod biurkiem aż poprawiłam okulary: Tofik po moim wyjściu postał pod drzwiami raptem 2 minuty bez dyszenia i ślinotoku, po czym głęboko westchnął i usiadł spokojnie na dywanie.
+Pod koniec 1. tygodnia sprawdziłam podgląd o 10:00 zza biurka. Postał chwilę przy zamku, wrócił do salonu i zaczął powoli wybierać suszone mięso z maty węchowej, po której wcześniej przebiegał na oślep.
 
-6. dnia rano wyjadł prawie wszystkie smaczki z maty węchowej w 10 minut po tym, jak wsiadłam do auta!
+W 2. tygodniu znów stałam rano w tym samym korku. Włączyłam kamerkę na telefonie.
 
-A 9. dnia stałam w dokładnie tym samym korku, w którym wcześniej płakałam na awaryjnych. Włączyłam podgląd z dźwiękiem - w mieszkaniu panowała taka cisza, że słychać było tylko zegar na ścianie.
+Tofik podszedł pod zamek, powąchał próg, napił się wody z miski i położył się na boku na dywanie. Bez skakania na parapet. Bez dyszenia w szparę przy podłodze.
 
-Przybliżyłam obraz 2 palcami: Tofik leżał rozciągnięty na dywanie i z przymkniętymi oczami wylizywał pasztet z Konga. Potem napił się wody, wskoczył na narożnik i przespał brzuszkiem do góry bite 7 godzin aż do mojego powrotu.
+Po 3 tygodniach przestałam chować telefon pod blatem w pracy co 10 minut.
 
-O 12:00 w biurze znowu schowałam telefon pod blat - ale tym razem uśmiechałam się do siebie jak wariatka, patrząc na 4 psie łapy sterczące w górę. 2 tygodnie później sąsiadka spod 14. zapytała mnie pod windą ze zdziwieniem, czy wzięłam urlop, bo za ścianą cisza jak makiem zasiał.
+Nie zrobił się z niego pluszak na baterie. Dziś nadal potrafi podnieść łeb i podejść pod drzwi, gdy słyszy stającą windę na naszym piętrze albo obcego kuriera na klatce - bo to żywy pies, nie maskotka.
 
-Jeśli wychodzisz z domu z kamieniem w żołądku, pamiętaj o 1 rzeczy: Twój pies nie ignoruje jedzenia na złość. Jego ściśnięty ze strachu żołądek nic nie przyjmie, dopóki nie oddasz mu w domu poczucia bezpieczeństwa.
+Ale postoi tam chwilę, wypuści powietrze nosem i wraca do siebie. Nie wyje już przez 6 godzin do zachrypnięcia i nie drapie płyty drzwiowej.
 
-Zostawiam link do strony, z której zamawiałam swoje wtyczki: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
+To nie był cud. Po prostu zeszła z niego panika, gdy powietrze w domu przestało mu pachnieć porzuceniem.
 
-P.S. Ja od razu wzięłam 2 sztuki, bo między przedpokojem a salonem mam ścianę działową, przez którą sygnał z 1 gniazdka nie przejdzie, a wkład grzeje spokojnie w kontakcie przez 60 dni bez wyjmowania z prądu. Zostaw sobie pudełko w szafie tak jak ja - dają pełne 30 dni na zwrot pieniędzy, więc jak na kamerce nie zobaczysz różnicy u swojego psa, po prostu odsyłasz i odzyskujesz kasę.`,
+Dyfuzor chodzi w gniazdku. Pies śpi. Ja dojeżdżam do biura bez płaczu za kierownicą i bez wbijania wzroku w buty w windzie.
+
+Wcześniej wyrzuciłam prawie 400 zł na gumowe zabawki na pasztet, maty węchowe i gadżety z forów, które przy ataku strachu nie miały prawa zadziałać. Za zestaw 2 dyfuzorów Feliora zapłaciłam 189,99 zł - 1 chodzi w przedpokoju przy drzwiach, 2. w salonie za ścianą działową, a 1 wkład wystarcza na 60 dni ciągłej pracy w kontakcie.
+
+Na stronie producenta dają pełne 30 dni gwarancji zwrotu pieniędzy. Jeśli Twój pies po zamknięciu drzwi wpada w rozpacz, wepnij dyfuzory u siebie i sprawdź na własne oczy, czy w domu wreszcie zrobi się cicho - bez ryzykowania kolejnych pieniędzy w ciemno.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-07-starszy-pies-przeprowadzka-cos-sie-przestawilo': {
@@ -197,23 +203,33 @@ Wyjaśniłem im barierę ścian działowych w bloku: cząsteczki feromonu nie pr
 
 Mąż pokiwał powoli głową, schował kartkę do portfela i uścisnął mi dłoń. Taki uczciwy układ wreszcie do niego trafił.
 
-Wrócili po 3 tygodniach pokazać zagojony pazur. Maksio tym razem sam wmaszerował do gabinetu z uniesionym ogonem i wywalił się na boku przy moim krześle.
+Zajrzeli do lecznicy po 4 tygodniach na kontrolę zrośniętego pazura i szczepienie.
 
-Mąż roześmiał się już od progu:
+Bez wielkich scen w progu. Weszli spokojnie do gabinetu, już bez szarych z niewyspania twarzy, a Maksio położył się cicho przy bucie właściciela bez dygotania na kafelkach.
 
-„Przyznam się bez bicia, panie doktorze: przez początkowe 4 dni byłem pewien, że wyrzuciliśmy pieniądze w błoto! Co wieczór klękałem na kafelkach w korytarzu, wąchałem kontakt z bliska, sprawdzałem dłonią temperaturę plastiku i marudziłem żonie pod nosem, że kupiliśmy czyste powietrze”.
+Zapytałem krótko, jak minął ten miesiąc w nowym mieszkaniu.
 
-Przez 3 dni Maksio faktycznie nadal podnosił siwy pysk i szedł pod próg za każdym razem, gdy któreś z nich sięgało po kurtkę. Mąż trzymał już w szufladzie komody pusty kartonik gotowy do odesłania.
+1. tydzień: przez początkowe 4 dni nie zmieniło się prawie nic. Właściciel przyznał sucho, że wieczorami dotykał obudowy w korytarzu, sprawdzając, czy grzałka w ogóle pracuje, bo pies nadal wstawał z posłania i szedł pod drzwi za każdym razem, gdy sięgali po kurtki.
 
-„Przełom przyszedł 6. dnia rano” - opowiadał dalej z wyraźną ulgą. „Zszedłem na 15 minut z kartonami do śmietnika. Wracam pod drzwi, przykładam ucho do zamka z duszą na ramieniu - cisza jak makiem zasiał. Otwieram ostrożnie, a Maksio po raz 1. od przeprowadzki nie waruje pod klamką, tylko chrapie rozciągnięty na kanapie w salonie!”.
+Dopiero pod koniec 1. tygodnia, po 20-minutowym wyjściu do sklepu, pod drzwiami na klatce było cicho, a szara gładź przy futrynie nie miała świeżych zadrapań.
 
-„Zaczęliśmy wychodzić na 20 minut, potem na 2 godziny, a teraz normalnie pracujemy po 8 godzin” - dodała z ulgą żona. „Zaszpachlowaliśmy i zamalowaliśmy dziurę przy futrynie. Od 2 tygodni nie ma na niej nawet 1 ryski, a o 16:00 wita nas zaspany, spokojny pies”.
+2. tydzień: zniknęło ciężkie sapanie w szparę pod progiem i mokre plamy śliny na kafelkach. Zaczęli zostawiać go samego na 2 godziny, a potem wrócili do normalnych 8 godzin pracy.
 
-Jeśli Twój dorosły pies po przeprowadzce albo remoncie nagle zaczął wyć i drapać ściany - nie wierz nikomu, kto każe Ci go „złamać”. On nie stracił posłuszeństwa, tylko zapach swojego bezpiecznego domu.
+Po 4 tygodniach: pazur zagoił się czysto. Dziurę przy futrynie zaszpachlowali i zamalowali - ściana jest cała.
 
-Zobacz dyfuzor weterynaryjny Feliora na stronie producenta tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
+Maksio nie zmienił się nagle w szczeniaka. W nowym bloku nadal potrafi czasem podnieść głowę z koca i nasłuchiwać obcych kroków na klatce schodowej, bo to starszy pies w nowym budynku, a nie pluszowa zabawka.
 
-P.S. Jako lekarz przypominam o 1 ważnej rzeczy: dobierz liczbę wtyczek do układu ścian w mieszkaniu. Sygnał nie przenika przez mury ani zamknięte drzwi, więc po przeprowadzce do mieszkania z osobnym korytarzem zawsze wpinamy 2 dyfuzory w odsłonięte gniazdka - przy drzwiach wejściowych oraz w pokoju z posłaniem (1 wkład działa bez przerwy aż przez 60 dni). A gdyby u Twojego psa źródło stresu leżało gdzie indziej, na stronie producenta chroni Cię 30-dniowa gwarancja zwrotu pieniędzy.`,
+Ale jego tętno nie wchodzi już w panikę. Nie próbuje przekopać się przez beton za właścicielami, normalnie pije wodę i przesypia dzień na posłaniu.
+
+Jako lekarz powiem to wprost.
+
+Jeśli po przeprowadzce albo remoncie Twój dorosły pies nagle zaczął niszczyć drzwi lub wyć - nie karć go i nie wmawiaj sobie, że „zgłupiał na starość”. Dla jego nosa to obcy lokal bez sygnału bezpieczeństwa, a nie walka o dominację nad rodziną.
+
+Zanim sięgniesz po otępiające leki albo rady o „pokazywaniu psu miejsca w szeregu”, wypełnij nowe mieszkanie biologicznym sygnałem spokojnego gniazda. Przy układzie ze ścianami działowymi zawsze wpinamy 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w strefie drzwi wejściowych, a 2. w pokoju z posłaniem psa, bo mur zatrzymuje cząsteczki feromonu.
+
+1 wkład pracuje w kontakcie bez przerwy przez 60 dni. Na stronie producenta chroni Cię pełna 30-dniowa gwarancja zwrotu pieniędzy - jeśli po 3 tygodniach nie zobaczysz wyraźnego wyciszenia u swojego psa, odsyłasz zestaw i odzyskujesz pieniądze.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-08-szczenie-klatka-kennelowa-krew-na-pretach': {
@@ -303,19 +319,27 @@ Za każdym razem, gdy mąż brał worek ze śmieciami i wychodził na 3 minuty p
 
 Wieczorem w drodze do łazienki sama po kryjomu kucałam przy kontakcie i dotykałam palcami obudowy. Sprawdzałam ze ściśniętym żołądkiem, czy to w ogóle działa i grzeje, czy znowu dałam się nabrać na zwykłą wodę we flakonie.
 
-Aż przyszedł 5. dzień rano.
+Nie było żadnego cudu z dnia na dzień. Zmiana przychodziła powoli, bez fajerwerków.
 
-Wzięłam klucze z komody i założyłam buty przed wyjściem po bułki do piekarni. Wstrzymałam oddech, patrząc w stronę pokoju - a Bruno nie zerwał się z dyszeniem pod próg! Podniósł tylko łeb z dywanu, popatrzył spokojnie na moje buty, wypuścił długie westchnienie nosem i położył pysk z powrotem na łapach. Kiedy wróciłam po 15 minutach, listwy przy drzwiach były nietknięte.
+1. tydzień: pod koniec tygodnia starte opuszki łap zaczęły przysychać. Gdy brałam klucze z komody i wychodziłam na 15 minut do piekarni, Bruno nadal wstawał i szedł pod drzwi, ale nie rzucał się już zębami na drewniane listwy.
 
-A 8. dnia po południu zamarłam w kuchni z kubkiem gorącej herbaty w dłoni.
+2. tydzień: zdjęte drzwiczki zostały w piwnicy, a sam druciany stelaż klatki złożyliśmy na płasko i wsunęliśmy za szafę. W rogu salonu zostało zwykłe otwarte legowisko. Po naszym wyjściu do pracy Bruno kręcił się jeszcze przez 10 minut po przedpokoju, po czym wracał na koc i kładł się spać.
 
-Bruno wstał z podłogi, podszedł prosto do tej otwartej klatki obok kontaktu z dyfuzorem - tej samej, którą wcześniej omijał szerokim łukiem - wszedł na koc, zakręcił się 2 razy i zasnął zwinięty w kłębek bez żadnych drzwiczek! Przywołałam męża skinieniem ręki do progu kuchni; patrzył na śpiącego psa bez słowa i tylko mocno objął mnie ramieniem.
+3. tydzień: zostawał sam w otwartym mieszkaniu na pełne 8 godzin. Bez krat, bez zamykania na skobel i bez opłacania opiekuna za 80 zł dziennie.
 
-12. dnia na podglądzie z zostawionego na komodzie laptopa Bruno przespał sam w otwartym pokoju 6 godzin bez ruszania listew i bez 1 pisku. Dziś wychodzę do pracy na 8 godzin bez lodowatej kuli w gardle, puste pudełko z szafy dawno poszło na makulaturę, a pogięte kraty stoją za słoikami w piwnicy i nigdy stamtąd nie wrócą.
+Nadal nie jest psem z pocztówki. To żywy, 1,5-roczny pies po schronisku - jak z pośpiechu zostawię rano buta na środku przedpokoju, potrafi przenieść go w pysku na swoje posłanie.
 
-Sprawdź dyfuzor Feliora na stronie producenta tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
+Ale opuszki łap i dziąsła przy kłach się zagoiły. Nie gryzie metalu w amoku, nie drapie drzwi do żywego drewna i przesypia dzień na otwartym legowisku.
 
-P.S. U nas przedpokój i salon dzieli ściana, więc wzięłam od razu zestaw z 2 wtyczkami, żeby zabezpieczyć jednocześnie próg przy drzwiach oraz pokój ze spaniem (1 wkład działa w kontakcie bez przerwy aż przez 60 dni). Zostaw sobie pudełko w szafie tak jak ja - zakup chroni pełna 30-dniowa gwarancja zwrotu pieniędzy, więc możesz spokojnie sprawdzić to u swojego psa bez strachu o wyrzucone pieniądze.`,
+Piszę to dla każdego, komu kazali w internecie „przeczekać skowyt w klatce”, a potem siedział na podłodze i zmywał krew z prętów.
+
+Jest różnica między zamknięciem spanikowanego psa za kratami a wyciszeniem układu nerwowego u źródła. Żadna klatka za 380 zł nie stanie się bezpieczną norą, dopóki w głowie psa wyje alarm porzucenia.
+
+Za zestaw 2 dyfuzorów Feliora zapłaciłam 189,99 zł - 2 razy mniej niż za tamtą klatkę. 1 dyfuzor chodzi w gniazdku w przedpokoju przy drzwiach, 2. w salonie za ścianą działową, a 1 wkład wystarcza na 60 dni ciągłej pracy.
+
+Na stronie producenta masz 30 dni gwarancji zwrotu pieniędzy. Możesz sprawdzić to spokojnie we własnym domu - jeśli po 3 tygodniach Twój pies dalej będzie niszczył listwy albo wył pod drzwiami, odsyłasz dyfuzory i odzyskujesz pieniądze.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-09-drugi-pies-zaloba-walki-w-domu': {
@@ -387,21 +411,27 @@ Kazałem im nadal karmić psy w 2 osobnych kątach mieszkania za zamkniętymi dr
 
 Uspokoiłem ją łagodnie, że tutaj Borys nie musi niczego połykać, wkład pracuje w kontakcie bezwonnie aż przez 60 dni, a wnuczka przy zamawianiu przez internet ma schować pudełko - bo przez pełne 30 dni chroni ją gwarancja zwrotu co do złotówki.
 
-Starsza pani zajrzała do mnie po 2 tygodniach przy okazji porannego spaceru pod lecznicą, tylko po to, żeby uścisnąć mi dłoń.
+Te 2 przypadki sprawdziłem na kontroli po miesiącu.
 
-„Panie doktorze, przez początkowe 3 dni jeszcze stałam pod drzwiami na klatce i nasłuchiwałam ze ściśniętym sercem” - mówiła ze wzruszeniem. „Ale 5. dnia Borys po raz 1. od jej odejścia zjadł rano całą miskę i położył się spokojnie w plamie słońca na dywanie! Wczoraj wyszłam na 2 godziny do kościoła i na zakupy: sąsiadka mówiła, że pod drzwiami nie było nawet 1 zawycia, a Borys spał wtulony w swojego starego pluszaka”.
+Bez bajek o cudownym pojednaniu w 1 dobę.
 
-A małżeństwo śpiące w osobnych pokojach za zamkniętymi drzwiami?
+U małżeństwa z 2 psami przez początkowe 5 dni w mieszkaniu nic się nie zmieniło - psy dalej sztywniały w progu kuchni, a właściciel był bliski spakowania wtyczek do zwrotu. Napięcie zaczęło wyraźnie schodzić dopiero w 2. tygodniu.
 
-Po 3 tygodniach dostałem na telefon lecznicy zdjęcie z wiadomością od męża: „Wróciłem z wygnania do własnej sypialni, a młody zostaje z nami na zawsze! Przyznam uczciwie, że przez początkowe 5 dni trzymałem na lodówce pudełko gotowe do odesłania, bo dalej jeżyły sierść w progu kuchni i myślałem, że nabił mnie pan w butelkę. Dopiero około 9. dnia zeszło z nich powietrze i przestały pilnować każdego kroku”.
+Po 4 tygodniach nadal nie jedzą z 1 miski i nie śpią przytulone jak w kreskówce. Właściciele dalej pilnują zasady 2 osobnych misek za zamkniętymi drzwiami w porze karmienia i nie zostawiają kości na dywanie - bo feromon nie zastępuje zdrowego rozsądku.
 
-Na zdjęciu drzwi między pokojami były otwarte na oścież, a na dywanie przed tą samą kanapą leżały 30 centymetrów od siebie 2 rozluźnione psy z przymkniętymi powiekami.
+Ale zniknęło ciągłe patrolowanie wąskiego korytarza na sztywnych łapach i skakanie sobie do gardeł o kanapę. Mijają się spokojnie przy wodzie, na uszach rezydenta nie ma świeżych strupów, a mąż wrócił z sofy w salonie do własnej sypialni. Młodszy pies został w rodzinie.
 
-Jeśli w Twoim domu 2 psy patrzą na siebie spode łba przy każdym przejściu przez korytarz albo Twój pies rozpacza w pustych ścianach po stracie towarzysza - nie karz ich krzykiem. Najpierw daj im w powietrzu sygnał spokojnego gniazda, którego ludzkimi słowami nie potrafisz im przekazać.
+Podobny, spokojny raport usłyszałem u 6-letniego Borysa, z którym starsza pani przyszła po 4 tygodniach przyciąć pazury.
 
-Sprawdź dyfuzory weterynaryjne Feliora na stronie producenta tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
+Pies nadal lubi położyć się w kącie po posłaniu zmarłej suczki - tęsknoty nie wycina się skalpelem. Jednak od 2. tygodnia normalnie zjada śniadanie, zniknęło nocne wycie pod drzwiami, a pani wychodzi na 30 minut do apteki i sklepu bez pozrywanych firanek i bez podrapanej komody.
 
-P.S. Pamiętaj o barierze ścian działowych: przy 2 psach pod 1 dachem albo w mieszkaniu z osobnym przedpokojem nie wciskaj 1 sztuki za szafę, tylko zabezpiecz osobno strefę przejścia w korytarzu oraz pokój dzienny, zachowując w początkowych dniach osobne miski przy karmieniu. Każdy wkład uwalnia sygnał bezwonnie przez pełne 60 dni, a na sprawdzenie efektu w swoim domu masz na stronie producenta 30-dniową gwarancję zwrotu pieniędzy.`,
+To nie są cuda. To zwykła fizjologia węchu i układu limbicznego psa.
+
+Jeśli w Twoim mieszkaniu 2 psy żyją w ciągłym spięciu o każdy metr podłogi albo pies wpadł w rozpacz po stracie psiego towarzysza - nie krzycz na nie i nie zaczynaj od tabletek przymulających głowę. Najpierw uzupełnij w powietrzu sygnał bezpiecznego stada.
+
+W mieszkaniu ze ścianami działowymi zawsze wpinamy 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w korytarzu na trasie mijania się psów i przy drzwiach wejściowych, a 2. w pokoju dziennym. 1 wkład działa bezwonnie przez 60 dni, a na stronie producenta chroni Cię 30-dniowa gwarancja zwrotu pieniędzy, więc sprawdzasz efekt we własnym domu bez ryzyka.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-10-dlug-kortyzolowy-72h-reaktywnosc-na-spacerze': {
@@ -481,22 +511,28 @@ Na koniec dodałem argument, na który żaden zdroworozsądkowy facet nie potraf
 
 Właściciel wyprostował plecy, schował karteczkę do kieszeni bluzy i uśmiechnął się krzywo pod nosem: „Uczciwie postawiona sprawa, panie doktorze. Sprawdzam to”.
 
-Po 3 tygodniach, koło 17:00 w największym popołudniowym ruchu na osiedlu, wyjrzałem przez okno gabinetu i aż przystanąłem z kubkiem kawy w dłoni. Środkiem chodnika szedł ten sam mężczyzna po tabletki na kleszcze, a Karmel mijał na luźnej smyczy kobietę z dorosłym labradorem!
+Widzieliśmy się ponownie na kontroli po 4 tygodniach, gdy przyszedł do lecznicy po zwykłe tabletki na kleszcze.
 
-Wszedł do środka z szerokim uśmiechem od ucha do ucha.
+Bez filmowych cudów w oknie gabinetu. Po prostu usiadł spokojnie przy biurku, bez świeżych otarć od taśmy na dłoniach, a Karmel położył się na boku przy krześle i nie zrywał się już na każdy ruch klamki w poczekalni.
 
-„Panie doktorze, biję się w pierś: przez początkowe 4 dni siedziałem przy komputerze i kląłem pod nosem, że znowu wyszedłem na naiwniaka i dałem się naciągnąć na kolejne prawie 200 zł!” - zaśmiał się głośno od progu. „Karmel przez 3 dni dalej strzygł uszami na windę i dreptał pod drzwi, a na wieczornym spacerze obszczekał pudla dokładnie tak samo jak dawniej. Pudełko leżało już na szafce gotowe do zwrotu”.
+Zapytałem, jak wyglądały te 4 tygodnie dzień po dniu.
 
-„Wszystko pękło 6. dnia w południe” - mówił dalej z błyskiem w oku. „Kurier zadzwonił domofonem do sąsiada z boku, a za ścianą zatrzasnęła się winda. Spojrzałem odruchowo znad laptopa na przedpokój, czekając na prychanie pod szparą, a Karmel leżał wywalony na boku obok biurka, otworzył leniwie 1 oko na kocu, westchnął nosem i zaczął głośno chrapać!”.
+1. tydzień: przez początkowe 4 dni właściciel klął pod nosem przy komputerze, pewien, że wyrzucił prawie 200 zł w błoto. Pies dalej strzygł uszami na windę i chodził pod drzwi, a wieczorem pod blokiem obszczekał sąsiedzkiego psa dokładnie tak samo jak dawniej.
 
-Przez następny tydzień pies odsypiał miesiące czuwania jak kamień.
+Przełamanie przyszło dopiero w ciszy mieszkania pod koniec 1. tygodnia. Kiedy kurier zadzwonił domofonem obok, Karmel podniósł łeb z koca, ale po chwili odłożył pysk na łapy i spał dalej zamiast biec z prychaniem pod zamek.
 
-„Po 2 tygodniach to jego wiadro wreszcie zrobiło się puste” - dodał z dumą właściciel. „Wczoraj po południu wyszła z nim na spacer moja żona - po raz 1. od jesieni! Minęli sąsiada z psem na luźnej smyczy za zwykłego smaczka, bo Karmel wreszcie ma trzeźwą głowę i słyszy, co się do niego mówi, zamiast walczyć o życie na wycieraczce. Koniec ze skradaniem się za śmietnikami o 22:00”.
+2. i 3. tydzień: pies zaczął wreszcie twardo przesypiać w dzień od 12 do 14 godzin. Dopiero gdy organizm wypłukał zalegający kortyzol, zmiana z mieszkania przeniosła się na chodnik.
 
-Zanim wydasz kolejne 500 zł na szkolenia pod miastem albo uwierzysz, że masz w domu „zepsutego psa”, sprawdź dzisiaj uczciwie, czy on w dzień naprawdę twardo śpi, czy pełni wartę pod drzwiami na każdy szmer klatki schodowej. Dopóki nie opróżnisz jego wiadra stresu w mieszkaniu, żaden trening na chodniku nie przebije się przez kortyzol.
+Po 4 tygodniach: na widok obcego, dużego samca idącego z bliska tym samym chodnikiem Karmel nadal potrafi się spiąć i postawić sierść na karku - to żywy pies z krwią w żyłach, nie robot na pilota.
 
-Sprawdź dyfuzory weterynaryjne Feliora na stronie producenta tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
+Ale po zejściu z 8 godzin w mieszkaniu nie wybiega już z klatki schodowej z przekrwionymi białkami oczu i pianą na pysku. Wreszcie po roku męczarni na osiedlu słyszy głos właściciela na smyczy, bierze smaczka z ręki i potrafi minąć psa łukiem, a żona znów wychodzi z nim w dzień zamiast skradać się za śmietnikami o 22:00.
 
-P.S. W mieszkaniu w bloku pamiętaj o ścianach działowych: 1 dyfuzor schowany w głębi pokoju nie przebije się przez mur do przedpokoju, więc zawsze zabezpieczamy osobno strefę przy drzwiach na klatkę schodową oraz pokój, w którym stoi posłanie psa. Każdy wkład pracuje w kontakcie bez przerwy przez pełne 60 dni, a na spokojne przetestowanie, czy Twój pies zacznie wreszcie głęboko spać w ciągu dnia, masz na stronie producenta 30-dniową gwarancję zwrotu pieniędzy.`,
+Powiem to jako lekarz krótko i bez owijania w bawełnę.
+
+Żaden trener za 3 000 zł nie nauczy psa spokoju na 45-minutowym spacerze, jeśli przez pozostałe 23 godziny doby jego mózg pływa w kortyzolu we własnym mieszkaniu. Najpierw musisz wyłączyć psu całodzienny alarm przy drzwiach i pozwolić mu odespać dług stresowy.
+
+W bloku ze ścianami działowymi wpinamy zawsze zestaw na 2 strefy, czyli 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w przedpokoju przy drzwiach na klatkę schodową, a 2. w pokoju obok legowiska. 1 wkład wystarcza na 60 dni ciągłej pracy w prądzie, a na stronie producenta masz pełne 30 dni gwarancji zwrotu pieniędzy - możesz spokojnie sprawdzić w swoim domu, czy Twój pies zacznie wreszcie twardo spać.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 };

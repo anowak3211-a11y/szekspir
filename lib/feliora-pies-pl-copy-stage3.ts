@@ -17,7 +17,7 @@ Kiedy zamknęły się za nią drzwi, stałam w wąskim przedpokoju z wydrukowan�
 
 Dziewczyna posiedziała na mojej kanapie, popatrzyła na mojego 2-letniego kundelka ze schroniska i zostawiła mi „plan terapii na 3 miesiące”.
 
-Przeczytałam górny akapit jeszcze 1 raz, bo myślałam, że się przesłyszałam.
+Przeczytałam górny akapit jeszcze raz, bo myślałam, że się przesłyszałam.
 
 „Przez najbliższe 90 dni pies nie może zostać sam nawet na 1 minutę. Nie wolno wychodzić samemu ze śmieciami ani do sklepu pod blokiem. Proszę 40 razy dziennie zakładać kurtkę, łapać za klamkę, wychodzić na wycieraczkę na 30 sekund i wracać”.
 
@@ -89,7 +89,7 @@ Kiedy zobaczyłam tę kwotę na ekranie, zalała mnie czysta, żywa złość. Pr
 
 Trzasnęłam klapą laptopa tak mocno, że Karmel aż podniósł głowę z koca. Zawzięłam się w sobie. Uznałam, że nie będę sponsorem kolejnego cudownego wynalazku z sieci i własnym uporem przełamię ten strach.
 
-Przez cały niedzielny wieczór aż do 22:00 jeszcze 1 raz ćwiczyłam klamkę. Zakładałam płaszcz, brzęczałam kluczami, wychodziłam na wycieraczkę i liczyłam po cichu do 30, modląc się, żeby sąsiad z naprzeciwka nie otworzył akurat drzwi i nie wziął mnie za wariatkę. Kładłam się do łóżka z obolałymi nogami i resztką nadziei, że rano będzie inaczej.
+Przez cały niedzielny wieczór aż do 22:00 jeszcze raz ćwiczyłam klamkę. Zakładałam płaszcz, brzęczałam kluczami, wychodziłam na wycieraczkę i liczyłam po cichu do 30, modląc się, żeby sąsiad z naprzeciwka nie otworzył akurat drzwi i nie wziął mnie za wariatkę. Kładłam się do łóżka z obolałymi nogami i resztką nadziei, że rano będzie inaczej.
 
 W poniedziałek o 7:00 rano stałam ściśnięta między ludźmi w autobusie. Dłonie miałam lodowate, kiedy odpalałam aplikację od kamerki.
 
@@ -105,27 +105,19 @@ Nie będę nikomu wmawiać, że następnego poranka wydarzył się cud. Przez po
 
 We wtorek i w środę wieczorem stałam w korytarzu przed tym kontaktem, dotykałam lekko ciepłej obudowy i myślałam z goryczą: „Wiedziałam, że to kolejna ściema dla naiwnych. Dobrze, że kartony leżą na szafie”.
 
-Aż przyszedł piątek. O 9:00 rano z duszą na ramieniu włączyłam podgląd z kamerki pod biurkiem w pracy i aż wstrzymałam oddech.
+1. tydzień: żadnego cudu z dnia na dzień nie było. Karmel nadal wstawał z posłania i szedł za mną do przedpokoju za każdym razem, kiedy brałam torebkę z komody. Różnica była taka, że po 10 minutach pod drzwiami przestawał drapać okleinę, kładł się na wycieraczce i po prostu leżał.
 
-Pod drzwiami wejściowymi było pusto. Przesunęłam palcem obiektyw kamery na pokój.
+2. tydzień: w sobotę po południu wyszłam normalnie na zakupy na 40 minut bez stania ze stoperem na wycieraczce. Pod sklepem włączyłam kamerkę w telefonie - posiedział 3 minuty w korytarzu, napił się wody z miski i wrócił na kanapę. Wieczorem wylizał do końca pasztet z gumowej zabawki, której wcześniej w samotności nawet nie tykał.
 
-Karmel siedział spokojnie na dywanie i wylizywał do czysta gumową zabawkę z pasztetem, na którą wcześniej przez 2 miesiące nawet nie spojrzał. Gdy skończył, podszedł pod ścianę z wtyczką Feliora, zwinął się w ciasny rogalik, położył pysk na przednich łapach i zasnął.
+Po 3 tygodniach przestałam wchodzić po pracy na własną klatkę schodową z zaciśniętym żołądkiem, wypatrując z daleka żółtej taśmy na drzwiach.
 
-Przespał tak do 16:00. W kolejny poniedziałek i wtorek zobaczyłam na ekranie dokładnie to samo.
+Dziś normalnie wychodzę o 7:00 rano na 8 godzin etatu. Nie jest pluszową zabawką - jak listonosz zadzwoni domofonem albo kurier zastuka piętro niżej, to zaszczeka. Ale nie wyje pod zamkiem przez 8 godzin, nie rani łap o próg i nie niszczy mieszkania.
 
-Dopiero kiedy kortyzol przestał zalewać mu głowę, zwykłe spokojne wychodzenie z domu bez czułych pożegnań w progu zaczęło wreszcie działać. Po 2 tygodniach przestałam wchodzić do własnej klatki schodowej z zaciśniętym żołądkiem, wypatrując z daleka żółtej taśmy na drzwiach.
+Piszę to dla każdego, kto pracuje na normalnym etacie i czuł się jak najgorszy właściciel świata, bo nie miał 3 miesięcy urlopu na „trening klamki po 30 sekund” ani 1 600 zł miesięcznie na opiekunkę. Jest różnica między tresowaniem psa w ataku paniki a obniżeniem kortyzolu u źródła. Ta różnica kosztowała mnie 600 zł i miesiące wstydu na klatce.
 
-Wczoraj przy skrzynkach na listy minęłam sąsiada z dołu. Spojrzał na Karmela i rzucił z uśmiechem:
+Za 2 dyfuzory Feliora na przedpokój i pokój zapłaciłam 189,99 zł (1 wkład pracuje w gniazdku bez przerwy przez 60 dni, a ściany blokują przepływ między pomieszczeniami). Na zamówienie dają pełne 30 dni gwarancji zwrotu pieniędzy - jeśli na kamerce nic się nie zmieni, odsyłasz i odzyskujesz kasę.
 
-„Widać, że wzięła się pani za konkretne szkolenie, bo od 3 tygodni u góry cisza jak makiem zasiał”.
-
-Tylko się uśmiechnęłam i odpowiedziałam, że wreszcie posłuchałam mądrego weterynarza.
-
-Jeśli rano musisz normalnie przekręcić klucz i iść zarobić na rachunki, przestań zadręczać się radami pisanymi dla ludzi, którzy nie chodzą do pracy. Pamiętaj tylko o tym, przed czym ostrzegł mnie lekarz: ten sygnał nie przechodzi przez ściany, więc przy osobnym korytarzu i pokoju pojedyncza wtyczka w salonie nie sięgnie pod drzwi wejściowe, gdzie zaczyna się panika. Schowaj sobie puste pudełka na szafę na czas 30-dniowej gwarancji zwrotu i spokojnie sprawdź na kamerce, co zmieni się u Was po 7-10 dniach.
-
-Swój zestaw zamawiałam bezpośrednio tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
-
-P.S. Tamtej wydrukowanej kartki z „planem wychodzenia na 30 sekund” jednak nie podarłam. Trzymam ją w szufladzie na pamiątkę najgorzej wydanych 600 zł w moim życiu - a puste pudełka po dyfuzorach po 30 dniach zdjęłam z szafy i wyrzuciłam do kosza.`
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`
   },
 
   'dog-12-trauma-sedalinu-i-psychotropow-zombie': {
@@ -205,23 +197,19 @@ A po 3. - co ostatecznie zdjęło jej kamień z serca - wyjaśniłem, dlaczego o
 
 Pokiwała z wolna głową, schowała karteczkę do portmonetki między dowód osobisty a legitymację emeryta i obiecała, że przypnie paragon magnesem na lodówce.
 
-3 tygodnie później drzwi mojego gabinetu się otworzyły, a do środka wmaszerował pies z podniesionym ogonem i mokrą, wytartą żółtą piłką w zębach. Upuścił ją prosto pod moje buty i zamerdał całym zadem, czekając, aż mu ją kopnę.
+Po 4 tygodniach starsza pani przyszła z Fuksem na kontrolne pobranie krwi.
 
-Jego właścicielka stała w progu i wycierała oczy chusteczką higieniczną.
+1. tydzień: nie zmienialiśmy nic w dawkowaniu, 2 dyfuzory po prostu pracowały w gniazdkach 24 godziny na dobę.
 
-„Panie doktorze, przyznam się panu dzisiaj bez bicia” - powiedziała ze łzami ulgi, siadając na krześle. „Kiedy odstawiliśmy już tamte tabletki, przez początkowe 5 dni wracałam rano z bazaru po schodach z sercem w samym gardle. Zatrzymywałam się z siatkami na klatce przed zakrętem i nasłuchiwałam pod własnymi drzwiami, czy Fuks nie wyje na cały korytarz i czy sąsiad z góry nie wali w grzejnik”.
+2. tydzień: zaczęliśmy stopniowo redukować tabletki. Bez filmowych cudów - przez początkowe 4 dni po wyjściu właścicielki na zakupy pies nadal podchodził pod drzwi i siedział na wycieraczce przez 5 minut, zanim wracał na fotel. Ale nie wył na klatkę, nie ślinił się z paniki i przestał stać w kuchni z pustym wzrokiem wbitym w tynk. W kontrolnej morfologii próby wątrobowe wróciły do normy.
 
-Uśmiechnęła się szeroko i podrapała psa za siwym uchem.
+Dokładnie tę samą różnicę widziałem po ostatnim sezonie burzowym u psów, którym właściciele wcześniej z niewiedzy podawali niebieski żel zwiotczający mięśnie. Gdy przyszła lipcowa burza z gradem, pies nie leżał sparaliżowany na boku z rozszerzonymi źrenicami. Chodził trochę niespokojnie po pokoju przy najgłośniejszych grzmotach, ale normalnie pił wodę, reagował na głos właściciela i po 15 minutach położył się pod stołem przy jego nogach - przytomny, we własnym ciele.
 
-„Za każdym razem za drzwiami była cisza jak w kościele! Otwieram zamek, a zamiast przymulonego cienia wpatrzonego tępo w ścianę kuchni wybiega do mnie z pokoju mój dawny pies z tą żółtą piłką w zębach. A przedwczoraj w nocy przeszła nad blokiem burza z grzmotami - podniósł tylko ucho znad koca przy fotelu, westchnął i spał dalej”.
+Nieruchomy pies na dywanie to nie zawsze spokojny pies. Czasem to przerażone zwierzę zamknięte we własnym, zwiotczałym ciele.
 
-W kontrolnej morfologii wykonanej tego samego dnia próby wątrobowe Fuksa wróciły do normy.
+Nie czekaj do kolejnej burzy albo do 31 grudnia po południu - sygnał D.A.P. potrzebuje minimum 7 do 10 dni ciągłej pracy w gniazdku, żeby nasycić powietrze w mieszkaniu i wyciszyć układ nerwowy psa. Pojedynczy wkład w dyfuzorze Feliora działa bez przerwy przez 60 dni (przy osobnym korytarzu pamiętaj o barierze ścian), a całe zamówienie na stronie producenta chroni 30-dniowa gwarancja zwrotu pieniędzy.
 
-Twój pies ma boleśnie krótkie życie. Nie odbieraj mu iskry w oczach i nie zamykaj go na żywca w chemicznym kaftanie tylko po to, żeby sąsiedzi mieli spokój. Zanim ktokolwiek namówi Cię na ciężką farmakologię przy lęku separacyjnym lub burzowym, najpierw wycisz powietrze w pokojach, w których przebywa pies (nie zapominając o wydzielonym korytarzu przy drzwiach!) i sprawdź to spokojnie przez kilka tygodni w ramach 30-dniowej gwarancji zwrotu.
-
-Stronę producenta z dyfuzorem Feliora znajdziesz tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
-
-P.S. Jeśli masz jeszcze gdzieś w szafce z lekami starą strzykawkę z żelem zwiotczającym mięśnie „na czarną godzinę”, zrób dla mnie 1 rzecz: przynieś ją do najbliższej lecznicy do utylizacji jeszcze w tym tygodniu. Twój pies podziękuje Ci za to przy najbliższej burzy.`
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`
   },
 
   'dog-13-obroza-elektryczna-i-obrozki-z-lawenda': {
@@ -269,7 +257,7 @@ Tylko że stężenie kortyzolu we krwi psa wystrzeliwuje pod sufit! Strach nie m
 
 A po 2.: ten przeklęty fioletowy pasek z napisem „Antystres” ze sklepu w galerii handlowej za 49 zł.
 
-Ludzie kupują go z czystego serca, myśląc, że to feromony. A potem odwracasz pudełko i czytasz drobny maczek: 0% psich feromonów D.A.P.! Ani 1 grama!
+Ludzie kupują go z czystego serca, myśląc, że to feromony. A potem odwracasz pudełko i czytasz drobny maczek: 0% psich feromonów D.A.P.! Ani grama!
 
 To zwykły kawałek plastiku nasączony ostrym olejkiem lawendowym, miętowym albo geraniolem na komary i kleszcze.
 
@@ -307,23 +295,19 @@ Wyciągnąłem z drukarki papier firmowy mojej lecznicy, przybiłem pieczątkę 
 
 Ostrzegłem ich jednak uczciwie: to nie jest paralizator, który ucisza strach w 3 sekundy. Po takim stresie Riko potrzebuje od 5 do 10 dni ciągłej pracy 2 wtyczek przez 24 godziny na dobę - 1 w korytarzu przy drzwiach i 2. w pokoju z jego kocem, bez wyłączania na noc (pojedynczy wkład działa w kontakcie aż przez 60 dni). A ponieważ wyrzucili już prawie 140 zł na buble z sieci i galerii, wskazałem im zamówienie na stronie producenta, gdzie chroni ich pełna, 30-dniowa gwarancja zwrotu pieniędzy.
 
-Po 3 tygodniach wrócili do mnie na kontrolę skóry. Kiedy Riko wszedł do gabinetu na luźnej smyczy, z czystą szyją bez plastikowych skrzynek i śmierdzących pasków, aż uśmiechnąłem się pod nosem. Sam oparł łapy o moje kolano i powąchał kieszeń fartucha ze smakołykami.
+Po 4 tygodniach młode małżeństwo przyszło z Riko na wizytę kontrolną.
 
-Odwinąłem lekki opatrunek ochronny: rany na nadgarstkach były suche, jasnoróżowe i zarastały młodą sierścią.
+1. tydzień po zdjęciu tych 2 obroży był nerwowy: zanim wtyczki wysyciły powietrze w mieszkaniu, pies po wyjściu właścicieli o 8:00 nadal kręcił się pod klamką przez 10-15 minut i popiskiwał, ale pismo z lecznicy uspokoiło właściciela lokalu.
 
-Młody mąż wypuścił głośno powietrze z płuc i przyznał bez ściemniania:
+2. tydzień: gdy z sierści wywietrzała resztka ostrego olejku, Riko wreszcie przestał trzepać łbem, kichać i trzeć karkiem o dywan. Zostawił też w spokoju nadgarstki.
 
-„Panie doktorze, właściciel mieszkania po przeczytaniu pana zaświadczenia odpuścił od ręki, ale ja przez początkowe 4 dni siedziałem w pracy dosłownie zlany potem nad kamerką w telefonie. Riko po naszym wyjściu jeszcze przez jakieś 10 minut kręcił się pod klamką i popiskiwał, więc byłem na 100% pewny, że bez obroży będzie katastrofa”.
+Po 4 tygodniach na stole zabiegowym zobaczyłem normalnego, wyciszonego psa. Skóra na szyi wygoiła się bez blizn, a rany na przednich łapach zarosły młodą sierścią. W ciągu dnia między 8:00 a 16:00 nie leży jak wypchana kukła - kiedy na klatce trzaśnie winda, podnosi łeb z koca i nasłuchuje pod drzwiami przez 1 minutę, po czym wraca na posłanie i śpi spokojnie, zamiast krążyć w chemicznej chmurze olejku.
 
-Zerknął z uśmiechem na żonę i poklepał psa po grzbiecie.
+Zanim założysz psu na szyję pachnący plastik za 60 zł albo obrożę impulsową z internetu, pamiętaj o 1 liczbie: 300 milionów receptorów węchowych. Prawdziwy sygnał D.A.P. w dyfuzorze Feliora nie ma dla nas żadnego zapachu, nie wisi pod samymi nozdrzami i nie drażni nosa psa. Odbiera go narząd Jacobsona w podniebieniu - bez bólu i bez odurzania tanimi perfumami.
 
-„A około 6. dnia wszystko opadło. Teraz zerkamy na kamerkę o 10:00, o 13:00 i o 15:00 - ani 1 skargi od sąsiadów, Riko leży wyłożony na boku na dywanie niedaleko gniazdka i w ogóle przestał interesować się łapami”.
+Pojedynczy wkład pracuje w gniazdku bez przerwy przez 60 dni (pamiętaj o osobnej wtyczce w zamkniętym przedpokoju, bo ściany zatrzymują przepływ feromonów), a zamówienie na stronie producenta chroni 30-dniowa gwarancja zwrotu pieniędzy.
 
-Jeśli Twój pies płacze pod drzwiami, błagam Cię jako lekarz z 25-letnim stażem: wyrzuć obroże z internetu i zdejmij mu z szyi perfumowane paski ze sklepu. Nie karz go za to, że boi się samotności. Wypełnij powietrze czystym sygnałem D.A.P. w pomieszczeniach, w których przebywa pies (pamiętając, że ściany blokują przepływ między korytarzem a pokojem), daj jego układowi nerwowemu kilka spokojnych dni i sprawdź wszystko bez ryzyka w ramach 30-dniowej gwarancji zwrotu.
-
-Oryginalny dyfuzor Feliora znajdziesz tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
-
-P.S. Jeśli Twój pies ma w tej chwili na szyi pachnącą obróżkę z lawendą lub miętą, podejdź do niego po przeczytaniu tego zdania, odepnij ją i powąchaj z odległości 3 cm przez 10 sekund. A potem pomnóż to wrażenie razy 40.`
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`
   },
 
   'dog-14-kamizelka-uciskowa-tabletki-ziolowe-radio': {
@@ -407,19 +391,17 @@ Nie zamierzam wciskać kitu, że po 1 nocy w kontakcie pies zmienił się jak w 
 
 2. i 3. dnia około południa Bruno nadal podchodził pod drzwi, obwąchiwał próg i poszczekiwał przez jakieś 10 minut. Patrzyłem w ten mały ekranik, pocierałem skronie i kląłem w myślach: „No i pięknie, 740 zł w szufladzie plus 190 zł w błoto. Jeszcze trochę tego koncertu i pakuję te wtyczki z powrotem do pudełek”.
 
-Dopiero pod koniec tygodnia zaczął odpuszczać korytarz, a 8. dnia o 11:00 włączyłem podgląd z kamerki. Potem o 13:00. Potem o 15:00.
+Po 1. tygodniu przestał zjadać brzegi wycieraczki i szarpać uszczelkę w futrynie. O 11:00, kiedy kończył mu się twaróg w zabawce, kręcił się jeszcze przez chwilę po przedpokoju, po czym wracał do salonu na koc.
 
-Równo o 14:00 pod naszymi drzwiami kurier zadzwonił domofonem do sąsiada i zaszczekał pies piętro niżej. Aż przestałem pisać na klawiaturze.
+2. tydzień: wyłączyłem radio w kuchni i przestałem rzucać na legowisko przepocone koszulki. Kamizelka uciskowa leży zwinięta w szufladzie.
 
-Bruno leżał na dywanie w salonie, 1 metr od gniazdka z dyfuzorem Feliora. Podniósł łeb na 4 sekundy, wciągnął głęboko powietrze nosem, mlasnął jęzorem, przewrócił się na plecy kołami do góry i spał jak zabity do 16:00!
+Po 3 tygodniach wracam z pracy po 16:00 - pies wychodzi zaspany z pokoju, przeciąga się na dywanie i spokojnie idzie po smycz, zamiast dyszeć pod drzwiami z mokrą od śliny sierścią na karku. Nie zrobił się z niego pluszak - jak kurier zadzwoni domofonem u sąsiada, to szczeknie i podejdzie pod próg. Ale po 1 minucie odpuszcza i kładzie się z powrotem, zamiast wyć do sufitu przez kolejne 5 godzin.
 
-W ten piątek wziąłem czarny worek na śmieci, otworzyłem szufladę w przedpokoju i wyrzuciłem przeterminowane kapsułki oraz porwaną kamizelkę. Radio w kuchni nie gra już od 3 tygodni, a nowa uszczelka w drzwiach nie ma nawet 1 zadrapania.
+To nie był cud. To była fizjologia i ciągłe stężenie feromonu w powietrzu przez 8 godzin, kiedy nie ma mnie w domu.
 
-Jeśli też masz w przedpokoju szufladę pełną gadżetów, które działają wyłącznie dopóki w środku jest pasztet albo mrożony serek, szkoda Twojego czasu i nerwów z sąsiadami. Nie zrób tylko podstawowego błędu z wpięciem pojedynczej sztuki w salonie, kiedy Twój pies dostaje ataku paniki za ścianą w zamkniętym korytarzu, bo ściany blokują rozchodzenie się feromonów. Schowaj puste pudełka do szafy, ustaw tak jak ja alarm w telefonie pod 30-dniową gwarancję zwrotu i po prostu sprawdź na własnej kamerce, co dzieje się w mieszkaniu po 8-10 dniach.
+Przez 5 miesięcy wydałem 740 zł na półśrodki, które przestawały działać po 2 godzinach od mojego wyjścia. Feliora kosztowała 189,99 zł za 2 dyfuzory na korytarz i salon (1 wkład pracuje bez przerwy przez 60 dni, a ściany blokują przechodzenie sygnału między pokojami) - z 30-dniową gwarancją zwrotu pieniędzy. 2 wtyczki w kontakcie kontra cała szuflada bezużytecznych gadżetów.
 
-Swój zestaw zamawiałem tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
-
-P.S. Przypomnienie w moim telefonie na 25. dzień naprawdę zadzwoniło w zeszły wtorek. Zamiast pisać o zwrot, kliknąłem „usuń”, wywaliłem puste kartony z szafy i zamówiłem zapas wkładów na kolejne miesiące.`
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`
   },
 
   'dog-15-mit-35kg-owczarka-waga-vs-nos': {
@@ -483,7 +465,7 @@ Postawiłem mu jednak twardy, uczciwy warunek, zanim wyszedł z gabinetu: u zdro
 
 Wpiąłem swój dyfuzor z powrotem do gniazdka obok stołu zabiegowego, wziąłem czysty skrawek papieru z biurka i zapisałem mu wyraźnie nazwę do zamówienia w sieci: „feromon kojący D.A.P. - dyfuzor Feliora”.
 
-Pan Marek schował karteczkę do kieszeni roboczej kurtki, zerknął jeszcze 1 raz na małą białą wtyczkę w ścianie mojego gabinetu i pokręcił z niedowierzaniem głową.
+Pan Marek schował karteczkę do kieszeni roboczej kurtki, zerknął jeszcze raz na małą białą wtyczkę w ścianie mojego gabinetu i pokręcił z niedowierzaniem głową.
 
 „Panie doktorze, przychodzę do pana od lat, ale niech pan mnie zrozumie” - mruknął pod nosem. „Jak przyjedzie kurier i moja żona zobaczy, że zamiast porządnych tabletek dla takiego byka zamówiłem do kontaktu 2 małe buteleczki za prawie 200 zł, to popuka się w czoło przy kolacji”.
 
@@ -495,28 +477,18 @@ Kiedy to usłyszał, machnął ciężką dłonią.
 
 Do swojego 60-metrowego mieszkania z osobnym przedpokojem zamówił 2 wtyczki - 1 wpiął w korytarzu przy drzwiach wejściowych, a 2. w dużym pokoju przy balkonie, bo ściany zatrzymują rozchodzenie się feromonów.
 
-Minęły 4 tygodnie. W zeszły czwartek pod koniec mojego dyżuru pan Marek wszedł z owczarkiem do gabinetu na kontrolę zagojonej opuszki i kupno tabletek na kleszcze.
+Po 4 tygodniach pan Marek przyszedł z owczarkiem na szczepienie okresowe i przy okazji obejrzałem wygojoną opuszkę łapy.
 
-Zanim zdążyłem przywitać się z psem, wielki chłop wyciągnął do mnie rękę przez biurko i roześmiał się na całe gardło:
+1. tydzień w mieszkaniu nie wyglądał jak w reklamie: rano po wyjściu pana Marka na zmianę o 7:00 pies nadal podchodził pod drzwi wejściowe i kręcił się po przedpokoju przez 15 minut, więc w domu były już rozmowy o pakowaniu pudełek z piwnicy do zwrotu.
 
-„Panie doktorze, przyszedłem odszczekać tego yorka teściowej!”.
+2. tydzień: napięcie zaczęło wyraźnie schodzić. Owczarek przestał dyszeć pod progiem i po porannym spacerze przesypiał większość zmiany na dywanie w dużym pokoju.
 
-„Słucham, co się działo w domu?” - zapytałem z uśmiechem.
+Dziś pies dalej waży 38 kg i ma donośny, basowy głos na podwórku - nikt nie zmienił mu charakteru rasy ani nie wyłączył czujności. Ale w mieszkaniu skończyło się wyważanie drzwi do łazienki przy grzmotach, skakanie łapami na klamkę i wycie w kratkę wentylacyjną podczas pracy właścicieli.
 
-„Powiem panu bez bicia, że przy odbiorze paczki żona naprawdę popukała się w czoło w kuchni” - zaśmiał się pan Marek. „A ja wcale nie byłem lepszy! Przez początkowe 4 dni wielkiej różnicy nie widziałem, pies rano po moim wyjściu jeszcze kręcił się pod klamką, więc sam chodziłem po południu koło tego gniazdka i marudziłem pod nosem, że kupiłem bezwonną wtyczkę na komary dla 38,5-kilogramowego psa”.
+Feromon to nie tabletka liczona na kilogramy masy ciała. Odbiera go narząd Jacobsona w podniebieniu - tak samo u 4-kilogramowego maltańczyka, jak u 40-kilogramowego owczarka. Liczy się wyłącznie metraż i liczba pomieszczeń, w których przebywa pies, bo ściany i zamknięte drzwi blokują przepływ cząsteczek w powietrzu.
 
-Nachylił się nad blatem biurka, a oczy aż mu błyszczały.
+Na stronie producenta dobierzesz zestaw dyfuzorów Feliora na 1, 2 lub 3 pokoje (pojedynczy wkład pracuje w gniazdku bez przerwy przez 60 dni) - z pełną, 30-dniową gwarancją zwrotu pieniędzy.
 
-„A przedwczoraj w nocy poszła taka burza z piorunami, że aż zamrugało światło. Zerwałem się z łóżka w samych spodenkach i lecę w ciemności ratować nowe drzwi w łazience! Świecę telefonem do dużego pokoju... a moje 38,5 kg strachu leży rozwalone na boku równo 50 cm od tej małej białej wtyczki w kontakcie i chrapie jak stary niedźwiedź!”.
-
-Poklepał swojego owczarka po szerokiej piersi i dodał ciszej:
-
-„A najlepsze było wczoraj pod klatką. Sąsiadka z parteru zapytała mnie, czy oddałem psa bratu na wieś, bo od prawie 3 tygodni między 7:00 a 15:00 w pionie jest taka cisza, jakiej nie pamięta od zeszłego roku”.
-
-Nie oceniaj neurobiologii po wielkości buteleczki. Twój 30- albo 40-kilogramowy przyjaciel nie potrzebuje końskiej dawki chemii do żołądka - ma potężny nos, który odczyta matczyny sygnał spokoju w 1 sekundę, jeśli tylko podasz mu go w powietrzu. Zamiast liczyć kilogramy psa na wadze, policz pomieszczenia w swoim domu (pamiętając o osobnym przedpokoju przedzielonym ścianą!), wepnij dyfuzory na stałe 24 godziny na dobę i sprawdź wszystko spokojnie pod ochroną 30-dniowej gwarancji zwrotu.
-
-Stronę producenta z dyfuzorami Feliora znajdziesz tutaj: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora
-
-P.S. Wychodząc z gabinetu, pan Marek poprosił mnie o jeszcze 1 taką samą karteczkę dla swojego szwagra, który ma 42-kilogramowego mieszańca kaukaza. Powiedział, że przekaże mu na wstępie dokładnie to samo zdanie, które usłyszał u mnie: „Nie patrz na wagę psa, tylko policz pokoje”.`
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`
   },
 };

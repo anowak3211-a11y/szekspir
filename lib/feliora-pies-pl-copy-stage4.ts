@@ -19,7 +19,7 @@ Powiem Wam szczerze: łatwiej przełknąć porażkę, kiedy coś nie zadziała o
 
 Od 4 miesięcy, odkąd adoptowałam ze schroniska moją 3-letnią suczkę Lunę, moje życie kręciło się wyłącznie wokół zegarka i strachu przed sąsiadami.
 
-Kiedy byłam w mieszkaniu, Luna była psem idealnym. Kładła ciepły pysk na mojej stopie pod stołem i potrafiła przespać całe popołudnie bez 1 szczeknięcia.
+Kiedy byłam w mieszkaniu, Luna była psem idealnym. Kładła ciepły pysk na mojej stopie pod stołem i potrafiła przespać całe popołudnie w zupełnej ciszy.
 
 Ale wystarczyło, że o 7:00 rano przekręciłam klucz w zamku od zewnątrz.
 
@@ -35,7 +35,7 @@ Zrobiłam wtedy rzecz, której chwilę później gorzko pożałowałam.
 
 Zadzwoniłam wieczorem do mamy i pochwaliłam się z dumą: „Mamo, udało się! Koniec z wyciem, śpi jak zabita przez 8 godzin!”.
 
-Następnego ranka pod skrzynkami na listy wpadłam na sąsiadkę z dołu. Uśmiechnęłam się szeroko i powiedziałam jej, że kupiłam specjalny dyfuzor i wreszcie mają spokój. Po raz 1. od 4 miesięcy przespałam całą noc bez budzenia się nad ranem z bijącym sercem.
+Następnego ranka pod skrzynkami na listy wpadłam na sąsiadkę z dołu. Uśmiechnęłam się szeroko i powiedziałam jej, że kupiłam specjalny dyfuzor i wreszcie mają spokój. Wreszcie po 4 miesiącach przespałam całą noc bez budzenia się nad ranem z bijącym sercem.
 
 A potem wybił 10. dzień.
 
@@ -103,25 +103,39 @@ W końcu zamówiłam ten zestaw na 2 pokoje z mocno zaciśniętymi zębami. Gdy 
 
 1 dyfuzor wpięłam w odsłonięte gniazdko w przedpokoju obok drzwi, a 2. w salonie przy posłaniu Luny.
 
-W 4. dniu na kamerce znów zapadła cisza.
+1. tydzień: żadnego przedwczesnego świętowania.
 
-Tylko że tym razem nie cieszyłam się ani przez 1 sekundę! Nie zadzwoniłam do mamy, nie chwaliłam się nikomu w pracy, a mijając na parterze sąsiadkę z dołu, wbijałam wzrok w wycieraczkę, żeby znów nie wyjść na wariatkę.
+Przez początkowe 5 dni Luna nie zamieniła się nagle w pluszową zabawkę. Po moim wyjściu o 7:00 rano dalej potrafiła stać przez 15 minut pod drzwiami i węszyć przy dolnej uszczelce, zanim odeszła na koc. Nie dzwoniłam do mamy, nie mówiłam nic w biurze, a mijając na parterze sąsiadkę z dołu, rzucałam tylko krótkie dzień dobry i szłam prosto na przystanek.
 
-Prawdziwa nerwówka zaczęła się między 8. a 12. dniem.
+10. i 12. dzień: moment, na którym wcześniej poległa wtyczka ze sklepu zoologicznego.
 
-W 8. i 9. dniu siedziałam w biurze ze sztywnym karkiem, a telefon leżał ekranem do góry tuż przy klawiaturze. Za każdym razem, gdy ekran rozbłysnął zwykłym SMS-em z poczty albo powiadomieniem z banku, serce podchodziło mi do samego gardła!
+Siedziałam przy biurku z telefonem położonym ekranem do góry obok klawiatury. O 10:00, o 12:00 i o 14:00 włączałam podgląd z kamerki.
 
-Kiedy wybił 10. dzień, o 10:00, o 11:00 i o 14:00 chowałam telefon pod blat i z mokrymi ze stresu dłońmi włączałam podgląd na żywo, gotowa na widok Luny szarpiącej pazurami gumową uszczelkę.
+Żadnego efektu odbicia. Żadnego skakania na klamkę. Kiedy 12. dnia zadzwonił w telefonie mój kontrolny alarm, wyłączyłam go 1 ruchem kciuka, a po powrocie o 16:00 dotknęłam wtyczki w przedpokoju - obudowa była ledwo letnia, sucha, bez swądu przypalonego plastiku.
 
-Nic. Cisza jak makiem zasiał! Wykres hałasu w aplikacji stał płasko na 0, a Luna spała rozciągnięta na boku na dywanie.
+3. tydzień: stabilizacja.
 
-W 11. dniu po powrocie o 16:00 jeszcze w butach i w płaszczu podbiegłam do kontaktu i dotknęłam obudowy Feliora - była ledwie letnia, czysta, bez cienia swądu przypalonego plastiku! Kiedy 12. dnia rano zadzwonił mój alarm w telefonie, skasowałam go z takim westchnieniem ulgi, że aż pociekły mi łzy.
+Tamta sklepowa grzałka o tej porze dusiła już w butelce sam wywietrzały olej parafinowy. Tutaj dzień wyglądał tak samo jak 7 dni wcześniej. Kiedy o 13:00 kurier zapukał do drzwi, Luna wstała z dywanu, podeszła do progu i szczeknęła 2 razy - a po 1 minucie wróciła na posłanie i poszła spać dalej, zamiast wpadać w wielogodzinną histerię.
 
-W 14. dniu o 13:00 na klatce wiercił sąsiad, a Luna spała na kocu kołami do góry i nawet nie poruszyła uchem. Przy 2. alarmie w 25. dniu wyniosłam pusty karton do kosza na papier. Minęło 30, 45 i ponad 50 dni na tym samym 1 wkładzie - bez żadnego spadku mocy przy 50% buteleczki!
+5. tydzień: pełne 30 dni za nami.
 
-Dziś wracam po 16:00 na 3. piętro z podniesioną głową, uśmiecham się do sąsiadki z dołu i przekręcam klucz w drzwiach bez tego lodowatego skurczu w brzuchu.
+W 2 gniazdkach wciąż pracowały te same wkłady wkręcone 1. dnia. Termin darmowego zwrotu minął, a wykres hałasu w aplikacji z kamerki trzymał płaski poziom zwykłego szumu z ulicy.
 
-P.S. Jeżeli Twój pies po zwykłej wtyczce wyciszył się na 5 albo 7 dni, a potem wszystko wróciło 2 razy głośniej, nie wmawiaj sobie, że „feromony na niego nie działają”. On potrzebuje stabilizowanego rdzenia ceramicznego 5 W, który utrzyma równe stężenie przez 60 dni z 1 wkładu, zamiast wygotować je w 7 dni. Masz pełne 30 dni gwarancji zwrotu pieniędzy na spokojny test we własnym mieszkaniu: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
+Dzień 45. (7. tydzień): twarde sprawdzenie sprzętu.
+
+Rano przed wyjściem do pracy kucnęłam przy gniazdku w korytarzu i obejrzałam dyfuzor pod światło. W szklanej buteleczce nadal była prawie 1/3 czystego, przejrzystego płynu. Obudowa głowicy ledwo letnia pod palcem, ani śladu żółtego nalotu na plastiku wokół kratki.
+
+Żeby było jasne: Luna dalej jest żywym, czujnym psem po schronisku. Jak ktoś obcy na klatce głośno szarpnie klamką, zaszczeka.
+
+Ale skończył się ten nagły, brutalny nawrót wycia po 10 dniach, który doprowadzał mnie do szału przy wtyczce ze sklepu zoologicznego. To nie była magia. To była zwykła różnica w temperaturze grzałki.
+
+Piszę to dla każdego, kto kupił kiedyś zwykły dyfuzor, zobaczył 7 dni poprawy, a potem patrzył bezradnie, jak cały koszmar wraca od nowa.
+
+Jest zasadnicza różnica między przegrzaną grzałką 120 stopni, która wygotowuje wkład w 7-10 dni, a stabilnym rdzeniem ceramicznym 5 W utrzymującym równe stężenie D.A.P. przez pełne 60 dni z 1 wkładu.
+
+Za zestaw 2 dyfuzorów Feliora zapłaciłam 189,99 zł. Na stronie producenta masz 30 dni gwarancji zwrotu pieniędzy - wystarczająco długo, żeby bez ryzyka sprawdzić 10., 20. i 30. dzień we własnym mieszkaniu.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-17-blad-przedpokoju-gdzie-wpiac-w-bloku': {
@@ -173,7 +187,7 @@ Kiedy pan Tomasz wcisnął wtyczkę za kanapę i ciężką zasłonę, ponad 85% 
 
 A te nieliczne cząsteczki, które jakimś cudem wydostały się na środek salonu?
 
-Ten słynny napis „do 70 m²” na opakowaniach dyfuzorów jest mierzony w 1 wielkiej, pustej hali laboratoryjnej bez ani 1 ścianki działowej! W prawdziwym polskim bloku mikro-kropelki lipidowe nie przenikają przez beton ani karton-gips, nie przeciskają się przez wąskie nadproża drzwi i nie potrafią skręcić pod kątem 90 stopni za szafę Komandor!
+Ten słynny napis „do 70 m²” na opakowaniach dyfuzorów jest mierzony w 1 wielkiej, pustej hali laboratoryjnej bez żadnych ścianek działowych! W prawdziwym polskim bloku mikro-kropelki lipidowe nie przenikają przez beton ani karton-gips, nie przeciskają się przez wąskie nadproża drzwi i nie potrafią skręcić pod kątem 90 stopni za szafę Komandor!
 
 Tymczasem gdzie leży pies z lękiem separacyjnym przez cały Twój etat?
 
@@ -207,17 +221,31 @@ Przesunąłem kartkę w jego stronę i powiedziałem szczerze:
 
 Pan Tomasz schował złożony szkic do kurtki z miną człowieka, który bardzo niechętnie wydaje prawie 190 zł po wcześniejszej wtopie za 120 zł, ale widmo mandatu i kolejnego pisma ze spółdzielni nie dawało mu spokoju.
 
-Po 2 tygodniach zajrzał do mojego gabinetu przy okazji zakupu kropli na kleszcze.
+Po 3 tygodniach pan Tomasz zadzwonił do rejestracji lecznicy, żeby potwierdzić termin szczepienia, a recepcja przełączyła go na chwilę na mój telefon w gabinecie.
 
-Już od progu przyznał ze śmiechem, że w domu wcale nie obyło się bez komentarzy: żona pukała się w czoło, gdy wieczorem odsuwał w korytarzu ciężką szafkę na buty, żeby odsłonić kontakt w ścianie! Mało tego - przez początkowe 3 dni razem z żoną mocno wątpili, czy cokolwiek z tego będzie, bo kundelek nadal podchodził pod zamek i nasłuchiwał kroków na klatce, więc puste pudełka leżały w szufladzie gotowe do zwrotu.
+Bez żadnych wielkich uniesień zdał mi krótki, rzeczowy raport z mieszkania.
 
-A potem pan Tomasz wyciągnął z kieszeni telefon i włączył mi nagranie z kamerki z 10:00 rano.
+Jeszcze w dniu tamtej wizyty odsunął w korytarzu ciężką szafkę na buty. 1. dyfuzor Feliora wpiął w przedpokoju dokładnie 1,5 metra od drzwi wejściowych. 2. umieścił w pokoju dziennym na otwartej ścianie, z dala od narożnika i zasłony.
 
-Na klatce zadudniły kroki kuriera i szczęknęła winda. Jego pies podszedł pod drzwi w przedpokoju, zatrzymał się 1 metr przed wycieraczką obok odsłoniętego kontaktu, wciągnął głęboko powietrze, ziewnął szeroko z rozluźnienia, po czym odwrócił się tyłem do drzwi, pomaszerował do salonu i uwalił się brzuchem do góry na dywanie!
+1. tydzień po przepięciu wymagał zwykłej cierpliwości.
 
-Przespał tak do 15:00 bez ani 1 piśnięcia.
+Przez początkowe 4-5 dni nie stał się żaden cud - zanim 2 pomieszczenia nasyciły się od nowa równym stężeniem D.A.P., pies po wyjściu domowników nadal kładł się na kafelkach i popiskiwał pod zamkiem, a żona pana Tomasza trzymała puste pudełka w szufladzie na wypadek zwrotu.
 
-P.S. Zanim spiszesz feromony na straty, podejdź dziś do gniazdka i spójrz na własny przedpokój z perspektywy psa leżącego pod drzwiami. Odsłoń kontakt (minimum 1,2 metra wolnej przestrzeni nad głowicą!) i zabezpiecz jednocześnie strefę wejścia oraz pokój równo działającym rdzeniem 5 W aż do 60 dni z 1 wkładu. Niczym nie ryzykujesz, bo na stronie producenta masz pełne 30 dni gwarancji zwrotu pieniędzy na test u siebie w bloku: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
+Zmiana przyszła pod koniec 2. tygodnia.
+
+Skończyło się drapanie okleiny i wycie na klatkę schodową między 8:00 a 16:00, kiedy mieszkanie stoi puste. Pies dalej jest normalnym psem - podchodzi pod próg przy samym wyjściu właściciela i potrafi podnieść głowę, gdy na piętrze zatrzyma się winda, ale po 2-3 minutach odpuszcza, wraca z zimnego przedpokoju na legowisko w pokoju i przesypia resztę dnia.
+
+Od 14 dni ze spółdzielni nie przyszło żadne pismo.
+
+To nie był żaden przełom z bajki. To była zwykła korekta błędu z fizyki powietrza.
+
+Feromon nie przechodzi przez zamknięte drzwi, ceglane ściany, szafy przesuwne ani ciężkie zasłony.
+
+Zanim uznasz, że metoda nie działa - sprawdź, gdzie Twój pies stoi w 1. minucie po przekręceniu zamka i czy w tym miejscu w ogóle ma szansę dotrzeć do niego jakakolwiek cząsteczka D.A.P.
+
+Zestaw 2 dyfuzorów Feliora ze stabilizowanym rdzeniem ceramicznym 5 W zabezpiecza równocześnie 2 strefy w mieszkaniu i utrzymuje stałe stężenie przez pełne 60 dni z 1 wkładu. Na stronie producenta masz 30 dni gwarancji zwrotu pieniędzy na spokojne sprawdzenie tego układu u siebie w domu.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-18-analiza-zamiennikow-z-internetu-0-procent-dap': {
@@ -239,7 +267,7 @@ A właściciel macha ręką i patrzy na mnie z gorzkim uśmieszkiem politowania:
 
 „Panie doktorze, błagam, niech mi pan nie wciska tych bajek z internetu. Kupiłem już wtyczkę z feromonami na portalu aukcyjnym za 39 zł, miało ponad 1000 ocen, kupiłem też obróżkę i mgiełkę. Pies wył jeszcze gorzej! Na forach piszą prawdę - to nie działa”.
 
-Za 10. razem siedziałem wieczorem w pustym gabinecie po dyżurze i biłem się z własnymi myślami: „Zaraz, Edmund, o co tu chodzi? Przecież znasz neurobiologię narządu Jacobsona od 25 lat. Widziałeś ponad 400 psów po schronisku, które wyciszały się na tym bez 1 tabletki. Albo biologia ssaków nagle przestała działać w Polsce, albo ci ludzie wpinają do kontaktów jakieś gówno w ładnym papierku!”.
+Za 10. razem siedziałem wieczorem w pustym gabinecie po dyżurze i biłem się z własnymi myślami: „Zaraz, Edmund, o co tu chodzi? Przecież znasz neurobiologię narządu Jacobsona od 25 lat. Widziałeś ponad 400 psów po schronisku, które wyciszały się na tym bez żadnych tabletek. Albo biologia ssaków nagle przestała działać w Polsce, albo ci ludzie wpinają do kontaktów jakieś gówno w ładnym papierku!”.
 
 Postanowiłem powiedzieć: sprawdzam.
 
@@ -259,7 +287,7 @@ Chłopak nachylił się nad stołem i zaczął dukać na głos: „Wyciąg z koz
 
 „Nigdzie” - odpowiedziałem cicho. „Właśnie o to chodzi”.
 
-Na 23 produkty przyniesione przez moich pacjentów aż 15 miało w składzie równe 0% psich feromonów D.A.P.! Ani 1 mikrograma!
+Na 23 produkty przyniesione przez moich pacjentów aż 15 miało w składzie równe 0% psich feromonów D.A.P.! Ani mikrograma!
 
 Ludzie w dobrej wierze płacili po 39 zł za zwykłą walerianę z lawendą i olejkiem do ciasta, wierząc cwaniakom z aukcji, że testują terapię feromonową!
 
@@ -291,15 +319,31 @@ Od razu uprzedziłem go też uczciwie o twardych zasadach, bo nienawidzę obiecy
 
 Chłopak zgniótł cytrynową podróbkę za 39 zł, cisnął ją do kosza przy umywalce i mruknął: „Mam 3 tygodnie do wypowiedzenia najmu i utraty 2000 zł kaucji. Zamówię na próbę, ale kartonu nie wyrzucam”.
 
-W 6. dniu wieczorem dostałem od niego SMS ze zrzutem ekranu z domowej kamerki:
+Przez następne 4 tygodnie spisywałem w kartach wizyt wyniki całej tej 18-osobowej grupy opiekunów, którzy odstawili pachnące zamienniki z internetu, przewietrzyli mieszkania z oparów olejków i wpięli czysty analog D.A.P. Feliora w odsłonięte gniazdka.
 
-„Panie doktorze, trzymałem pudełko na szafie gotowe do zwrotu, bo po tamtych podróbkach nie wierzyłem w ani 1 słowo. Przez początkowe 3 dni Borys jeszcze kręcił się pod drzwiami i już kląłem pod nosem, że znowu wtopiłem... A dzisiaj o 11:00 włączam podgląd w pracy i nie wierzę własnym oczom!”
+Kliniczny bilans z gabinetu wyglądał następująco - bez koloryzowania i bez bajek o cudzie w 24 godziny:
 
-Na zdjęciu wycieraczka pod drzwiami była sucha, a 32-kilogramowy Borys po raz 1. od 6 miesięcy leżał rozciągnięty na boku z nosem w kocu i spokojnie chrupał zostawionego gryzaka! W 14. dniu przesypiał już pełne 8 godzin etatu.
+Dni 1-4: odciążenie węchu.
 
-Spośród wszystkich 18 sparzonych opiekunów z mojego gabinetu, którzy wyrzucili internetowe podróbki 0% D.A.P. i wpięli dyfuzory Feliora w odsłonięte gniazdka, aż u 16 psów wycie i niszczenie drzwi ustało w ciągu 2-3 tygodni!
+Niemal od razu - zazwyczaj po 2 dobach od wyjęcia starych wtyczek i wyprania posłań z resztek olejków - u psów ustąpiło napadowe kichanie, drapanie pyska łapami, tarcie nosem o dywan i uciekanie od własnego koca. Sam lęk separacyjny na tym etapie jeszcze nie zniknął.
 
-P.S. Zanim uwierzysz w komentarz na forum, że „feromony to ściema”, odwróć swoje pudełko i sprawdź przez lupę, czy nie grzałeś psu lawendy z cytryną. Zamówienia na oficjalnej stronie chroni 30-dniowa gwarancja zwrotu pieniędzy - możesz bezpiecznie sprawdzić prawdziwy analog D.A.P. (do 60 dni z 1 wkładu) we własnym mieszkaniu bez ryzyka utraty ani 1 złotówki: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
+1. tydzień: szybsze przypadki.
+
+U 32-kilogramowego Borysa oraz u 6 innych psów o krótszej historii problemu wyraźny spadek napięcia przyszedł około 7.-8. dnia. Właściciel Borysa uratował umowę najmu i kaucję - na kontroli po 3 tygodniach pokazał krótkie wideo z kamerki z 12:00 w południe. Drzwi były całe, pies leżał spokojnie na podłodze w przedpokoju, choć przy hałasie na klatce nadal podnosił głowę i nasłuchiwał.
+
+2. i 3. tydzień: psy po długim drażnieniu śluzówki.
+
+U pozostałej części pacjentów - szczególnie tam, gdzie przez wiele tygodni grzano w gniazdkach duszącą walerianę, lawendę i olejek cytrynowy - przesterowany układ nerwowy potrzebował znacznie więcej czasu. Realne wyciszenie paniki separacyjnej i koniec wycia pod drzwiami przyszły u nich dopiero między 14. a 21. dniem ciągłej pracy dyfuzorów.
+
+U 2 psów z całej grupy 18 przypadków same feromony okazały się za słabe ze względu na ciężką traumę schroniskową i włączyliśmy równoległą pracę z behawiorystą. U 16 psów ustąpiło zarówno niszczenie drzwi, jak i wielogodzinne wycie pod nieobecność domowników - bez podawania farmakologii.
+
+W biologii nie ma dróg na skróty. Albo podajesz do narządu Jacobsona właściwą cząsteczkę chemiczną w stabilnej temperaturze, albo męczysz psu nos tanim odświeżaczem powietrza.
+
+Możesz kupić kolejną pachnącą wtyczkę z walerianą za 39 zł z losowej aukcji i dziwić się, dlaczego Twój pies drapie drzwi jeszcze mocniej.
+
+Albo możesz sprawdzić bezwonny, czysty analog D.A.P. Feliora ze stabilizowanym rdzeniem ceramicznym 5 W (do 60 dni stałej emisji z 1 wkładu), chroniony 30-dniową gwarancją zwrotu pieniędzy na oficjalnej stronie.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-19-spray-vs-dyfuzor-8-godzin-etatu': {
@@ -331,7 +375,7 @@ Bańka pękła pewnego popołudnia, kiedy wracałam z zakupami.
 
 Drzwi mieszkania obok otworzyły się z hukiem i wyszła z nich blada jak ściana sąsiadka - pielęgniarka po nocnym dyżurze w szpitalu. Patrzyła na mnie tak, że nogi wrosły mi w wycieraczkę.
 
-„Proszę pani, ja dłużej nie wytrzymam” - głos jej się łamał ze zmęczenia. „Pani wychodzi rano i ma pani spokój, a ten pies codziennie punkt 8:00 rano zaczyna wyć pod drzwiami jak syrena strażacka i nie milknie przez 7 godzin! Nie spałam po dyżurze ani 1 godziny!”.
+„Proszę pani, ja dłużej nie wytrzymam” - głos jej się łamał ze zmęczenia. „Pani wychodzi rano i ma pani spokój, a ten pies codziennie punkt 8:00 rano zaczyna wyć pod drzwiami jak syrena strażacka i nie milknie przez 7 godzin! Nie spałam po dyżurze nawet godziny!”.
 
 Spaliłam się ze wstydu. Wyjąkałam przeprosiny, zamknęłam się w łazience i zadałam sobie pytanie: „Jak to od 8:00 rano?! Przecież o 7:00 rano psikam mu całe posłanie i wycieraczkę!”.
 
@@ -379,13 +423,31 @@ Przez początkowe 3 dni po powrocie z pracy odpalałam kartę pamięci na laptop
 
 Co prawda Bruno nie uciekał już od własnego koca i nie zawodził przez 7 godzin bez przerwy, ale o 8:00 rano nadal kręcił się niespokojnie pod drzwiami i popiskiwał przez 20 minut! Zamykałam wtedy komputer i myślałam wściekła na samą siebie: „Wiedziałam, kolejna lipa. Jeszcze 4 dni i pakuję te wtyczki z powrotem do pudełka”.
 
-Ale nie wyjęłam ich z prądu. I w 5. dniu do mojego mieszkania przyszła cisza.
+Nie wyjęłam ich jednak z prądu. Zostawiłam wtyczki w gniazdkach na kolejne 7 dni, dokładnie tak jak kazał lekarz.
 
-Na nagraniu z 5. dnia Bruno podniósł o 8:00 głowę, podszedł powoli pod próg przedpokoju, powąchał powietrze obok wtyczki i wrócił spokojnym krokiem na posłanie.
+1. tydzień zamknął się bez wielkich fajerwerków, ale z wyraźną różnicą: w 6. i 7. dniu kręcenie się pod drzwiami o 8:00 rano skróciło się do 2-3 minut, po czym Bruno wracał do pokoju i kładł się na swoim wypranym kocu.
 
-A w 9. dniu zobaczyłam na karcie pamięci scenę, przy której po prostu popłakałam się z ulgi nad kuchennym stołem: punkt 8:00 rano na klatce z całym hukiem trzasnęły drzwi sąsiada i ruszyła winda, a Bruno leżał zwinięty w kłębek na kocu, westchnął tylko głęboko przez nos, przełożył łeb na łapy i przespał bitych 8 godzin mojego etatu!
+2. tydzień przyniósł już normalny, powtarzalny spokój.
 
-P.S. Jeżeli Twój pies zostaje sam w mieszkaniu na 8 godzin, przestań drażnić mu nos 20-minutowym spirytusem ze sprayu. Daj mu bezgłośną, bezalkoholową osłonę D.A.P. z rdzeniem ceramicznym 5 W działającą aż do 60 dni z 1 wkładu. Niczym nie ryzykujesz, bo zamówienie chroni pełna 30-dniowa gwarancja zwrotu pieniędzy: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
+Kiedy oddawałam pożyczony sprzęt szwagrowi, kupiłam własną małą kamerkę pod Wi-Fi za 99 zł i postawiłam ją na tej samej komodzie, żeby mieć zwykły podgląd na telefonie w biurze.
+
+Dziś moje poranki wyglądają zupełnie przyziemnie.
+
+Napoczęta buteleczka ze sprayem nie poszła do śmietnika - schowałam ją do szafki w przedpokoju na wyjazdy autem. Bo do 20-minutowej trasy do weterynarza, gdy psiknie się pusty transporter 15 minut wcześniej, taki spray nadaje się normalnie.
+
+Za to w mieszkaniu o 7:00 rano biorę torebkę, zamykam drzwi na klucz i nie biegam już na kolanach z atomizerem po posłaniu. W pokoju nie cuchnie spirytusem, a pies nie ucieka z kichaniem pod stół.
+
+Na kamerce o 11:00 i o 14:00 - czyli dokładnie wtedy, kiedy po wywietrzeniu sprayu zaczynał się najgorszy skowyt na pół klatki - Bruno śpi wyciągnięty na boku na dywanie.
+
+Dalej jest żywym psem, a nie maskotką - jak kurier zadzwoni domofonem, podniesie łeb i szczeknie pod progiem, ale po 1 minucie kładzie się z powrotem. Sąsiadka z mieszkania obok po nocnym dyżurze w szpitalu normalnie odsypia zmiany.
+
+To nie była zła wola psa o 10:00 rano.
+
+Po prostu alkoholowy spray wyparowywał po 1 godzinie, a ja zostawiałam go samego na kolejne 7 godzin w ciszy.
+
+2 dyfuzory Feliora kosztowały mnie 189,99 zł - pracują w kontakcie 24 godziny na dobę przez 60 dni z 1 wkładu, z pełną 30-dniową gwarancją zwrotu pieniędzy na stronie producenta.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-20-feromony-kota-nie-dzialaja-na-psa-gatunkowosc': {
@@ -455,14 +517,32 @@ Jednak w aż 8 na 10 domów, gdzie adoptowany pies goni kota i wyje pod drzwiami
 
 Wziąłem karteczkę z biurka i zapisałem na niej wyraźnie: „feromon kojący D.A.P. - dyfuzor Feliora”.
 
-Podałem ją mężowi i przypomniałem o 30-dniowej gwarancji zwrotu pieniędzy na oficjalnej stronie - dzięki której nie ryzykują ani 1 złotówki przed tak trudną decyzją o dalszym losie psa. Mąż schował kartkę do portfela, spojrzał na żonę i powiedział cicho, że dadzą Rokiemu uczciwą szansę, zanim podpiszą dokumenty zwrotne do fundacji. W domu wpięli 2 sztuki w odsłonięte kontakty - 1 przy przedpokoju i 2. w salonie obok posłania psa.
+Podałem ją mężowi i przypomniałem o 30-dniowej gwarancji zwrotu pieniędzy na oficjalnej stronie - dzięki której nie ryzykują ani grosza przed tak trudną decyzją o dalszym losie psa. Mąż schował kartkę do portfela, spojrzał na żonę i powiedział cicho, że dadzą Rokiemu uczciwą szansę, zanim podpiszą dokumenty zwrotne do fundacji. W domu wpięli 2 sztuki w odsłonięte kontakty - 1 przy przedpokoju i 2. w salonie obok posłania psa.
 
-Po 3 tygodniach dostałem na telefon mojej lecznicy wiadomość ze zdjęciem z ich salonu. Pod fotografią mąż dopisał:
+Po 4 tygodniach małżeństwo przyszło do mnie na kontrolne ważenie i odrobaczanie Rokiego. Dokumenty zwrotne do fundacji poszły w odstawkę, a mąż zdał mi krótki, trzeźwy raport z ich mieszkania.
 
-„Przyznaję bez bicia, że nie dawałem temu nawet 10% szans. Przez początkowe 4 dni trzymałem puste pudełka w szafce gotowe do zwrotu, bo Roki dalej zrywał się na dźwięk domofonu. Ale koło 9. dnia napięcie zeszło z niego jak powietrze z balonika. Roki zostaje z nami na zawsze!”
+1. tydzień wcale nie wyglądał różowo.
 
-Na zdjęciu rudy kocur spał zwinięty w precelek na oparciu fotela w słońcu, a 2 metry obok na dywanie leżał rozciągnięty na boku Roki z miękkim, luźnym brzuchem - w błogiej ciszy, mimo że mały spał obok na drzemce, a mąż od 7:00 rano był w pracy!
+Przez początkowe 5 dni Roki dalej podrywał się na dźwięk domofonu i trzeba było odgradzać sypialnię bramką rozporową, żeby kocur mógł spokojnie korzystać z kuwety, a pudełka po dyfuzorach czekały w szafce na ewentualny zwrot.
 
-P.S. Każdy gatunek ma własny biologiczny klucz do spokoju: podaj swojemu psu prawdziwy matczyny sygnał D.A.P. z rdzeniem ceramicznym 5 W (do 60 dni z 1 wkładu), w 100% neutralny i bezpieczny dla niemowląt oraz kotów. Testujesz spokojnie we własnym mieszkaniu, bo zamówienie chroni pełna 30-dniowa gwarancja zwrotu pieniędzy: https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
+Wyraźne wyhamowanie przyszło w 2. tygodniu, około 10.-12. dnia stałej pracy wtyczek.
+
+Kiedy z psa zeszło to ostre napięcie separacyjne po wyjściu męża o 7:00 rano, ustało wycie pod drzwiami, które wcześniej wybudzało ich 12-miesięcznego synka z drzemki.
+
+Napiszę tu wprost, bez bajek jak z kreskówki: pies i kot nie zaczęli nagle spać przytuleni na 1 poduszce.
+
+7-letni rudy kocur nadal ma swoją wysoką półkę na drapaku, a Roki ma swoje legowisko pod oknem w salonie.
+
+Ale skończyło się kompulsywne gonienie kota po korytarzu z nudów i stresu, a pies przestał wyć po wyjściu właścicieli z domu. Zwierzęta mijają się w przedpokoju spokojnie na odległość 1 metra, bez syczenia i bez uciekania pod szafę.
+
+W sypialni przy drapaku chodzi koci wkład z frakcją F3, a w przedpokoju i salonie pracują dyfuzory Feliora z psim D.A.P. Te 2 różne systemy gatunkowe pracują obok siebie pod 1 dachem bez wchodzenia sobie w drogę, bez żadnego zapachu i bez jakiegokolwiek wpływu na małe dziecko.
+
+Biologii receptorów nie da się oszukać: koci feromon F3 nie działa na psa, a „uniwersalne” wtyczki 2 w 1 z aukcji to zwykłe olejki eteryczne.
+
+Jeżeli w Twoim domu źródłem hałasu i napięcia jest lęk psa, podaj mu jego własny, gatunkowy analog D.A.P. Feliora ze stabilizowanym rdzeniem ceramicznym 5 W (do 60 dni równej emisji z 1 wkładu).
+
+Zamówienie na oficjalnej stronie chroni 30-dniowa gwarancja zwrotu pieniędzy - masz pełne 30 dni na spokojne sprawdzenie efektu we własnym mieszkaniu.
+
+https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 };

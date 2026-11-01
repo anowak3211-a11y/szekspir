@@ -717,7 +717,7 @@ export default function FelioraPiesPlWorkspace({
             <strong style={{ color: '#6ee7b7' }}>FELIORA D.A.P. DLA PSÓW:</strong>{' '}
             <span style={{ color: '#ecfdf5' }}>
               Pakiet 2 Pokoje <strong>189,99 zł</strong> (<strong>94,99 zł/szt.</strong>) · 1 wkład = do{' '}
-              <strong>60 dni</strong> · E-book Gratis + <strong>30 Dni Gwarancji</strong>
+              <strong>60 dni</strong> · <strong>30 Dni Gwarancji Zwrotu</strong>
             </span>
           </div>
         </div>

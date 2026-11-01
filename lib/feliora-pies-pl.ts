@@ -982,7 +982,7 @@ export const FELIORA_PIES_PRESET_ANGLES: FelioraPiesAnglePreset[] = [
     createdDate: '2026-10-26',
     updatedDate: '2026-11-01',
     vocTrigger: '„Kanapa za 5 500 zł obgryzana po rogach, okleina drzwi 650 zł, tapicer 800 zł, behawiorysta 600 zł - razem 2 524 zł w pół roku.”',
-    mechanismCore: 'Pakiet 2 Pokoje za 189,99 zł (94,99 zł/szt. przy wkładzie na 60 dni = ok. 1,58 zł dziennie na pokój) z darmowym e-bookiem i 30-dniową gwarancją.',
+    mechanismCore: 'Pakiet 2 Pokoje za 189,99 zł (94,99 zł/szt. przy wkładzie na 60 dni = ok. 1,58 zł dziennie na pokój) z pełną 30-dniową gwarancją zwrotu.',
     defaultImageId: 'dog-21-rachunek-2524zl',
     defaultImageUrl: '/feliora-pies-pl-images/dog-21-rachunek-2524zl.jpg',
     defaultImageHash: '',
@@ -1004,7 +1004,7 @@ export const FELIORA_PIES_PRESET_ANGLES: FelioraPiesAnglePreset[] = [
     createdDate: '2026-10-26',
     updatedDate: '2026-11-01',
     vocTrigger: '„Ile dyfuzorów wziąć do 52-metrowego mieszkania w bloku i gdzie dokładnie je podłączyć, żeby zadziałało od 1. tygodnia?”',
-    mechanismCore: 'Pokrycie Strefy Drzwi + Strefy Legowiska, zawsze w pionie, min. 1,2 m nad wtyczką, ciągła praca 24/7 + poradnik e-book gratis w pakietach 2/3/4 Pokoje.',
+    mechanismCore: 'Pokrycie Strefy Drzwi + Strefy Legowiska, zawsze w pionie, min. 1,2 m nad wtyczką, ciągła praca 24/7 (1 wkład = do 60 dni).',
     defaultImageId: 'dog-22-zaslona-gniazdko',
     defaultImageUrl: '/feliora-pies-pl-images/dog-22-zaslona-gniazdko.jpg',
     defaultImageHash: '',
@@ -1182,11 +1182,11 @@ export function sanitizeAndAuditFelioraPiesPl(
 
 export function buildAllFelioraPiesPrewrittenAds(): FelioraPiesPlGeneratedAd[] {
   const baseCreated = Date.parse('2026-10-26T14:00:00+01:00');
-  const baseUpdated = Date.parse('2026-11-01T14:40:00+01:00');
+  const baseUpdated = Date.parse('2026-11-01T15:20:00+01:00');
   return FELIORA_PIES_PRESET_ANGLES.map((preset, idx) => {
     const rawCopy = FELIORA_PIES_ALL_COPY[preset.id] || {
       headline: preset.title,
-      description: '30-dniowa gwarancja zwrotu · Darmowy poradnik e-book w pakietach',
+      description: '30-dniowa gwarancja zwrotu · 1 wkład działa do 60 dni',
       primaryText: '',
     };
     const audited = sanitizeAndAuditFelioraPiesPl(rawCopy.primaryText, rawCopy.headline, rawCopy.description);
