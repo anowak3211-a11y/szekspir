@@ -10,6 +10,7 @@ import {
   BENNETT_UK_DEFAULT_URL,
   BENNETT_UK_FANPAGES,
   BENNETT_UK_IMAGE_LIBRARY,
+  BENNETT_UK_HAIR_PIXEL_ID,
   BENNETT_UK_META_ACCOUNT_ID,
   BENNETT_UK_META_MAIN_CAMPAIGN_ID,
   BENNETT_UK_META_NATIVE_CAMPAIGN_ID,
@@ -25,8 +26,9 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
-const DEFAULT_CREATED_AT = Date.parse('2026-11-01T17:15:00+01:00');
+const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
+const STATE_KEY = 'bennett-uk-lfs-v3-stealth-friendly-urls-clean';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-01T18:15:00+01:00');
 
 interface BennettUkLibraryState {
   ads: BennettUkGeneratedAd[];
@@ -141,7 +143,13 @@ async function readBennettUkLibraryState(): Promise<{
       customImages: [],
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
-    const customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    let customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    if (customImages.length === 0) {
+      const legacy = await readState<BennettUkLibraryState>(LEGACY_STATE_KEY_V2, { ads: [], customImages: [] }).catch(() => null);
+      if (Array.isArray(legacy?.value?.customImages) && legacy.value.customImages.length > 0) {
+        customImages = legacy.value.customImages;
+      }
+    }
     if (stored.length === 0 && customImages.length === 0) {
       return { ads: defaultAds, customImages };
     }
@@ -864,6 +872,9 @@ export const POST = accountRoute(async (req: Request) => {
           'CABANOWSKI HSTL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ';
         const dsaPayer =
           (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
+        const isHairOnlyBatch =
+          selectedAds.length > 0 && selectedAds.every(a => a.problemCluster === 'HAIR_MENOPAUSE_GLP1');
+        const resolvedAdSetPixelId = isHairOnlyBatch ? BENNETT_UK_HAIR_PIXEL_ID : BENNETT_UK_META_PIXEL_ID;
         const createdAdSet = await directGraph<{ id: string }>(
           `act_${BENNETT_UK_META_ACCOUNT_ID}/adsets`,
           {
@@ -873,7 +884,7 @@ export const POST = accountRoute(async (req: Request) => {
             optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
             billing_event: source.billing_event || 'IMPRESSIONS',
             promoted_object: source.promoted_object || {
-              pixel_id: BENNETT_UK_META_PIXEL_ID,
+              pixel_id: resolvedAdSetPixelId,
               custom_event_type: 'PURCHASE',
             },
             targeting: rawTargeting,

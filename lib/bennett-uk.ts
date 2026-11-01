@@ -93,23 +93,25 @@ export interface BennettUkAnglePreset {
 }
 
 export const BENNETT_UK_AD_ACCOUNT_ID = '1168927131917359';
-export const BENNETT_UK_BLADDER_PDP_URL = 'https://bennettseed.co/products/pumpkin-seed-oil-bladder-support';
-export const BENNETT_UK_PROSTATE_PDP_URL = 'https://bennettseed.co/products/pumpkin-seed-oil-prostate-support';
-export const BENNETT_UK_KIDNEY_PDP_URL = 'https://bennettseed.co/products/pumpkin-seed-oil-kidney-support';
-export const BENNETT_UK_SOFTGELS_PDP_URL = 'https://bennettseed.co/products/pumpkin-seed-oil-softgels';
-export const BENNETT_UK_HAIR_PDP_URL = 'https://bennettseed.co/products/pumpkin-seed-oil-hair-support';
+export const BENNETT_UK_BLADDER_PDP_URL = 'https://bennettseed.co/products/comfort-flow-softgels';
+export const BENNETT_UK_PROSTATE_PDP_URL = 'https://bennettseed.co/products/night-ease-softgels';
+export const BENNETT_UK_KIDNEY_PDP_URL = 'https://bennettseed.co/products/daily-balance-softgels';
+export const BENNETT_UK_SOFTGELS_PDP_URL = 'https://bennettseed.co/products/styrian-seed-softgels';
+export const BENNETT_UK_HAIR_PDP_URL = 'https://bennettseed.co/products/daily-shine-softgels';
 
-export const BENNETT_UK_BLADDER_ADV_URL = 'https://bennettseed.co/pages/7-reasons-bladder-prostate';
-export const BENNETT_UK_KIDNEY_ADV_URL = 'https://bennettseed.co/pages/7-reasons-kidney';
-export const BENNETT_UK_CHOLESTEROL_ADV_URL = 'https://bennettseed.co/pages/7-reasons-cholesterol';
-export const BENNETT_UK_HAIR_ADV_URL = 'https://bennettseed.co/pages/5-ways-menopause-hair';
+export const BENNETT_UK_BLADDER_ADV_URL = 'https://bennettseed.co/pages/7-reasons-unbroken-nights';
+export const BENNETT_UK_KIDNEY_ADV_URL = 'https://bennettseed.co/pages/7-reasons-daily-balance';
+export const BENNETT_UK_CHOLESTEROL_ADV_URL = 'https://bennettseed.co/pages/7-reasons-plant-sterols';
+export const BENNETT_UK_HAIR_ADV_URL = 'https://bennettseed.co/pages/5-ways-fuller-hair';
 
 export const BENNETT_UK_PDP_URL = BENNETT_UK_BLADDER_PDP_URL;
 export const BENNETT_UK_DEFAULT_URL = BENNETT_UK_BLADDER_PDP_URL;
 export const BENNETT_UK_META_ACCOUNT_ID = BENNETT_UK_AD_ACCOUNT_ID;
 export const BENNETT_UK_META_NATIVE_CAMPAIGN_ID = '';
 export const BENNETT_UK_META_MAIN_CAMPAIGN_ID = '';
-export const BENNETT_UK_META_PIXEL_ID = '1440642884707325';
+export const BENNETT_UK_HAIR_PIXEL_ID = '1440642884707325';
+export const BENNETT_UK_META_PIXEL_ID = '1600980978391826';
+export const BENNETT_UK_BACKUP_CONVERSION_EVENT = 'BS_Order_Confirmed';
 
 export const BENNETT_UK_FANPAGES: BennettUkFanpage[] = [
   {
@@ -829,7 +831,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„My husband started taking tamsulosin in June 2024. Took it every evening without fail. Stopped drinking tea after 4. Gave up the pint...”',
     mechanismCore: 'Odżywienie receptorów prostaty i mięśnia wypieracza pęcherza fitosterolami Δ7, prowadzące czytelnika na przed-lander 7 Reasons.',
-    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?angle=prostate`,
+    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?v=m`,
     defaultImageId: 'lun-catherine-1049',
     defaultImageUrl: '/bennett-uk-images/Ad_Catherine_Hughes_1049223327991730.png',
     defaultImageHash: '',
@@ -852,7 +854,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„2 men. Same age. Same urologist. 1 had spent years getting up 4 and 5 times a night, standing over that toilet in the dark...”',
     mechanismCore: 'Zimnotłoczony austriacki olej styryjski (bogaty w wolne fitosterole Δ7) w połączeniu z Saw Palmetto wspiera pełne opróżnianie pęcherza przed snem.',
-    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?angle=prostate`,
+    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?v=m`,
     defaultImageId: 'lun-catherine-4662',
     defaultImageUrl: '/bennett-uk-images/Ad_Catherine_Hughes_4662104310685847.png',
     defaultImageHash: '',
