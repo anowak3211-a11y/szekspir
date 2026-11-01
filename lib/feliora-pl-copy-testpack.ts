@@ -74,7 +74,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Uczciwa kwalifikacja weterynaryjna: kryształy w pęcherzu vs stresowe zapalenie FIC (30 dni gwarancji)',
     primaryText: `Dyfuzor Feliora u około 23% kotów sikających poza kuwetą nie zmieni absolutnie nic - i piszę to wprost jako lekarz weterynarii z 25-letnim stażem przy stole zabiegowym.
 
-Spójrz na wydruk badania ogólnego moczu na moim biurku dołączony do tego posta. Jeśli u Twojego kota w środkowej rubryce osadu wyjdzie dokładnie taki wynik jak w czerwonym kółku, zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
+Spójrz na wydruk badania ogólnego moczu ze stołu w moim gabinecie dołączony do tego posta. Jeśli u Twojego kota w osadzie obok kubeczka z próbką wyjdzie dokładnie taki wynik jak ten zakreślony długopisem, zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
 
 Przez 25 lat pracy z kotami w gabinecie napatrzyłem się na 2 skrajne błędy polskich opiekunów, które kosztują zwierzęta ogromne cierpienie, a właścicieli tysiące złotych i niepotrzebną frustrację.
 
@@ -112,9 +112,9 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   'fel-28-tp-as-dzien6-zero-zapachu': {
     headline: '6. dnia powąchałem gniazdko z 3 cm i powiedziałem żonie: „Kupiłaś pustą wodę w szkle za 189 zł". Nie znałem 1 faktu o kocim nosie',
     description: 'Dlaczego prawdziwe feromony M.A.P. + F3 muszą być w 100% bezwonne dla człowieka (30 dni gwarancji)',
-    primaryText: `6. dnia wieczorem uklęknąłem przy listwie przypodłogowej w salonie, powąchałem wpięty dyfuzor z odległości 3 centymetrów i powiedziałem do mojej żony: „Kochanie, przykro mi, ale kupiłaś zwykłą wodę w buteleczce za prawie 190 zł".
+    primaryText: `6. dnia wieczorem uklęknąłem przy listwie przypodłogowej w przedpokoju, powąchałem wpięty dyfuzor z odległości 3 centymetrów i powiedziałem do mojej żony: „Kochanie, przykro mi, ale kupiłaś zwykłą wodę w buteleczce za prawie 190 zł".
 
-Spójrz na zdjęcie naszego gniazdka z żółtą karteczką i 2 kotami w tle dołączone do tego posta. Przykleiłem tę kartkę nad kontaktem pół żartem, pół serio, żeby udowodnić żonie, że od tygodnia grzejemy prądem pusty plastik, podczas gdy nasze koty dalej patrzą na siebie przez pokój jak na śmiertelnych wrogów.
+Spójrz na zdjęcie mojej dłoni przy gniazdku i 2 kotów w tle dołączone do tego posta. Zrobiłem je telefonem w korytarzu dokładnie wtedy, żeby pokazać żonie, że od tygodnia grzejemy prądem bezwonny plastik, podczas gdy nasze koty dalej patrzą na siebie przez podłogę jak na śmiertelnych wrogów.
 
 Mam 39 lat i jestem z wykształcenia inżynierem budownictwa - jak coś kupuję za własne pieniądze i wpinam do gniazdka 230V, to ma świecić, buczeć albo wyraźnie pachnieć w pokoju.
 
@@ -131,11 +131,11 @@ Razem: 584 zł wyrzucone bez żadnego rezultatu, a żona wieczorami płakała w 
 
 Kiedy żona wyczytała na grupie kociarzy o podwójnym kompleksie feromonowym M.A.P. + F3 w dyfuzorze Feliora i zamówiła pakiet 2 sztuk do naszych 2 głównych pokoi (przekonała ją 30-dniowa gwarancja zwrotu pieniędzy), kręciłem głową z politowaniem. Powiedziałem jej otwarcie przy kolacji: „Jak 2 drapieżniki walczą o terytorium, to żadna biała kaczuszka w kontakcie im tego nie wybije z głowy, ale dobra - testuj, trzymam pudełko w szafie na zwrot".
 
-Wpięliśmy 1. dyfuzor w odkryte gniazdko w salonie, a 2. dyfuzor w sypialni.
+Wpięliśmy 1. dyfuzor w odkryte gniazdko w strefie dziennej, a 2. dyfuzor w sypialni.
 
-Mija 1. dzień, 3. dzień, 5. dzień. Wchodzę po pracy do salonu, wciągam mocno powietrze nosem - zero zapachu! Kompletnie nic, ani ziół, ani perfum, czyste powietrze. Dotykam białej obudowy dyfuzora palcem: jest lekko ciepła, czyli ceramiczny rdzeń 5W pracuje, w bursztynowej szklanej fiolce ubyło 4 milimetry płynu, a zapachu zero! Na dodatek 6. dnia wieczorem uchyliliśmy drzwi na próbę i Tola znowu najeżyła ogon jak szczotkę do butelek i ostrzegawczo syknęła na rudego z odległości 2 metrów.
+Mija 1. dzień, 3. dzień, 5. dzień. Wchodzę po pracy do mieszkania, wciągam mocno powietrze nosem - zero zapachu! Kompletnie nic, ani ziół, ani perfum, czyste powietrze. Dotykam białej obudowy dyfuzora palcem: jest lekko ciepła, czyli ceramiczny rdzeń 5W pracuje, w bursztynowej szklanej fiolce ubyło 4 milimetry płynu, a zapachu zero! Na dodatek 6. dnia wieczorem uchyliliśmy drzwi na próbę i Tola znowu położyła uszy po sobie i ostrzegawczo syknęła na rudego z odległości 1,5 metra.
 
-Wtedy właśnie przykleiłem nad kontaktem tę żółtą kartkę „DZIEŃ 6: ZERO ZAPACHU?!" ze zdjęcia powyżej i oznajmiłem z triumfem, że kupiliśmy podgrzewaną wodę.
+Wtedy właśnie kucnąłem przy kontakcie, zrobiłem to zdjęcie powyżej i oznajmiłem żonie z triumfem, że kupiliśmy podgrzewaną wodę.
 
 Żona zamiast się ze mną kłócić, usiadła obok mnie na kanapie i otworzyła na telefonie opracowanie weterynaryjne o budowie kociej głowy, które podesłała jej behawiorystka współpracująca z fundacją.
 
@@ -147,7 +147,7 @@ Prawdziwe kocie feromony - zarówno frakcja policzkowa F3 („to terytorium jest
 
 Doczytałem też 2. kluczowy fakt z fizjologii: po 5 tygodniach walk i syczenia krew naszych 2 kotów była aż gęsta od kortyzolu i adrenaliny. Wypłukanie hormonów stresu z organizmu kota i pełne nasycenie mieszkania cząsteczkami M.A.P. + F3 wymaga od 10 do 14 dni nieprzerwanej pracy dyfuzorów 24 godziny na dobę.
 
-Zdjąłem żółtą karteczkę ze ściany i powiedziałem: „Dobra, przepraszam. Czekamy uczciwie do 21. dnia bez wypinania z gniazdek".
+Schowałem dumę do kieszeni i powiedziałem: „Dobra, przepraszam. Czekamy uczciwie do 21. dnia bez wypinania z gniazdek".
 
 Oto suchy raport inżyniera z kolejnych tygodni w naszym domu:
 
@@ -166,7 +166,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Uważaj na olejki lawendowe i walerianę w tanich zamiennikach - różnica między zapachem a feromonem M.A.P.',
     primaryText: `Kupiłam na Allegro tani „wkład uspokajający do kontaktu dla kota" za 29,99 zł z darmowym Smartem, a po 40 minutach otwierałam w mieszkaniu wszystkie okna na oścież, bo moja kotka dostała ślinotoku i wcisnęła się ze strachu za pralkę.
 
-Spójrz na zdjęcie tylnej ścianki pudełeczka tamtego zamiennika na moim kuchennym stole dołączone do tego posta. Te 3 linijki składu podkreślone czerwonym długopisem kosztowały moją kotkę pół dnia potwornego stresu, a mnie wyleczyły raz na zawsze z kupowania „tańszych odpowiedników" na portalach aukcyjnych.
+Spójrz na zdjęcie tylnej ścianki pudełeczka tamtego zamiennika w mojej dłoni w kuchni dołączone do tego posta. Ten skład podkreślony czerwonym długopisem kosztował moją kotkę pół dnia potwornego stresu, a mnie wyleczył raz na zawsze z kupowania „tańszych odpowiedników" na portalach aukcyjnych.
 
 Piszę to ku przestrodze dla każdej kociary i każdego kociarza, którzy - dokładnie tak jak ja miesiąc temu - przeczytają w internecie o feromonach dla zestresowanego kota, a sekundę później pomyślą: „Po co mam przepłacać na oficjalnej stronie Feliory, skoro mam darmową dostawę na Allegro i kupię taki sam wkład do kontaktu za niecałe 30 zł?!".
 
@@ -189,7 +189,7 @@ Spojrzałam w dół na Maję i aż zamarłam. Zamiast się zrelaksować, kotka z
 
 W ułamku sekundy złapałam kuchenną ścierkę, wyrwałam tę śmierdzącą wtyczkę z gniazdka (tani plastik był tak gorący, że parzył w palce!), otworzyłam na oścież drzwi balkonowe i okno w kuchni, żeby przewietrzyć całe mieszkanie, po czym odwróciłam biały kartonik na tylną stronę.
 
-Z przodu obietnice spokoju dla kota. A z tyłu to, co widzisz na moim zdjęciu: „Olejek lawendowy, waleriana, sztuczna kompozycja zapachowa". Ani 1 ułamka procenta kocich feromonów!
+Z przodu obietnice spokoju dla kota. A z tyłu to, co widzisz na moim zdjęciu: „Olejek lawendowy, wyciąg z waleriany, Parfum". Ani 1 ułamka procenta kocich feromonów!
 
 Zadzwoniłam roztrzęsiona do naszej pani doktor w lecznicy. Kiedy przeczytałam jej ten skład słowo w słowo, aż podniosła głos w słuchawce:
 
@@ -214,11 +214,11 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
   'fel-30-tp-al-obrozka-38zl': {
     headline: 'Zamiast dyfuzora kupiłam kotu w internecie fioletową „obróżkę uspokajającą" za 38 zł. Po 6 dniach rozcinałam ją nożyczkami',
     description: 'Dlaczego dusząca obróżka na szyi podnosi kotu kortyzol zamiast go wyciszać (30 dni gwarancji na Feliorę)',
-    primaryText: `Chciałam zaoszczędzić 50 złotych i zamiast dyfuzora do kontaktu zamówiłam w internecie fioletową „obróżkę uspokajającą dla kota" za 38 zł. Po 6 dniach w sobotę rano trzęsącymi się rękami rozcinałam ją na szyi mojego kota małymi nożyczkami do paznokci.
+    primaryText: `Chciałam zaoszczędzić 50 złotych i zamiast dyfuzora do kontaktu zamówiłam w internecie fioletową „obróżkę uspokajającą dla kota" za 38 zł. Po 6 dniach w sobotę rano trzęsącymi się rękami rozcinałam ją na szyi mojego kota nożyczkami w kuchni.
 
-Spójrz na zdjęcie tej przeciętej na 2 części gumowej pętli na moim stole dołączone do tego posta. Obok leży kartka z zeszytu, którą napisałam i sfotografowałam dla dziewczyn z naszej grupy kociarskiej, żeby nikt więcej nie zafundował swojemu kotu takiego piekła za własne pieniądze.
+Spójrz na zdjęcie tej przeciętej na 2 części fioletowej pętli w mojej dłoni nad stołem dołączone do tego posta. Zrobiłam je od razu ku przestrodze dla dziewczyn z naszej grupy kociarskiej, żeby nikt więcej nie zafundował swojemu kotu takiego piekła za własne pieniądze.
 
-Nasz 4-letni czarny kocur Leon po jesiennej przeprowadzce do nowego mieszkania zupełnie stracił poczucie bezpieczeństwa. Każdej nocy punktualnie między 3:00 a 4:00 nad ranem budził nas przeraźliwym, gardłowym wyciem pod drzwiami wyjściowymi, drapał lustrzane drzwi szafy przesuwnej tak, że chodziła cała rama, a 1-2 razy w tygodniu zostawiał mokrą plamę na naszej kołdrze albo na kanapie w salonie.
+Nasz 4-letni pręgowany kocur Leon po jesiennej przeprowadzce do nowego mieszkania zupełnie stracił poczucie bezpieczeństwa. Każdej nocy punktualnie między 3:00 a 4:00 nad ranem budził nas przeraźliwym, gardłowym wyciem pod drzwiami wyjściowymi, drapał lustrzane drzwi szafy przesuwnej tak, że chodziła cała rama, a 1-2 razy w tygodniu zostawiał mokrą plamę na naszej kołdrze albo na kanapie w salonie.
 
 Chodziliśmy do pracy niewyspani jak zombie. Kiedy koleżanka z biura (opiekunka 2 brytyjczyków) powiedziała mi o stacjonarnych dyfuzorach feromonowych Feliora wpinanych do gniazdka, otworzyłam stronę na komputerze, popatrzyłam na cenę zestawu i włączyło mi się księgowe kombinowanie: „Zaraz, po co mam brać dyfuzory do kontaktów w pokojach, skoro na aukcjach internetowych są fioletowe obróżki antystresowe po 38 zł z darmową wysyłką? Zapnę mu pasek na szyi, to będzie miał wyciszenie zawsze pod nosem, gdziekolwiek pójdzie oraz wyjdzie ponad 2 razy taniej!".
 
@@ -232,9 +232,9 @@ Leon od 1. godziny zaczął poruszać się po mieszkaniu przy samej podłodze na
 
 Zamiast obiecanego wyciszenia jego stres wystrzelił w kosmos: przestał sikać na łóżko raz w tygodniu - zaczął zalewać pościel co 2. noc i przestał przychodzić do nas na kolana!
 
-6. dnia rano w sobotę wszedł do kuchni z dziwnie przekrzywioną na bok głową. Uklękłam przy nim przy oknie, rozgarnęłam palcami gęstą czarną sierść pod fioletowym paskiem i zamarłam: od ciągłego tarcia sztywnej krawędzi plastiku, chemicznego pyłu i drapania tylną łapą na szyi zrobiło mu się gorące, zaognione odparzenie z wytartą do gołej skóry sierścią wielkości monety 5-złotowej!
+6. dnia rano w sobotę wszedł do kuchni z dziwnie przekrzywioną na bok głową. Uklękłam przy nim przy oknie, rozgarnęłam palcami gęstą sierść pod fioletowym paskiem i zamarłam: od ciągłego tarcia sztywnej krawędzi plastiku, chemicznego pyłu i drapania tylną łapą na szyi zrobiło mu się gorące, zaognione odparzenie z wytartą do gołej skóry sierścią wielkości monety 5-złotowej!
 
-W 5 sekund pobiegłam do łazienki po małe nożyczki i rozcięłam to paskudztwo na pół. Leon po zdjęciu obróżki uciekł pod łóżko na dobre 2 godziny.
+W 5 sekund sięgnęłam po nożyczki i rozcięłam to paskudztwo na pół. Leon z nastroszonym kołnierzem usiadł na krześle za stołem i nie dawał się dotknąć przez dobre 2 godziny.
 
 Pojechaliśmy od razu na sobotni dyżur do naszej lecznicy odkazić i zabezpieczyć podrażnioną skórę. Rachunek za moją wielką „oszczędność" wyglądał na tamten dzień tak:
 - Fioletowa obróżka z internetu: 38 zł.
@@ -255,7 +255,7 @@ Wpięłam 1. dyfuzor w sypialni, a 2. w salonie. Zero jakiegokolwiek zapachu zi�
 
 Przez początkowe 4 noce po podłączeniu Leon nadal budził się w środku nocy koło 3:00 i pomiaukiwał pod szafą - utrwalony przez tygodnie lęk po przeprowadzce nie wyłącza się w 1 dobę jak lampka nocna.
 
-Przełom przyszedł 8. nocy: obudziłam się sama o 6:00 rano w absolutnej ciszy, aż podniosłam głowę znad poduszki sprawdzić, gdzie jest kot - Leon spał zwinięty w luźny kłębek w nogach całkowicie suchego łóżka, a skóra na szyi pięknie przyschła i zaczęła zarastać czarnym meszkiem.
+Przełom przyszedł 8. nocy: obudziłam się sama o 6:00 rano w absolutnej ciszy, aż podniosłam głowę znad poduszki sprawdzić, gdzie jest kot - Leon spał zwinięty w luźny kłębek w nogach całkowicie suchego łóżka, a skóra na szyi pięknie przyschła i zaczęła zarastać świeżym meszkiem.
 
 Dzisiaj mija 4. tydzień. Sikanie poza kuwetą nie powtórzyło się ani 1 raz od 19 dni, a drapanie lustrzanej szafy w nocy ustało. Oczywiście raz czy 2 razy w tygodniu o 5:00 nad ranem Leon nadal potrafi usiąść przy mojej twarzy i cicho miauknąć o śniadanie, kiedy zaśpię z budzikiem - to żywy, charakterny 4-letni kocur z zegarkiem w brzuchu, a nie pluszowa poduszka. Ale wreszcie odzyskaliśmy spokojnego, mruczącego kota i przespane noce bez foliowych podkładów na materacu.
 
@@ -268,7 +268,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Porównanie weterynaryjne: jednoskładnikowe zamienniki F3 (grzałka 95°C) vs podwójny kompleks M.A.P. + F3 w Feliorze',
     primaryText: `W zeszły wtorek pacjentka wysypała mi na stół zabiegowy w lecznicy 2 przegrzane plastikowe wtyczki kupione na Allegro i zapytała z rozpaczą w głosie, dlaczego po zaledwie 12 dniach szklane fiolki są puste do dna, a jej 2 koty dalej drą z siebie futro i sikają na dywan w salonie.
 
-Spójrz na zdjęcie krótkiej rozpiski z mojego biurka dołączone do tego posta. Zapisałem jej te 3 linijki zielonym i czarnym markerem podczas wizyty, żeby raz na zawsze wyjaśnić polskim opiekunom kotów, na czym polega ukryty haczyk tanich zamienników z portali aukcyjnych.
+Spójrz na zdjęcie 2 dyfuzorów w moich dłoniach w gabinecie dołączone do tego posta. Po lewej stronie trzymam tę pożółkłą od gorąca, wysuszoną do zera wtyczkę z aukcji po 12 dniach, a po prawej oryginalny dyfuzor Feliora z połową bursztynowej fiolki - widać na nim jak na dłoni ukryty haczyk tanich zamienników.
 
 Jako lekarz weterynarii doskonale rozumiem, że przy dzisiejszych cenach w sklepach każdy liczy domowy budżet. Kiedy właściciel słyszy w gabinecie albo czyta w sieci o dyfuzorach feromonowych do gniazdka, naturalnym odruchem jest otwarcie aplikacji Allegro i wpisanie hasła „feromony dla kota wkład 48 ml tanio". Wyskakują dziesiątki ofert po 35, 39 czy 45 zł z dostawą do Paczkomatu. Na małym ekranie telefonu każda buteleczka wygląda przecież niemal tak samo: biały plastik, gwint, przezroczysty lub brązowy płyn.
 
@@ -288,9 +288,9 @@ W takich stanach układ nerwowy zwierzęcia potrzebuje 2. kluczowego wektora: ma
 
 2. Fizyka przegrzanej grzałki 95°C kontra rdzeń ceramiczny 5W.
 
-Kiedy wziąłem w palce tanią wtyczkę przyniesioną przez panią Dorotę, biały plastik wokół górnego kominka był aż zżółknięty i kruchy od gorąca, a knot w środku poczerniały! W tanich wtyczkach z aukcji montuje się najprostszy opornik bez stabilizacji termicznej, który przy napięciu 230V w nocy rozgrzewa rdzeń powyżej 95, a czasem 110 stopni Celsjusza.
+Kiedy wziąłem w palce tanią wtyczkę przyniesioną przez panią Dorotę, biały plastik wokół górnego kominka był aż zżółknięty i kruchy od gorąca, a ścianki pustej fiolki oblepione żółtym osadem! W tanich wtyczkach z aukcji montuje się najprostszy opornik bez stabilizacji termicznej, który przy napięciu 230V w nocy rozgrzewa rdzeń powyżej 95, a czasem 110 stopni Celsjusza.
 
-Co wtedy dzieje się z płynem? Przez początkowe 4 dni przegrzany knot gwałtownie wygotowuje lekkie frakcje w powietrze i utlenia resztę roztworu, a około 11. lub 12. dnia buteleczka 48 ml jest już całkowicie sucha! Płyn kończy się w niecałe 2 tygodnie - dokładnie w tym momencie, w którym układ limbiczny kota po 10 dniach nasycania dopiero zaczyna schodzić z wysokiego kortyzolu! Kupując 2 takie tanie wkłady na miesiąc, w praktyce płacisz więcej niż za oryginał, a kot dostaje poszarpaną dawkę utlenionej parafiny.
+Co wtedy dzieje się z płynem? Przez początkowe 4 dni przegrzany rdzeń gwałtownie wygotowuje lekkie frakcje w powietrze i utlenia resztę roztworu, a około 11. lub 12. dnia buteleczka 48 ml jest już całkowicie sucha! Płyn kończy się w niecałe 2 tygodnie - dokładnie w tym momencie, w którym układ limbiczny kota po 10 dniach nasycania dopiero zaczyna schodzić z wysokiego kortyzolu! Kupując 2 takie tanie wkłady na miesiąc, w praktyce płacisz więcej niż za oryginał, a kot dostaje poszarpaną dawkę utlenionej parafiny.
 
 W dyfuzorze Feliora zastosowano niskonapięciowy, stabilizowany rdzeń ceramiczny o poborze mocy zaledwie 5W (mniej niż zwykła ładowarka do telefonu), zamknięty w niepalnej obudowie klasy V-0. Utrzymuje on równą, niską temperaturę dyfuzji 24 godziny na dobę przez pełne 30 dni z 1 fiolki 48 ml - od 1. do 30. dnia kot odbiera dokładnie to samo stabilne stężenie M.A.P. + F3.
 

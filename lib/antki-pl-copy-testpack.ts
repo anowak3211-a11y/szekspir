@@ -83,7 +83,7 @@ P.S. Zrób dzisiaj wieczorem 5-sekundowy przegląd w szatni albo przedpokoju i o
     description: '',
     primaryText: `Odmawiam wkładek 3 na 10 rodzicom w moim gabinecie.
 
-Spójrz na kartkę i kątomierz na moim biurku na zdjęciu dołączonym do tego posta. Zapisałem na niej grubym flamastrem dokładnie tę granicę wieku, przez którą połowa rodziców w Polsce albo panikuje o 3 lata za wcześnie, albo budzi się o 3 lata za późno.
+Spójrz na zdjęcie pięt dziecka na niebieskiej macie z naszego gabinetu dołączone do tego posta. Pokazuje ono czarno na białym dokładnie tę granicę wieku, przez którą połowa rodziców w Polsce albo panikuje o 3 lata za wcześnie, albo budzi się o 3 lata za późno.
 
 Jako fizjoterapeuta pracujący z wadami postawy dzieci od 14 lat nie zamierzam nikomu słodzić ani wciskać produktów na siłę. Jeżeli masz w domu zdrowego 2-latka albo 3-latka, który dopiero niedawno zaczął pewnie biegać i jego stópka na podłodze wygląda jak płaski placuszek - zamknij tę stronę i schowaj portfel.
 
@@ -150,7 +150,7 @@ P.S. Jeśli masz w domu 2-latka - daj mu biegać boso po dywanie i trawie. Ale j
     description: '',
     primaryText: `2. dnia w szatni chciałam wyrzucić je do kosza.
 
-Spójrz na zdjęcie na drewnianej ławce przy szafce 202 dołączone do tego posta. Zrobiłam je w połowie mojej zmiany w pracy, wyciągając pomarańczową wkładkę z czarnego półbuta i pokazując kciuk w dół - wysłałam je mojej młodszej siostrze na Messengerze z podpisem: „Kolejny bubel z internetu, wieczorem pakuję i odsyłam".
+Spójrz na zdjęcie na drewnianej ławce przy metalowych szafkach w szatni dołączone do tego posta. Zrobiłam je w połowie mojej zmiany w pracy, wyciągając pomarańczową wkładkę z czarnego półbuta i pokazując kciuk w dół - wysłałam je mojej młodszej siostrze na Messengerze z podpisem: „Kolejny bubel z internetu, wieczorem pakuję i odsyłam".
 
 Piszę o tym dzisiaj bez owijania w bawełnę, bo jestem pewna, że przynajmniej 1 na 5 kobiet po 50. roku życia robi w początkowych 48 godzinach dokładnie ten sam głupi błąd, co ja.
 
@@ -173,7 +173,7 @@ Zamówiłam Pakiet 1+1 GRATIS za 99,99 zł wyłącznie na chłodnej kalkulacji: 
 
 Paczka przyszła w poniedziałek. We wtorek nad ranem przed wyjściem na 6:00 włożyłam wkładki do moich czarnych butów do pracy i poszłam od razu na pełną, 10-godzinną zmianę przy dostawie towaru!
 
-O 11:00 przed południem usiadłam w szatni przy szafce 202 i miałam dość. Pod samym środkiem stopy - dokładnie tam, gdzie przez lata miałam płaską pustkę - czułam wyraźny, sprężysty wypukły profil, jakbym chodziła ze zwiniętą w kulkę skarpetką pod podbiciem! Zrobiłam zdjęcie z kciukiem w dół i wysłałam siostrze.
+O 11:00 przed południem usiadłam na ławce w szatni i miałam dość. Pod samym środkiem stopy - dokładnie tam, gdzie przez lata miałam płaską pustkę - czułam wyraźny, sprężysty wypukły profil, jakbym chodziła ze zwiniętą w kulkę skarpetką pod podbiciem! Zrobiłam zdjęcie z kciukiem w dół i wysłałam siostrze.
 
 Oddzwoniła po 3 minutach na swojej przerwie śniadaniowej:
 - Iwona, czy ty masz rozum w głowie?! - zapytała bez litości. - Przez 10 lat chodziłaś na kompletnie zapadniętym łuku stopy jak na płaskim żelazku! Twoja powięź podeszwowa i więzadła skróciły się i zastały w patologicznej pozycji, a ty 1. dnia bez żadnego przyzwyczajenia wrzucasz je od razu na 10 godzin betonu z dźwiganiem skrzynek?! To tak, jakbyś po 10 latach siedzenia na kanapie założyła aparat ortodontyczny na krzywe zęby i dziwiła się 2. dnia, że czujesz ucisk!
@@ -210,7 +210,7 @@ P.S. Przez początkowe 3 dni daj stopie przyzwyczaić się do podparcia łuku po
     description: '',
     primaryText: `„Po co przepłacać, na Allegro są po 23,99 zł!" - powiedział mój mąż.
 
-Spójrz na zdjęcie na naszym kuchennym stole dołączone do tego posta. Obok granatowego buta mojej 8-letniej córki Mai leży szara wkładka z portalu aukcyjnego po dokładnie 9 dniach chodzenia do szkoły - ugnieciona pod piętą i wewnętrzną kostką na grubość kartki bloku technicznego.
+Spójrz na zdjęcie znad naszego kuchennego stołu dołączone do tego posta. Trzymam w dłoniach szarą wkładkę z portalu aukcyjnego wyjętą z granatowego buta mojej 8-letniej córki Mai po dokładnie 9 dniach chodzenia do szkoły - ugniecioną pod piętą i wewnętrznym łukiem na grubość kartki bloku technicznego.
 
 Przez to „mądre oszczędzanie" 76 zł nie tylko wyrzuciliśmy pieniądze do śmieci, ale przez 2 tygodnie nieświadomie pogłębialiśmy koślawość kolan własnego dziecka!
 
@@ -270,7 +270,7 @@ P.S. Jeśli kupiłaś już kiedyś tanie wkładki z internetu lub marketu, wyjmi
     description: '',
     primaryText: `Wyrzuć tę niebieską żelową podpiętkę za 19,90 zł jeszcze dzisiaj.
 
-Spójrz na zdjęcie na moim stole dołączone do tego posta. Ściskam 2 palcami najpopularniejszy „silikonowy żel pod piętę" z portalu aukcyjnego i apteki, który pacjenci z bólem pięty przynoszą do mojego gabinetu dosłownie co tydzień w siatce z nieudanymi zakupami.
+Spójrz na zdjęcie z mojego gabinetu dołączone do tego posta. Ściskam w dłoni 2 palcami najpopularniejszy „silikonowy żel pod piętę" z portalu aukcyjnego i apteki, który pacjenci z bólem pięty przynoszą do mnie dosłownie co tydzień w siatce z nieudanymi zakupami.
 
 W samym październiku pokazały mi go 4 kolejne osoby, które o 6:00 rano wstają z łóżka jak na szczudłach, trzymając się ściany w przedpokoju. Każda z nich mówiła to samo zdanie: „Panie Tomku, przez początkowe 20 minut w bucie było tak mięciutko jak na chmurce, a po 2 godzinach w pracy pięta paliła mnie żywym ogniem jeszcze gorzej niż przedtem!".
 
@@ -285,7 +285,7 @@ Pod koniec zeszłego tygodnia trafiła do mnie 56-letnia pani Halina, kasjerka i
 
 Razem: 1 540 zł wydane z pensji kasjerki, a pani Halina po 30 minutach siedzenia przy obiedzie bała się wstać z krzesła, bo początkowe 10 kroków rwało ją pod podeszwą jak wbijany gwóźdź.
 
-Poprosiłem, żeby wyjęła z buta tę niebieską żelową podpiętkę za 19,90 zł, położyłem ją na drewnianym blacie i ścisnąłem kciukiem oraz palcem wskazującym aż do samego stołu.
+Poprosiłem, żeby wyjęła z buta tę niebieską żelową podpiętkę za 19,90 zł, wziąłem ją w dłoń i ścisnąłem kciukiem oraz palcem wskazującym na płasko jak galaretę.
 
 - Pani Halino, widzi pani, dlaczego to pogorszyło sprawę? - zapytałem spokojnie. - Pani nie boli pięta dlatego, że ma pani „za twardą kość piętową". Ten ból to naderwane w mikrowłóknach rozcięgno podeszwowe - gruba taśma biegnąca od pięty aż do palców, która trzyma łuk pani stopy.
 
@@ -295,7 +295,7 @@ Kazałem jej zdjąć skarpetki i stanąć boso na twardej podłodze. Jej 2 kostk
 
 Podkładasz pod samą piętę 8-milimetrowy miękki, chwiejny silikon za 19,90 zł, a śródstopie i łuk stopy zostawiasz bez żadnego podparcia
 ↓
-Pięta stoi wyżej na niestabilnej galarecie i przy każdym kroku buja się na boki jak na zapadniętym materacu, uciekając jeszcze mocniej do środka
+Pięta stoi wyżej na niestabilnej galarecie i przy każdym kroku buja się na boki jak na zapadniętym materacu, ucieka jeszcze mocniej do środka
 ↓
 Niepodparty łuk podłużny wisi w powietrzu jak most bez filaru i pod ciężarem 75 kg zapada się w dół w powstały uskok
 ↓
@@ -335,7 +335,7 @@ P.S. Przy bólu pięty 1 para w butach wyjściowych to za mało - 2. para z zest
     description: '',
     primaryText: `Chytry traci 2 razy - zapłaciłem za to własnymi stopami i kolanami.
 
-Spójrz na zdjęcie na ławce w naszej szatni zakładowej dołączone do tego posta. Po lewej stronie leży „identyczna pomarańczowa wkładka" kupiona przeze mnie u chińskiego pośrednika na portalu aukcyjnym za 27 zł po dokładnie 4 godzinach chodzenia po magazynie, a po prawej oryginalna wkładka po 6 tygodniach codziennej tyrki.
+Spójrz na zdjęcie w moich dłoniach w szatni zakładowej dołączone do tego posta. Po lewej stronie trzymam „identyczną pomarańczową wkładkę" kupioną przeze mnie u chińskiego pośrednika na portalu aukcyjnym za 27 zł po dokładnie 4 godzinach chodzenia po magazynie, a po prawej oryginalną wkładkę po 6 tygodniach codziennej tyrki.
 
 Wrzucam to zdjęcie ku przestrodze dla każdego faceta i każdej dziewczyny pracującej po 8-12 godzin w butach roboczych, którzy tak jak ja pomyśleli wieczorem przed telefonem: „Po co mam płacić 99,99 zł na stronie producenta, skoro na aukcji widzę takie samo zdjęcie za 27 zł?!".
 
@@ -383,7 +383,7 @@ Kiedy otworzyłem paczkę 2 dni później, nie było żadnego chemicznego odoru 
 
 Przez początkowe 2 zmiany czułem pod stopą konkretne, sprężyste trzymanie łuku, do którego stopa musiała przywyknąć.
 Po tygodniu przestało mnie palić śródstopie po 12:00 i po raz 1. od miesięcy wysiadłem pod blokiem z samochodu od razu na 2 nogi bez rozmasowywania kolana.
-Dzisiaj mija 6 tygodni - to właśnie moją wkładkę wyjętą prosto z buta roboczego widzisz po prawej stronie na zdjęciu w szatni. Zero odklejonego materiału, zero zbitego naleśnika pod piętą.
+Dzisiaj mija 6 tygodni - to właśnie moją wkładkę wyjętą prosto z buta roboczego widzisz w prawej dłoni na zdjęciu w szatni. Zero odklejonego materiału, zero zbitego naleśnika pod piętą.
 
 Oczywiście cudów nie ma: kiedy pod koniec tygodnia rozładujemy 4 tiry przed weekendem i zrobię 18 000 kroków, wieczorem czuję w łydkach uczciwe zmęczenie fizyczne - mam 47 lat i pracuję na magazynie, a nie za biurkiem. Ale kłucie w prawym kolanie i pieczenie pięt odeszły w zapomnienie.
 

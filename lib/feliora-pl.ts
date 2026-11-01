@@ -378,9 +378,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-as-01-kciuk-w-dol',
-    url: '/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg',
+    url: '/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg?v=raw2',
     imageHash: '',
-    label: '👎 TP-AS-26 (Anti-Sales) · Dyfuzor Feliora nad paczką zwrotową + kciuk w dół i kot w sypialni',
+    label: '👎 TP-AS-26 (Anti-Sales) · Surowe zdjęcie z sypialni: dyfuzor Feliora przy paczce zwrotnej + kciuk w dół i kot',
     adsetOrigin: 'Test Pack 01.11: Anti-Sales',
     adOrigin: 'TP-AS-26 Kciuk w dół',
     aspectRatio: '1:1',
@@ -389,9 +389,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-as-02-badanie-moczu',
-    url: '/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg',
+    url: '/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg?v=raw2',
     imageHash: '',
-    label: '🩺 TP-AS-27 (Anti-Sales · 1:1 bez wtyczki) · Wynik badania moczu kota: „Liczne kryształy struwitowe +++”',
+    label: '🩺 TP-AS-27 (Anti-Sales · Lecznica) · Kubeczek z moczem i wydruk laboratoryjny: kryształy struwitowe +++',
     adsetOrigin: 'Test Pack 01.11: Anti-Sales',
     adOrigin: 'TP-AS-27 Badanie moczu struwity',
     aspectRatio: '1:1',
@@ -400,9 +400,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-as-03-dzien6-zero-zapachu',
-    url: '/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg',
+    url: '/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg?v=raw2',
     imageHash: '',
-    label: '🔌 TP-AS-28 (Anti-Sales) · Karteczka nad gniazdkiem „DZIEŃ 6: ZERO ZAPACHU?!” i 2 koty w salonie',
+    label: '🔌 TP-AS-28 (Anti-Sales) · Dłoń przy gniazdku 6. dnia („zero zapachu?!”) i 2 koty w przedpokoju',
     adsetOrigin: 'Test Pack 01.11: Anti-Sales',
     adOrigin: 'TP-AS-28 Dzień 6 Zero Zapachu',
     aspectRatio: '1:1',
@@ -411,9 +411,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-al-01-sklad-lawenda',
-    url: '/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg',
+    url: '/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg?v=raw2',
     imageHash: '',
-    label: '🛒 TP-AL-29 (Anti-Allegro · 1:1 bez produktu) · Skład wkładu 29,99 zł: „Olejek lawendowy, waleriana”',
+    label: '🛒 TP-AL-29 (Anti-Allegro · Kuchnia POV) · Tylna naklejka wkładu 29,99 zł: „Olejek lawendowy, wyciąg z waleriany, Parfum”',
     adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
     adOrigin: 'TP-AL-29 Skład lawenda 29,99 zł',
     aspectRatio: '1:1',
@@ -422,9 +422,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-al-02-rozcieta-obrozka',
-    url: '/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg',
+    url: '/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg?v=raw2',
     imageHash: '',
-    label: '✂️ TP-AL-30 (Anti-Allegro · 1:1 bez produktu) · Rozcięta fioletowa obróżka 38 zł + notatka o odparzeniu',
+    label: '✂️ TP-AL-30 (Anti-Allegro · Dom POV) · Rozcięta nożyczkami fioletowa obróżka 38 zł w dłoni + pręgowany kot w tle',
     adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
     adOrigin: 'TP-AL-30 Rozcięta obróżka 38 zł',
     aspectRatio: '1:1',
@@ -433,9 +433,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
   },
   {
     id: 'fel-tp-al-03-f3-vs-map',
-    url: '/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg',
+    url: '/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg?v=raw2',
     imageHash: '',
-    label: '📋 TP-AL-31 (Anti-Allegro · 1:1 bez produktu) · Rozpiska weterynarza: Zamienniki F3 (12 dni) vs Feliora M.A.P.+F3 (30 dni)',
+    label: '⚖️ TP-AL-31 (Anti-Allegro · Gabinet POV) · Przegrzana pusta wtyczka z aukcji vs pełny dyfuzor Feliora w dłoniach lekarza',
     adsetOrigin: 'Test Pack 01.11: Anti-Allegro',
     adOrigin: 'TP-AL-31 Porównanie F3 vs M.A.P.',
     aspectRatio: '1:1',
@@ -1037,7 +1037,7 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "vocTrigger": "„Wpięłam 1 wtyczkę za komodą w przedpokoju, 2. schowałam na zapas i po 4 dniach wysłałam weterynarzowi zdjęcie z kciukiem w dół.”",
     "mechanismCore": "Ciężkie lipidy M.A.P. + F3 nie przenikają przez płyty meblowe ani przymknięte drzwi - wymagają odkrytego gniazdka w pokoju docelowym.",
     "defaultImageId": "fel-tp-as-01-kciuk-w-dol",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-01-kciuk-w-dol.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1057,15 +1057,15 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "vocTrigger": "„Żaden feromon na świecie nie rozpuści fizycznego piasku w pęcherzu. Ale u 7 na 10 kotów z czystym osadem przyczyną jest stresowe FIC.”",
     "mechanismCore": "Uczciwa selekcja medyczna budująca 100% zaufania: najpierw badanie osadu moczu, potem wyciszenie osi mózg-nadnercza-pęcherz kompleksem M.A.P.+F3.",
     "defaultImageId": "fel-tp-as-02-badanie-moczu",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-02-badanie-moczu.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
     "id": "fel-28-tp-as-dzien6-zero-zapachu",
     "number": 28,
     "code": "TP-AS-28",
-    "title": "[Anti-Sales 👎] 6. dnia przykleiłem nad gniazdkiem karteczkę „ZERO ZAPACHU?!” i uznałem, że nabili mnie w butelkę",
-    "shortTitle": "Anti-Sales 👎: „Dzień 6: Zero Zapachu?!”",
+    "title": "[Anti-Sales 👎] 6. dnia powąchałem gniazdko z 3 cm („zero zapachu?!”) i uznałem, że żona kupiła zwykłą wodę w szkle",
+    "shortTitle": "Anti-Sales 👎: 6. dzień przy gniazdku („zero zapachu?!”)",
     "stageId": "stage6_anti_sales_allegro",
     "stageNumber": 6,
     "sophisticationLevel": 5,
@@ -1074,17 +1074,17 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "problemLabel": "Anti-Sales 👎 · Zwątpienie 6. dnia i bezwonność feromonów",
     "recommendedFanpageId": "1363490303507686",
     "recommendedFanpageName": "Karol Mikołajczyk",
-    "vocTrigger": "„Wąchałem wtyczkę z 3 cm i nie czułem kompletnie nic, a koty do 6. dnia dalej syczały pod drzwiami.”",
+    "vocTrigger": "„Wąchałem wtyczkę z 3 cm i nie czułem kompletnie nic, a koty do 6. dnia dalej syczały na siebie w korytarzu.”",
     "mechanismCore": "Prawdziwe feromony M.A.P. + F3 są w 100% bezwonne dla ludzkiego nabłonka węchowego (odbiera je wyłącznie narząd Jacobsona po 7-12 dobach nasycenia).",
     "defaultImageId": "fel-tp-as-03-dzien6-zero-zapachu",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-as-03-dzien6-zero-zapachu.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
     "id": "fel-29-tp-al-wklad-lawenda-29zl",
     "number": 29,
     "code": "TP-AL-29",
-    "title": "[Anti-Allegro] Kupiłam na Allegro „wkład uspokajający dla kota” za 29,99 zł. Przeczytajcie 2. linijkę składu (lawenda!)",
+    "title": "[Anti-Allegro] Kupiłam na Allegro „wkład uspokajający dla kota” za 29,99 zł. Przeczytajcie skład na naklejce (lawenda!)",
     "shortTitle": "Anti-Allegro: Wkład z lawendą za 29,99 zł",
     "stageId": "stage6_anti_sales_allegro",
     "stageNumber": 6,
@@ -1094,10 +1094,10 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "problemLabel": "Anti-Allegro · Toksyczne olejki eteryczne udające feromony",
     "recommendedFanpageId": "1304624172730017",
     "recommendedFanpageName": "Koty Bez Ściemy",
-    "vocTrigger": "„Po 2 dniach taniej wtyczki z aukcji za 29,99 zł kotka zaczęła kichać i zalała nam kanapę — w środku nie było grama feromonów, tylko lawenda!”",
+    "vocTrigger": "„Po 40 minutach taniej wtyczki z aukcji za 29,99 zł kotka dostała ślinotoku — w środku nie było grama feromonów, tylko lawenda i waleriana!”",
     "mechanismCore": "Kocia wątroba nie posiada enzymów glukuronylotransferazy do metabolizowania terpenów z olejku lawendowego - tani odświeżacz wywołuje panikę węchową.",
     "defaultImageId": "fel-tp-al-01-sklad-lawenda",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-01-sklad-lawenda.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1117,7 +1117,7 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "vocTrigger": "„Chciałam zaoszczędzić 50 zł na obróżce za 38 zł — skończyło się odparzeniem szyi wielkości 5-złotówki i 278 zł u weterynarza.”",
     "mechanismCore": "14x czulszy węch kota + terytorialna natura bezpieczeństwa wymagają bezdotykowej i bezwonnej dyfuzji M.A.P.+F3 w pokoju, nie pętli pod nosem.",
     "defaultImageId": "fel-tp-al-02-rozcieta-obrozka",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-02-rozcieta-obrozka.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1137,7 +1137,7 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "vocTrigger": "„Tanie wtyczki z aukcji rozgrzewają się do 95°C, wygotowują płyn w 12 dni i mają tylko słabe F3 bez kompleksu matczynego M.A.P.”",
     "mechanismCore": "Podwójny kompleks 5% M.A.P. + F3 + stabilizowany rdzeń ceramiczny 5W działający równe 30 dni 24/7 z 30-dniową gwarancją zwrotu.",
     "defaultImageId": "fel-tp-al-03-f3-vs-map",
-    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg",
+    "defaultImageUrl": "/feliora-pl-images/fel-tp-al-03-f3-vs-map.jpg?v=raw2",
     "defaultImageHash": ""
   }
 ];

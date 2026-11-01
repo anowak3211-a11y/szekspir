@@ -85,7 +85,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Sprawdź przed zakupem, czy należysz do 79% mężczyzn z żywymi cebulkami (60 dni gwarancji)',
     primaryText: `Szampon SARDIAN u około 21% mężczyzn nie daje absolutnie żadnego nowego odrostu.
 
-Spójrz na kartkę z mojego biurka dołączoną do tego posta. Rozrysowałem na niej wczoraj 46-letniemu pacjentowi czarno na białym, dlaczego u prawie 8 na 10 facetów ten szampon zatrzymuje wypadanie i zagęszcza czubek głowy, a co 5. kupujący marnuje przy nim swój czas i niepotrzebnie się denerwuje.
+Spójrz na zdjęcie badania kamerą 200x z naszego gabinetu dołączone do tego posta. Pokazaliśmy wczoraj na tym monitorze 46-letniemu pacjentowi czarno na białym, dlaczego u prawie 8 na 10 facetów ten szampon zatrzymuje wypadanie i zagęszcza czubek głowy, a co 5. kupujący marnuje przy nim swój czas i niepotrzebnie się denerwuje.
 
 Zajmuję się kliniczną diagnostyką łysienia androgenowego u mężczyzn od 14 lat. Nie znoszę w tej branży cukierkowych obietnic, że 1 preparat odtworzy bujną czuprynę każdemu mężczyźnie niezależnie od wieku i stanu jego skóry. Biologia ludzkiego mieszka włosowego tak nie działa i każdy uczciwy specjalista powie to pacjentowi w 1. minucie wizyty.
 
@@ -107,7 +107,7 @@ Natomiast jeśli na Twoim przerzedzonym czubku głowy („gnieździe") i wzdłu�
 
 Skoro cebulki żyły, to dlaczego część panów z żywym meszkiem i tak wpadła do mojej grupy 21% bez efektu?
 
-Przez barierę 2., którą na karcie z mojego biurka nazwałem „błędem 30 sekund i wieczornego żelu 3w1 z SLS".
+Przez barierę 2., którą w gabinecie nazywamy „błędem 30 sekund i wieczornego żelu 3w1 z SLS".
 
 Miałem pod koniec lata w gabinecie pana Tomasza - 41 lat, programista z Poznania, który 4 razy w tygodniu chodzi wieczorem na siłownię. Wcześniej wydał ponad 1 100 zł na apteczne kuracje:
 - 3 opakowania ampułek wcieranych w skórę głowy po 169 zł: 507 zł (rzucił je, bo sklejały włosy i podrażniały skalp).
@@ -143,7 +143,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Dlaczego w 1. tygodniu stare 3-tygodniowe włoski muszą ustąpić miejsca nowym (60 dni gwarancji)',
     primaryText: `Mój mąż wyszedł rano spod prysznica, rzucił mokry ręcznik na pralkę i powiedział, że ten czarny szampon za ponad 100 zł to zwykłe naciąganie naiwnych ludzi.
 
-Spójrz na zdjęcie metalowego sitka w naszej kabinie prysznicowej i żółtej karteczki dołączone do tego posta. Michał przykleił ją na suchej szybie dokładnie 4. dnia używania szamponu SARDIAN, żebym wieczorem wygenerowała kod zwrotu do Paczkomatu i odesłała paczkę z powrotem.
+Spójrz na zdjęcie metalowego sitka w naszej kabinie prysznicowej dołączone do tego posta. Zrobiłam je dokładnie 4. dnia rano po prysznicu Michała, kiedy pokazałam palcem ten mokry kłębek na odpływie, a on kazał mi wieczorem wygenerować kod zwrotu do Paczkomatu i odesłać paczkę z powrotem.
 
 Poczułam wtedy w żołądku to okropne ukłucie wstydu, złości i bezsilności. Bo to właśnie ja namówiłam go na to zamówienie po miesiącach patrzenia, jak mój własny mąż gaśnie w oczach przed lustrem.
 
@@ -166,9 +166,9 @@ Wieczorem sama poczytałam w telefonie opinie innych kobiet kupujących go męż
 
 I wtedy nadszedł ten nieszczęsny 4. dzień rano.
 
-Wchodzę o 7:00 do łazienki po wyjściu męża do pracy, a na szklanej ściance kabiny wisi przyklejona żółta karteczka „DZIEŃ 4: DALEJ LECĄ - ODSYŁAMY!", a poniżej na stalowym sitku odpływu leży około 25 krótkich, ciemnych włosków. Chwilę później dostałam od niego wiadomość z parkingu pod firmą: „Mówiłem Ci, że kolejna ściema. Spakuj to wieczorem w karton, póki działa ta gwarancja".
+Wchodzę o 7:00 do łazienki po wyjściu męża do pracy, patrzę w dół na mokry brodzik, a na stalowym sitku odpływu leży około 25 krótkich, ciemnych włosków. Chwilę później dostałam od niego wiadomość z parkingu pod firmą: „Widziałaś odpływ? Mówiłem Ci, że kolejna ściema. Spakuj to wieczorem w karton, póki działa ta gwarancja".
 
-Byłam o włos od wejścia na stronę poczty i wydrukowania etykiety zwrotnej. Zanim jednak zakleiłam pudełko taśmą, zrobiłam zdjęcie sitka z karteczką i wysłałam je kuzynce Marcie z pytaniem: „Marta, o co chodzi? Trzyma pianę po 3 minuty, a 4. dnia dalej wypadają!".
+Byłam o włos od wejścia na stronę poczty i wydrukowania etykiety zwrotnej. Zanim jednak zakleiłam pudełko taśmą, zrobiłam zdjęcie tego mokrego sitka pod prysznicem i wysłałam je kuzynce Marcie z pytaniem: „Marta, o co chodzi? Trzyma pianę po 3 minuty, a 4. dnia dalej wypadają!".
 
 Oddzwoniła do mnie po 20 minutach w okienku między pacjentami.
 
@@ -178,7 +178,7 @@ Wytłumaczyła mi prosty fakt z anatomii skóry głowy, o którym nie wie 9 na 1
 
 - Powiedz Michałowi, żeby przestał liczyć włosy na sitku po 96 godzinach - zaśmiała się Marta. - Właśnie po to producent daje pełne 60 dni gwarancji na puste butelki, a nie 4 dni, bo pełna wymiana cyklu w mieszku zajmuje od 3 do 6 tygodni. Zróbcie kolejne zdjęcie tego samego sitka w 21. i 45. dniu.
 
-Wieczorem przy kolacji powtórzyłam to mężowi zdanie po zdaniu. Pokręcił głową z powątpiewaniem, mruknął pod nosem „dobra, niech stoi do końca miesiąca, najwyżej odeślemy im puste plastiki za 5 tygodni" i sam odkleił żółtą kartkę z szyby.
+Wieczorem przy kolacji powtórzyłam to mężowi zdanie po zdaniu. Pokręcił głową z powątpiewaniem, mruknął pod nosem „dobra, niech stoi do końca miesiąca, najwyżej odeślemy im puste plastiki za 5 tygodni" i odstawił pusty karton z powrotem na szafę.
 
 Nie odesłaliśmy ani 1 butelki.
 
@@ -249,7 +249,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Ostrzeżenie starego fryzjera męskiego przed podróbkami z SLS i silikonami (60 dni gwarancji na oryginał)',
     primaryText: `Pod koniec zeszłego tygodnia mój stały klient usiadł u mnie na fotelu fryzjerskim z czerwoną, łuszczącą się skórą w zakolach i wyjął z plecaka ciemną plastikową butelkę kupioną na aukcji internetowej za 34 zł.
 
-Spójrz na zdjęcie tylnej etykiety tamtej butelki dołączone do tego posta - zrobiłem je własnym telefonem przy myjce fryzjerskiej i zakreśliłem czerwonym długopisem środkową linijkę składu, żeby pokazać każdemu facetowi w Polsce, jak handlarze w sieci robią dziś łysiejących mężczyzn w konia.
+Spójrz na zdjęcie tylnej etykiety tamtej butelki dołączone do tego posta - zrobiłem je własnym telefonem przy myjce fryzjerskiej i podkreśliłem niebieskim długopisem 2. składnik zaraz po wodzie, żeby pokazać każdemu facetowi w Polsce, jak handlarze w sieci robią dziś łysiejących mężczyzn w konia.
 
 Stoję z nożyczkami przy fotelu męskim nieprzerwanie od 1991 roku. Przez te 35 lat pracy we własnym zakładzie widziałem na męskich głowach dosłownie wszystko: od wody brzozowej z kiosku Ruchu w latach 90., przez lepkie zagęszczacze w sprayu z telezakupów, aż po chłopaków wracających z poparzonymi karkami z tanich klinik w Stambule. Ale skala bezczelnych podróbek na dzisiejszych portalach aukcyjnych przechodzi ludzkie pojęcie.
 
@@ -263,11 +263,11 @@ Usiadł u mnie na fotelu po 16:00, zapiąłem mu czarną pelerynę pod szyją, r
 
 - No i gdzie ten pański wielki przełom, panie Heniu? - rzucił z wyraźnym żalem w głosie, patrząc mi w oczy w lustrze. - Znalazłem w internecie czarny szampon aktywujący cebulki taniej niż pan mówił, myję nim głowę od 3 tygodni i nie dość, że włosy lecą mi garściami na umywalkę, to w nocy budzę się i drapię po głowie aż do krwi!
 
-Sięgnął ręką do swojego plecaka na podłodze i postawił na mojej konsoli ciemnoszarą, miękką plastikową butelkę bez pompki. Z przodu jakieś złote szlaczki. Bez słowa obróciłem ją o 180 stopni na tylną ściankę do białej naklejki ze składem INCI, wyjąłem z szuflady czerwony długopis i grubą kreską otoczyłem 2. linijkę tekstu.
+Sięgnął ręką do swojego plecaka na podłodze i postawił na mojej konsoli ciemną, miękką plastikową butelkę bez pompki. Bez słowa obróciłem ją o 180 stopni na tylną ściankę do białej naklejki ze składem INCI, wyjąłem z szuflady niebieski długopis i grubą kreską podkreśliłem 2. składnik po wodzie.
 
 - Panie Grzegorzu, niech pan weźmie to w rękę pod światło i przeczyta na głos, co stoi zaraz po wodzie - powiedziałem spokojnie.
 
-Zmrużył oczy i przeczytał powoli: „Aqua, Sodium Laureth Sulfate... Dimethicone, Parfum".
+Zmrużył oczy i przeczytał powoli: „Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Dimethicone, Parfum".
 
 - Panie Grzegorzu, pan nie kupił żadnego SARDIANU - powiedziałem mu jak ojciec synowi. - Pan kupił za 34 złote najtańszą przemysłową bazę myjącą za 2 złote od litra: agresywny siarczan SLS wymieszany z ciężkim silikonem Dimethicone i syntetycznym perfumem, rozlany w ciemny plastik pod cudzą nazwę i popularność!
 
@@ -280,7 +280,7 @@ Razem ponad 418 zł wyrzucone w błoto i cofnięta o pół roku kondycja własny
 
 Wytłumaczyłem mu na fotelu w 2 prostych punktach, co ten skład z aukcji zrobił jego włosom:
 1. Sodium Laureth Sulfate (SLS) na 2. miejscu składu zdziera barierę lipidową skalpu jak papier ścierny i zmusza gruczoły łojowe do panicznego, podwójnego wyrzutu łoju pełnego hormonu DHT już 5 godzin po porannym prysznicu.
-2. Silikon Dimethicone na 3. miejscu składu to dla łysiejącego faceta gwóźdź do trumny. W tanich szamponach dodaje się go po to, żeby oblepiał martwą łodygę włosa śliskim plastikiem i dawał złudzenie „miękkości". Ale wmasowany w skórę głowy na zakolach i czubku tworzy nieprzepuszczalną, gumowatą folię, która dosłownie zatyka ujścia mieszków włosowych! Te młode, cienkie 2-milimetrowe włoski duszą się pod warstwą silikonu bez tlenu i wypadają po 21 dniach!
+2. Silikon Dimethicone w składzie to dla łysiejącego faceta gwóźdź do trumny. W tanich szamponach dodaje się go po to, żeby oblepiał martwą łodygę włosa śliskim plastikiem i dawał złudzenie „miękkości". Ale wmasowany w skórę głowy na zakolach i czubku tworzy nieprzepuszczalną, gumowatą folię, która dosłownie zatyka ujścia mieszków włosowych! Te młode, cienkie 2-milimetrowe włoski duszą się pod warstwą silikonu bez tlenu i wypadają po 21 dniach!
 
 Pan Grzegorz siedział na fotelu w zupełnej ciszy, obracając tę butelkę za 34 zł w dłoniach, po czym zaklął pod nosem: „Chciałem być mądrzejszy o 70 złotych, a sam sobie spaliłem głowę. Ja już się, panie Heniu, boję czegokolwiek dotknąć w internecie".
 
@@ -306,7 +306,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Dlaczego oceny wystawiane 2 godziny po wyjęciu z Paczkomatu wprowadzają łysiejących facetów w błąd',
     primaryText: `Wydałem 189 zł na Allegro na 3 „apteczne bestsellery na porost włosów" ze średnią 4,9 gwiazdki, a po 6 tygodniach wcierania moje zakola i czubek głowy wyglądały jeszcze gorzej niż we wrześniu.
 
-Spójrz na zdjęcie mojej otwartej szuflady w łazience i białej kartki z podliczeniem dołączone do tego posta. Te 3 napoczęte bursztynowe buteleczki z pipetką i czerwony szampon kofeinowy nauczyły mnie 1 brutalnej prawdy o systemie ocen na portalach aukcyjnych, z której 9 na 10 kupujących facetów kompletnie nie zdaje sobie sprawy.
+Spójrz na zdjęcie mojej otwartej szuflady w łazience dołączone do tego posta. Te napoczęte bursztynowe buteleczki z pipetką, blistry po kapsułkach i czerwony szampon kofeinowy nauczyły mnie 1 brutalnej prawdy o systemie ocen na portalach aukcyjnych, z której 9 na 10 kupujących facetów kompletnie nie zdaje sobie sprawy.
 
 Mam 41 lat, pracuję w biurze projektowym w Katowicach i zawsze uważałem się za racjonalnego gościa, który nie kupuje kota w worku, tylko sprawdza opinie i statystyki.
 
@@ -339,7 +339,7 @@ Kilka dni później mój szwagier (który rok temu miał już odłożone pienią
 
 - Panie Pawle, te wszystkie pojedyncze szampony kofeinowe, skrzypowe i wcierki na alkoholu z internetu robią w najlepszym razie 1 rzecz z 3, czyli dają ułamek tego, czego potrzebuje duszona cebulka - wyjaśnił specjalista, pokazując na ekranie moje żywe, ale zminiaturyzowane włoski. - Sama kofeina pobudzi krążenie na kwadrans, ale w żaden sposób nie blokuje hormonu DHT w gruczole łojowym i nie wydłuża skróconego do 21 dni cyklu wzrostu włosa. A SLS w szamponie oraz wysuszający alkohol w kroplach dodatkowo podrażniają ujście mieszka i nasilają łojotok z odbicia!
 
-Zapisał mi wtedy na zwykłej białej karteczce samą nazwę: szampon aktywujący korzenie SARDIAN (bez SLS i silikonów, 3 minuty pod prysznicem).
+Zapisał mi wtedy na małej karteczce z gabinetu samą nazwę: szampon aktywujący korzenie SARDIAN.
 
 Wieczorem w domu sam wpisałem w wyszukiwarkę SARDIAN opinie. Po wtopieniu ponad 300 zł na „gwiazdkowe hity" byłem najeżony i nieufny do granic możliwości. Powiedziałem żonie w kuchni: „Nie kupię już ani 1 buteleczki do tej przeklętej szuflady, dopóki ktoś nie podpisze się własnymi pieniędzmi pod efektem po miesiącu używania".
 

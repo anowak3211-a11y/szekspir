@@ -888,6 +888,8 @@ type SavedAntkiState = {
 };
 
 const ANTKI_STATE_KEYS = [
+ 'antki-pl-library-v15-raw-testpack',
+ 'antki-pl-library-v14-testpack-antisales-allegro',
  'antki-pl-library-v13-zal-v2',
  'antki-pl-library-v12-suma-pln',
  'antki-pl-library-v11-kie-hooks',
@@ -1419,12 +1421,16 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
    try {
     const fs = await import('node:fs');
     const path = await import('node:path');
-    const localPath = path.join(process.cwd(), 'public', targetUrl.replace(/^\//, ''));
+    const cleanRel = targetUrl.split('?')[0].replace(/^\//, '');
+    const localPath = path.join(process.cwd(), 'public', cleanRel);
     if (fs.existsSync(localPath)) {
      const bytes = fs.readFileSync(localPath).toString('base64');
+     const uploadName = targetUrl.includes('?v=raw2')
+      ? `raw2-${path.basename(localPath)}`
+      : path.basename(localPath);
      const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
       `act_${accountId}/adimages`,
-      { bytes, name: path.basename(localPath) },
+      { bytes, name: uploadName },
       'POST',
      );
      const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
@@ -1559,12 +1565,16 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
         try {
          const fs = await import('node:fs');
          const path = await import('node:path');
-         const localPath = path.join(process.cwd(), 'public', targetImgUrl.replace(/^\//, ''));
+         const cleanRel = targetImgUrl.split('?')[0].replace(/^\//, '');
+         const localPath = path.join(process.cwd(), 'public', cleanRel);
          if (fs.existsSync(localPath)) {
           const bytes = fs.readFileSync(localPath).toString('base64');
+          const uploadName = targetImgUrl.includes('?v=raw2')
+           ? `raw2-${path.basename(localPath)}`
+           : path.basename(localPath);
           const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
            `act_${accountId}/adimages`,
-           { bytes, name: path.basename(localPath) },
+           { bytes, name: uploadName },
            'POST',
           );
           const uploadedHash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
@@ -1817,4 +1827,381 @@ export async function uploadCustomAntkiImageToMeta(params: {
  const first = upRes?.images ? Object.values(upRes.images)[0] : undefined;
  return { hash: first?.hash, url: first?.url };
 }
+
+export async function listOrthomaxCampaignState(raw: unknown = {}) {
+ const opts = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const campaignIds =
+  typeof opts.campaignId === 'string' && opts.campaignId.trim()
+   ? [numericId(opts.campaignId.trim(), 'campaign')]
+   : ['120249912191200300', '120249967753030300'];
+
+ const campaigns = await Promise.all(
+  campaignIds.map(async cid => {
+   const [campaign, adsets] = await Promise.all([
+    directGraph<Record<string, unknown>>(cid, {
+     fields: 'id,name,status,daily_budget,lifetime_budget,bid_strategy',
+    }),
+    directGraph<{ data?: Array<Record<string, unknown>> }>(`${cid}/adsets`, {
+     fields:
+      'id,name,status,daily_budget,bid_amount,bid_strategy,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id},image_hash}}',
+     limit: 50,
+    }),
+   ]);
+   return { campaign, adsets: adsets.data || [] };
+  }),
+ );
+
+ return { campaigns };
+}
+
+export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
+ const opts = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const accountId = numericId(String(opts.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
+ const url =
+  typeof opts.url === 'string' && opts.url.startsWith('https://')
+   ? opts.url.trim()
+   : 'https://orthomax.pl/products/orthomax-stepmax';
+ const adStatus: 'ACTIVE' | 'PAUSED' = opts.adStatus === 'PAUSED' ? 'PAUSED' : 'ACTIVE';
+ const batchFilter = typeof opts.batch === 'string' ? opts.batch.trim().toLowerCase() : 'all';
+
+ const fs = await import('node:fs');
+ const path = await import('node:path');
+ const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
+ const allAds = buildAllArgonPrewrittenAds(url);
+ const adByAngleId = new Map(allAds.map(ad => [ad.angleId, ad]));
+
+ type ActorOption = { pId: string; pName: string; igId?: string };
+ type AngleSpec = { angleId: string; actors: ActorOption[] };
+
+ const GROUPS: Array<{
+  key: 'dzieci' | 'dorosli';
+  campaignId: string;
+  templateAdSetId: string;
+  adSetName: string;
+  angles: AngleSpec[];
+ }> = [
+  {
+   key: 'dzieci',
+   campaignId: '120249912191200300',
+   templateAdSetId: '120249912193360300',
+   adSetName: '01.11 - TEST PACK ANTI-SALES & ALLEGRO DZIECI (3x)',
+   angles: [
+    {
+     angleId: 'tp-76-as-dzieci-kapcie-szkolne',
+     actors: [
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi', igId: '17841473314157729' },
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi' },
+     ],
+    },
+    {
+     angleId: 'tp-77-as-dzieci-fizjo-okno',
+     actors: [
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku', igId: '17841477743222560' },
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku' },
+     ],
+    },
+    {
+     angleId: 'tp-79-al-dzieci-nalesnik-23zl',
+     actors: [
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi', igId: '17841473314157729' },
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi' },
+     ],
+    },
+   ],
+  },
+  {
+   key: 'dorosli',
+   campaignId: '120249967753030300',
+   templateAdSetId: '120249967758790300',
+   adSetName: '01.11 - TEST PACK ANTI-SALES & ALLEGRO DOROŚLI (3x)',
+   angles: [
+    {
+     angleId: 'tp-78-as-dorosli-szatnia-2dzien',
+     actors: [
+      { pId: '1194345203770949', pName: 'Iwona Kożuchowska', igId: '17841412233487287' },
+      { pId: '1194345203770949', pName: 'Iwona Kożuchowska' },
+     ],
+    },
+    {
+     angleId: 'tp-80-al-dorosli-zel-19zl',
+     actors: [
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku', igId: '17841477743222560' },
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku' },
+     ],
+    },
+    {
+     angleId: 'tp-81-al-dorosli-podrobka-27zl',
+     actors: [
+      // Karol Mikołajczyk (no IG — omit instagram_user_id per Global Rule #2), fallback Dziennik Zdrowego Ciała
+      { pId: '1363490303507686', pName: 'Karol Mikołajczyk' },
+      { pId: '945290751994002', pName: 'Dziennik Zdrowego Ciała', igId: '17841446201609005' },
+      { pId: '945290751994002', pName: 'Dziennik Zdrowego Ciała' },
+     ],
+    },
+   ],
+  },
+ ];
+
+ const imageHashCache = new Map<string, string>();
+ const uploadLocalOrthomaxImage = async (imgUrl: string): Promise<string> => {
+  if (imageHashCache.has(imgUrl)) return imageHashCache.get(imgUrl)!;
+  const cleanRel = imgUrl.split('?')[0].replace(/^\/+/, '');
+  const localPath = path.join(process.cwd(), 'public', cleanRel);
+  if (!fs.existsSync(localPath)) {
+   throw new Error(`Brak pliku grafiki na dysku: ${localPath}`);
+  }
+  const bytes = fs.readFileSync(localPath).toString('base64');
+  const uploadName = imgUrl.includes('?v=raw2')
+   ? `raw2-${path.basename(localPath)}`
+   : path.basename(localPath);
+  const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+   `act_${accountId}/adimages`,
+   { bytes, name: uploadName },
+   'POST',
+  );
+  const hash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+  if (!hash) throw new Error(`Nie udało się wgrać grafiki ${uploadName} na Meta Orthomax.`);
+  imageHashCache.set(imgUrl, hash);
+  return hash;
+ };
+
+ const groupResults: Array<{
+  batch: string;
+  campaignId: string;
+  campaignStatus?: string;
+  adSetId: string;
+  adSetName: string;
+  adSetStatus: string;
+  createdAds: Array<{
+   id: string;
+   name: string;
+   angleId: string;
+   pageId: string;
+   pageName: string;
+   imageHash: string;
+   url: string;
+  }>;
+ }> = [];
+
+ for (const grp of GROUPS) {
+  if (batchFilter !== 'all' && batchFilter !== grp.key) continue;
+
+  const campaign = await directGraph<{
+   id: string;
+   name?: string;
+   status?: string;
+   daily_budget?: string;
+   lifetime_budget?: string;
+  }>(grp.campaignId, { fields: 'id,name,status,daily_budget,lifetime_budget' });
+
+  // Safety rule: never auto-spend on an ACTIVE campaign; keep new Ad Set PAUSED when campaign is ACTIVE
+  const effectiveAdSetStatus =
+   typeof opts.adSetStatus === 'string' && (opts.adSetStatus === 'ACTIVE' || opts.adSetStatus === 'PAUSED')
+    ? opts.adSetStatus
+    : campaign.status === 'ACTIVE'
+    ? 'PAUSED'
+    : adStatus;
+
+  const existingAdSetsRes = await directGraph<{
+   data?: Array<{ id: string; name: string; status?: string }>;
+  }>(`${grp.campaignId}/adsets`, { fields: 'id,name,status', limit: 50 });
+  const existingAdSets = (existingAdSetsRes.data || []).filter(s => s.status !== 'DELETED');
+
+  let targetAdSetId = existingAdSets.find(s => s.name === grp.adSetName)?.id || '';
+  if (!targetAdSetId) {
+   const fallbackTemplateId = existingAdSets[0]?.id || grp.templateAdSetId;
+   const adsetFields =
+    'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor,regional_regulated_categories,regional_regulation_identities,daily_budget,bid_amount,bid_strategy';
+   const source = await directGraph<Record<string, unknown>>(grp.templateAdSetId, {
+    fields: adsetFields,
+   }).catch(() =>
+    directGraph<Record<string, unknown>>(fallbackTemplateId, {
+     fields: adsetFields,
+    }),
+   );
+
+   const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
+    string,
+    unknown
+   >;
+   if (Array.isArray(rawTargeting.instagram_positions)) {
+    const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
+     pos => pos !== 'explore' && pos !== 'explore_home',
+    );
+    if (cleanedIgPos.length > 0) {
+     rawTargeting.instagram_positions = cleanedIgPos;
+    } else {
+     delete rawTargeting.instagram_positions;
+    }
+   }
+
+   const isCbo = Boolean(campaign.daily_budget || campaign.lifetime_budget);
+   const payload: Record<string, unknown> = {
+    name: grp.adSetName,
+    campaign_id: grp.campaignId,
+    status: effectiveAdSetStatus,
+    targeting: rawTargeting,
+    optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
+    billing_event: source.billing_event || 'IMPRESSIONS',
+   };
+   for (const f of [
+    'promoted_object',
+    'attribution_spec',
+    'regional_regulated_categories',
+    'regional_regulation_identities',
+    'dsa_beneficiary',
+    'dsa_payor',
+   ]) {
+    if (source[f] !== undefined && source[f] !== null) payload[f] = source[f];
+   }
+   if (source.destination_type && source.destination_type !== 'UNDEFINED') {
+    payload.destination_type = source.destination_type;
+   }
+   if (!isCbo && source.daily_budget) {
+    payload.daily_budget = source.daily_budget;
+   }
+   if (source.bid_strategy) payload.bid_strategy = source.bid_strategy;
+   if (source.bid_amount) payload.bid_amount = source.bid_amount;
+
+   const createdSet = await directGraph<{ id: string }>(`act_${accountId}/adsets`, payload, 'POST').catch(() => {
+    const fallbackPayload = { ...payload };
+    delete fallbackPayload.bid_strategy;
+    delete fallbackPayload.bid_amount;
+    return directGraph<{ id: string }>(`act_${accountId}/adsets`, fallbackPayload, 'POST');
+   });
+   targetAdSetId = createdSet.id;
+  }
+
+  const existingAdsByName = new Map<string, { id: string; imageHash?: string; pageId?: string }>();
+  try {
+   const exAds = await directGraph<{
+    data?: Array<{
+     id: string;
+     name: string;
+     status?: string;
+     creative?: { image_hash?: string; object_story_spec?: { page_id?: string } };
+    }>;
+   }>(`${targetAdSetId}/ads`, {
+    fields: 'id,name,status,creative{image_hash,object_story_spec{page_id}}',
+    limit: 50,
+   });
+   for (const ea of exAds.data || []) {
+    if (ea.id && ea.name && ea.status !== 'DELETED') {
+     existingAdsByName.set(ea.name, {
+      id: ea.id,
+      imageHash: ea.creative?.image_hash,
+      pageId: ea.creative?.object_story_spec?.page_id,
+     });
+    }
+   }
+  } catch {
+   // Ignore
+  }
+
+  const createdAds: Array<{
+   id: string;
+   name: string;
+   angleId: string;
+   pageId: string;
+   pageName: string;
+   imageHash: string;
+   url: string;
+  }> = [];
+
+  for (const spec of grp.angles) {
+   const ad = adByAngleId.get(spec.angleId);
+   if (!ad) throw new Error(`Nie znaleziono kąta Orthomax Test Pack: ${spec.angleId}`);
+
+   const existingMatch = Array.from(existingAdsByName.entries()).find(([n]) => n.startsWith(`${ad.code} |`));
+   if (existingMatch) {
+    createdAds.push({
+     id: existingMatch[1].id,
+     name: existingMatch[0],
+     angleId: ad.angleId,
+     pageId: existingMatch[1].pageId || spec.actors[0].pId,
+     pageName: spec.actors[0].pName,
+     imageHash: existingMatch[1].imageHash || '',
+     url,
+    });
+    continue;
+   }
+
+   const imgHash = await uploadLocalOrthomaxImage(ad.imageUrl || '');
+   let createdAd: { id: string } | undefined;
+   let usedActor = spec.actors[0];
+   let lastErr: Error | undefined;
+
+   for (const actor of spec.actors) {
+    const adName = `${ad.code} | PDP STEPMAX | ${actor.pName}`;
+    const creativePayload = {
+     name: `${adName} - Creative`,
+     url_tags:
+      'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
+     object_story_spec: {
+      page_id: actor.pId,
+      ...(actor.igId ? { instagram_user_id: actor.igId } : {}),
+      link_data: {
+       image_hash: imgHash,
+       link: url,
+       message: ad.primaryText,
+       name: ad.headline,
+       description: ad.description || '',
+       call_to_action: {
+        type: 'LEARN_MORE',
+        value: { link: url },
+       },
+      },
+     },
+    };
+    try {
+     createdAd = await directGraph<{ id: string }>(
+      `act_${accountId}/ads`,
+      {
+       name: adName,
+       adset_id: targetAdSetId,
+       creative: creativePayload,
+       status: adStatus,
+      },
+      'POST',
+     );
+     usedActor = actor;
+     break;
+    } catch (err) {
+     lastErr = err instanceof Error ? err : new Error(String(err));
+    }
+   }
+
+   if (!createdAd) {
+    throw lastErr || new Error(`Nie udało się utworzyć reklamy Orthomax ${ad.code}`);
+   }
+
+   createdAds.push({
+    id: createdAd.id,
+    name: `${ad.code} | PDP STEPMAX | ${usedActor.pName}`,
+    angleId: ad.angleId,
+    pageId: usedActor.pId,
+    pageName: usedActor.pName,
+    imageHash: imgHash,
+    url,
+   });
+  }
+
+  groupResults.push({
+   batch: grp.key,
+   campaignId: grp.campaignId,
+   campaignStatus: campaign.status,
+   adSetId: targetAdSetId,
+   adSetName: grp.adSetName,
+   adSetStatus: effectiveAdSetStatus,
+   createdAds,
+  });
+ }
+
+ return {
+  accountId,
+  url,
+  groups: groupResults,
+ };
+}
+
 

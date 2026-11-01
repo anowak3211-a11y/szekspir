@@ -815,11 +815,11 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     aspectRatio: '4:5',
     note: 'Surowe zdjęcie z opinii klientki — domyślne dla #33 (8 godzin na nogach w pracy)',
   },
-  // ==================== TEST PACK (01.11): 6 CZYSTYCH ZDJĘĆ 1:1 (ANTI-SALES 👎 + ANTI-ALLEGRO) ====================
+  // ==================== TEST PACK (01.11): 6 SUROWYCH ZDJĘĆ SMARTFONOWYCH 1:1 (ANTI-SALES 👎 + ANTI-ALLEGRO) ====================
   {
     id: 'tp-orthomax-as-01-kapcie-kciuk-w-dol',
-    url: '/antki-pl-images/tp-orthomax-as-01-kapcie-kciuk-w-dol.jpg',
-    label: '👎 TP #76 (Anti-Sales Dzieci) · Trzewiki z wkładką StepMax obok płaskich kapci szkolnych + kciuk w dół',
+    url: '/antki-pl-images/tp-orthomax-as-01-kapcie-kciuk-w-dol.jpg?v=raw2',
+    label: '👎 TP #76 (Anti-Sales Dzieci) · Buty wyjściowe ze StepMax obok wykoślawionych kapci szkolnych + kciuk w dół',
     source: 'ai',
     groupCode: 'MIT',
     defaultForAngles: [76],
@@ -829,8 +829,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'tp-orthomax-as-02-okno-4-12-lat',
-    url: '/antki-pl-images/tp-orthomax-as-02-okno-4-12-lat.jpg',
-    label: '📋 TP #77 (Anti-Sales Fizjo · bez wkładki) · Kartka diagnostyczna: „5-12 LAT (TAK) / 2 LATA (NIE)”',
+    url: '/antki-pl-images/tp-orthomax-as-02-okno-4-12-lat.jpg?v=raw2',
+    label: '🦶 TP #77 (Anti-Sales Fizjo · Gabinet) · Koślawe pięty dziecka na niebieskiej macie i korekcja łuku palcami',
     source: 'ai',
     groupCode: 'RYCIAK',
     defaultForAngles: [77],
@@ -840,7 +840,7 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'tp-orthomax-as-03-szatnia-kciuk-w-dol',
-    url: '/antki-pl-images/tp-orthomax-as-03-szatnia-kciuk-w-dol.jpg',
+    url: '/antki-pl-images/tp-orthomax-as-03-szatnia-kciuk-w-dol.jpg?v=raw2',
     label: '👎 TP #78 (Anti-Sales Dorośli) · Szatnia pracownicza: wyjęta wkładka StepMax z buta + kciuk w dół (2. dzień)',
     source: 'ai',
     groupCode: 'MIT',
@@ -851,8 +851,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'tp-orthomax-al-01-plaski-nalesnik-23zl',
-    url: '/antki-pl-images/tp-orthomax-al-01-plaski-nalesnik-23zl.jpg',
-    label: '🛒 TP #79 (Anti-Allegro Dzieci · bez StepMax) · „WKŁADKI Z ALLEGRO 23,99 ZŁ: PO 9 DNIACH — PŁASKI NALEŚNIK”',
+    url: '/antki-pl-images/tp-orthomax-al-01-plaski-nalesnik-23zl.jpg?v=raw2',
+    label: '🛒 TP #79 (Anti-Allegro Dzieci · Kuchnia POV) · Zgnieciona na 1 mm szara wkładka z aukcji 23,99 zł w dłoniach mamy',
     source: 'ai',
     groupCode: 'MIT',
     defaultForAngles: [79],
@@ -862,8 +862,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'tp-orthomax-al-02-zelowa-podpietka-19zl',
-    url: '/antki-pl-images/tp-orthomax-al-02-zelowa-podpietka-19zl.jpg',
-    label: '🛒 TP #80 (Anti-Allegro Dorośli · bez StepMax) · „ŻEL POD PIĘTĘ 19,90 ZŁ: BRAK PODPARCIA ŁUKU STOPY”',
+    url: '/antki-pl-images/tp-orthomax-al-02-zelowa-podpietka-19zl.jpg?v=raw2',
+    label: '🛒 TP #80 (Anti-Allegro Dorośli · Gabinet POV) · Zgnieciona w 2 palcach niebieska żelowa podpiętka za 19,90 zł',
     source: 'ai',
     groupCode: 'MIT',
     defaultForAngles: [80],
@@ -873,8 +873,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'tp-orthomax-al-03-podrobka-vs-oryginal',
-    url: '/antki-pl-images/tp-orthomax-al-03-podrobka-vs-oryginal.jpg',
-    label: '⚖️ TP #81 (Anti-Allegro Dorośli) · Porównanie na ławce w szatni: „PODRÓBKA 27 ZŁ” vs „ORYGINAŁ”',
+    url: '/antki-pl-images/tp-orthomax-al-03-podrobka-vs-oryginal.jpg?v=raw2',
+    label: '⚖️ TP #81 (Anti-Allegro Dorośli · Szatnia POV) · Odklejona po 4h podróbka za 27 zł vs oryginał StepMax w dłoniach',
     source: 'ai',
     groupCode: 'MIT',
     defaultForAngles: [81],

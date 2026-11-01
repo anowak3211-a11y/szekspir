@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v10-testpack-antisales-allegro';
+const STATE_KEY = 'sardian-pl-v11-raw-testpack';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
@@ -166,10 +166,13 @@ async function ensureMetaImageHash(imageUrl: string, existingHash?: string): Pro
     const hash = await uploadBytesToSardianMeta(m[1], `sardian-${Date.now()}.jpg`);
     if (hash) return hash;
   } else if (cleanUrl.startsWith('/')) {
-    const relPath = cleanUrl.replace(/^\/+/, '');
+    const relPath = cleanUrl.split('?')[0].replace(/^\/+/, '');
     const absPath = path.join(process.cwd(), 'public', relPath);
     const buf = await fs.readFile(absPath);
-    const hash = await uploadBytesToSardianMeta(buf.toString('base64'), path.basename(absPath));
+    const uploadName = cleanUrl.includes('?v=raw2')
+      ? `raw2-${path.basename(absPath)}`
+      : path.basename(absPath);
+    const hash = await uploadBytesToSardianMeta(buf.toString('base64'), uploadName);
     if (hash) return hash;
   } else if (cleanUrl.startsWith('http')) {
     const { safeDownload } = await import('@/lib/safe-fetch');
@@ -881,11 +884,17 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (action === 'list_campaign_state') {
       const campaignId = body.campaignId || SARDIAN_META_NATIVE_CAMPAIGN_ID;
-      const adsets = await directGraph<{ data?: Array<Record<string, unknown>> }>(
-        `${campaignId}/adsets`,
-        { fields: 'id,name,status,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id}}}', limit: 50 },
-      );
-      return NextResponse.json({ ok: true, adsets: adsets.data || [] });
+      const [campaign, adsets] = await Promise.all([
+        directGraph<Record<string, unknown>>(campaignId, {
+          fields: 'id,name,status,daily_budget,lifetime_budget',
+        }),
+        directGraph<{ data?: Array<Record<string, unknown>> }>(`${campaignId}/adsets`, {
+          fields:
+            'id,name,status,daily_budget,bid_amount,bid_strategy,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id},image_hash}}',
+          limit: 50,
+        }),
+      ]);
+      return NextResponse.json({ ok: true, campaign, adsets: adsets.data || [] });
     }
 
     if (action === 'push_to_meta') {
@@ -906,8 +915,20 @@ export const POST = accountRoute(async (req: Request) => {
 
       const campaignId = body.campaignId || SARDIAN_META_NATIVE_CAMPAIGN_ID;
       const templateAdSetId = body.templateAdSetId || '120250060540450298'; // old winer in CBO 5 nativ
-      const adSetName = (body.adSetName || `29.10 - SARDIAN ANTEK BATCH (${selectedAds.length}x)`).trim();
+      const adSetName = (body.adSetName || `01.11 - SARDIAN ANTEK BATCH (${selectedAds.length}x)`).trim();
       const adStatus = body.adStatus || 'PAUSED';
+
+      const campaign = await directGraph<{
+        id: string;
+        name?: string;
+        status?: string;
+        daily_budget?: string;
+        lifetime_budget?: string;
+      }>(campaignId, { fields: 'id,name,status,daily_budget,lifetime_budget' });
+
+      const effectiveAdSetStatus =
+        (body as { adSetStatus?: string }).adSetStatus ||
+        (campaign.status === 'ACTIVE' ? 'PAUSED' : adStatus);
 
       let targetAdSetId = ((body as { targetAdSetId?: string }).targetAdSetId || '').trim();
       if (!targetAdSetId) {
@@ -924,10 +945,10 @@ export const POST = accountRoute(async (req: Request) => {
       if (!targetAdSetId) {
         const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
           fields:
-            'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+            'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor,daily_budget,bid_amount,bid_strategy',
         }).catch(() =>
           directGraph<Record<string, unknown>>('120250060540410298', {
-            fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
+            fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,daily_budget,bid_amount,bid_strategy',
           }),
         );
 
@@ -951,24 +972,31 @@ export const POST = accountRoute(async (req: Request) => {
           '14530 ARROW HIGHWAY, LLC';
         const dsaPayer =
           (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
+        const isCbo = Boolean(campaign.daily_budget || campaign.lifetime_budget);
+        const adSetPayload: Record<string, unknown> = {
+          name: adSetName,
+          campaign_id: campaignId,
+          status: effectiveAdSetStatus,
+          optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
+          billing_event: source.billing_event || 'IMPRESSIONS',
+          promoted_object: source.promoted_object || {
+            pixel_id: SARDIAN_META_PIXEL_ID,
+            custom_event_type: 'PURCHASE',
+          },
+          targeting: rawTargeting,
+          attribution_spec: source.attribution_spec,
+          destination_type: source.destination_type || 'WEBSITE',
+          dsa_beneficiary: dsaEntity,
+          dsa_payor: dsaPayer,
+        };
+        if (!isCbo && source.daily_budget) {
+          adSetPayload.daily_budget = source.daily_budget;
+          if (source.bid_strategy) adSetPayload.bid_strategy = source.bid_strategy;
+          if (source.bid_amount) adSetPayload.bid_amount = source.bid_amount;
+        }
         const createdAdSet = await directGraph<{ id: string }>(
           `act_${SARDIAN_META_ACCOUNT_ID}/adsets`,
-          {
-            name: adSetName,
-            campaign_id: campaignId,
-            status: adStatus,
-            optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
-            billing_event: source.billing_event || 'IMPRESSIONS',
-            promoted_object: source.promoted_object || {
-              pixel_id: SARDIAN_META_PIXEL_ID,
-              custom_event_type: 'PURCHASE',
-            },
-            targeting: rawTargeting,
-            attribution_spec: source.attribution_spec,
-            destination_type: source.destination_type || 'WEBSITE',
-            dsa_beneficiary: dsaEntity,
-            dsa_payor: dsaPayer,
-          },
+          adSetPayload,
           'POST',
         );
         targetAdSetId = createdAdSet.id;
@@ -976,12 +1004,12 @@ export const POST = accountRoute(async (req: Request) => {
 
       const existingAdsByName = new Map<string, string>();
       try {
-        const existingAdsRes = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+        const existingAdsRes = await directGraph<{ data?: Array<{ id: string; name: string; status?: string }> }>(
           `${targetAdSetId}/ads`,
-          { fields: 'id,name', limit: 100 },
+          { fields: 'id,name,status', limit: 100 },
         );
         for (const ea of existingAdsRes.data || []) {
-          if (ea.name && ea.id) existingAdsByName.set(ea.name, ea.id);
+          if (ea.name && ea.id && ea.status !== 'DELETED') existingAdsByName.set(ea.name, ea.id);
         }
       } catch {
         // Ignore
@@ -995,14 +1023,25 @@ export const POST = accountRoute(async (req: Request) => {
         );
         for (const im of imgsRes.data || []) {
           if (im.name && im.hash) {
-            imageHashCache.set(`/sardian-pl-images/${im.name}`, im.hash);
+            if (im.name.startsWith('raw2-')) {
+              imageHashCache.set(`/sardian-pl-images/${im.name.slice(5)}?v=raw2`, im.hash);
+            } else {
+              imageHashCache.set(`/sardian-pl-images/${im.name}`, im.hash);
+            }
           }
         }
       } catch {
         // Ignore
       }
 
-      const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
+      const createdAds: Array<{
+        id: string;
+        name: string;
+        angleId: string;
+        url: string;
+        imageHash?: string;
+        pageId?: string;
+      }> = [];
       for (const ad of selectedAds) {
         const rawPageId = resolveRealSardianPageId(body.pageId || ad.pageId || '1363490303507686');
         const pageId = /^\d+$/.test(rawPageId) ? rawPageId : '1363490303507686';
@@ -1011,7 +1050,8 @@ export const POST = accountRoute(async (req: Request) => {
         const targetLink = ad.destinationUrl || SARDIAN_DEFAULT_URL || SARDIAN_PDP_URL;
         const adName = `${ad.code} | PDP SARDIAN | ${pageName}`;
 
-        const existingAdId = existingAdsByName.get(adName) ||
+        const existingAdId =
+          existingAdsByName.get(adName) ||
           Array.from(existingAdsByName.entries()).find(([n]) => n.startsWith(`${ad.code} |`))?.[1];
         if (existingAdId) {
           createdAds.push({
@@ -1019,6 +1059,7 @@ export const POST = accountRoute(async (req: Request) => {
             name: adName,
             angleId: ad.angleId,
             url: targetLink,
+            pageId,
           });
           continue;
         }
@@ -1050,22 +1091,27 @@ export const POST = accountRoute(async (req: Request) => {
           },
         });
 
-        // Optimal exact actor sequence per page so we never waste API calls
+        // 1:1 Persona Actor Mapping (Global Rule #2 — omit instagram_user_id for Karol Mikołajczyk 1363490303507686)
         const actorCandidates: Array<{ pId: string; igId?: string }> =
-          pageId === '1470476022807427' || pageId === '1352085037995209'
-            ? [{ pId: pageId, igId: undefined }]
-            : pageId === '1363490303507686' || pageId === '798916893308685'
+          pageId === '1470476022807427' || pageId === '1352085037995209' || pageId === '1363490303507686'
             ? [
-                { pId: pageId, igId: '17841472034688013' },
+                { pId: pageId, igId: undefined },
+                ...(pageId !== '1470476022807427' ? [{ pId: '1470476022807427', igId: undefined }] : []),
+              ]
+            : pageId === '798916893308685'
+            ? [
+                { pId: pageId, igId: '17841473314157729' },
                 { pId: pageId, igId: undefined },
               ]
             : [
-                // 1339041252618036 (Dr n. med. Janusz Skrzypiński): try its own IG first, then Pokonać Łysienie: Historie i Testy
+                // 1339041252618036 (Dr n. med. Janusz Skrzypiński)
                 { pId: pageId, igId: '17841437463666297' },
+                { pId: pageId, igId: undefined },
                 { pId: '1470476022807427', igId: undefined },
               ];
 
         let createdAd: { id: string } | undefined;
+        let usedPageId = pageId;
         let lastAdErr: Error | undefined;
         for (const cand of actorCandidates) {
           try {
@@ -1079,12 +1125,10 @@ export const POST = accountRoute(async (req: Request) => {
               },
               'POST',
             );
+            usedPageId = cand.pId;
             break;
           } catch (adErr) {
             lastAdErr = adErr instanceof Error ? adErr : new Error(String(adErr));
-            if (!lastAdErr.message.includes('1815199') && !lastAdErr.message.toLowerCase().includes('instagram')) {
-              throw lastAdErr;
-            }
           }
         }
         if (!createdAd) {
@@ -1096,13 +1140,18 @@ export const POST = accountRoute(async (req: Request) => {
           name: adName,
           angleId: ad.angleId,
           url: targetLink,
+          imageHash: primaryHash,
+          pageId: usedPageId,
         });
       }
 
       return NextResponse.json({
         ok: true,
+        campaignId,
+        campaignStatus: campaign.status,
         adSetId: targetAdSetId,
         adSetName,
+        adSetStatus: effectiveAdSetStatus,
         createdAdsCount: createdAds.length,
         createdAds,
       });

@@ -787,9 +787,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AS_01_KCIUK_W_DOL",
-    "url": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg",
+    "url": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AS_01 (Anti-Sales 👎) · Butelka SARDIAN nad kartonem zwrotowym + kciuk w dół w łazience",
+    "label": "TP_AS_01 (Anti-Sales 👎) · Surowe zdjęcie z łazienki: butelka SARDIAN przy kartonie InPost + kciuk w dół",
     "adsetOrigin": "Test Pack 01.11: Anti-Sales",
     "adOrigin": "TP_AS_01_KCIUK_W_DOL",
     "aspectRatio": "1:1 (1024x1024)",
@@ -798,9 +798,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AS_02_KARTKA_21_PROCENT",
-    "url": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg",
+    "url": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AS_02 (Anti-Sales · 1:1 bez butelki) · Notatka trychologa: „21% — ZERO EFEKTU (BŁĄD 30 SEKUND)”",
+    "label": "TP_AS_02 (Anti-Sales · Gabinet 200x) · Badanie kamerą trichoskopową skroni pacjenta na monitorze LCD",
     "adsetOrigin": "Test Pack 01.11: Anti-Sales",
     "adOrigin": "TP_AS_02_KARTKA_21_PROCENT",
     "aspectRatio": "1:1 (1024x1024)",
@@ -809,9 +809,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AS_03_SITKO_ODSYLAMY",
-    "url": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg",
+    "url": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AS_03 (Anti-Sales · 1:1 bez butelki) · Kratka prysznica + karteczka „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!”",
+    "label": "TP_AS_03 (Anti-Sales · Prysznic POV) · Mokre sitko odpływu z krótkimi włosami 4. dnia rano",
     "adsetOrigin": "Test Pack 01.11: Anti-Sales",
     "adOrigin": "TP_AS_03_SITKO_ODSYLAMY",
     "aspectRatio": "1:1 (1024x1024)",
@@ -820,9 +820,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AL_01_DWIE_SZKLANKI_SLS",
-    "url": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg",
+    "url": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AL_01 (Anti-Allegro · 1:1 bez butelki) · Test 2 szklanek: „ALLEGRO 24,99 ZŁ (SLS)” vs „BEZ SLS (ZIOŁA)”",
+    "label": "TP_AL_01 (Anti-Allegro · Test 2 szklanek) · Mętna piana SLS na umywalce vs czysty wyciąg ziołowy",
     "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
     "adOrigin": "TP_AL_01_DWIE_SZKLANKI_SLS",
     "aspectRatio": "1:1 (1024x1024)",
@@ -831,9 +831,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AL_02_ETYKIETA_INCI_SLS",
-    "url": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg",
+    "url": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AL_02 (Anti-Allegro · Barber POV) · Zakreślone „Aqua, Sodium Laureth Sulfate / Dimethicone”",
+    "label": "TP_AL_02 (Anti-Allegro · Barber POV) · Tylna naklejka INCI z podkreślonym Sodium Laureth Sulfate",
     "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
     "adOrigin": "TP_AL_02_ETYKIETA_INCI_SLS",
     "aspectRatio": "1:1 (1024x1024)",
@@ -842,9 +842,9 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   },
   {
     "id": "TP_AL_03_SZUFLADA_189ZL",
-    "url": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg",
+    "url": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg?v=raw2",
     "imageHash": "",
-    "label": "TP_AL_03 (Anti-Allegro · 1:1 bez butelki) · Szuflada z wcierkami + „ALLEGRO 4,9★ = 189 ZŁ · ZERO ODROSTU”",
+    "label": "TP_AL_03 (Anti-Allegro · Szuflada POV) · Otwarta szuflada z napoczętymi wcierkami, blistrami i szamponem z aukcji",
     "adsetOrigin": "Test Pack 01.11: Anti-Allegro",
     "adOrigin": "TP_AL_03_SZUFLADA_189ZL",
     "aspectRatio": "1:1 (1024x1024)",
@@ -1628,10 +1628,10 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "problemLabel": "Test Pack · Anti-Sales 👎 (Odwrócenie Sprzedaży)",
     "recommendedFanpageId": "1363490303507686",
     "recommendedFanpageName": "Karol Mikołajczyk",
-    "vocTrigger": "Po 5 dniach zrobiłem zdjęcie z kciukiem w dół i pakowałem butelkę do zwrotu — myłem głowę przez 20 sekund zamiast 3 minut",
-    "mechanismCore": "Odwrócenie sprzedaży: błąd spłukiwania piany po 20 sekundach + brak użycia szczotki silikonowej rozbijającej czop łojowo-DHT",
+    "vocTrigger": "Po 5 dniach zrobiłem zdjęcie z kciukiem w dół i pakowałem butelkę do zwrotu — myłem głowę przez 15 sekund zamiast 3 minut",
+    "mechanismCore": "Odwrócenie sprzedaży: błąd spłukiwania piany po 15 sekundach zanim ekstrakty przejdą przez czop łojowo-DHT",
     "defaultImageId": "TP_AS_01_KCIUK_W_DOL",
-    "defaultImageUrl": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_01_KCIUK_W_DOL.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1651,15 +1651,15 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "vocTrigger": "U 21% moich pacjentów szampon nie dał odrostu przez 2 błędy: 100% zabliźniona skóra lub spłukiwanie po 30 sekundach",
     "mechanismCore": "Dyskwalifikacja kliniczna: kinetyka przenikania ekstraktów przez woskowy czop DHT wymaga pełnych 2-3 minut kontaktu ze skórą",
     "defaultImageId": "TP_AS_02_KARTKA_21_PROCENT",
-    "defaultImageUrl": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_02_KARTKA_21_PROCENT.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
     "id": "sardian_tp_as_03",
     "number": 41,
     "code": "TP_AS_03",
-    "title": "TP_AS_03 · [Anti-Sales 👎] Karteczka na kabinie: „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!” (perspektywa żony)",
-    "shortTitle": "[Anti-Sales 👎] Karteczka na prysznicu: „DZIEŃ 4: DALEJ LECĄ — ODSYŁAMY!”",
+    "title": "TP_AS_03 · [Anti-Sales 👎] 4. dnia pod prysznicem mąż rzucił: „Odsyłamy, dalej lecą mi włosy” (perspektywa żony)",
+    "shortTitle": "[Anti-Sales 👎] 4. dzień na sitku prysznica: „Odsyłamy!”",
     "stageId": "stage5_anti_sales_allegro",
     "stageNumber": 5,
     "sophisticationLevel": 5,
@@ -1668,10 +1668,10 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "problemLabel": "Test Pack · Anti-Sales 👎 (Odwrócenie Sprzedaży)",
     "recommendedFanpageId": "798916893308685",
     "recommendedFanpageName": "Porady Mamy Gosi",
-    "vocTrigger": "4. dnia mąż nakleił na szybie prysznica żółtą karteczkę „ODSYŁAMY!” — nie wiedział, że martwy telogen siedzi w porze jeszcze 14 dni",
+    "vocTrigger": "4. dnia mąż wyszedł spod prysznica wściekły, widząc 25 włosów na sitku — nie wiedział, że martwy telogen siedzi w porze jeszcze 14 dni",
     "mechanismCore": "Fizjologia fazy telogenu: włosy odcięte przez DHT 2 tygodnie wcześniej muszą fizycznie opuścić oczyszczany mieszek przed nowym anagenem",
     "defaultImageId": "TP_AS_03_SITKO_ODSYLAMY",
-    "defaultImageUrl": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AS_03_SITKO_ODSYLAMY.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1691,14 +1691,14 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "vocTrigger": "Chciałem zaoszczędzić 75 zł i kupiłem „ziołowy szampon” z Allegro za 24,99 zł — 2. słowo w składzie to żrący SLS",
     "mechanismCore": "Demaskacja tanich szamponów z Allegro: detergent SLS + sól kuchenna + 0,1% pokrzywy wywołują o 13:00 podwójny wyrzut łoju z DHT",
     "defaultImageId": "TP_AL_01_DWIE_SZKLANKI_SLS",
-    "defaultImageUrl": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_01_DWIE_SZKLANKI_SLS.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
     "id": "sardian_tp_al_02",
     "number": 43,
     "code": "TP_AL_02",
-    "title": "TP_AL_02 · [Anti-Allegro] Barber: Klient przyniósł z aukcji „czarny szampon” za 34 zł — zakreśliłem mu 2. linijkę INCI",
+    "title": "TP_AL_02 · [Anti-Allegro] Barber: Klient przyniósł z aukcji „czarny szampon” za 34 zł — pokazałem mu 2. składnik INCI",
     "shortTitle": "[Anti-Allegro] Barber: podróbka za 34 zł z SLS i silikonem Dimethicone",
     "stageId": "stage5_anti_sales_allegro",
     "stageNumber": 5,
@@ -1711,7 +1711,7 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "vocTrigger": "Klient kupił w sieci czarny plastik za 34 zł i drapał głowę do krwi: Aqua, Sodium Laureth Sulfate, Dimethicone",
     "mechanismCore": "SARDIAN nigdy nie jest sprzedawany na Allegro: tanie klony zaklejają mieszki silikonem Dimethicone i palą naskórek siarczanem SLS",
     "defaultImageId": "TP_AL_02_ETYKIETA_INCI_SLS",
-    "defaultImageUrl": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_02_ETYKIETA_INCI_SLS.jpg?v=raw2",
     "defaultImageHash": ""
   },
   {
@@ -1731,7 +1731,7 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "vocTrigger": "90% ocen 5/5 na Allegro ludzie wystawiają 2 godziny po wyjęciu paczki z Paczkomatu („ładnie pachnie, szybka wysyłka”), a nie po 60 dniach!",
     "mechanismCore": "Złudzenie ocen 4,9★ za logistykę i alkoholowe wcierki z 1 składnikiem (max 30% efektu) vs 60-dniowa gwarancja SARDIAN na puste butelki",
     "defaultImageId": "TP_AL_03_SZUFLADA_189ZL",
-    "defaultImageUrl": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg",
+    "defaultImageUrl": "/sardian-pl-images/TP_AL_03_SZUFLADA_189ZL.jpg?v=raw2",
     "defaultImageHash": ""
   }
 ];

@@ -1,3 +1,5 @@
+import path from 'path';
+import { promises as fs } from 'fs';
 import { NextResponse } from 'next/server';
 import { accountRoute } from '@/lib/account-route';
 import { inOwnerWorkspace } from '@/lib/account-context';
@@ -22,7 +24,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v6-testpack-antisales-allegro';
+const STATE_KEY = 'feliora-pl-library-v7-raw-testpack';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];
@@ -56,12 +58,12 @@ async function resolveMetaAuth(): Promise<{ token: string; proof?: string }> {
 }
 
 async function directGraph<T = Record<string, unknown>>(
-  path: string,
+  graphPath: string,
   params: Record<string, unknown> = {},
   method: 'GET' | 'POST' = 'GET',
 ): Promise<T> {
   const { token, proof } = await resolveMetaAuth();
-  const url = new URL(`https://graph.facebook.com/${META_VERSION}/${path}`);
+  const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
   const body = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
     if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
@@ -84,6 +86,46 @@ async function directGraph<T = Record<string, unknown>>(
     throw new Error(`Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
   }
   return data as T;
+}
+
+async function uploadBytesToFelioraMeta(bytesBase64: string, fileName: string): Promise<string | undefined> {
+  const cleanName = (fileName || `feliora-${Date.now()}.jpg`).replace(/[^a-zA-Z0-9._-]/g, '_');
+  const upRes = await directGraph<{ images?: Record<string, { hash?: string; url?: string }> }>(
+    `act_${FELIORA_META_ACCOUNT_ID}/adimages`,
+    { bytes: bytesBase64, name: cleanName },
+    'POST',
+  );
+  const first = upRes?.images ? Object.values(upRes.images)[0] : undefined;
+  return first?.hash;
+}
+
+async function ensureFelioraMetaImageHash(imageUrl: string, existingHash?: string): Promise<string> {
+  if (existingHash && existingHash.trim()) return existingHash.trim();
+  const cleanUrl = (imageUrl || '').trim();
+  if (!cleanUrl) return '7603e2a6afce7782f07c57dc0174cd2b';
+
+  if (cleanUrl.startsWith('data:image/')) {
+    const m = cleanUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
+    if (m) {
+      const hash = await uploadBytesToFelioraMeta(m[1], `feliora-${Date.now()}.jpg`);
+      if (hash) return hash;
+    }
+  } else if (cleanUrl.startsWith('/')) {
+    const relPath = cleanUrl.split('?')[0].replace(/^\/+/, '');
+    const absPath = path.join(process.cwd(), 'public', relPath);
+    const buf = await fs.readFile(absPath);
+    const uploadName = cleanUrl.includes('?v=raw2')
+      ? `raw2-${path.basename(absPath)}`
+      : path.basename(absPath);
+    const hash = await uploadBytesToFelioraMeta(buf.toString('base64'), uploadName);
+    if (hash) return hash;
+  } else if (cleanUrl.startsWith('http')) {
+    const { safeDownload } = await import('@/lib/safe-fetch');
+    const { buffer } = await safeDownload(cleanUrl, 15 * 1024 * 1024);
+    const hash = await uploadBytesToFelioraMeta(Buffer.from(buffer).toString('base64'), `feliora-ext-${Date.now()}.jpg`);
+    if (hash) return hash;
+  }
+  return '7603e2a6afce7782f07c57dc0174cd2b';
 }
 
 async function readFelioraLibraryState(): Promise<{
@@ -638,6 +680,21 @@ export const POST = accountRoute(async (req: Request) => {
       });
     }
 
+    if (action === 'list_campaign_state') {
+      const campaignId = body.campaignId || FELIORA_META_NATIVE_CAMPAIGN_ID;
+      const [campaign, adsets] = await Promise.all([
+        directGraph<Record<string, unknown>>(campaignId, {
+          fields: 'id,name,status,daily_budget,lifetime_budget',
+        }),
+        directGraph<{ data?: Array<Record<string, unknown>> }>(`${campaignId}/adsets`, {
+          fields:
+            'id,name,status,daily_budget,bid_amount,bid_strategy,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id},image_hash}}',
+          limit: 50,
+        }),
+      ]);
+      return NextResponse.json({ ok: true, campaign, adsets: adsets.data || [] });
+    }
+
     if (action === 'push_to_meta') {
       const targetAngleIds =
         Array.isArray(body.angleIds) && body.angleIds.length > 0
@@ -656,16 +713,29 @@ export const POST = accountRoute(async (req: Request) => {
 
       const campaignId = body.campaignId || FELIORA_META_NATIVE_CAMPAIGN_ID;
       const templateAdSetId = body.templateAdSetId || '120250036346090298';
-      const adSetName = (body.adSetName || `24.10 - FELIORA ANTEK BATCH (${selectedAds.length}x)`).trim();
+      const adSetName = (body.adSetName || `01.11 - FELIORA ANTEK BATCH (${selectedAds.length}x)`).trim();
       const urlMode = body.urlMode || 'advertorial';
       const adStatus = body.adStatus || 'PAUSED';
 
+      const campaign = await directGraph<{
+        id: string;
+        name?: string;
+        status?: string;
+        daily_budget?: string;
+        lifetime_budget?: string;
+      }>(campaignId, { fields: 'id,name,status,daily_budget,lifetime_budget' });
+
+      // Safety rule: if parent campaign is ACTIVE, never start an unapproved live Ad Set unless adSetStatus explicitly passed
+      const effectiveAdSetStatus =
+        (body as { adSetStatus?: string }).adSetStatus ||
+        (campaign.status === 'ACTIVE' ? 'PAUSED' : adStatus);
+
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
         fields:
-          'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+          'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor,daily_budget,bid_amount,bid_strategy',
       }).catch(() =>
         directGraph<Record<string, unknown>>(templateAdSetId, {
-          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
+          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,daily_budget,bid_amount,bid_strategy',
         }),
       );
 
@@ -684,19 +754,20 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
-      // Check if an Ad Set with this exact name was already created in the campaign (to avoid empty duplicates)
-      let targetAdSetId = '';
-      try {
-        const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
-          `${campaignId}/adsets`,
-          { fields: 'id,name', limit: 50 },
-        );
-        const match = (existingAdSets.data || []).find(s => s.name === adSetName);
-        if (match?.id) {
-          targetAdSetId = match.id;
+      let targetAdSetId = ((body as { targetAdSetId?: string }).targetAdSetId || '').trim();
+      if (!targetAdSetId) {
+        try {
+          const existingAdSets = await directGraph<{ data?: Array<{ id: string; name: string; status?: string }> }>(
+            `${campaignId}/adsets`,
+            { fields: 'id,name,status', limit: 50 },
+          );
+          const match = (existingAdSets.data || []).find(s => s.name === adSetName && s.status !== 'DELETED');
+          if (match?.id) {
+            targetAdSetId = match.id;
+          }
+        } catch {
+          // Fallback to creating new Ad Set
         }
-      } catch {
-        // Fallback to creating new Ad Set
       }
 
       if (!targetAdSetId) {
@@ -705,45 +776,90 @@ export const POST = accountRoute(async (req: Request) => {
           'CABANOWSKI HSTL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ';
         const dsaPayer =
           (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
+        const isCbo = Boolean(campaign.daily_budget || campaign.lifetime_budget);
+        const adSetPayload: Record<string, unknown> = {
+          name: adSetName,
+          campaign_id: campaignId,
+          status: effectiveAdSetStatus,
+          optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
+          billing_event: source.billing_event || 'IMPRESSIONS',
+          promoted_object: source.promoted_object || {
+            pixel_id: FELIORA_META_PIXEL_ID,
+            custom_event_type: 'PURCHASE',
+          },
+          targeting: rawTargeting,
+          attribution_spec: source.attribution_spec,
+          destination_type: source.destination_type || 'WEBSITE',
+          dsa_beneficiary: dsaEntity,
+          dsa_payor: dsaPayer,
+        };
+        if (!isCbo && source.daily_budget) {
+          adSetPayload.daily_budget = source.daily_budget;
+          if (source.bid_strategy) adSetPayload.bid_strategy = source.bid_strategy;
+          if (source.bid_amount) adSetPayload.bid_amount = source.bid_amount;
+        }
         const createdAdSet = await directGraph<{ id: string }>(
           `act_${FELIORA_META_ACCOUNT_ID}/adsets`,
-          {
-            name: adSetName,
-            campaign_id: campaignId,
-            status: adStatus,
-            optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
-            billing_event: source.billing_event || 'IMPRESSIONS',
-            promoted_object: source.promoted_object || {
-              pixel_id: FELIORA_META_PIXEL_ID,
-              custom_event_type: 'PURCHASE',
-            },
-            targeting: rawTargeting,
-            attribution_spec: source.attribution_spec,
-            destination_type: source.destination_type || 'WEBSITE',
-            dsa_beneficiary: dsaEntity,
-            dsa_payor: dsaPayer,
-          },
+          adSetPayload,
           'POST',
         );
         targetAdSetId = createdAdSet.id;
       }
 
-      const FELIORA_PAGE_ACTORS: Record<string, { instagram_user_id: string; threads_user_id: string }> = {
+      const existingAdsByName = new Map<string, string>();
+      try {
+        const existingAdsRes = await directGraph<{ data?: Array<{ id: string; name: string; status?: string }> }>(
+          `${targetAdSetId}/ads`,
+          { fields: 'id,name,status', limit: 100 },
+        );
+        for (const ea of existingAdsRes.data || []) {
+          if (ea.name && ea.id && ea.status !== 'DELETED') {
+            existingAdsByName.set(ea.name, ea.id);
+          }
+        }
+      } catch {
+        // Ignore
+      }
+
+      // 1:1 Narrator-to-Fanpage & IG/Threads Actor Mapping (Global Rule #2 — NEVER force corporate store IG onto persona pages)
+      const FELIORA_PAGE_ACTORS: Record<string, { instagram_user_id?: string; threads_user_id?: string }> = {
         '1231925240008683': { instagram_user_id: '17841437522153551', threads_user_id: '17841479143358057' }, // Kociary: Wasze Historie
         '1287239777799682': { instagram_user_id: '17841441008488573', threads_user_id: '17841419447824408' }, // Dr. wet. Edmund Newelski
         '1304624172730017': { instagram_user_id: '17841438210859048', threads_user_id: '17841432419890017' }, // Koty Bez Ściemy
-        '1338513126001175': { instagram_user_id: '17841437606417391', threads_user_id: '17841467398928017' }, // Feliora
+        '1194345203770949': { instagram_user_id: '17841412233487287' }, // Iwona Kożuchowska
+        '798916893308685': { instagram_user_id: '17841473314157729' }, // Porady Mamy Gosi
+        '1363490303507686': {}, // Karol Mikołajczyk (no IG — omit instagram_user_id)
+        '1338513126001175': { instagram_user_id: '17841437606417391', threads_user_id: '17841467398928017' }, // Feliora (official FAQ only)
       };
 
-      const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
+      const imageHashCache = new Map<string, string>();
+      const createdAds: Array<{
+        id: string;
+        name: string;
+        angleId: string;
+        url: string;
+        imageHash?: string;
+        pageId?: string;
+      }> = [];
+
       for (const ad of selectedAds) {
         const pageId = body.pageId || ad.pageId || '1287239777799682';
-        const actors = FELIORA_PAGE_ACTORS[pageId] || FELIORA_PAGE_ACTORS['1338513126001175'];
-        const imageHash = ad.imageHash || '7603e2a6afce7782f07c57dc0174cd2b';
-        const secondHash =
-          ad.secondImageHash && ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl
-            ? ad.secondImageHash
-            : '';
+        const actors = FELIORA_PAGE_ACTORS[pageId] || {};
+
+        let imageHash = ad.imageUrl ? imageHashCache.get(ad.imageUrl) : undefined;
+        if (!imageHash) {
+          imageHash = await ensureFelioraMetaImageHash(ad.imageUrl, ad.imageHash);
+          if (ad.imageUrl && imageHash) imageHashCache.set(ad.imageUrl, imageHash);
+        }
+
+        let secondHash = '';
+        if (ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl) {
+          secondHash =
+            imageHashCache.get(ad.secondImageUrl) ||
+            (await ensureFelioraMetaImageHash(ad.secondImageUrl, ad.secondImageHash));
+          if (secondHash) imageHashCache.set(ad.secondImageUrl, secondHash);
+        }
+
         const targetLink = urlMode === 'pdp' ? FELIORA_DEFAULT_URL : FELIORA_ADVERTORIAL_URL;
         const baseSuffix = urlMode === 'pdp' ? 'PDP' : 'LISTICLE';
         const urlsToPush: Array<{ suffix: string; link: string; hash: string }> =
@@ -782,53 +898,123 @@ export const POST = accountRoute(async (req: Request) => {
               ];
 
         for (const variant of urlsToPush) {
-          const adName = `${ad.code} | ${variant.suffix} | ${ad.pageName}`;
-          const creativeSpec = {
-            name: `${adName} - Creative`,
-            url_tags:
-              'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
-            object_story_spec: {
-              page_id: pageId,
-              instagram_user_id: actors.instagram_user_id,
-              threads_user_id: actors.threads_user_id,
-              link_data: {
-                image_hash: variant.hash,
-                link: variant.link,
-                message: ad.primaryText,
-                name: ad.headline,
-                description: ad.description,
-                call_to_action: {
-                  type: 'LEARN_MORE',
-                  value: { link: variant.link },
+          const adNamePrefix = `${ad.code} | ${variant.suffix} |`;
+          const existingId =
+            existingAdsByName.get(`${ad.code} | ${variant.suffix} | ${ad.pageName}`) ||
+            Array.from(existingAdsByName.entries()).find(([n]) => n.startsWith(adNamePrefix))?.[1];
+          if (existingId) {
+            createdAds.push({
+              id: existingId,
+              name: `${ad.code} | ${variant.suffix} | ${ad.pageName}`,
+              angleId: ad.angleId,
+              url: variant.link,
+              imageHash: variant.hash,
+              pageId,
+            });
+            continue;
+          }
+
+          // Ordered candidate attempts: primary persona page (with IG/Threads -> IG only -> FB only),
+          // then gender-congruent Feliora BM community page if cross-BM persona page lacks permission (NEVER corporate store 1338513126001175!)
+          const fallbackCommunityPage =
+            pageId === '1363490303507686'
+              ? {
+                  pId: '1304624172730017',
+                  pName: 'Koty Bez Ściemy',
+                  igId: '17841438210859048',
+                  thId: '17841432419890017',
+                }
+              : {
+                  pId: '1231925240008683',
+                  pName: 'Kociary: Wasze Historie',
+                  igId: '17841437522153551',
+                  thId: '17841479143358057',
+                };
+
+          const actorCandidates: Array<{ pId: string; pName: string; igId?: string; thId?: string }> = [];
+          if (actors.instagram_user_id && actors.threads_user_id) {
+            actorCandidates.push({
+              pId: pageId,
+              pName: ad.pageName,
+              igId: actors.instagram_user_id,
+              thId: actors.threads_user_id,
+            });
+          }
+          if (actors.instagram_user_id) {
+            actorCandidates.push({ pId: pageId, pName: ad.pageName, igId: actors.instagram_user_id });
+          }
+          actorCandidates.push({ pId: pageId, pName: ad.pageName });
+          if (pageId !== fallbackCommunityPage.pId && pageId !== '1287239777799682' && pageId !== '1304624172730017' && pageId !== '1231925240008683') {
+            actorCandidates.push(fallbackCommunityPage);
+            actorCandidates.push({ pId: fallbackCommunityPage.pId, pName: fallbackCommunityPage.pName });
+          }
+
+          let createdAd: { id: string } | undefined;
+          let usedCand = actorCandidates[0];
+          let lastErr: Error | undefined;
+          for (const cand of actorCandidates) {
+            const candidateAdName = `${ad.code} | ${variant.suffix} | ${cand.pName}`;
+            const creativeSpec = {
+              name: `${candidateAdName} - Creative`,
+              url_tags:
+                'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
+              object_story_spec: {
+                page_id: cand.pId,
+                ...(cand.igId ? { instagram_user_id: cand.igId } : {}),
+                ...(cand.thId ? { threads_user_id: cand.thId } : {}),
+                link_data: {
+                  image_hash: variant.hash,
+                  link: variant.link,
+                  message: ad.primaryText,
+                  name: ad.headline,
+                  description: ad.description,
+                  call_to_action: {
+                    type: 'LEARN_MORE',
+                    value: { link: variant.link },
+                  },
                 },
               },
-            },
-          };
+            };
+            try {
+              createdAd = await directGraph<{ id: string }>(
+                `act_${FELIORA_META_ACCOUNT_ID}/ads`,
+                {
+                  name: candidateAdName,
+                  adset_id: targetAdSetId,
+                  creative: creativeSpec,
+                  status: adStatus,
+                },
+                'POST',
+              );
+              usedCand = cand;
+              break;
+            } catch (err) {
+              lastErr = err instanceof Error ? err : new Error(String(err));
+            }
+          }
 
-          const createdAd = await directGraph<{ id: string }>(
-            `act_${FELIORA_META_ACCOUNT_ID}/ads`,
-            {
-              name: adName,
-              adset_id: targetAdSetId,
-              creative: creativeSpec,
-              status: adStatus,
-            },
-            'POST',
-          );
+          if (!createdAd) {
+            throw lastErr || new Error(`Nie udało się utworzyć reklamy ${ad.code}`);
+          }
 
           createdAds.push({
             id: createdAd.id,
-            name: adName,
+            name: `${ad.code} | ${variant.suffix} | ${usedCand.pName}`,
             angleId: ad.angleId,
             url: variant.link,
+            imageHash: variant.hash,
+            pageId: usedCand.pId,
           });
         }
       }
 
       return NextResponse.json({
         ok: true,
+        campaignId,
+        campaignStatus: campaign.status,
         adSetId: targetAdSetId,
         adSetName,
+        adSetStatus: effectiveAdSetStatus,
         createdAdsCount: createdAds.length,
         createdAds,
       });

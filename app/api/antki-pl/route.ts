@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v14-testpack-antisales-allegro';
+const STATE_KEY = 'antki-pl-library-v15-raw-testpack';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -392,8 +392,8 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     const body = JSON.parse(raw) as {
-      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'update_cost_cap' | 'set_image' | 'save_all_images' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35' | 'generate_5_kie_images' | 'generate_10_kie_images' | 'poll_kie_image';
-      batch?: 'dzieci' | 'dorosli';
+      action?: 'generate' | 'save' | 'delete' | 'clear' | 'create-meta-campaign' | 'update_cost_cap' | 'set_image' | 'save_all_images' | 'upload_custom_image' | 'delete_image' | 'sync_meta_cc35' | 'generate_5_kie_images' | 'generate_10_kie_images' | 'poll_kie_image' | 'list_campaign_state' | 'push_testpack_to_meta' | string;
+      batch?: 'dzieci' | 'dorosli' | 'all';
       campaignId?: string;
       angleId?: string;
       angleIds?: string[];
@@ -1425,6 +1425,18 @@ export const POST = accountRoute(async (req: Request) => {
         });
       }
       return NextResponse.json({ ok: true, healed });
+    }
+
+    if (action === 'list_campaign_state') {
+      const { listOrthomaxCampaignState } = await import('@/lib/meta-adsets');
+      const result = await listOrthomaxCampaignState(body);
+      return NextResponse.json({ ok: true, ...result });
+    }
+
+    if (action === 'push_testpack_to_meta') {
+      const { pushOrthomaxTestPackToMeta } = await import('@/lib/meta-adsets');
+      const result = await pushOrthomaxTestPackToMeta(body);
+      return NextResponse.json({ ok: true, ...result });
     }
 
     return NextResponse.json({ error: 'Nieznana akcja API Antki PL.' }, { status: 400 });
