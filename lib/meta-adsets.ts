@@ -2072,6 +2072,40 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
    targetAdSetId = createdSet.id;
   }
 
+  let switchedAdSetToFbOnly = false;
+  const ensureOrthomaxFbOnlyPlacements = async () => {
+   if (switchedAdSetToFbOnly) return;
+   const currentSet = await directGraph<{ targeting?: Record<string, unknown> }>(targetAdSetId, {
+    fields: 'targeting',
+   }).catch(() => ({ targeting: {} }));
+   const fbTargeting: Record<string, unknown> = JSON.parse(JSON.stringify(currentSet.targeting || {}));
+   delete fbTargeting.instagram_positions;
+   delete fbTargeting.threads_positions;
+   delete fbTargeting.messenger_positions;
+   delete fbTargeting.audience_network_positions;
+   fbTargeting.publisher_platforms = ['facebook'];
+   if (!Array.isArray(fbTargeting.facebook_positions) || fbTargeting.facebook_positions.length === 0) {
+    fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'video_feeds', 'story'];
+   }
+   await directGraph(targetAdSetId, { targeting: fbTargeting }, 'POST').catch(() =>
+    directGraph(
+     targetAdSetId,
+     {
+      targeting: {
+       geo_locations: fbTargeting.geo_locations || { countries: ['PL'] },
+       age_min: fbTargeting.age_min || 18,
+       age_max: fbTargeting.age_max || 65,
+       publisher_platforms: ['facebook'],
+       facebook_positions: ['feed', 'facebook_reels', 'video_feeds', 'story'],
+       ...(fbTargeting.targeting_automation ? { targeting_automation: fbTargeting.targeting_automation } : {}),
+      },
+     },
+     'POST',
+    ),
+   );
+   switchedAdSetToFbOnly = true;
+  };
+
   const existingAdsByName = new Map<string, { id: string; imageHash?: string; pageId?: string }>();
   try {
    const exAds = await directGraph<{
@@ -2132,14 +2166,15 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
    let lastErr: Error | undefined;
 
    for (const actor of spec.actors) {
+    if (switchedAdSetToFbOnly && actor.igId) continue;
     const adName = `${ad.code} | PDP STEPMAX | ${actor.pName}`;
-    const creativePayload = {
+    const buildPayload = (withIg: boolean) => ({
      name: `${adName} - Creative`,
      url_tags:
       'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
      object_story_spec: {
       page_id: actor.pId,
-      ...(actor.igId ? { instagram_user_id: actor.igId } : {}),
+      ...(withIg && actor.igId ? { instagram_user_id: actor.igId } : {}),
       link_data: {
        image_hash: imgHash,
        link: url,
@@ -2152,14 +2187,14 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
        },
       },
      },
-    };
+    });
     try {
      createdAd = await directGraph<{ id: string }>(
       `act_${accountId}/ads`,
       {
        name: adName,
        adset_id: targetAdSetId,
-       creative: creativePayload,
+       creative: buildPayload(!switchedAdSetToFbOnly),
        status: adStatus,
       },
       'POST',
@@ -2168,6 +2203,29 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
      break;
     } catch (err) {
      lastErr = err instanceof Error ? err : new Error(String(err));
+     if (
+      !actor.igId &&
+      !switchedAdSetToFbOnly &&
+      (lastErr.message.includes('1815199') || lastErr.message.toLowerCase().includes('instagram'))
+     ) {
+      try {
+       await ensureOrthomaxFbOnlyPlacements();
+       createdAd = await directGraph<{ id: string }>(
+        `act_${accountId}/ads`,
+        {
+         name: adName,
+         adset_id: targetAdSetId,
+         creative: buildPayload(false),
+         status: adStatus,
+        },
+        'POST',
+       );
+       usedActor = actor;
+       break;
+      } catch (retryErr) {
+       lastErr = retryErr instanceof Error ? retryErr : new Error(String(retryErr));
+      }
+     }
     }
    }
 

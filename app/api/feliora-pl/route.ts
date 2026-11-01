@@ -688,8 +688,8 @@ export const POST = accountRoute(async (req: Request) => {
         }),
         directGraph<{ data?: Array<Record<string, unknown>> }>(`${campaignId}/adsets`, {
           fields:
-            'id,name,status,daily_budget,bid_amount,bid_strategy,ads.limit(60){id,name,status,creative{object_story_spec{page_id,instagram_user_id},image_hash}}',
-          limit: 50,
+            'id,name,status,daily_budget,bid_amount,bid_strategy,ads.limit(15){id,name,status,creative{object_story_spec{page_id,instagram_user_id},image_hash}}',
+          limit: 15,
         }),
       ]);
       return NextResponse.json({ ok: true, campaign, adsets: adsets.data || [] });
@@ -806,6 +806,37 @@ export const POST = accountRoute(async (req: Request) => {
         targetAdSetId = createdAdSet.id;
       }
 
+      let switchedAdSetToFbOnly = false;
+      const ensureFacebookOnlyPlacementsOnAdSet = async () => {
+        if (switchedAdSetToFbOnly) return;
+        const fbTargeting: Record<string, unknown> = JSON.parse(JSON.stringify(rawTargeting || {}));
+        delete fbTargeting.instagram_positions;
+        delete fbTargeting.threads_positions;
+        delete fbTargeting.messenger_positions;
+        delete fbTargeting.audience_network_positions;
+        fbTargeting.publisher_platforms = ['facebook'];
+        if (!Array.isArray(fbTargeting.facebook_positions) || fbTargeting.facebook_positions.length === 0) {
+          fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'video_feeds', 'story'];
+        }
+        await directGraph(targetAdSetId, { targeting: fbTargeting }, 'POST').catch(() =>
+          directGraph(
+            targetAdSetId,
+            {
+              targeting: {
+                geo_locations: fbTargeting.geo_locations || { countries: ['PL'] },
+                age_min: fbTargeting.age_min || 18,
+                age_max: fbTargeting.age_max || 65,
+                publisher_platforms: ['facebook'],
+                facebook_positions: ['feed', 'facebook_reels', 'video_feeds', 'story'],
+                ...(fbTargeting.targeting_automation ? { targeting_automation: fbTargeting.targeting_automation } : {}),
+              },
+            },
+            'POST',
+          ),
+        );
+        switchedAdSetToFbOnly = true;
+      };
+
       const existingAdsByName = new Map<string, string>();
       try {
         const existingAdsRes = await directGraph<{ data?: Array<{ id: string; name: string; status?: string }> }>(
@@ -914,8 +945,8 @@ export const POST = accountRoute(async (req: Request) => {
             continue;
           }
 
-          // Ordered candidate attempts: primary persona page (with IG/Threads -> IG only -> FB only),
-          // then gender-congruent Feliora BM community page if cross-BM persona page lacks permission (NEVER corporate store 1338513126001175!)
+          // Ordered candidate attempts: primary persona page (with own IG/Threads -> own IG -> omitted IG),
+          // then gender-congruent Feliora BM community page if cross-BM persona page lacks FB Page permission (NEVER corporate store 1338513126001175!)
           const fallbackCommunityPage =
             pageId === '1363490303507686'
               ? {
@@ -932,7 +963,7 @@ export const POST = accountRoute(async (req: Request) => {
                 };
 
           const actorCandidates: Array<{ pId: string; pName: string; igId?: string; thId?: string }> = [];
-          if (actors.instagram_user_id && actors.threads_user_id) {
+          if (!switchedAdSetToFbOnly && actors.instagram_user_id && actors.threads_user_id) {
             actorCandidates.push({
               pId: pageId,
               pName: ad.pageName,
@@ -940,12 +971,12 @@ export const POST = accountRoute(async (req: Request) => {
               thId: actors.threads_user_id,
             });
           }
-          if (actors.instagram_user_id) {
+          if (!switchedAdSetToFbOnly && actors.instagram_user_id) {
             actorCandidates.push({ pId: pageId, pName: ad.pageName, igId: actors.instagram_user_id });
           }
           actorCandidates.push({ pId: pageId, pName: ad.pageName });
           if (pageId !== fallbackCommunityPage.pId && pageId !== '1287239777799682' && pageId !== '1304624172730017' && pageId !== '1231925240008683') {
-            actorCandidates.push(fallbackCommunityPage);
+            if (!switchedAdSetToFbOnly) actorCandidates.push(fallbackCommunityPage);
             actorCandidates.push({ pId: fallbackCommunityPage.pId, pName: fallbackCommunityPage.pName });
           }
 
@@ -954,14 +985,14 @@ export const POST = accountRoute(async (req: Request) => {
           let lastErr: Error | undefined;
           for (const cand of actorCandidates) {
             const candidateAdName = `${ad.code} | ${variant.suffix} | ${cand.pName}`;
-            const creativeSpec = {
+            const buildSpec = (withActors: boolean) => ({
               name: `${candidateAdName} - Creative`,
               url_tags:
                 'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
               object_story_spec: {
                 page_id: cand.pId,
-                ...(cand.igId ? { instagram_user_id: cand.igId } : {}),
-                ...(cand.thId ? { threads_user_id: cand.thId } : {}),
+                ...(withActors && cand.igId ? { instagram_user_id: cand.igId } : {}),
+                ...(withActors && cand.thId ? { threads_user_id: cand.thId } : {}),
                 link_data: {
                   image_hash: variant.hash,
                   link: variant.link,
@@ -974,14 +1005,14 @@ export const POST = accountRoute(async (req: Request) => {
                   },
                 },
               },
-            };
+            });
             try {
               createdAd = await directGraph<{ id: string }>(
                 `act_${FELIORA_META_ACCOUNT_ID}/ads`,
                 {
                   name: candidateAdName,
                   adset_id: targetAdSetId,
-                  creative: creativeSpec,
+                  creative: buildSpec(!switchedAdSetToFbOnly),
                   status: adStatus,
                 },
                 'POST',
@@ -990,6 +1021,30 @@ export const POST = accountRoute(async (req: Request) => {
               break;
             } catch (err) {
               lastErr = err instanceof Error ? err : new Error(String(err));
+              // When omitting IG fails with 1815199 (unshared page-connected IG), switch Ad Set to Facebook placements and retry immediately without foreign IG!
+              if (
+                !cand.igId &&
+                !switchedAdSetToFbOnly &&
+                (lastErr.message.includes('1815199') || lastErr.message.toLowerCase().includes('instagram'))
+              ) {
+                try {
+                  await ensureFacebookOnlyPlacementsOnAdSet();
+                  createdAd = await directGraph<{ id: string }>(
+                    `act_${FELIORA_META_ACCOUNT_ID}/ads`,
+                    {
+                      name: candidateAdName,
+                      adset_id: targetAdSetId,
+                      creative: buildSpec(false),
+                      status: adStatus,
+                    },
+                    'POST',
+                  );
+                  usedCand = cand;
+                  break;
+                } catch (retryErr) {
+                  lastErr = retryErr instanceof Error ? retryErr : new Error(String(retryErr));
+                }
+              }
             }
           }
 
