@@ -59,9 +59,9 @@ Kość piętowa przekrzywia się do wewnątrz (koślawość), a ścięgno Achill
 ↓
 Jednocześnie piszczel rotuje do środka, przenosząc uderzenia z twardego boiska prosto na rzepkę i kolano młodego zawodnika
 
-Na koniec wizyty fizjoterapeuta wziął małą karteczkę, zapisał na niej wyłącznie 2 słowa: Orthomax StepMax i podał mi ją do ręki. Dodał, że to smukłe, dynamiczne wkładki z korytkiem stabilizującym piętę, które wchodzą do wąskich korków i turfów.
+Fizjoterapeuta powiedział mi na pożegnanie jasno: „Pani Małgorzato, niech pani nie kupuje mu kolejnych sztywnych desek z zakładu ortopedycznego, tylko poszuka smukłych, dynamicznych wkładek z głębokim korytkiem pięty, które wejdą do wąskich korków".
 
-W domu o 20:00 usiadłam w kuchni z telefonem, wyjęłam tę karteczkę, wpisałam w wyszukiwarkę nazwę z kartki i sama dopisałam słowo opinie.
+Wieczorem o 20:00 usiadłam w kuchni z telefonem i napisałam wiadomość na naszej grupie rodziców ze szkółki piłkarskiej, pytając, czy ktoś przerabiał chorobę Severa i jakie smukłe wkładki mieszczą się do dziecięcych korków. Po 10 minutach zadzwoniła do mnie Karolina - mama 12-letniego bramkarza z rocznika wyżej. Powiedziała od razu: „Gosia, przerabialiśmy identyczny płacz w aucie rok temu i też straszyli nas 6 miesiącami przerwy. Nie zabieraj mu piłki, zamów mu Orthomax StepMax i włóż zamiast fabrycznych wkładek". Wysłała mi link na WhatsAppie.
 
 I wtedy włączył mi się bunt sparzonego rodzica. Po wydaniu 1190 zł na buty, lekarzy i sztywne wkładki za 360 zł prychałam pod nosem: jasne, wkładki z internetu za ułamek ceny rozwiążą problem, przez który ortopeda kazał dziecku rzucić piłkę na 6 miesięcy. Zamknęłam stronę.
 
@@ -142,11 +142,9 @@ Kość piętowa ucieka do wewnątrz, co wymusza natychmiastową rotację wewnęt
 ↓
 Kolano zostaje skręcone w ugięciu - rzepka trze o kłykieć kości udowej, a wewnętrzna łąkotka jest miażdżona przy każdym zwrocie na murawie
 
-Kiedy wychodziłem z gabinetu, fizjoterapeuta oderwał karteczkę z bloczka, napisał na niej wyłącznie 2 słowa: Orthomax StepMax i podał mi ją przy drzwiach.
+W kolejny wtorek po meczu stałem na parkingu pod Orlikiem i patrzyłem z zazdrością na 44-letniego Grzegorza - najstarszego chłopaka z naszej ekipy, który waży 92 kilogramy, haruje przez 90 minut od bramki do bramki i normalnie truchta do samochodu. Zapytałem go wprost: „Grzesiek, co ty bierzesz na te kolana, że po tej betonowej murawie nic ci nie dolega?". Grzegorz zaśmiał się, otworzył bagażnik swojego kombi, wziął w rękę swojego turfa i wyciągnął ze środka wyprofilowaną wkładkę z głębokim korytkiem pod piętą. „Żadnych tabletek nie biorę. Rok temu wywaliłem fabryczne gąbki i włożyłem Orthomax StepMax - 1 parę mam w turfach, 2. parę w butach roboczych".
 
-Wieczorem w domu usiadłem na kanapie, wyjąłem tę kartkę, wklepałem w telefon nazwę z karteczki i sam dopisałem w wyszukiwarce słowo opinie.
-
-Od razu włączył mi się sceptycyzm gościa, który wywalił już 1131 zł w błoto. Pomyślałem sobie: kupiłem turfy za 420 zł i pistolet do masażu za 249 zł, a teraz wkładka za 50 zł sprawi, że w środę rano nie będę schodził po schodach jak paralityk? Wyłączyłem przeglądarkę.
+Wieczorem w domu usiadłem na kanapie i wpisałem w telefon nazwę, którą pokazał mi Grzegorz na parkingu. Od razu włączył mi się sceptycyzm gościa, który wywalił już 1131 zł w błoto. Pomyślałem sobie: kupiłem turfy za 420 zł i pistolet do masażu za 249 zł, a teraz wkładka za 50 zł sprawi, że w środę rano nie będę schodził po schodach jak paralityk? Wyłączyłem przeglądarkę.
 
 Wróciłem na stronę w środę rano, kiedy znowu szedłem do łazienki przytrzymując się futryny. Doczytałem warunki gwarancji: pełne 30 dni na testy w boju. Mogę wsadzić wkładki do turfów, zagrać w nich 4 wtorkowe mecze po 90 minut na Orliku, a jeśli w środę rano moje kolana i pięty nadal będą w rozsypce, odsyłam znoszone wkładki i dostaję 100% zwrotu pieniędzy.
 
@@ -223,11 +221,9 @@ Bez korytka pięty i dynamicznego podparcia łuku stopa przy każdym hamowaniu z
 ↓
 Rozcięgno podeszwowe jest szarpane jak przeciążona lina, poduszka tłuszczowa pod piętą ulega zbiciu o twardą płytkę buta, a przeciążenie wędruje w górę do ścięgna Achillesa i kolan
 
-Na koniec wyciągnął małą kartkę, zapisał na niej wyłącznie nazwę: Orthomax StepMax i podał mi ją do ręki.
+Fizjoterapeuta powiedział mi tylko, żebym poszukał dynamicznej wkładki ze sztywnym korytkiem pięty, ale o niskim profilu przodostopia, żeby weszła do wąskiego buta piłkarskiego. Następnego dnia pojechałem do galerii handlowej i kupiłem w dużym sklepie sportowym wkładki znanej marki za 79 zł - w domu okazało się, że przód jest tak gruby, iż palce w turfach drętwieją po 2 minutach. Oddałem je i w nocy zacząłem przekopywać wątki na Wykopie oraz na forum amatorskich lig szóstek Playarena pod hasłem „jakie wkładki mieszczą się do wąskich korków i turfów". W 3 osobnych wątkach zawodnicy pisali to samo: „Do wąskich korków i turfów wchodzi bez problemu tylko Orthomax StepMax".
 
-W mieszkaniu wyjąłem tę kartkę z portfela, odpaliłem telefon, wpisałem nazwę z kartki i sam dopisałem w wyszukiwarce słowo opinie.
-
-Po wywaleniu 943 zł na buty i 3 pary bezużytecznych wkładek patrzyłem na stronę z niedowierzaniem. Pomyślałem sobie: wkładki za 380 zł z gabinetu nie weszły mi do buta, żel za 69 zł zmasakrował paznokieć, a teraz zamówię wkładki z internetu i nagle przypasują do wąskich turfów? Zamknąłem kartę.
+Po wywaleniu 943 zł na buty i 3 pary bezużytecznych wkładek patrzyłem na stronę producenta z niedowierzaniem. Pomyślałem sobie: wkładki za 380 zł z gabinetu nie weszły mi do buta, żel za 69 zł zmasakrował paznokieć, a teraz zamówię wkładki z internetu i nagle przypasują do wąskich turfów? Zamknąłem kartę.
 
 Złamałem się po czwartkowym meczu, po którym w piątek rano przez 20 minut rozmasowywałem stopę na wałku. Wszedłem z powrotem na stronę i przeczytałem zasady gwarancji: pełne 30 dni na testowanie w praktyce. Nawet jeśli przytniesz wkładkę pod wymiar korków i będziesz w niej grał przez 4 tygodnie na Orliku, a nie poczujesz różnicy - odsyłasz i zwracają 100% pieniędzy.
 
@@ -311,11 +307,9 @@ Kość piętowa wykrzywia się do wewnątrz, przez co ścięgno Achillesa ciągn
 ↓
 Piszczel rotuje do środka i przeciąża więzadło rzepki w kolanie przy każdym hamowaniu na sztucznej murawie
 
-Na koniec wizyty fizjoterapeuta wziął małą karteczkę, zapisał na niej wyłącznie nazwę własną: Orthomax StepMax i wręczył ją mnie. Powiedział, że w rozmiarze 40 dla Bartka i 44 dla mnie te dynamiczne wkładki wejdą idealnie do korków i turfów.
+W niedzielę po obiedzie, kiedy i ja i Bartek nadal kuśtykaliśmy po mieszkaniu w samych skarpetkach, moja żona nie wytrzymała i zadzwoniła do swojej przyjaciółki ze studiów - Eweliny, która od 12 lat prowadzi gabinet rehabilitacji dzieci i młodzieży sportowej. Ewelina wysłuchała nas przez głośnik i powiedziała krótko: „Marcin, nie dajcie się naciągnąć na sztywne wkładki za 400 zł, bo nie wejdą młodemu do korków. Zamówcie ze strony producenta pakiet 1+1 Orthomax StepMax - ponad 50% chłopaków z akademii, którzy do mnie przychodzą z bólem pięt po Orliku, biega na tym modelu". Wysłała żonie link SMS-em.
 
-Wieczorem w domu usiedliśmy z Bartkiem przy stole, położyłem tę kartkę, wpisałem w telefon nazwę z kartki i sam dopisałem w wyszukiwarce słowo opinie.
-
-I wtedy odezwał się we mnie niedowiarek, który wydał 905 zł na sprzęt i aptekę. Pomyślałem głośno: wydaliśmy 648 zł na same buty piłkarskie, kupowaliśmy podpiętki i opaski, a teraz wkładki z internetu sprawią, że młody przestanie narzekać po 3 treningach w tygodniu?
+Usiedliśmy z Bartkiem przy stole i otworzyliśmy stronę w telefonie. I wtedy odezwał się we mnie niedowiarek, który wydał 905 zł na sprzęt i aptekę. Pomyślałem głośno: wydaliśmy 648 zł na same buty piłkarskie, kupowaliśmy podpiętki i opaski, a teraz wkładki z internetu sprawią, że młody przestanie narzekać po 3 treningach w tygodniu?
 
 Przekonał mnie Bartek i gwarancja na stronie producenta. Młody spojrzał na ekran i powiedział:
 - Tato, przecież tu pisze, że mamy 30 dni na testowanie i jak nas będą dalej bolały pięty na Orliku, to możemy je odesłać po miesiącu i oddadzą całe pieniądze.
@@ -348,7 +342,7 @@ P.S. Przeprosiłem Bartka przy całej drużynie na kolejnym turnieju. Jeśli Two
 
 Cholewki obu butów, które kupiliśmy 6 tygodni wcześniej za 399 zł, były wygięte do środka tak mocno, że wewnętrzne kostki Filipa niemal ocierały o sztuczną trawę, a jego kolana schodziły się w kształt litery X. Kiedy Filip usiadł na ławce i odwróciliśmy podeszwy, wewnętrzne kołki pod piętą i śródstopiem były starte o połowę mocniej niż zewnętrzne.
 
-Mam na imię Marta, mam 37 lat i mieszkam w Krakowie. Mój 10-letni Filip trenuje w akademii piłkarskiej od 3 lat. Zawsze był szybkim skrzydłowym. Ale tej jesieni przez początkowe 25 minut meczu biegał normalnie, a po 35-40 minutach nagle tracił zwrotność, potykał się przy zwrotach z piłką i łapał się ręką za wewnętrzną stronę kolana oraz pachwinę.
+Mam na imię Marta, mam 37 lat i mieszkam w Krakowie. Mój 10-letni Filip trenuje w akademii piłkarskiej od 3 lat. Zawsze był szybkim skrzydłowym. Ale tej jesieni przez początkowe 25 minut meczu biegał normalnie, a po 35-40 minutach nagle tracił zwrotność, potykał się przy zwodach z piłką i łapał się ręką za wewnętrzną stronę kolana oraz pachwinę.
 
 Podczas sobotniego sparingu stałam przy barierce, kiedy trener po 40 minutach gry zdjął Filipa z boiska i poprosił mnie do ławki.
 
@@ -394,11 +388,9 @@ Pięta ucieka do środka, cholewka korka wygina się w kształt litery X, a wewn
 ↓
 Za wykrzywioną piętą piszczel i kolano zapadają się do środka, co ciągnie za przywodziciele w pachwinie i odbiera młodemu piłkarzowi szybkość oraz zwrotność po 30 minutach meczu
 
-Na koniec fizjoterapeuta wziął małą karteczkę z biurka, zapisał na niej wyłącznie 2 słowa: Orthomax StepMax i podał mi ją do ręki.
+Fizjoterapeuta wytłumaczył mi, że potrzebujemy smukłej, sprężystej wkładki z głębokim korytkiem pięty. Jeszcze tego samego popołudnia na treningu stałam pod siatką Orlika i opowiedziałam o tym panu Darkowi - ojcu Maćka, który gra z Filipem na obronie. Pan Darek uśmiechnął się od razu: „Pani Marto, 6 miesięcy temu korki mojego Maćka wyglądały od tyłu identycznie i też wywaliliśmy 380 zł na sztywne wkładki z zakładu, które nie weszły do buta". Po gwizdku zawołał Maćka do ławki, kazał mu zdjąć prawego korka i pokazał mi wyprofilowaną wkładkę Orthomax StepMax, która leżała w wąskim bucie jak ulał.
 
-Wróciłam do domu, wyjęłam tę karteczkę, wpisałam w telefon nazwę z kartki i sama dopisałam w wyszukiwarce słowo opinie.
-
-Po wydaniu 1167 zł, w tym 380 zł na wkładki z zakładu ortopedycznego, które leżały na dnie szafy, byłam nastawiona skrajnie nieufnie. Pomyślałam sobie: zakład ortopedyczny zrobił wkładki, które nie weszły do korków, a teraz kupię dynamiczne wkładki przez internet i nagle wejdą do wąskich butów piłkarskich?
+Wróciłam do domu i otworzyłam stronę producenta w telefonie. Po wydaniu 1167 zł, w tym 380 zł na wkładki z zakładu ortopedycznego, które leżały na dnie szafy, byłam nastawiona skrajnie nieufnie. Pomyślałam sobie: zakład ortopedyczny zrobił wkładki, które nie weszły do korków, a teraz kupię dynamiczne wkładki przez internet i nagle utrzymają piętę Filipa?
 
 Zdecydowałam się tylko z 1 powodu: na stronie producenta przeczytałam o pełnej, 30-dniowej gwarancji zwrotu pieniędzy. Można włożyć wkładki do korków, trenować w nich przez miesiąc na Orliku, a jeśli nie wejdą do buta albo pięty dalej będą uciekać do środka, odsyła się je i oddają 100% wpłaconej kwoty.
 

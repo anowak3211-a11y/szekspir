@@ -41,11 +41,9 @@ Każde z 5000 uderzeń stopy o twardy asfalt powoduje rotację wewnętrzną koś
 ↓
 Okostna piszczeli jest szarpana jak struna przy każdym kroku (stąd palący ból shin splints), a rzepka trze bokiem o kość udową
 
-Im miększy but kupowałem, tym bardziej moja zmęczona po 20 minutach pięta pływała na boki! Fizjoterapeuta wyrwał karteczkę z notesu i zapisał na niej długopisem tylko 2 słowa: Orthomax StepMax.
+Im miększy but kupowałem, tym bardziej moja zmęczona po 20 minutach pięta pływała na boki! Fizjoterapeuta powiedział krótko: niech pan wyjmie z tych butów płaskie fabryczne szmatki i poszuka wielowarstwowej wkładki ze sztywnym korytkiem pod piętę oraz dynamicznym mostkiem.
 
-Powiedział krótko: niech pan wyjmie z tych butów płaskie fabryczne szmatki i włoży do środka wielowarstwową wkładkę ze sztywnym korytkiem pod piętę oraz dynamicznym mostkiem.
-
-Wieczorem w domu wyjąłem z kieszeni tę karteczkę, wpisałem w telefonie nazwę z kartki i sam dopisałem w wyszukiwarce słowo opinie. Przeczytałem komentarze biegaczy z identycznym problemem palących piszczeli na 5. kilometrze, a potem wszedłem na stronę producenta.
+Wieczorem w domu usiadłem do laptopa, przekopałem stare wątki o bólach piszczeli (shin splints) i pronacji zmęczeniowej na forum Bieganie.pl, a potem zadałem pytanie na czacie naszego lokalnego klubu biegowego na Stravie. Odezwało się 4 chłopaków ważących powyżej 85 kilogramów, którzy biegają po warszawskim betonie - wszyscy wskazali ten sam model: Orthomax StepMax. Wszedłem na stronę producenta.
 
 Kiedy zobaczyłem cenę 99,99 zł za Pakiet 1+1 GRATIS (czyli 2 pary, po 50 zł za parę), włączył mi się sparzony cynik. Pomyślałem: „No jasne. Wydałem 1809 zł na topowe buty i gadżety, a teraz wkładka za 50 zł ma sprawić, że przestanie mnie rwać piszczel na asfalcie?”. Zamknąłem przeglądarkę.
 
@@ -109,11 +107,11 @@ Rozcięgno podeszwowe (grube pasmo łączące piętę z palcami) jest szarpane w
 ↓
 Powstają mikroskopijne naderwania i stan zapalny, który w nocy sztywnieje, a o 6:00 rano przy 1. kroku daje uczucie wbijanego gwoździa
 
-Fizjoterapeuta powiedział wprost: dopóki nie podeprze pani tego mostu od spodu sprężystym łukiem i nie zamknie pięty w stabilnym korytku, każdy marsz z kijkami będzie dolewał oliwy do ognia. Wziął czystą kartkę z bloczka i zapisał na niej tylko 2 wyrazy: Orthomax StepMax.
+Fizjoterapeuta powiedział wprost: dopóki nie podeprze pani tego mostu od spodu sprężystym łukiem i nie zamknie pięty w stabilnym korytku, każdy marsz z kijkami będzie dolewał oliwy do ognia.
 
-Tego samego wieczoru wpisałam w telefonie nazwę z kartki i sama dopisałam słowo opinie. Zobaczyłam mnóstwo wpisów od kobiet w moim wieku chodzących z kijkami, które opisywały identyczne poranne chodzenie „na szczudłach” do kuchni.
+Wieczorem po wizycie siedziałyśmy w mojej kuchni z 61-letnią panią Krysią - moją sąsiadką z parteru, z którą chodzę na kijki. Pani Krysia ma 8 lat więcej ode mnie, robi po 18 kilometrów dziennie i nigdy nawet nie skrzywiła się na ból pięt. Kiedy powtórzyłam jej słowa fizjoterapeuty, pani Krysia poszła do przedpokoju, przyniosła swojego buta do Nordic Walking i wyjęła ze środka wyprofilowaną wkładkę. „Beata, moja siostra pracuje na poczcie po 9 godzin na nogach i dała mi to rok temu. Przestań deptać ten beton na płaskiej gąbce, zamów sobie Orthomax StepMax".
 
-Ale kiedy weszłam na stronę sklepu, odezwała się moja nieufność księgowej. Wydałam już 560 zł na buty, podpiętki i maści plus 220 zł na wizytę - razem 780 zł! Pomyślałam: „Teraz mam wydać kolejne 99,99 zł na wkładki z internetu? Przecież jak to znowu będzie zwykła gąbka, to się popłaczę ze złości”. Wyłączyłam telefon.
+Ale kiedy weszłam w telefonie na stronę sklepu, odezwała się moja nieufność księgowej. Wydałam już 560 zł na buty, podpiętki i maści plus 220 zł na wizytę - razem 780 zł! Pomyślałam: „Teraz mam wydać kolejne 99,99 zł na wkładki z internetu? Przecież jak to znowu będzie zwykła gąbka, to się popłaczę ze złości”. Wyłączyłam telefon.
 
 Jednak następnego dnia o 6:00 rano, kiedy przy wstawaniu z łóżka lewa pięta zapiekła mnie tak mocno, że aż krzyknęłam, powiedziałam: dość. Otworzyłam stronę przy kawie i wczytałam się w warunki: pełne 30 dni gwarancji zwrotu pieniędzy. Mogę chodzić w nich z kijkami po parku przez 4 tygodnie, a jeśli ból pięt i biodra nie ustąpi - odsyłam je i oddają mi całe 99,99 zł. W Pakiecie 1+1 GRATIS dostaję 2 pary za 99,99 zł (czyli po 50 zł za parę), więc 1 parę włożę do butów na Nordic Walking, a 2. parę do domowych wsuwek, w których stoję w kuchni. Zamówiłam.
 
@@ -140,7 +138,7 @@ P.S. Koniecznie weź zestaw z 2 parami i włóż 2. parę do obuwia domowego, w 
     headline:
       "Fizjoterapeuta nagrał moje stopy na bieżni w 25. minucie biegu. Kiedy zwolnił film na telefonie, zamarłam",
     description: "",
-    primaryText: `Kiedy poszłam do sklepu dla biegaczy w Gdańsku, sprzedawca kazał mi przebiec 15 sekund po dywaniku, powiedział, że ląduję prosto, i sprzedał mi buty za 680 zł, po których moje prawe kolano, biodro i lędźwie rwały jeszcze gorzej.
+    primaryText: `Kiedy poszłam do sklepu dla biegaczy w Gdańsku, sprzedawca kazał mi przebiec 15 sekund po dywaniku, powiedział, że ląduję prosto i sprzedał mi buty za 680 zł, po których moje prawe kolano, biodro i lędźwie rwały jeszcze gorzej.
 
 Dopiero fizjoterapeuta biomechanik ustawił kamerę za bieżnią elektryczną i nagrał moje stopy od tyłu w 25. minucie biegu, kiedy mięśnie stóp zaczęły opadać z sił. Gdy zatrzymał nagranie i zobaczyłam, jak moja prawa kostka przy każdym kroku łamie się do środka pod kątem 13 stopni i niemal szoruje o taśmę bieżni, zrobiło mi się słabo.
 
@@ -175,11 +173,11 @@ Zapadająca się kostka pociąga za sobą do środka kość piszczelową i kolan
 ↓
 Skręcone kolano szarpie pasmo biodrowo-piszczelowe, wykręca miednicę i przeciąża odcinek lędźwiowy kręgosłupa
 
-Stąd brał się mój ból kolana, biodra i pleców jednocześnie! Fizjoterapeuta powiedział, że żadne ćwiczenia pośladków nie utrzymają łuku stopy w 25. minucie biegu po betonie, jeśli pod piętą i śródstopiem nie ma fizycznej, sprężystej blokady. Wyjął małą karteczkę i zapisał na niej długopisem wyłącznie nazwę własną: Orthomax StepMax.
+Stąd brał się mój ból kolana, biodra i pleców jednocześnie! Fizjoterapeuta powiedział, że żadne ćwiczenia pośladków nie utrzymają łuku stopy w 25. minucie biegu po betonie, jeśli pod piętą i śródstopiem nie ma fizycznej, sprężystej blokady.
 
-Wieczorem wyjęłam z torebki karteczkę od fizjoterapeuty, wpisałam nazwę w Google i sama dopisałam słowo opinie. Przeczytałam relacje biegaczy, a potem otworzyłam stronę producenta.
+Wróciłam do domu, mając w telefonie to nagranie w zwolnionym tempie. Wieczorem zaczęłam oglądać na YouTubie i Instagramie rolki z analizą biegu na bieżni i pod 1 z filmów z ponad 300 komentarzami zobaczyłam dyskusję dziewczyn, które miały identyczny problem z uciekającą do środka kostką i bólem biodra po 5 kilometrach. Pisały tam wprost, że sztywne wkładki z przychodni robią krwawe pęcherze przy bieganiu - podlinkowały za to dynamiczne wkładki Orthomax StepMax.
 
-I wtedy włączył mi się opór. Wydałam już 1414 zł na buty, masaże, kolagen i aplikacje plus 240 zł na wizytę - razem 1654 zł! Patrzyłam na ofertę Pakietu 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i myślałam z goryczą: „Jasne, moje buty za 680 zł nie utrzymały kostki, a wkładka za 50 zł utrzyma moje 64 kilogramy w 25. minucie biegu?”. Zamknęłam laptopa bez zamawiania.
+Kiedy otworzyłam stronę producenta, włączył mi się opór. Wydałam już 1414 zł na buty, masaże, kolagen i aplikacje plus 240 zł na wizytę - razem 1654 zł! Patrzyłam na ofertę Pakietu 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i myślałam z goryczą: „Jasne, moje buty za 680 zł nie utrzymały kostki, a wkładka za 50 zł utrzyma moje 64 kilogramy w 25. minucie biegu?”. Zamknęłam laptopa bez zamawiania.
 
 Ale w czwartek poszłam pobiegać na 30 minut wzdłuż plaży w Brzeźnie. Wieczorem dół pleców i biodro rozbolały mnie tak, że nie mogłam obrócić się w łóżku na bok. Rano otworzyłam stronę ponownie i przeczytałam zasady gwarancji: mam pełne 30 dni na testowanie wkładek w prawdziwym biegu. Jeśli w ciągu 30 dni nie poczuję różnicy w kolanie i biodrze, odsyłam je i dostaję 100 procent zwrotu pieniędzy. Zamówiłam Pakiet 1+1 GRATIS za 99,99 zł - 1 parę włożyłam do butów biegowych, a 2. parę do sneakersów na co dzień.
 
@@ -241,11 +239,11 @@ Kiedy stopa traci kształt sprężyny i rozlewa się na płasko, całe uderzenie
 ↓
 Więzadło właściwe rzepki musi wyhamować ten ciężar pod skosem (stąd piekące „kolano skoczka”), a kość piętowa dobija bezpośrednio do twardej podeszwy
 
-Zrozumiałem, dlaczego poduszka powietrzna w bucie za 550 zł nic nie dawała - bo nad nią moja stopa zapadała się i wykręcała przy każdym lądowaniu! Fizjoterapeuta powiedział, że w sportach halowych stopa potrzebuje głębokiego, sztywnego korytka trzymającego piętę w osi oraz sprężystego mostka działającego jak resor. Wziął karteczkę z biurka i zapisał na niej tylko nazwę własną: Orthomax StepMax.
+Zrozumiałem, dlaczego poduszka powietrzna w bucie za 550 zł nic nie dawała - bo nad nią moja stopa zapadała się i wykręcała przy każdym lądowaniu! Fizjoterapeuta powiedział, że w sportach halowych stopa potrzebuje głębokiego, sztywnego korytka trzymającego piętę w osi oraz sprężystego mostka działającego jak resor.
 
-Wieczorem w domu wyciągnąłem tę kartkę, wpisałem nazwę w telefonie i sam dopisałem słowo opinie. Znalazłem komentarze chłopaków grających na hali w siatkówkę i kosza, którzy pisali o końcu problemów z obitymi piętami i bólem pod rzepką. Wszedłem na stronę sklepu.
+W kolejny wtorek w ciasnej szkolnej szatni przed meczem 38-letni Tomek - nasz środkowy bloku, który 3 lata temu przeszedł rekonstrukcję więzadeł, a dziś skacze nad siatką najwyżej z całej ekipy - zobaczył, jak znowu zaciskam opaskę pod rzepką. Rzucił mi pod nogi swojego buta halowego Mizuno i powiedział: „Dawid, wyjmij środek i zobacz, na czym ja ląduję od jesieni, odkąd wyrzuciłem opaski". Wyciągnąłem z jego halówki wyprofilowaną wkładkę Orthomax StepMax z głębokim korytkiem pięty.
 
-Patrzyłem na Pakiet 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i włączył mi się sceptycyzm człowieka, który utopił 859 zł w sprzęcie i 230 zł u fizjo (razem 1089 zł!). Mówię do narzeczonej: „Jasne, buty siatkarskie za 550 zł nie zamortyzowały lądowania z bloku, a wkładka za 50 zł wytrzyma moje 88 kilo spadające z góry 150 razy na mecz? Przecież połamię ją w 1. secie”. Zamknąłem stronę.
+Wieczorem po meczu wszedłem na stronę sklepu. Patrzyłem na Pakiet 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i włączył mi się sceptycyzm człowieka, który utopił 859 zł w sprzęcie i 230 zł u fizjo (razem 1089 zł!). Mówię do narzeczonej: „Jasne, buty siatkarskie za 550 zł nie zamortyzowały lądowania z bloku, a wkładka za 50 zł wytrzyma moje 88 kilo spadające z góry 150 razy na mecz? Przecież połamię ją w 1. secie”. Zamknąłem stronę.
 
 Ale we wtorek w 2. secie po wyskoku do ataku wylądowałem na prawą nogę tak boleśnie, że przed oczami stanęły mi mroczki, a w środę rano nie mogłem wejść na 1. piętro. W środę w południe otworzyłem stronę ponownie i przeczytałem o 30-dniowej gwarancji zwrotu. Pomyślałem: „Mam 30 dni, czyli zagram w nich 8 meczów na hali. Jak się ugniecie albo kolano dalej będzie palić - odsyłam i odzyskuję całe 99,99 zł”. Zamówiłem Pakiet 1+1 GRATIS - 1 parę włożyłem do halówek, a 2. parę do butów codziennych.
 
@@ -307,11 +305,9 @@ Brak poprzecznego i podłużnego mostka sprawia, że kości śródstopia opadaj�
 ↓
 Dodatkowo szczelny silikon nie przepuszcza powietrza, więc stopa pływa we własnym pocie i traci stabilność w bucie
 
-Fizjoterapeuta sięgnął na półkę, pokazał mi przekrój prawdziwej wkładki biomechanicznej i zapisał na karteczce tylko 2 słowa: Orthomax StepMax.
+Kiedy wyszedłem z gabinetu na korytarz, trzymając w dłoni rozciętą niebiesko-żółtą żelową wkładkę z marketu, siedząca na krzesełku w poczekalni 50-letnia kobieta w bluzie medycznej (jak się okazało, pielęgniarka z krakowskiego SOR-u, która przyszła na rehabilitację barku) spojrzała na ten silikon i parsknęła śmiechem: „Też kiedyś kupiłam ten niebieski żel za 30 zł na 12-godzinny dyżur i myślałam, że odpadną mi pięty". Zsunęła swojego buta sportowego, wyjęła ze środka wkładkę ze sztywnym korytkiem oraz sprężystym mostkiem i pokazała mi logo Orthomax StepMax: „W tym robię po 18 000 kroków na dyżurze na betonie i chodzę po Beskidach".
 
-Wieczorem w domu wpisałem w telefonie Orthomax StepMax i sam dopisałem w wyszukiwarce słowo opinie. Zobaczyłem mnóstwo komentarzy ludzi, którzy tak jak ja najpierw kupowali tanie żele po 25 - 35 zł na Allegro lub w marketach, a dopiero po przesiadce na sztywne korytko poczuli ulgę w Achillesie i śródstopiu.
-
-Mimo to, gdy wszedłem na stronę zamówienia, odezwał się mój uparciuch. Wydałem już 411,98 zł na buble plus 200 zł na wizytę (razem ponad 611 zł!). Patrzę na Pakiet 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i myślę: „A jak po 10 kilometrach ten mostek też klapnie na płasko jak tamta pianka za 35 zł?”.
+Wieczorem w domu wpisałem w telefonie Orthomax StepMax. Mimo to, gdy wszedłem na stronę zamówienia, odezwał się mój uparciuch. Wydałem już 411,98 zł na buble plus 200 zł na wizytę (razem ponad 611 zł!). Patrzę na Pakiet 1+1 GRATIS za 99,99 zł (2 pary, czyli 50 zł za parę) i myślę: „A jak po 10 kilometrach ten mostek też klapnie na płasko jak tamta pianka za 35 zł?”.
 
 Przeczytałem jednak o 30-dniowej gwarancji zwrotu pieniędzy. W markecie za 29,99 zł straciłem pieniądze bezpowrotnie. A tutaj mam pełne 30 dni na przejście i przebiegnięcie w nich 100 kilometrów po Krakowie - jeśli mostek się ugnie albo Achilles dalej będzie ciągnął, odsyłam je i oddają mi całe 99,99 zł. Do tego w pakiecie 1+1 GRATIS wychodzi po 50 zł za parę, czyli tylko 20 zł więcej niż za tę marketową galaretę! Kliknąłem zamówienie.
 

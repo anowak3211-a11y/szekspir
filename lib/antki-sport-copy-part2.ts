@@ -52,9 +52,11 @@ W nocy podczas snu naderwane mikrowłókna sklejają się w pozycji skróconej
 ↓
 O 6:00 rano stawiasz stopę na podłodze, masa ciała rozrywa świeży zrost i czujesz gwóźdź w pięcie
 
-Fizjoterapeuta wytłumaczył mi to prosto: „Dopóki w bucie kortowym i w butach do biura łuk stopy wisi w powietrzu na płaskiej piance, możesz wydać kolejne 2000 zł na falę uderzeniową. W piątek rozbijesz stan zapalny głowicą, a we wtorek o 20:00 na korcie znów naderwiesz przyczep rozcięgna”. Na koniec wizyty oderwał karteczkę z bloczka, zapisał na niej długopisem tylko 2 słowa: Orthomax StepMax i podał mi ją do ręki.
+Fizjoterapeuta wytłumaczył mi to prosto: „Dopóki w bucie kortowym i w butach do biura łuk stopy wisi w powietrzu na płaskiej piance, możesz wydać kolejne 2000 zł na falę uderzeniową. W piątek rozbijesz stan zapalny głowicą, a we wtorek o 20:00 na korcie znów naderwiesz przyczep rozcięgna”. Nie polecił mi żadnej konkretnej firmy - powiedział tylko, żebym szukał wkładki ze sztywnym korytkiem pod piętą i dynamicznym mostkiem.
 
-Wieczorem w domu wpisałem w wyszukiwarkę nazwę z kartki, samemu dopisując na końcu słowo opinie. Kiedy otworzyłem stronę i zobaczyłem cenę 99,99 zł za 2 pary w pakiecie, prychnąłem ze złością sparzonego klienta: „Jasne, buty za 580 zł i fala uderzeniowa za 900 zł nie pomogły, a wkładki z internetu za 50 zł od pary mają zatrzymać rwanie w pięcie po 90 minutach gry w padla”. Zamknąłem przeglądarkę.
+Tego samego wieczoru o 23:00 leżałem w łóżku z telefonem i wpisałem w Google „padel ból pięty rano jak po gwoździach forum”. Trafiłem na wątek na Reddicie i Wykopie, gdzie 40-letni gracz z Warszawy opisywał kropka w kropkę ten sam poranny paraliż po grze na sztucznej trawie ułożonej na betonie. Pisał tam wprost: „Fala uderzeniowa za 900 zł nie dała nic, dopóki nie wywaliłem fabrycznych wkładek z butów kortowych i nie włożyłem Orthomax StepMax”. Pod jego wpisem 12 innych graczy potwierdzało, że dopiero sztywne korytko pięty zatrzymało poranne rwanie.
+
+Kiedy otworzyłem stronę producenta i zobaczyłem cenę 99,99 zł za 2 pary w pakiecie, prychnąłem ze złością sparzonego klienta: „Jasne, buty za 580 zł i fala uderzeniowa za 900 zł nie pomogły, a wkładki z internetu za 50 zł od pary mają zatrzymać rwanie w pięcie po 90 minutach gry w padla”. Zamknąłem przeglądarkę.
 
 Przełom przyszedł 3 dni później po czwartkowym meczu. W piątek o 6:00 rano przy wstawaniu z łóżka ból pod piętą był tak ostry, że potknąłem się o dywanik i wylałem 50% kubka kawy na szafkę. Otworzyłem stronę ponownie i zobaczyłem, że dają pełne 30 dni gwarancji zwrotu pieniędzy na przetestowanie wkładek. Pomyślałem krótko: „Wkładam 1 parę do butów kortowych, a 2. parę do półbutów do pracy. Jeśli po 3 tygodniach w piątek rano nadal będę szedł do łazienki po ścianie, odsyłam je i odzyskuję swoje 99,99 zł co do grosza”.
 
@@ -125,9 +127,11 @@ Cała siła skrętna zgniata przyśrodkową część kolana i szarpie więzadło
 ↓
 Zakładasz opaskę na kolano, podczas gdy na dole w bucie stopa nadal wyjeżdża z osi przy każdym kroku
 
-„Opaska na kolanie przy uciekającej w bucie pięcie działa tak, jakbyś w aucie z krzywo przykręconym kołem próbował naprawić ściąganie na bok przez mocniejsze trzymanie kierownicy - wytłumaczył mi obrazowo. - Dopóki nie zablokujesz kości piętowej w głębokim, sztywnym korytku od dołu i nie podeprzesz łuku stopy, kolano będzie dostawać po głowie przy każdym skrócie”. Wziął małą karteczkę, zapisał na niej wyłącznie nazwę własną: Orthomax StepMax i wręczył mi ją przy wyjściu.
+„Opaska na kolanie przy uciekającej w bucie pięcie działa tak, jakbyś w aucie z krzywo przykręconym kołem próbował naprawić ściąganie na bok przez mocniejsze trzymanie kierownicy - wytłumaczył mi obrazowo. - Dopóki nie zablokujesz kości piętowej w głębokim, sztywnym korytku od dołu i nie podeprzesz łuku stopy, kolano będzie dostawać po głowie przy każdym skrócie”.
 
-Wieczorem w domu wpisałem w Google tę nazwę z kartki, samemu dopisując w pasku wyszukiwania słowo opinie. Kiedy zobaczyłem pakiet 2 par za 99,99 zł, uśmiechnąłem się krzywo: „Po tym, jak wydałem 640 zł na buty do padla i 210 zł na stabilizatory, mam uwierzyć, że wkładki za 50 zł od pary utrzymają moje 91 kg przy hamowaniu przed szybą?”. Wyłączyłem przeglądarkę.
+2 dni później wpadłem do klubu na Przymorzu oddać chłopakom puszki z piłkami i opowiedziałem w szatni 45-letniemu Marcinowi - mojemu partnerowi z pary, który rok wcześniej sam grał w wielkiej ortezie z zegarem na kolanie, a dziś wyciąga najcięższe skróty pod szybą - co powiedział mi fizjoterapeuta. Marcin uśmiechnął się, usiadł na ławce, rozwiązał swojego buta kortowego Babolata i wyciągnął ze środka wyprofilowaną wkładkę z głębokim korytkiem pięty. „Michał, zobacz na czym ja biegam od 7 miesięcy, odkąd zdjąłem ortezę. To są wkładki Orthomax StepMax”.
+
+Wieczorem w domu wpisałem w Google nazwę, którą pokazał mi Marcin w szatni. Kiedy zobaczyłem pakiet 2 par za 99,99 zł, uśmiechnąłem się krzywo: „Po tym, jak wydałem 640 zł na buty do padla i 210 zł na stabilizatory, mam uwierzyć, że wkładki za 50 zł od pary utrzymają moje 91 kg przy hamowaniu przed szybą?”. Wyłączyłem przeglądarkę.
 
 Ale w sobotę rano na sparingu już w 3. gemie przy zejściu do woleja prawa stopa znów zjechała w bucie do środka, a w kolanie przeszło ostrzegawcze prądowanie. Tego samego popołudnia wróciłem na stronę. Przekonała mnie wyłącznie 1 rzecz: pełne 30 dni gwarancji zwrotu pieniędzy. Powiedziałem sobie wprost: „Wrzucam 1 parę do butów kortowych, a 2. parę do sneakersów na co dzień. Daję im 3 tygodnie na korcie. Jak stopa choć 1 raz wyjedzie mi przy hamowaniu bokiem, odsyłam je i żądam zwrotu 99,99 zł”.
 
@@ -198,9 +202,11 @@ Mięśnie łydki pracują w ciągłym skurczu obronnym, żeby ratować uciekają
 ↓
 Po 2 godzinach na korcie na ścięgnie tworzą się mikrourazy i bolesne zgrubienie zapalne
 
-„Dopóki pańska pięta w bucie tenisowym i w butach codziennych stoi krzywo pod kątem 12 stopni, ścięgno Achillesa jest przy każdym kroku przecierane z 1 strony jak lina ocierająca się o ostry kant skały - wyjaśnił mi spokojnie. - Żaden żel z apteki nie wyprostuje panu osi kości piętowej”. Na koniec wizyty wziął małą kartkę z biurka, napisał na niej wyłącznie 2 słowa: Orthomax StepMax i podał mi ją na pożegnanie.
+„Dopóki pańska pięta w bucie tenisowym i w butach codziennych stoi krzywo pod kątem 12 stopni, ścięgno Achillesa jest przy każdym kroku przecierane z 1 strony jak lina ocierająca się o ostry kant skały - wyjaśnił mi spokojnie. - Żaden żel z apteki nie wyprostuje panu osi kości piętowej, musi pan włożyć do butów kortowych wkładkę ze sztywnym korytkiem pięty”.
 
-Wieczorem w domu wpisałem nazwę z kartki w telefon, samemu dopisując w wyszukiwarce słowo opinie. Otworzyłem stronę producenta, zobaczyłem pakiet 2 par za 99,99 zł i poczułem odruch obronny człowieka, który wydał już 1690 zł bez efektu: „Kupiłem buty za 620 zł, pistolet za 290 zł i chodziłem na masaże za 450 zł, a teraz wkładki za 50 zł od pary mają wyprostować moje ścięgno?”. Wygasiłem ekran.
+Tego samego wieczoru siedziałem przed komputerem i oglądałem na YouTubie materiał o przyczynach zerwania ścięgna Achillesa u tenisistów po 40-tce. W sekcji komentarzy pod filmem rozgorzała dyskusja na ponad 90 wpisów o tym, jak fabryczne wkładki w butach Asicsa i Nike wycierają się po miesiącu gry na mączce oraz betonie. 1 z byłych zawodników ligi amatorskiej napisał tam wprost: „Koledzy, nie czekajcie aż strzeli wam ścięgno jak u mnie. Wyjmijcie fabryczne szmatki z butów i włóżcie Orthomax StepMax - trzymają piętę w pionie przy każdym wybiciu do serwisu”.
+
+Otworzyłem stronę producenta, zobaczyłem pakiet 2 par za 99,99 zł i poczułem odruch obronny człowieka, który wydał już 1690 zł bez efektu: „Kupiłem buty za 620 zł, pistolet za 290 zł i chodziłem na masaże za 450 zł, a teraz wkładki za 50 zł od pary z komentarza na YouTubie mają wyprostować moje ścięgno?”. Wygasiłem ekran.
 
 Jednak w sobotę podczas meczu przy dobiegu do piłki w lewym Achillesie zapiekło mnie tak mocno, że stanął mi przed oczami widok kolegi w ortezie. Wróciłem do domu, otworzyłem stronę i przeczytałem warunki: 30 dni gwarancji zwrotu pieniędzy na test w swoich butach. Pomyślałem trzeźwo: „Ryzykuję 0 zł. Wkładam 1 parę na kort, a 2. parę do półbutów do pracy. Jak po 3 tygodniach Achilles nadal będzie sztywny, odsyłam paczkę i zabieram swoje 99,99 zł”.
 
@@ -277,9 +283,9 @@ Sztywny plastik przy zrywie do siatki i wybiciu z przodostopia wbija się w łuk
 5. Dynamiczne wkładki ze stabilizacją korytka pięty i elastycznym mostkiem Orthomax StepMax - Ocena: 9,5/10
 Trzymają kość piętową w osi przy hamowaniu bokiem dzięki głębokiemu korytku i oddają energię przy wybiciu z przodostopia dzięki sprężystemu mostkowi pod łukiem stopy.
 
-Na koniec wizyty wziąłem czystą karteczkę z receptownika, zapisałem na niej długopisem wyłącznie samą nazwę: Orthomax StepMax i podałem ją Markowi. Jak sam mi później opowiedział, wieczorem w domu usiadł z telefonem, wpisał w wyszukiwarkę nazwę z mojej kartki i sam dopisał na końcu słowo opinie.
+Pod koniec wizyty wysunąłem spod kozetki plastikowe pudło, w którym trzymam ponad 30 par niebieskich żelowych wkładek z marketu i sztywnych plastikowych desek za 420 zł - zostawili je u mnie pacjenci z wrocławskich kortów po tym, jak przesiadali się na Orthomax StepMax. Marek wziął 1 wkładkę pokazową do ręki, obejrzał głębokie korytko pięty i jeszcze w gabinecie zrobił zdjęcie nazwy telefonem.
 
-Kiedy zobaczył na stronie producenta cenę 99,99 zł za 2 pary, włączył mu się bunt sparzonego klienta, który wydał już 1424 zł bez rezultatu: „Panie Tomku, pomyślałem wtedy, że po wkładkach za 420 zł z punktu medycznego i butach za 590 zł coś za 50 zł od pary z internetu nie ma prawa utrzymać mojej stopy na korcie”. Zamknął stronę, ale po kolejnym piątkowym poranku, gdy szedł do łazienki po ścianie, wrócił i zamówił pakiet wyłącznie dlatego, że chroniło go pełne 30 dni gwarancji zwrotu pieniędzy bez ryzyka.
+Kiedy wieczorem otworzył stronę producenta i zobaczył cenę 99,99 zł za 2 pary, włączył mu się bunt sparzonego klienta, który wydał już 1424 zł bez rezultatu: „Panie Tomku, pomyślałem wtedy, że po wkładkach za 420 zł z punktu medycznego i butach za 590 zł coś za 50 zł od pary z internetu nie ma prawa utrzymać mojej stopy na korcie”. Zamknął stronę, ale po kolejnym piątkowym poranku, gdy szedł do łazienki po ścianie, wrócił i zamówił pakiet wyłącznie dlatego, że chroniło go pełne 30 dni gwarancji zwrotu pieniędzy bez ryzyka.
 
 Podczas wizyty kontrolnej po 3 tygodniach Marek pokazał mi swoje notatki z testu:
 - Tydzień 1: przez początkowe 3 dni czuł pod łukiem stopy wyraźne, sprężyste podparcie, a już po 2. meczu w piątek rano ból przy wstawaniu z łóżka spadł z 8/10 do 3/10.
@@ -345,9 +351,11 @@ Po 45 minutach gry czujesz pod palcami żywy ogień, prądowanie i efekt kamyka 
 ↓
 Uciekająca z osi pięta i podświadome odciążanie przodostopia przeciążają łydki oraz rzepki
 
-Fizjoterapeuta wytłumaczył mi spokojnie: „Zmiana butów na kolejną parę za 600 zł nic pani nie da, bo producenci obuwia kortowego wkładają do środka płaską piankę EVA. Dopóki nie podeprze pani łuku stopy od dołu i nie odciąży przodostopia sprężystą strefą amortyzującą, nerwy pod palcami będą piekły przy każdym meczu”. Na koniec wizyty oderwał małą karteczkę z notesu, zapisał na niej tylko 2 słowa: Orthomax StepMax i podał mi ją do ręki.
+Fizjoterapeuta wytłumaczył mi spokojnie: „Zmiana butów na kolejną parę za 600 zł nic pani nie da, bo producenci obuwia kortowego wkładają do środka płaską piankę EVA. Dopóki nie podeprze pani łuku stopy od dołu i nie odciąży przodostopia sprężystą strefą amortyzującą, nerwy pod palcami będą piekły przy każdym meczu”.
 
-Wieczorem w mieszkaniu wpisałam tę nazwę z kartki w Google, sama dopisując na końcu słowo opinie. Zobaczyłam Pakiet 1+1 GRATIS za 99,99 zł i w mojej głowie pojawił się sceptycyzm: „Wydałam 1050 zł na 2 pary markowych butów kortowych i 233 zł na skarpetki oraz podkładki, a teraz wkładki za 50 zł od pary mają sprawić, że przestanie mnie palić śródstopie?”. Zamknęłam stronę.
+Wieczorem po wizycie zadzwoniłam do mojej starszej siostry i opowiedziałam jej o tym teście podskoków. Siostra od razu skojarzyła: „Magda, przecież moja koleżanka Dorota z apteki miała identyczny ogień pod palcami od stania 10 godzin przy okienku i grania 3 razy w tygodniu w squasha! Czekaj, już do niej piszę, co ona włożyła do butów”. Po 5 minutach siostra przesłała mi na Messengerze zrzut ekranu od Doroty z linkiem do wkładek Orthomax StepMax i wiadomością: „Niech Magda bierze pakiet 1+1 - 1 para na kort, 2. para na co dzień”.
+
+Zobaczyłam Pakiet 1+1 GRATIS za 99,99 zł i w mojej głowie pojawił się sceptycyzm: „Wydałam 1050 zł na 2 pary markowych butów kortowych i 233 zł na skarpetki oraz podkładki, a teraz wkładki za 50 zł od pary polecone przez koleżankę siostry mają sprawić, że przestanie mnie palić śródstopie?”. Zamknęłam stronę.
 
 Jednak we wtorek na treningu tenisa po 50 minutach gry ból pod palcami znów był tak piekący, że wracałam autem na boso. Tego samego wieczoru weszłam na stronę ponownie i doczytałam warunki: pełne 30 dni gwarancji zwrotu pieniędzy. Pomyślałam krótko: „Zamawiam pakiet, wyjmuję fabryczne wkładki z butów do tenisa, a 2. parę wkładam do sneakersów do pracy. Jeśli w ciągu 3 tygodni ogień pod palcami wróci, odsyłam je i odzyskuję 99,99 zł”.
 
