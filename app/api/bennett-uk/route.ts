@@ -280,93 +280,64 @@ export const POST = accountRoute(async (req: Request) => {
         submitKieRipperTask,
         uploadPublicReferenceToKie,
       } = await import('@/lib/image-ripper');
-      const {
-        planNativeIphoneScenesFromScript,
-        formatRawIphoneKiePrompt,
-      } = await import('@/lib/native-iphone-scenes');
 
       const angleId = (body.angleId || '').trim();
       const preset = BENNETT_UK_PRESET_ANGLES.find(a => a.id === angleId);
-      const primaryText = (body.primaryText || '').trim();
-      const headline = (body.headline || preset?.title || '').trim();
-      const title = (body.title || preset?.shortTitle || angleId || 'Bennett & Seed UK PL Psy').trim();
-
-      const allScenes = await planNativeIphoneScenesFromScript({
-        brand: 'feliora-dog',
-        angleId,
-        primaryText,
-        headline,
-        title,
-      });
-
-      const isCompact = Boolean(body.compact);
       const customPrompt = String((body as Record<string, unknown>).customPrompt || '').trim();
+      const rawPromptMode = Boolean((body as Record<string, unknown>).rawPrompt);
       const includeRef = Boolean((body as Record<string, unknown>).includeProductRef);
+      const referenceRelPaths = Array.isArray((body as Record<string, unknown>).referenceRelPaths)
+        ? ((body as Record<string, unknown>).referenceRelPaths as string[])
+        : [];
 
-      let productRefKieUrl: string | undefined;
+      const uploadedRefUrls: string[] = [];
+      for (const rel of referenceRelPaths) {
+        if (typeof rel === 'string' && rel.trim()) {
+          try {
+            const u = await uploadPublicReferenceToKie(rel.trim());
+            if (u) uploadedRefUrls.push(u);
+          } catch {
+            // continue
+          }
+        }
+      }
       if (includeRef) {
         try {
-          productRefKieUrl = await uploadPublicReferenceToKie('/bennett-uk-pl-images/bennett-uk-diffuser-ref.jpg');
+          const prodUrl = await uploadPublicReferenceToKie('/bennett-uk-images/01_Bennett_And_Seed_Hero_White_Packshot.jpg');
+          if (prodUrl) uploadedRefUrls.push(prodUrl);
         } catch {
-          productRefKieUrl = undefined;
+          // continue
         }
       }
 
-      if (customPrompt) {
-        const count = Math.min(Math.max(Number((body as Record<string, unknown>).count) || 4, 1), 12);
-        const customScenes = Array.from({ length: count }, (_, i) => ({
-          label: `${i + 1}. [WŁASNY PROMPT #${i + 1}] ${customPrompt.slice(0, 52)}`,
-          scenePrompt: `${customPrompt} (Variation #${i + 1}: candid everyday iPhone 15 angle #${i + 1} in natural Polish daylight).`,
-          includeProductRef: includeRef,
-        }));
-        const customResults = await Promise.all(
-          customScenes.map(async (scene, idx) => {
-            const fullPrompt = formatRawIphoneKiePrompt(scene.scenePrompt, 'feliora-dog', scene.includeProductRef);
-            const payload = buildKieCreateTaskPayload({
-              model: 'nano-banana-pro',
-              prompt: fullPrompt,
-              imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-              aspectRatio: '1:1',
-              resolution: '2K',
-            });
-            try {
-              const taskId = await submitKieRipperTask(payload);
-              return { index: idx + 1, label: scene.label, prompt: fullPrompt, includeProductRef: scene.includeProductRef, taskId };
-            } catch (err) {
-              return {
-                index: idx + 1,
-                label: scene.label,
-                prompt: fullPrompt,
-                includeProductRef: scene.includeProductRef,
-                taskId: '',
-                error: err instanceof Error ? err.message : 'Kie.ai createTask error',
-              };
-            }
-          }),
-        );
-        const tasks = customResults.filter(t => Boolean(t.taskId));
-        if (tasks.length === 0) {
-          const firstErr = customResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
-          return NextResponse.json({ error: firstErr }, { status: 500 });
-        }
-        return NextResponse.json({ ok: true, angleId, tasks });
-      }
+      const formatBennettUkPrompt = (basePrompt: string): string => {
+        if (rawPromptMode) return basePrompt;
+        return `${basePrompt} Clean, bright, razor-sharp 1:1 square photograph taken on an iPhone 15 Pro in natural British daylight or warm modern UK home/NHS clinic lighting. Crisp focus, spotless realistic textures, true-to-life natural colours. Any visible English text must be 100% accurately spelled in British English with large, legible typography. STRICTLY NO phone screenshot UI bars, NO battery/Wi-Fi icons, NO camera date stamps, NO split-screen UI frames, NO garbled small print.`;
+      };
 
-      const isSingle = Boolean((body as Record<string, unknown>).single) || Number((body as Record<string, unknown>).count) === 1;
-      const scenes = isSingle ? allScenes.slice(0, 1) : isCompact ? allScenes.slice(0, 4) : allScenes.slice(0, 12);
+      const count = Math.min(Math.max(Number((body as Record<string, unknown>).count) || 1, 1), 12);
+      const effectiveBasePrompt =
+        customPrompt ||
+        `Photorealistic 1:1 candid iPhone 15 Pro photo in a bright modern UK home illustrating: ${preset?.vocTrigger || preset?.title || 'British 50+ wellness story'}.`;
+
+      const scenes = Array.from({ length: count }, (_, i) => ({
+        label:
+          count === 1
+            ? `1. ${preset?.shortTitle || customPrompt.slice(0, 52)}`
+            : `${i + 1}. [WARIANT #${i + 1}] ${(preset?.shortTitle || customPrompt).slice(0, 52)}`,
+        scenePrompt:
+          count === 1
+            ? effectiveBasePrompt
+            : `${effectiveBasePrompt} (Variation #${i + 1}: candid everyday iPhone 15 Pro angle #${i + 1} in natural UK lighting).`,
+      }));
 
       const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
-          const useProductRef = Boolean(includeRef && scene.includeProductRef);
-          const fullPrompt = formatRawIphoneKiePrompt(
-            scene.scenePrompt,
-            'feliora-dog',
-            useProductRef,
-          );
+          const fullPrompt = formatBennettUkPrompt(scene.scenePrompt);
           const payload = buildKieCreateTaskPayload({
             model: 'nano-banana-pro',
             prompt: fullPrompt,
-            imageUrls: useProductRef && productRefKieUrl ? [productRefKieUrl] : [],
+            imageUrls: uploadedRefUrls,
             aspectRatio: '1:1',
             resolution: '2K',
           });
@@ -376,7 +347,8 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: useProductRef,
+              includeProductRef: includeRef,
+              referenceUrlsCount: uploadedRefUrls.length,
               taskId,
             };
           } catch (err) {
@@ -384,7 +356,7 @@ export const POST = accountRoute(async (req: Request) => {
               index: idx + 1,
               label: scene.label,
               prompt: fullPrompt,
-              includeProductRef: useProductRef,
+              includeProductRef: includeRef,
               taskId: '',
               error: err instanceof Error ? err.message : 'Kie.ai createTask error',
             };
