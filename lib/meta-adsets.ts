@@ -2273,4 +2273,423 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
  };
 }
 
+export async function pushOrthomaxSportToMeta(raw: unknown = {}) {
+ const opts = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+ const accountId = numericId(String(opts.accountId || '1109284831182252').replace(/^act_/, ''), 'account');
+ const url =
+  typeof opts.url === 'string' && opts.url.startsWith('https://')
+   ? opts.url.trim()
+   : 'https://orthomax.pl/products/orthomax-stepmax-pro';
+ const campaignName =
+  typeof opts.campaignName === 'string' && opts.campaignName.trim()
+   ? opts.campaignName.trim()
+   : 'ANTKI SPORT CC40';
+ const dailyBudgetMinor = Math.round(Number(opts.dailyBudgetPln ?? 500) * 100);
+ const bidAmountMinor = Math.round(Number(opts.costCapPln ?? 40) * 100);
+ const campaignStatus: 'ACTIVE' | 'PAUSED' = opts.status === 'PAUSED' ? 'PAUSED' : 'ACTIVE';
+ const adSetStatus: 'ACTIVE' | 'PAUSED' = opts.adSetStatus === 'PAUSED' ? 'PAUSED' : 'ACTIVE';
+ const adStatus: 'ACTIVE' | 'PAUSED' = opts.adStatus === 'PAUSED' ? 'PAUSED' : 'ACTIVE';
+ const templateAdSetId = '120249967758790300';
+
+ const fs = await import('node:fs');
+ const path = await import('node:path');
+ const { buildAllArgonPrewrittenAds } = await import('./antki-pl-argon-library');
+ const allAds = buildAllArgonPrewrittenAds(url);
+ const adByAngleId = new Map(allAds.map(ad => [ad.angleId, ad]));
+
+ type ActorOption = { pId: string; pName: string; igId?: string };
+ const ACTOR_BY_NAME: Record<string, ActorOption[]> = {
+  'Karol Mikołajczyk': [
+   { pId: '1363490303507686', pName: 'Karol Mikołajczyk' },
+  ],
+  'Iwona Kożuchowska': [
+   { pId: '1194345203770949', pName: 'Iwona Kożuchowska', igId: '17841412233487287' },
+   { pId: '1194345203770949', pName: 'Iwona Kożuchowska' },
+  ],
+  'Porady Mamy Gosi': [
+   { pId: '798916893308685', pName: 'Porady Mamy Gosi', igId: '17841473314157729' },
+   { pId: '798916893308685', pName: 'Porady Mamy Gosi' },
+  ],
+  'Centrum Dobrego Kroku': [
+   { pId: '866702399857726', pName: 'Centrum Dobrego Kroku', igId: '17841477743222560' },
+   { pId: '866702399857726', pName: 'Centrum Dobrego Kroku' },
+  ],
+ };
+
+ const SPORT_GROUPS: Array<{
+  key: string;
+  adSetName: string;
+  angleIds: string[];
+ }> = [
+  {
+   key: 'gory',
+   adSetName: 'S1 GÓRY & SZLAKI (#82-#86)',
+   angleIds: [
+    'sport-82-gory-zejscie-morskie-oko-kolana',
+    'sport-83-gory-wyjeta-wkladka-800zl',
+    'sport-84-gory-karkonosze-zona-schronisko',
+    'sport-85-gory-fizjo-3x-masa-ciala',
+    'sport-86-gory-palace-piety-po-20km',
+   ],
+  },
+  {
+   key: 'padel_tenis',
+   adSetName: 'S2 PADEL & TENIS (#87-#91)',
+   angleIds: [
+    'sport-87-padel-poranny-gwozdz-w-piete',
+    'sport-88-padel-hamowanie-bokiem-kostka',
+    'sport-89-tenis-achilles-sztywny-jak-lina',
+    'sport-90-padel-ranking-fizjo-kort',
+    'sport-91-tenis-kobieta-pieczenie-srodstopia',
+   ],
+  },
+  {
+   key: 'pilka_orlik',
+   adSetName: 'S3 PIŁKA & ORLIK (#92-#96)',
+   angleIds: [
+    'sport-92-pilka-syn-orlik-bol-piet-severa',
+    'sport-93-pilka-dorosli-orlik-kolana-38lat',
+    'sport-94-pilka-korki-tektura-test',
+    'sport-95-pilka-ojciec-i-syn-pakiet-1plus1',
+    'sport-96-pilka-zdarte-korki-od-srodka',
+   ],
+  },
+  {
+   key: 'bieganie_marsze_hala',
+   adSetName: 'S4 BIEGANIE, MARSZE & HALA (#97-#101)',
+   angleIds: [
+    'sport-97-bieganie-asfalt-piszczele-5km',
+    'sport-98-marsze-nordic-walking-15tys-krokow',
+    'sport-99-bieganie-slow-mo-pronacja-asfalt',
+    'sport-100-hala-siatkowka-parkiet-ladowanie',
+    'sport-101-bieganie-anti-allegro-zel-vs-sprezyna',
+   ],
+  },
+ ];
+
+ const groupFilter = typeof opts.group === 'string' ? opts.group.trim().toLowerCase() : 'all';
+
+ // 1. Find or create campaign ANTKI SPORT CC40
+ const campaignsRes = await directGraph<{
+  data?: Array<{ id: string; name: string; status?: string; daily_budget?: string }>;
+ }>(`act_${accountId}/campaigns`, { fields: 'id,name,status,daily_budget', limit: 100 });
+ const existingCampaign = (campaignsRes.data || []).find(
+  c => c.status !== 'DELETED' && c.name.trim().toUpperCase() === campaignName.toUpperCase(),
+ );
+
+ let campaignId = existingCampaign?.id || '';
+ if (!campaignId) {
+  const createdCamp = await directGraph<{ id: string }>(
+   `act_${accountId}/campaigns`,
+   {
+    name: campaignName,
+    objective: 'OUTCOME_SALES',
+    status: campaignStatus,
+    special_ad_categories: [],
+    daily_budget: dailyBudgetMinor,
+    bid_strategy: 'COST_CAP',
+   },
+   'POST',
+  );
+  campaignId = createdCamp.id;
+ } else if (opts.updateCampaignBudget) {
+  await directGraph(
+   campaignId,
+   { daily_budget: dailyBudgetMinor, status: campaignStatus },
+   'POST',
+  ).catch(() => {});
+ }
+
+ // 2. Load template adset fields from ANTKI DOROSLI CC30
+ const adsetFields =
+  'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor,regional_regulated_categories,regional_regulation_identities,bid_amount,bid_strategy';
+ const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
+  fields: adsetFields,
+ });
+
+ const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
+  string,
+  unknown
+ >;
+ if (Array.isArray(rawTargeting.instagram_positions)) {
+  const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
+   pos => pos !== 'explore' && pos !== 'explore_home',
+  );
+  if (cleanedIgPos.length > 0) {
+   rawTargeting.instagram_positions = cleanedIgPos;
+  } else {
+   delete rawTargeting.instagram_positions;
+  }
+ }
+
+ const existingAdSetsRes = await directGraph<{
+  data?: Array<{ id: string; name: string; status?: string }>;
+ }>(`${campaignId}/adsets`, { fields: 'id,name,status', limit: 50 });
+ const existingAdSets = (existingAdSetsRes.data || []).filter(s => s.status !== 'DELETED');
+
+ const imageHashCache = new Map<string, string>();
+ const uploadLocalOrthomaxImage = async (imgUrl: string): Promise<string> => {
+  if (imageHashCache.has(imgUrl)) return imageHashCache.get(imgUrl)!;
+  const cleanRel = imgUrl.split('?')[0].replace(/^\/+/, '');
+  const localPath = path.join(process.cwd(), 'public', cleanRel);
+  if (!fs.existsSync(localPath)) {
+   throw new Error(`Brak pliku grafiki na dysku: ${localPath}`);
+  }
+  const bytes = fs.readFileSync(localPath).toString('base64');
+  const uploadName = `sport-v20-${path.basename(localPath)}`;
+  const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
+   `act_${accountId}/adimages`,
+   { bytes, name: uploadName },
+   'POST',
+  );
+  const hash = upRes?.images ? Object.values(upRes.images)[0]?.hash : undefined;
+  if (!hash) throw new Error(`Nie udało się wgrać grafiki ${uploadName} na Meta Orthomax.`);
+  imageHashCache.set(imgUrl, hash);
+  return hash;
+ };
+
+ const groupResults: Array<{
+  group: string;
+  campaignId: string;
+  adSetId: string;
+  adSetName: string;
+  adSetStatus: string;
+  createdAds: Array<{
+   id: string;
+   name: string;
+   angleId: string;
+   pageId: string;
+   pageName: string;
+   imageHash: string;
+   url: string;
+  }>;
+ }> = [];
+
+ for (const grp of SPORT_GROUPS) {
+  if (groupFilter !== 'all' && groupFilter !== grp.key) continue;
+
+  let targetAdSetId = existingAdSets.find(s => s.name === grp.adSetName)?.id || '';
+  if (!targetAdSetId) {
+   const payload: Record<string, unknown> = {
+    name: grp.adSetName,
+    campaign_id: campaignId,
+    status: adSetStatus,
+    targeting: rawTargeting,
+    optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
+    billing_event: source.billing_event || 'IMPRESSIONS',
+    bid_amount: bidAmountMinor,
+   };
+   for (const f of [
+    'promoted_object',
+    'attribution_spec',
+    'regional_regulated_categories',
+    'regional_regulation_identities',
+    'dsa_beneficiary',
+    'dsa_payor',
+   ]) {
+    if (source[f] !== undefined && source[f] !== null) payload[f] = source[f];
+   }
+   if (source.destination_type && source.destination_type !== 'UNDEFINED') {
+    payload.destination_type = source.destination_type;
+   }
+
+   const createdSet = await directGraph<{ id: string }>(
+    `act_${accountId}/adsets`,
+    { ...payload, bid_strategy: 'COST_CAP' },
+    'POST',
+   ).catch(() => directGraph<{ id: string }>(`act_${accountId}/adsets`, payload, 'POST'));
+   targetAdSetId = createdSet.id;
+  }
+
+  let switchedAdSetToFbOnly = false;
+  const ensureOrthomaxFbOnlyPlacements = async () => {
+   if (switchedAdSetToFbOnly) return;
+   const currentSet = await directGraph<{ targeting?: Record<string, unknown> }>(targetAdSetId, {
+    fields: 'targeting',
+   }).catch(() => ({ targeting: {} }));
+   const fbTargeting: Record<string, unknown> = JSON.parse(JSON.stringify(currentSet.targeting || {}));
+   delete fbTargeting.instagram_positions;
+   delete fbTargeting.threads_positions;
+   delete fbTargeting.messenger_positions;
+   delete fbTargeting.audience_network_positions;
+   delete fbTargeting.facebook_positions;
+   fbTargeting.publisher_platforms = ['facebook'];
+   fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'story'];
+   await directGraph(targetAdSetId, { targeting: fbTargeting }, 'POST').catch(() =>
+    directGraph(
+     targetAdSetId,
+     {
+      targeting: {
+       geo_locations: fbTargeting.geo_locations || { countries: ['PL'] },
+       age_min: fbTargeting.age_min || 18,
+       age_max: fbTargeting.age_max || 65,
+       publisher_platforms: ['facebook'],
+       ...(fbTargeting.targeting_automation ? { targeting_automation: fbTargeting.targeting_automation } : {}),
+      },
+     },
+     'POST',
+    ),
+   );
+   switchedAdSetToFbOnly = true;
+  };
+
+  const existingAdsByName = new Map<string, { id: string; imageHash?: string; pageId?: string }>();
+  try {
+   const exAds = await directGraph<{
+    data?: Array<{
+     id: string;
+     name: string;
+     status?: string;
+     creative?: { image_hash?: string; object_story_spec?: { page_id?: string } };
+    }>;
+   }>(`${targetAdSetId}/ads`, {
+    fields: 'id,name,status,creative{image_hash,object_story_spec{page_id}}',
+    limit: 50,
+   });
+   for (const ea of exAds.data || []) {
+    if (ea.id && ea.name && ea.status !== 'DELETED') {
+     existingAdsByName.set(ea.name, {
+      id: ea.id,
+      imageHash: ea.creative?.image_hash,
+      pageId: ea.creative?.object_story_spec?.page_id,
+     });
+    }
+   }
+  } catch {
+   // Ignore
+  }
+
+  const createdAds: Array<{
+   id: string;
+   name: string;
+   angleId: string;
+   pageId: string;
+   pageName: string;
+   imageHash: string;
+   url: string;
+  }> = [];
+
+  for (const angleId of grp.angleIds) {
+   const ad = adByAngleId.get(angleId);
+   if (!ad) throw new Error(`Nie znaleziono kąta Orthomax Sport: ${angleId}`);
+   const actors = ACTOR_BY_NAME[ad.pageName] || ACTOR_BY_NAME['Karol Mikołajczyk'];
+
+   const existingMatch = Array.from(existingAdsByName.entries()).find(([n]) => n.startsWith(`${ad.code} |`));
+   if (existingMatch && !opts.forceRecreateAds) {
+    createdAds.push({
+     id: existingMatch[1].id,
+     name: existingMatch[0],
+     angleId: ad.angleId,
+     pageId: existingMatch[1].pageId || actors[0].pId,
+     pageName: actors[0].pName,
+     imageHash: existingMatch[1].imageHash || '',
+     url,
+    });
+    continue;
+   }
+
+   const imgHash = await uploadLocalOrthomaxImage(ad.imageUrl || '');
+   let createdAd: { id: string } | undefined;
+   let usedActor = actors[0];
+   let lastErr: Error | undefined;
+
+   type OrthomaxActorAttempt = {
+    pId: string;
+    pName: string;
+    igId?: string;
+    requireFbOnly?: boolean;
+   };
+   const rawAttempts: OrthomaxActorAttempt[] = [];
+   for (const actor of actors) {
+    if (actor.igId) {
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: actor.igId, requireFbOnly: false });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, requireFbOnly: false });
+    } else {
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, requireFbOnly: false });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, requireFbOnly: true });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: '17841473314157729', requireFbOnly: true });
+     rawAttempts.push({ pId: actor.pId, pName: actor.pName, igId: '17841472034688013', requireFbOnly: true });
+    }
+   }
+
+   for (const actor of rawAttempts) {
+    if (actor.requireFbOnly) {
+     await ensureOrthomaxFbOnlyPlacements();
+    }
+    const adName = `${ad.code} | PDP STEPMAX PRO | ${actor.pName}`;
+    const creativePayload = {
+     name: `${adName} - Creative`,
+     url_tags:
+      'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
+     object_story_spec: {
+      page_id: actor.pId,
+      ...(actor.igId ? { instagram_user_id: actor.igId } : {}),
+      link_data: {
+       image_hash: imgHash,
+       link: url,
+       message: ad.primaryText,
+       name: ad.headline,
+       description: ad.description || '',
+       call_to_action: {
+        type: 'LEARN_MORE',
+        value: { link: url },
+       },
+      },
+     },
+    };
+    try {
+     createdAd = await directGraph<{ id: string }>(
+      `act_${accountId}/ads`,
+      {
+       name: adName,
+       adset_id: targetAdSetId,
+       creative: creativePayload,
+       status: adStatus,
+      },
+      'POST',
+     );
+     usedActor = actor;
+     break;
+    } catch (err) {
+     lastErr = err instanceof Error ? err : new Error(String(err));
+    }
+   }
+
+   if (!createdAd) {
+    throw lastErr || new Error(`Nie udało się utworzyć reklamy Orthomax Sport ${ad.code}`);
+   }
+
+   createdAds.push({
+    id: createdAd.id,
+    name: `${ad.code} | PDP STEPMAX PRO | ${usedActor.pName}`,
+    angleId: ad.angleId,
+    pageId: usedActor.pId,
+    pageName: usedActor.pName,
+    imageHash: imgHash,
+    url,
+   });
+  }
+
+  groupResults.push({
+   group: grp.key,
+   campaignId,
+   adSetId: targetAdSetId,
+   adSetName: grp.adSetName,
+   adSetStatus,
+   createdAds,
+  });
+ }
+
+ return {
+  accountId,
+  campaignId,
+  campaignName,
+  dailyBudgetPln: dailyBudgetMinor / 100,
+  costCapPln: bidAmountMinor / 100,
+  url,
+  groups: groupResults,
+ };
+}
+
+
 

@@ -1455,6 +1455,12 @@ export const POST = accountRoute(async (req: Request) => {
       return NextResponse.json({ ok: true, ...result });
     }
 
+    if (action === 'push_sport_to_meta') {
+      const { pushOrthomaxSportToMeta } = await import('@/lib/meta-adsets');
+      const result = await pushOrthomaxSportToMeta(body);
+      return NextResponse.json({ ok: true, ...result });
+    }
+
     if (action === 'set_meta_status') {
       const { updateUploaderAdsStatus } = await import('@/lib/meta-adsets');
       const result = await updateUploaderAdsStatus(body);
