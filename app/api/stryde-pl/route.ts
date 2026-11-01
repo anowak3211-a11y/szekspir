@@ -240,9 +240,14 @@ async function readStrydeLibraryState(): Promise<{
           ? ad.secondImageUrl
           : baseAd.secondImageUrl;
 
+      const isLegacyCreated = !ad.createdAt || ad.createdAt === DEFAULT_CREATED_AT;
+      const isLegacyUpdated = !ad.updatedAt || ad.updatedAt === DEFAULT_CREATED_AT;
+
       byAngle.set(ad.angleId, {
         ...baseAd,
         ...ad,
+        createdAt: isLegacyCreated ? baseAd.createdAt : ad.createdAt,
+        updatedAt: isLegacyUpdated ? baseAd.updatedAt : ad.updatedAt,
         code: baseAd.code,
         title: baseAd.title,
         stageId: baseAd.stageId,
@@ -422,7 +427,7 @@ export const POST = accountRoute(async (req: Request) => {
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '3:4',
+            aspectRatio: '1:1',
             resolution: '2K',
           });
           try {
@@ -462,6 +467,7 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (action === 'poll_kie_image') {
       const { pollKieRipperTask } = await import('@/lib/image-ripper');
+
       const taskId = (body.taskId || '').trim();
       if (!taskId) {
         return NextResponse.json({ error: 'Brak taskId.' }, { status: 400 });
@@ -473,7 +479,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = STRYDE_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `iPhone Raw #${preset?.number || ''}`).trim();
+      const label = (body.label || `iPhone Clean #${preset?.number || ''}`).trim();
       const assetId = `kie-sardian-iphone-${taskId}`;
 
       const newAsset: StrydeImageAsset = {
@@ -481,9 +487,9 @@ export const POST = accountRoute(async (req: Request) => {
         url: status.resultUrl,
         imageHash: '',
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Google AI Raw iPhone 3:4 (Skrypt.txt)',
-        adOrigin: preset?.code || 'IPHONE-RAW',
-        aspectRatio: '3:4',
+        adsetOrigin: 'Google AI Clean iPhone 1:1 (Styl Sardian)',
+        adOrigin: preset?.code || 'IPHONE-CLEAN',
+        aspectRatio: '1:1',
         source: 'ai',
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,

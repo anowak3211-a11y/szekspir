@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AntkiPlBrandSwitcher, {
+  formatAntekFullDate,
+  formatAntekShortDate,
+} from '@/app/components/antki-pl-brand-switcher';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
 import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
@@ -129,7 +133,8 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('sardian-szampon');
+  const [activeBrand, setActiveBrand] = useState<'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('feliora-pies');
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
     ANTKI_PL_PRESET_ANGLES.map(angle => {
       const defaultImg = getDefaultImageForAngle(angle.number);
@@ -1832,6 +1837,34 @@ export default function AntkiPlPage() {
   }, []);
 
   const groupedPresetsForSidebar = useMemo(() => {
+    if (sidebarSort !== "stages") {
+      const sorted = [...filteredPresets].sort((a, b) => {
+        const adA = adByAngleId[a.id];
+        const adB = adByAngleId[b.id];
+        const tsA = adA?.updatedAt || adA?.createdAt || 0;
+        const tsB = adB?.updatedAt || adB?.createdAt || 0;
+        if (tsA !== tsB) {
+          return sidebarSort === "oldest" ? tsA - tsB : tsB - tsA;
+        }
+        return a.number - b.number;
+      });
+      const map = new Map<string, AntkiPlPresetAngle[]>();
+      for (const item of sorted) {
+        const ad = adByAngleId[item.id];
+        const dayLabel = formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
+        const bucket = map.get(dayLabel) || [];
+        bucket.push(item);
+        map.set(dayLabel, bucket);
+      }
+      return Array.from(map.entries()).map(([dayLabel, items]) => ({
+        key: `date-${dayLabel}`,
+        badge: `📅 ${dayLabel}`,
+        label: `Data utworzenia / ostatniej edycji (${items.length} Antków)`,
+        color: "#f97316",
+        items,
+      }));
+    }
+
     const groups: Array<{
       key: string;
       badge: string;
@@ -1873,7 +1906,7 @@ export default function AntkiPlPage() {
     }
 
     return groups.filter(g => g.items.length > 0);
-  }, [filteredPresets]);
+  }, [filteredPresets, sidebarSort, adByAngleId]);
 
   const activeWordCount = useMemo(() => {
     const t = (editPrimaryText || activeAd?.primaryText || "").trim();
@@ -1894,6 +1927,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "stryde") {
     return (
       <StrydePlWorkspace
+        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
@@ -1904,6 +1938,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "feliora") {
     return (
       <FelioraPlWorkspace
+        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
@@ -1914,6 +1949,7 @@ export default function AntkiPlPage() {
   if (activeBrand === "feliora-pies") {
     return (
       <FelioraPiesPlWorkspace
+        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToStryde={() => setActiveBrand("stryde")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
@@ -1976,98 +2012,7 @@ export default function AntkiPlPage() {
             </a>
 
             {/* BRAND SWITCHER PILLS */}
-            <div
-              style={{
-                display: "inline-flex",
-                background: "#160b04",
-                padding: 4,
-                borderRadius: 10,
-                border: "1px solid #4a2610",
-                gap: 4,
-                flexWrap: "wrap",
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => setActiveBrand("sardian-szampon")}
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  border: "1px solid #f59e0b",
-                  background: "#1c1917",
-                  color: "#fcd34d",
-                  fontWeight: 800,
-                  fontSize: 13,
-                  cursor: "pointer",
-                }}
-              >
-                🦁 SARDIAN PL · Szampon (38 Antków)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveBrand("stryde")}
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  border: "1px solid #27272a",
-                  background: "#09090b",
-                  color: "#34d399",
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: "pointer",
-                }}
-              >
-                🦿 SARDIAN PL · Opaska (25 Antków)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveBrand("feliora")}
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  border: 0,
-                  background: "transparent",
-                  color: "#fed7aa",
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: "pointer",
-                }}
-              >
-                🐾 FELIORA PL · Batch 1: Koty (25 Antków)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveBrand("feliora-pies")}
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  border: 0,
-                  background: "transparent",
-                  color: "#fcd34d",
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: "pointer",
-                }}
-              >
-                🐶 FELIORA PL · Batch 2: Psy (25 Antków)
-              </button>
-              <button
-                type="button"
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  border: 0,
-                  background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
-                  color: "#ffffff",
-                  fontWeight: 800,
-                  fontSize: 13,
-                  cursor: "pointer",
-                  boxShadow: "0 2px 10px rgba(234, 88, 12, 0.45)",
-                }}
-              >
-                🦶 ORTHOMAX PL · StepMax (70 Antków)
-              </button>
-            </div>
+            <AntkiPlBrandSwitcher activeBrand="orthomax" onSelectBrand={b => setActiveBrand(b)} />
 
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -2840,51 +2785,84 @@ export default function AntkiPlPage() {
               padding: "10px 12px",
               borderBottom: "1px solid #4a2610",
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: "column",
+              gap: 7,
               background: "#241207",
               position: "sticky",
               top: 0,
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 800, color: "#ffedd5" }}>
-              KĄTY ({filteredPresets.length} / {presets.length || 70})
-            </span>
-            <div style={{ display: "flex", gap: 6 }}>
-              <button
-                type="button"
-                onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
-                style={{
-                  padding: "4px 8px",
-                  borderRadius: 6,
-                  border: "1px solid #5c2d10",
-                  background: "#361b0b",
-                  color: "#fdba74",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                {selectedIds.length > 0 ? `Zaznaczono (${selectedIds.length})` : "Zaznacz wszystkie"}
-              </button>
-              {selectedIds.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 12, fontWeight: 800, color: "#ffedd5" }}>
+                KĄTY ({filteredPresets.length} / {presets.length || 70})
+              </span>
+              <div style={{ display: "flex", gap: 6 }}>
                 <button
                   type="button"
-                  onClick={() => setSelectedIds([])}
+                  onClick={() => setSelectedIds(filteredPresets.map(p => p.id))}
                   style={{
                     padding: "4px 8px",
                     borderRadius: 6,
                     border: "1px solid #5c2d10",
-                    background: "#241207",
-                    color: "#fca5a5",
+                    background: "#361b0b",
+                    color: "#fdba74",
                     fontSize: 11,
+                    fontWeight: 600,
                     cursor: "pointer",
                   }}
                 >
-                  Wyczyść
+                  {selectedIds.length > 0 ? `Zaznaczono (${selectedIds.length})` : "Zaznacz wszystkie"}
                 </button>
-              )}
+                {selectedIds.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIds([])}
+                    style={{
+                      padding: "4px 8px",
+                      borderRadius: 6,
+                      border: "1px solid #5c2d10",
+                      background: "#241207",
+                      color: "#fca5a5",
+                      fontSize: 11,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Wyczyść
+                  </button>
+                )}
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 4 }}>
+              {(
+                [
+                  { key: "newest", label: "🕒 Najnowsze" },
+                  { key: "oldest", label: "📅 Najstarsze" },
+                  { key: "stages", label: "📊 Grupy" },
+                ] as const
+              ).map(opt => {
+                const active = sidebarSort === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setSidebarSort(opt.key)}
+                    style={{
+                      flex: 1,
+                      padding: "4px 6px",
+                      borderRadius: 6,
+                      border: active ? "1px solid #f97316" : "1px solid #5c2d10",
+                      background: active ? "rgba(234, 88, 12, 0.25)" : "#160b04",
+                      color: active ? "#ffedd5" : "#fdba74",
+                      fontSize: 10.5,
+                      fontWeight: active ? 800 : 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -2919,6 +2897,7 @@ export default function AntkiPlPage() {
                   const ad = adByAngleId[angle.id];
                   const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
                   const status = statuses[angle.id] || "idle";
+                  const dateShort = formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
 
                   return (
                     <div
@@ -2938,7 +2917,7 @@ export default function AntkiPlPage() {
                       }}
                     >
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
                           <input
                             type="checkbox"
                             checked={isChecked}
@@ -2962,6 +2941,19 @@ export default function AntkiPlPage() {
                             }}
                           >
                             #{String(angle.number).padStart(2, "0")}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 700,
+                              padding: "1px 5px",
+                              borderRadius: 4,
+                              background: "#160b04",
+                              color: "#fcd34d",
+                              border: "1px solid rgba(251, 191, 36, 0.3)",
+                            }}
+                          >
+                            📅 {dateShort}
                           </span>
                           <span
                             style={{

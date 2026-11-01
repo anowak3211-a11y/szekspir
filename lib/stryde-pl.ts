@@ -1247,8 +1247,14 @@ export function sanitizeAndAuditStrydePl(
 }
 
 export function buildAllStrydePrewrittenAds(): StrydePlGeneratedAd[] {
-  const now = 1792622000000;
-  return STRYDE_PRESET_ANGLES.map((preset) => {
+  const batch1Created = Date.parse('2026-10-22T12:00:00+02:00');
+  const batch1Updated = Date.parse('2026-10-24T16:00:00+02:00');
+  const batch2Created = Date.parse('2026-10-24T18:00:00+02:00');
+  const batch2Updated = Date.parse('2026-10-25T15:00:00+01:00');
+  return STRYDE_PRESET_ANGLES.map((preset, idx) => {
+    const isBatch2 = preset.number >= 16;
+    const createdAt = (isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
+    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
     const rawCopy = STRYDE_ALL_COPY[preset.id] || {
       headline: preset.shortTitle,
       description: "Opaska podrzepkowa SARDIAN. Kup 1, 2. sztukę odbierz GRATIS. 60 dni gwarancji.",
@@ -1279,8 +1285,8 @@ export function buildAllStrydePrewrittenAds(): StrydePlGeneratedAd[] {
       auditPassed: audited.auditPassed,
       auditWarnings: audited.auditWarnings,
       auditFixesApplied: audited.auditFixesApplied,
-      createdAt: now,
-      updatedAt: now,
+      createdAt,
+      updatedAt,
     };
   });
 }

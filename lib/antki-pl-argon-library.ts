@@ -40,8 +40,14 @@ export function buildAllArgonPrewrittenAds(
   destinationUrl = ORTHOMAX_PL_DEFAULT_URL,
   pageName = 'Porady Mamy Gosi',
 ): AntkiPlGeneratedAd[] {
-  const baseTime = 1792355000000;
+  const batch1Created = Date.parse('2026-10-18T11:00:00+02:00');
+  const batch1Updated = Date.parse('2026-10-20T17:00:00+02:00');
+  const batch2Created = Date.parse('2026-10-21T12:00:00+02:00');
+  const batch2Updated = Date.parse('2026-10-23T18:00:00+02:00');
   return ANTKI_PL_PRESET_ANGLES.map((angle, index) => {
+    const isBatch2 = angle.number >= 36;
+    const createdAt = (isBatch2 ? batch2Created : batch1Created) + index * 60_000;
+    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + index * 60_000;
     const raw = ANTKI_PL_ARGON_AUTHORED_COPY[angle.id];
     if (!raw) {
       throw new Error(`Brak napisanego przez Argona tekstu dla kąta: ${angle.id}`);
@@ -75,8 +81,8 @@ export function buildAllArgonPrewrittenAds(
       auditPassed: audited.auditPassed,
       auditWarnings: audited.auditWarnings,
       auditFixesApplied: audited.auditFixesApplied,
-      createdAt: baseTime + index * 1000,
-      updatedAt: baseTime + index * 1000,
+      createdAt,
+      updatedAt,
     };
   });
 }

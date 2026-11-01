@@ -117,9 +117,13 @@ async function readFelioraLibraryState(): Promise<{
         ad.headline || baseAd.headline,
         ad.description || baseAd.description,
       );
+      const isLegacyCreated = !ad.createdAt || ad.createdAt === 1792616400000;
+      const isLegacyUpdated = !ad.updatedAt || ad.updatedAt === 1792616400000;
       byAngle.set(ad.angleId, {
         ...baseAd,
         ...ad,
+        createdAt: isLegacyCreated ? baseAd.createdAt : ad.createdAt,
+        updatedAt: isLegacyUpdated ? baseAd.updatedAt : ad.updatedAt,
         primaryText: audited.primaryText,
         headline: audited.headline,
         description: audited.description,
@@ -298,7 +302,7 @@ export const POST = accountRoute(async (req: Request) => {
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '3:4',
+            aspectRatio: '1:1',
             resolution: '2K',
           });
           try {
@@ -351,7 +355,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = FELIORA_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `iPhone Raw #${preset?.number || ''}`).trim();
+      const label = (body.label || `iPhone Clean #${preset?.number || ''}`).trim();
       const assetId = `kie-fel-iphone-${taskId}`;
 
       let uploadedHash = '';
@@ -374,9 +378,9 @@ export const POST = accountRoute(async (req: Request) => {
         url: status.resultUrl,
         imageHash: uploadedHash,
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Google AI Raw iPhone 3:4 (NHS / Skrypt.txt)',
-        adOrigin: preset?.code || 'IPHONE-RAW',
-        aspectRatio: '3:4',
+        adsetOrigin: 'Google AI Clean iPhone 1:1 (Styl Sardian)',
+        adOrigin: preset?.code || 'IPHONE-CLEAN',
+        aspectRatio: '1:1',
         source: 'ai',
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,

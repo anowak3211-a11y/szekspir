@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AntkiPlBrandSwitcher, {
+  formatAntekFullDate,
+  formatAntekShortDate,
+  type AntkiPlBrandKey,
+} from '@/app/components/antki-pl-brand-switcher';
 import {
   STRYDE_ADVERTORIAL_URLS,
   STRYDE_FANPAGES,
@@ -20,6 +25,7 @@ import {
 } from '@/lib/stryde-pl';
 
 interface StrydePlWorkspaceProps {
+  onSwitchToSardianSzampon?: () => void;
   onSwitchToFeliora?: () => void;
   onSwitchToFelioraPies?: () => void;
   onSwitchToOrthomax?: () => void;
@@ -34,6 +40,7 @@ const STAGE_ORDER: StrydeAwarenessStageId[] = [
 ];
 
 export default function StrydePlWorkspace({
+  onSwitchToSardianSzampon,
   onSwitchToFeliora,
   onSwitchToFelioraPies,
   onSwitchToOrthomax,
@@ -42,7 +49,8 @@ export default function StrydePlWorkspace({
   const [ads, setAds] = useState<StrydePlGeneratedAd[]>(() => buildAllStrydePrewrittenAds());
   const [imageLibrary, setImageLibrary] = useState<StrydeImageAsset[]>(STRYDE_IMAGE_LIBRARY);
 
-  // Filters
+  // Filters & Sorting
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [stageFilter, setStageFilter] = useState<'all' | 'new10' | StrydeAwarenessStageId>('all');
   const [sophFilter, setSophFilter] = useState<'all' | StrydeSophisticationLevel>('all');
   const [clusterFilter, setClusterFilter] = useState<'all' | StrydeProblemCluster>('all');
@@ -157,7 +165,7 @@ export default function StrydePlWorkspace({
     [],
   );
 
-  const CLIENT_UI_VERSION = '2026-10-25-all-images-v10';
+  const CLIENT_UI_VERSION = '2026-11-01-chronological-v11';
 
   const refreshLibraryManual = useCallback(async () => {
     setSyncingLibrary(true);
@@ -281,6 +289,47 @@ export default function StrydePlWorkspace({
       items: filteredPresets.filter(p => p.stageId === stKey),
     })).filter(g => g.items.length > 0);
   }, [filteredPresets]);
+
+  const groupedByDate = useMemo(() => {
+    const sorted = [...filteredPresets].sort((a, b) => {
+      const adA = adByAngleId.get(a.id);
+      const adB = adByAngleId.get(b.id);
+      const tsA = adA?.updatedAt || adA?.createdAt || 0;
+      const tsB = adB?.updatedAt || adB?.createdAt || 0;
+      if (tsA !== tsB) {
+        return sidebarSort === 'oldest' ? tsA - tsB : tsB - tsA;
+      }
+      return a.number - b.number;
+    });
+    const map = new Map<string, StrydeAnglePreset[]>();
+    for (const p of sorted) {
+      const ad = adByAngleId.get(p.id);
+      const dayLabel = formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
+      const bucket = map.get(dayLabel) || [];
+      bucket.push(p);
+      map.set(dayLabel, bucket);
+    }
+    return Array.from(map.entries()).map(([dateLabel, items]) => ({ dateLabel, items }));
+  }, [filteredPresets, adByAngleId, sidebarSort]);
+
+  const handleBrandSelect = useCallback(
+    (brand: AntkiPlBrandKey) => {
+      if (brand === 'sardian-szampon') {
+        if (onSwitchToSardianSzampon) onSwitchToSardianSzampon();
+        else window.location.href = '/antki-pl?brand=sardian-szampon';
+      } else if (brand === 'feliora') {
+        if (onSwitchToFeliora) onSwitchToFeliora();
+        else window.location.href = '/antki-pl?brand=feliora';
+      } else if (brand === 'feliora-pies') {
+        if (onSwitchToFelioraPies) onSwitchToFelioraPies();
+        else window.location.href = '/antki-pl?brand=feliora-pies';
+      } else if (brand === 'orthomax') {
+        if (onSwitchToOrthomax) onSwitchToOrthomax();
+        else window.location.href = '/antki-pl?brand=orthomax';
+      }
+    },
+    [onSwitchToSardianSzampon, onSwitchToFeliora, onSwitchToFelioraPies, onSwitchToOrthomax],
+  );
 
   const activePreset = useMemo(
     () => presets.find(p => p.id === activeAngleId) || filteredPresets[0] || presets[0],
@@ -749,90 +798,7 @@ export default function StrydePlWorkspace({
             ← Szekspir Home
           </a>
 
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#09090b',
-              padding: '4px',
-              borderRadius: '10px',
-              border: '1px solid #27272a',
-              gap: '4px',
-            }}
-          >
-            <button
-              type="button"
-              style={{
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '7px',
-                padding: '7px 14px',
-                fontSize: '13px',
-                fontWeight: 800,
-                cursor: 'pointer',
-                boxShadow: '0 2px 10px rgba(16, 185, 129, 0.35)',
-              }}
-            >
-              🦿 SARDIAN PL · Opaska (25 Antków · 5×5)
-            </button>
-
-            {onSwitchToFeliora && (
-              <button
-                type="button"
-                onClick={onSwitchToFeliora}
-                style={{
-                  background: 'transparent',
-                  color: '#a1a1aa',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🐾 FELIORA PL · Koty (25 Antków)
-              </button>
-            )}
-
-            {onSwitchToFelioraPies && (
-              <button
-                type="button"
-                onClick={onSwitchToFelioraPies}
-                style={{
-                  background: 'transparent',
-                  color: '#fbbf24',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🐶 FELIORA PL · Psy (25 Antków)
-              </button>
-            )}
-
-            {onSwitchToOrthomax && (
-              <button
-                type="button"
-                onClick={onSwitchToOrthomax}
-                style={{
-                  background: 'transparent',
-                  color: '#a1a1aa',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🦶 ORTHOMAX PL · StepMax (70 Antków)
-              </button>
-            )}
-          </div>
+          <AntkiPlBrandSwitcher activeBrand="stryde" onSelectBrand={handleBrandSelect} />
 
           <button
             type="button"
@@ -1143,48 +1109,96 @@ export default function StrydePlWorkspace({
               padding: '10px 12px',
               borderBottom: '1px solid #27272a',
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: 'column',
+              gap: '7px',
               background: '#09090b',
               position: 'sticky',
               top: 0,
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#f4f4f5' }}>
-              ANTKI SARDIAN ({filteredPresets.length} / {presets.length})
-            </span>
-            <button
-              type="button"
-              onClick={handleSelectAllFiltered}
-              style={{
-                background: '#18181b',
-                color: '#34d399',
-                border: '1px solid #27272a',
-                borderRadius: '6px',
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {selectedAngleIds.length > 0
-                ? `Zaznaczono (${selectedAngleIds.length})`
-                : 'Zaznacz wszystkie'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '12px', fontWeight: 800, color: '#f4f4f5' }}>
+                ANTKI SARDIAN ({filteredPresets.length} / {presets.length})
+              </span>
+              <button
+                type="button"
+                onClick={handleSelectAllFiltered}
+                style={{
+                  background: '#18181b',
+                  color: '#34d399',
+                  border: '1px solid #27272a',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {selectedAngleIds.length > 0
+                  ? `Zaznaczono (${selectedAngleIds.length})`
+                  : 'Zaznacz wszystkie'}
+              </button>
+            </div>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {(
+                [
+                  { key: 'newest', label: '🕒 Najnowsze' },
+                  { key: 'oldest', label: '📅 Najstarsze' },
+                  { key: 'stages', label: '📊 Grupy' },
+                ] as const
+              ).map(opt => {
+                const active = sidebarSort === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setSidebarSort(opt.key)}
+                    style={{
+                      flex: 1,
+                      padding: '4px 6px',
+                      borderRadius: '6px',
+                      border: active ? '1px solid #10b981' : '1px solid #27272a',
+                      background: active ? 'rgba(16, 185, 129, 0.2)' : '#18181b',
+                      color: active ? '#6ee7b7' : '#a1a1aa',
+                      fontSize: '10.5px',
+                      fontWeight: active ? 800 : 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Grouped Angles List */}
           <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {groupedByStage.map(({ stageKey, stageMeta, items }) => (
-              <div key={stageKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {/* Stage Group Banner */}
+            {(sidebarSort === 'stages'
+              ? groupedByStage.map(({ stageKey, stageMeta, items }) => ({
+                  groupKey: stageKey,
+                  bannerTitle: stageMeta.shortLabel,
+                  bannerBadge: '1:1 PL',
+                  bannerColor: stageMeta.color,
+                  items,
+                }))
+              : groupedByDate.map(({ dateLabel, items }) => ({
+                  groupKey: dateLabel,
+                  bannerTitle: `📅 ${dateLabel}`,
+                  bannerBadge: `${items.length} Antków`,
+                  bannerColor: '#10b981',
+                  items,
+                }))
+            ).map(({ groupKey, bannerTitle, bannerBadge, bannerColor, items }) => (
+              <div key={groupKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {/* Group Banner */}
                 <div
                   style={{
                     padding: '6px 9px',
                     borderRadius: '7px',
                     background: '#111114',
-                    borderLeft: `4px solid ${stageMeta.color}`,
+                    borderLeft: `4px solid ${bannerColor}`,
                     borderTop: '1px solid #27272a',
                     borderRight: '1px solid #27272a',
                     borderBottom: '1px solid #27272a',
@@ -1202,7 +1216,7 @@ export default function StrydePlWorkspace({
                         textTransform: 'uppercase',
                       }}
                     >
-                      {stageMeta.shortLabel}
+                      {bannerTitle}
                     </span>
                     <span
                       style={{
@@ -1214,17 +1228,19 @@ export default function StrydePlWorkspace({
                         borderRadius: '4px',
                       }}
                     >
-                      1:1 PL
+                      {bannerBadge}
                     </span>
                   </div>
                 </div>
 
-                {/* Angle Cards inside Stage */}
+                {/* Angle Cards */}
                 {items.map(preset => {
                   const ad = adByAngleId.get(preset.id);
                   const isActive = preset.id === activePreset?.id;
                   const isSelected = selectedAngleIds.includes(preset.id);
                   const clusterInfo = STRYDE_PROBLEM_CLUSTER_LABELS[preset.problemCluster];
+                  const stageMeta = STRYDE_STAGES[preset.stageId];
+                  const dateShort = formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
 
                   return (
                     <div
@@ -1247,7 +1263,7 @@ export default function StrydePlWorkspace({
                         gap: '5px',
                       }}
                     >
-                      {/* Top row: Checkbox + Number + Source Badge + Word Count */}
+                      {/* Top row: Checkbox + Number + Date + Source Badge + Word Count */}
                       <div
                         style={{
                           display: 'flex',
@@ -1256,7 +1272,7 @@ export default function StrydePlWorkspace({
                           gap: '4px',
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
                           <input
                             type="checkbox"
                             checked={isSelected}
@@ -1278,6 +1294,19 @@ export default function StrydePlWorkspace({
                             }}
                           >
                             #{String(preset.number).padStart(2, '0')}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: 700,
+                              color: '#fcd34d',
+                              background: '#18181b',
+                              padding: '1px 5px',
+                              borderRadius: '4px',
+                              border: '1px solid rgba(251, 191, 36, 0.3)',
+                            }}
+                          >
+                            📅 {dateShort}
                           </span>
                           {preset.id.startsWith('orthevia-') && (
                             <span

@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AntkiPlBrandSwitcher, {
+  formatAntekFullDate,
+  formatAntekShortDate,
+  type AntkiPlBrandKey,
+} from '@/app/components/antki-pl-brand-switcher';
 import {
   FELIORA_PIES_DEFAULT_URL,
   FELIORA_PIES_FANPAGES,
@@ -36,12 +41,14 @@ const STAGE_ORDER: FelioraPiesAwarenessStageId[] = [
 ];
 
 interface FelioraPiesPlWorkspaceProps {
+  onSwitchToSardianSzampon?: () => void;
   onSwitchToStryde?: () => void;
   onSwitchToFeliora?: () => void;
   onSwitchToOrthomax?: () => void;
 }
 
 export default function FelioraPiesPlWorkspace({
+  onSwitchToSardianSzampon,
   onSwitchToStryde,
   onSwitchToFeliora,
   onSwitchToOrthomax,
@@ -53,6 +60,7 @@ export default function FelioraPiesPlWorkspace({
   const [error, setError] = useState('');
 
   // Sorting & Filtering
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [stageFilter, setStageFilter] = useState<'all' | FelioraPiesAwarenessStageId>('all');
   const [sophFilter, setSophFilter] = useState<'all' | FelioraPiesSophisticationLevel>('all');
   const [clusterFilter, setClusterFilter] = useState<'all' | FelioraPiesProblemCluster>('all');
@@ -70,7 +78,7 @@ export default function FelioraPiesPlWorkspace({
   const [editDescription, setEditDescription] = useState('');
   const [editPrimaryText, setEditPrimaryText] = useState('');
   const [editDestinationUrl, setEditDestinationUrl] = useState(FELIORA_PIES_PDP_URL);
-  const [editPageId, setEditPageId] = useState('1338513126001175');
+  const [editPageId, setEditPageId] = useState('798916893308685');
   const [editDirty, setEditDirty] = useState(false);
   const [savingEdit, setSavingEdit] = useState(false);
 
@@ -85,11 +93,11 @@ export default function FelioraPiesPlWorkspace({
   // Meta Push state
   const [pushCampaignId, setPushCampaignId] = useState<string>('120250116221490298');
   const [pushUrlMode, setPushUrlMode] = useState<'pdp' | 'split_ab'>('pdp');
-  const [pushAdSetName, setPushAdSetName] = useState('26.10 - FELIORA PSY ANTEK BATCH');
+  const [pushAdSetName, setPushAdSetName] = useState('01.11 - FELIORA PSY ANTEK BATCH');
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
-  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v1';
+  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v2';
 
   const applyLocalImageOverrides = useCallback((list: FelioraPiesPlGeneratedAd[]): FelioraPiesPlGeneratedAd[] => {
     try {
@@ -193,7 +201,7 @@ export default function FelioraPiesPlWorkspace({
     setEditDescription(activeAd.description);
     setEditPrimaryText(activeAd.primaryText);
     setEditDestinationUrl(activeAd.destinationUrl || FELIORA_PIES_PDP_URL);
-    setEditPageId(activeAd.pageId || activePreset?.recommendedFanpageId || '1338513126001175');
+    setEditPageId(activeAd.pageId || activePreset?.recommendedFanpageId || '798916893308685');
     setEditDirty(false);
   }, [activeAd, activePreset]);
 
@@ -202,10 +210,11 @@ export default function FelioraPiesPlWorkspace({
       if (stageFilter !== 'all' && p.stageId !== stageFilter) return false;
       if (sophFilter !== 'all' && p.sophisticationLevel !== sophFilter) return false;
       if (clusterFilter !== 'all' && p.problemCluster !== clusterFilter) return false;
-      if (fanpageFilter !== 'all' && p.recommendedFanpageId !== fanpageFilter) return false;
+      const ad = adByAngleId.get(p.id);
+      const effectivePageId = ad?.pageId || p.recommendedFanpageId;
+      if (fanpageFilter !== 'all' && effectivePageId !== fanpageFilter) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        const ad = adByAngleId.get(p.id);
         const hay = `${p.number} ${p.code} ${p.title} ${p.shortTitle} ${p.problemLabel} ${p.vocTrigger} ${ad?.primaryText || ''}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
@@ -220,6 +229,65 @@ export default function FelioraPiesPlWorkspace({
       return { stageKey, stageMeta, items };
     }).filter(g => g.items.length > 0);
   }, [filteredPresets]);
+
+  const groupedByDate = useMemo(() => {
+    const sorted = [...filteredPresets].sort((a, b) => {
+      const adA = adByAngleId.get(a.id);
+      const adB = adByAngleId.get(b.id);
+      const tsA = adA?.updatedAt || adA?.createdAt || 0;
+      const tsB = adB?.updatedAt || adB?.createdAt || 0;
+      if (tsA !== tsB) {
+        return sidebarSort === 'oldest' ? tsA - tsB : tsB - tsA;
+      }
+      return sidebarSort === 'oldest' ? a.number - b.number : a.number - b.number;
+    });
+    const map = new Map<string, FelioraPiesAnglePreset[]>();
+    for (const p of sorted) {
+      const ad = adByAngleId.get(p.id);
+      const dayLabel = formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
+      const bucket = map.get(dayLabel) || [];
+      bucket.push(p);
+      map.set(dayLabel, bucket);
+    }
+    return Array.from(map.entries()).map(([dateLabel, items]) => ({ dateLabel, items }));
+  }, [filteredPresets, adByAngleId, sidebarSort]);
+
+  const handleBrandSelect = useCallback(
+    (brand: AntkiPlBrandKey) => {
+      if (brand === 'sardian-szampon') {
+        if (onSwitchToSardianSzampon) onSwitchToSardianSzampon();
+        else window.location.href = '/antki-pl?brand=sardian-szampon';
+      } else if (brand === 'stryde') {
+        if (onSwitchToStryde) onSwitchToStryde();
+        else window.location.href = '/antki-pl?brand=stryde';
+      } else if (brand === 'feliora') {
+        if (onSwitchToFeliora) onSwitchToFeliora();
+        else window.location.href = '/antki-pl?brand=feliora';
+      } else if (brand === 'orthomax') {
+        if (onSwitchToOrthomax) onSwitchToOrthomax();
+        else window.location.href = '/antki-pl?brand=orthomax';
+      }
+    },
+    [onSwitchToSardianSzampon, onSwitchToStryde, onSwitchToFeliora, onSwitchToOrthomax],
+  );
+
+  const handleSyncFanpages = useCallback(async () => {
+    try {
+      setError('');
+      const res = await fetch('/api/feliora-pies-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync_fanpages' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Błąd synchronizacji Fanpage.');
+      if (Array.isArray(data.savedAds)) setAds(applyLocalImageOverrides(data.savedAds));
+      setNotice('✅ Zsynchronizowano wszystkie 25 kątów z właściwymi Fanpage’ami z BM (Weterynarz / Opiekunowie / Społeczność)!');
+      setTimeout(() => setNotice(''), 4000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd synchronizacji Fanpage.');
+    }
+  }, [applyLocalImageOverrides]);
 
   const handleCopy = useCallback((text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -340,7 +408,7 @@ export default function FelioraPiesPlWorkspace({
           imageHash: '',
           adsetOrigin: 'Podgląd kreacji',
           adOrigin: 'Podgląd',
-          aspectRatio: '3:4',
+          aspectRatio: '1:1',
         });
       }
     },
@@ -433,7 +501,7 @@ export default function FelioraPiesPlWorkspace({
       setGeneratingKie5(true);
       setError('');
       setNotice(
-        `Analizuję cały skrypt i wysyłam 12 scen Raw iPhone 3:4 (2K Google AI · Feliora Pies) do Kie.ai dla kąta #${targetPreset.number}...`,
+        `Analizuję skrypt i wysyłam 12 czystych scen iPhone 15 Pro 1:1 (Styl Sardian · 2K) do Kie.ai dla kąta #${targetPreset.number}...`,
       );
       try {
         const res = await fetch('/api/feliora-pies-pl', {
@@ -454,7 +522,7 @@ export default function FelioraPiesPlWorkspace({
         }
         const tasks = data.tasks as Array<{ taskId: string; label: string; prompt: string }>;
         setNotice(
-          `Google AI (Kie.ai) generuje ${tasks.length} zdjęć Raw iPhone 3:4 (2K) z całego skryptu dla kąta #${targetPreset.number} (~25-45s)...`,
+          `Google AI (Kie.ai) generuje ${tasks.length} czystych zdjęć iPhone 15 Pro 1:1 (Styl Sardian · 2K) dla kąta #${targetPreset.number} (~25-45s)...`,
         );
         let completed = 0;
         await Promise.all(
@@ -507,10 +575,10 @@ export default function FelioraPiesPlWorkspace({
           }),
         );
         if (completed > 0) {
-          setNotice(`✅ Wygenerowano ${completed}/${tasks.length} zdjęć Raw iPhone 3:4 (2K) dla kąta #${targetPreset.number}!`);
+          setNotice(`✅ Wygenerowano ${completed}/${tasks.length} czystych zdjęć iPhone 1:1 (Styl Sardian · 2K) dla kąta #${targetPreset.number}!`);
         }
       } catch (err) {
-        const msg = err instanceof Error ? err.message : 'Błąd generowania zdjęć Raw iPhone 3:4 w Kie.ai.';
+        const msg = err instanceof Error ? err.message : 'Błąd generowania zdjęć Clean iPhone 1:1 w Kie.ai.';
         setError(msg);
       } finally {
         inFlightKieAnglesRef.current.delete(targetAngleId);
@@ -635,88 +703,7 @@ export default function FelioraPiesPlWorkspace({
             ← Szekspir Home
           </a>
 
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#120904',
-              padding: '4px',
-              borderRadius: '10px',
-              border: '1px solid #5c2f14',
-              gap: '4px',
-              flexWrap: 'wrap',
-            }}
-          >
-            {onSwitchToStryde && (
-              <button
-                type="button"
-                onClick={onSwitchToStryde}
-                style={{
-                  background: '#09090b',
-                  color: '#34d399',
-                  border: '1px solid #27272a',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🦿 SARDIAN PL · Opaska (25 Antków)
-              </button>
-            )}
-            {onSwitchToFeliora && (
-              <button
-                type="button"
-                onClick={onSwitchToFeliora}
-                style={{
-                  background: 'transparent',
-                  color: '#c4b5fd',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🐾 FELIORA PL · Batch 1: Koty (25 Antków)
-              </button>
-            )}
-            <button
-              type="button"
-              style={{
-                background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '7px',
-                padding: '7px 14px',
-                fontSize: '13px',
-                fontWeight: 800,
-                cursor: 'pointer',
-                boxShadow: '0 2px 10px rgba(217, 119, 6, 0.4)',
-              }}
-            >
-              🐶 FELIORA PL · Batch 2: Psy (25 Antków · 5 Stages)
-            </button>
-            {onSwitchToOrthomax && (
-              <button
-                type="button"
-                onClick={onSwitchToOrthomax}
-                style={{
-                  background: 'transparent',
-                  color: '#fed7aa',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🦶 ORTHOMAX PL · StepMax (70 Antków)
-              </button>
-            )}
-          </div>
+          <AntkiPlBrandSwitcher activeBrand="feliora-pies" onSelectBrand={handleBrandSelect} />
 
           <button
             type="button"
@@ -928,13 +915,33 @@ export default function FelioraPiesPlWorkspace({
               fontWeight: 600,
             }}
           >
-            <option value="all">📣 Wszystkie Fanpage (2 spójne profile dla Psów)</option>
+            <option value="all">
+              📣 Wszystkie Fanpage ({FELIORA_PIES_FANPAGES.length} spójnych profili: Weterynarz / Opiekunowie / Społeczność)
+            </option>
             {FELIORA_PIES_FANPAGES.map(fp => (
               <option key={fp.id} value={fp.id}>
                 {fp.name} ({fp.role})
               </option>
             ))}
           </select>
+
+          <button
+            type="button"
+            onClick={() => void handleSyncFanpages()}
+            title="Przypisz wszystkim 25 kątom właściwe fanpage’e person/eksperta z BM dopasowane do płci i głosu narratora"
+            style={{
+              background: 'rgba(16, 185, 129, 0.16)',
+              color: '#6ee7b7',
+              border: '1px solid rgba(16, 185, 129, 0.45)',
+              borderRadius: '7px',
+              padding: '6px 11px',
+              fontSize: '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            🔄 Synchronizuj Fanpage z BM
+          </button>
 
           <input
             type="text"
@@ -1007,44 +1014,90 @@ export default function FelioraPiesPlWorkspace({
               padding: '10px 12px',
               borderBottom: '1px solid #5c2f14',
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: 'column',
+              gap: '7px',
               background: '#261308',
               position: 'sticky',
               top: 0,
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#ffedd5' }}>
-              KĄTY PSY ({filteredPresets.length} / 25)
-            </span>
-            <button
-              type="button"
-              onClick={handleSelectAllFiltered}
-              style={{
-                background: '#361b0b',
-                color: '#fcd34d',
-                border: '1px solid #5c2f14',
-                borderRadius: '6px',
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz wszystkie'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#ffedd5' }}>
+                KĄTY PSY ({filteredPresets.length} / 25)
+              </span>
+              <button
+                type="button"
+                onClick={handleSelectAllFiltered}
+                style={{
+                  background: '#361b0b',
+                  color: '#fcd34d',
+                  border: '1px solid #5c2f14',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz wszystkie'}
+              </button>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4px' }}>
+              {[
+                { id: 'newest' as const, label: '🕒 Najnowsze' },
+                { id: 'oldest' as const, label: '📅 Najstarsze' },
+                { id: 'stages' as const, label: '📊 Stages' },
+              ].map(opt => {
+                const active = sidebarSort === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => setSidebarSort(opt.id)}
+                    style={{
+                      padding: '4px 6px',
+                      borderRadius: '5px',
+                      fontSize: '10.5px',
+                      fontWeight: active ? 800 : 600,
+                      cursor: 'pointer',
+                      border: active ? '1px solid #f59e0b' : '1px solid #5c2f14',
+                      background: active ? 'rgba(245, 158, 11, 0.24)' : '#140a04',
+                      color: active ? '#fffbeb' : '#fed7aa',
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {groupedByStage.map(({ stageKey, stageMeta, items }) => (
-              <div key={stageKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {(sidebarSort === 'stages'
+              ? groupedByStage.map(({ stageKey, stageMeta, items }) => ({
+                  groupKey: stageKey,
+                  bannerTitle: stageMeta.shortLabel,
+                  bannerRight: `Poz. ${stageMeta.sophisticationLevel}`,
+                  bannerColor: stageMeta.color,
+                  items,
+                }))
+              : groupedByDate.map(({ dateLabel, items }) => ({
+                  groupKey: dateLabel,
+                  bannerTitle: `📅 ${dateLabel}`,
+                  bannerRight: `${items.length} szt.`,
+                  bannerColor: '#f59e0b',
+                  items,
+                }))
+            ).map(({ groupKey, bannerTitle, bannerRight, bannerColor, items }) => (
+              <div key={groupKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <div
                   style={{
                     padding: '6px 9px',
                     borderRadius: '7px',
                     background: 'rgba(217, 119, 6, 0.16)',
-                    borderLeft: `4px solid ${stageMeta.color}`,
+                    borderLeft: `4px solid ${bannerColor}`,
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '2px',
@@ -1052,7 +1105,7 @@ export default function FelioraPiesPlWorkspace({
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fff7ed', textTransform: 'uppercase' }}>
-                      {stageMeta.shortLabel}
+                      {bannerTitle}
                     </span>
                     <span
                       style={{
@@ -1064,7 +1117,7 @@ export default function FelioraPiesPlWorkspace({
                         borderRadius: '4px',
                       }}
                     >
-                      Poz. {stageMeta.sophisticationLevel}
+                      {bannerRight}
                     </span>
                   </div>
                 </div>
@@ -1074,6 +1127,9 @@ export default function FelioraPiesPlWorkspace({
                   const isActive = preset.id === activePreset?.id;
                   const isSelected = selectedAngleIds.includes(preset.id);
                   const clusterInfo = PROBLEM_CLUSTER_LABELS[preset.problemCluster];
+                  const stageMeta = FELIORA_PIES_STAGES[preset.stageId];
+                  const resolvedFpName = ad?.pageName || preset.recommendedFanpageName;
+                  const resolvedFpId = ad?.pageId || preset.recommendedFanpageId;
 
                   return (
                     <div
@@ -1092,7 +1148,7 @@ export default function FelioraPiesPlWorkspace({
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
                           <input
                             type="checkbox"
                             checked={isSelected}
@@ -1117,16 +1173,30 @@ export default function FelioraPiesPlWorkspace({
                           </span>
                           <span
                             style={{
-                              fontSize: '10.5px',
+                              fontSize: '10px',
+                              fontWeight: 800,
+                              color: '#fde68a',
+                              background: 'rgba(245, 158, 11, 0.16)',
+                              padding: '1px 5px',
+                              borderRadius: '4px',
+                              border: '1px solid rgba(245, 158, 11, 0.35)',
+                            }}
+                            title={`Utworzono: ${formatAntekFullDate(ad?.createdAt)} · Ostatnia edycja: ${formatAntekFullDate(ad?.updatedAt)}`}
+                          >
+                            📅 {formatAntekShortDate(ad?.updatedAt || ad?.createdAt)}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '10px',
                               fontWeight: 700,
-                              color: preset.recommendedFanpageId === '1287239777799682' ? '#bfdbfe' : '#a7f3d0',
+                              color: resolvedFpId === '1287239777799682' ? '#bfdbfe' : '#a7f3d0',
                               background: '#261308',
                               padding: '1px 6px',
                               borderRadius: '4px',
                               border: '1px solid #5c2f14',
                             }}
                           >
-                            {preset.recommendedFanpageName}
+                            {resolvedFpName}
                           </span>
                         </div>
 
@@ -1135,6 +1205,7 @@ export default function FelioraPiesPlWorkspace({
                             fontSize: '10.5px',
                             fontWeight: 700,
                             color: ad?.auditPassed !== false ? '#34d399' : '#fbbf24',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {ad?.wordCount || 1180} sł. ✓
@@ -1577,8 +1648,8 @@ export default function FelioraPiesPlWorkspace({
                 }}
               >
                 {generatingKie5
-                  ? '⏳ Generuję 12 zdjęć Raw iPhone 3:4 (2K Google AI · Feliora Pies) w Kie.ai...'
-                  : '📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · Psy z całego skryptu)'}
+                  ? '⏳ Generuję 12 czystych zdjęć iPhone 15 Pro 1:1 (Styl Sardian · 2K) w Kie.ai...'
+                  : '📸 Generuj 12 czystych zdjęć iPhone 1:1 (Styl Sardian · 2K · Sceny 1:1 pod ten kąt)'}
               </button>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -1623,9 +1694,9 @@ export default function FelioraPiesPlWorkspace({
                       alt="Kreacja A"
                       style={{
                         width: '100%',
-                        aspectRatio: '3 / 4',
+                        aspectRatio: '1 / 1',
                         objectFit: 'cover',
-                        objectPosition: 'top center',
+                        objectPosition: 'center',
                         borderRadius: '8px',
                         background: '#261308',
                         display: 'block',
@@ -1701,9 +1772,9 @@ export default function FelioraPiesPlWorkspace({
                       alt="Kreacja B"
                       style={{
                         width: '100%',
-                        aspectRatio: '3 / 4',
+                        aspectRatio: '1 / 1',
                         objectFit: 'cover',
-                        objectPosition: 'top center',
+                        objectPosition: 'center',
                         borderRadius: '8px',
                         background: '#261308',
                         display: 'block',
@@ -1743,7 +1814,7 @@ export default function FelioraPiesPlWorkspace({
                   }}
                 >
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fcd34d' }}>
-                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Raw iPhone 3:4 ·{' '}
+                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Clean iPhone 1:1 Sardian ·{' '}
                     {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
                   </span>
                   <div
@@ -1785,9 +1856,9 @@ export default function FelioraPiesPlWorkspace({
                                 alt={img.label}
                                 style={{
                                   width: '100%',
-                                  aspectRatio: '3 / 4',
+                                  aspectRatio: '1 / 1',
                                   objectFit: 'cover',
-                                  objectPosition: 'top center',
+                                  objectPosition: 'center',
                                   display: 'block',
                                 }}
                               />

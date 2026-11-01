@@ -25,8 +25,8 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pies-pl-v1-25ads';
-const DEFAULT_CREATED_AT = 1793000000000;
+const STATE_KEY = 'feliora-pies-pl-v5-pazur-sardian-pages';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-01T11:05:00+01:00');
 
 interface FelioraPiesPlLibraryState {
   ads: FelioraPiesPlGeneratedAd[];
@@ -325,7 +325,7 @@ export const POST = accountRoute(async (req: Request) => {
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '3:4',
+            aspectRatio: '1:1',
             resolution: '2K',
           });
           try {
@@ -379,7 +379,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = FELIORA_PIES_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `iPhone Raw #${preset?.number || ''}`).trim();
+      const label = (body.label || `iPhone Clean #${preset?.number || ''}`).trim();
       const assetId = `kie-feliora-pies-iphone-${taskId}`;
 
       let uploadedHash = '';
@@ -402,9 +402,9 @@ export const POST = accountRoute(async (req: Request) => {
         url: status.resultUrl,
         imageHash: uploadedHash,
         label: preset ? `#${preset.number} · ${label}` : label,
-        adsetOrigin: 'Google AI Raw iPhone 3:4 (Feliora Pies)',
-        adOrigin: preset?.code || 'DOG-RAW',
-        aspectRatio: '3:4',
+        adsetOrigin: 'Google AI Clean iPhone 1:1 (Styl Sardian)',
+        adOrigin: preset?.code || 'DOG-CLEAN',
+        aspectRatio: '1:1',
         source: 'ai',
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,
@@ -609,7 +609,7 @@ export const POST = accountRoute(async (req: Request) => {
         imageHash: uploadedHash || '',
         adsetOrigin: 'Własna grafika',
         adOrigin: cleanFileName,
-        aspectRatio: '3:4',
+        aspectRatio: '1:1',
       };
       const defaultAds = buildAllFelioraPiesPrewrittenAds();
       const updatedState = await mutate<
@@ -642,8 +642,65 @@ export const POST = accountRoute(async (req: Request) => {
       });
     }
 
+    if (action === 'reset_defaults') {
+      const defaultAds = buildAllFelioraPiesPrewrittenAds();
+      await mutate<FelioraPiesPlLibraryState, FelioraPiesPlGeneratedAd[]>(
+        STATE_KEY,
+        { ads: defaultAds, customImages: [] },
+        state => {
+          state.ads = [...defaultAds];
+          return state.ads;
+        },
+      );
+      return NextResponse.json({ ok: true, savedAds: defaultAds });
+    }
+
+    if (action === 'sync_fanpages') {
+      const discoveredPages: Record<string, { id: string; name: string }> = {};
+      const allCandidatePages: Array<{ id: string; name: string }> = [];
+
+      for (const endpoint of [
+        { path: 'me/accounts', fields: 'id,name' },
+        { path: '1229288098677658/owned_pages', fields: 'id,name' },
+        { path: `act_${FELIORA_PIES_META_ACCOUNT_ID}/promote_pages`, fields: 'id,name' },
+      ]) {
+        try {
+          const res = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+            endpoint.path,
+            { fields: endpoint.fields, limit: 100 },
+          );
+          for (const p of res.data || []) {
+            if (!allCandidatePages.some(existing => existing.id === p.id)) {
+              allCandidatePages.push(p);
+            }
+          }
+        } catch {
+          // Continue checking other endpoints
+        }
+      }
+
+      for (const p of allCandidatePages) {
+        const n = (p.name || '').toLowerCase();
+        if (n.includes('psy bez ściemy') || n.includes('psy bez sciemy') || n.includes('psiarze')) {
+          discoveredPages['fp-psy-bez-sciemy'] = { id: p.id, name: p.name };
+        }
+      }
+
+      return NextResponse.json({
+        ok: true,
+        discoveredPages,
+        totalMetaPagesChecked: allCandidatePages.length,
+      });
+    }
+
     if (action === 'audit_meta') {
-      const pageIds = ['1338513126001175', '1287239777799682', '1304624172730017', '1231925240008683'];
+      const pageIds = [
+        '1287239777799682',
+        '798916893308685',
+        '1194345203770949',
+        '1363490303507686',
+        '1338513126001175',
+      ];
       const [accountInfo, pagesInfo, pixelInfo, pixelStats, campaignsInsights7d, campaignsInsightsToday, issueAds] =
         await Promise.all([
           directGraph<Record<string, unknown>>(`act_${FELIORA_PIES_META_ACCOUNT_ID}`, {
@@ -744,7 +801,7 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       const templateAdSetId = body.templateAdSetId || '120250116221480298'; // Active Dog Ad Set in pieski fel (fallback 120250036346090298)
-      const adSetName = (body.adSetName || `26.10 - FELIORA PSY ANTEK BATCH (${selectedAds.length}x)`).trim();
+      const adSetName = (body.adSetName || `01.11 - FELIORA PSY ANTEK BATCH (${selectedAds.length}x)`).trim();
       const urlMode = body.urlMode || 'pdp';
       const adStatus = body.adStatus || 'PAUSED';
 
@@ -815,15 +872,41 @@ export const POST = accountRoute(async (req: Request) => {
         targetAdSetId = createdAdSet.id;
       }
 
-      const FELIORA_PIES_PAGE_ACTORS: Record<string, { instagram_user_id: string; threads_user_id: string }> = {
+      const discoveredPages: Record<string, string> = {};
+      for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${FELIORA_PIES_META_ACCOUNT_ID}/promote_pages`]) {
+        try {
+          const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>(endpoint, {
+            fields: 'id,name',
+            limit: 100,
+          });
+          for (const p of accs.data || []) {
+            const n = (p.name || '').toLowerCase();
+            if (n.includes('psy bez ściemy') || n.includes('psy bez sciemy') || n.includes('psiarze')) {
+              discoveredPages['fp-psy-bez-sciemy'] = p.id;
+            }
+          }
+        } catch {
+          // Ignore inaccessible endpoint
+        }
+      }
+
+      const FELIORA_PIES_PAGE_ACTORS: Record<string, { instagram_user_id?: string; threads_user_id?: string }> = {
         '1338513126001175': { instagram_user_id: '17841437606417391', threads_user_id: '17841467398928017' }, // Feliora
         '1287239777799682': { instagram_user_id: '17841441008488573', threads_user_id: '17841419447824408' }, // Dr. wet. Edmund Newelski
+        '798916893308685': { instagram_user_id: '17841473314157729' }, // Porady Mamy Gosi
+        '1194345203770949': { instagram_user_id: '17841412233487287' }, // Iwona Kożuchowska
+        '1363490303507686': {}, // Karol Mikołajczyk (FB Page only — never attach mismatched IG ID)
       };
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
-        const pageId = body.pageId || ad.pageId || '1338513126001175';
-        const actors = FELIORA_PIES_PAGE_ACTORS[pageId] || FELIORA_PIES_PAGE_ACTORS['1338513126001175'];
+        const rawPageId = (body.pageId || ad.pageId || '798916893308685').trim();
+        const resolvedPageId = /^\d+$/.test(rawPageId)
+          ? rawPageId
+          : discoveredPages[rawPageId] || '798916893308685';
+        const fpMeta = FELIORA_PIES_FANPAGES.find(f => f.id === rawPageId || f.id === resolvedPageId);
+        const resolvedPageName = fpMeta?.name || ad.pageName || 'Porady Mamy Gosi';
+        const actors = FELIORA_PIES_PAGE_ACTORS[resolvedPageId];
         const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
         const hasSecond = Boolean(ad.secondImageUrl && ad.secondImageUrl !== ad.imageUrl);
         const secondHash = hasSecond
@@ -854,15 +937,15 @@ export const POST = accountRoute(async (req: Request) => {
               ];
 
         for (const variant of urlsToPush) {
-          const adName = `${ad.code} | ${variant.suffix} | ${ad.pageName}`;
+          const adName = `${ad.code} | ${variant.suffix} | ${resolvedPageName}`;
           const creativeSpec = {
             name: `${adName} - Creative`,
             url_tags:
               'utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}',
             object_story_spec: {
-              page_id: pageId,
-              instagram_user_id: actors.instagram_user_id,
-              threads_user_id: actors.threads_user_id,
+              page_id: resolvedPageId,
+              ...(actors?.instagram_user_id ? { instagram_user_id: actors.instagram_user_id } : {}),
+              ...(actors?.threads_user_id ? { threads_user_id: actors.threads_user_id } : {}),
               link_data: {
                 image_hash: variant.hash,
                 link: variant.link,

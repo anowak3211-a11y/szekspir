@@ -199,11 +199,17 @@ async function readLibraryState(): Promise<{
         ad.secondImageUrl && (!ad.secondImageUrl.startsWith('data:') || ad.secondImageUrl.length < 180_000)
           ? ad.secondImageUrl
           : undefined;
+      const isLegacyCreated =
+        !ad.createdAt || (ad.createdAt >= 1792355000000 && ad.createdAt <= 1792355200000);
+      const isLegacyUpdated =
+        !ad.updatedAt || (ad.updatedAt >= 1792355000000 && ad.updatedAt <= 1792355200000);
       byAngle.set(
         ad.angleId,
         ensureAdImage({
           ...(baseAd || ad),
           ...ad,
+          createdAt: isLegacyCreated && baseAd ? baseAd.createdAt : ad.createdAt,
+          updatedAt: isLegacyUpdated && baseAd ? baseAd.updatedAt : ad.updatedAt,
           imageUrl: resolvedPrimaryUrl,
           imageHash: resolvedPrimaryHash,
           secondImageUrl: rawSecUrl,
@@ -771,7 +777,7 @@ export const POST = accountRoute(async (req: Request) => {
             model: 'nano-banana-pro',
             prompt: fullPrompt,
             imageUrls: scene.includeProductRef && productRefKieUrl ? [productRefKieUrl] : [],
-            aspectRatio: '3:4',
+            aspectRatio: '1:1',
             resolution: '2K',
           });
           try {
@@ -825,7 +831,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const angleId = (body.angleId || '').trim();
       const preset = ANTKI_PL_PRESET_ANGLES.find(a => a.id === angleId);
-      const label = (body.label || `iPhone Raw #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
+      const label = (body.label || `iPhone Clean #${preset?.number || ''} (${new Date().toLocaleTimeString('pl-PL')})`).trim();
       const assetId = `kie-orthomax-iphone-${taskId}`;
 
       let uploadedHash: string | undefined;
@@ -851,8 +857,8 @@ export const POST = accountRoute(async (req: Request) => {
         angleId: angleId || undefined,
         kiePrompt: body.prompt || undefined,
         imageHash: uploadedHash,
-        aspectRatio: '3:4',
-        note: 'Google AI Raw iPhone 3:4 2K (NHS / Skrypt.txt)',
+        aspectRatio: '1:1',
+        note: 'Google AI Clean iPhone 1:1 2K (Styl Sardian)',
       };
 
       const isScene1 = /^1\./.test(label);

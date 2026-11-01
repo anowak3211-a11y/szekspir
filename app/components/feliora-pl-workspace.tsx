@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AntkiPlBrandSwitcher, {
+  formatAntekFullDate,
+  formatAntekShortDate,
+  type AntkiPlBrandKey,
+} from '@/app/components/antki-pl-brand-switcher';
 import {
   FELIORA_ADVERTORIAL_URL,
   FELIORA_DEFAULT_URL,
@@ -37,12 +42,14 @@ const STAGE_ORDER: FelioraAwarenessStageId[] = [
 ];
 
 interface FelioraPlWorkspaceProps {
+  onSwitchToSardianSzampon?: () => void;
   onSwitchToOrthomax?: () => void;
   onSwitchToStryde?: () => void;
   onSwitchToFelioraPies?: () => void;
 }
 
 export default function FelioraPlWorkspace({
+  onSwitchToSardianSzampon,
   onSwitchToOrthomax,
   onSwitchToStryde,
   onSwitchToFelioraPies,
@@ -54,6 +61,7 @@ export default function FelioraPlWorkspace({
   const [error, setError] = useState('');
 
   // Sorting & Filtering
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [stageFilter, setStageFilter] = useState<'all' | FelioraAwarenessStageId>('all');
   const [sophFilter, setSophFilter] = useState<'all' | FelioraSophisticationLevel>('all');
   const [clusterFilter, setClusterFilter] = useState<'all' | FelioraProblemCluster>('all');
@@ -220,6 +228,47 @@ export default function FelioraPlWorkspace({
       return { stageKey, stageMeta, items };
     }).filter(g => g.items.length > 0);
   }, [filteredPresets]);
+
+  const groupedByDate = useMemo(() => {
+    const sorted = [...filteredPresets].sort((a, b) => {
+      const adA = adByAngleId.get(a.id);
+      const adB = adByAngleId.get(b.id);
+      const tsA = adA?.updatedAt || adA?.createdAt || 0;
+      const tsB = adB?.updatedAt || adB?.createdAt || 0;
+      if (tsA !== tsB) {
+        return sidebarSort === 'oldest' ? tsA - tsB : tsB - tsA;
+      }
+      return a.number - b.number;
+    });
+    const map = new Map<string, FelioraAnglePreset[]>();
+    for (const p of sorted) {
+      const ad = adByAngleId.get(p.id);
+      const dayLabel = formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
+      const bucket = map.get(dayLabel) || [];
+      bucket.push(p);
+      map.set(dayLabel, bucket);
+    }
+    return Array.from(map.entries()).map(([dateLabel, items]) => ({ dateLabel, items }));
+  }, [filteredPresets, adByAngleId, sidebarSort]);
+
+  const handleBrandSelect = useCallback(
+    (brand: AntkiPlBrandKey) => {
+      if (brand === 'sardian-szampon') {
+        if (onSwitchToSardianSzampon) onSwitchToSardianSzampon();
+        else window.location.href = '/antki-pl?brand=sardian-szampon';
+      } else if (brand === 'stryde') {
+        if (onSwitchToStryde) onSwitchToStryde();
+        else window.location.href = '/antki-pl?brand=stryde';
+      } else if (brand === 'feliora-pies') {
+        if (onSwitchToFelioraPies) onSwitchToFelioraPies();
+        else window.location.href = '/antki-pl?brand=feliora-pies';
+      } else if (brand === 'orthomax') {
+        if (onSwitchToOrthomax) onSwitchToOrthomax();
+        else window.location.href = '/antki-pl?brand=orthomax';
+      }
+    },
+    [onSwitchToSardianSzampon, onSwitchToStryde, onSwitchToFelioraPies, onSwitchToOrthomax],
+  );
 
   const handleCopy = useCallback((text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -642,87 +691,7 @@ export default function FelioraPlWorkspace({
             ← Szekspir Home
           </a>
 
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#120921',
-              padding: '4px',
-              borderRadius: '10px',
-              border: '1px solid #5c2f14',
-              gap: '4px',
-            }}
-          >
-            {onSwitchToStryde && (
-              <button
-                type="button"
-                onClick={onSwitchToStryde}
-                style={{
-                  background: '#09090b',
-                  color: '#34d399',
-                  border: '1px solid #27272a',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🦿 SARDIAN PL · Opaska (25 Antków)
-              </button>
-            )}
-            <button
-              type="button"
-              style={{
-                background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '7px',
-                padding: '7px 14px',
-                fontSize: '13px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                boxShadow: '0 2px 10px rgba(139, 92, 246, 0.4)',
-              }}
-            >
-              🐾 FELIORA PL · Batch 1: Koty (25 Antków · 5 Stages)
-            </button>
-            {onSwitchToFelioraPies && (
-              <button
-                type="button"
-                onClick={onSwitchToFelioraPies}
-                style={{
-                  background: 'transparent',
-                  color: '#fcd34d',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🐶 FELIORA PL · Batch 2: Psy (25 Antków)
-              </button>
-            )}
-            {onSwitchToOrthomax && (
-              <button
-                type="button"
-                onClick={onSwitchToOrthomax}
-                style={{
-                  background: 'transparent',
-                  color: '#c4b5fd',
-                  border: 'none',
-                  borderRadius: '7px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🦶 ORTHOMAX PL · StepMax (70 Antków)
-              </button>
-            )}
-          </div>
+          <AntkiPlBrandSwitcher activeBrand="feliora" onSelectBrand={handleBrandSelect} />
 
           <button
             type="button"
@@ -1014,46 +983,94 @@ export default function FelioraPlWorkspace({
               padding: '10px 12px',
               borderBottom: '1px solid #3e2070',
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: 'column',
+              gap: '7px',
               background: '#261308',
               position: 'sticky',
               top: 0,
               zIndex: 10,
             }}
           >
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#ede9fe' }}>
-              KĄTY ({filteredPresets.length} / 25)
-            </span>
-            <button
-              type="button"
-              onClick={handleSelectAllFiltered}
-              style={{
-                background: '#361b0b',
-                color: '#c4b5fd',
-                border: '1px solid #5c2f14',
-                borderRadius: '6px',
-                padding: '4px 8px',
-                fontSize: '11px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz wszystkie'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#ede9fe' }}>
+                KĄTY ({filteredPresets.length} / 25)
+              </span>
+              <button
+                type="button"
+                onClick={handleSelectAllFiltered}
+                style={{
+                  background: '#361b0b',
+                  color: '#c4b5fd',
+                  border: '1px solid #5c2f14',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {selectedAngleIds.length > 0 ? `Zaznaczono (${selectedAngleIds.length})` : 'Zaznacz wszystkie'}
+              </button>
+            </div>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {(
+                [
+                  { key: 'newest', label: '🕒 Najnowsze' },
+                  { key: 'oldest', label: '📅 Najstarsze' },
+                  { key: 'stages', label: '📊 Stages' },
+                ] as const
+              ).map(opt => {
+                const active = sidebarSort === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setSidebarSort(opt.key)}
+                    style={{
+                      flex: 1,
+                      padding: '4px 6px',
+                      borderRadius: '6px',
+                      border: active ? '1px solid #a855f7' : '1px solid #5c2f14',
+                      background: active ? 'rgba(139, 92, 246, 0.28)' : '#120921',
+                      color: active ? '#f3e8ff' : '#c4b5fd',
+                      fontSize: '10.5px',
+                      fontWeight: active ? 800 : 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Grouped Angles List */}
           <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {groupedByStage.map(({ stageKey, stageMeta, items }) => (
-              <div key={stageKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {/* Stage Group Banner */}
+            {(sidebarSort === 'stages'
+              ? groupedByStage.map(({ stageKey, stageMeta, items }) => ({
+                  groupKey: stageKey,
+                  bannerTitle: stageMeta.shortLabel,
+                  bannerBadge: `Poz. ${stageMeta.sophisticationLevel}`,
+                  bannerColor: stageMeta.color,
+                  items,
+                }))
+              : groupedByDate.map(({ dateLabel, items }) => ({
+                  groupKey: dateLabel,
+                  bannerTitle: `📅 ${dateLabel}`,
+                  bannerBadge: `${items.length} Antków`,
+                  bannerColor: '#8b5cf6',
+                  items,
+                }))
+            ).map(({ groupKey, bannerTitle, bannerBadge, bannerColor, items }) => (
+              <div key={groupKey} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {/* Group Banner */}
                 <div
                   style={{
                     padding: '6px 9px',
                     borderRadius: '7px',
                     background: 'rgba(124, 58, 237, 0.2)',
-                    borderLeft: `4px solid ${stageMeta.color}`,
+                    borderLeft: `4px solid ${bannerColor}`,
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '2px',
@@ -1061,7 +1078,7 @@ export default function FelioraPlWorkspace({
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#fff7ed', textTransform: 'uppercase' }}>
-                      {stageMeta.shortLabel}
+                      {bannerTitle}
                     </span>
                     <span
                       style={{
@@ -1073,17 +1090,19 @@ export default function FelioraPlWorkspace({
                         borderRadius: '4px',
                       }}
                     >
-                      Poz. {stageMeta.sophisticationLevel}
+                      {bannerBadge}
                     </span>
                   </div>
                 </div>
 
-                {/* Angle Cards inside Stage */}
+                {/* Angle Cards */}
                 {items.map(preset => {
                   const ad = adByAngleId.get(preset.id);
                   const isActive = preset.id === activePreset?.id;
                   const isSelected = selectedAngleIds.includes(preset.id);
                   const clusterInfo = PROBLEM_CLUSTER_LABELS[preset.problemCluster];
+                  const stageMeta = FELIORA_STAGES[preset.stageId];
+                  const dateShort = formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
 
                   return (
                     <div
@@ -1101,9 +1120,9 @@ export default function FelioraPlWorkspace({
                         gap: '5px',
                       }}
                     >
-                      {/* Top row: Checkbox + Number + Fanpage + Word Count */}
+                      {/* Top row: Checkbox + Number + Date + Fanpage + Word Count */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
                           <input
                             type="checkbox"
                             checked={isSelected}
@@ -1128,6 +1147,19 @@ export default function FelioraPlWorkspace({
                           </span>
                           <span
                             style={{
+                              fontSize: '10px',
+                              fontWeight: 700,
+                              color: '#fcd34d',
+                              background: '#1e1035',
+                              padding: '1px 5px',
+                              borderRadius: '4px',
+                              border: '1px solid rgba(251, 191, 36, 0.3)',
+                            }}
+                          >
+                            📅 {dateShort}
+                          </span>
+                          <span
+                            style={{
                               fontSize: '10.5px',
                               fontWeight: 700,
                               color: '#ddd6fe',
@@ -1137,7 +1169,7 @@ export default function FelioraPlWorkspace({
                               border: '1px solid #5c2f14',
                             }}
                           >
-                            {preset.recommendedFanpageName}
+                            {ad?.pageName || preset.recommendedFanpageName}
                           </span>
                         </div>
 

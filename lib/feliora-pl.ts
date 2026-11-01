@@ -306,9 +306,9 @@ export const FELIORA_IMAGE_LIBRARY: FelioraImageAsset[] = [
     source: 'ai',
   },
   {
-    id: 'kie-feliora-s4-spalony-knot-zwykly-dyfuzor',
-    url: '/feliora-pl-images/kie-feliora-s4-spalony-knot-zwykly-dyfuzor.jpg',
-    imageHash: 'c1cd0eebef48e24b1b6a84b912294bda',
+    id: 'feliora-kot-02-wylizany-brzuch',
+    url: '/feliora-pl-images/feliora-kot-02-wylizany-brzuch.jpg',
+    imageHash: '',
     label: '📸 KIE RAW (#17/#20 Spalony knot 115°C) · Zbliżenie na przegrzany, czarny zwęglony knot zwykłego dyfuzora',
     adsetOrigin: 'Kie.ai Raw Native (Shit Quality)',
     adOrigin: 'S4-17 Spalony Knot',
@@ -712,9 +712,9 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "defaultImageId": "kie-feliora-s4-wtyczka-feliora-w-gniazdku-kot",
     "defaultImageUrl": "/feliora-pl-images/kie-feliora-s4-wtyczka-feliora-w-gniazdku-kot.jpg",
     "defaultImageHash": "e828b0b777bf998b35f34018a306eda3",
-    "defaultSecondImageId": "kie-feliora-s4-spalony-knot-zwykly-dyfuzor",
-    "defaultSecondImageUrl": "/feliora-pl-images/kie-feliora-s4-spalony-knot-zwykly-dyfuzor.jpg",
-    "defaultSecondImageHash": "c1cd0eebef48e24b1b6a84b912294bda"
+    "defaultSecondImageId": "feliora-kot-02-wylizany-brzuch",
+    "defaultSecondImageUrl": "/feliora-pl-images/feliora-kot-02-wylizany-brzuch.jpg",
+    "defaultSecondImageHash": ""
   },
   {
     "id": "fel-17-dlaczego-zwykly-dyfuzor-dziala-tylko-7-dni",
@@ -732,9 +732,9 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "recommendedFanpageName": "Koty Bez Ściemy",
     "vocTrigger": "„Pierwszy tydzień po wpięciu wtyczki kot był jak anioł, a w drugim tygodniu wszystko wróciło, choć w butelce była połowa płynu!”",
     "mechanismCore": "Tanie grzałki rozgrzewają knot powyżej 115°C, wypalając lekkie frakcje w 7 dni i utleniając resztę. Rdzeń ceramiczny 5W w Feliorze trzyma stałą temperaturę przez 30 dni.",
-    "defaultImageId": "kie-feliora-s4-spalony-knot-zwykly-dyfuzor",
-    "defaultImageUrl": "/feliora-pl-images/kie-feliora-s4-spalony-knot-zwykly-dyfuzor.jpg",
-    "defaultImageHash": "c1cd0eebef48e24b1b6a84b912294bda",
+    "defaultImageId": "feliora-kot-02-wylizany-brzuch",
+    "defaultImageUrl": "/feliora-pl-images/feliora-kot-02-wylizany-brzuch.jpg",
+    "defaultImageHash": "",
     "defaultSecondImageId": "kie-feliora-s4-wtyczka-feliora-w-gniazdku-kot",
     "defaultSecondImageUrl": "/feliora-pl-images/kie-feliora-s4-wtyczka-feliora-w-gniazdku-kot.jpg",
     "defaultSecondImageHash": "e828b0b777bf998b35f34018a306eda3"
@@ -801,9 +801,9 @@ export const FELIORA_PRESET_ANGLES: FelioraAnglePreset[] = [
     "recommendedFanpageName": "Dr. wet. Edmund Newelski",
     "vocTrigger": "„Jestem weterynarzem od 25 lat, a mój własny 6-letni kocur zaczął znaczyć po remoncie klatki schodowej.”",
     "mechanismCore": "Analiza wykazała w tanich zamiennikach rozwodnioną izoparafinę (<0,4% F3). Feliora ma pełne 5% stężenie M.A.P. + F3 w 48 ml wkładzie.",
-    "defaultImageId": "kie-feliora-s4-spalony-knot-zwykly-dyfuzor",
-    "defaultImageUrl": "/feliora-pl-images/kie-feliora-s4-spalony-knot-zwykly-dyfuzor.jpg",
-    "defaultImageHash": "c1cd0eebef48e24b1b6a84b912294bda",
+    "defaultImageId": "feliora-kot-02-wylizany-brzuch",
+    "defaultImageUrl": "/feliora-pl-images/feliora-kot-02-wylizany-brzuch.jpg",
+    "defaultImageHash": "",
     "defaultSecondImageId": "kie-feliora-s3-rozcieta-obrozka-i-20-pudelek",
     "defaultSecondImageUrl": "/feliora-pl-images/kie-feliora-s3-rozcieta-obrozka-i-20-pudelek.jpg",
     "defaultSecondImageHash": "a721e1b2e9fef557dc6f45633d7212a8"
@@ -1029,8 +1029,14 @@ export function sanitizeAndAuditFelioraPl(
 }
 
 export function buildAllFelioraPrewrittenAds(): FelioraPlGeneratedAd[] {
-  const now = 1792616400000;
+  const batch1Created = Date.parse('2026-10-22T18:00:00+02:00');
+  const batch1Updated = Date.parse('2026-10-23T20:00:00+02:00');
+  const batch2Created = Date.parse('2026-10-23T21:00:00+02:00');
+  const batch2Updated = Date.parse('2026-10-24T17:00:00+02:00');
   return FELIORA_PRESET_ANGLES.map((preset, idx) => {
+    const isBatch2 = preset.number >= 16;
+    const createdAt = (isBatch2 ? batch2Created : batch1Created) + idx * 60_000;
+    const updatedAt = (isBatch2 ? batch2Updated : batch1Updated) + idx * 60_000;
     const rawCopy = FELIORA_ALL_COPY[preset.id] || {
       headline: preset.title,
       description: '30-dniowa gwarancja zwrotu · Darmowy poradnik e-book w pakietach',
@@ -1062,8 +1068,8 @@ export function buildAllFelioraPrewrittenAds(): FelioraPlGeneratedAd[] {
       auditPassed: audited.auditPassed,
       auditWarnings: audited.auditWarnings,
       auditFixesApplied: audited.auditFixesApplied,
-      createdAt: now,
-      updatedAt: now,
+      createdAt,
+      updatedAt,
     };
   });
 }
