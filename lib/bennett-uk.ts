@@ -182,16 +182,16 @@ export const BENNETT_UK_STAGES: Record<BennettUkAwarenessStageId, BennettUkStage
   stage2_problem_aware: {
     id: 'stage2_problem_aware',
     stageNumber: 2,
-    shortLabel: 'Kąt 2 · Prostate 50+ (8)',
-    title: 'KĄT 2: MEN’S 50+ PROSTATE, TURP, FLOMAX & NIGHT FLOW (8 LFS · 35% Zasięgu Lunovyn)',
-    subtitle: 'Ojciec elektryk Brian Davies po operacji TURP, mąż odmawiający Flomaxu 4 lata, tamsulozyna i 6 wyrzuconych słoiczków żółtego oleju',
-    sophisticationLabel: 'Lunovyn Top Spenders #2 · 2,000mg Cold-Pressed Styrian Oil + Saw Palmetto',
+    shortLabel: 'Kąt 2 · Prostate 50+ (12)',
+    title: 'KĄT 2: MEN’S 50+ PROSTATE, TURP, FLOMAX & NIGHT FLOW (12 LFS · 5 Top Spenderów AdSpy USA Elivora + Lunovyn)',
+    subtitle: 'Top 5 AdSpy USA: #1 Urolog 3 Błędy Flomax (1,416👍), #2 Please Don’t Buy (1,359👍), #3 Mąż Odmówił Flomaxu 4 Lata (1,170👍 · BS-10), #4 14 Lat Urology Ward (221👍), #5 Urolog Odmówił Tamsulozyny (112👍)',
+    sophisticationLabel: 'AdSpy USA Top 5 Winners · 2,000mg Cold-Pressed Styrian Oil + Saw Palmetto',
     sophisticationLevel: 4,
     color: '#1d4ed8',
     bgLight: '#eff6ff',
     borderColor: '#bfdbfe',
     vocSummary:
-      'Brian Davies 52yo TURP 18 years, NHS nurse husband refused Flomax, tamsulosin June 2024 evening pint, 2 men same urologist, William Aikens 6 bottles & 1991 trial.',
+      'Elivora AdSpy USA Top 5: #1 Urologist Stop 3 Things (1,416 rx), #2 Please Don’t Buy (1,359 rx), #3 Husband Refused Flomax 4y (1,170 rx · BS-10), #4 Dangerous Foods Urology Ward (221 rx), #5 Urologist Refused Tamsulosin (112 rx).',
   },
   stage3_solution_aware: {
     id: 'stage3_solution_aware',
@@ -577,6 +577,39 @@ export const BENNETT_UK_IMAGE_LIBRARY: BennettUkImageAsset[] = [
     aspectRatio: '1:1',
     source: 'ai',
   },
+  {
+    id: 'elivora-tt-07-urologist-scrubs',
+    url: '/bennett-uk-images/Elivora_TT_07_facebook_1661284845612140.jpg',
+    imageHash: '',
+    label: 'LFS #31 · Senior Urologist in Teal Scrubs in Hospital Corridor (AdSpy USA #1 · 1,416👍)',
+    adsetOrigin: 'UK_PROSTATE_M50+',
+    adOrigin: 'bennett-31-elivora-urologist-stop-3-things-flomax',
+    aspectRatio: '1:1',
+    source: 'meta',
+    angleId: 'bennett-31-elivora-urologist-stop-3-things-flomax',
+  },
+  {
+    id: 'elivora-tt-14-urology-nurse-woodland',
+    url: '/bennett-uk-images/Elivora_TT_14_facebook_1432680771707425.jpg',
+    imageHash: '',
+    label: 'LFS #33 · NHS Urology Ward Nurse 14 Years (AdSpy USA #4 · 221👍)',
+    adsetOrigin: 'UK_PROSTATE_M50+',
+    adOrigin: 'bennett-33-elivora-dangerous-foods-urology-ward',
+    aspectRatio: '1:1',
+    source: 'meta',
+    angleId: 'bennett-33-elivora-dangerous-foods-urology-ward',
+  },
+  {
+    id: 'elivora-adspy-04-low-vs-powerful-flow',
+    url: '/bennett-uk-images/Elivora_AdSpy_04_Greg_Ellison_107_Likes.jpg',
+    imageHash: '',
+    label: 'LFS #34 · Low Flow vs Powerful Flow Prostate Cross-Section (AdSpy USA #5 · 112👍)',
+    adsetOrigin: 'UK_PROSTATE_M50+',
+    adOrigin: 'bennett-34-elivora-urologist-refused-tamsulosin',
+    aspectRatio: '1:1',
+    source: 'meta',
+    angleId: 'bennett-34-elivora-urologist-refused-tamsulosin',
+  },
 ];
 
 export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
@@ -794,14 +827,14 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     id: 'bennett-10-nhs-nurse-husband-refused-flomax',
     number: 10,
     code: 'BS-10',
-    title: 'My Husband Refused Flomax for 4 Years. Here Is What Happened to His Prostate (NHS Nurse 28 Years · 34d Winner)',
-    shortTitle: '#10 · NHS Nurse Husband Refused Flomax (34d Winner)',
+    title: 'My Husband Refused Flomax for 4 Years. Here Is What Happened to His Prostate (AdSpy USA #3 Top Spender · 1,170👍 + Lunovyn 34d Winner)',
+    shortTitle: '#10 · Husband Refused Flomax 4y (AdSpy #3 · 1,170👍)',
     stageId: 'stage2_problem_aware',
     stageNumber: 2,
     sophisticationLevel: 4,
-    sophisticationBadge: 'Mega-Winner Prostaty #2 · 34 Dni Emisji Non-Stop',
+    sophisticationBadge: 'AdSpy USA #3 Top Spender (1,170👍 / 93💬 / 139🔄) + 34d Winner',
     problemCluster: 'PROSTATE_MEN_50',
-    problemLabel: 'Mąż pielęgniarki NHS odmawiający tamsulozyny/Flomaxu i wstający 4 razy w nocy',
+    problemLabel: 'Mąż pielęgniarki NHS odmawiający tamsulozyny/Flomaxu i wstający 4 razy w nocy (identyczny wspólny winner Elivora USA + Lunovyn)',
     recommendedFanpageId: '1277952565400407',
     recommendedFanpageName: 'Over 50s Health & Wellbeing UK (Health Daily UK)',
     createdDate: '2026-10-27',
@@ -949,6 +982,100 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
     defaultImageId: 'bs-08-two-capsules-palm',
     defaultImageUrl: '/bennett-uk-images/08_Bennett_And_Seed_Two_Capsules_Palm_Macro.jpg',
+    defaultImageHash: '',
+  },
+
+  // ==================== ELIVORA ADSPY USA TOP 5 WINNERS (BS-31 to BS-34 + BS-10 above) ====================
+  {
+    id: 'bennett-31-elivora-urologist-stop-3-things-flomax',
+    number: 31,
+    code: 'BS-31',
+    title: 'I’m a Urologist, and Here Are 3 Things Men Over 50 Need to Stop Doing Immediately If They Keep Getting Up at Night (AdSpy USA #1 · 1,416👍)',
+    shortTitle: '#31 · AdSpy USA #1: Urologist Stop 3 Things (1,416👍)',
+    stageId: 'stage2_problem_aware',
+    stageNumber: 2,
+    sophisticationLevel: 4,
+    sophisticationBadge: 'AdSpy USA #1 Top Spender · 1,416 Reakcji (1,319👍 / 184💬 / 97🔄)',
+    problemCluster: 'PROSTATE_MEN_50',
+    problemLabel: '3 błędy mężczyzn 50+ przy nocnym wstawaniu: maskowanie objawów Flomaxem, sok żurawinowy i ignorowanie konwersji DHT',
+    recommendedFanpageId: 'fp-dr-claire-foster',
+    recommendedFanpageName: 'Dr Claire Foster',
+    createdDate: '2026-11-01',
+    updatedDate: '2026-11-01',
+    vocTrigger: '„I’m a urologist, and here are 3 things men over 50 need to stop doing immediately if they keep getting up to pee at night. Number 1: Stop taking Flomax...”',
+    mechanismCore: '2,000mg zimnotłoczonego oleju ze styryjskich pestek dyni + Saw Palmetto blokuje 5-alfa-reduktazę Typu I i II oraz dostarcza beta-sitosterol.',
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
+    defaultImageId: 'elivora-tt-07-urologist-scrubs',
+    defaultImageUrl: '/bennett-uk-images/Elivora_TT_07_facebook_1661284845612140.jpg',
+    defaultImageHash: '',
+  },
+  {
+    id: 'bennett-32-elivora-please-dont-buy-christopher',
+    number: 32,
+    code: 'BS-32',
+    title: 'Please Don’t Buy Bennett & Seed Pumpkin Seed Oil Softgels — We Didn’t Warn You What Sleeping Through the Night Feels Like (AdSpy USA #2 · 1,359👍)',
+    shortTitle: '#32 · AdSpy USA #2: Please Don’t Buy (1,359👍)',
+    stageId: 'stage2_problem_aware',
+    stageNumber: 2,
+    sophisticationLevel: 5,
+    sophisticationBadge: 'AdSpy USA #2 Top Spender · 1,359 Reakcji (1,313👍 / 76💬 / 100🔄)',
+    problemCluster: 'PROSTATE_MEN_50',
+    problemLabel: 'Reverse-psychology hook współzałożyciela o ojcu, który znikał z własnego życia przez nocne wstawanie, i wyprawie po zimnotłoczony olej do Styrii',
+    recommendedFanpageId: '1277952565400407',
+    recommendedFanpageName: 'Over 50s Health & Wellbeing UK (Health Daily UK)',
+    createdDate: '2026-11-01',
+    updatedDate: '2026-11-01',
+    vocTrigger: '„Please don’t buy Bennett & Seed Pumpkin Seed Oil softgels. We told you it would help your prostate. We didn’t warn you what it feels like to sleep through the night again...”',
+    mechanismCore: '2,000mg zimnotłoczonego oleju z austriackiej Styrii + Saw Palmetto (2 połówki tego samego problemu: mniej wytwarzanego DHT i blokada receptorów).',
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
+    defaultImageId: 'bs-08-two-capsules-palm',
+    defaultImageUrl: '/bennett-uk-images/08_Bennett_And_Seed_Two_Capsules_Palm_Macro.jpg',
+    defaultImageHash: '',
+  },
+  {
+    id: 'bennett-33-elivora-dangerous-foods-urology-ward',
+    number: 33,
+    code: 'BS-33',
+    title: 'Here Are the Most Dangerous Foods for Your Prostate — I Spent 14 Years on an NHS Urology Ward Watching Men Find Out Too Late (AdSpy USA #4 · 221👍)',
+    shortTitle: '#33 · AdSpy USA #4: Dangerous Foods Urology Ward (221👍)',
+    stageId: 'stage2_problem_aware',
+    stageNumber: 2,
+    sophisticationLevel: 4,
+    sophisticationBadge: 'AdSpy USA #4 Top Spender · 221 Reakcji (211👍 / 53💬 / 25🔄)',
+    problemCluster: 'PROSTATE_MEN_50',
+    problemLabel: '4 grupy żywności drażniące pęcherz i podbijające insulinę/DHT oraz cicha rekomendacja pielęgniarki z oddziału urologicznego',
+    recommendedFanpageId: '1327661883769549',
+    recommendedFanpageName: 'Graceful Ageing UK (Everyday Wellness UK)',
+    createdDate: '2026-11-01',
+    updatedDate: '2026-11-01',
+    vocTrigger: '„Here are the most dangerous foods for your prostate. I do not care if you do not believe me. I have spent 14 years on an NHS urology ward watching men find out too late...”',
+    mechanismCore: 'Połączenie eliminacji wyzwalaczy zapalnych z 2,000mg zimnotłoczonego oleju styryjskiego + 200mg Saw Palmetto wyciszającym sygnał wzrostu DHT.',
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
+    defaultImageId: 'elivora-tt-14-urology-nurse-woodland',
+    defaultImageUrl: '/bennett-uk-images/Elivora_TT_14_facebook_1432680771707425.jpg',
+    defaultImageHash: '',
+  },
+  {
+    id: 'bennett-34-elivora-urologist-refused-tamsulosin',
+    number: 34,
+    code: 'BS-34',
+    title: 'If You’re on Tamsulosin, You Should Know I’m a Urologist Who Refused It for My Own Prostate After Prescribing It to Thousands (AdSpy USA #5 · 112👍)',
+    shortTitle: '#34 · AdSpy USA #5: Urologist Refused Tamsulosin (112👍)',
+    stageId: 'stage2_problem_aware',
+    stageNumber: 2,
+    sophisticationLevel: 5,
+    sophisticationBadge: 'AdSpy USA #5 Top Spender · 112 Reakcji (107👍 / 8🔄)',
+    problemCluster: 'PROSTATE_MEN_50',
+    problemLabel: 'Chirurg urolog po 3,000 zabiegów odmawia tamsulozyny w wieku 54 lat, gdy sam zaczyna wstawać 4 razy w nocy',
+    recommendedFanpageId: 'fp-dr-claire-foster',
+    recommendedFanpageName: 'Dr Claire Foster',
+    createdDate: '2026-11-01',
+    updatedDate: '2026-11-01',
+    vocTrigger: '„If you’re on Tamsulosin, you should know I’m a consultant urologist who refused it for my own prostate after prescribing it to thousands of men...”',
+    mechanismCore: '2,000mg zimnotłoczonego oleju styryjskiego (rubinowy test na białym spodku) + Saw Palmetto uderzające w obie połówki problemu DHT.',
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
+    defaultImageId: 'elivora-adspy-04-low-vs-powerful-flow',
+    defaultImageUrl: '/bennett-uk-images/Elivora_AdSpy_04_Greg_Ellison_107_Likes.jpg',
     defaultImageHash: '',
   },
 
@@ -1352,10 +1479,10 @@ export function sanitizeAndAuditBennettUk(
     fixes.push('Removed Markdown asterisks and ™ symbols.');
   }
 
-  if (/\bLunovyn\b/i.test(primaryText) || /\bLunovyn\b/i.test(headline)) {
-    primaryText = primaryText.replace(/\bLunovyn\b/gi, 'Bennett & Seed');
-    headline = headline.replace(/\bLunovyn\b/gi, 'Bennett & Seed');
-    fixes.push('Replaced competitor brand Lunovyn with Bennett & Seed.');
+  if (/\b(Lunovyn|Elivora)\b/i.test(primaryText) || /\b(Lunovyn|Elivora)\b/i.test(headline)) {
+    primaryText = primaryText.replace(/\b(Lunovyn|Elivora)\b/gi, 'Bennett & Seed');
+    headline = headline.replace(/\b(Lunovyn|Elivora)\b/gi, 'Bennett & Seed');
+    fixes.push('Replaced competitor brand with Bennett & Seed.');
   }
 
   const wordCount = primaryText.split(/\s+/).filter(Boolean).length;
@@ -1375,7 +1502,7 @@ export function sanitizeAndAuditBennettUk(
 
 export function buildAllBennettUkPrewrittenAds(): BennettUkGeneratedAd[] {
   const baseCreated = Date.parse('2026-10-30T18:00:00+01:00');
-  const baseUpdated = Date.parse('2026-11-01T15:25:00+01:00');
+  const baseUpdated = Date.parse('2026-11-01T19:05:00+01:00');
   return BENNETT_UK_PRESET_ANGLES.map((preset, idx) => {
     const rawCopy = BENNETT_UK_ALL_COPY[preset.id] || {
       headline: preset.title,
@@ -1383,6 +1510,10 @@ export function buildAllBennettUkPrewrittenAds(): BennettUkGeneratedAd[] {
       primaryText: '',
     };
     const audited = sanitizeAndAuditBennettUk(rawCopy.primaryText, rawCopy.headline, rawCopy.description);
+    const isNewElivoraBatch = preset.number >= 31;
+    const timestampOffset = isNewElivoraBatch
+      ? (100 - preset.number) * 60_000
+      : (30 - idx) * 60_000;
     return {
       id: `bennett-uk-${preset.code.toLowerCase()}`,
       angleId: preset.id,
@@ -1407,8 +1538,8 @@ export function buildAllBennettUkPrewrittenAds(): BennettUkGeneratedAd[] {
       auditPassed: audited.auditPassed,
       auditWarnings: audited.auditWarnings,
       auditFixesApplied: audited.auditFixesApplied,
-      createdAt: baseCreated + (30 - idx) * 60_000,
-      updatedAt: baseUpdated + (30 - idx) * 60_000,
+      createdAt: (isNewElivoraBatch ? baseUpdated : baseCreated) + timestampOffset,
+      updatedAt: baseUpdated + timestampOffset,
     };
   });
 }
