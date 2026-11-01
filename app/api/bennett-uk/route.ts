@@ -28,7 +28,7 @@ export const maxDuration = 300;
 
 const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
 const LEGACY_STATE_KEY_V8 = 'bennett-uk-lfs-v8-34-stories-1x1-fixed';
-const STATE_KEY = 'bennett-uk-lfs-v10-carys-morgan-fosters';
+const STATE_KEY = 'bennett-uk-lfs-v11-connected-fanpages';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-01T19:53:00+01:00');
 
 interface BennettUkLibraryState {
@@ -36,61 +36,99 @@ interface BennettUkLibraryState {
   customImages?: BennettUkImageAsset[];
 }
 
-async function resolveMetaAuth(): Promise<{ token: string; proof?: string }> {
-  try {
-    const token = await metaToken();
-    return { token, proof: await metaProof(token) };
-  } catch {
-    try {
-      const token = await inOwnerWorkspace(() => metaToken());
-      return { token, proof: await inOwnerWorkspace(() => metaProof(token)) };
-    } catch {
-      const { accountRegistry } = await import('@/lib/account-repository');
-      const { inWorkspace } = await import('@/lib/account-context');
-      const reg = await accountRegistry();
-      for (const u of Object.values(reg.users || {})) {
-        try {
-          const token = await inWorkspace(u, () => metaToken());
-          const proof = await inWorkspace(u, () => metaProof(token));
-          return { token, proof };
-        } catch {
-          // continue
-        }
-      }
-      throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
+async function resolveAllMetaAuthCandidates(): Promise<Array<{ token: string; proof?: string }>> {
+  const candidates: Array<{ token: string; proof?: string }> = [];
+  const addCandidate = (token: string | undefined, proof?: string) => {
+    const clean = (token || '').trim();
+    if (!clean) return;
+    if (!candidates.some(c => c.token === clean)) {
+      candidates.push({ token: clean, proof });
     }
+  };
+
+  try {
+    const t = await metaToken();
+    addCandidate(t, await metaProof(t).catch(() => undefined));
+  } catch {
+    // ignore
   }
+  try {
+    const t = await inOwnerWorkspace(() => metaToken());
+    addCandidate(t, await inOwnerWorkspace(() => metaProof(t)).catch(() => undefined));
+  } catch {
+    // ignore
+  }
+  try {
+    const { accountRegistry } = await import('@/lib/account-repository');
+    const { inWorkspace } = await import('@/lib/account-context');
+    const reg = await accountRegistry();
+    for (const u of Object.values(reg.users || {})) {
+      try {
+        const t = await inWorkspace(u, () => metaToken());
+        const p = await inWorkspace(u, () => metaProof(t)).catch(() => undefined);
+        addCandidate(t, p);
+      } catch {
+        // continue
+      }
+    }
+  } catch {
+    // ignore
+  }
+  if (process.env.META_ACCESS_TOKEN) {
+    addCandidate(process.env.META_ACCESS_TOKEN, undefined);
+  }
+  if (!candidates.length) {
+    throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
+  }
+  return candidates;
 }
+
+let cachedWorkingAuth: { token: string; proof?: string } | null = null;
 
 async function directGraph<T = Record<string, unknown>>(
   graphPath: string,
   params: Record<string, unknown> = {},
   method: 'GET' | 'POST' = 'GET',
 ): Promise<T> {
-  const { token, proof } = await resolveMetaAuth();
-  const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
-  const body = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+  const allCandidates = await resolveAllMetaAuthCandidates();
+  const candidates = cachedWorkingAuth
+    ? [cachedWorkingAuth, ...allCandidates.filter(c => c.token !== cachedWorkingAuth!.token)]
+    : allCandidates;
+  let lastError: Error | undefined;
+
+  for (const { token, proof } of candidates) {
+    const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
+    const body = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) {
+      if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+    }
+    if (proof) body.set('appsecret_proof', proof);
+    if (method === 'GET') url.search = body.toString();
+    const r = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
+      },
+      body: method === 'POST' ? body : undefined,
+      cache: 'no-store',
+      signal: AbortSignal.timeout(45000),
+    });
+    const data = (await r.json()) as Record<string, unknown>;
+    if (!r.ok || data.error) {
+      const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
+      const code = e?.code || r.status;
+      const subcode = e?.error_subcode || 0;
+      lastError = new Error(`Meta (${code}/${subcode}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
+      if (code === 190 || (code === 100 && subcode === 33) || subcode === 1815199) {
+        continue;
+      }
+      throw lastError;
+    }
+    cachedWorkingAuth = { token, proof };
+    return data as T;
   }
-  if (proof) body.set('appsecret_proof', proof);
-  if (method === 'GET') url.search = body.toString();
-  const r = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
-    },
-    body: method === 'POST' ? body : undefined,
-    cache: 'no-store',
-    signal: AbortSignal.timeout(45000),
-  });
-  const data = (await r.json()) as Record<string, unknown>;
-  if (!r.ok || data.error) {
-    const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
-    throw new Error(`Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
-  }
-  return data as T;
+  throw lastError || new Error('Meta API request failed');
 }
 
 async function ensureMetaImageHash(imageUrl: string, existingHash?: string): Promise<string> {
@@ -676,7 +714,15 @@ export const POST = accountRoute(async (req: Request) => {
     }
 
     if (action === 'sync_fanpages') {
-      const discoveredPages: Record<string, { id: string; name: string }> = {};
+      const discoveredPages: Record<string, { id: string; name: string }> = {
+        'fp-dr-claire-foster': { id: '1424554760734318', name: 'Dr Claire Foster' },
+        'fp-dr-richard-foster-urology': { id: '1432534613265585', name: 'Richard Foster' },
+        'fp-margaret-h-uk': { id: '1415703161625474', name: 'Carys Morgan' },
+        'fp-david-t-yorkshire': { id: '1402524776268549', name: 'David T. Yorkshire Notes' },
+        'fp-bennett-seed-uk': { id: '1327661883769549', name: 'Bennett & Seed UK' },
+        '1327661883769549': { id: '1327661883769549', name: 'Bennett & Seed UK' },
+        '1277952565400407': { id: '1277952565400407', name: 'Over 50s Health & Wellbeing UK (Health Daily UK)' },
+      };
       const allCandidatePages: Array<{ id: string; name: string }> = [];
 
       for (const endpoint of [
@@ -704,7 +750,10 @@ export const POST = accountRoute(async (req: Request) => {
         if (n.includes('claire foster') || n.includes('helen ward') || n.includes('rebecca')) {
           discoveredPages['fp-dr-claire-foster'] = { id: p.id, name: p.name };
         }
-        if (n.includes('margaret') || n.includes('catherine')) {
+        if (n.includes('richard foster')) {
+          discoveredPages['fp-dr-richard-foster-urology'] = { id: p.id, name: p.name };
+        }
+        if (n.includes('carys morgan') || n.includes('carys') || n.includes('margaret') || n.includes('catherine')) {
           discoveredPages['fp-margaret-h-uk'] = { id: p.id, name: p.name };
         }
         if (n.includes('david') || n.includes('yorkshire') || n.includes('arthur') || n.includes('mark reynolds')) {
@@ -725,11 +774,12 @@ export const POST = accountRoute(async (req: Request) => {
 
     if (action === 'audit_meta') {
       const pageIds = [
-        '1287239777799682',
-        '798916893308685',
-        '1194345203770949',
-        '1363490303507686',
-        '1338513126001175',
+        '1424554760734318', // Dr Claire Foster
+        '1432534613265585', // Richard Foster
+        '1415703161625474', // Carys Morgan
+        '1402524776268549', // David T. Yorkshire Notes
+        '1327661883769549', // Bennett & Seed UK
+        '1277952565400407', // Over 50s Health & Wellbeing UK (Health Daily UK)
       ];
       const [accountInfo, pagesInfo, pixelInfo, pixelStats, campaignsInsights7d, campaignsInsightsToday, issueAds] =
         await Promise.all([
@@ -805,19 +855,21 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       let campaignId = body.campaignId || BENNETT_UK_META_NATIVE_CAMPAIGN_ID;
-      if (campaignId === 'CREATE_NEW_DOG_CBO') {
+      if (campaignId === 'CREATE_NEW_DOG_CBO' || campaignId === 'CREATE_NEW_UK_CBO' || !campaignId) {
         const existingCamps = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
           `act_${BENNETT_UK_META_ACCOUNT_ID}/campaigns`,
           { fields: 'id,name', limit: 50 },
         ).catch(() => ({ data: [] }));
-        const foundDogNative = (existingCamps.data || []).find(c => c.name === 'FEL PSY NATIVE');
-        if (foundDogNative?.id) {
-          campaignId = foundDogNative.id;
+        const foundUkNative = (existingCamps.data || []).find(
+          c => c.name === 'BENNETT UK NATIVE' || c.name.includes('BENNETT'),
+        );
+        if (foundUkNative?.id) {
+          campaignId = foundUkNative.id;
         } else {
           const newCamp = await directGraph<{ id: string }>(
             `act_${BENNETT_UK_META_ACCOUNT_ID}/campaigns`,
             {
-              name: 'FEL PSY NATIVE',
+              name: 'BENNETT UK NATIVE',
               objective: 'OUTCOME_SALES',
               status: 'PAUSED',
               special_ad_categories: [],
@@ -830,24 +882,26 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
-      const templateAdSetId = body.templateAdSetId || '120250116221480298'; // Active Dog Ad Set in pieski fel (fallback 120250036346090298)
-      const adSetName = (body.adSetName || `01.11 - FELIORA PSY ANTEK BATCH (${selectedAds.length}x)`).trim();
-      const urlMode = body.urlMode || 'pdp';
+      const templateAdSetId = body.templateAdSetId || '120250116221480298';
+      const adSetName = (body.adSetName || `02.11 - BENNETT UK ANTEK BATCH (${selectedAds.length}x)`).trim();
       const adStatus = body.adStatus || 'PAUSED';
 
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
         fields:
           'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
-      }).catch(() =>
-        directGraph<Record<string, unknown>>('120250036346090298', {
-          fields: 'targeting,optimization_goal,billing_event,promoted_object,attribution_spec,destination_type',
-        }),
-      );
+      }).catch(() => ({} as Record<string, unknown>));
 
-      const rawTargeting = (source.targeting ? JSON.parse(JSON.stringify(source.targeting)) : {}) as Record<
-        string,
-        unknown
-      >;
+      const rawTargeting = (
+        source.targeting
+          ? JSON.parse(JSON.stringify(source.targeting))
+          : {
+              geo_locations: { countries: ['GB'] },
+              age_min: 45,
+              age_max: 65,
+              publisher_platforms: ['facebook'],
+              facebook_positions: ['feed', 'video_feeds', 'facebook_reels', 'story'],
+            }
+      ) as Record<string, unknown>;
       if (Array.isArray(rawTargeting.instagram_positions)) {
         const cleanedIgPos = (rawTargeting.instagram_positions as string[]).filter(
           pos => pos !== 'explore' && pos !== 'explore_home',
@@ -890,7 +944,7 @@ export const POST = accountRoute(async (req: Request) => {
             status: adStatus,
             optimization_goal: source.optimization_goal || 'OFFSITE_CONVERSIONS',
             billing_event: source.billing_event || 'IMPRESSIONS',
-            promoted_object: source.promoted_object || {
+            promoted_object: {
               pixel_id: resolvedAdSetPixelId,
               custom_event_type: 'PURCHASE',
             },
@@ -906,7 +960,18 @@ export const POST = accountRoute(async (req: Request) => {
       }
 
       const discoveredPages: Record<string, string> = {
-        'fp-bennett-seed-uk': '1338513126001175',
+        'fp-dr-claire-foster': '1424554760734318',
+        'fp-dr-richard-foster-urology': '1432534613265585',
+        'fp-margaret-h-uk': '1415703161625474',
+        'fp-david-t-yorkshire': '1402524776268549',
+        'fp-bennett-seed-uk': '1327661883769549',
+        '1338513126001175': '1327661883769549',
+        '1424554760734318': '1424554760734318',
+        '1432534613265585': '1432534613265585',
+        '1415703161625474': '1415703161625474',
+        '1402524776268549': '1402524776268549',
+        '1327661883769549': '1327661883769549',
+        '1277952565400407': '1277952565400407',
       };
       for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${BENNETT_UK_META_ACCOUNT_ID}/promote_pages`]) {
         try {
@@ -937,22 +1002,24 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
+      // Per Rule #2: All 6 UK pages have no dedicated IG actor — never attach mismatched Polish IG IDs.
       const BENNETT_UK_PAGE_ACTORS: Record<string, { instagram_user_id?: string; threads_user_id?: string }> = {
-        '1338513126001175': { instagram_user_id: '17841437606417391', threads_user_id: '17841467398928017' }, // Bennett & Seed UK
-        '1327661883769549': {}, // Graceful Ageing UK (FB Page only — omit mismatched IG ID per Rule #2)
-        '1277952565400407': {}, // Over 50s Health & Wellbeing UK (FB Page only — omit mismatched IG ID per Rule #2)
+        '1424554760734318': {}, // Dr Claire Foster (FB Page only)
+        '1432534613265585': {}, // Richard Foster (FB Page only)
+        '1415703161625474': {}, // Carys Morgan (FB Page only)
+        '1402524776268549': {}, // David T. Yorkshire Notes (FB Page only)
+        '1327661883769549': {}, // Bennett & Seed UK (FB Page only)
+        '1277952565400407': {}, // Over 50s Health & Wellbeing UK (FB Page only)
       };
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
-        const defaultFallbackUkPage =
-          ad.problemCluster === 'BOFU_BRAND_OFFER' ? '1338513126001175' : '1327661883769549';
+        const defaultFallbackUkPage = '1327661883769549'; // Bennett & Seed UK
         const rawPageId = (body.pageId || ad.pageId || defaultFallbackUkPage).trim();
-        const resolvedPageId = /^\d+$/.test(rawPageId)
-          ? rawPageId
-          : discoveredPages[rawPageId] || defaultFallbackUkPage;
+        const resolvedPageId =
+          discoveredPages[rawPageId] || (/^\d+$/.test(rawPageId) ? rawPageId : defaultFallbackUkPage);
         const fpMeta = BENNETT_UK_FANPAGES.find(f => f.id === rawPageId || f.id === resolvedPageId);
-        const resolvedPageName = fpMeta?.name || ad.pageName || 'Graceful Ageing UK';
+        const resolvedPageName = fpMeta?.name || ad.pageName || 'Bennett & Seed UK';
         const actors = BENNETT_UK_PAGE_ACTORS[resolvedPageId];
         const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
         const targetLink = ad.destinationUrl || BENNETT_UK_DEFAULT_URL || BENNETT_UK_PDP_URL;
@@ -1018,10 +1085,10 @@ export const POST = accountRoute(async (req: Request) => {
       });
     }
 
-    return NextResponse.json({ error: 'Nieznana akcja API Bennett & Seed UK PL (Psy).' }, { status: 400 });
+    return NextResponse.json({ error: 'Nieznana akcja API Bennett & Seed UK.' }, { status: 400 });
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Błąd w API Bennett & Seed UK PL (Psy).' },
+      { error: err instanceof Error ? err.message : 'Błąd w API Bennett & Seed UK.' },
       { status: 500 },
     );
   }
