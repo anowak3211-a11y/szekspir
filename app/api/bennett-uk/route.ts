@@ -686,14 +686,24 @@ export const POST = accountRoute(async (req: Request) => {
 
       for (const p of allCandidatePages) {
         const n = (p.name || '').toLowerCase();
-        if (n.includes('psy bez ściemy') || n.includes('psy bez sciemy') || n.includes('psiarze')) {
-          discoveredPages['fp-psy-bez-sciemy'] = { id: p.id, name: p.name };
+        if (n.includes('claire foster') || n.includes('helen ward') || n.includes('rebecca')) {
+          discoveredPages['fp-dr-claire-foster'] = { id: p.id, name: p.name };
+        }
+        if (n.includes('margaret') || n.includes('catherine')) {
+          discoveredPages['fp-margaret-h-uk'] = { id: p.id, name: p.name };
+        }
+        if (n.includes('david') || n.includes('yorkshire') || n.includes('arthur') || n.includes('mark reynolds')) {
+          discoveredPages['fp-david-t-yorkshire'] = { id: p.id, name: p.name };
+        }
+        if (n.includes('bennett & seed') || n.includes('bennett and seed') || n.includes('bennett seed')) {
+          discoveredPages['fp-bennett-seed-uk'] = { id: p.id, name: p.name };
         }
       }
 
       return NextResponse.json({
         ok: true,
         discoveredPages,
+        allCandidatePages,
         totalMetaPagesChecked: allCandidatePages.length,
       });
     }
