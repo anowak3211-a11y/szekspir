@@ -264,14 +264,19 @@ export const ANTKI_DOROSLI_ADSET_BLUEPRINTS: Omit<AntkiAdSetGroup, 'adSetId' | '
  {
   code: 'D6_ZAL',
   label: 'D6 ŻAL',
-  shortRange: '61-65 (D26-D30)',
-  description: 'D26 śruby · D27 siostra · D28 uchwyt · D29 za 5 lat · D30 artroskopia',
+  shortRange: '61-65 + 71-75 (D26-D30 + ZAL_V2)',
+  description: 'D26 śruby · D27 siostra · D28 uchwyt · D29 za 5 lat · D30 artroskopia · ZAL_V2 01-05',
   angleIds: [
    'dorosli-26-zal-lewa-stopa-sruby-8200zl',
    'dorosli-27-zal-haluks-siostry-wrocil',
    'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata',
    'dorosli-29-zal-za-5-lat-endoproteza',
    'dorosli-30-zal-artroskopia-kolana-powrot-bolu',
+   'zal-v2-01-skierowanie-szpital',
+   'zal-v2-02-dwa-rtg-kolano-stopa',
+   'zal-v2-03-pudelko-wstydu-2140zl',
+   'zal-v2-04-szczudla-6-rano-korytarz',
+   'zal-v2-05-skutek-vs-przyczyna-lustro',
   ],
  },
  {
@@ -848,6 +853,16 @@ export const ANTKI_CC35_DEFAULT_ADSETS: Record<string, string> = {
  ZIMA: '120249912194980300',
 };
 
+export const ANTKI_DOROSLI_CC30_DEFAULT_ADSETS: Record<string, string> = {
+ D1_SOR: '120249967753480300',
+ D2_MAMA: '120249967754700300',
+ D3_RYCIAK: '120249967755830300',
+ D4_OSTROGA: '120249967757360300',
+ D5_HALUKS: '120249967758790300',
+ D6_ZAL: '120249967760080300',
+ D7_PRACA: '120249967760660300',
+};
+
 type SavedAntkiAdEntry = {
  id?: string;
  angleId?: string;
@@ -873,6 +888,7 @@ type SavedAntkiState = {
 };
 
 const ANTKI_STATE_KEYS = [
+ 'antki-pl-library-v13-zal-v2',
  'antki-pl-library-v12-suma-pln',
  'antki-pl-library-v11-kie-hooks',
  'antki-pl-library-v10-kie-clean',
@@ -1127,25 +1143,25 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  let dorosliStructure: AntkiCampaignStructure | null = null;
  if (batch === 'dorosli') {
   dorosliStructure = await readAntkiCostCapCampaign('dorosli');
-  if ((!dorosliStructure || dorosliStructure.accountId !== accountId) && opts.autoCreateCampaign !== false) {
+  if ((!dorosliStructure || dorosliStructure.accountId !== accountId) && opts.autoCreateCampaign === true && !opts.campaignId) {
    dorosliStructure = await createAntkiCostCapCampaign({
     batch: 'dorosli',
     accountId,
     campaignName: typeof opts.campaignName === 'string' && opts.campaignName.trim() ? opts.campaignName.trim() : 'ANTKI DOROSLI CC30',
-    costCapPln: Number(opts.costCapPln ?? 35),
+    costCapPln: Number(opts.costCapPln ?? 40),
     dailyBudgetPln: Number(opts.dailyBudgetPln ?? 1500),
     forceNew: false,
    });
   }
  }
 
- const targetCostCapPln = Number(opts.costCapPln ?? 35);
- const targetBidMinor = Math.round((Number.isFinite(targetCostCapPln) && targetCostCapPln > 0 ? targetCostCapPln : 35) * 100);
+ const targetCostCapPln = Number(opts.costCapPln ?? 40);
+ const targetBidMinor = Math.round((Number.isFinite(targetCostCapPln) && targetCostCapPln > 0 ? targetCostCapPln : 40) * 100);
 
  const campaignId = numericId(
   String(
    opts.campaignId ||
-    (batch === 'dorosli' && dorosliStructure?.campaignId ? dorosliStructure.campaignId : '120249912191200300'),
+    (batch === 'dorosli' ? dorosliStructure?.campaignId || '120249967753030300' : '120249912191200300'),
   ),
   'campaign',
  );
@@ -1187,12 +1203,17 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   'dorosli-23-haluks-separatory-i-szyny-mit': '1194345203770949',
   'dorosli-24-haluks-zdarte-buty-od-srodka': '1194345203770949',
   'dorosli-25-haluks-mokry-slad-w-lazience': '1194345203770949',
-  // D6_ZAL (D26-D30) -> Iwona Kożuchowska
+  // D6_ZAL (D26-D30 + ZAL_V2 01-05) -> Iwona Kożuchowska
   'dorosli-26-zal-lewa-stopa-sruby-8200zl': '1194345203770949',
   'dorosli-27-zal-haluks-siostry-wrocil': '1194345203770949',
   'dorosli-28-zal-uchwyt-pod-prysznicem-52-lata': '1194345203770949',
   'dorosli-29-zal-za-5-lat-endoproteza': '1194345203770949',
   'dorosli-30-zal-artroskopia-kolana-powrot-bolu': '1194345203770949',
+  'zal-v2-01-skierowanie-szpital': '1194345203770949',
+  'zal-v2-02-dwa-rtg-kolano-stopa': '1194345203770949',
+  'zal-v2-03-pudelko-wstydu-2140zl': '1194345203770949',
+  'zal-v2-04-szczudla-6-rano-korytarz': '1194345203770949',
+  'zal-v2-05-skutek-vs-przyczyna-lustro': '1194345203770949',
   // D7_PRACA (D31, D33 -> Dziennik Zdrowego Ciała; D32, D34, D35 -> Centrum Dobrego Kroku)
   'dorosli-31-praca-8h-na-nogach-kuchnia': '945290751994002',
   'dorosli-32-praca-mit-twardych-wkladek-400zl': '866702399857726',
@@ -1316,7 +1337,10 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
  const activeBlueprints = batch === 'dorosli' ? ANTKI_DOROSLI_ADSET_BLUEPRINTS : ANTKI_PL_ADSET_BLUEPRINTS;
  const adSetIdMap: Record<string, string> =
   batch === 'dorosli'
-   ? Object.fromEntries((dorosliStructure?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!]))
+   ? {
+      ...ANTKI_DOROSLI_CC30_DEFAULT_ADSETS,
+      ...Object.fromEntries((dorosliStructure?.groups || []).filter(g => g.adSetId).map(g => [g.code, g.adSetId!])),
+     }
    : ANTKI_CC35_DEFAULT_ADSETS;
 
  const urlHashCache = new Map<string, string>();
@@ -1419,10 +1443,12 @@ export async function populateAntkiAdsInCampaign(raw: unknown = {}) {
   const adSetId = adSetIdMap[bp.code];
   if (!adSetId) continue;
 
-  try {
-   await directGraph(adSetId, { bid_amount: targetBidMinor }, 'POST');
-  } catch {
-   // Continue even if adset bid update is skipped
+  if (Boolean(opts.updateCostCap)) {
+   try {
+    await directGraph(adSetId, { bid_amount: targetBidMinor }, 'POST');
+   } catch {
+    // Continue even if adset bid update is skipped
+   }
   }
 
   for (const angleId of bp.angleIds) {
