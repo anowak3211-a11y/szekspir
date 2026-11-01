@@ -73,10 +73,22 @@ export default function SardianPlWorkspace({
   const [editDirty, setEditDirty] = useState(false);
   const [savingEdit, setSavingEdit] = useState(false);
 
-  // Image Picker Modal
-  const [showImagePicker, setShowImagePicker] = useState(false);
+  // Image Picker & AI Photo Generator state
+  const [showImagePicker, setShowImagePicker] = useState(true);
+  const [showFullGalleryModal, setShowFullGalleryModal] = useState(false);
+  const [galleryFilter, setGalleryFilter] = useState<'all' | 'for_angle' | 'ai_generated'>('all');
+  const [lightboxAsset, setLightboxAsset] = useState<SardianImageAsset | null>(null);
   const customFileRef = useRef<HTMLInputElement | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+
+  // AI Native Photo Batch & Custom Generator
+  const [generatingKie, setGeneratingKie] = useState(false);
+  const [kieProgressText, setKieProgressText] = useState('');
+  const [kieBatchCount, setKieBatchCount] = useState<4 | 8 | 12>(8);
+  const [kieCustomPrompt, setKieCustomPrompt] = useState('');
+  const [kieCustomCount, setKieCustomCount] = useState<1 | 4 | 8>(4);
+  const [kieIncludeProductRef, setKieIncludeProductRef] = useState(true);
+  const [kieAutoAssign, setKieAutoAssign] = useState(true);
 
   // Meta Push state
   const [pushCampaignId, setPushCampaignId] = useState<string>(SARDIAN_META_NATIVE_CAMPAIGN_ID);
@@ -273,6 +285,230 @@ export default function SardianPlWorkspace({
     } finally {
       setUploadingImage(false);
       if (customFileRef.current) customFileRef.current.value = '';
+    }
+  };
+
+  const filteredGalleryImages = useMemo(() => {
+    if (galleryFilter === 'for_angle' && activePreset) {
+      const matched = imageLibrary.filter(
+        img =>
+          img.angleId === activePreset.id ||
+          img.id === activePreset.defaultImageId ||
+          img.label.toLowerCase().includes(activePreset.code.toLowerCase()),
+      );
+      return matched.length > 0 ? matched : imageLibrary;
+    }
+    if (galleryFilter === 'ai_generated') {
+      return imageLibrary.filter(img => img.id.startsWith('kie-sardian-') || img.id.startsWith('sardian-custom-'));
+    }
+    return imageLibrary;
+  }, [imageLibrary, galleryFilter, activePreset]);
+
+  const pollKieTasks = async (
+    tasks: Array<{
+      taskId: string;
+      angleId?: string;
+      label: string;
+      prompt: string;
+      autoAssign?: boolean;
+    }>,
+    batchDescription: string,
+  ) => {
+    let completed = 0;
+    setKieProgressText(`Generowanie w Kie.ai (0/${tasks.length}): ${batchDescription}...`);
+    await Promise.all(
+      tasks.map(async t => {
+        for (let attempt = 0; attempt < 48; attempt++) {
+          await new Promise(r => setTimeout(r, 3500));
+          try {
+            const pollRes = await fetch('/api/sardian-pl', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'poll_kie_image',
+                taskId: t.taskId,
+                angleId: t.angleId || activePreset?.id || '',
+                label: t.label,
+                prompt: t.prompt,
+                autoAssign: t.autoAssign,
+              }),
+            });
+            const pollData = await pollRes.json();
+            if (pollData.state === 'success' && pollData.asset) {
+              completed += 1;
+              setKieProgressText(`Wygenerowano ${completed}/${tasks.length} zdjęć AI (${batchDescription})...`);
+              if (Array.isArray(pollData.imageLibrary)) {
+                setImageLibrary(pollData.imageLibrary);
+              }
+              if (Array.isArray(pollData.savedAds)) {
+                setAds(pollData.savedAds);
+              }
+              break;
+            }
+            if (pollData.state === 'fail') break;
+          } catch {
+            // continue polling
+          }
+        }
+      }),
+    );
+    return completed;
+  };
+
+  const handleGenerateKieScriptBatch = async (customCount?: 4 | 8 | 12) => {
+    if (!activePreset || !activeAd) return;
+    const countToGen = customCount || kieBatchCount;
+    setGeneratingKie(true);
+    setError('');
+    setNotice('');
+    setKieProgressText(`Planowanie ${countToGen} scen z copy ${activePreset.code} i wysyłka do Kie.ai...`);
+    try {
+      const res = await fetch('/api/sardian-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_kie_images',
+          isManual: true,
+          mode: 'script_batch',
+          angleId: activePreset.id,
+          primaryText: editPrimaryText || activeAd.primaryText,
+          headline: editHeadline || activeAd.headline,
+          title: activePreset.title,
+          count: countToGen,
+          includeProductRef: kieIncludeProductRef,
+          autoAssign: kieAutoAssign,
+          aspectRatio: '1:1',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
+        throw new Error(data.error || 'Błąd uruchamiania generatora zdjęć AI.');
+      }
+      setShowImagePicker(true);
+      const completed = await pollKieTasks(data.tasks, `${countToGen} zdjęć do ${activePreset.code}`);
+      if (completed > 0) {
+        setNotice(`Wygenerowano ${completed}/${data.tasks.length} nowych zdjęć Raw iPhone 1:1 dla ${activePreset.code}!`);
+      } else {
+        setError('Zadania Kie.ai przekroczyły czas oczekiwania lub nie zwróciły obrazu.');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd generowania batchu zdjęć AI.');
+    } finally {
+      setGeneratingKie(false);
+      setKieProgressText('');
+    }
+  };
+
+  const handleGenerateKieCustomPrompt = async () => {
+    if (!kieCustomPrompt.trim()) {
+      setError('Wpisz opis własnego zdjęcia (po polsku lub angielsku) przed uruchomieniem generacji.');
+      return;
+    }
+    setGeneratingKie(true);
+    setError('');
+    setNotice('');
+    setKieProgressText(`Wysyłanie ${kieCustomCount} własnych ujęć do Kie.ai...`);
+    try {
+      const res = await fetch('/api/sardian-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_kie_images',
+          isManual: true,
+          mode: 'custom_prompt',
+          angleId: activePreset?.id || '',
+          customPrompt: kieCustomPrompt.trim(),
+          count: kieCustomCount,
+          includeProductRef: kieIncludeProductRef,
+          autoAssign: kieAutoAssign,
+          aspectRatio: '1:1',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
+        throw new Error(data.error || 'Błąd uruchamiania własnej generacji AI.');
+      }
+      setShowImagePicker(true);
+      const completed = await pollKieTasks(data.tasks, `Własny prompt (${kieCustomCount} szt.)`);
+      if (completed > 0) {
+        setNotice(`Wygenerowano ${completed}/${data.tasks.length} własnych zdjęć Raw iPhone 1:1 i dodano do biblioteki!`);
+      } else {
+        setError('Zadania Kie.ai przekroczyły czas oczekiwania.');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd generowania własnych zdjęć.');
+    } finally {
+      setGeneratingKie(false);
+      setKieProgressText('');
+    }
+  };
+
+  const handleGenerateKieMultiAngleBatch = async () => {
+    const targetIds =
+      selectedAngleIds.length > 0
+        ? selectedAngleIds.slice(0, 15)
+        : filteredPresets.slice(0, 12).map(p => p.id);
+    if (!targetIds.length) {
+      setError('Zaznacz kreacje na liście po lewej stronie, dla których chcesz wygenerować nowy batch zdjęć.');
+      return;
+    }
+    setGeneratingKie(true);
+    setError('');
+    setNotice('');
+    setKieProgressText(`Planowanie i uruchamianie nowego batchu (${targetIds.length} zdjęć do ${targetIds.length} kopii)...`);
+    try {
+      const res = await fetch('/api/sardian-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_kie_images',
+          isManual: true,
+          mode: 'multi_angle_batch',
+          angleIds: targetIds,
+          includeProductRef: kieIncludeProductRef,
+          aspectRatio: '1:1',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data.tasks) || data.tasks.length === 0) {
+        throw new Error(data.error || 'Błąd uruchamiania batchu dla wielu kopii.');
+      }
+      setShowImagePicker(true);
+      const completed = await pollKieTasks(data.tasks, `Batch do ${targetIds.length} kopii`);
+      if (completed > 0) {
+        setNotice(
+          `Wygenerowano i automatycznie przypisano ${completed}/${data.tasks.length} nowych zdjęć do wybranych kopii!`,
+        );
+      } else {
+        setError('Nie udało się pobrać wyników z Kie.ai.');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Błąd generowania batchu dla wielu kopii.');
+    } finally {
+      setGeneratingKie(false);
+      setKieProgressText('');
+    }
+  };
+
+  const handleDeleteCustomImage = async (asset: SardianImageAsset, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const res = await fetch('/api/sardian-pl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'delete_image',
+          assetId: asset.id,
+          imageUrl: asset.url,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && Array.isArray(data.imageLibrary)) {
+        setImageLibrary(data.imageLibrary);
+        setNotice(`Usunięto zdjęcie „${asset.label}” z biblioteki.`);
+      }
+    } catch {
+      // ignore
     }
   };
 
@@ -747,7 +983,7 @@ export default function SardianPlWorkspace({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '360px 1fr 420px',
+            gridTemplateColumns: '350px 1fr 560px',
             gap: 18,
             alignItems: 'start',
           }}
@@ -1250,36 +1486,36 @@ export default function SardianPlWorkspace({
                   >
                     <button
                       type="button"
-                      onClick={() => setShowImagePicker(!showImagePicker)}
+                      onClick={() => setShowFullGalleryModal(true)}
                       style={{
-                        padding: '7px 11px',
+                        padding: '8px 12px',
                         borderRadius: 8,
-                        border: 'none',
-                        background: 'rgba(15, 23, 42, 0.88)',
+                        border: '1px solid #f59e0b',
+                        background: 'rgba(15, 23, 42, 0.92)',
                         color: '#fcd34d',
-                        fontWeight: 700,
-                        fontSize: 11,
+                        fontWeight: 800,
+                        fontSize: 11.5,
                         cursor: 'pointer',
                       }}
                     >
-                      🖼️ Zmień grafikę (23)
+                      🖼️ Biblioteka & Generator AI ({imageLibrary.length} szt.)
                     </button>
                     <button
                       type="button"
                       onClick={() => customFileRef.current?.click()}
                       disabled={uploadingImage}
                       style={{
-                        padding: '7px 11px',
+                        padding: '8px 12px',
                         borderRadius: 8,
                         border: 'none',
-                        background: 'rgba(15, 23, 42, 0.88)',
+                        background: 'rgba(15, 23, 42, 0.92)',
                         color: '#f8fafc',
                         fontWeight: 700,
-                        fontSize: 11,
+                        fontSize: 11.5,
                         cursor: 'pointer',
                       }}
                     >
-                      {uploadingImage ? 'Wgrywanie...' : '⬆️ Wgraj własną'}
+                      {uploadingImage ? 'Wgrywanie...' : '⬆️ Wgraj własną z dysku'}
                     </button>
                   </div>
                 </div>
@@ -1329,76 +1565,476 @@ export default function SardianPlWorkspace({
               </div>
             )}
 
-            {/* IMAGE PICKER DRAWER */}
-            {showImagePicker && (
+            {/* LARGE AI PHOTO GENERATOR + IMAGE LIBRARY TILE */}
+            <div
+              style={{
+                background: 'linear-gradient(180deg, #111827 0%, #0f172a 100%)',
+                border: '2px solid #d97706',
+                borderRadius: 16,
+                padding: 18,
+                boxShadow: '0 12px 32px rgba(0,0,0,0.45)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 14,
+              }}
+            >
+              {/* HEADER */}
               <div
                 style={{
-                  background: '#111827',
-                  border: '1px solid #374151',
-                  borderRadius: 14,
-                  padding: 14,
-                  maxHeight: 380,
-                  overflowY: 'auto',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 10,
+                  flexWrap: 'wrap',
+                  paddingBottom: 10,
+                  borderBottom: '1px solid #334155',
                 }}
               >
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: '#fbbf24' }}>
+                    📸 Generator Zdjęć Native AI & Biblioteka ({imageLibrary.length} szt.)
+                  </div>
+                  <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 2 }}>
+                    Wygeneruj nowy batch zdjęć pod bieżącą kopię, wiele kopii naraz lub z własnego opisu (2K Google AI · 1:1)
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowFullGalleryModal(true)}
+                    style={{
+                      padding: '7px 12px',
+                      borderRadius: 8,
+                      border: '1px solid #f59e0b',
+                      background: 'rgba(245, 158, 11, 0.18)',
+                      color: '#fde68a',
+                      fontSize: 11.5,
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    🔍 Powiększ na cały ekran
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => customFileRef.current?.click()}
+                    disabled={uploadingImage}
+                    style={{
+                      padding: '7px 11px',
+                      borderRadius: 8,
+                      border: '1px solid #475569',
+                      background: '#1e293b',
+                      color: '#f8fafc',
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {uploadingImage ? '⏳...' : '+ Wgraj z dysku'}
+                  </button>
+                </div>
+              </div>
+
+              {/* KIE.AI PROGRESS BANNER */}
+              {generatingKie && (
                 <div
                   style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: 10,
+                    padding: '10px 14px',
+                    borderRadius: 10,
+                    background: 'rgba(245, 158, 11, 0.18)',
+                    border: '1px solid #f59e0b',
+                    color: '#fde68a',
+                    fontSize: 12.5,
+                    fontWeight: 700,
                   }}
                 >
-                  <span style={{ fontSize: 12, fontWeight: 800, color: '#fcd34d' }}>
-                    Wybierz zdjęcie z biblioteki SARDIAN ({imageLibrary.length} szt.):
+                  ⏳ {kieProgressText || 'Generowanie zdjęć Raw iPhone 1:1 w Kie.ai (~25-45s)...'}
+                </div>
+              )}
+
+              {/* SECTION 1: 1-CLICK BATCH DO KOPII */}
+              <div
+                style={{
+                  background: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: 12,
+                  padding: 12,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 10,
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, color: '#f8fafc' }}>
+                    ⚡ 1. Wygeneruj nowy batch zdjęć automatycznie pod copy:
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ fontSize: 11, color: '#94a3b8' }}>Ilość na strzała:</span>
+                    {([4, 8, 12] as const).map(cnt => (
+                      <button
+                        key={cnt}
+                        type="button"
+                        onClick={() => setKieBatchCount(cnt)}
+                        style={{
+                          padding: '4px 9px',
+                          borderRadius: 6,
+                          border: kieBatchCount === cnt ? '1px solid #f59e0b' : '1px solid #475569',
+                          background: kieBatchCount === cnt ? 'rgba(245, 158, 11, 0.25)' : '#0f172a',
+                          color: kieBatchCount === cnt ? '#fde68a' : '#cbd5e1',
+                          fontSize: 11,
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {cnt} szt.
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  <button
+                    type="button"
+                    disabled={generatingKie || !activePreset}
+                    onClick={() => void handleGenerateKieScriptBatch()}
+                    style={{
+                      padding: '10px 12px',
+                      borderRadius: 10,
+                      border: '1px solid #fbbf24',
+                      background: generatingKie
+                        ? '#78350f'
+                        : 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                      color: '#fffbeb',
+                      fontSize: 12,
+                      fontWeight: 800,
+                      cursor: generatingKie ? 'wait' : 'pointer',
+                      textAlign: 'center',
+                    }}
+                  >
+                    📸 Nowy batch ({kieBatchCount} zdjęć) do {activePreset?.code || 'bieżącej kopii'}
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={generatingKie}
+                    onClick={() => void handleGenerateKieMultiAngleBatch()}
+                    style={{
+                      padding: '10px 12px',
+                      borderRadius: 10,
+                      border: '1px solid #38bdf8',
+                      background: generatingKie
+                        ? '#1e3a8a'
+                        : 'linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%)',
+                      color: '#f0f9ff',
+                      fontSize: 12,
+                      fontWeight: 800,
+                      cursor: generatingKie ? 'wait' : 'pointer',
+                      textAlign: 'center',
+                    }}
+                  >
+                    🔥 Nowy batch do{' '}
+                    {selectedAngleIds.length > 0
+                      ? `zaznaczonych (${Math.min(15, selectedAngleIds.length)} kopii)`
+                      : `widocznych (${Math.min(12, filteredPresets.length)} kopii)`}
+                  </button>
+                </div>
+              </div>
+
+              {/* SECTION 2: WŁASNY OPIS ZDJĘCIA (CUSTOM PROMPT) */}
+              <div
+                style={{
+                  background: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: 12,
+                  padding: 12,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, color: '#f8fafc' }}>
+                    ✍️ 2. Wygeneruj własne zdjęcia AI (własny opis sceny):
                   </span>
                   <button
                     type="button"
-                    onClick={() => setShowImagePicker(false)}
+                    onClick={() => {
+                      if (!activeAd || !activePreset) return;
+                      const firstLines = activeAd.primaryText.split('\n\n').slice(0, 2).join(' ');
+                      setKieCustomPrompt(
+                        `Clean, sharp first-person iPhone 15 photo in a Polish bathroom/barbershop matching this scene: ${firstLines.slice(0, 240)} — with the matte-black SARDIAN shampoo bottle in frame.`,
+                      );
+                    }}
                     style={{
-                      background: 'transparent',
-                      border: 'none',
-                      color: '#9ca3af',
-                      cursor: 'pointer',
+                      padding: '4px 8px',
+                      borderRadius: 6,
+                      border: '1px solid #475569',
+                      background: '#0f172a',
+                      color: '#fcd34d',
+                      fontSize: 10.5,
                       fontWeight: 700,
+                      cursor: 'pointer',
                     }}
                   >
-                    ✕
+                    📋 Wklej scenę z hooka {activePreset?.code}
                   </button>
                 </div>
-                <div
+
+                <textarea
+                  rows={3}
+                  value={kieCustomPrompt}
+                  onChange={e => setKieCustomPrompt(e.target.value)}
+                  placeholder="Np. Czarna matowa butelka SARDIAN stojąca na rogu kabiny prysznicowej obok czystego stalowego sitka odpływu, poranne światło w polskiej łazience..."
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: 8,
+                    width: '100%',
+                    padding: '9px 11px',
+                    borderRadius: 8,
+                    background: '#0f172a',
+                    border: '1px solid #475569',
+                    color: '#f8fafc',
+                    fontSize: 12,
+                    lineHeight: 1.45,
+                    resize: 'vertical',
                   }}
-                >
-                  {imageLibrary.map(asset => (
-                    <div
-                      key={asset.id}
-                      onClick={() => handleAssignImage(asset)}
+                />
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: '#cbd5e1', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={kieIncludeProductRef}
+                        onChange={e => setKieIncludeProductRef(e.target.checked)}
+                      />
+                      🧴 Dołącz butelkę SARDIAN (1:1)
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: '#cbd5e1', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={kieAutoAssign}
+                        onChange={e => setKieAutoAssign(e.target.checked)}
+                      />
+                      🎯 Przypisz do {activePreset?.code}
+                    </label>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {([1, 4, 8] as const).map(cnt => (
+                      <button
+                        key={cnt}
+                        type="button"
+                        onClick={() => setKieCustomCount(cnt)}
+                        style={{
+                          padding: '4px 8px',
+                          borderRadius: 6,
+                          border: kieCustomCount === cnt ? '1px solid #10b981' : '1px solid #475569',
+                          background: kieCustomCount === cnt ? 'rgba(16, 185, 129, 0.22)' : '#0f172a',
+                          color: kieCustomCount === cnt ? '#6ee7b7' : '#cbd5e1',
+                          fontSize: 11,
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {cnt}x
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      disabled={generatingKie}
+                      onClick={() => void handleGenerateKieCustomPrompt()}
                       style={{
+                        padding: '7px 14px',
                         borderRadius: 8,
-                        overflow: 'hidden',
-                        border:
-                          activeAd?.imageUrl === asset.url ? '2px solid #f59e0b' : '1px solid #374151',
-                        cursor: 'pointer',
-                        background: '#1f2937',
+                        border: '1px solid #10b981',
+                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                        color: '#ecfdf5',
+                        fontSize: 12,
+                        fontWeight: 800,
+                        cursor: generatingKie ? 'wait' : 'pointer',
                       }}
                     >
-                      <img
-                        src={asset.url}
-                        alt={asset.label}
-                        style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }}
-                      />
-                      <div style={{ padding: 5, fontSize: 10, color: '#e5e7eb', lineHeight: 1.2 }}>
+                      ✨ Generuj własne ({kieCustomCount} szt.)
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* SECTION 3: EXPANDED IMAGE LIBRARY GRID */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => setGalleryFilter('all')}
+                    style={{
+                      padding: '5px 10px',
+                      borderRadius: 7,
+                      border: galleryFilter === 'all' ? '1px solid #f59e0b' : '1px solid #374151',
+                      background: galleryFilter === 'all' ? 'rgba(245, 158, 11, 0.2)' : '#1f2937',
+                      color: galleryFilter === 'all' ? '#fcd34d' : '#cbd5e1',
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Wszystkie zdjęcia ({imageLibrary.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGalleryFilter('for_angle')}
+                    style={{
+                      padding: '5px 10px',
+                      borderRadius: 7,
+                      border: galleryFilter === 'for_angle' ? '1px solid #f59e0b' : '1px solid #374151',
+                      background: galleryFilter === 'for_angle' ? 'rgba(245, 158, 11, 0.2)' : '#1f2937',
+                      color: galleryFilter === 'for_angle' ? '#fcd34d' : '#cbd5e1',
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Dedykowane do {activePreset?.code}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGalleryFilter('ai_generated')}
+                    style={{
+                      padding: '5px 10px',
+                      borderRadius: 7,
+                      border: galleryFilter === 'ai_generated' ? '1px solid #10b981' : '1px solid #374151',
+                      background: galleryFilter === 'ai_generated' ? 'rgba(16, 185, 129, 0.2)' : '#1f2937',
+                      color: galleryFilter === 'ai_generated' ? '#6ee7b7' : '#cbd5e1',
+                      fontSize: 11.5,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Własne / Nowe AI (
+                    {imageLibrary.filter(img => img.id.startsWith('kie-sardian-') || img.id.startsWith('sardian-custom-')).length}
+                    )
+                  </button>
+                </div>
+                <span style={{ fontSize: 11, color: '#94a3b8' }}>
+                  Kliknij zdjęcie = przypisz do {activePreset?.code} · 🔍 = powiększ
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                  gap: 12,
+                  maxHeight: 680,
+                  overflowY: 'auto',
+                  paddingRight: 4,
+                }}
+              >
+                {filteredGalleryImages.map(asset => {
+                  const isAssigned = activeAd?.imageUrl === asset.url;
+                  const isCustomOrAi =
+                    asset.id.startsWith('kie-sardian-') || asset.id.startsWith('sardian-custom-');
+                  return (
+                    <div
+                      key={asset.id}
+                      onClick={() => void handleAssignImage(asset)}
+                      style={{
+                        borderRadius: 10,
+                        overflow: 'hidden',
+                        border: isAssigned ? '3px solid #f59e0b' : '1px solid #374151',
+                        cursor: 'pointer',
+                        background: '#1f2937',
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        boxShadow: isAssigned ? '0 0 14px rgba(245, 158, 11, 0.45)' : 'none',
+                      }}
+                    >
+                      <div style={{ position: 'relative' }}>
+                        <img
+                          src={asset.url}
+                          alt={asset.label}
+                          style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }}
+                        />
+                        {isAssigned && (
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: 6,
+                              left: 6,
+                              background: '#d97706',
+                              color: '#fffbeb',
+                              fontSize: 10,
+                              fontWeight: 800,
+                              padding: '2px 7px',
+                              borderRadius: 6,
+                            }}
+                          >
+                            ✓ AKTYWNE
+                          </span>
+                        )}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 6,
+                            right: 6,
+                            display: 'flex',
+                            gap: 4,
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.stopPropagation();
+                              setLightboxAsset(asset);
+                            }}
+                            title="Powiększ zdjęcie"
+                            style={{
+                              background: 'rgba(15, 23, 42, 0.85)',
+                              color: '#f8fafc',
+                              border: '1px solid #475569',
+                              borderRadius: 6,
+                              padding: '3px 6px',
+                              fontSize: 11,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🔍
+                          </button>
+                          {isCustomOrAi && (
+                            <button
+                              type="button"
+                              onClick={e => void handleDeleteCustomImage(asset, e)}
+                              title="Usuń z biblioteki"
+                              style={{
+                                background: 'rgba(127, 29, 29, 0.9)',
+                                color: '#fecaca',
+                                border: '1px solid #ef4444',
+                                borderRadius: 6,
+                                padding: '3px 6px',
+                                fontSize: 11,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              🗑️
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          padding: '7px 8px',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: '#e5e7eb',
+                          lineHeight: 1.3,
+                        }}
+                      >
                         {asset.label}
                       </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
-            )}
+            </div>
 
             {/* 2 NEW FANPAGES & AVATARS PANEL */}
             <div
@@ -1652,6 +2288,294 @@ export default function SardianPlWorkspace({
           </div>
         </div>
       </div>
+
+      {/* FULL-SCREEN GALLERY & AI BATCH GENERATOR MODAL */}
+      {showFullGalleryModal && (
+        <div
+          onClick={() => setShowFullGalleryModal(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9998,
+            background: 'rgba(9, 13, 22, 0.88)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: 1460,
+              maxHeight: '92vh',
+              background: '#0f172a',
+              border: '2px solid #f59e0b',
+              borderRadius: 18,
+              padding: 24,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
+              overflowY: 'auto',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.75)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+              <div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: '#fbbf24' }}>
+                  📸 Pełnoekranowy Generator Zdjęć Native AI & Biblioteka SARDIAN ({imageLibrary.length} szt.)
+                </div>
+                <div style={{ fontSize: 13, color: '#cbd5e1', marginTop: 3 }}>
+                  Aktywna kreacja: <strong style={{ color: '#fcd34d' }}>{activePreset?.code}</strong> ({activePreset?.title})
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowFullGalleryModal(false)}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 10,
+                  border: '1px solid #475569',
+                  background: '#1e293b',
+                  color: '#f8fafc',
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                ✕ Zamknij okno
+              </button>
+            </div>
+
+            {generatingKie && (
+              <div
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: 10,
+                  background: 'rgba(245, 158, 11, 0.18)',
+                  border: '1px solid #f59e0b',
+                  color: '#fde68a',
+                  fontSize: 13.5,
+                  fontWeight: 700,
+                }}
+              >
+                ⏳ {kieProgressText || 'Generowanie zdjęć Raw iPhone 1:1 w Kie.ai...'}
+              </div>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              {/* LEFT: BATCH GENERATOR */}
+              <div
+                style={{
+                  background: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: 14,
+                  padding: 16,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 12,
+                }}
+              >
+                <div style={{ fontSize: 14, fontWeight: 800, color: '#fcd34d' }}>
+                  ⚡ Wygeneruj nowy batch zdjęć pod kopie (1-Click):
+                </div>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    disabled={generatingKie}
+                    onClick={() => void handleGenerateKieScriptBatch(8)}
+                    style={{
+                      flex: 1,
+                      padding: '12px 14px',
+                      borderRadius: 10,
+                      border: '1px solid #fbbf24',
+                      background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                      color: '#fffbeb',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      cursor: generatingKie ? 'wait' : 'pointer',
+                    }}
+                  >
+                    📸 Generuj 8 zdjęć do {activePreset?.code}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={generatingKie}
+                    onClick={() => void handleGenerateKieScriptBatch(12)}
+                    style={{
+                      flex: 1,
+                      padding: '12px 14px',
+                      borderRadius: 10,
+                      border: '1px solid #fbbf24',
+                      background: 'linear-gradient(135deg, #b45309 0%, #78350f 100%)',
+                      color: '#fffbeb',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      cursor: generatingKie ? 'wait' : 'pointer',
+                    }}
+                  >
+                    📸 Generuj 12 zdjęć do {activePreset?.code}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  disabled={generatingKie}
+                  onClick={() => void handleGenerateKieMultiAngleBatch()}
+                  style={{
+                    padding: '12px 14px',
+                    borderRadius: 10,
+                    border: '1px solid #38bdf8',
+                    background: 'linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%)',
+                    color: '#f0f9ff',
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: generatingKie ? 'wait' : 'pointer',
+                  }}
+                >
+                  🔥 Wygeneruj nowy batch zdjęć dla wielu kopii naraz (
+                  {selectedAngleIds.length > 0
+                    ? `${Math.min(15, selectedAngleIds.length)} zaznaczonych kopii`
+                    : `${Math.min(12, filteredPresets.length)} widocznych kopii`}
+                  )
+                </button>
+              </div>
+
+              {/* RIGHT: CUSTOM PROMPT */}
+              <div
+                style={{
+                  background: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: 14,
+                  padding: 16,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 10,
+                }}
+              >
+                <div style={{ fontSize: 14, fontWeight: 800, color: '#6ee7b7' }}>
+                  ✍️ Wygeneruj własne zdjęcia z opisu:
+                </div>
+                <textarea
+                  rows={3}
+                  value={kieCustomPrompt}
+                  onChange={e => setKieCustomPrompt(e.target.value)}
+                  placeholder="Opisz scenę własnymi słowami (np. 3 czarne butelki SARDIAN na półce w łazience obok prysznica, poranne światło)..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: 8,
+                    background: '#0f172a',
+                    border: '1px solid #475569',
+                    color: '#f8fafc',
+                    fontSize: 13,
+                  }}
+                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#cbd5e1' }}>
+                    <input
+                      type="checkbox"
+                      checked={kieIncludeProductRef}
+                      onChange={e => setKieIncludeProductRef(e.target.checked)}
+                    />
+                    🧴 Dołącz butelkę SARDIAN (1:1 z referencji)
+                  </label>
+                  <button
+                    type="button"
+                    disabled={generatingKie}
+                    onClick={() => void handleGenerateKieCustomPrompt()}
+                    style={{
+                      padding: '10px 18px',
+                      borderRadius: 10,
+                      border: '1px solid #10b981',
+                      background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                      color: '#ecfdf5',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      cursor: generatingKie ? 'wait' : 'pointer',
+                    }}
+                  >
+                    ✨ Wygeneruj własne zdjęcia ({kieCustomCount} szt.)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 5-COLUMN FULL GALLERY */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
+                gap: 14,
+              }}
+            >
+              {imageLibrary.map(asset => {
+                const isAssigned = activeAd?.imageUrl === asset.url;
+                return (
+                  <div
+                    key={`modal-${asset.id}`}
+                    onClick={() => {
+                      void handleAssignImage(asset);
+                      setShowFullGalleryModal(false);
+                    }}
+                    style={{
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      border: isAssigned ? '3px solid #f59e0b' : '1px solid #334155',
+                      background: '#1e293b',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <img
+                      src={asset.url}
+                      alt={asset.label}
+                      style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }}
+                    />
+                    <div style={{ padding: '8px 10px', fontSize: 12, fontWeight: 600, color: '#f8fafc', lineHeight: 1.3 }}>
+                      {asset.label}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LIGHTBOX MODAL */}
+      {lightboxAsset && (
+        <div
+          onClick={() => setLightboxAsset(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            background: 'rgba(0,0,0,0.88)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+          }}
+        >
+          <img
+            src={lightboxAsset.url}
+            alt={lightboxAsset.label}
+            style={{
+              maxWidth: '88vw',
+              maxHeight: '80vh',
+              borderRadius: 14,
+              border: '2px solid #f59e0b',
+              objectFit: 'contain',
+            }}
+          />
+          <div style={{ marginTop: 12, color: '#f8fafc', fontSize: 14, fontWeight: 700 }}>
+            {lightboxAsset.label}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

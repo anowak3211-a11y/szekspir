@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v5-38-hooks-47k';
+const STATE_KEY = 'sardian-pl-v6-39-photos-batch-gen';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
@@ -217,9 +217,372 @@ export const POST = accountRoute(async (req: Request) => {
       templateAdSetId?: string;
       pageId?: string;
       adStatus?: 'PAUSED' | 'ACTIVE';
+      taskId?: string;
+      prompt?: string;
+      customPrompt?: string;
+      primaryText?: string;
+      headline?: string;
+      title?: string;
+      isManual?: boolean;
+      count?: number;
+      includeProductRef?: boolean;
+      autoAssign?: boolean;
+      aspectRatio?: '1:1' | '4:5' | '3:4';
+      mode?: 'script_batch' | 'custom_prompt' | 'multi_angle_batch';
     };
 
     const action = body.action || 'save';
+
+    if (action === 'generate_kie_images') {
+      if (!body.isManual) {
+        return NextResponse.json(
+          { error: 'Generowanie zdjęć AI wymaga ręcznego uruchomienia.' },
+          { status: 400 },
+        );
+      }
+
+      const {
+        buildKieCreateTaskPayload,
+        submitKieRipperTask,
+        uploadPublicReferenceToKie,
+      } = await import('@/lib/image-ripper');
+      const {
+        planNativeIphoneScenesFromScript,
+        formatRawIphoneKiePrompt,
+      } = await import('@/lib/native-iphone-scenes');
+
+      let productRefKieUrl: string | undefined;
+      try {
+        productRefKieUrl = await uploadPublicReferenceToKie('/sardian-pl-images/sardian-bottle-ref.png');
+      } catch {
+        productRefKieUrl = undefined;
+      }
+
+      const aspectRatio = body.aspectRatio || '1:1';
+      const mode = body.mode || 'script_batch';
+
+      if (mode === 'multi_angle_batch') {
+        const targetAngleIds = Array.isArray(body.angleIds) && body.angleIds.length > 0 ? body.angleIds.slice(0, 16) : [];
+        if (!targetAngleIds.length) {
+          return NextResponse.json({ error: 'Zaznacz kreacje, dla których chcesz wygenerować nowy batch zdjęć.' }, { status: 400 });
+        }
+        const { ads } = await readSardianLibraryState();
+        const taskResults = await Promise.all(
+          targetAngleIds.map(async (targetAngleId, idx) => {
+            const preset = SARDIAN_PRESET_ANGLES.find(a => a.id === targetAngleId);
+            const ad = ads.find(a => a.angleId === targetAngleId);
+            const scenes = await planNativeIphoneScenesFromScript({
+              brand: 'sardian-shampoo',
+              angleId: targetAngleId,
+              primaryText: ad?.primaryText || '',
+              headline: ad?.headline || preset?.title || '',
+              title: preset?.shortTitle || preset?.code || targetAngleId,
+              count: 12,
+            });
+            const chosenScene = scenes[idx % Math.min(4, scenes.length)] || scenes[0];
+            const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : true;
+            const fullPrompt = formatRawIphoneKiePrompt(
+              chosenScene.scenePrompt,
+              'sardian-shampoo',
+              includeRef,
+            );
+            const payload = buildKieCreateTaskPayload({
+              model: 'nano-banana-pro',
+              prompt: fullPrompt,
+              imageUrls: includeRef && productRefKieUrl ? [productRefKieUrl] : [],
+              aspectRatio,
+              resolution: '2K',
+            });
+            try {
+              const taskId = await submitKieRipperTask(payload);
+              return {
+                index: idx + 1,
+                angleId: targetAngleId,
+                label: `${preset?.code || targetAngleId} · ${chosenScene.label.replace(/^\d+\.\s*/, '')}`,
+                prompt: fullPrompt,
+                includeProductRef: includeRef,
+                autoAssign: true,
+                taskId,
+              };
+            } catch (err) {
+              return {
+                index: idx + 1,
+                angleId: targetAngleId,
+                label: `${preset?.code || targetAngleId}`,
+                prompt: fullPrompt,
+                includeProductRef: includeRef,
+                autoAssign: true,
+                taskId: '',
+                error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+              };
+            }
+          }),
+        );
+        const tasks = taskResults.filter(t => Boolean(t.taskId));
+        if (tasks.length === 0) {
+          const firstErr = taskResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+          return NextResponse.json({ error: firstErr }, { status: 500 });
+        }
+        return NextResponse.json({ ok: true, mode, tasks });
+      }
+
+      if (mode === 'custom_prompt') {
+        const rawCustom = (body.customPrompt || '').trim();
+        if (!rawCustom) {
+          return NextResponse.json({ error: 'Wpisz opis własnego zdjęcia do wygenerowania.' }, { status: 400 });
+        }
+        const count = Math.min(12, Math.max(1, Number(body.count) || 4));
+        const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : true;
+        const angleId = (body.angleId || '').trim();
+        const preset = SARDIAN_PRESET_ANGLES.find(a => a.id === angleId);
+
+        const cameraAngles = [
+          'First-person POV eye-level shot in natural bathroom daylight.',
+          'Close-up 45-degree countertop angle with crisp focus on the subject.',
+          'Candid handheld iPhone 15 shot from doorway/mirror angle.',
+          'Overhead flat-lay / table POV shot in warm indoor lighting.',
+          'Side-angle close-up with authentic lived-in Polish bathroom background.',
+          'Sharp macro-detail iPhone 15 shot showing water droplets and natural texture.',
+          'Morning window-light shot on bathroom shelf next to walk-in shower.',
+          'Evening warm-light bathroom vanity shot.',
+        ];
+
+        const taskResults = await Promise.all(
+          Array.from({ length: count }, async (_, idx) => {
+            const variationHint = count > 1 ? ` (${cameraAngles[idx % cameraAngles.length]})` : '';
+            const fullPrompt = formatRawIphoneKiePrompt(
+              `${rawCustom}${variationHint}`,
+              'sardian-shampoo',
+              includeRef,
+            );
+            const payload = buildKieCreateTaskPayload({
+              model: 'nano-banana-pro',
+              prompt: fullPrompt,
+              imageUrls: includeRef && productRefKieUrl ? [productRefKieUrl] : [],
+              aspectRatio,
+              resolution: '2K',
+            });
+            const label = `${preset?.code || 'CUSTOM'} · Własne AI #${idx + 1}: ${rawCustom.slice(0, 48)}`;
+            try {
+              const taskId = await submitKieRipperTask(payload);
+              return {
+                index: idx + 1,
+                angleId,
+                label,
+                prompt: fullPrompt,
+                includeProductRef: includeRef,
+                autoAssign: idx === 0 && Boolean(body.autoAssign),
+                taskId,
+              };
+            } catch (err) {
+              return {
+                index: idx + 1,
+                angleId,
+                label,
+                prompt: fullPrompt,
+                includeProductRef: includeRef,
+                autoAssign: false,
+                taskId: '',
+                error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+              };
+            }
+          }),
+        );
+
+        const tasks = taskResults.filter(t => Boolean(t.taskId));
+        if (tasks.length === 0) {
+          const firstErr = taskResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+          return NextResponse.json({ error: firstErr }, { status: 500 });
+        }
+        return NextResponse.json({ ok: true, mode, angleId, tasks });
+      }
+
+      // Default: mode === 'script_batch'
+      const angleId = (body.angleId || '').trim();
+      const preset = SARDIAN_PRESET_ANGLES.find(a => a.id === angleId);
+      const primaryText = (body.primaryText || '').trim();
+      const headline = (body.headline || preset?.title || '').trim();
+      const title = (body.title || preset?.shortTitle || preset?.code || 'SARDIAN PL').trim();
+      const requestedCount = Math.min(12, Math.max(1, Number(body.count) || 8));
+
+      const allScenes = await planNativeIphoneScenesFromScript({
+        brand: 'sardian-shampoo',
+        angleId,
+        primaryText,
+        headline,
+        title,
+        count: 12,
+      });
+
+      const scenes = allScenes.slice(0, requestedCount);
+
+      const taskResults = await Promise.all(
+        scenes.map(async (scene, idx) => {
+          const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : scene.includeProductRef;
+          const fullPrompt = formatRawIphoneKiePrompt(
+            scene.scenePrompt,
+            'sardian-shampoo',
+            includeRef,
+          );
+          const payload = buildKieCreateTaskPayload({
+            model: 'nano-banana-pro',
+            prompt: fullPrompt,
+            imageUrls: includeRef && productRefKieUrl ? [productRefKieUrl] : [],
+            aspectRatio,
+            resolution: '2K',
+          });
+          try {
+            const taskId = await submitKieRipperTask(payload);
+            return {
+              index: idx + 1,
+              angleId,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: includeRef,
+              autoAssign: idx === 0 && Boolean(body.autoAssign),
+              taskId,
+            };
+          } catch (err) {
+            return {
+              index: idx + 1,
+              angleId,
+              label: scene.label,
+              prompt: fullPrompt,
+              includeProductRef: includeRef,
+              autoAssign: false,
+              taskId: '',
+              error: err instanceof Error ? err.message : 'Kie.ai createTask error',
+            };
+          }
+        }),
+      );
+
+      const tasks = taskResults.filter(t => Boolean(t.taskId));
+      if (tasks.length === 0) {
+        const firstErr =
+          taskResults.find(t => 'error' in t && t.error)?.error || 'Kie.ai nie utworzyło żadnego zadania.';
+        return NextResponse.json({ error: firstErr }, { status: 500 });
+      }
+
+      return NextResponse.json({
+        ok: true,
+        mode,
+        angleId,
+        tasks,
+      });
+    }
+
+    if (action === 'poll_kie_image') {
+      const { pollKieRipperTask } = await import('@/lib/image-ripper');
+      const { safeDownload } = await import('@/lib/safe-fetch');
+
+      const taskId = (body.taskId || '').trim();
+      if (!taskId) {
+        return NextResponse.json({ error: 'Brak taskId.' }, { status: 400 });
+      }
+      const status = await pollKieRipperTask(taskId);
+      if (status.state !== 'success' || !status.resultUrl) {
+        return NextResponse.json(status);
+      }
+
+      const angleId = (body.angleId || '').trim();
+      const preset = SARDIAN_PRESET_ANGLES.find(a => a.id === angleId);
+      const label = (body.label || `SARDIAN AI · ${preset?.code || 'Custom'}`).trim();
+      const assetId = `kie-sardian-iphone-${taskId}`;
+
+      let uploadedHash = '';
+      try {
+        const { buffer } = await safeDownload(status.resultUrl, 15 * 1024 * 1024);
+        const base64Bytes = Buffer.from(buffer).toString('base64');
+        const { uploadCustomAntkiImageToMeta } = await import('@/lib/meta-adsets');
+        const metaRes = await uploadCustomAntkiImageToMeta({
+          bytes: base64Bytes,
+          fileName: `${assetId}.jpg`,
+          accountId: SARDIAN_META_ACCOUNT_ID,
+        });
+        uploadedHash = metaRes.hash || '';
+      } catch {
+        // Non-blocking
+      }
+
+      const newAsset: SardianImageAsset = {
+        id: assetId,
+        url: status.resultUrl,
+        imageHash: uploadedHash,
+        label: preset && !label.startsWith(preset.code) ? `${preset.code} · ${label}` : label,
+        adsetOrigin: 'Google AI Raw iPhone (SARDIAN)',
+        adOrigin: preset?.code || 'SARDIAN-AI',
+        aspectRatio: body.aspectRatio || '1:1',
+        source: 'ai',
+        angleId: angleId || undefined,
+      };
+
+      const shouldAssign = Boolean(body.autoAssign) || /^1\./.test(label);
+      const now = Date.now();
+      const defaultAds = buildAllSardianPrewrittenAds();
+      const updatedState = await mutate<
+        SardianPlLibraryState,
+        { customImages: SardianImageAsset[]; ads: SardianPlGeneratedAd[] }
+      >(STATE_KEY, { ads: defaultAds, customImages: [] }, state => {
+        const customList = Array.isArray(state.customImages) ? [...state.customImages] : [];
+        const existingIdx = customList.findIndex(item => item.id === assetId);
+        if (existingIdx >= 0) {
+          customList[existingIdx] = newAsset;
+        } else {
+          customList.unshift(newAsset);
+        }
+        state.customImages = customList.slice(0, 1500);
+
+        const adsList = Array.isArray(state.ads) && state.ads.length > 0 ? [...state.ads] : [...defaultAds];
+        if (angleId && shouldAssign) {
+          const adIdx = adsList.findIndex(item => item.angleId === angleId);
+          const baseAd = adIdx >= 0 ? adsList[adIdx] : defaultAds.find(a => a.angleId === angleId);
+          if (baseAd) {
+            const updatedAd: SardianPlGeneratedAd = {
+              ...baseAd,
+              imageUrl: newAsset.url,
+              imageHash: newAsset.imageHash || baseAd.imageHash,
+              updatedAt: now,
+            };
+            if (adIdx >= 0) {
+              adsList[adIdx] = updatedAd;
+            } else {
+              adsList.push(updatedAd);
+            }
+          }
+        }
+        state.ads = adsList;
+        return { customImages: state.customImages, ads: state.ads };
+      });
+
+      return NextResponse.json({
+        state: 'success',
+        resultUrl: status.resultUrl,
+        asset: newAsset,
+        imageLibrary: [...updatedState.customImages, ...SARDIAN_IMAGE_LIBRARY],
+        savedAds: updatedState.ads,
+      });
+    }
+
+    if (action === 'delete_image') {
+      const targetId = (body.assetId || '').trim();
+      const targetUrl = (body.imageUrl || '').trim();
+      const defaultAds = buildAllSardianPrewrittenAds();
+      const updatedState = await mutate<
+        SardianPlLibraryState,
+        { customImages: SardianImageAsset[]; ads: SardianPlGeneratedAd[] }
+      >(STATE_KEY, { ads: defaultAds, customImages: [] }, state => {
+        const customList = Array.isArray(state.customImages) ? state.customImages : [];
+        state.customImages = customList.filter(
+          img => (targetId ? img.id !== targetId : true) && (targetUrl ? img.url !== targetUrl : true),
+        );
+        return { customImages: state.customImages, ads: state.ads || defaultAds };
+      });
+      return NextResponse.json({
+        ok: true,
+        imageLibrary: [...updatedState.customImages, ...SARDIAN_IMAGE_LIBRARY],
+      });
+    }
 
     if (action === 'save' && body.ad) {
       const defaultAds = buildAllSardianPrewrittenAds();
