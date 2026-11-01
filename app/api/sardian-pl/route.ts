@@ -23,11 +23,18 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v8-51-photos-hook-congruent-no-bottle';
+const STATE_KEY = 'sardian-pl-v9-live-fanpages-connected';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
   customImages?: SardianImageAsset[];
+}
+
+function resolveRealSardianPageId(rawId?: string): string {
+  const id = (rawId || '').trim();
+  if (id === 'fp-pokonac-lysienie') return '1470476022807427';
+  if (id === 'fp-barbershop-perfekcja') return '1352085037995209';
+  return id;
 }
 
 async function resolveMetaAuth(): Promise<{ token: string; proof?: string }> {
@@ -156,9 +163,11 @@ async function readSardianLibraryState(): Promise<{
       );
       const isLegacyStaticTs = !ad.createdAt || ad.createdAt === 1793000000000;
       const isLegacyUpdatedTs = !ad.updatedAt || ad.updatedAt === 1793000000000;
+      const resolvedPageId = resolveRealSardianPageId(ad.pageId || baseAd.pageId);
       byAngle.set(ad.angleId, {
         ...baseAd,
         ...ad,
+        pageId: resolvedPageId,
         createdAt: isLegacyStaticTs ? baseAd.createdAt : ad.createdAt,
         updatedAt: isLegacyUpdatedTs ? baseAd.updatedAt : ad.updatedAt,
         primaryText: audited.primaryText,
@@ -923,7 +932,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
-        const rawPageId = (body.pageId || ad.pageId || '1363490303507686').trim();
+        const rawPageId = resolveRealSardianPageId(body.pageId || ad.pageId || '1363490303507686');
         const pageId = /^\d+$/.test(rawPageId)
           ? rawPageId
           : discoveredPages[rawPageId] || '1363490303507686';

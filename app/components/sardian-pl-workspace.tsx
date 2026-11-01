@@ -2095,10 +2095,11 @@ export default function SardianPlWorkspace({
                       />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#f8fafc' }}>{fp.name}</div>
-                        <div style={{ fontSize: 10.5, color: synced ? '#34d399' : '#94a3b8', marginTop: 2 }}>
-                          {synced
-                            ? `Połączono ID: ${synced.id}${synced.pictureUploaded ? ' · Avatar wgrany' : ''}`
-                            : fp.role}
+                        <div style={{ fontSize: 10.5, color: '#34d399', fontWeight: 700, marginTop: 2 }}>
+                          ✅ Połączono z Meta BM · ID: {synced?.id || fp.id}
+                        </div>
+                        <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 1 }}>
+                          {fp.role}
                         </div>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
