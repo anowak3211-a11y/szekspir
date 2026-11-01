@@ -37,30 +37,51 @@ function resolveRealSardianPageId(rawId?: string): string {
   return id;
 }
 
-async function resolveMetaAuth(): Promise<{ token: string; proof?: string }> {
+async function resolveAllMetaAuthCandidates(): Promise<Array<{ token: string; proof?: string }>> {
+  const candidates: Array<{ token: string; proof?: string }> = [];
+  const seen = new Set<string>();
+  const addCandidate = (token?: string, proof?: string) => {
+    const t = (token || '').trim();
+    if (!t || seen.has(t)) return;
+    seen.add(t);
+    candidates.push({ token: t, proof });
+  };
+
   try {
-    const token = await metaToken();
-    return { token, proof: await metaProof(token) };
+    const t = await metaToken();
+    addCandidate(t, await metaProof(t).catch(() => undefined));
   } catch {
-    try {
-      const token = await inOwnerWorkspace(() => metaToken());
-      return { token, proof: await inOwnerWorkspace(() => metaProof(token)) };
-    } catch {
-      const { accountRegistry } = await import('@/lib/account-repository');
-      const { inWorkspace } = await import('@/lib/account-context');
-      const reg = await accountRegistry();
-      for (const u of Object.values(reg.users || {})) {
-        try {
-          const token = await inWorkspace(u, () => metaToken());
-          const proof = await inWorkspace(u, () => metaProof(token));
-          return { token, proof };
-        } catch {
-          // continue
-        }
-      }
-      throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
-    }
+    // ignore
   }
+  try {
+    const t = await inOwnerWorkspace(() => metaToken());
+    addCandidate(t, await inOwnerWorkspace(() => metaProof(t)).catch(() => undefined));
+  } catch {
+    // ignore
+  }
+  try {
+    const { accountRegistry } = await import('@/lib/account-repository');
+    const { inWorkspace } = await import('@/lib/account-context');
+    const reg = await accountRegistry();
+    for (const u of Object.values(reg.users || {})) {
+      try {
+        const t = await inWorkspace(u, () => metaToken());
+        const p = await inWorkspace(u, () => metaProof(t)).catch(() => undefined);
+        addCandidate(t, p);
+      } catch {
+        // continue
+      }
+    }
+  } catch {
+    // ignore
+  }
+  if (process.env.META_ACCESS_TOKEN) {
+    addCandidate(process.env.META_ACCESS_TOKEN, undefined);
+  }
+  if (!candidates.length) {
+    throw new Error('Brak połączonego tokenu Meta w ustawieniach Szekspira.');
+  }
+  return candidates;
 }
 
 async function directGraph<T = Record<string, unknown>>(
@@ -68,30 +89,57 @@ async function directGraph<T = Record<string, unknown>>(
   params: Record<string, unknown> = {},
   method: 'GET' | 'POST' = 'GET',
 ): Promise<T> {
-  const { token, proof } = await resolveMetaAuth();
-  const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
-  const body = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+  const candidates = await resolveAllMetaAuthCandidates();
+  let lastError: Error | undefined;
+
+  for (const { token, proof } of candidates) {
+    // Try both with appsecret_proof (if present) and without (in case token belongs to a different app ID)
+    const proofVariants = proof ? [proof, undefined] : [undefined];
+    for (const activeProof of proofVariants) {
+      try {
+        const url = new URL(`https://graph.facebook.com/${META_VERSION}/${graphPath}`);
+        const body = new URLSearchParams();
+        for (const [k, v] of Object.entries(params)) {
+          if (v !== undefined) body.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+        }
+        if (activeProof) body.set('appsecret_proof', activeProof);
+        if (method === 'GET') url.search = body.toString();
+        const r = await fetch(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
+          },
+          body: method === 'POST' ? body : undefined,
+          cache: 'no-store',
+          signal: AbortSignal.timeout(45000),
+        });
+        const data = (await r.json()) as Record<string, unknown>;
+        if (!r.ok || data.error) {
+          const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
+          lastError = new Error(
+            `Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`,
+          );
+          continue;
+        }
+        return data as T;
+      } catch (err) {
+        lastError = err instanceof Error ? err : new Error(String(err));
+      }
+    }
   }
-  if (proof) body.set('appsecret_proof', proof);
-  if (method === 'GET') url.search = body.toString();
-  const r = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      ...(method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
-    },
-    body: method === 'POST' ? body : undefined,
-    cache: 'no-store',
-    signal: AbortSignal.timeout(45000),
-  });
-  const data = (await r.json()) as Record<string, unknown>;
-  if (!r.ok || data.error) {
-    const e = data.error as { code?: number; error_subcode?: number; message?: string; error_user_msg?: string } | undefined;
-    throw new Error(`Meta (${e?.code || r.status}/${e?.error_subcode || 0}): ${e?.error_user_msg || e?.message || 'Request failed'}`);
-  }
-  return data as T;
+  throw lastError || new Error('Meta request failed');
+}
+
+async function uploadBytesToSardianMeta(bytesBase64: string, fileName: string): Promise<string | undefined> {
+  const cleanName = (fileName || `sardian-${Date.now()}.jpg`).replace(/[^a-zA-Z0-9._-]/g, '_');
+  const upRes = await directGraph<{ images?: Record<string, { hash?: string; url?: string }> }>(
+    `act_${SARDIAN_META_ACCOUNT_ID}/adimages`,
+    { bytes: bytesBase64, name: cleanName },
+    'POST',
+  );
+  const first = upRes?.images ? Object.values(upRes.images)[0] : undefined;
+  return first?.hash;
 }
 
 async function ensureMetaImageHash(imageUrl: string, existingHash?: string): Promise<string> {
@@ -99,36 +147,22 @@ async function ensureMetaImageHash(imageUrl: string, existingHash?: string): Pro
   const cleanUrl = (imageUrl || '').trim();
   if (!cleanUrl) throw new Error('Brak przypisanego zdjęcia dla reklamy.');
 
-  const { uploadCustomAntkiImageToMeta } = await import('@/lib/meta-adsets');
-
   if (cleanUrl.startsWith('data:image/')) {
     const m = cleanUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
     if (!m) throw new Error('Nieprawidłowy format dataUrl zdjęcia.');
-    const res = await uploadCustomAntkiImageToMeta({
-      bytes: m[1],
-      fileName: `sardian-${Date.now()}.jpg`,
-      accountId: SARDIAN_META_ACCOUNT_ID,
-    });
-    if (res.hash) return res.hash;
+    const hash = await uploadBytesToSardianMeta(m[1], `sardian-${Date.now()}.jpg`);
+    if (hash) return hash;
   } else if (cleanUrl.startsWith('/')) {
     const relPath = cleanUrl.replace(/^\/+/, '');
     const absPath = path.join(process.cwd(), 'public', relPath);
     const buf = await fs.readFile(absPath);
-    const res = await uploadCustomAntkiImageToMeta({
-      bytes: buf.toString('base64'),
-      fileName: path.basename(absPath),
-      accountId: SARDIAN_META_ACCOUNT_ID,
-    });
-    if (res.hash) return res.hash;
+    const hash = await uploadBytesToSardianMeta(buf.toString('base64'), path.basename(absPath));
+    if (hash) return hash;
   } else if (cleanUrl.startsWith('http')) {
     const { safeDownload } = await import('@/lib/safe-fetch');
     const { buffer } = await safeDownload(cleanUrl, 15 * 1024 * 1024);
-    const res = await uploadCustomAntkiImageToMeta({
-      bytes: Buffer.from(buffer).toString('base64'),
-      fileName: `sardian-ext-${Date.now()}.jpg`,
-      accountId: SARDIAN_META_ACCOUNT_ID,
-    });
-    if (res.hash) return res.hash;
+    const hash = await uploadBytesToSardianMeta(Buffer.from(buffer).toString('base64'), `sardian-ext-${Date.now()}.jpg`);
+    if (hash) return hash;
   }
 
   throw new Error(`Nie udało się wgrać grafiki (${cleanUrl}) na konto Meta SARDIAN.`);
@@ -882,7 +916,7 @@ export const POST = accountRoute(async (req: Request) => {
       if (!targetAdSetId) {
         const dsaEntity =
           (typeof source.dsa_beneficiary === 'string' && source.dsa_beneficiary.trim()) ||
-          'CABANOWSKI HSTL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ';
+          '14530 ARROW HIGHWAY, LLC';
         const dsaPayer =
           (typeof source.dsa_payor === 'string' && source.dsa_payor.trim()) || dsaEntity;
         const createdAdSet = await directGraph<{ id: string }>(
@@ -906,42 +940,53 @@ export const POST = accountRoute(async (req: Request) => {
           'POST',
         );
         targetAdSetId = createdAdSet.id;
+      } else if (adStatus === 'ACTIVE') {
+        await directGraph(targetAdSetId, { status: 'ACTIVE' }, 'POST').catch(() => {});
       }
 
-      // Auto-discover newly created pages on Meta (Pokonać Łysienie / Barbershop Perfekcja)
-      const discoveredPages: Record<string, string> = {};
-      for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${SARDIAN_META_ACCOUNT_ID}/promote_pages`]) {
-        try {
-          const accs = await directGraph<{ data?: Array<{ id: string; name: string }> }>(endpoint, {
-            fields: 'id,name',
-            limit: 100,
-          });
-          for (const p of accs.data || []) {
-            const n = (p.name || '').toLowerCase();
-            if (n.includes('pokonać łysienie') || n.includes('pokonac lysienie') || n.includes('historie i testy')) {
-              discoveredPages['fp-pokonac-lysienie'] = p.id;
-            }
-            if (n.includes('barbershop perfekcja') || n.includes('perfekcja')) {
-              discoveredPages['fp-barbershop-perfekcja'] = p.id;
-            }
-          }
-        } catch {
-          // Ignore if endpoint not accessible
+      const existingAdsByName = new Map<string, string>();
+      try {
+        const existingAdsRes = await directGraph<{ data?: Array<{ id: string; name: string }> }>(
+          `${targetAdSetId}/ads`,
+          { fields: 'id,name', limit: 100 },
+        );
+        for (const ea of existingAdsRes.data || []) {
+          if (ea.name && ea.id) existingAdsByName.set(ea.name, ea.id);
         }
+      } catch {
+        // Ignore
       }
 
+      const imageHashCache = new Map<string, string>();
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
       for (const ad of selectedAds) {
         const rawPageId = resolveRealSardianPageId(body.pageId || ad.pageId || '1363490303507686');
-        const pageId = /^\d+$/.test(rawPageId)
-          ? rawPageId
-          : discoveredPages[rawPageId] || '1363490303507686';
+        const pageId = /^\d+$/.test(rawPageId) ? rawPageId : '1363490303507686';
         const fpMeta = SARDIAN_FANPAGES.find(f => f.id === rawPageId || f.id === pageId);
         const pageName = fpMeta?.name || ad.pageName || 'Karol Mikołajczyk';
-        const primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
         const targetLink = ad.destinationUrl || SARDIAN_DEFAULT_URL || SARDIAN_PDP_URL;
-
         const adName = `${ad.code} | PDP SARDIAN | ${pageName}`;
+
+        const existingAdId = existingAdsByName.get(adName);
+        if (existingAdId) {
+          if (adStatus === 'ACTIVE') {
+            await directGraph(existingAdId, { status: 'ACTIVE' }, 'POST').catch(() => {});
+          }
+          createdAds.push({
+            id: existingAdId,
+            name: adName,
+            angleId: ad.angleId,
+            url: targetLink,
+          });
+          continue;
+        }
+
+        let primaryHash = imageHashCache.get(ad.imageUrl);
+        if (!primaryHash) {
+          primaryHash = await ensureMetaImageHash(ad.imageUrl, ad.imageHash);
+          if (ad.imageUrl && primaryHash) imageHashCache.set(ad.imageUrl, primaryHash);
+        }
+
         const creativeSpec = {
           name: `${adName} - Creative`,
           url_tags:
