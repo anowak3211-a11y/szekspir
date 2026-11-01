@@ -195,6 +195,105 @@ export const SARDIAN_STAGES: Record<SardianAwarenessStageId, SardianStageMeta> =
 
 export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
   {
+    "id": "K3_V4_ODWOLANY_LOT_STAMBUL",
+    "url": "/sardian-pl-images/K3_V4_ODWOLANY_LOT_STAMBUL.jpg",
+    "imageHash": "",
+    "label": "K3_V4 (Hook 1:1 bez produktu) · Anulowana rezerwacja WAW -> STAMBUŁ 17 000 ZŁ + polski paszport",
+    "adsetOrigin": "Kąt 3: Szwagier Turcja 17 000 zł",
+    "adOrigin": "K3_V4_ODWOLANY_LOT_STAMBUL",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k3_v4"
+  },
+  {
+    "id": "K2_V4_ULOTKA_SKUTKI_UBOCZNE",
+    "url": "/sardian-pl-images/K2_V4_ULOTKA_SKUTKI_UBOCZNE.jpg",
+    "imageHash": "",
+    "label": "K2_V4 (Hook 1:1 bez produktu) · Ulotka z apteki w aucie (spadek libido, zaburzenia erekcji) + recepta",
+    "adsetOrigin": "Kąt 2: Prysznic & Recepta",
+    "adOrigin": "K2_V4_ULOTKA_SKUTKI_UBOCZNE",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k2_v4"
+  },
+  {
+    "id": "ND_A1_TRICHOSCOPE_200X_BEZ_BUTELKI",
+    "url": "/sardian-pl-images/ND_A1_TRICHOSCOPE_200X_BEZ_BUTELKI.jpg",
+    "imageHash": "",
+    "label": "ND_A1 (Hook 1:1 bez produktu) · Ekran mikrokamery 200x: Zablokowany mieszek (Czop DHT) vs Otwarty mieszek",
+    "adsetOrigin": "Nowy Desire A: Czop Łojowo-DHT",
+    "adOrigin": "ND_A1_TRICHOSCOPE_200X_BEZ_BUTELKI",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_a1"
+  },
+  {
+    "id": "ND_A2_TEST_2_PALCOW_SKORA",
+    "url": "/sardian-pl-images/ND_A2_TEST_2_PALCOW_SKORA.jpg",
+    "imageHash": "",
+    "label": "ND_A2 (Hook 1:1 bez produktu) · Karta diagnostyczna „TEST 2 PALCÓW: Nad uchem vs Czubek głowy (czop DHT)”",
+    "adsetOrigin": "Nowy Desire A: Czop Łojowo-DHT",
+    "adOrigin": "ND_A2_TEST_2_PALCOW_SKORA",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_a2"
+  },
+  {
+    "id": "ND_A3_WCIERKI_320ZL_W_KOSZU",
+    "url": "/sardian-pl-images/ND_A3_WCIERKI_320ZL_W_KOSZU.jpg",
+    "imageHash": "",
+    "label": "ND_A3 (Hook 1:1 bez produktu) · Wylewanie wcierki do umywalki + koszyk ampułek i paragon 320,00 ZŁ",
+    "adsetOrigin": "Nowy Desire A: Czop Łojowo-DHT",
+    "adOrigin": "ND_A3_WCIERKI_320ZL_W_KOSZU",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_a3"
+  },
+  {
+    "id": "ND_B1_POROWNANIE_WLOS_2CM_VS_DLUGI",
+    "url": "/sardian-pl-images/ND_B1_POROWNANIE_WLOS_2CM_VS_DLUGI.jpg",
+    "imageHash": "",
+    "label": "ND_B1 (Hook 1:1 bez produktu) · Porównanie: 21 dni (skrócony anagen < 2 cm) vs 4 lata (pełny cykl wzrostu)",
+    "adsetOrigin": "Nowy Desire B: 3-Tygodniowy Włos",
+    "adOrigin": "ND_B1_POROWNANIE_WLOS_2CM_VS_DLUGI",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_b1"
+  },
+  {
+    "id": "ND_B3_MIKROSKOP_USB_79ZL_ZAKOLA",
+    "url": "/sardian-pl-images/ND_B3_MIKROSKOP_USB_79ZL_ZAKOLA.jpg",
+    "imageHash": "",
+    "label": "ND_B3 (Hook 1:1 bez produktu) · Mikroskop cyfrowy USB 200x (79 zł) podłączony do laptopa z obrazem zakoli",
+    "adsetOrigin": "Nowy Desire B: 3-Tygodniowy Włos",
+    "adOrigin": "ND_B3_MIKROSKOP_USB_79ZL_ZAKOLA",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_b3"
+  },
+  {
+    "id": "ND_C1_SZAMPON_DROGERIA_ODPLYW_BEZ_SARDIANA",
+    "url": "/sardian-pl-images/ND_C1_SZAMPON_DROGERIA_ODPLYW_BEZ_SARDIANA.jpg",
+    "imageHash": "",
+    "label": "ND_C1 (Hook 1:1 bez produktu) · Szampony z drogerii (35 zł / SLS) na podłodze prysznica przy zatkanym odpływie",
+    "adsetOrigin": "Nowy Desire C: Efekt Odbicia SLS",
+    "adOrigin": "ND_C1_SZAMPON_DROGERIA_ODPLYW_BEZ_SARDIANA",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_c1"
+  },
+  {
+    "id": "ND_C2_ETYKIETA_INCI_SLS_PALEC",
+    "url": "/sardian-pl-images/ND_C2_ETYKIETA_INCI_SLS_PALEC.jpg",
+    "imageHash": "",
+    "label": "ND_C2 (Hook 1:1 bez produktu) · Palec wskazujący „Sodium Laureth Sulfate (SLS)” na etykiecie INCI szamponu",
+    "adsetOrigin": "Nowy Desire C: Efekt Odbicia SLS",
+    "adOrigin": "ND_C2_ETYKIETA_INCI_SLS_PALEC",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_nd_c2"
+  },
+  {
     "id": "K2_V1_PRYSZNIC_ODPLYW",
     "url": "/sardian-pl-images/K2_V1_PRYSZNIC_ODPLYW.jpg",
     "imageHash": "",
@@ -747,8 +846,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Karol Mikołajczyk",
     "vocTrigger": "Wyrzuciłem receptę na tabletki do kosza, kiedy przeczytałem o skutkach ubocznych dla facetów",
     "mechanismCore": "Stary Winner Desire (ROAS 2.82): 70-80% uśpionych cebulek żyje pod skórą + 92 szampony (96% robi 0 z 3 rzeczy) + Formuła 3 z 3 (Rdest 90% vs 70% minoksydyl, Żeń-szeń + mentol, Biota Orientalis)",
-    "defaultImageId": "K2_V4_RECEPTA_W_KOSZU_SARDIAN",
-    "defaultImageUrl": "/sardian-pl-images/K2_V4_RECEPTA_W_KOSZU_SARDIAN.jpg",
+    "defaultImageId": "K2_V4_ULOTKA_SKUTKI_UBOCZNE",
+    "defaultImageUrl": "/sardian-pl-images/K2_V4_ULOTKA_SKUTKI_UBOCZNE.jpg",
     "defaultImageHash": ""
   },
   {
@@ -847,8 +946,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
     "vocTrigger": "Zamiast lecieć do Stambułu za 17 000 zł, odebrałem z Paczkomatu te 3 czarne butelki",
     "mechanismCore": "Stary Winner Desire (ROAS 2.82): 70-80% uśpionych cebulek żyje pod skórą + 92 szampony (96% robi 0 z 3 rzeczy) + Formuła 3 z 3 (Rdest 90% vs 70% minoksydyl, Żeń-szeń + mentol, Biota Orientalis)",
-    "defaultImageId": "K3_V4_TRZY_BUTELKI_W_LAZIENCE",
-    "defaultImageUrl": "/sardian-pl-images/K3_V4_TRZY_BUTELKI_W_LAZIENCE.jpg",
+    "defaultImageId": "K3_V4_ODWOLANY_LOT_STAMBUL",
+    "defaultImageUrl": "/sardian-pl-images/K3_V4_ODWOLANY_LOT_STAMBUL.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1147,8 +1246,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Dr n. med. Janusz Skrzypiński",
     "vocTrigger": "Myślałeś, że Twoje cebulki są martwe? Kamera 200x pokazuje woskowy czop łojowo-DHT w porach",
     "mechanismCore": "Nowy Desire A: Napięcie czepca ścięgnistego + woskowy czop łojowo-DHT zamurowujący 70-80% żywych cebulek pod błyszczącą skórą",
-    "defaultImageId": "ND_A1_MIKROKAMERA_CZOP_DHT",
-    "defaultImageUrl": "/sardian-pl-images/ND_A1_MIKROKAMERA_CZOP_DHT.jpg",
+    "defaultImageId": "ND_A1_TRICHOSCOPE_200X_BEZ_BUTELKI",
+    "defaultImageUrl": "/sardian-pl-images/ND_A1_TRICHOSCOPE_200X_BEZ_BUTELKI.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1167,8 +1266,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
     "vocTrigger": "Zrób 5-sekundowy test 2 palców: oto dlaczego łysiejesz tylko na górze, a boki rosną jak u 20-latka",
     "mechanismCore": "Nowy Desire A: Napięcie czepca ścięgnistego + woskowy czop łojowo-DHT zamurowujący 70-80% żywych cebulek pod błyszczącą skórą",
-    "defaultImageId": "ND_A2_PAZNOKIEC_I_SZAMPON_LAZIENKA",
-    "defaultImageUrl": "/sardian-pl-images/ND_A2_PAZNOKIEC_I_SZAMPON_LAZIENKA.jpg",
+    "defaultImageId": "ND_A2_TEST_2_PALCOW_SKORA",
+    "defaultImageUrl": "/sardian-pl-images/ND_A2_TEST_2_PALCOW_SKORA.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1187,8 +1286,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Dr n. med. Janusz Skrzypiński",
     "vocTrigger": "Wydajesz 150 zł na wcierki z apteki? Bez rozpuszczenia woskowego czopa DHT spływają jak po szybie",
     "mechanismCore": "Nowy Desire A: Napięcie czepca ścięgnistego + woskowy czop łojowo-DHT zamurowujący 70-80% żywych cebulek pod błyszczącą skórą",
-    "defaultImageId": "ND_A3_SERUM_W_KOSZU_VS_SARDIAN",
-    "defaultImageUrl": "/sardian-pl-images/ND_A3_SERUM_W_KOSZU_VS_SARDIAN.jpg",
+    "defaultImageId": "ND_A3_WCIERKI_320ZL_W_KOSZU",
+    "defaultImageUrl": "/sardian-pl-images/ND_A3_WCIERKI_320ZL_W_KOSZU.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1247,8 +1346,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Dr n. med. Janusz Skrzypiński",
     "vocTrigger": "Spójrz na sitko odpływu pod światło: jeśli widzisz tam krótkie 1-2 cm włoski, Twoje cebulki żyją",
     "mechanismCore": "Nowy Desire B: Skrócony przez DHT zegar fazy wzrostu (anagenu) z 4 lat do 21 dni — młode 1-2 cm włoski wypadają zanim urosną",
-    "defaultImageId": "ND_B1_KROTKIE_WLOSKI_W_UMYWALCE",
-    "defaultImageUrl": "/sardian-pl-images/ND_B1_KROTKIE_WLOSKI_W_UMYWALCE.jpg",
+    "defaultImageId": "ND_B1_POROWNANIE_WLOS_2CM_VS_DLUGI",
+    "defaultImageUrl": "/sardian-pl-images/ND_B1_POROWNANIE_WLOS_2CM_VS_DLUGI.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1287,8 +1386,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
     "vocTrigger": "Kupiłem mikroskop USB za 79 zł. Zobaczyłem, że moje „łyse” zakola są pełne 3-tygodniowych włosków",
     "mechanismCore": "Nowy Desire B: Skrócony przez DHT zegar fazy wzrostu (anagenu) z 4 lat do 21 dni — młode 1-2 cm włoski wypadają zanim urosną",
-    "defaultImageId": "ND_B3_GRZEBIEN_I_SARDIAN_PO_PRYSZNICU",
-    "defaultImageUrl": "/sardian-pl-images/ND_B3_GRZEBIEN_I_SARDIAN_PO_PRYSZNICU.jpg",
+    "defaultImageId": "ND_B3_MIKROSKOP_USB_79ZL_ZAKOLA",
+    "defaultImageUrl": "/sardian-pl-images/ND_B3_MIKROSKOP_USB_79ZL_ZAKOLA.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1347,8 +1446,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Dr n. med. Janusz Skrzypiński",
     "vocTrigger": "Myjesz głowę codziennie rano, żeby ratować włosy? Po 5 godzinach szampon z SLS podwaja wyrzut DHT",
     "mechanismCore": "Nowy Desire C: Agresywne siarczany SLS w 96% drogeryjnych szamponów wywołują po 4h paniczny wyrzut 2x łoju z hormonem DHT",
-    "defaultImageId": "ND_C1_DROGERYJNE_SZAMPONY_VS_SARDIAN",
-    "defaultImageUrl": "/sardian-pl-images/ND_C1_DROGERYJNE_SZAMPONY_VS_SARDIAN.jpg",
+    "defaultImageId": "ND_C1_SZAMPON_DROGERIA_ODPLYW_BEZ_SARDIANA",
+    "defaultImageUrl": "/sardian-pl-images/ND_C1_SZAMPON_DROGERIA_ODPLYW_BEZ_SARDIANA.jpg",
     "defaultImageHash": ""
   },
   {
@@ -1367,8 +1466,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
     "vocTrigger": "Sprawdź tył swojego szamponu pod prysznicem: jeśli ma SLS na 2. miejscu, sam przyspieszasz zakola",
     "mechanismCore": "Nowy Desire C: Agresywne siarczany SLS w 96% drogeryjnych szamponów wywołują po 4h paniczny wyrzut 2x łoju z hormonem DHT",
-    "defaultImageId": "ND_C2_ETYKIETA_SLS_LUPA_SARDIAN",
-    "defaultImageUrl": "/sardian-pl-images/ND_C2_ETYKIETA_SLS_LUPA_SARDIAN.jpg",
+    "defaultImageId": "ND_C2_ETYKIETA_INCI_SLS_PALEC",
+    "defaultImageUrl": "/sardian-pl-images/ND_C2_ETYKIETA_INCI_SLS_PALEC.jpg",
     "defaultImageHash": ""
   },
   {

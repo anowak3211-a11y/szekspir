@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v7-42-photos-turcja-brodzik';
+const STATE_KEY = 'sardian-pl-v8-51-photos-hook-congruent-no-bottle';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];
@@ -154,9 +154,13 @@ async function readSardianLibraryState(): Promise<{
         ad.headline || baseAd.headline,
         ad.description || baseAd.description,
       );
+      const isLegacyStaticTs = !ad.createdAt || ad.createdAt === 1793000000000;
+      const isLegacyUpdatedTs = !ad.updatedAt || ad.updatedAt === 1793000000000;
       byAngle.set(ad.angleId, {
         ...baseAd,
         ...ad,
+        createdAt: isLegacyStaticTs ? baseAd.createdAt : ad.createdAt,
+        updatedAt: isLegacyUpdatedTs ? baseAd.updatedAt : ad.updatedAt,
         primaryText: audited.primaryText,
         headline: audited.headline,
         description: audited.description,
@@ -280,7 +284,7 @@ export const POST = accountRoute(async (req: Request) => {
               count: 12,
             });
             const chosenScene = scenes[idx % Math.min(4, scenes.length)] || scenes[0];
-            const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : true;
+            const includeRef = Boolean(body.includeProductRef);
             const fullPrompt = formatRawIphoneKiePrompt(
               chosenScene.scenePrompt,
               'sardian-shampoo',
@@ -332,19 +336,19 @@ export const POST = accountRoute(async (req: Request) => {
           return NextResponse.json({ error: 'Wpisz opis własnego zdjęcia do wygenerowania.' }, { status: 400 });
         }
         const count = Math.min(12, Math.max(1, Number(body.count) || 4));
-        const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : true;
+        const includeRef = Boolean(body.includeProductRef);
         const angleId = (body.angleId || '').trim();
         const preset = SARDIAN_PRESET_ANGLES.find(a => a.id === angleId);
 
         const cameraAngles = [
-          'First-person POV eye-level shot in natural bathroom daylight.',
-          'Close-up 45-degree countertop angle with crisp focus on the subject.',
-          'Candid handheld iPhone 15 shot from doorway/mirror angle.',
+          'First-person POV eye-level shot in natural daylight.',
+          'Close-up 45-degree angle with crisp focus on the subject.',
+          'Candid handheld iPhone 15 shot from doorway/table angle.',
           'Overhead flat-lay / table POV shot in warm indoor lighting.',
-          'Side-angle close-up with authentic lived-in Polish bathroom background.',
-          'Sharp macro-detail iPhone 15 shot showing water droplets and natural texture.',
-          'Morning window-light shot on bathroom shelf next to walk-in shower.',
-          'Evening warm-light bathroom vanity shot.',
+          'Side-angle close-up with authentic lived-in Polish home background.',
+          'Sharp macro-detail iPhone 15 shot showing natural texture.',
+          'Morning window-light shot in a clean Polish interior.',
+          'Evening warm-light indoor shot.',
         ];
 
         const taskResults = await Promise.all(
@@ -418,7 +422,7 @@ export const POST = accountRoute(async (req: Request) => {
 
       const taskResults = await Promise.all(
         scenes.map(async (scene, idx) => {
-          const includeRef = body.includeProductRef !== undefined ? body.includeProductRef : scene.includeProductRef;
+          const includeRef = Boolean(body.includeProductRef);
           const fullPrompt = formatRawIphoneKiePrompt(
             scene.scenePrompt,
             'sardian-shampoo',

@@ -64,7 +64,7 @@ export function formatRawIphoneKiePrompt(
   } else if (brand === 'sardian-shampoo') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference SARDIAN shampoo bottle (tall rectangular matte-black bottle with smooth chamfered edges, matte-black pump dispenser, bold white "SARDIAN" at top, warm copper-gold "SZAMPON" and bold white "AKTYWUJĄCY KORZENIE", and warm-gold bar reading "DLA GĘSTYCH I MOCNYCH WŁOSÓW"). Avoid close-up AI human faces; focus on crisp first-person POV bathroom, shower, barbershop, or trichologist desk scenes.'
-      : 'NO COMMERCIAL PACKSHOT: Avoid close-up AI human faces; focus on authentic first-person POV Polish bathroom, shower drain, barbershop station, or trichologist desk scenes.';
+      : 'HOOK-CONGRUENT REAL-LIFE PHOTO (ZERO SHAMPOO BOTTLE PACKSHOT): Do NOT place the SARDIAN bottle or any commercial product packshot in this shot. Depict ONLY the literal real-world Hook artifact, place, document, label, gadget, or moment described in the prompt (e.g. Hagia Sophia / Istanbul hair clinic brochure, cancelled flight booking + passport, unfolded pharmacy side-effect leaflet, back INCI ingredient label showing Sodium Laureth Sulfate, 1.5 cm vs 6 cm hair comparison, USB microscope on laptop, 2-finger scalp test diagram, or shower drain). All visible Polish text on documents/labels must be 100% accurately spelled.';
   } else if (brand === 'feliora') {
     productDirective = includeProductRef
       ? 'PRODUCT ACCURACY: Match the reference Feliora diffuser (compact spherical white duck-head top with tiny yellow beak and pin-dot eyes screwed directly onto a short round amber glass vial, plugged neatly into a wall socket).'
@@ -92,12 +92,13 @@ export function formatRawIphoneKiePrompt(
 
   const localeLine =
     market === 'uk'
-      ? 'Authentic everyday British home/building surroundings matching the exact scene from the story. Any person or pet in frame must look 100% real and natural (ordinary British person in everyday clothes, natural skin and fur texture - NEVER stock-agency models, NEVER glossy CGI, NEVER split-screen Before/After collages).'
-      : 'Authentic everyday Polish apartment/home surroundings matching the exact scene from the story. Any person or pet in frame must look 100% real and natural (ordinary Polish person in everyday clothes, natural skin and fur texture - NEVER stock-agency models, NEVER glossy CGI, NEVER split-screen Before/After collages).';
+      ? 'Bright, clean, tidy, contemporary modern British home interior with soft natural daylight. Any person or pet in frame must look 100% real and natural (candid angle or first-person POV hands/pets/objects - NEVER awkward passport-style close-up AI human faces staring at the lens, NEVER glossy CGI, NEVER split-screen Before/After collages).'
+      : 'Bright, clean, tidy, contemporary modern Polish apartment or modern clinic interior (clean white/warm-beige walls, light oak flooring, spotless modern furniture, soft natural window daylight or warm balanced home lighting - strictly NEVER gloomy Eastern-European/Soviet "block-of-flats" corridors, NEVER peeling paint, NEVER stained mugs, NEVER dirty clutter). Any person or pet in frame must look 100% real and natural (prefer crisp first-person POV hands, expressive real pets, and story objects or candid medium shots - NEVER awkward close-up passport-style AI human faces staring into a wide-angle lens).';
 
   const opticalSignature = [
-    'Clean, sharp, high-clarity everyday photograph taken on a modern iPhone 15 in natural, well-balanced daylight or clean indoor lighting.',
-    'Crisp focus, clear main subject, true-to-life natural colors, level framing like a real top-upvoted photo on Reddit or a Polish Facebook group - strictly NO blur, NO greasy lens glare, NO ugly harsh flash, NO dark muddiness, NO heavy grain.',
+    'Clean, bright, razor-sharp 1:1 square everyday photograph taken on an iPhone 15 Pro in soft natural daylight or warm, bright modern home lighting (Sardian clean native style).',
+    'Crisp focus, spotless clean surfaces, true-to-life warm natural colors, level framing like a top viral post on Reddit or a modern Polish group.',
+    'STRICTLY NO dark gloomy shadows, NO grimy/shabby backgrounds, NO harsh direct flash or mirror glare, NO blur, NO grain, NO camera date/time stamps in corners, NO phone/tablet screenshot UI bars ("Edit", battery/Wi-Fi icons), NO split-screen collages.',
     localeLine,
   ].join(' ');
 
@@ -115,31 +116,42 @@ function buildBrandDirectorContext(
     : '';
 
   if (brand === 'sardian-strap') {
-    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 with mechanical knee pain in everyday life (stairs, car pedals, garden/ROD allotment, bathtub, dancing, shopping, walking).${extra}`;
+    return `BRAND & AUDIENCE: SARDIAN Opaska Podrzepkowa (narrow matte-black patellar tendon strap worn 2 fingers below the kneecap, zero text/logos on strap). Target: Polish men and women aged 55-78 in bright, tidy, contemporary Polish homes, sunny gardens, clean cars, and bright physiotherapy offices. Prefer crisp first-person POV / medium candid shots (hands on knee, stairs, narrow black strap) — avoid awkward close-up AI faces.${extra}`;
   }
   if (brand === 'sardian-shampoo') {
-    return `BRAND & AUDIENCE: Szampon SARDIAN Aktywujący Korzenie (tall rectangular matte-black shampoo bottle with pump dispenser, Polish label "SARDIAN / SZAMPON AKTYWUJĄCY KORZENIE / DLA GĘSTYCH I MOCNYCH WŁOSÓW", herbal complex: Korean ginseng, Polygonum multiflorum, Biota Orientalis, menthol, licorice). Target: Polish men aged 32-60 dealing with hair loss, clogged shower drains, receding temples/crown, sebum-DHT plugs, short 3-week anagen hairs in the sink, or SLS rebound oiliness. IMPORTANT: Prefer first-person POV shots of hands, shower drains, bathroom shelves, trichoscope screens, handwritten trichologist slips, barbershop counters, and the matte-black SARDIAN bottle rather than close-up AI human faces.${extra}`;
+    return `BRAND & AUDIENCE: Szampon SARDIAN Aktywujący Korzenie (tall rectangular matte-black shampoo bottle with pump dispenser, Polish label "SARDIAN / SZAMPON AKTYWUJĄCY KORZENIE / DLA GĘSTYCH I MOCNYCH WŁOSÓW").
+CRITICAL "HAGIA SOPHIA / BROSZURA" HOOK-CONGRUENCE RULE FOR SARDIAN:
+NEVER generate boring, generic photos of a shampoo bottle sitting on a bathroom shelf for Scenes 1–10! Instead, Scenes 1–10 MUST have includeProductRef: false and MUST literally visualize the exact concrete Hook artifact, location, document, number, or physical proof from the first 3 sentences of the copy:
+- If the Hook mentions Turkey / Istanbul / 17 000 zł hair transplant ("Stambuł", "Turcja", "17 000 zł", "przeszczep"): show Hagia Sophia in Istanbul with a Turkish hair clinic brochure ("STAMBUŁ HAIR CLINIC — 17 000 ZŁ") on a cafe table, or a printed flight booking "WARSZAWA (WAW) -> STAMBUŁ (IST) — REZERWACJA ANULOWANA" next to a maroon Polish passport!
+- If the Hook mentions throwing away a dermatologist prescription or reading side effects ("recepta", "ulotka", "skutki uboczne", "libido"): show a man's hand in a parked car holding an unfolded Polish pharmacy leaflet ("ULOTKA DLA PACJENTA — Częste działania niepożądane: spadek libido, zaburzenia erekcji") circled in red pen next to a crumpled prescription!
+- If the Hook mentions checking the shampoo ingredient list for SLS ("Sodium Laureth Sulfate", "2. słowo po Aqua", "SLS"): show a close-up POV hand holding a generic plastic supermarket shampoo bottle turned to its back INCI label, pointing a finger directly at "INGREDIENTS: Aqua, Sodium Laureth Sulfate (SLS)" circled in red!
+- If the Hook mentions short 1-2 cm hairs in the sink or shortened 21-day anagen ("mniej niż 2 cm", "8 na 10 włosów", "21 dni", "anagen"): show a crisp macro comparison on white porcelain/card of 6 tiny 1.5 cm hairs ("21 DNI — SKRÓCONY ANAGEN") next to 3 long thick 6 cm hairs ("4 LATA — PEŁNY CYKL")!
+- If the Hook mentions a 79 zł USB microscope ("mikroskop USB za 79 zł", "1-2 mm włoski na zakolach"): show a small black handheld USB digital microscope plugged into a laptop displaying 200x tiny 1-2 mm sprouting hairs on scalp skin!
+- If the Hook mentions the 2-finger scalp test or waxy sebum-DHT plug ("test 2 palców", "nad uchem vs czubek głowy", "woskowy czop"): show a trichologist diagnostic sheet "TEST 2 PALCÓW: 1. Nad uchem (miękka skóra) vs 2. Czubek głowy (napięty czepiec + woskowy czop DHT)" or a 200x trichoscope monitor!
+- If the Hook mentions pouring out 320 zł hair serums/wcierki ("wcierki za 320 zł", "wylałem do zlewu"): show 4 half-used pharmacy dropper bottles and ampoules tossed in a basket by the sink with a "320 ZŁ" receipt while a dropper is poured into the drain!
+- If the Hook mentions catching the wife cleaning the shower drain ("przyłapałem żonę", "na kolanach przy kabinie", "sitko odpływu"): show a candid doorway shot of a Polish wife kneeling by the OPEN walk-in glass shower door, reaching her hand with a tissue INSIDE the white shower tray (brodzik) to clean dark hair from the shower drain (strictly NO floor drain on the dry tiles outside the shower!).
+Only Scenes 11–12 at the very end may have includeProductRef: true and show the matte-black SARDIAN bottle.${extra}`;
   }
   if (brand === 'feliora') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Kotów (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners dealing with peeing outside the litter box (duvet/sofa covered in painter foil), 2 fighting cats separated by a door crack or mesh, psychogenic belly fur licking, hiding behind the washing machine, or sterile stress cystitis (FIC).${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Kotów (spherical white duck-head plug-in diffuser on amber glass vial, M.A.P. + F3 cat pheromones). Target: Polish cat owners in bright, clean, contemporary modern Polish apartments (light oak floors, clean white/beige walls, modern Scandinavian-style Polish living rooms and spotless bathrooms) dealing with peeing outside the litter box, 2 tense cats separated by a clean doorway, stress-licked pink belly fur, hiding beside a clean white washing machine, or vet exam room scenes. Prefer crisp POV shots of expressive real cats, hands, and clean apartment props — avoid gloomy/shabby rooms and awkward close-up AI human faces.${extra}`;
   }
   if (brand === 'feliora-dog') {
-    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Psów (spherical matte-white duck-head plug-in diffuser with small orange-yellow beak screwed upright onto a clear-greenish 48 mL glass vial with sage-green label, canine D.A.P. appeasing pheromones - strictly ZERO cats!). Target: Polish dog owners aged 28-58 in Polish apartments and homes dealing with dog separation anxiety, angry neighbor notes taped on the front door ("ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00"), howling for 8 hours on live Wi-Fi pet camera while ignoring a stuffed Kong, scratched MDF doors and torn rubber doorframe seals, chewed sofas, bent wire crates, rescue dog fear, and thunderstorm/fireworks panic in the bathroom.${extra}`;
+    return `BRAND & AUDIENCE: Dyfuzor feromonowy Feliora dla Psów (spherical matte-white duck-head plug-in diffuser with small orange-yellow beak screwed upright onto a clear-greenish 48 mL glass vial with sage-green label, canine D.A.P. appeasing pheromones - strictly ZERO cats!). Target: Polish dog owners in bright, clean, newly renovated contemporary Polish apartments (warm oak floors, clean white walls, modern sleek doors, bright sunlit living rooms, clean modern Polish veterinary clinics) dealing with dog separation anxiety: angry neighbor note taped on a clean modern apartment door ("ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00"), howling on a smartphone home Wi-Fi camera app held in a hand (real hand holding phone, NEVER a raw UI screenshot), scratched lower door trim next to a cute anxious dog, torn corner of a clean modern grey sofa with an untouched red Kong, or a scared dog curled in a spotless white modern bathroom during fireworks. Prefer crisp Sardian-style first-person POV shots of real expressive dogs, hands, and story props — NEVER dingy Eastern-bloc hallways, NEVER stained mugs, NEVER camera timestamps, NEVER awkward close-up AI human faces.${extra}`;
   }
   if (brand === 'orthomax') {
-    return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax (bright orange contoured insoles). Segment: ${
+    return `BRAND & AUDIENCE: Wkładki ortopedyczne Orthomax StepMax (bright orange contoured insoles) in bright, clean modern Polish homes and bright physiotherapy clinics. Segment: ${
       segment === 'dzieci'
         ? 'Polish mothers of children aged 4-12 (valgus ankles, flat feet, worn inner shoe heels, PE pain)'
         : 'Polish adults/seniors aged 45-70 (bunions, heel spurs, collapsed arches, knee/hip/back compensation, long shifts on feet)'
     }.${extra}`;
   }
   if (brand === 'mellow-uk') {
-    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (matte light sky-blue stand-up pouch with berry-red 5-petal flower saffron gummies for calm, focus & emotional balance). Target: British parents (school runs, meltdowns, kitchen routine) or UK adults.${extra}`;
+    return `BRAND & AUDIENCE: Mellow Mood Munchies UK (matte light sky-blue stand-up pouch with berry-red 5-petal flower saffron gummies for calm, focus & emotional balance). Target: British parents in bright, tidy modern British kitchens and homes.${extra}`;
   }
   return `MARKET & AUDIENCE: ${
     market === 'uk'
-      ? 'United Kingdom (ordinary British homes, kitchens, stairs, gardens, workplaces, right-hand-drive UK cars)'
-      : 'Poland (ordinary Polish apartments, houses, stairwells, kitchens, gardens/ROD allotments, workplaces, left-hand-drive cars)'
+      ? 'United Kingdom (bright, clean, contemporary everyday British homes, kitchens, stairs, gardens, right-hand-drive UK cars)'
+      : 'Poland (bright, clean, contemporary modern Polish apartments, houses, kitchens, gardens, modern clinics, left-hand-drive cars - strictly NO gloomy Soviet-era grime)'
   }. Infer the exact product, target demographic, symptoms, and real locations directly from skrypt.txt and instruction.txt.${extra}`;
 }
 
@@ -167,78 +179,145 @@ export function buildFallbackTwelveNativeScenes(params: {
   let baseTwelve: NativeIphoneSceneSpec[];
 
   if (brand === 'sardian-shampoo') {
+    const isTurkey = /stambuł|turcj|17\s*000|przeszczep|lot\s+do|zalicz/i.test(lower);
+    const isLeaflet = /ulotk|recept|skutki uboczne|libido|erekcj|tabletk/i.test(lower);
+    const isSls = /laureth|lauryl|\bsls\b|2\.\s*słowo|drugie słowo|skład|7:00 rano|14:00/i.test(lower);
+    const isShortAnagen = /2\s*cm|1,5\s*cm|8 na 10|21 dni|anagen|krótkie włos/i.test(lower);
+    const isUsbMicroscope = /mikroskop\s*usb|79\s*zł|1-2\s*mm|pajęczyn/i.test(lower);
+    const isTwoFingers = /test\s*2\s*palc|nad uchem|czepiec|paznokcie|woskowy czop/i.test(lower);
+    const isWcierki = /wcierk|320\s*zł|serum|pipet|chodnik/i.test(lower);
+    const isBarber = /fryzjer|barber|strzygę|1991|myjk|maszynk|3\s*mm/i.test(lower);
+
+    const hookScene1: NativeIphoneSceneSpec = isTurkey
+      ? {
+          label: '1. [HOOK TURCJA] Hagia Sophia w Stambule i broszura kliniki przeszczepu „17 000 ZŁ” na stoliku',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 photo at an outdoor cafe table in Istanbul with the famous Hagia Sophia clearly visible in the background under natural daylight: on the wooden table next to a glass of Turkish tea lies a glossy clinic folder reading clearly in Polish "STAMBUŁ HAIR CLINIC — PAKIET 17 000 ZŁ" with a hair graft diagram.',
+        }
+      : isLeaflet
+      ? {
+          label: '1. [HOOK ULOTKA] Rozłożona ulotka z apteki w aucie z zakreślonymi skutkami ubocznymi + recepta',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 POV photo inside a parked car: a man’s hand holding an unfolded white Polish pharmacy medication leaflet reading "ULOTKA DLA PACJENTA — Częste działania niepożądane: spadek libido, zaburzenia erekcji" circled in red pen, next to a crumpled prescription slip.',
+        }
+      : isSls
+      ? {
+          label: '1. [HOOK SKŁAD INCI] Palec wskazujący „Sodium Laureth Sulfate (SLS)” na tyle drogeryjnego szamponu',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 close-up POV photo in a bright bathroom: a hand holding a generic plastic supermarket shampoo bottle turned to its back label, pointing a finger directly at "INGREDIENTS (INCI): Aqua, Sodium Laureth Sulfate (SLS)" circled in red marker.',
+        }
+      : isUsbMicroscope
+      ? {
+          label: '1. [HOOK MIKROSKOP USB] Ręczny mikroskop USB za 79 zł podłączony do laptopa z obrazem 1-2 mm włosków',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp iPhone 15 photo on a wooden home desk: a small black handheld digital USB microscope connected by cable to a laptop screen displaying 200x scalp skin with dozens of tiny 1-2 mm sprouting hairs, next to a small box labeled "MIKROSKOP USB 200X — 79 ZŁ".',
+        }
+      : isShortAnagen
+      ? {
+          label: '1. [HOOK 2 CM VS DŁUGI] Porównanie 1,5 cm krótkich włosków (21 dni) vs grubych włosów (4 lata)',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 macro photo on a white bathroom card: on the left 6 tiny thin 1.5 cm hairs labeled "21 DNI (SKRÓCONY ANAGEN < 2 CM)" vs on the right 3 long thick dark 6 cm hairs labeled "4 LATA (PEŁNY CYKL)".',
+        }
+      : isWcierki
+      ? {
+          label: '1. [HOOK WCIERKI 320 ZŁ] 4 apteczne buteleczki z pipetą i paragon 320 zł wyrzucone przy umywalce',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 POV photo by a white bathroom sink: 4 half-used pharmacy hair-growth dropper bottles and glass ampoules tossed into a small basket with a pharmacy receipt showing "RAZEM: 320,00 ZŁ" while a dropper is poured into the sink drain.',
+        }
+      : isTwoFingers
+      ? {
+          label: '1. [HOOK TEST 2 PALCÓW] Karta diagnostyczna trychologa „Nad uchem vs Czubek głowy (czop DHT)”',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 photo on a trichologist desk: a printed Polish diagnostic sheet titled "TEST 2 PALCÓW — DIAGNOSTYKA SKÓRY GŁOWY" comparing "1. NAD UCHEM: Miękka skóra + otwarty mieszek" vs "2. CZUBEK GŁOWY: Napięty czepiec + woskowy czop DHT" pointed at with a silver pen.',
+        }
+      : isBarber
+      ? {
+          label: '1. [HOOK BARBERSHOP] Wyłączona maszynka do golenia na konsoli fryzjerskiej i dłoń starego fryzjera',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp first-person iPhone 15 POV photo from a barber chair in a traditional Polish men’s barbershop: a switched-off metal hair clipper with a 3 mm guard lying on the wooden counter next to steel barber shears and a comb.',
+        }
+      : {
+          label: '1. [HOOK PRYSZNIC] Żona przy otwartej kabinie prysznicowej czyszcząca chusteczką odpływ w brodziku',
+          includeProductRef: false,
+          scenePrompt:
+            'Clean, sharp candid iPhone 15 photo from a Polish bathroom doorway: a 37-year-old woman kneeling beside the slid-open glass door of a walk-in shower, reaching her hand with a white paper tissue inside the white shower tray (brodzik) to clean dark wet hair from the chrome shower drain inside the cabin (no drain on the dry floor outside).',
+        };
+
     baseTwelve = [
+      hookScene1,
       {
-        label: '1. [PRYSZNIC POV] Czyste stalowe sitko odpływu pod prysznicem i czarna butelka SARDIAN na półce',
-        includeProductRef: true,
+        label: '2. [HOOK REZERWACJA / DOKUMENT] Anulowana rezerwacja lotu WAW -> STAMBUŁ (17 000 zł) i polski paszport',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp first-person iPhone 15 photo in a modern Polish walk-in shower: a clean stainless-steel shower drain grate on wet gray tiles in the foreground and the matte-black SARDIAN shampoo bottle with water droplets on the metal corner shelf above.',
+          'Clean, sharp first-person iPhone 15 photo on a home desk: a printed booking sheet reading "WARSZAWA (WAW) -> STAMBUŁ (IST) — PAKIET 17 000 ZŁ" with a red stamp "REZERWACJA ANULOWANA" lying next to a maroon Polish passport.',
       },
       {
-        label: '2. [TRICHOSCOPE 200X] Monitor z mikrokamerą 200x (czop łojowy vs czysta cebulka) + butelka SARDIAN',
-        includeProductRef: true,
+        label: '3. [HOOK TRICHOSCOPE 200X] Ekran mikrokamery 200x u trychologa: żółty czop łojowy DHT vs otwarty mieszek',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo on a Polish trichologist desk: a computer monitor showing 200x magnified scalp hair follicles (clogged yellowish sebum plug on left vs clean open hair root on right) next to the matte-black SARDIAN shampoo bottle.',
+          'Clean, sharp first-person iPhone 15 photo in a Polish trichologist office: a computer monitor displaying a 200x trichoscope view of scalp hair follicles (left: follicles blocked by yellowish waxy sebum-DHT plugs; right: clean open follicles with thick dark hair shafts) pointed at with a doctor pen.',
       },
       {
-        label: '3. [BARBERSHOP MYJKA] Czarna ceramiczna myjka fryzjerska z gęstą pianą i butelką SARDIAN',
-        includeProductRef: true,
+        label: '4. [HOOK SKŁAD SLS] Zbliżenie na etykietę INCI szamponu z drogerii z zakreślonym Sodium Laureth Sulfate',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo at a black ceramic barbershop washbasin: rich herbal micro-foam and water droplets on the basin edge with the matte-black SARDIAN shampoo bottle standing beside a dark barber towel.',
+          'Clean, sharp iPhone 15 macro POV photo in a bathroom: a hand holding a plastic supermarket shampoo bottle turned to the back ingredient list and pointing a finger at "INGREDIENTS: Aqua, Sodium Laureth Sulfate (SLS)" circled in red.',
       },
       {
-        label: '4. [KARTKA OD TRYCHOLOGA] Notatka „Szampon SARDIAN” na biurku obok okularów i butelki',
-        includeProductRef: true,
+        label: '5. [HOOK KRÓTKIE WŁOSKI] 2-centymetrowe zminiaturyzowane włoski na brzegu białej umywalki',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 POV photo on a wooden consultation desk: a small white notepad slip with clear blue ballpoint Polish handwriting reading "Szampon SARDIAN" next to reading glasses and the matte-black SARDIAN shampoo bottle.',
+          'Clean, sharp first-person iPhone 15 close-up photo of a white porcelain bathroom sink edge showing several short 1.5-2 cm thin hairs next to a clean chrome faucet in morning light.',
       },
       {
-        label: '5. [PAKIET 3 BUTELEK] 3 czarne butelki SARDIAN (90-dniowa kuracja) na półce w łazience',
-        includeProductRef: true,
+        label: '6. [HOOK ULOTKA APTECZNA] Ulotka tabletek na łysienie z podkreślonymi skutkami ubocznymi',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a Polish home bathroom: 3 matte-black SARDIAN shampoo bottles standing neatly in a row on a bathroom shelf next to a glass shower door.',
+          'Clean, sharp first-person iPhone 15 POV photo holding an unfolded Polish medication leaflet reading "ULOTKA DLA PACJENTA — Częste działania niepożądane: spadek libido, zaburzenia erekcji" underlined in red pen.',
       },
       {
-        label: '6. [SZCZOTKA + SZAMPON] Czarna butelka SARDIAN i silikonowa szczotka do masażu przy umywalce',
-        includeProductRef: true,
+        label: '7. [HOOK WCIERKI 320 ZŁ] Apteczne wcierki i pipety odstawione do koszyka przy umywalce',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 POV photo on a white ceramic bathroom sink counter: the matte-black SARDIAN shampoo bottle covered in water droplets next to a round black-and-gold silicone scalp massage brush.',
+          'Clean, sharp iPhone 15 POV photo on a bathroom counter: 4 small glass dropper hair-serum bottles and ampoules gathered inside a small wire basket next to a pharmacy receipt reading "320,00 ZŁ".',
       },
       {
-        label: '7. [DROGERIA W KĄCIE] Zwykłe plastikowe szampony odsunięte w kąt vs matowa butelka SARDIAN',
-        includeProductRef: true,
+        label: '8. [KARTKA OD TRYCHOLOGA] Odręczna notatka lekarza „Szampon SARDIAN (żeń-szeń + rdest + Biota Orientalis)”',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo on a bathroom ledge: 3 generic unbranded colourful plastic supermarket shampoo bottles pushed into the back corner while the matte-black SARDIAN shampoo bottle stands front and center.',
+          'Clean, sharp iPhone 15 POV photo on a wooden consultation desk: a small white notepad slip with natural blue ballpoint Polish handwriting reading ONLY "Szampon SARDIAN (żeń-szeń + rdest wielokwiatowy + Biota Orientalis)" next to reading glasses and a silver pen.',
       },
       {
-        label: '8. [CZYSTY GRZEBIEŃ] Czysty męski grzebień bez ani jednego włosa obok mokrej butelki SARDIAN',
-        includeProductRef: true,
+        label: '9. [CZYSTE SITKO BRODZIKA] Czyste stalowe sitko odpływu w dłoni po prysznicu (zero wypadających włosów)',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 POV photo on a bathroom counter right after a shower: a dark men’s hair comb (completely clean with zero fallen hairs) lying on a folded dark towel next to the wet matte-black SARDIAN shampoo bottle.',
+          'Clean, sharp first-person iPhone 15 POV photo inside a modern walk-in shower: a man’s wet hand holding up a completely clean stainless-steel shower drain strainer with zero hair on it under warm bathroom light.',
       },
       {
-        label: '9. [BARBERSHOP KONSOLA] Nożyczki fryzjerskie, maszynka i butelka SARDIAN przed lustrem',
-        includeProductRef: true,
+        label: '10. [CZYSTY GRZEBIEŃ PO MYCIU] Czarny męski grzebień bez ani jednego włosa na ręczniku po kąpieli',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo on a classic wooden Polish barbershop counter: professional steel barber scissors, a comb, and a hair clipper lying next to the matte-black SARDIAN shampoo bottle.',
+          'Clean, sharp iPhone 15 POV photo on a bathroom countertop right after a shower: a dark men’s hair comb (completely clean with zero fallen hairs) resting on a folded dark-grey towel.',
       },
       {
-        label: '10. [WCIERKI VS SARDIAN] Małe buteleczki z pipetą odsunięte przy zlewie vs Szampon SARDIAN',
-        includeProductRef: true,
+        label: '11. [HOOK HAGIA SOPHIA WIDOK] Zdjęcie Hagia Sophia w Stambule z perspektywy turysty (kąt tureckiej kliniki)',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 POV photo at a home bathroom sink: 2 small amber glass dropper bottles pushed aside near the drain while the tall matte-black SARDIAN shampoo bottle stands prominently with white micro-foam.',
+          'Clean, sharp first-person iPhone 15 travel photograph of Hagia Sophia in Istanbul from Sultanahmet square in warm afternoon daylight, looking 100% like a real smartphone photo snapped by a Polish tourist.',
       },
       {
-        label: '11. [DWIE BUTELKI POD PRYSZNICEM] Zużyta i nowa butelka SARDIAN pod prysznicem',
-        includeProductRef: true,
+        label: '12. [HOOK MIKROSKOP USB] Domowy mikroskop USB za 79 zł podłączony do laptopa z obrazem 1-2 mm włosków',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo inside a glass shower stall: 2 matte-black SARDIAN shampoo bottles standing side by side on a matte-black metal shower shelf under warm morning bathroom light.',
-      },
-      {
-        label: '12. [W DŁONI POD PRYSZNICEM] Męska dłoń sięgająca po mokrą butelkę SARDIAN w kabinie prysznicowej',
-        includeProductRef: true,
-        scenePrompt:
-          'Clean, sharp first-person iPhone 15 POV photo inside a modern shower: a man’s wet hand holding the matte-black SARDIAN shampoo bottle with water droplets and herbal foam.',
+          'Clean, sharp iPhone 15 photo on a wooden home desk: a small black handheld digital USB microscope connected by cable to a laptop screen displaying 200x scalp skin with dozens of tiny 1-2 mm sprouting vellus hairs, next to a small courier box labeled "MIKROSKOP CYFROWY USB 200X - 79 ZŁ".',
       },
     ];
   } else if (brand === 'feliora') {
@@ -319,10 +398,10 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Clean, sunny daytime iPhone 15 photo in a tidy Polish bedroom: a happy domestic cat sleeping deeply on its back belly-up on a crisp white duvet in warm afternoon window light.',
       },
       {
-        label: '12. [PRODUKT W DOMU] Wtyczka Feliora w gniazdku ściennym obok spokojnie odpoczywającego kota',
-        includeProductRef: true,
+        label: '12. [KOT NA KANAPIE BEZ FOLII] Spokojny kot leżący na czystej kanapie w słonecznym polskim salonie',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a bright Polish living room: the Feliora spherical white duck-head diffuser on its short round amber vial plugged vertically into a clean wall socket above the baseboard, with a relaxed tabby cat resting peacefully nearby.',
+          'Clean, sharp iPhone 15 photo in a bright Polish living room: a relaxed tabby cat resting peacefully on a clean grey fabric sofa in warm afternoon daylight.',
       },
     ];
   } else if (brand === 'feliora-dog') {
@@ -351,7 +430,7 @@ export function buildFallbackTwelveNativeScenes(params: {
           : '2. [HOOK KANAPA + KONG] Rozdarta gąbka z rogu kanapy i zupełnie nietknięty Kong z masłem orzechowym',
         includeProductRef: false,
         scenePrompt: hasDoorNote
-          ? 'Clean, sharp first-person POV iPhone 15 photo in a tidy Polish block stairwell: a woman hand holding house keys frozen in front of her apartment door where a squared notebook sheet taped with packing tape reads in bold black marker: "ZRÓBCIE COŚ Z TYM PSEM! WYJE OD 8:00 DO 16:00".'
+          ? 'Clean, bright, sharp first-person POV iPhone 15 Pro photo in a newly renovated modern Polish apartment corridor with clean white walls: a woman hand holding house keys in front of her sleek walnut apartment door where a squared notebook sheet taped with grey tape reads in bold black marker: "ZRÓBCIE COŚ Z TYM PSEM! WYJE OD 8:00 DO 16:00".'
           : hasKennel
           ? 'Clean, sharp daytime iPhone 15 photo in a bright Polish living room: a wire dog kennel crate with two bent front bars near the latch and a torn grey fleece blanket pulled inside, while an anxious medium dog sits safely outside on the rug looking worried.'
           : 'Clean, bright natural-daylight iPhone 15 photo in a Polish apartment living room: torn yellow upholstery sponge on oak floor panels beside a chewed grey sofa corner, a red rubber Kong stuffed with peanut butter lying completely untouched in the foreground, and an anxious dog sitting behind it.',
@@ -411,10 +490,10 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Clean, bright sunlit iPhone 15 photo in a cozy Polish living room: a relaxed medium-large mixed-breed dog sleeping deeply on its back belly-up on a clean uncovered grey fabric sofa in warm afternoon window light.',
       },
       {
-        label: '12. [PRODUKT W DOMU] Pionowa wtyczka Feliora dla Psów w gniazdku obok spokojnie śpiącego psa',
-        includeProductRef: true,
+        label: '12. [SPOKOJNY PIES W PRZEDPOKOJU] Pies śpiący spokojnie na legowisku przy czystych drzwiach',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a bright Polish apartment hallway-to-living-room passage: the Feliora spherical matte-white duck-head diffuser with orange-yellow beak screwed upright onto its clear-greenish 48 mL glass vial plugged vertically into a clean wall socket above the baseboard, with a calm dog sleeping peacefully on its bed nearby (strictly ZERO cats).',
+          'Clean, sharp iPhone 15 photo in a bright Polish apartment hallway: a calm dog sleeping peacefully on its soft bed near the front door in warm daylight (strictly ZERO cats).',
       },
     ];
   } else if (brand === 'orthomax') {
@@ -493,10 +572,10 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Clean, bright daytime iPhone 15 photo on a sunny Polish park path: an ordinary smiling 60-year-old Polish woman in a casual jacket walking comfortably.',
       },
       {
-        label: '12. [PRODUKT W DOMU] Dłoń wsuwająca pomarańczową wkładkę Orthomax StepMax do buta',
-        includeProductRef: true,
+        label: '12. [WYGODNE BUTY W PRZEDPOKOJU] Codzienne buty gotowe do wyjścia w jasnym przedpokoju',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a bright Polish hallway: a hand sliding a bright orange contoured Orthomax StepMax insole into a clean everyday sneaker, second shoe beside it.',
+          'Clean, sharp iPhone 15 photo in a bright Polish hallway: a pair of comfortable everyday walking shoes standing neatly by the door in morning light.',
       },
     ];
   } else if (resolvedMarket === 'uk') {
@@ -568,10 +647,10 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Clean sunny daytime iPhone 15 photo in a British back garden showing a relieved, happy parent holding a mug of tea.',
       },
       {
-        label: '12. [PRODUCT IN USE] Candid home iPhone photo of the product on a clean British kitchen counter',
-        includeProductRef: true,
+        label: '12. [CALM AFTERNOON] Peaceful British living room in warm afternoon light',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo on a bright British kitchen worktop next to a kettle and mug: an ordinary hand holding the product naturally at home.',
+          'Clean, sharp iPhone 15 photo in a bright British kitchen worktop next to a kettle and mug in warm afternoon daylight.',
       },
     ];
   } else {
@@ -645,10 +724,10 @@ export function buildFallbackTwelveNativeScenes(params: {
           'Clean bright daytime iPhone 15 photo: a smiling 66-year-old Polish person walking comfortably down home steps in natural sunlight.',
       },
       {
-        label: '12. [PRODUKT W DOMU] Wąski czarny pasek zapięty 2 palce pod rzepką w domowym świetle',
-        includeProductRef: true,
+        label: '12. [SPACER W SŁOŃCU] Swobodny spacer po alejce parkowej bez bólu kolana',
+        includeProductRef: false,
         scenePrompt:
-          'Clean, sharp iPhone 15 photo in a bright Polish living room: a 65-year-old person sitting on a chair with trouser leg rolled up, wearing a slim matte-black patellar strap fastened 2 fingers below the kneecap (strictly zero text or logos on strap).',
+          'Clean, sharp daytime iPhone 15 photo on a sunny Polish footpath: a smiling 65-year-old Polish person walking comfortably outdoors.',
       },
     ];
   }
@@ -712,51 +791,56 @@ export async function planNativeIphoneScenesFromScript(params: {
 
   const localeRules =
     resolvedMarket === 'uk'
-      ? `MARKET SETTING: UNITED KINGDOM (clean, authentic everyday British homes, hallways, kitchens, gardens, right-hand-drive UK cars taken strictly from THIS script).`
-      : `MARKET SETTING: POLAND (clean, authentic everyday Polish apartments, block-of-flats hallways, деревянные/walnut front doors, oak laminate panels, kitchens, bathrooms, vet consultation rooms, left-hand-drive cars taken strictly from THIS script).`;
+      ? `MARKET SETTING: UNITED KINGDOM (bright, clean, tidy, contemporary modern British homes, kitchens, hallways, gardens, right-hand-drive UK cars taken strictly from THIS script).`
+      : `MARKET SETTING: POLAND (bright, clean, tidy, newly renovated contemporary modern Polish apartments — clean white/warm-beige walls, light oak flooring, sleek modern front doors, sunlit Scandinavian-style Polish living rooms, spotless white bathrooms, modern bright veterinary clinics, left-hand-drive cars — STRICTLY NEVER write "block-of-flats", "post-Soviet", "Eastern European", "modest", "cluttered", "stained", or "peeling"!).`;
 
   const lastSceneNum = targetCount;
 
   try {
     const client = brainClient(brainOptions(45_000));
 
-    const systemPrompt = `You are an elite Direct-Response Native Ad Creative Director creating CLEAN, CRISP, HIGH-CLARITY iPhone 15 photo prompts (modelled on real viral photos from Reddit r/dogs, r/cats, r/Apartmentliving, Wykop, and Polish Facebook groups) that match the ad copy 1:1.
+    const systemPrompt = `You are the Direct-Response Native Creative Director creating BRIGHT, SPOTLESS, RAZOR-SHARP 1:1 square iPhone 15 Pro photo prompts (matching top viral Reddit/Wykop/Facebook group posts) that match the ad copy Hook 1:1 ("Hagia Sophia / Broszura Method").
 
 ${buildBrandDirectorContext(params.brand, resolvedMarket, params.segment, params.instructionText)}
 ${localeRules}
 
-CRITICAL RULE #1 — 100% LITERAL MATCH TO THE HOOK & COPY:
-Every photo MUST come directly from the specific scenes, objects, threats, and symptoms written in THIS exact script!
+CRITICAL RULE #0 — ZERO PRODUCT SHOEHORNING ("NIE WPYCHAJ PRODUKTU DO NATYWÓW"):
+- NEVER put the advertised product bottle/box/packshot into the photo! Putting a product bottle in a Native Ad photo immediately screams "commercial ad" and kills CTR.
+- ALL ${targetCount} scenes MUST have "includeProductRef": false and MUST depict 100% real-world Hook artifacts, locations, documents, labels, gadgets, or everyday moments from the story WITHOUT the product!
+
+CRITICAL RULE #1 — 100% LITERAL MATCH TO THE HOOK & COPY ("HAGIA SOPHIA / BROSZURA METHOD"):
+Every photo MUST come directly from the specific nouns, places, numbers, documents, threats, and symptoms written in the FIRST 3 SENTENCES (the Hook) of THIS exact script!
 - Read the FIRST 3 PARAGRAPHS (the Hook) word for word.
-- Scenes 1, 2, 3, and 4 MUST be 4 distinct, scroll-stopping, literal visual angles of the EXACT HOOK of THIS copy:
-  * Example A: If the hook mentions an anonymous/angry neighbor's note taped to the apartment door (e.g. "Zróbcie coś z tym psem, wyje od 8:00 do 16:00, dzwonimy na straż miejską"), Scene 1 MUST be a crisp close-up of a realistic Polish apartment front door with a squared notebook sheet taped to it reading clearly in bold black Polish marker the exact short threat (e.g. "ZRÓBCIE COŚ Z TYM PSEM! WYJE TU OD 8:00 DO 16:00. DZWONIMY NA STRAŻ MIEJSKĄ!"), and Scene 2 MUST show the owner's hand with keys in front of that note on the door!
-  * Example B: If the hook mentions scratched MDF doors / torn rubber seals / chewed sofa foam / untouched Kong, Scene 1 & 2 MUST show the real dog sitting guiltily/anxiously right next to that exact scratched door or chewed sofa + untouched Kong!
-  * Example C: If the hook mentions checking a live home Wi-Fi camera in a car/office, Scene 1 & 2 MUST show a crisp smartphone screen in hand displaying the live pet-cam view of the dog howling at the front door!
-  * Example D: If the hook mentions a 28 kg dog wedged behind a washing machine or trembling in a dry bathtub, or a cat with a stress-licked pink belly, or 2 cats staring through a door crack, or a sofa wrapped in painter's plastic foil — Scene 1 & 2 MUST show that exact visual clearly!
+- Scenes 1, 2, 3, 4, 5, and 6 MUST be 6 distinct, scroll-stopping, literal visual angles of the EXACT HOOK of THIS copy:
+  * Example A (Turkey / 17 000 zł transplant / cancelled flight): Show Hagia Sophia in Istanbul with a Turkish hair clinic brochure ("STAMBUŁ HAIR CLINIC — 17 000 ZŁ") on a cafe table, OR a printed flight reservation "WARSZAWA (WAW) -> STAMBUŁ (IST)" stamped "REZERWACJA ANULOWANA" next to a Polish passport!
+  * Example B (Pharmacy leaflet / dermatologist prescription thrown away): Show a hand in a parked car holding an unfolded Polish medication leaflet ("ULOTKA DLA PACJENTA — Częste działania niepożądane: spadek libido, zaburzenia erekcji") circled in red pen next to a crumpled prescription!
+  * Example C (SLS / Sodium Laureth Sulfate on back of shampoo): Show a close-up POV hand holding a generic supermarket shampoo bottle turned to its back INCI ingredient label, pointing a finger directly at "Aqua, Sodium Laureth Sulfate (SLS)" circled in red!
+  * Example D (Short 1.5-2 cm hairs / 21-day anagen vs 4-year cycle, or 79 zł USB microscope, or 2-finger scalp test, or 320 zł serums poured down sink): Show the exact physical comparison card, the USB digital microscope connected to a laptop showing 200x sprouting hairs, the trichologist "TEST 2 PALCÓW" diagram sheet, or the dropper being poured into the sink drain next to a 320 zł receipt!
+  * Example E (Wife cleaning shower drain / angry neighbor note on door / pet anxiety): Show the exact real-world scene (e.g. wife kneeling by the open walk-in shower door reaching her hand with a tissue INSIDE the white shower tray/brodzik to clean hair from the shower drain; or the neighbor's note taped to the apartment door).
 
-CRITICAL RULE #2 — CLEAN, CRISP MODERN iPHONE 15 QUALITY (ZERO "SHIT QUALITY"):
-- Every image must look like a clean, sharp, well-lit photo taken on a modern iPhone 15 in balanced daylight or clean warm indoor lighting.
-- Clear focal subject, readable in 0.3 seconds on a mobile feed, natural true-to-life colors, pleasant clean framing.
-- STRICTLY FORBIDDEN QUALITY DEFECTS: NEVER use words like "greasy lens", "blown-out highlights", "overexposed glare", "harsh flash", "blurry", "grainy", "dirty", "crooked horizon", "awkward chin-down selfie", or "unflattering"!
+CRITICAL RULE #2 — BRIGHT & CLEAN MODERN iPHONE 15 PRO ENGINE (ZERO "OBSKURNE" / SHABBY ROOMS):
+- Every image MUST be set in a BRIGHT, CLEAN, TIDY, CONTEMPORARY MODERN environment with soft natural daylight or warm balanced home lighting.
+- Prefer first-person POV shots (hands, documents, labels, gadgets, real expressive pets, story props) or natural candid medium shots — AVOID awkward passport-style close-up AI human faces staring straight into a wide-angle lens!
+- STRICTLY FORBIDDEN: NEVER use words like "block-of-flats", "post-Soviet", "grimy", "shabby", "cluttered", "stained mug", "peeling paint", "greasy lens", "blown-out highlights", "harsh flash", "mirror flash glare", "blurry", "grainy", "dark", "dim", or "crooked"!
+- STRICTLY NO UI ARTIFACTS OR TIMESTAMPS: NEVER include camera date/time stamps and NEVER generate fake tablet/phone screenshot UI bars!
 
-CRITICAL RULE #3 — ZERO DINOSAUR SKULLS, ZERO BURNT STICKS, ZERO GARBAGE BINS:
-- NEVER generate plastic anatomical skulls, animal skeletons, bone models, or weird medical props ("canine skull model" looks like a dinosaur skeleton — 100% BANNED!).
-- NEVER generate burnt/charred black diffuser wicks ("burnt blackened wick" looks like unrecognizable burnt filth — 100% BANNED!).
-- NEVER generate open trash/garbage bins full of rubbish!
-- NEVER invent random clinic/NFZ wall signs that are not in the story. ONLY render Polish text on a note when the story itself features that note (e.g. neighbor's note on the door, or vet's small handwritten slip on a table — keep handwritten text short, bold, and 100% accurately spelled in Polish!).
+CRITICAL RULE #3 — ZERO DINOSAUR SKULLS, ZERO BURNT STICKS, ZERO GARBAGE BINS, ZERO SMALL-PRINT GIBBERISH:
+- NEVER generate plastic anatomical skulls, animal skeletons, or bone models (100% BANNED!).
+- NEVER generate burnt/charred black diffuser wicks (100% BANNED!).
+- NEVER generate open trash/garbage bins!
+- When a scene includes a document, brochure, leaflet, or label with Polish text, specify ONLY 2 to 4 large, bold, crystal-clear Polish lines and explicitly instruct: "strictly NO tiny unreadable small-print paragraphs or gibberish text".
 
-SCENE STRUCTURE (EXACTLY ${targetCount} SCENES):
-- Scenes 1–4: 4 crisp, literal visual Hook variations of Paragraphs 1–4 of THIS copy (highest scroll-stop power!).
-- Scenes 5–8: 4 concrete story scenes from the middle of THIS copy (e.g. live pet-cam screen, untouched Kong/toys, calm real veterinarian examining a real live dog/cat on the table, or neat handwritten product slip on kitchen table if in the script).
-- Scenes 9–${lastSceneNum - 1}: Clean relatable home moments & emotional payoff from THIS copy (e.g. peaceful dog/cat sleeping belly-up on a clean uncovered sofa in bright natural window light).
-- Scene ${lastSceneNum}: [PRODUCT IN HOME] (includeProductRef: true — ONLY scene #${lastSceneNum} has includeProductRef: true; all earlier scenes MUST have includeProductRef: false!) Crisp everyday home photo of the product plugged neatly into a clean wall socket / used naturally with a calm pet/owner nearby.
+SCENE STRUCTURE (EXACTLY ${targetCount} SCENES — ALL WITH includeProductRef: false):
+- Scenes 1–6: 6 bright, crisp, literal visual Hook variations of Paragraphs 1–3 of THIS copy (highest scroll-stop power, 100% Hook-congruent!).
+- Scenes 7–10: 4 concrete discovery / mechanism scenes from the middle of THIS copy (e.g. 200x trichoscope screen, diagnostic diagram, handwritten doctor slip on a wooden table, ingredient comparison).
+- Scenes 11–${lastSceneNum}: Clean, authentic everyday payoff moments from THIS copy (all with includeProductRef: false — ZERO commercial product packshots!).
 
 Return ONLY valid JSON:
 {
   "scenes": [
     {
       "label": "1. [HOOK] Krótki polski opis sceny z tego copy (max 70 znaków)",
-      "scenePrompt": "Detailed English prompt for a clean, sharp modern iPhone 15 photo matching the exact scene...",
+      "scenePrompt": "Detailed English prompt for a clean, sharp modern iPhone 15 photo matching the exact scene (strictly NO product bottle/packshot)...",
       "includeProductRef": false
     }
   ]
@@ -806,20 +890,16 @@ Return ONLY valid JSON:
       return fallback;
     }
 
-    const lastIdx = targetCount - 1;
     return Array.from({ length: targetCount }, (_, idx) => {
       const candidate = parsed.scenes?.[idx];
       const fb = fallback[idx];
       const rawLabel = stripClinicSignTokens(candidate?.label || fb.label || `${idx + 1}. Native scene`, resolvedMarket);
       const numberedLabel = /^\d+\./.test(rawLabel) ? rawLabel : `${idx + 1}. ${rawLabel}`;
       const scenePrompt = stripClinicSignTokens(candidate?.scenePrompt || fb.scenePrompt, resolvedMarket);
-      const wantsSardianRef =
-        params.brand === 'sardian-shampoo' &&
-        (Boolean(candidate?.includeProductRef) || /sardian|bottle|butelk|szampon/i.test(`${numberedLabel} ${scenePrompt}`));
       return {
         label: numberedLabel,
         scenePrompt,
-        includeProductRef: idx === lastIdx || wantsSardianRef ? true : false,
+        includeProductRef: false,
       };
     });
   } catch {

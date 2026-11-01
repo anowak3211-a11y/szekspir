@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AntkiPlBrandSwitcher, {
+  formatAntekFullDate,
+  formatAntekShortDate,
+  type AntkiPlBrandKey,
+} from '@/app/components/antki-pl-brand-switcher';
 import {
   SARDIAN_FANPAGES,
   SARDIAN_IMAGE_LIBRARY,
@@ -53,7 +58,8 @@ export default function SardianPlWorkspace({
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
 
-  // Filtering
+  // Filtering & Sorting
+  const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'stages'>('newest');
   const [stageFilter, setStageFilter] = useState<'all' | SardianAwarenessStageId>('all');
   const [clusterFilter, setClusterFilter] = useState<'all' | SardianProblemCluster>('all');
   const [fanpageFilter, setFanpageFilter] = useState<string>('all');
@@ -87,7 +93,7 @@ export default function SardianPlWorkspace({
   const [kieBatchCount, setKieBatchCount] = useState<4 | 8 | 12>(8);
   const [kieCustomPrompt, setKieCustomPrompt] = useState('');
   const [kieCustomCount, setKieCustomCount] = useState<1 | 4 | 8>(4);
-  const [kieIncludeProductRef, setKieIncludeProductRef] = useState(true);
+  const [kieIncludeProductRef, setKieIncludeProductRef] = useState(false);
   const [kieAutoAssign, setKieAutoAssign] = useState(true);
 
   // Meta Push state
@@ -157,6 +163,39 @@ export default function SardianPlWorkspace({
       return true;
     });
   }, [presets, stageFilter, clusterFilter, fanpageFilter, searchQuery, adByAngleId]);
+
+  const sortedPresetsForSidebar = useMemo(() => {
+    if (sidebarSort === 'stages') return filteredPresets;
+    return [...filteredPresets].sort((a, b) => {
+      const adA = adByAngleId[a.id];
+      const adB = adByAngleId[b.id];
+      const tsA = adA?.updatedAt || adA?.createdAt || 0;
+      const tsB = adB?.updatedAt || adB?.createdAt || 0;
+      if (tsA !== tsB) {
+        return sidebarSort === 'oldest' ? tsA - tsB : tsB - tsA;
+      }
+      return a.number - b.number;
+    });
+  }, [filteredPresets, adByAngleId, sidebarSort]);
+
+  const handleBrandSelect = useCallback(
+    (brand: AntkiPlBrandKey) => {
+      if (brand === 'stryde') {
+        if (onSwitchToStryde) onSwitchToStryde();
+        else window.location.href = '/antki-pl?brand=stryde';
+      } else if (brand === 'feliora') {
+        if (onSwitchToFeliora) onSwitchToFeliora();
+        else window.location.href = '/antki-pl?brand=feliora';
+      } else if (brand === 'feliora-pies') {
+        if (onSwitchToFelioraPies) onSwitchToFelioraPies();
+        else window.location.href = '/antki-pl?brand=feliora-pies';
+      } else if (brand === 'orthomax') {
+        if (onSwitchToOrthomax) onSwitchToOrthomax();
+        else window.location.href = '/antki-pl?brand=orthomax';
+      }
+    },
+    [onSwitchToStryde, onSwitchToFeliora, onSwitchToFelioraPies, onSwitchToOrthomax],
+  );
 
   const toggleSelectAngle = (id: string) => {
     setSelectedAngleIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
@@ -663,95 +702,7 @@ export default function SardianPlWorkspace({
           </div>
 
           {/* BRAND SWITCHER */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <button
-              type="button"
-              style={{
-                padding: '8px 14px',
-                borderRadius: 9,
-                border: '2px solid #f59e0b',
-                background: 'linear-gradient(135deg, #b45309, #78350f)',
-                color: '#fffbeb',
-                fontWeight: 800,
-                fontSize: 12,
-                cursor: 'default',
-              }}
-            >
-              🦁 SARDIAN PL (38)
-            </button>
-            {onSwitchToStryde && (
-              <button
-                type="button"
-                onClick={onSwitchToStryde}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 9,
-                  border: '1px solid #334155',
-                  background: '#1e293b',
-                  color: '#cbd5e1',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                🦶 STRYDE PL (25)
-              </button>
-            )}
-            {onSwitchToFeliora && (
-              <button
-                type="button"
-                onClick={onSwitchToFeliora}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 9,
-                  border: '1px solid #334155',
-                  background: '#1e293b',
-                  color: '#cbd5e1',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                🐱 FELIORA KOTY (25)
-              </button>
-            )}
-            {onSwitchToFelioraPies && (
-              <button
-                type="button"
-                onClick={onSwitchToFelioraPies}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 9,
-                  border: '1px solid #334155',
-                  background: '#1e293b',
-                  color: '#cbd5e1',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                🐶 FELIORA PSY (25)
-              </button>
-            )}
-            {onSwitchToOrthomax && (
-              <button
-                type="button"
-                onClick={onSwitchToOrthomax}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 9,
-                  border: '1px solid #334155',
-                  background: '#1e293b',
-                  color: '#cbd5e1',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: 'pointer',
-                }}
-              >
-                🦵 ORTHOMAX PL (70)
-              </button>
-            )}
-          </div>
+          <AntkiPlBrandSwitcher activeBrand="sardian-szampon" onSelectBrand={handleBrandSelect} />
         </div>
       </div>
 
@@ -1002,40 +953,74 @@ export default function SardianPlWorkspace({
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 7,
                 marginBottom: 10,
                 paddingBottom: 8,
                 borderBottom: '1px solid #1f2937',
               }}
             >
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af' }}>
-                Widoczne: {filteredPresets.length} / 38 · Zaznaczone: {selectedAngleIds.length}
-              </span>
-              <button
-                type="button"
-                onClick={selectAllFiltered}
-                style={{
-                  padding: '4px 8px',
-                  borderRadius: 6,
-                  border: '1px solid #374151',
-                  background: '#1f2937',
-                  color: '#e5e7eb',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
-              >
-                Zaznacz / Odznacz widoczne
-              </button>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af' }}>
+                  Widoczne: {filteredPresets.length} / 38 · Zaznaczone: {selectedAngleIds.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={selectAllFiltered}
+                  style={{
+                    padding: '4px 8px',
+                    borderRadius: 6,
+                    border: '1px solid #374151',
+                    background: '#1f2937',
+                    color: '#e5e7eb',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Zaznacz / Odznacz widoczne
+                </button>
+              </div>
+              <div style={{ display: 'flex', gap: 4 }}>
+                {(
+                  [
+                    { key: 'newest', label: '🕒 Najnowsze' },
+                    { key: 'oldest', label: '📅 Najstarsze' },
+                    { key: 'stages', label: '📊 Kolejność #1–#38' },
+                  ] as const
+                ).map(opt => {
+                  const active = sidebarSort === opt.key;
+                  return (
+                    <button
+                      key={opt.key}
+                      type="button"
+                      onClick={() => setSidebarSort(opt.key)}
+                      style={{
+                        flex: 1,
+                        padding: '4px 6px',
+                        borderRadius: 6,
+                        border: active ? '1px solid #f59e0b' : '1px solid #374151',
+                        background: active ? 'rgba(245, 158, 11, 0.2)' : '#1f2937',
+                        color: active ? '#fde68a' : '#9ca3af',
+                        fontSize: 10.5,
+                        fontWeight: active ? 800 : 600,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-              {filteredPresets.map(preset => {
+              {sortedPresetsForSidebar.map(preset => {
                 const ad = adByAngleId[preset.id];
                 const isSelected = activePreset?.id === preset.id;
                 const isChecked = selectedAngleIds.includes(preset.id);
                 const clusterMeta = PROBLEM_CLUSTER_LABELS[preset.problemCluster];
+                const dateShort = formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
                 return (
                   <div
                     key={preset.id}
@@ -1086,6 +1071,19 @@ export default function SardianPlWorkspace({
                           }}
                         >
                           {preset.code}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 700,
+                            padding: '1px 5px',
+                            borderRadius: 4,
+                            background: '#0f172a',
+                            color: '#fcd34d',
+                            border: '1px solid rgba(245,158,11,0.35)',
+                          }}
+                        >
+                          📅 {dateShort}
                         </span>
                         <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>
                           {ad?.pageName || preset.recommendedFanpageName} · {ad?.wordCount || 0} słów
@@ -1762,7 +1760,7 @@ export default function SardianPlWorkspace({
                       if (!activeAd || !activePreset) return;
                       const firstLines = activeAd.primaryText.split('\n\n').slice(0, 2).join(' ');
                       setKieCustomPrompt(
-                        `Clean, sharp first-person iPhone 15 photo in a Polish bathroom/barbershop matching this scene: ${firstLines.slice(0, 240)} — with the matte-black SARDIAN shampoo bottle in frame.`,
+                        `Clean, sharp first-person iPhone 15 photo literally depicting the exact Hook artifact/place/document from this story (strictly NO product bottle in frame): ${firstLines.slice(0, 260)}`,
                       );
                     }}
                     style={{
@@ -1776,7 +1774,7 @@ export default function SardianPlWorkspace({
                       cursor: 'pointer',
                     }}
                   >
-                    📋 Wklej scenę z hooka {activePreset?.code}
+                    📋 Wklej scenę 1:1 z hooka {activePreset?.code} (bez produktu)
                   </button>
                 </div>
 
@@ -1784,7 +1782,7 @@ export default function SardianPlWorkspace({
                   rows={3}
                   value={kieCustomPrompt}
                   onChange={e => setKieCustomPrompt(e.target.value)}
-                  placeholder="Np. Czarna matowa butelka SARDIAN stojąca na rogu kabiny prysznicowej obok czystego stalowego sitka odpływu, poranne światło w polskiej łazience..."
+                  placeholder="Np. Hagia Sophia w Stambule i broszura kliniki przeszczepu włosów 17 000 zł na stoliku kawiarni / Ulotka z apteki z zakreślonymi skutkami ubocznymi w aucie / Mikroskop USB 79 zł podłączony do laptopa (domyślnie BEZ wpychania butelki produktu!)..."
                   style={{
                     width: '100%',
                     padding: '9px 11px',
@@ -1806,7 +1804,7 @@ export default function SardianPlWorkspace({
                         checked={kieIncludeProductRef}
                         onChange={e => setKieIncludeProductRef(e.target.checked)}
                       />
-                      🧴 Dołącz butelkę SARDIAN (1:1)
+                      🧴 Wymuś butelkę SARDIAN w kadrze (domyślnie WYŁ. — czysty natyw pod Hooka)
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: '#cbd5e1', cursor: 'pointer' }}>
                       <input
