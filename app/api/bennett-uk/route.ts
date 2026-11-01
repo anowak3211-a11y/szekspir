@@ -28,7 +28,7 @@ export const maxDuration = 300;
 
 const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
 const LEGACY_STATE_KEY_V8 = 'bennett-uk-lfs-v8-34-stories-1x1-fixed';
-const STATE_KEY = 'bennett-uk-lfs-v12-rule2-450pln';
+const STATE_KEY = 'bennett-uk-lfs-v13-oakridge-fb-only';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-01T19:53:00+01:00');
 
 interface BennettUkLibraryState {
@@ -721,7 +721,8 @@ export const POST = accountRoute(async (req: Request) => {
         'fp-david-t-yorkshire': { id: '1402524776268549', name: 'David T. Yorkshire Notes' },
         'fp-bennett-seed-uk': { id: '1327661883769549', name: 'Bennett & Seed UK' },
         '1327661883769549': { id: '1327661883769549', name: 'Bennett & Seed UK' },
-        '1277952565400407': { id: '1277952565400407', name: 'Over 50s Health & Wellbeing UK (Health Daily UK)' },
+        '1277952565400407': { id: '1286491224543664', name: 'Oakridge Health Clinic' },
+        '1286491224543664': { id: '1286491224543664', name: 'Oakridge Health Clinic' },
       };
       const allCandidatePages: Array<{ id: string; name: string }> = [];
 
@@ -779,7 +780,7 @@ export const POST = accountRoute(async (req: Request) => {
         '1415703161625474', // Carys Morgan
         '1402524776268549', // David T. Yorkshire Notes
         '1327661883769549', // Bennett & Seed UK
-        '1277952565400407', // Over 50s Health & Wellbeing UK (Health Daily UK)
+        '1286491224543664', // Oakridge Health Clinic
       ];
       const [accountInfo, pagesInfo, pixelInfo, pixelStats, campaignsInsights7d, campaignsInsightsToday, issueAds] =
         await Promise.all([
@@ -896,7 +897,7 @@ export const POST = accountRoute(async (req: Request) => {
         age_min: 45,
         age_max: 65,
         publisher_platforms: ['facebook'],
-        facebook_positions: ['feed', 'video_feeds', 'facebook_reels', 'story'],
+        facebook_positions: ['feed', 'facebook_reels', 'story'],
         targeting_automation: { advantage_audience: 0 },
       };
 
@@ -963,7 +964,8 @@ export const POST = accountRoute(async (req: Request) => {
         '1415703161625474': '1415703161625474',
         '1402524776268549': '1402524776268549',
         '1327661883769549': '1327661883769549',
-        '1277952565400407': '1277952565400407',
+        '1277952565400407': '1286491224543664',
+        '1286491224543664': '1286491224543664',
       };
       for (const endpoint of ['me/accounts', '1229288098677658/owned_pages', `act_${BENNETT_UK_META_ACCOUNT_ID}/promote_pages`]) {
         try {
@@ -1001,7 +1003,7 @@ export const POST = accountRoute(async (req: Request) => {
         '1415703161625474': {}, // Carys Morgan (FB Page only)
         '1402524776268549': {}, // David T. Yorkshire Notes (FB Page only)
         '1327661883769549': {}, // Bennett & Seed UK (FB Page only)
-        '1277952565400407': {}, // Over 50s Health & Wellbeing UK (FB Page only)
+        '1286491224543664': {}, // Oakridge Health Clinic (FB Page only)
       };
 
       const createdAds: Array<{ id: string; name: string; angleId: string; url: string }> = [];
