@@ -1182,7 +1182,7 @@ export function sanitizeAndAuditFelioraPiesPl(
 
 export function buildAllFelioraPiesPrewrittenAds(): FelioraPiesPlGeneratedAd[] {
   const baseCreated = Date.parse('2026-10-26T14:00:00+01:00');
-  const baseUpdated = Date.parse('2026-11-01T12:40:00+01:00');
+  const baseUpdated = Date.parse('2026-11-01T14:40:00+01:00');
   return FELIORA_PIES_PRESET_ANGLES.map((preset, idx) => {
     const rawCopy = FELIORA_PIES_ALL_COPY[preset.id] || {
       headline: preset.title,

@@ -71,19 +71,33 @@ Wziął małą karteczkę z bloczka i zapisał mi na niej tylko 1 linijkę:
 
 „feromon kojący D.A.P. - dyfuzor Feliora”
 
-Wieczorem w kuchni przepisałam to z kartki w Google i sama dopisałam na końcu słowo „opinie”.
+Podając mi ten świstek, popatrzył na mnie znad okularów i uprzedził uczciwie: „Tylko niech pani nie liczy, że to zadziała w 15 minut jak tabletka nasenna. Wtyczka musi grzać w kontakcie non stop przez 2 do 4 dni, żeby cząsteczki nasyciły pokoje, a rano o 8:00 kończy pani z czułym żegnaniem psa pod drzwiami”.
 
-Myślałam sceptycznie: „Jasne, wtyczka do kontaktu, zaraz znowu wywalę prawie 200 zł w błoto”. Przekonało mnie to, że na stronie nikt nie obiecywał cudów w 15 minut. Napisali wprost: to nie tabletka nasenna, dyfuzor musi grzać w gniazdku od 2 do 4 dni, żeby nasycić powietrze w pokojach, a przy wyjściu trzeba skończyć z czułym żegnaniem pod drzwiami. Dają 30 dni na zwrot pieniędzy, a grzałka bierze 5 W jak mała ładowarka, więc nie bałam się zostawić jej na 8 godzin w biurze.
+Wieczorem w kuchni wyciągnęłam zmiętą karteczkę z kieszeni płaszcza, przepisałam to w telefonie w Google i sama dopisałam na końcu słowo „opinie”.
 
-Wzięłam pakiet na 2 pokoje za 189,99 zł, czyli po 94,99 zł za sztukę (był też wariant na 1 pokój za 119,99 zł i na 3 pokoje za 254,99 zł, po 84,99 zł za wtyczkę, ale u mnie przedpokój i salon dzieli ściana). Na maila dostałam gratis e-booka „Co Twój Pies Próbuje Ci Powiedzieć?”. Jak go przeczytałam, złapałam się za głowę: żegnając Bruna płaczliwym głosem w progu, sama nakręcałam mu panikę!
+Weszłam na stronę producenta, zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje i aż prychnęłam pod nosem nad zimną herbatą:
 
-Wpięłam 1. wtyczkę w przedpokoju przy drzwiach, a 2. w salonie koło posłania. Przez 2 dni Bruno jeszcze popiskiwał pod progiem, ale już bez wycia.
+„Jasne. Wyrzuciłam już 129 zł na kamerkę, kupę kasy na maty węchowe, śmierdzące żwacze i 69 zł na lawendową obróżkę, która nic nie dała, a teraz mojego wyjącego psa uciszy bezwonna wtyczka do kontaktu jak na komary? Kolejne naciąganie zdesperowanych ludzi na prawie 200 zł”.
+
+Zamknęłam kartę w przeglądarce, rzuciłam telefon ekranem do stołu i poszłam spać.
+
+Złamałam się dopiero następnego ranka przed 8:00. Wyszłam z mieszkania na miękkich nogach, a gdy mijałam drzwi sąsiadki spod 7. i usłyszałam za nimi szmer kroków, zamiast czekać na windę zbiegłam po schodach z 3. piętra jak złodziej, żeby tylko nie spojrzeć nikomu w oczy.
+
+W tramwaju w drodze do biura ręce dalej mi się trzęsły. Wyjęłam telefon i otworzyłam tę stronę jeszcze raz. Zamówiłam zestaw 2 wtyczek za 189,99 zł - bo u mnie przedpokój od salonu oddziela gruba ściana - wyłącznie dlatego, że dawali 30 dni gwarancji zwrotu pieniędzy, a grzałka pobiera 5 W jak mała ładowarka do telefonu, więc nie bałam się zostawić jej w gniazdku na 8 godzin.
+
+Kiedy kurier przyniósł paczkę, nie wyrzuciłam opakowania. Schowałam puste pudełko głęboko do szafki pod zlewem i powiedziałam sobie twardo: „Jak na kamerce dalej będzie wył pod drzwiami, pakuję te 2 wtyczki z powrotem i odsyłam im to co do grosza”.
+
+Wieczorem otworzyłam jeszcze darmowego e-booka „Co Twój Pies Próbuje Ci Powiedzieć?”, który wpadł na maila razem z zamówieniem. Aż złapałam się za głowę: kucając przed Brunem w progu i mówiąc łamiącym się głosem „mamusia zaraz wróci”, sama wysyłałam mu sygnał, że za drzwiami czai się śmiertelne zagrożenie!
+
+Wpięłam 1. wtyczkę w przedpokoju tuż przy drzwiach, a 2. w salonie obok posłania.
+
+Przez 1. i 2. dzień wracałam z pracy, klękałam przy kontakcie i wąchałam tę wtyczkę z odległości 5 cm. Kompletnie 0 zapachu, 0 dymku, tylko lekko ciepły plastik. W biurze o 10:00 odpalałam podgląd z duszą na ramieniu: Bruno nie zadzierał już głowy do wycia, ale dalej kręcił się pod progiem, skrobał łapą i żałośnie popiskiwał. Siedziałam przed monitorem z zaciśniętymi zębami i myślałam gorzko, że dałam się nabić w butelkę jak naiwniaczka, a pudełko spod zlewu przyda się szybciej, niż myślałam.
 
 4. dnia rano w pracy odpaliłam telefon o 9:00 i przestałam oddychać.
 
-Bruno postał przy drzwiach 5 minut, powęszył w powietrzu, westchnął… po czym poszedł na dywan, chwycił w łapy Konga i przez 25 minut wylizywał z niego masło orzechowe do czysta! Śmiałam się przez łzy przed monitorem - skoro zaczął jeść, żołądek mu puścił.
+Bruno postał przy drzwiach 5 minut, powęszył w powietrzu, wypuścił długie westchnienie… po czym odwrócił się na pięcie, poszedł na dywan, chwycił w łapy gumowego Konga i przez 25 minut wylizywał z niego masło orzechowe do czysta! Śmiałam się przez łzy przed monitorem - skoro zaczął sam jeść, kleszcze adrenaliny na żołądku wreszcie puściły.
 
-Po 7 dniach na kamerce była kompletna cisza - przesypiał na boku całe 8 godzin.
+Po 7 dniach na kamerce była kompletna cisza - przesypiał na boku całe 8 godzin. Tego samego wieczoru wyjęłam puste pudełko spod zlewu i z ulgą wyrzuciłam je do kosza na papier.
 
 2 tygodnie później przy skrzynkach pocztowych wpadłam na sąsiada z mieszkania pode mną, tego od pracy zdalnej. Ścisnęło mnie w brzuchu, a on przytrzymał mi drzwi i zapytał normalnie:
 
@@ -91,7 +105,7 @@ Po 7 dniach na kamerce była kompletna cisza - przesypiał na boku całe 8 godzi
 
 Kiedy usłyszał, że Bruno codziennie leży sam nad jego sufitem od 8:00 do 16:00, patrzył na mnie z otwartymi ustami przez dobre 5 sekund.
 
-P.S. Jeśli Twój pies płacze, wyje albo szczeka pod drzwiami, nie krzycz na niego po powrocie - on naprawdę nie robi Ci na złość. Zostawiam link do strony, z której zamawiałam swoje wtyczki (mają pełne 30 dni gwarancji zwrotu pieniędzy, jak nie zobaczysz różnicy u psa, oddają kasę bez gadania):
+P.S. Jeśli Twój pies płacze, wyje albo drapie drzwi po Twoim wyjściu, nie krzycz na niego po powrocie - on naprawdę nie robi Ci na złość, tylko dusi się z paniki. Zostawiam link do strony, z której zamawiałam swoje 2 wtyczki (zostaw sobie pudełko w szafce, bo masz pełne 30 dni gwarancji zwrotu pieniędzy - jak nie zobaczysz różnicy u psa, oddają kasę bez gadania):
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
@@ -150,25 +164,39 @@ Patrzyłem na niego jak wryty, a on mówił dalej:
 
 Wytłumaczył mi, że dopóki pies nie poczuje w powietrzu biologicznego sygnału bezpieczeństwa, żadna zabawka nie uratuje naszych drzwi. Chodziło o matczyny feromon kojący D.A.P. - dokładnie ten sam bezwonny sygnał, który wydziela suka karmiąca małe szczeniaki z okolic listwy mlecznej, żeby wiedziały, że w gnieździe nic im nie grozi. Pies wciąga go nosem prosto do narządu Jacobsona w podniebieniu i impuls od razu hamuje panikę w układzie limbicznym.
 
-Wieczorem usiadłem z dziewczyną przed laptopem i znaleźliśmy weterynaryjny dyfuzor Feliora dla Psów.
+Sięgnął po bloczek na biurku i zapisał mi na kartce 1 krótką linijkę:
 
-W myślach od razu włączył mi się sceptyk: „Jasne, plastikowa wtyczka do kontaktu zatrzyma 22-kilogramowego psa, który wygina pręty w klatce”. Ale doczytałem opis i spodobało mi się, że nie leją tam wody. Napisali uczciwie: to nie działa w 1. popołudnie po wyjęciu z pudełka jak zastrzyk znieczulający i nie zastąpi spaceru. Wtyczka musi pracować w gniazdku 24 godziny na dobę przez minimum 3 albo 4 dni, żeby cząsteczki D.A.P. wypełniły pokoje, a poranne rzucanie piłką trzeba zamienić na spokojne wąchanie trawników.
+„feromon kojący D.A.P. - dyfuzor Feliora”
 
-Policzyłem na chłodno: nowe drzwi z ościeżnicą to minimum 2 500 zł w plecy. A tutaj pakiet na 2 pokoje kosztował 189,99 zł, czyli po 94,99 zł za sztukę (mieli też opcję na 1 pokój za 119,99 zł oraz na 3 pokoje za 254,99 zł, po 84,99 zł za wtyczkę), z pełną 30-dniową gwarancją zwrotu pieniędzy.
+Podając mi karteczkę, zastrzegł od razu po męsku: „Niech pan nie myśli, że wepnie to pan jutro o 7:00 rano i zadziała jak strzał ze środkiem usypiającym. Musi grzać w gniazdku 24 godziny na dobę przez minimum 3 do 4 dni, żeby nasycić pokoje, a tę nieszczęsną wyrzutnię piłek chowa pan do szafy i zamienia na spokojny spacer węchowy”.
 
-Zamówiliśmy zestaw na 2 pokoje, a na maila od razu przyszedł darmowy poradnik e-book „Co Twój Pies Próbuje Ci Powiedzieć?”. Przeczytałem go w 1 wieczór przy herbacie - sam rozdział o tym, jak aportowanie przed wyjściem przebodźcowuje psa, otworzył mi oczy bardziej niż 3 miesiące czytania forów.
+Parsknąłem pod nosem już w aucie pod lecznicą, rzucając ten świstek na fotel pasażera: „22-kilogramowy pies wygina zębami stalowy pręt w klatce i wydrapuje dziurę na wylot w płycie MDF, a zatrzyma go plastikowa wtyczka 5 W w ścianie? Dobre sobie, kolejny gadżet dla naiwnych”.
 
-Wpiąłem 1. dyfuzor w przedpokoju 1,5 m od drzwi, a 2. w salonie obok kanapy (bierze tylko 5 W prądu jak zwykła ładowarka i nie ma żadnego zapachu). W sobotę wkleiłem w futrynę nową uszczelkę z marketu budowlanego za 28 zł, na dół drzwi przykręciłem ładną płytę ochronną pod kolor drewna, a budzik przestawiłem z 5:00 na ludzką 6:00 rano na spokojny, 40-minutowy spacer węchowy.
+Wieczorem mimo wszystko wpisałem z tej kartki nazwę w telefonie i dopisałem na końcu słowo „opinie”. Jak zobaczyłem na stronie zestaw na 2 pokoje za 189,99 zł, bez słowa zamknąłem przeglądarkę. Uznałem, że nie wywalę prawie 200 zł na magiczne powietrze.
 
-Po 4 dniach wracam z pracy - nowa uszczelka w futrynie cała, ani 1 śladu zębów czy pazurów.
+Odkładałem ten zakup przez 2 dni. Zamiast tego okleiłem rozpruty narożnik świeżą warstwą grubej folii budowlanej, a pod same drzwi wejściowe ustawiłem ciężką, prowizoryczną barykadę z kuchennych krzeseł.
 
-Po 10 dniach spojrzeliśmy na siebie z dziewczyną rano w salonie, ściągnęliśmy szeleszczącą folię malarską z narożnika i wyszliśmy na 3 godziny z duszą na ramieniu.
+2. dnia po południu wracamy o 16:00: krzesła odepchnięte piersią na środek korytarza, drewniana noga obgryziona do białego, a wokół dziury w drzwiach świeże wióry wydrapane zdrową łapą. Moja dziewczyna oparła się w płaszczu o ścianę i powiedziała lodowatym głosem:
 
-Pod drzwiami aż wstrzymałem oddech, przekręcając klucz. Wchodzimy - w przedpokoju cisza. Wszystkie poduszki na kanapie leżą co do centymetra tak, jak je zostawiliśmy, a Riko wychodzi z posłania zaspany, przeciąga się miękko i merda ogonem. Suchy pysk, spokojny oddech, całe łapy.
+„Karol, za 3 tygodnie właściciel przychodzi spisać liczniki. Nowe drzwi z ościeżnicą to minimum 2 500 zł z naszej kieszeni, a na dokładkę stracimy 4 000 zł kaucji. Kończymy tę zabawę w barykady”.
 
-2 tygodnie później właściciel mieszkania przyszedł spisać wodomierze. Pogłaskał spokojnego Riko po łbie, pochwalił porządek w mieszkaniu i wyszedł po 10 minutach. Nasze 4 000 zł kaucji było uratowane.
+Usiadłem pod ścianą z laptopem na kolanach i zamówiłem zestaw na 2 pokoje za 189,99 zł - bo przedpokój z drzwiami i salon z kanapą dzieli u nas korytarz w kształcie litery L - wyłącznie dlatego, że dawali pełne 30 dni na zwrot pieniędzy. Wydrukowałem potwierdzenie zakupu z paragonem, przyczepiłem je magnesem na środku lodówki i powiedziałem krótko: „Jak tylko tknie zębami nową uszczelkę, pakuję im te 2 wtyczki w karton i odsyłam z powrotem”.
 
-P.S. Jeżeli Twój pies po zamknięciu drzwi drapie futrynę, gryzie uszczelki albo rozpruwa kanapę, nie męcz go biegami o świcie i nie złość się na niego - to czysta panika przed zamknięciem, a nie nuda. Tu zostawiam link do zestawów Feliora, z których korzystamy (do pakietów na 2 i 3 pokoje dają za darmo tego e-booka, a na wszystko masz 30 dni gwarancji zwrotu pieniędzy):
+Przy wieczornej herbacie przejrzałem darmowego e-booka „Co Twój Pies Próbuje Ci Powiedzieć?”, który przyszedł od razu na maila. Sam rozdział o tym, jak poranne aportowanie zalewa mózg psa kortyzolem na kilka godzin, otworzył mi oczy bardziej niż 3 miesiące czytania internetowych mądrali.
+
+Wpiąłem 1. wtyczkę w przedpokoju 1,5 m od drzwi, a 2. w salonie obok zafoliowanej kanapy (pobiera 5 W jak mała ładowarka). W sobotę wkleiłem w futrynę nową uszczelkę z marketu budowlanego za 28 zł, dół drzwi zakryłem estetyczną płytą ochronną pod kolor okleiny, a budzik przestawiłem z 5:00 na ludzką 6:00 rano na powolny, 40-minutowy spacer z wąchaniem trawników.
+
+Przez 1., 2. i 3. dzień po pracy macałem palcami wtyczkę w przedpokoju i wąchałem powietrze przy ścianie. Kompletnie 0 zapachu. Chodziłem po kuchni z kwaśną miną, przekonany w 100%, że kupiłem sobie za 189,99 zł plastikowy podgrzewacz powietrza i zaraz będę drukował formularz zwrotu.
+
+4. dnia wracam z pracy o 16:00, otwieram zamek z zaciśniętym gardłem - nowa uszczelka za 28 zł w futrynie nienaruszona, ani 1 śladu zębów czy pazurów!
+
+10. dnia rano spojrzeliśmy na siebie z dziewczyną w salonie, ściągnęliśmy szeleszczącą folię malarską z narożnika i wyszliśmy z mieszkania na 3 godziny z duszą na ramieniu.
+
+Pod drzwiami aż wstrzymałem oddech przy wkładaniu klucza. Wchodzimy - w przedpokoju cisza. Wszystkie poduszki na kanapie leżą co do 1 cm tak, jak je zostawiliśmy, a Riko wychodzi z posłania zaspany, przeciąga się miękko i merda ogonem. Suchy pysk, spokojny oddech, całe łapy. Podszedłem do lodówki, zdjąłem paragon spod magnesu i wyrzuciłem go do kosza.
+
+10 dni później, dokładnie w umówioną sobotę, właściciel mieszkania przyszedł spisać wodomierze. Pogłaskał spokojnego Riko po łbie, pochwalił porządek w salonie i wyszedł po 10 minutach. Nasze 4 000 zł kaucji było uratowane.
+
+P.S. Jeżeli Twój pies po zamknięciu drzwi drapie futrynę, wyrywa uszczelki albo rozpruwa kanapę, nie zajeżdżaj go biegami o świcie i nie krzycz po powrocie - to czysta panika w głowie, a nie nadmiar energii. Tu zostawiam link do strony, z której brałem nasze 2 wtyczki Feliora (zachowaj sobie dowód zakupu, bo masz pełne 30 dni gwarancji zwrotu pieniędzy, gdyby u Twojego psa nie zadziałało):
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
@@ -221,15 +249,31 @@ Zapytałam bezradnie, dlaczego nasza cisza i dobre jedzenie tego nie wyłączaj�
 
 Dla mnie najważniejsze było to: bez tabletek, bez wciskania past ze strzykawki, bez śmierdzących obróżek zapinanych wokół szyi. Wszystko dzieje się w powietrzu, bez dotykania przerażonego psa.
 
-Jeszcze tego samego wieczoru weszłam na stronę weterynaryjnego dyfuzora Feliora dla Psów.
+Lekarka oderwała karteczkę z bloczka na biurku i zapisała na niej równym pismem:
 
-Bałam się kolejnego rozczarowania, ale ujęło mnie to, że nikt nie obiecywał tam bajek, że po 1 nocy pies ze schroniska zacznie robić salta z radości. Napisali uczciwie: u psów po przejściach dyfuzor musi pracować w kontakcie bez przerwy od 4 do 7 dni, żeby nasycić mieszkanie cząsteczkami D.A.P., oraz że nie zastąpi spokoju domowników, tylko krok po kroku spuści z krwi ten mur kortyzolu.
+„feromon kojący D.A.P. - dyfuzor Feliora”
 
-Zamówiłam pakiet na 2 pokoje za 189,99 zł, co wyszło po 94,99 zł za sztukę (był też wariant na 1 pokój za 119,99 zł i większy na 3 pokoje za 254,99 zł, czyli po 84,99 zł za wtyczkę, a na całość dawali 30 dni gwarancji zwrotu pieniędzy). Razem z zamówieniem przyszedł na maila darmowy e-book „Co Twój Pies Próbuje Ci Powiedzieć?”. Czytaliśmy go z mężem wieczorem w łóżku i aż zrobiło nam się głupio: za każdym razem, gdy pochylaliśmy się nad Karmelem od góry, żeby go czule pogłaskać po czole, w psim języku wysyłaliśmy mu sygnał dominacji i zagrożenia!
+Wręczając mi ją przy drzwiach gabinetu, uprzedziła mnie łagodnie: „Tylko proszę się uzbroić w cierpliwość. U psa po 2 latach boksu wtyczka musi grzać w gniazdku bez przerwy od 5 do 10 dni, zanim ten mur kortyzolu we krwi zacznie opadać. A w domu bardzo państwa proszę o 1 zmianę: nie pochylajcie się nad nim od góry przy głaskaniu, bo dla bitego psa cień nad głową to podniesiona ręka”.
 
-1. wtyczkę wpięłam w salonie niedaleko stołu, pod którym chował się całymi dniami, a 2. w sypialni koło jego posłania (grzałka bierze malutkie 5 W i nie czuć od niej kompletnie żadnego zapachu).
+Wieczorem w domu usiadłam z tą karteczką przed laptopem, wpisałam w wyszukiwarkę nazwę i sama dopisałam na końcu słowo „opinie”.
 
-Po 5 dniach obudziłam się w środku nocy i nagle zorientowałam się, że czegoś brakuje.
+Kiedy otworzyłam stronę zamówienia na zestaw 2 wtyczek za 189,99 zł, mój mąż stanął za moim krzesłem, spojrzał na ekran i westchnął ciężko:
+
+„Kochanie, zejdźmy na ziemię. Wydałaś już 320 zł na posłanie ortopedyczne, którego nawet nie dotyka, potem kasę na kapsułki ziołowe, a teraz 190 zł za 2 plastikowe wtyczki bez zapachu? Przecież to zwykłe żerowanie na ludziach o miękkim sercu”.
+
+Zrobiło mi się głupio. W duchu prawie przyznałam mu rację i bez słowa zamknęłam klapę laptopa.
+
+Wytrzymałam do środka nocy. Obudziłam się w ciemności i znów słuchałam tego cichego, nerwowego stukania pazurków po panelach. Od drzwi do okna, od okna do drzwi, a do tego płytkie, urywane dyszenie, gdy w pionie zaszumiała woda w rurach. Serce pękało mi na kawałki.
+
+O 7:00 rano w kuchni otworzyłam laptopa z powrotem. Zobaczyłam, że dają pełną 30-dniową gwarancję zwrotu pieniędzy, więc zamówiłam zestaw na 2 pokoje za 189,99 zł - do salonu i do sypialni - a przy kawie powiedziałam mężowi krótko: „Kupiłam na próbę. Jak przez 3 tygodnie Karmel dalej nie położy się spokojnie na boku, odeślę te 2 wtyczki w pudełku i nie stracimy ani 1 złotówki”.
+
+Wieczorem przeczytaliśmy razem w łóżku darmowego e-booka „Co Twój Pies Próbuje Ci Powiedzieć?”, który przyszedł na maila po zakupie. Zrozumieliśmy wreszcie rysunki sygnałów uspokajających - oblizywanie nosa, odwracanie głowy, sztywnienie przy podchodzeniu na wprost - i dotarło do nas, ile razy niechcący straszyliśmy go własną czułością.
+
+1. wtyczkę wpięłam w salonie niedaleko stołu, pod którym chował się całymi dniami, a 2. w sypialni koło jego posłania za 320 zł (grzałka bierze malutkie 5 W i nie czuć od niej kompletnie żadnego zapachu).
+
+Przez 1., 2. i 3. noc nie zmieniło się absolutnie nic. Dalej to samo tuptanie po panelach, dalej sztywna pozycja sfinksa i wielkie ze strachu oczy. Leżałam pod kołdrą w ciemności, gryzłam się w wargę i byłam w 100% pewna, że mąż miał rację, a ja z rozpaczy dałam się naciągnąć na bezwonny kawałek plastiku.
+
+Aż przyszła 5. noc. Obudziłam się w środku nocy i nagle zamarłam, bo zorientowałam się, że czegoś w sypialni brakuje.
 
 Nie było słychać pazurków na panelach. Wychyliłam głowę zza kołdry: Karmel leżał na swoim legowisku z brodą płasko opartą na rancie poduszki i oddychał tak wolno i głęboko, jak jeszcze nigdy pod naszym dachem.
 
@@ -243,9 +287,9 @@ A nasz Karmel leży rozciągnięty na boku na samym środku pokoju, z miękkim, 
 
 Pomachałam ręką na męża w kuchni. Stanął w progu ze ścierką w dłoni, popatrzył na ten goły psi brzuch na środku dywanu i widziałam, jak oczy robią mu się mokre. Wyszeptał tylko: „Wreszcie w domu”.
 
-Tydzień później, kiedy wróciliśmy z zakupami, Karmel po raz 1. nie uciekł w głąb przedpokoju - podszedł pod sam próg z miękkimi uszami i nieśmiało zamachał ogonem.
+Tydzień później, kiedy wróciliśmy z zakupami, Karmel po raz 1. nie uciekł w głąb przedpokoju - podszedł pod sam próg z miękkimi uszami i nieśmiało zamachał ogonem. O żadnym odsyłaniu paczki mąż już nawet nie wspomniał.
 
-P.S. Jeśli masz w domu psa z fundacji albo ze schroniska, który wciąż żyje w trybie czuwania i boi się własnego cienia, nie szukaj winy w sobie. Zostawiam link do dyfuzorów Feliora (w zestawach na 2 i 3 pokoje ten e-book o mowie ciała psa wpada na maila za 0 zł, a na wypróbowanie masz spokojne 30 dni z gwarancją zwrotu pieniędzy):
+P.S. Jeśli masz w domu psa z fundacji albo ze schroniska, który mimo miesięcy troski wciąż żyje w trybie czuwania i boi się własnego cienia, nie obwiniaj siebie. Zostawiam link do strony, z której zamawiałam nasze 2 wtyczki Feliora (na spokojne sprawdzenie w domu masz pełne 30 dni gwarancji zwrotu pieniędzy):
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
@@ -298,21 +342,37 @@ Kamień spadł mi z serca, a jednocześnie chciało mi się płakać, że dałam
 
 Lekarka wytłumaczyła mi, że żeby przerwać to błędne koło, trzeba wyciszyć alarm w układzie limbicznym przez narząd Jacobsona w podniebieniu za pomocą stałej dyfuzji matczynego feromonu kojącego D.A.P. - tego samego naturalnego sygnału bezpieczeństwa, który wydziela suka karmiąca szczenięta przy listwie mlecznej.
 
-Tego wieczoru zamówiłam do domu weterynaryjny dyfuzor Feliora dla Psów i napiszę tu uczciwie o 2 rzeczach, żeby nikt nie robił sobie fałszywych nadziei.
+Obróciła w moją stronę wydruk z USG, a na jego pustym rogu zapisała długopisem 1 linijkę:
 
-Po 1.: żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu, cukrzycy ani chorych nerek, więc jak pies nagle zaczyna sikać w domu (szczególnie w nocy i przy domownikach), to najpierw trzeba zrobić badanie moczu u lekarza. Po 2.: Feliora nie działa jak korek w 1 godzinę od włożenia do gniazdka - musi grzać ciągle 24/7 przez jakieś 3 do 5 dni, żeby nasycić powietrze w pokojach równym stężeniem D.A.P.
+„feromon kojący D.A.P. - dyfuzor Feliora”
 
-Wzięłam pakiet na 2 pokoje za 189,99 zł, czyli po 94,99 zł za wtyczkę (był też pojedynczy dyfuzor na 1 pokój za 119,99 zł oraz zestaw na 3 pokoje za 254,99 zł, po 84,99 zł za sztukę). Na maila dostałam od razu bezpłatnie poradnik e-book „Co Twój Pies Próbuje Ci Powiedzieć?”, w którym znalazłam genialny patent na odczulenie kluczy: przez tydzień brałam klucze z komody 5 razy dziennie, zakładałam buty… po czym szłam z powrotem na kanapę pić herbatę, żeby Tofik przestał łączyć brzęk breloczka z porzuceniem.
+Postukała długopisem w papier i powiedziała mi prosto w oczy: „Gdyby przyszła pani do mnie bez tych czystych badań moczu i posiewu, nawet bym tego tutaj nie zapisała, bo żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu ani chorych nerek. Niech też pani nie liczy na korek w 1 godzinę od włożenia do gniazdka - wtyczka musi grzać non stop 24/7 przez 4 do 7 dni, żeby nasycić pokoje, a sam dźwięk kluczy na komodzie trzeba mu równolegle odczulić”.
 
-1. wtyczkę wpięłam w przedpokoju przy komodzie z kluczami, a 2. w salonie (urządzenie bierze tylko 5 W prądu jak mała ładowarka i jest całkowicie bezwonne).
+Wieczorem w domu położyłam ten wydruk na blacie w kuchni, przepisałam nazwę w telefonie i sama dopisałam na końcu słowo „opinie”.
 
-Po 4 dniach zakładam rano buty i widzę kątem oka, że Tofik nie dygocze - leży na posłaniu i tylko spokojnie mruga. Wyszłam na próbne 30 minut do sklepu. Wracam na miękkich nogach: kafelki suche, panele suche!
+Kiedy weszłam na stronę i zobaczyłam zestaw na 2 pokoje za 189,99 zł, po wcześniejszym zostawieniu 480 zł w klinice i wylaniu na podłogę 3 litrowych butli płynów enzymatycznych aż prychnęłam do ekranu:
 
-9. dnia musiałam wyjść z domu na 5 godzin do biura i urzędu. Przekręcałam klucz w zamku ze ściśniętym gardłem. Weszłam w skarpetkach do salonu - ani 1 kropli na podłodze, a Tofik wyszedł z posłania ciepły od snu i zamachał ogonem w progu.
+„Super, prawie 200 zł za bezwonny plastik w ścianie. Równie dobrze mogę powiesić warkocz czosnku nad drzwiami, zadziała dokładnie tak samo”.
 
-Po 3 tygodniach bez ani 1 wpadki wniosłam z balkonu jasny dywan i rozłożyłam go z powrotem na środku pokoju. Leży suchy od ponad miesiąca.
+Zamknęłam przeglądarkę i wahałam się przez 2 kolejne dni, obiecując sobie, że poradzę sobie samym ćwiczeniem z kluczami.
 
-P.S. Jeśli wyniki moczu u weterynarza są czyste, a Twój pies mimo długich spacerów zostawia kałuże, gdy tylko zamkniesz drzwi, przestań myśleć, że robi Ci na złość. Tu zostawiam link do zestawów Feliora dla Psów (e-book z ćwiczeniami dostajesz gratis do pakietów wielopokojowych, a całość chroni 30-dniowa gwarancja zwrotu pieniędzy):
+2. dnia wieczorem wyszłam tylko na dół pod wiatę śmietnikową z workiem odpadków. Dosłownie 10 minut poza klatką! Wracam na górę, wchodzę w skarpetkach do przedpokoju i znów wdeptuję prosto w świeżą, mokrą plamę obok spuchniętej krawędzi paneli.
+
+Klęczałam na tej podłodze z przemoczonym ręcznikiem papierowym w 1 dłoni, z telefonem w 2. ręce i aż trzęsłam się z bezsilnej złości. Tam na kolanach zamówiłam zestaw na 2 pokoje za 189,99 zł - bo przedpokój od salonu dzieli u mnie ściana - wyłącznie z żelaznym postanowieniem skorzystania z 30-dniowej gwarancji zwrotu: „Zostawiam pudełko na dnie szafy. Jak za 3 tygodnie dalej będę szorować panele po wyjściu ze śmieciami, odsyłam im te 2 wtyczki i niech oddają kasę co do grosza”.
+
+Na maila przyszedł od razu darmowy e-book „Co Twój Pies Próbuje Ci Powiedzieć?”, w którym rozpisali krok po kroku odczulanie kluczy: przez tydzień brałam pęk kluczy z komody 5 razy dziennie, zakładałam buty… po czym szłam w nich na kanapę pić herbatę, żeby Tofik przestał łączyć brzęk breloczka z porzuceniem.
+
+1. wtyczkę wpięłam w przedpokoju pod samą komodą z kluczami, a 2. w salonie (urządzenie bierze 5 W prądu jak mała ładowarka i jest całkowicie bezwonne).
+
+Przez 1. i 2. dzień sięgałam po klucze na komodzie z duszą na ramieniu. Wąchałam kontakt, nie czułam kompletnie nic, a Tofik nadal spinał grzbiet na widok mojej kurtki. Wychodziłam z domu ze ściśniętym żołądkiem, na 100% pewna, że właśnie utopiłam kolejne 189,99 zł zaraz po tamtych badaniach za 480 zł.
+
+4. dnia rano zakładam buty i widzę kątem oka coś niesamowitego: Tofik w ogóle nie dygocze - leży rozluźniony na posłaniu i tylko leniwie mruga. Wyszłam na próbne 30 minut do sklepu osiedlowego. Wracam po schodach na miękkich nogach: kafelki suche, panele suche!
+
+9. dnia musiałam wyjść z domu na 5 godzin do biura i urzędu. Przekręcałam klucz w zamku z sercem w gardle. Weszłam w skarpetkach do salonu - ani 1 kropli na podłodze, a Tofik wyszedł z posłania ciepły od snu i zamachał ogonem w samym progu.
+
+Po 3 tygodniach bez ani 1 wpadki wyrzuciłam puste pudełko z szafy, wniosłam z balkonu jasny dywan i rozłożyłam go z powrotem na środku pokoju. Leży suchy od ponad miesiąca.
+
+P.S. Jeśli wyniki moczu u weterynarza są czyste, a Twój pies mimo długich spacerów zostawia kałuże zaraz po zamknięciu drzwi, przestań wierzyć w bajki, że robi Ci na złość. Tu zostawiam link do strony, z której zamawiałam swoje 2 wtyczki Feliora (na przetestowanie w domu masz spokojne 30 dni z pełną gwarancją zwrotu pieniędzy):
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
@@ -355,27 +415,43 @@ Lekarz od razu mnie pochwalił, że nie przyszedłem 30 grudnia przed zamknięci
 
 „Psi słuch łapie dźwięki do 45 000 Hz, czyli ponad 2 razy wyżej niż ludzkie ucho, a do tego pies czuje spadki ciśnienia barycznego i drgania murów bloku długo przed grzmotem” - wyjaśnił. „U psa z fobią dźwiękową ośrodek strachu w układzie limbicznym ma tak niski próg alarmowy, że trzask z oddali odpala w ciele migdałowatym taki sam wyrzut adrenaliny, jakby piorun uderzył 1 m obok niego”.
 
-Powiedział mi, że 1. krokiem przed grudniem i sezonem burzowym jest zbudowanie psu w mieszkaniu biologicznej strefy spokoju za pomocą matczynego feromonu kojącego D.A.P. To dokładny odpowiednik bezwonnego sygnału bezpieczeństwa, który wydziela listwa mleczna suki karmiącej szczenięta. Pies wciąga go z powietrzem przez narząd Jacobsona w podniebieniu, co podnosi próg pobudzenia układu nerwowego - bez chemii we krwi, bez otumaniania i bez obciążania wątroby.
+Kiedy powiedział mi, że przed grudniem trzeba wpiąć w mieszkaniu wtyczkę do kontaktu z feromonami, parsknąłem śmiechem prosto przy stole zabiegowym:
 
-Napiszę tu przy okazji w 100% szczerze o ograniczeniach, o których uprzedził mnie lekarz i sam producent dyfuzora Feliora dla Psów:
+„Panie doktorze, 28-kilogramowy pies wyrywa listwę za pralką i wypluwa na kafelki pieczonego kurczaka, a ma go uspokoić bezwonna wtyczka do kontaktu jak odświeżacz do łazienki?”.
 
-Ta wtyczka nie wyłącza psu uszu i nie sprawi cudem, że wystraszony pies pobiegnie aportować na osiedlu, kiedy ktoś rzuci mu pod łapy petardę hukową. I co najważniejsze - nie pomoże, jeśli przypomnisz sobie o niej i wepniesz ją do kontaktu w trakcie burzy albo 31 grudnia po południu! Musi pracować w gniazdku 24/7 z wyprzedzeniem co najmniej 7 do 10 dni, żeby cząsteczki D.A.P. wypełniły pokoje, a mózg psa zakodował mieszkanie jako bezpieczny azyl (a jeśli przy samej północy w sylwestra pies wymaga dodatkowego, nowoczesnego wsparcia przeciwlękowego od lekarza, feromony są w 100% bezpiecznym tłem i nie wchodzą w żadne interakcje z lekami).
+Lekarz nawet się nie obraził, tylko spokojnie się uśmiechnął. Wytłumaczył mi, że u psa nie chodzi o ludzki zapach, tylko o narząd Jacobsona w podniebieniu oraz matczyny feromon kojący D.A.P. - wierny odpowiednik bezwonnego sygnału bezpieczeństwa, który wydziela listwa mleczna suki karmiącej szczenięta. Pies wciąga te cząsteczki z powietrzem prosto do układu limbicznego, co podnosi próg paniki w mózgu bez chemii we krwi, bez zwiotczania mięśni i bez obciążania wątroby.
 
-Zamówiłem pakiet na 2 pokoje za 189,99 zł, czyli po 94,99 zł za wtyczkę (była też opcja na 1 pokój za 119,99 zł i pakiet na 3 pokoje za 254,99 zł, po 84,99 zł za sztukę). Na maila dostałem od razu darmowy e-book „Co Twój Pies Próbuje Ci Powiedzieć?”. Jak przeczytaliśmy go z żoną, to złapaliśmy się za głowę: kiedy przy każdym huku biegliśmy do Hektora, głaskaliśmy go nerwowo i mówiliśmy piskliwym głosem „oj, biedny piesek, nie bój się”, sami potwierdzaliśmy mu, że naprawdę wali się świat!
+Wziął karteczkę z biurka i zapisał na niej tylko 1 linijkę:
 
-Zrobiliśmy mu otwartą, przykrytą kocem bazę w kącie sypialni, wpiąłem 1. dyfuzor Feliora w salonie, a 2. w sypialni przy wyjściu na korytarz (pobiera 5 W jak mała ładowarka i nie czuć go w ogóle w powietrzu).
+„feromon kojący D.A.P. - dyfuzor Feliora”
 
-Sprawdzian przyszedł po 12 dniach, w grudniowy wieczór.
+Podając mi ten świstek, pogroził mi palcem jak dobremu znajomemu: „Tylko panie Karolu, umówmy się od razu - to nie zatyka psu uszu jak korek i nie sprawi, że pobiegnie aportować, jak ktoś rzuci mu pod łapy petardę na chodniku. Przede wszystkim proszę nie wpinać tego 31 grudnia po południu albo w środku burzy, bo nic nie da! Wtyczka musi chodzić w kontakcie non stop minimum 7 do 10 dni wcześniej, żeby nasycić pokoje, a w domu kończycie państwo z bieganiem do psa i piskliwym pocieszaniem: oj, biedny piesek”. Dodał też, że gdyby przy samym sylwestrze o północy pies potrzebował jeszcze nowoczesnego wsparcia przeciwlękowego z gabinetu, feromony są w 100% bezpiecznym tłem i mają 0 interakcji z lekami.
+
+Wieczorem w domu wpisałem z kartki nazwę w telefonie i sam dopisałem słowo „opinie”. Wszedłem na stronę, zobaczyłem cenę 189,99 zł za zestaw na 2 pokoje, zamknąłem przeglądarkę i powiedziałem żonie krótko, że po wtopieniu 180 zł w kamizelkę uciskową nie dam prawie 200 zł za kolejny naciągany gadżet z internetu.
+
+Wytrzymałem 4 dni.
+
+W piątek wieczorem jakiś dzieciak odpalił pod naszą klatką 1. grudniową petardę. Hektor zerwał się z dywanu na oślep i walnął całym 28-kilogramowym bokiem w przymknięte drzwi łazienki z takim impetem, że z wieszaka spadł na podłogę duży ręcznik kąpielowy, a pies znów zaklinował się z pianą na pysku za bębnem pralki.
+
+Tej samej nocy, gdy wreszcie wyciągnąłem go z łazienki, otworzyłem laptopa i zamówiłem te 2 wtyczki za 189,99 zł wyłącznie dlatego, że dawali pełne 30 dni gwarancji zwrotu pieniędzy. Schowałem pusty kartonik na półkę w szafce w przedpokoju i powiedziałem żonie wprost: „Jak przy strzałach pod blokiem dalej wlezie za pralkę, pakuję to i odsyłam im co do złotówki”.
+
+Na maila przyszedł od razu darmowy e-book „Co Twój Pies Próbuje Ci Powiedzieć?”. Jak przejrzeliśmy go z żoną, aż pokręciliśmy głowami: głaszcząc Hektora nerwowo przy każdym huku i mówiąc wysokim głosem, sami jako przewodnicy stada dawaliśmy mu sygnał, że budynek naprawdę się wali!
+
+Zrobiliśmy mu otwartą, przykrytą kocem bazę w kącie sypialni, wpiąłem 1. wtyczkę w salonie, a 2. w sypialni przy wyjściu na korytarz (bierze 5 W prądu jak mała ładowarka).
+
+Przez początkowe 4 dni kucałem w salonie i wąchałem to gniazdko z odległości 5 cm. Kompletnie 0 zapachu, 0 szumu, nic. Chodziłem po mieszkaniu na 100% pewien, że dałem się nabić w butelkę jak dzieciak.
+
+Prawdziwy sprawdzian przyszedł 12. dnia, w grudniowy wieczór.
 
 Jedliśmy z żoną kolację, kiedy pod klatką obok ktoś odpalił serię 3 głośnych petard. Zamarłem z widelcem w powietrzu i spojrzałem na przedpokój, pewny, że zaraz usłyszę łomot pazurów po panelach w stronę pralki.
 
 Hektor podniósł łeb z dywanu, postawił uszy i szczeknął 1 raz nisko w stronę balkonu. Potem popatrzył na mnie, wstał powoli, podszedł do kanapy, położył swój ciężki pysk na mojej stopie i wypuścił powietrze z głośnym westchnieniem.
 
-Pysk zamknięty. Ani śladu piany. Serce pod żebrami równe. Po 5 minutach zamknął oczy i zasnął przy moich nogach.
+Pysk zamknięty. Ani śladu piany. Serce pod żebrami równe. Po 5 minutach zamknął oczy i zasnął przy moich nogach. Rano bez słowa wyjąłem pusty kartonik z szafki i wyniosłem go na makulaturę.
 
 A kiedy latem przeszła nad naszym dachem 1. nocna burza, Hektor przesiedział ją w swojej bazie w sypialni i przy pomrukach grzmotów po raz 1. od lat zjadł z mojej ręki kawałki gotowanego kurczaka. Łazienka za pralką wreszcie przestała być naszym bunkrem.
 
-P.S. Jeśli Twój pies panikuje przy burzach, wietrze, remontach u sąsiadów albo grudniowych strzałach, przygotuj mu mieszkanie z wyprzedzeniem, zanim zacznie się najgorszy hałas. Tu masz link do zestawów Feliora dla Psów (do pakietów na 2 i 3 pokoje dorzucają za 0 zł tego e-booka, a w razie czego masz 30 dni gwarancji zwrotu pieniędzy):
+P.S. Jeśli Twój pies panikuje przy burzach, wietrze, remontach u sąsiadów albo grudniowych strzałach, przygotuj mu mieszkanie z wyprzedzeniem, zanim zacznie się najgorszy hałas pod blokiem. Tu zostawiam link do strony, z której zamawiałem nasze 2 wtyczki Feliora (zostaw sobie pudełko, bo na spokojne sprawdzenie masz pełne 30 dni gwarancji zwrotu pieniędzy):
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 };
