@@ -814,10 +814,9 @@ export const POST = accountRoute(async (req: Request) => {
         delete fbTargeting.threads_positions;
         delete fbTargeting.messenger_positions;
         delete fbTargeting.audience_network_positions;
+        delete fbTargeting.facebook_positions;
         fbTargeting.publisher_platforms = ['facebook'];
-        if (!Array.isArray(fbTargeting.facebook_positions) || fbTargeting.facebook_positions.length === 0) {
-          fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'video_feeds', 'story'];
-        }
+        fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'story'];
         await directGraph(targetAdSetId, { targeting: fbTargeting }, 'POST').catch(() =>
           directGraph(
             targetAdSetId,
@@ -827,7 +826,6 @@ export const POST = accountRoute(async (req: Request) => {
                 age_min: fbTargeting.age_min || 18,
                 age_max: fbTargeting.age_max || 65,
                 publisher_platforms: ['facebook'],
-                facebook_positions: ['feed', 'facebook_reels', 'video_feeds', 'story'],
                 ...(fbTargeting.targeting_automation ? { targeting_automation: fbTargeting.targeting_automation } : {}),
               },
             },
@@ -976,7 +974,14 @@ export const POST = accountRoute(async (req: Request) => {
           }
           actorCandidates.push({ pId: pageId, pName: ad.pageName });
           if (pageId !== fallbackCommunityPage.pId && pageId !== '1287239777799682' && pageId !== '1304624172730017' && pageId !== '1231925240008683') {
-            if (!switchedAdSetToFbOnly) actorCandidates.push(fallbackCommunityPage);
+            if (!switchedAdSetToFbOnly) {
+              actorCandidates.push(fallbackCommunityPage);
+              actorCandidates.push({
+                pId: fallbackCommunityPage.pId,
+                pName: fallbackCommunityPage.pName,
+                igId: fallbackCommunityPage.igId,
+              });
+            }
             actorCandidates.push({ pId: fallbackCommunityPage.pId, pName: fallbackCommunityPage.pName });
           }
 

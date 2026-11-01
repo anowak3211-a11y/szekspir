@@ -2083,10 +2083,9 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
    delete fbTargeting.threads_positions;
    delete fbTargeting.messenger_positions;
    delete fbTargeting.audience_network_positions;
+   delete fbTargeting.facebook_positions;
    fbTargeting.publisher_platforms = ['facebook'];
-   if (!Array.isArray(fbTargeting.facebook_positions) || fbTargeting.facebook_positions.length === 0) {
-    fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'video_feeds', 'story'];
-   }
+   fbTargeting.facebook_positions = ['feed', 'facebook_reels', 'story'];
    await directGraph(targetAdSetId, { targeting: fbTargeting }, 'POST').catch(() =>
     directGraph(
      targetAdSetId,
@@ -2096,7 +2095,6 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
        age_min: fbTargeting.age_min || 18,
        age_max: fbTargeting.age_max || 65,
        publisher_platforms: ['facebook'],
-       facebook_positions: ['feed', 'facebook_reels', 'video_feeds', 'story'],
        ...(fbTargeting.targeting_automation ? { targeting_automation: fbTargeting.targeting_automation } : {}),
       },
      },
