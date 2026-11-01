@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v6-39-photos-batch-gen';
+const STATE_KEY = 'sardian-pl-v7-42-photos-turcja-brodzik';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];

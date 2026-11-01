@@ -623,6 +623,40 @@ export const SARDIAN_IMAGE_LIBRARY: SardianImageAsset[] = [
     "source": "ai",
     "angleId": "sardian_nd_c5"
   }
+,
+  {
+    "id": "K3_TURCJA_HAGIA_SOPHIA_BROSZURA",
+    "url": "/sardian-pl-images/K3_TURCJA_HAGIA_SOPHIA_BROSZURA.jpg",
+    "imageHash": "",
+    "label": "K3_V1 · Stambuł Hagia Sophia + broszura „STAMBUŁ HAIR CLINIC — 17 000 ZŁ”",
+    "adsetOrigin": "Kąt 3: Szwagier Turcja 17 000 zł",
+    "adOrigin": "K3_TURCJA_HAGIA_SOPHIA_BROSZURA",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k3_v1"
+  },
+  {
+    "id": "K3_TURCJA_BROSZURA_STAMBUL",
+    "url": "/sardian-pl-images/K3_TURCJA_BROSZURA_STAMBUL.jpg",
+    "imageHash": "",
+    "label": "K3 · Broszura „PRZESZCZEP WŁOSÓW STAMBUŁ 17 000 ZŁ” + polski paszport + SARDIAN",
+    "adsetOrigin": "Kąt 3: Szwagier Turcja 17 000 zł",
+    "adOrigin": "K3_TURCJA_BROSZURA_STAMBUL",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k3_v1"
+  },
+  {
+    "id": "K3_TURCJA_HAGIA_SOPHIA_WIDOK",
+    "url": "/sardian-pl-images/K3_TURCJA_HAGIA_SOPHIA_WIDOK.jpg",
+    "imageHash": "",
+    "label": "K3 · Stambuł Hagia Sophia (widok z ulicy z telefonu turysty)",
+    "adsetOrigin": "Kąt 3: Szwagier Turcja 17 000 zł",
+    "adOrigin": "K3_TURCJA_HAGIA_SOPHIA_WIDOK",
+    "aspectRatio": "1:1 (1024x1024)",
+    "source": "ai",
+    "angleId": "sardian_k3_v1"
+  }
 ];
 
 export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
@@ -742,8 +776,8 @@ export const SARDIAN_PRESET_ANGLES: SardianAnglePreset[] = [
     "recommendedFanpageName": "Pokonać Łysienie — Historie i Testy",
     "vocTrigger": "Mój szwagier wydał 17 000 zł na przeszczep w Turcji. Po roku zapytał mnie, co zrobiłem z włosami",
     "mechanismCore": "Stary Winner Desire (ROAS 2.82): 70-80% uśpionych cebulek żyje pod skórą + 92 szampony (96% robi 0 z 3 rzeczy) + Formuła 3 z 3 (Rdest 90% vs 70% minoksydyl, Żeń-szeń + mentol, Biota Orientalis)",
-    "defaultImageId": "K3_V1_TRICHOSCOPE_KAMERA_CEBULKI",
-    "defaultImageUrl": "/sardian-pl-images/K3_V1_TRICHOSCOPE_KAMERA_CEBULKI.jpg",
+    "defaultImageId": "K3_TURCJA_HAGIA_SOPHIA_BROSZURA",
+    "defaultImageUrl": "/sardian-pl-images/K3_TURCJA_HAGIA_SOPHIA_BROSZURA.jpg",
     "defaultImageHash": ""
   },
   {
