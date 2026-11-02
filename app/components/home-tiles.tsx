@@ -19,7 +19,14 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
           <span className="tile-icon" aria-hidden="true">🇵🇱</span>
           <span className="tile-title">ANTKI PL &amp; UK</span>
           <span className="tile-sub">
-            Fabryka Antków: Bennett &amp; Seed UK (30 LFS), Feliora PL Psy (25), SARDIAN Szampon (38), SARDIAN Opaska (25), Feliora Koty (25) oraz Orthomax StepMax (70).
+            Fabryka Antków: Bennett &amp; Seed UK (30 LFS), Feliora PL Psy (25), SARDIAN Szampon (44), SARDIAN Opaska (25), Feliora Koty (31) oraz Orthomax StepMax (101).
+          </span>
+        </a>
+        <a className="tile big" href="/ab-test">
+          <span className="tile-icon" aria-hidden="true">🧪</span>
+          <span className="tile-title">A/B TEST LANDERÓW · 50/50 LIVE</span>
+          <span className="tile-sub">
+            Zero-Redirect 50/50 Split (Standard PDP vs Noom Story-PDP „Ciąg dalszy”) dla Orthomax, Feliora i SARDIAN. Statystyki na żywo: Views, ATC%, IC%, CR%, AOV i RPV (zł/wejście).
           </span>
         </a>
         <a className="tile big" href="/native-images">

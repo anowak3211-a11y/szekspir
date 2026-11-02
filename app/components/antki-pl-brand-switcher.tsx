@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import AbTestPanel from './ab-test-panel';
 
 export type AntkiPlBrandKey =
   | 'bennett-uk'
@@ -134,6 +135,7 @@ export default function AntkiPlBrandSwitcher({
   onSelectBrand,
 }: AntkiPlBrandSwitcherProps) {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
+  const [showAbModal, setShowAbModal] = useState(false);
 
   useEffect(() => {
     try {
@@ -163,86 +165,131 @@ export default function AntkiPlBrandSwitcher({
   }, [sortOrder]);
 
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        background: 'rgba(9, 9, 11, 0.88)',
-        padding: '4px',
-        borderRadius: '11px',
-        border: '1px solid rgba(255, 255, 255, 0.14)',
-        gap: '5px',
-        flexWrap: 'wrap',
-      }}
-    >
-      <button
-        type="button"
-        onClick={toggleSortOrder}
-        title="Przełącz kolejność zakładek Antków według daty edycji/utworzenia"
+    <>
+      <div
         style={{
-          background: 'rgba(245, 158, 11, 0.14)',
-          color: '#fde68a',
-          border: '1px solid rgba(245, 158, 11, 0.42)',
-          borderRadius: '8px',
-          padding: '6px 10px',
-          fontSize: '11.5px',
-          fontWeight: 800,
-          cursor: 'pointer',
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '4px',
-          whiteSpace: 'nowrap',
+          background: 'rgba(9, 9, 11, 0.88)',
+          padding: '4px',
+          borderRadius: '11px',
+          border: '1px solid rgba(255, 255, 255, 0.14)',
+          gap: '5px',
+          flexWrap: 'wrap',
         }}
       >
-        <span>{sortOrder === 'newest' ? '🕒 Batche: Od najnowszych' : '📅 Batche: Od najstarszych'}</span>
-      </button>
+        <button
+          type="button"
+          onClick={toggleSortOrder}
+          title="Przełącz kolejność zakładek Antków według daty edycji/utworzenia"
+          style={{
+            background: 'rgba(245, 158, 11, 0.14)',
+            color: '#fde68a',
+            border: '1px solid rgba(245, 158, 11, 0.42)',
+            borderRadius: '8px',
+            padding: '6px 10px',
+            fontSize: '11.5px',
+            fontWeight: 800,
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span>{sortOrder === 'newest' ? '🕒 Batche: Od najnowszych' : '📅 Batche: Od najstarszych'}</span>
+        </button>
 
-      {sortedBatches.map(batch => {
-        const isActive = batch.key === activeBrand;
-        return (
-          <button
-            key={batch.key}
-            type="button"
-            onClick={() => {
-              if (!isActive) onSelectBrand(batch.key);
-            }}
+        {sortedBatches.map(batch => {
+          const isActive = batch.key === activeBrand;
+          return (
+            <button
+              key={batch.key}
+              type="button"
+              onClick={() => {
+                if (!isActive) onSelectBrand(batch.key);
+              }}
+              style={{
+                background: isActive ? batch.activeGradient : 'rgba(24, 24, 27, 0.72)',
+                color: isActive ? '#ffffff' : batch.inactiveColor,
+                border: isActive ? '1px solid rgba(255,255,255,0.28)' : '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '8px',
+                padding: '6px 11px',
+                fontSize: '12.5px',
+                fontWeight: isActive ? 800 : 700,
+                cursor: isActive ? 'default' : 'pointer',
+                boxShadow: isActive ? batch.activeShadow : 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <span>
+                {batch.emoji} {batch.shortLabel} ({batch.countLabel.replace(' Antków', '')})
+              </span>
+              <span
+                style={{
+                  fontSize: '10.5px',
+                  fontWeight: 800,
+                  padding: '1px 6px',
+                  borderRadius: '999px',
+                  background: isActive ? 'rgba(0, 0, 0, 0.32)' : 'rgba(255, 255, 255, 0.08)',
+                  color: isActive ? '#ffffff' : batch.badgeColor,
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
+                  whiteSpace: 'nowrap',
+                }}
+                title={`Utworzono: ${batch.createdDateLabel}.2026 · Ostatnia aktualizacja: ${batch.updatedDateLabel}`}
+              >
+                📅 {batch.updatedDateLabel.slice(0, 5)}
+              </span>
+            </button>
+          );
+        })}
+
+        {/* A/B TEST 50/50 LIVE PANEL BUTTON */}
+        <button
+          type="button"
+          onClick={() => setShowAbModal(v => !v)}
+          title="Otwórz panel A/B testów 50/50 (Standard PDP vs Noom Story-PDP „Ciąg dalszy”)"
+          style={{
+            background: showAbModal
+              ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
+              : 'rgba(99, 102, 241, 0.22)',
+            color: '#ffffff',
+            border: '1px solid rgba(129, 140, 248, 0.6)',
+            borderRadius: '8px',
+            padding: '6px 12px',
+            fontSize: '12px',
+            fontWeight: 800,
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 2px 10px rgba(79, 70, 229, 0.35)',
+          }}
+        >
+          <span>🧪 A/B Test Landerów 50/50</span>
+          <span
             style={{
-              background: isActive ? batch.activeGradient : 'rgba(24, 24, 27, 0.72)',
-              color: isActive ? '#ffffff' : batch.inactiveColor,
-              border: isActive ? '1px solid rgba(255,255,255,0.28)' : '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '8px',
-              padding: '6px 11px',
-              fontSize: '12.5px',
-              fontWeight: isActive ? 800 : 700,
-              cursor: isActive ? 'default' : 'pointer',
-              boxShadow: isActive ? batch.activeShadow : 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.15s ease',
+              fontSize: '10px',
+              background: '#10b981',
+              color: '#022c22',
+              fontWeight: 900,
+              padding: '1px 6px',
+              borderRadius: '999px',
             }}
           >
-            <span>
-              {batch.emoji} {batch.shortLabel} ({batch.countLabel.replace(' Antków', '')})
-            </span>
-            <span
-              style={{
-                fontSize: '10.5px',
-                fontWeight: 800,
-                padding: '1px 6px',
-                borderRadius: '999px',
-                background: isActive ? 'rgba(0, 0, 0, 0.32)' : 'rgba(255, 255, 255, 0.08)',
-                color: isActive ? '#ffffff' : batch.badgeColor,
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                whiteSpace: 'nowrap',
-              }}
-              title={`Utworzono: ${batch.createdDateLabel}.2026 · Ostatnia aktualizacja: ${batch.updatedDateLabel}`}
-            >
-              📅 {batch.updatedDateLabel.slice(0, 5)}
-            </span>
-          </button>
-        );
-      })}
-    </div>
+            LIVE
+          </span>
+        </button>
+      </div>
+
+      {showAbModal && (
+        <div style={{ width: '100%', marginTop: '10px' }}>
+          <AbTestPanel defaultExpanded={true} preferredBrandKey={activeBrand} standalone={true} />
+        </div>
+      )}
+    </>
   );
 }

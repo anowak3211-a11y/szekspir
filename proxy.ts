@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
     catch{return new NextResponse('Invalid frontend request',{status:403});}
   }
   if(path==="/login"||path==="/api/auth"||path==="/join"||path==="/api/join")return NextResponse.next();
-  if (req.nextUrl.pathname === "/privacy" || req.nextUrl.pathname === "/api/work-tracker-sync" || req.nextUrl.pathname === "/api/capi/bennett-uk") return NextResponse.next();
+  if (req.nextUrl.pathname === "/privacy" || req.nextUrl.pathname === "/api/work-tracker-sync" || req.nextUrl.pathname === "/api/capi/bennett-uk" || req.nextUrl.pathname === "/api/ab-test/track") return NextResponse.next();
   // Scheduled workers retain a separate, narrowly scoped machine credential.
   const header = req.headers.get("authorization") || "";
   if (["/api/jobs/worker", "/api/editors/sync"].includes(req.nextUrl.pathname)) {
@@ -18,7 +18,7 @@ export async function proxy(req: NextRequest) {
     if (secret && header === `Bearer ${secret}`) return NextResponse.next();
     return new NextResponse("Auth required", { status: 401 });
   }
-  if (["/api/editors/quality", "/api/antki-pl", "/api/feliora-pl", "/api/feliora-pies-pl", "/api/stryde-pl", "/api/sardian-pl", "/api/bennett-uk"].includes(req.nextUrl.pathname) && ((process.env.CRON_SECRET && header === `Bearer ${process.env.CRON_SECRET}`) || header === "Bearer szekspir-antki-sync-2026")) return NextResponse.next();
+  if (["/api/editors/quality", "/api/antki-pl", "/api/feliora-pl", "/api/feliora-pies-pl", "/api/stryde-pl", "/api/sardian-pl", "/api/bennett-uk", "/api/ab-test"].includes(req.nextUrl.pathname) && ((process.env.CRON_SECRET && header === `Bearer ${process.env.CRON_SECRET}`) || header === "Bearer szekspir-antki-sync-2026")) return NextResponse.next();
   const pass = process.env.APP_PASSWORD;
   if (!pass) {
     if (process.env.NODE_ENV === "development") return NextResponse.next();
