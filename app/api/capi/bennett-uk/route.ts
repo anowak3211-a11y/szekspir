@@ -289,9 +289,11 @@ export async function POST(req: NextRequest) {
       : nowSec;
 
     const isCheckoutTopic = topic.startsWith('checkouts/');
-    const eventName = isCheckoutTopic ? 'BS_Step_Next' : 'BS_Order_Confirmed';
+    const primaryEventName = isCheckoutTopic ? 'InitiateCheckout' : 'Purchase';
+    const backupEventName = isCheckoutTopic ? 'BS_Step_Next' : 'BS_Order_Confirmed';
     const rawEntityId = String(payload.id || payload.token || Date.now());
-    const eventId = isCheckoutTopic ? `bs_chk_${rawEntityId}` : `bs_ord_${rawEntityId}`;
+    const primaryEventId = isCheckoutTopic ? `ic_${rawEntityId}` : `pur_${rawEntityId}`;
+    const backupEventId = isCheckoutTopic ? `bs_chk_${rawEntityId}` : `bs_ord_${rawEntityId}`;
 
     // Skip zero-value internal $0 test discounts if markedBSTESTORDER00
     const discountCodes = Array.isArray(payload.discount_codes) ? payload.discount_codes : [];
@@ -302,31 +304,46 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, skipped: 'internal_zero_test_order' });
     }
 
-    const capiEvent = {
-      event_name: eventName,
+    const sharedCustomData = {
+      value: Number(totalVal.toFixed(2)),
+      currency,
+      num_items: numItems,
+      content_type: 'product',
+      content_name: 'Cold-Pressed Pumpkin Seed Oil',
+      ...(contentIds.length > 0 ? { content_ids: Array.from(new Set(contentIds)) } : {}),
+      content_category: 'Toys & Games',
+      tier_group: tierGroup,
+    };
+
+    const primaryEvent = {
+      event_name: primaryEventName,
       event_time: eventTime,
-      event_id: eventId,
+      event_id: primaryEventId,
       action_source: 'website',
       event_source_url: 'https://bennettseed.co/',
       user_data: userData,
-      custom_data: {
-        value: Number(totalVal.toFixed(2)),
-        currency,
-        num_items: numItems,
-        content_type: 'product',
-        ...(contentIds.length > 0 ? { content_ids: Array.from(new Set(contentIds)) } : {}),
-        content_category: 'Toys & Games',
-        tier_group: tierGroup,
-      },
+      custom_data: sharedCustomData,
     };
 
-    const metaRes = await sendCapiEvents(pixelId, [capiEvent]);
+    const backupEvent = {
+      event_name: backupEventName,
+      event_time: eventTime,
+      event_id: backupEventId,
+      action_source: 'website',
+      event_source_url: 'https://bennettseed.co/',
+      user_data: userData,
+      custom_data: sharedCustomData,
+    };
+
+    const metaRes = await sendCapiEvents(pixelId, [primaryEvent, backupEvent]);
     return NextResponse.json({
       ok: true,
       pixelId,
       tierGroup,
-      eventName,
-      eventId,
+      eventName: primaryEventName,
+      backupEventName,
+      eventId: primaryEventId,
+      backupEventId,
       value: Number(totalVal.toFixed(2)),
       currency,
       meta: metaRes,
