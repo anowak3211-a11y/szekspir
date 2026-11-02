@@ -1,7 +1,7 @@
 import { inOwnerWorkspace } from './account-context';
 import { mutate, readState } from './store';
 
-export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v3';
+export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v5';
 
 export type AbVariantKey = 'A' | 'B';
 export type AbTrafficAllocation = '50_50' | '100_A' | '100_B' | 'paused';
@@ -35,7 +35,7 @@ export interface AbOrderLogItem {
 
 export interface AbTestExperiment {
   id: string;
-  brandKey: 'orthomax' | 'feliora-pies' | 'feliora' | 'sardian-szampon' | 'stryde' | 'custom';
+  brandKey: 'orthomax' | 'feliora-pies' | 'feliora' | 'sardian-szampon' | 'custom';
   brandLabel: string;
   storeDomain: string;
   name: string;
@@ -421,6 +421,7 @@ function ensureDefaults(state: AbTestStoreState): AbTestStoreState {
     }
   }
   for (const leftover of existingMap.values()) {
+    if (leftover.id === 'sardian-opaska-noom-v1' || (leftover.brandKey as string) === 'stryde') continue;
     merged.push(leftover);
   }
   return {

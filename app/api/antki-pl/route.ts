@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v21-noom-krystyna';
+const STATE_KEY = 'antki-pl-library-v22-noom-krystyna';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];

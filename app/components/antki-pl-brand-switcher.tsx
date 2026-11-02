@@ -27,6 +27,45 @@ export interface AntkiPlBrandBatchMeta {
 
 export const ANTKI_PL_BRAND_BATCHES: AntkiPlBrandBatchMeta[] = [
   {
+    key: 'orthomax',
+    emoji: '🦶',
+    shortLabel: 'ORTHOMAX PL · StepMax',
+    countLabel: '105 Antków',
+    createdDateLabel: '18.10',
+    updatedDateLabel: '02.11.2026',
+    sortTimestamp: Date.parse('2026-11-02T22:00:00+01:00'),
+    activeGradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+    activeShadow: '0 2px 10px rgba(234, 88, 12, 0.45)',
+    inactiveColor: '#fdba74',
+    badgeColor: '#ffedd5',
+  },
+  {
+    key: 'sardian-szampon',
+    emoji: '🦁',
+    shortLabel: 'SARDIAN PL · Szampon',
+    countLabel: '44 Antków',
+    createdDateLabel: '29.10',
+    updatedDateLabel: '01.11.2026',
+    sortTimestamp: Date.parse('2026-11-01T16:45:00+01:00'),
+    activeGradient: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
+    activeShadow: '0 2px 10px rgba(245, 158, 11, 0.45)',
+    inactiveColor: '#fde68a',
+    badgeColor: '#fef3c7',
+  },
+  {
+    key: 'feliora',
+    emoji: '🐾',
+    shortLabel: 'FELIORA PL · Koty',
+    countLabel: '31 Antków',
+    createdDateLabel: '22.10',
+    updatedDateLabel: '01.11.2026',
+    sortTimestamp: Date.parse('2026-11-01T16:44:00+01:00'),
+    activeGradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+    activeShadow: '0 2px 10px rgba(139, 92, 246, 0.4)',
+    inactiveColor: '#ddd6fe',
+    badgeColor: '#ede9fe',
+  },
+  {
     key: 'bennett-uk',
     emoji: '🎃',
     shortLabel: 'BENNETT & SEED UK',
@@ -52,58 +91,6 @@ export const ANTKI_PL_BRAND_BATCHES: AntkiPlBrandBatchMeta[] = [
     inactiveColor: '#fcd34d',
     badgeColor: '#fef3c7',
   },
-  {
-    key: 'sardian-szampon',
-    emoji: '🦁',
-    shortLabel: 'SARDIAN PL · Szampon',
-    countLabel: '44 Antków',
-    createdDateLabel: '29.10',
-    updatedDateLabel: '01.11.2026',
-    sortTimestamp: Date.parse('2026-11-01T16:45:00+01:00'),
-    activeGradient: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
-    activeShadow: '0 2px 10px rgba(245, 158, 11, 0.45)',
-    inactiveColor: '#fde68a',
-    badgeColor: '#fef3c7',
-  },
-  {
-    key: 'stryde',
-    emoji: '🦿',
-    shortLabel: 'SARDIAN PL · Opaska',
-    countLabel: '25 Antków',
-    createdDateLabel: '22.10',
-    updatedDateLabel: '25.10.2026',
-    sortTimestamp: Date.parse('2026-10-25T15:00:00+01:00'),
-    activeGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    activeShadow: '0 2px 10px rgba(16, 185, 129, 0.4)',
-    inactiveColor: '#6ee7b7',
-    badgeColor: '#d1fae5',
-  },
-  {
-    key: 'feliora',
-    emoji: '🐾',
-    shortLabel: 'FELIORA PL · Koty',
-    countLabel: '31 Antków',
-    createdDateLabel: '22.10',
-    updatedDateLabel: '01.11.2026',
-    sortTimestamp: Date.parse('2026-11-01T16:44:00+01:00'),
-    activeGradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
-    activeShadow: '0 2px 10px rgba(139, 92, 246, 0.4)',
-    inactiveColor: '#ddd6fe',
-    badgeColor: '#ede9fe',
-  },
-  {
-    key: 'orthomax',
-    emoji: '🦶',
-    shortLabel: 'ORTHOMAX PL · StepMax',
-    countLabel: '105 Antków',
-    createdDateLabel: '18.10',
-    updatedDateLabel: '02.11.2026',
-    sortTimestamp: Date.parse('2026-11-02T21:35:00+01:00'),
-    activeGradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
-    activeShadow: '0 2px 10px rgba(234, 88, 12, 0.45)',
-    inactiveColor: '#fdba74',
-    badgeColor: '#ffedd5',
-  },
 ];
 
 export function formatAntekShortDate(ts?: number): string {
@@ -123,16 +110,18 @@ export function formatAntekFullDate(ts?: number): string {
   return `${day}.${month}.${year}`;
 }
 
-const BRAND_SORT_STORAGE_KEY = 'antki_pl_brand_bar_sort_v1';
+const BRAND_SORT_STORAGE_KEY = 'antki_pl_brand_bar_sort_v2';
 
 interface AntkiPlBrandSwitcherProps {
   activeBrand: AntkiPlBrandKey;
   onSelectBrand: (brand: AntkiPlBrandKey) => void;
+  onOpenNoomBatch?: () => void;
 }
 
 export default function AntkiPlBrandSwitcher({
   activeBrand,
   onSelectBrand,
+  onOpenNoomBatch,
 }: AntkiPlBrandSwitcherProps) {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [showAbModal, setShowAbModal] = useState(false);
@@ -170,7 +159,7 @@ export default function AntkiPlBrandSwitcher({
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          background: 'rgba(9, 9, 11, 0.88)',
+          background: 'rgba(9, 9, 11, 0.92)',
           padding: '4px',
           borderRadius: '11px',
           border: '1px solid rgba(255, 255, 255, 0.14)',
@@ -247,37 +236,77 @@ export default function AntkiPlBrandSwitcher({
           );
         })}
 
-        {/* A/B TEST PANEL BUTTON (CLEAN MONOCHROME, DRAFT BY DEFAULT) */}
+        {/* DIRECT PILL TO 4 NOOM ANTKI (#102-#105) */}
         <button
           type="button"
-          onClick={() => setShowAbModal(v => !v)}
-          title="Otwórz panel A/B testów landerów (Standard PDP vs Noom Story-PDP „Ciąg dalszy”)"
+          onClick={() => {
+            if (onOpenNoomBatch) {
+              onOpenNoomBatch();
+            } else {
+              window.location.href = '/antki-pl?brand=orthomax&batch=noom&angle=noom-102-krystyna-62-wroclaw-schody';
+            }
+          }}
+          title="Przejdź bezpośrednio do 4 nowych Antków NOOM (#102–#105 · Krystyna 62 l. / Kalejdoskop 5 lekarzy)"
           style={{
-            background: showAbModal ? '#27272a' : '#18181b',
-            color: '#f4f4f5',
-            border: showAbModal
-              ? '1px solid rgba(255, 255, 255, 0.28)'
-              : '1px solid rgba(255, 255, 255, 0.12)',
+            background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+            color: '#ffffff',
+            border: '1px solid rgba(52, 211, 153, 0.45)',
             borderRadius: '8px',
             padding: '6px 11px',
             fontSize: '12px',
-            fontWeight: 600,
+            fontWeight: 800,
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
           }}
         >
-          <span>A/B Test Landerów</span>
+          <span>🔥 4 Antki NOOM (#102–#105)</span>
           <span
             style={{
               fontSize: '10px',
-              background: 'rgba(255, 255, 255, 0.08)',
-              color: '#a1a1aa',
-              fontWeight: 600,
+              background: 'rgba(0, 0, 0, 0.3)',
+              color: '#a7f3d0',
+              fontWeight: 700,
+              padding: '1px 5px',
+              borderRadius: '4px',
+            }}
+          >
+            02.11
+          </span>
+        </button>
+
+        {/* A/B TEST PANEL BUTTON (CLEAN MONOCHROME, DRAFT BY DEFAULT) */}
+        <button
+          type="button"
+          onClick={() => setShowAbModal(v => !v)}
+          title="Otwórz panel A/B testów landerów (Standard PDP vs Noom Story-PDP „Ciąg dalszy”) + 4 Antki NOOM"
+          style={{
+            background: showAbModal ? '#f4f4f5' : '#18181b',
+            color: showAbModal ? '#09090b' : '#f4f4f5',
+            border: showAbModal
+              ? '1px solid #f4f4f5'
+              : '1px solid rgba(255, 255, 255, 0.16)',
+            borderRadius: '8px',
+            padding: '6px 11px',
+            fontSize: '12px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+          }}
+        >
+          <span>🧪 A/B Test Landerów</span>
+          <span
+            style={{
+              fontSize: '10px',
+              background: showAbModal ? 'rgba(9, 9, 11, 0.12)' : 'rgba(255, 255, 255, 0.08)',
+              color: showAbModal ? '#09090b' : '#a1a1aa',
+              fontWeight: 700,
               padding: '1px 6px',
               borderRadius: '4px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
             }}
           >
             DRAFT

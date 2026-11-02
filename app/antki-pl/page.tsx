@@ -9,7 +9,6 @@ import BennettUkWorkspace from '@/app/components/bennett-uk-workspace';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
 import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
-import StrydePlWorkspace from '@/app/components/stryde-pl-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
   ANTKI_PL_PRESET_ANGLES,
@@ -409,7 +408,7 @@ export default function AntkiPlPage() {
       }
       if (data.brain) setBrain(data.brain);
       if (data.presets?.length) {
-        setActiveAngleId(prev => prev || 'sport-82-gory-zejscie-morskie-oko-kolana');
+        setActiveAngleId(prev => prev || 'noom-102-krystyna-62-wroclaw-schody');
       }
     } catch {
       // Keep preloaded 101 Argon ads + local image overrides seamlessly
@@ -1913,9 +1912,9 @@ export default function AntkiPlPage() {
     const b = params.get("brand");
     if (b === "bennett" || b === "bennett-uk" || b === "bennettseed") {
       setActiveBrand("bennett-uk");
-    } else if (b === "sardian" || b === "sardian-szampon" || b === "szampon") {
+    } else if (b === "sardian" || b === "sardian-szampon" || b === "szampon" || b === "stryde") {
       setActiveBrand("sardian-szampon");
-    } else if (b === "orthomax" || b === "feliora" || b === "stryde") {
+    } else if (b === "orthomax" || b === "feliora") {
       setActiveBrand(b);
     } else if (b === "feliora-pies" || b === "psy" || b === "pies") {
       setActiveBrand("feliora-pies");
@@ -2099,30 +2098,18 @@ export default function AntkiPlPage() {
       <BennettUkWorkspace
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
-        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToStryde={() => setActiveBrand("sardian-szampon")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
       />
     );
   }
 
-  if (activeBrand === "sardian-szampon") {
+  if (activeBrand === "sardian-szampon" || activeBrand === "stryde") {
     return (
       <SardianPlWorkspace
         onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
-        onSwitchToStryde={() => setActiveBrand("stryde")}
-        onSwitchToFeliora={() => setActiveBrand("feliora")}
-        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
-        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
-      />
-    );
-  }
-
-  if (activeBrand === "stryde") {
-    return (
-      <StrydePlWorkspace
-        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
-        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
+        onSwitchToStryde={() => setActiveBrand("sardian-szampon")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
@@ -2136,7 +2123,7 @@ export default function AntkiPlPage() {
         onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
-        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToStryde={() => setActiveBrand("sardian-szampon")}
         onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
       />
     );
@@ -2147,7 +2134,7 @@ export default function AntkiPlPage() {
       <FelioraPiesPlWorkspace
         onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
         onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
-        onSwitchToStryde={() => setActiveBrand("stryde")}
+        onSwitchToStryde={() => setActiveBrand("sardian-szampon")}
         onSwitchToFeliora={() => setActiveBrand("feliora")}
         onSwitchToOrthomax={() => setActiveBrand("orthomax")}
       />
@@ -2209,12 +2196,19 @@ export default function AntkiPlPage() {
             </a>
 
             {/* BRAND SWITCHER PILLS */}
-            <AntkiPlBrandSwitcher activeBrand="orthomax" onSelectBrand={b => setActiveBrand(b)} />
+            <AntkiPlBrandSwitcher
+              activeBrand="orthomax"
+              onSelectBrand={b => setActiveBrand(b === "stryde" ? "sardian-szampon" : b)}
+              onOpenNoomBatch={() => {
+                setStageFilter("batch6_noom");
+                setActiveAngleId("noom-102-krystyna-62-wroclaw-schody");
+              }}
+            />
 
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: 18, fontWeight: 900, color: "#ffffff", letterSpacing: "-0.02em" }}>
-                  ANTKI PL · Orthomax StepMax (5 Batchy wg Dni · #1–#101)
+                  ANTKI PL · Orthomax StepMax (6 Batchy wg Dni · #1–#105)
                 </span>
                 <span
                   style={{
@@ -2222,12 +2216,12 @@ export default function AntkiPlPage() {
                     fontWeight: 800,
                     padding: "3px 8px",
                     borderRadius: 999,
-                    background: "rgba(249, 115, 22, 0.22)",
-                    color: "#fdba74",
-                    border: "1px solid rgba(249, 115, 22, 0.45)",
+                    background: "rgba(16, 185, 129, 0.22)",
+                    color: "#6ee7b7",
+                    border: "1px solid rgba(16, 185, 129, 0.45)",
                   }}
                 >
-                  5 BATCHY (20.10 → 01.11) · {totalGeneratedCount}/{presets.length || 101} GOTOWYCH (1200+ SŁÓW)
+                  6 BATCHY (20.10 → 02.11) · {totalGeneratedCount}/{presets.length || 105} GOTOWYCH (W TYM 4 NOOM #102–#105)
                 </span>
               </div>
               <div style={{ fontSize: 12, color: "#fdba74", marginTop: 2 }}>
@@ -2239,6 +2233,21 @@ export default function AntkiPlPage() {
 
           {/* RIGHT ACTIONS */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <a
+              href="/ab-test"
+              style={{
+                padding: "8px 13px",
+                borderRadius: 8,
+                border: "1px solid rgba(255,255,255,0.22)",
+                background: "#18181b",
+                color: "#f4f4f5",
+                fontWeight: 700,
+                fontSize: 12.5,
+                textDecoration: "none",
+              }}
+            >
+              🧪 Pełny Panel A/B Testu (DRAFT) ↗
+            </a>
             <button
               type="button"
               onClick={() => setShowCampaignPanel(prev => !prev)}
@@ -2323,32 +2332,103 @@ export default function AntkiPlPage() {
           </div>
         </div>
 
-        {/* OFFER CALLOUT BAR */}
+        {/* DIRECT QUICK-ACCESS BAR FOR 4 NOOM ANTKI (#102-#105) + LANDER A/B TEST */}
         <div
           style={{
             maxWidth: 1680,
             margin: "10px auto 0",
-            padding: "8px 14px",
+            padding: "10px 14px",
             borderRadius: 10,
-            background: "rgba(22, 11, 4, 0.72)",
-            border: "1px solid rgba(249, 115, 22, 0.32)",
+            background: "#09090b",
+            border: "1px solid rgba(52, 211, 153, 0.4)",
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 10,
-            fontSize: 12,
-            color: "#fed7aa",
           }}
         >
-          <div>
-            🦶 <strong>Oferta Orthomax StepMax (PL):</strong> Dynamiczne wkładki ortopedyczne z wypustkami sensorycznymi ·{" "}
-            <strong style={{ color: "#fdba74" }}>Pakiet 1+1 GRATIS (2 pary za 99,99 zł · 50 zł/para)</strong> · 30 dni na test · 0 myślników em-dash
-          </div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <span style={{ color: "#fb923c", fontWeight: 700 }}>
-              Konto Meta: UMOWA ALLCAN PROJECTS SP ZOO ORTHOMAX (1109284831182252)
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                padding: "3px 8px",
+                borderRadius: 6,
+                background: "rgba(16, 185, 129, 0.16)",
+                color: "#34d399",
+                border: "1px solid rgba(16, 185, 129, 0.35)",
+              }}
+            >
+              🔥 NOWY BATCH 6 · 02.11 · NOOM A/B TEST
             </span>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: "#f4f4f5" }}>
+              Kliknij, aby od razu otworzyć 1 z 4 Antków NOOM („Historia Krystyny 62 l. / Kalejdoskop 5 lekarzy”):
+            </span>
+            {[
+              { id: "noom-102-krystyna-62-wroclaw-schody", label: "#102 · Iwona Kożuchowska (62 l. Wrocław)" },
+              { id: "noom-103-karol-64-endoproteza-kalejdoskop", label: "#103 · Karol Mikołajczyk (64 l. Endoproteza)" },
+              { id: "noom-104-corka-gosia-mama-62-wroclaw", label: "#104 · Porady Mamy Gosi (Córka o Mamie)" },
+              { id: "noom-105-fizjo-5-lekarzy-przed-endoproteza", label: "#105 · Centrum Dobrego Kroku (Fizjo)" },
+            ].map(noomBtn => {
+              const isSelected = activeAngleId === noomBtn.id;
+              return (
+                <button
+                  key={noomBtn.id}
+                  type="button"
+                  onClick={() => {
+                    setStageFilter("batch6_noom");
+                    setActiveAngleId(noomBtn.id);
+                  }}
+                  style={{
+                    padding: "5px 10px",
+                    borderRadius: 6,
+                    border: isSelected ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.14)",
+                    background: isSelected ? "#059669" : "#18181b",
+                    color: "#ffffff",
+                    fontSize: 11.5,
+                    fontWeight: isSelected ? 800 : 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  {noomBtn.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <a
+              href="/pages/kp-krystyna-1"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "#18181b",
+                border: "1px solid rgba(255,255,255,0.14)",
+                color: "#e4e4e7",
+                fontSize: 11.5,
+                fontWeight: 600,
+                textDecoration: "none",
+              }}
+            >
+              Lander Wariant B (/pages/kp-krystyna-1) ↗
+            </a>
+            <a
+              href="/ab-test"
+              style={{
+                padding: "5px 10px",
+                borderRadius: 6,
+                background: "#f4f4f5",
+                color: "#09090b",
+                fontSize: 11.5,
+                fontWeight: 700,
+                textDecoration: "none",
+              }}
+            >
+              Panel A/B Testu (DRAFT) →
+            </a>
           </div>
         </div>
       </div>
