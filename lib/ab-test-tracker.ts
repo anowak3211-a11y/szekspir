@@ -1,7 +1,7 @@
 import { inOwnerWorkspace } from './account-context';
 import { mutate, readState } from './store';
 
-export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v1';
+export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v2';
 
 export type AbVariantKey = 'A' | 'B';
 export type AbTrafficAllocation = '50_50' | '100_A' | '100_B' | 'paused';
@@ -118,23 +118,23 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
     storeDomain: 'orthomax.pl',
     name: 'Standard PDP vs Noom Story-PDP („Historia Krystyny · ciąg dalszy”)',
     description:
-      'Test 50/50 dla długich Antków (LFS): czy doklejenie nad/pod Buyboxem sekcji „Historia z posta · ciąg dalszy + Kartka od lekarza (Przyczyna vs Skutek)” podnosi RPV i CR% względem czystego PDP.',
-    entryUrl: 'https://orthomax.pl/products/orthomax-stepmax',
-    splitMode: 'in_page_dom',
+      'Test 50/50 dla długich Antków (LFS): Wariant A (Standardowy PDP na orthomax.pl) vs Wariant B (Noom Story-PDP „Historia Krystyny, 62 lata, Wrocław · ciąg dalszy” z koszykiem 1+1 GRATIS i przekierowaniem prosto do kasy orthomax.pl).',
+    entryUrl: 'https://szekspir.vercel.app/pages/orthomax-ab',
+    splitMode: 'url_redirect',
     allocation: '50_50',
     status: 'active',
     createdAt: Date.parse('2026-11-02T16:30:00+01:00'),
-    updatedAt: Date.parse('2026-11-02T16:30:00+01:00'),
+    updatedAt: Date.parse('2026-11-02T17:50:00+01:00'),
     variants: {
       A: emptyVariant(
         'Wariant A · Standard PDP (Control)',
         'Czysty Product Page z Kaching Bundles (1 para / 1+1 GRATIS / 2+2 GRATIS)',
-        'https://orthomax.pl/products/orthomax-stepmax',
+        'https://orthomax.pl/products/orthomax-stepmax?ab=A',
       ),
       B: emptyVariant(
-        'Wariant B · Noom Story-PDP („Ciąg dalszy”)',
-        'Badge „Historia z posta · ciąg dalszy” + blok „Dlaczego maści i zastrzyki działały tylko na chwilę” + ten sam Buybox',
-        'https://orthomax.pl/products/orthomax-stepmax?ab=B',
+        'Wariant B · Noom Story-PDP („Historia Krystyny · ciąg dalszy”)',
+        'Pełna strona „Historia Krystyny, 62 lata, Wrocław · ciąg dalszy + Kartka od lekarza + Dziennik 6 tyg.” + Buybox 1+1 GRATIS',
+        'https://szekspir.vercel.app/pages/kp-krystyna-1',
       ),
     },
     seenVisitors: {

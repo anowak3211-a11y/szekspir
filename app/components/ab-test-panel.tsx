@@ -749,7 +749,25 @@ export default function AbTestPanel({
                   <div style={{ fontSize: '15px', fontWeight: 800, color: '#fff', marginBottom: '3px' }}>
                     {m.label}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '14px' }}>{m.subtitle}</div>
+                  <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '8px' }}>{m.subtitle}</div>
+                  <div style={{ fontSize: '12px', marginBottom: '14px' }}>
+                    <a
+                      href={m.targetUrlOrSelector}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: vKey === 'A' ? '#93c5fd' : '#c4b5fd',
+                        fontWeight: 700,
+                        textDecoration: 'underline',
+                        wordBreak: 'break-all',
+                      }}
+                    >
+                      🔗 {m.targetUrlOrSelector} ↗
+                    </a>
+                  </div>
 
                   {/* Hero Metric: RPV */}
                   <div
