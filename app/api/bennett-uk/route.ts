@@ -305,6 +305,9 @@ export const POST = accountRoute(async (req: Request) => {
       adSetName?: string;
       targetAdSetId?: string;
       deleteAdSetIds?: string[];
+      adSetIds?: string[];
+      dailyMinSpendTarget?: number;
+      dailySpendCap?: number;
       campaignId?: string;
       templateAdSetId?: string;
       urlMode?: 'pdp' | 'split_ab';
@@ -954,6 +957,8 @@ export const POST = accountRoute(async (req: Request) => {
             targeting: rawTargeting,
             attribution_spec: source.attribution_spec,
             destination_type: source.destination_type || 'WEBSITE',
+            daily_min_spend_target:
+              typeof body.dailyMinSpendTarget === 'number' ? body.dailyMinSpendTarget : 6000,
             dsa_beneficiary: dsaEntity,
             dsa_payor: dsaPayer,
           },
@@ -1101,6 +1106,72 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
       return NextResponse.json({ ok: true, deleted });
+    }
+
+    if (action === 'update_adsets') {
+      const adSetIds = Array.isArray(body.adSetIds) ? body.adSetIds : [];
+      const dailyMinSpendTarget =
+        typeof body.dailyMinSpendTarget === 'number' ? body.dailyMinSpendTarget : 5500;
+      const results: Array<{ id: string; ok: boolean; response?: unknown; error?: string }> = [];
+      for (const id of adSetIds) {
+        try {
+          const payload: Record<string, unknown> = {
+            daily_min_spend_target: dailyMinSpendTarget,
+          };
+          if (typeof body.dailySpendCap === 'number') {
+            payload.daily_spend_cap = body.dailySpendCap;
+          }
+          const res = await directGraph(id, payload, 'POST');
+          results.push({ id, ok: true, response: res });
+        } catch (e) {
+          results.push({
+            id,
+            ok: false,
+            error: e instanceof Error ? e.message : 'update error',
+          });
+        }
+      }
+      return NextResponse.json({ ok: true, results });
+    }
+
+    if (action === 'full_live_audit') {
+      const campId = body.campaignId || '120247958270050147';
+      const [campaign, adsets, ads, insightsToday, pixelInfo, pixelStats] = await Promise.all([
+        directGraph<Record<string, unknown>>(campId, {
+          fields: 'id,name,status,effective_status,daily_budget,bid_strategy,objective,buying_type',
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'camp error' })),
+        directGraph<{ data?: Array<Record<string, unknown>> }>(`${campId}/adsets`, {
+          fields:
+            'id,name,status,effective_status,daily_min_spend_target,daily_spend_cap,optimization_goal,billing_event,promoted_object,targeting,attribution_spec,destination_type,dsa_beneficiary,dsa_payor',
+          limit: 50,
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'adsets error' })),
+        directGraph<{ data?: Array<Record<string, unknown>> }>(`${campId}/ads`, {
+          fields:
+            'id,name,adset_id,status,effective_status,issues_info,creative{id,name,url_tags,object_story_spec}',
+          limit: 100,
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'ads error' })),
+        directGraph<{ data?: Array<Record<string, unknown>> }>(`${campId}/insights`, {
+          level: 'adset',
+          date_preset: 'today',
+          fields: 'adset_id,adset_name,spend,impressions,inline_link_clicks,cpc,ctr,actions',
+          limit: 50,
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'insights error' })),
+        directGraph<Record<string, unknown>>(BENNETT_UK_META_PIXEL_ID, {
+          fields: 'id,name,last_fired_time,is_unavailable',
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'pixel error' })),
+        directGraph<Record<string, unknown>>(`${BENNETT_UK_META_PIXEL_ID}/stats`, {
+          aggregation: 'event',
+        }).catch(e => ({ error: e instanceof Error ? e.message : 'pixel stats error' })),
+      ]);
+      return NextResponse.json({
+        ok: true,
+        campaign,
+        adsets,
+        ads,
+        insightsToday,
+        pixelInfo,
+        pixelStats,
+      });
     }
 
     return NextResponse.json({ error: 'Nieznana akcja API Bennett & Seed UK.' }, { status: 400 });
