@@ -92,7 +92,7 @@ export interface BennettUkAnglePreset {
   updatedDate?: string;
 }
 
-export const BENNETT_UK_AD_ACCOUNT_ID = '1168927131917359';
+export const BENNETT_UK_AD_ACCOUNT_ID = '1416007652848561';
 export const BENNETT_UK_BLADDER_PDP_URL = 'https://bennettseed.co/products/comfort-flow-softgels';
 export const BENNETT_UK_PROSTATE_PDP_URL = 'https://bennettseed.co/products/night-ease-softgels';
 export const BENNETT_UK_KIDNEY_PDP_URL = 'https://bennettseed.co/products/daily-balance-softgels';

@@ -874,7 +874,7 @@ export const POST = accountRoute(async (req: Request) => {
             {
               name: 'BENNETT UK NATIVE',
               objective: 'OUTCOME_SALES',
-              status: 'PAUSED',
+              status: body.adStatus || 'ACTIVE',
               special_ad_categories: [],
               daily_budget: 45000,
               bid_strategy: 'LOWEST_COST_WITHOUT_CAP',
@@ -885,9 +885,9 @@ export const POST = accountRoute(async (req: Request) => {
         }
       }
 
-      const templateAdSetId = body.templateAdSetId || '120250116221480298';
+      const templateAdSetId = body.templateAdSetId || '120247761173960147';
       const adSetName = (body.adSetName || `02.11 - BENNETT UK ANTEK BATCH (${selectedAds.length}x)`).trim();
-      const adStatus = body.adStatus || 'PAUSED';
+      const adStatus = body.adStatus || 'ACTIVE';
 
       const source = await directGraph<Record<string, unknown>>(templateAdSetId, {
         fields:
