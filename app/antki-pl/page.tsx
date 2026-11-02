@@ -35,6 +35,7 @@ interface StageMeta {
 }
 
 const STAGE_ORDER: AntkiPlFunnelStage[] = [
+  'noom_krystyna_kalejdoskop',
   'sport_gory_szlaki',
   'sport_tenis_padel',
   'sport_pilka_orlik',
@@ -66,11 +67,11 @@ const AVAILABLE_META_FANPAGES: Array<{
   instagramUserId?: string;
   note: string;
 }> = [
-  { id: '1363490303507686', name: 'Karol Mikołajczyk', initials: 'KM', note: 'SPORT (#82-#83, #87-#89, #93-#95, #97, #100-#101) + TP#81 (1. os. męski)' },
-  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'SPORT (#85, #90 Fizjo), D3_RYCIAK, D4_OSTROGA, D32/D34/D35, TP#77/TP#80' },
+  { id: '1363490303507686', name: 'Karol Mikołajczyk', initials: 'KM', note: 'NOOM #103 + SPORT (#82-#83, #87-#89, #93-#95, #97, #100-#101) + TP#81 (1. os. męski)' },
+  { id: '866702399857726', name: 'Centrum Dobrego Kroku', initials: 'CK', instagramUserId: '17841477743222560', note: 'NOOM #105 + SPORT (#85, #90 Fizjo), D3_RYCIAK, D4_OSTROGA, D32/D34/D35, TP#77/TP#80' },
   { id: '945290751994002', name: 'Dziennik Zdrowego Ciała', initials: 'DZ', instagramUserId: '17841446201609005', note: 'D1_SOR, D07/D09 (syn), D31/D33' },
-  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'SPORT (#91-#92, #96, #99) + D06/D08/D10 + Batch 1 Dzieci + TP#76/TP#79' },
-  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'SPORT (#84, #86, #98) + D5_HALUKS, D6_ZAL, TP#78 (profil osobowy 50+)' },
+  { id: '798916893308685', name: 'Porady Mamy Gosi', initials: 'MG', instagramUserId: '17841473314157729', note: 'NOOM #104 + SPORT (#91-#92, #96, #99) + D06/D08/D10 + Batch 1 Dzieci + TP#76/TP#79' },
+  { id: '1194345203770949', name: 'Iwona Kożuchowska', initials: 'IK', instagramUserId: '17841412233487287', note: 'NOOM #102 + SPORT (#84, #86, #98) + D5_HALUKS, D6_ZAL, TP#78 (profil osobowy 50+)' },
   { id: '1204366092764321', name: 'Dr. Magdalena Rokicińska', initials: 'MR', instagramUserId: '17841439381913725', note: 'Profil ekspercki' },
   { id: '1339041252618036', name: 'Dr n. med. Janusz Skrzypiński', initials: 'JS', instagramUserId: '17841437463666297', note: 'Profil lekarski' },
 ];
@@ -137,6 +138,10 @@ const DOROSLI_ANGLE_NATIVE_PAGE_MAP: Record<string, string> = {
   'sport-99-bieganie-slow-mo-pronacja-asfalt': '798916893308685',
   'sport-100-hala-siatkowka-parkiet-ladowanie': '1363490303507686',
   'sport-101-bieganie-anti-allegro-zel-vs-sprezyna': '1363490303507686',
+  'noom-102-krystyna-62-wroclaw-schody': '1194345203770949',
+  'noom-103-karol-64-endoproteza-kalejdoskop': '1363490303507686',
+  'noom-104-corka-gosia-mama-62-wroclaw': '798916893308685',
+  'noom-105-fizjo-5-lekarzy-przed-endoproteza': '866702399857726',
 };
 
 type CampaignStructureState = {
@@ -166,7 +171,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('bennett-uk');
+  const [activeBrand, setActiveBrand] = useState<'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('orthomax');
   const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'days'>('newest');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
     ANTKI_PL_PRESET_ANGLES.map(angle => {
@@ -183,7 +188,7 @@ export default function AntkiPlPage() {
   const [imageLibrary, setImageLibrary] = useState<AntkiPlImageAsset[]>(ANTKI_PL_IMAGE_LIBRARY);
   const [brain, setBrain] = useState<{ provider: string; model: string }>({
     provider: 'argon',
-    model: 'Argon (101 autorskich punchy winnerów · 5 Batchy)',
+    model: 'Argon (105 autorskich punchy winnerów · 6 Batchy)',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -199,8 +204,9 @@ export default function AntkiPlPage() {
   const customImageInputRef = useRef<HTMLInputElement | null>(null);
   const [fbPreviewExpanded, setFbPreviewExpanded] = useState(true);
 
-  // Domyślnie pokazujemy wszystkie 101 Antków posortowane po batchach i dniach od najnowszych (Batch 5 Sport 01.11 na samej górze)
+  // Domyślnie pokazujemy wszystkie 105 Antków posortowane po batchach i dniach od najnowszych (Batch 6 NOOM 02.11 na samej górze)
   const [stageFilter, setStageFilter] = useState<
+    | 'batch6_noom'
     | 'batch5_sport'
     | 'batch4_testpack'
     | 'batch3_zal_v2'
@@ -213,6 +219,7 @@ export default function AntkiPlPage() {
     | 'dorosli_d6'
     | 'dorosli_d7'
     | 'all_kids'
+    | 'day_02_11'
     | 'day_01_11'
     | 'day_29_10'
     | 'day_23_10'
@@ -222,12 +229,12 @@ export default function AntkiPlPage() {
   >('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeAngleId, setActiveAngleId] = useState<string | null>('sport-82-gory-zejscie-morskie-oko-kolana');
+  const [activeAngleId, setActiveAngleId] = useState<string | null>('noom-102-krystyna-62-wroclaw-schody');
 
   // Generation & Fanpage settings (domyślnie natywny fanpage dopasowany do kąta)
-  const [destinationUrl, setDestinationUrl] = useState('https://orthomax.pl/products/orthomax-stepmax-pro');
-  const [selectedPageId, setSelectedPageId] = useState('1363490303507686');
-  const [pageName, setPageName] = useState('Karol Mikołajczyk');
+  const [destinationUrl, setDestinationUrl] = useState('https://szekspir.vercel.app/pages/kp-krystyna-1');
+  const [selectedPageId, setSelectedPageId] = useState('1194345203770949');
+  const [pageName, setPageName] = useState('Iwona Kożuchowska');
   const [manualPageOverride, setManualPageOverride] = useState(false);
   const [customInstructions, setCustomInstructions] = useState('');
   const [concurrency, setConcurrency] = useState(3);
@@ -280,9 +287,11 @@ export default function AntkiPlPage() {
 
   const isDorosliBatchView =
     stageFilter.startsWith('dorosli_') ||
+    stageFilter === 'batch6_noom' ||
     stageFilter === 'batch3_zal_v2' ||
     stageFilter === 'batch4_testpack' ||
     stageFilter === 'batch5_sport' ||
+    stageFilter === 'day_02_11' ||
     stageFilter === 'day_01_11' ||
     stageFilter === 'day_29_10' ||
     stageFilter === 'day_23_10';
@@ -451,7 +460,9 @@ export default function AntkiPlPage() {
 
   const filteredPresets = useMemo(() => {
     return presets.filter(item => {
-      if (stageFilter === 'batch5_sport') {
+      if (stageFilter === 'batch6_noom' || stageFilter === 'day_02_11' || stageFilter === 'noom_krystyna_kalejdoskop') {
+        if (item.number < 102 || item.number > 105) return false;
+      } else if (stageFilter === 'batch5_sport') {
         if (item.number < 82 || item.number > 101) return false;
       } else if (stageFilter === 'batch4_testpack' || stageFilter === 'anti_sales_allegro') {
         if (item.number < 76 || item.number > 81) return false;
@@ -1909,10 +1920,26 @@ export default function AntkiPlPage() {
     } else if (b === "feliora-pies" || b === "psy" || b === "pies") {
       setActiveBrand("feliora-pies");
     }
+    const batchParam = params.get("batch");
+    if (batchParam === "noom" || batchParam === "batch6" || batchParam === "krystyna") {
+      setActiveBrand("orthomax");
+      setStageFilter("batch6_noom");
+      setActiveAngleId("noom-102-krystyna-62-wroclaw-schody");
+    } else if (batchParam === "sport" || batchParam === "batch5") {
+      setActiveBrand("orthomax");
+      setStageFilter("batch5_sport");
+      setActiveAngleId("sport-82-gory-zejscie-morskie-oko-kolana");
+    }
+    const angleParam = params.get("angle");
+    if (angleParam) {
+      setActiveBrand("orthomax");
+      setActiveAngleId(angleParam);
+    }
   }, []);
 
   const groupedPresetsForSidebar = useMemo(() => {
     const getBatchRank = (num: number): number => {
+      if (num >= 102) return 6; // Batch 6: NOOM / A/B Test Krystyna 62 l. (02.11)
       if (num >= 82 && num <= 101) return 5; // Batch 5: Sport (01.11 wieczór)
       if (num >= 76 && num <= 81) return 4; // Batch 4: Test Pack (01.11)
       if (num >= 71 && num <= 75) return 3; // Batch 3: Żal V2 (29.10)
@@ -1921,6 +1948,7 @@ export default function AntkiPlPage() {
     };
 
     const getDayKeyForAngle = (num: number, ad?: AntkiPlGeneratedAd): string => {
+      if (num >= 102) return '02.11.2026';
       if (num >= 76 && num <= 101) return '01.11.2026';
       if (num >= 71 && num <= 75) return '29.10.2026';
       if (num >= 36 && num <= 70) return '23.10.2026';
@@ -1928,7 +1956,6 @@ export default function AntkiPlPage() {
       return formatAntekFullDate(ad?.updatedAt || ad?.createdAt);
     };
 
-    // Sortowanie wewnątrz grupy: po batchRank (najnowsze lub najstarsze), a w ramach batcha naturalnie po numerze kąta (#82 -> #101)
     const sorted = [...filteredPresets].sort((a, b) => {
       const rankA = getBatchRank(a.number);
       const rankB = getBatchRank(b.number);
@@ -1941,8 +1968,14 @@ export default function AntkiPlPage() {
     if (sidebarSort === 'days') {
       const dayDefs: Array<{ day: string; badge: string; label: string; color: string }> = [
         {
+          day: '02.11.2026',
+          badge: '📅 DZIEŃ 02.11.2026 · DZISIAJ (NOOM A/B TEST)',
+          label: 'Batch 6: NOOM / A/B Test Krystyna 62 l. · Kalejdoskop 5 Lekarzy (#102–#105 · 4 szt.) · LP: /pages/kp-krystyna-1',
+          color: '#10b981',
+        },
+        {
           day: '01.11.2026',
-          badge: '📅 DZIEŃ 01.11.2026 · DZISIAJ',
+          badge: '📅 DZIEŃ 01.11.2026',
           label: 'Batch 5: Sport & Aktywni (#82–#101 · 20 szt.) + Batch 4: Test Pack Anti-Sales & Allegro (#76–#81 · 6 szt.)',
           color: '#16a34a',
         },
@@ -1994,6 +2027,14 @@ export default function AntkiPlPage() {
       items: AntkiPlPresetAngle[];
     }> = [
       {
+        key: 'batch6_noom',
+        rank: 6,
+        badge: '🔥 BATCH 6 · 📅 02.11.2026 · #102–#105 (4 ANTKI NOOM A/B TEST)',
+        label: 'NOOM / A/B TEST: Historia Krystyny 62 l. · Kalejdoskop 5 Lekarzy (#102–#105) · LP: /pages/kp-krystyna-1',
+        color: '#10b981',
+        items: [],
+      },
+      {
         key: 'batch5_sport',
         rank: 5,
         badge: '🏔️⚽🎾🏃 BATCH 5 · 📅 01.11.2026 · #82–#101 (20 ANTKÓW)',
@@ -2036,11 +2077,12 @@ export default function AntkiPlPage() {
     ];
 
     for (const item of sorted) {
-      if (item.number >= 82 && item.number <= 101) batchGroups[0].items.push(item);
-      else if (item.number >= 76 && item.number <= 81) batchGroups[1].items.push(item);
-      else if (item.number >= 71 && item.number <= 75) batchGroups[2].items.push(item);
-      else if (item.number >= 36 && item.number <= 70) batchGroups[3].items.push(item);
-      else batchGroups[4].items.push(item);
+      if (item.number >= 102) batchGroups[0].items.push(item);
+      else if (item.number >= 82 && item.number <= 101) batchGroups[1].items.push(item);
+      else if (item.number >= 76 && item.number <= 81) batchGroups[2].items.push(item);
+      else if (item.number >= 71 && item.number <= 75) batchGroups[3].items.push(item);
+      else if (item.number >= 36 && item.number <= 70) batchGroups[4].items.push(item);
+      else batchGroups[5].items.push(item);
     }
 
     const nonEmpty = batchGroups.filter(g => g.items.length > 0);
@@ -2720,7 +2762,7 @@ export default function AntkiPlPage() {
                 type="button"
                 onClick={() => {
                   setStageFilter("all");
-                  const first = presets.find(p => p.number === 82);
+                  const first = presets.find(p => p.number === 102);
                   if (first) setActiveAngleId(first.id);
                 }}
                 style={{
@@ -2735,7 +2777,32 @@ export default function AntkiPlPage() {
                   boxShadow: stageFilter === "all" ? "0 2px 10px rgba(234, 88, 12, 0.35)" : "none",
                 }}
               >
-                📚 Wszystkie Batche ({presets.length || 101})
+                📚 Wszystkie Batche ({presets.length || 105})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStageFilter("batch6_noom");
+                  const first = presets.find(p => p.number === 102);
+                  if (first) setActiveAngleId(first.id);
+                }}
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: stageFilter === "batch6_noom" ? "1px solid #34d399" : "1px solid #4a2610",
+                  background:
+                    stageFilter === "batch6_noom"
+                      ? "linear-gradient(135deg, #059669 0%, #047857 100%)"
+                      : "#160b04",
+                  color: stageFilter === "batch6_noom" ? "#ffffff" : "#a7f3d0",
+                  fontSize: 12.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: stageFilter === "batch6_noom" ? "0 2px 10px rgba(16, 185, 129, 0.35)" : "none",
+                }}
+              >
+                🔥 Batch 6 · 02.11: NOOM / KRYSTYNA A/B (4 · #102–#105)
               </button>
 
               <button
@@ -2919,8 +2986,9 @@ export default function AntkiPlPage() {
               </span>
               {(
                 [
-                  { id: "all", label: "Wszystkie dni (101)", firstNum: 82 },
-                  { id: "day_01_11", label: "📅 01.11.2026 · Dzisiaj (26 szt. · Batch 5 Sport + Batch 4 Test Pack)", firstNum: 82 },
+                  { id: "all", label: "Wszystkie dni (105)", firstNum: 102 },
+                  { id: "day_02_11", label: "📅 02.11.2026 · Dzisiaj (4 szt. · Batch 6 NOOM Krystyna #102–#105)", firstNum: 102 },
+                  { id: "day_01_11", label: "📅 01.11.2026 (26 szt. · Batch 5 Sport + Batch 4 Test Pack)", firstNum: 82 },
                   { id: "day_29_10", label: "📅 29.10.2026 (5 szt. · Batch 3 Żal V2 #71–#75)", firstNum: 71 },
                   { id: "day_23_10", label: "📅 23.10.2026 (35 szt. · Batch 2 Dorośli #36–#70)", firstNum: 36 },
                   { id: "day_20_10", label: "📅 20.10.2026 (35 szt. · Batch 1 Dzieci #1–#35)", firstNum: 1 },
@@ -2957,8 +3025,8 @@ export default function AntkiPlPage() {
               <span style={{ fontSize: 11, fontWeight: 800, color: "#fb923c" }}>SORTOWANIE:</span>
               {(
                 [
-                  { key: "newest", label: "🕒 Od najnowszych (Batch 5 → 1)" },
-                  { key: "oldest", label: "📅 Od najstarszych (Batch 1 → 5)" },
+                  { key: "newest", label: "🕒 Od najnowszych (Batch 6 → 1)" },
+                  { key: "oldest", label: "📅 Od najstarszych (Batch 1 → 6)" },
                   { key: "days", label: "🗓️ Kalendarz Dni" },
                 ] as const
               ).map(opt => {
@@ -3000,7 +3068,7 @@ export default function AntkiPlPage() {
           minHeight: "calc(100vh - 135px)",
         }}
       >
-        {/* LEFT COLUMN: SORTED & GROUPED LIST OF 101 ANGLES BY BATCH & DAY */}
+        {/* LEFT COLUMN: SORTED & GROUPED LIST OF 105 ANGLES BY BATCH & DAY */}
         <aside
           style={{
             borderRight: "1px solid #4a2610",
@@ -3029,7 +3097,7 @@ export default function AntkiPlPage() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: 12, fontWeight: 800, color: "#ffedd5" }}>
-                ANTKI WG BATCHY ({filteredPresets.length} / {presets.length || 101})
+                ANTKI WG BATCHY ({filteredPresets.length} / {presets.length || 105})
               </span>
               <div style={{ display: "flex", gap: 6 }}>
                 <button
@@ -3103,7 +3171,7 @@ export default function AntkiPlPage() {
           <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 14 }}>
             {loading && (
               <div style={{ padding: 24, textAlign: "center", color: "#fdba74", fontSize: 13 }}>
-                Ładowanie 101 polskich Antków Orthomax StepMax...
+                Ładowanie 105 polskich Antków Orthomax StepMax...
               </div>
             )}
             {groupedPresetsForSidebar.map(group => (
@@ -3132,7 +3200,9 @@ export default function AntkiPlPage() {
                   const words = ad?.wordCount || (ad?.primaryText ? ad.primaryText.trim().split(/\s+/).length : 0);
                   const status = statuses[angle.id] || "idle";
                   const dateShort =
-                    angle.number >= 76
+                    angle.number >= 102
+                      ? "02.11"
+                      : angle.number >= 76
                       ? "01.11"
                       : angle.number >= 71
                       ? "29.10"
@@ -3142,7 +3212,9 @@ export default function AntkiPlPage() {
                       ? "20.10"
                       : formatAntekShortDate(ad?.updatedAt || ad?.createdAt);
                   const batchTag =
-                    angle.number >= 82
+                    angle.number >= 102
+                      ? "🔥 Batch 6 · NOOM Krystyna (02.11)"
+                      : angle.number >= 82
                       ? "🏔️ Batch 5 · Sport (01.11)"
                       : angle.number >= 76
                       ? "👎 Batch 4 · Test Pack (01.11)"

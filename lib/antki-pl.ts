@@ -28,6 +28,7 @@ import { ANTKI_DOROSLI_PRESET_ANGLES } from './antki-dorosli-presets';
 import { ANTKI_SPORT_PRESET_ANGLES } from './antki-sport-presets';
 
 export type AntkiPlFunnelStage =
+  | 'noom_krystyna_kalejdoskop'
   | 'sport_gory_szlaki'
   | 'sport_tenis_padel'
   | 'sport_pilka_orlik'
@@ -1109,6 +1110,50 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
     angleId: 'sport-101-bieganie-anti-allegro-zel-vs-sprezyna',
     note: 'Batch 5 (01.11): Demaskacja ciężkiej żelowej wkładki „Sport” za 29,99 zł po 10 km',
   },
+  {
+    id: 'noom-antek-102-krystyna-schody-wroclaw',
+    url: '/antki-pl-images/kie-dorosli-43-spacer-lawka.jpg',
+    label: '🔥 NOOM #102 (Iwona 62 l. · Wrocław) · Poranna sztywność, 3. piętro bez windy i kalejdoskop 5 lekarzy',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [102],
+    aspectRatio: '1:1',
+    angleId: 'noom-102-krystyna-62-wroclaw-schody',
+    note: 'Batch 6 (02.11): Noom Story-PDP „Historia Krystyny / Iwony 62 l., Wrocław”',
+  },
+  {
+    id: 'noom-antek-103-karol-endoproteza-rtg',
+    url: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.png',
+    label: '🔥 NOOM #103 (Karol 64 l. · Kraków) · 4 lata i 5 lekarzy przed wyrokiem endoprotezy za 35 000 zł',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [103],
+    aspectRatio: '1:1',
+    angleId: 'noom-103-karol-64-endoproteza-kalejdoskop',
+    note: 'Batch 6 (02.11): Noom Story-PDP „Karol 64 l. · Kalejdoskop 5 specjalistów”',
+  },
+  {
+    id: 'noom-antek-104-gosia-mama-62-wroclaw',
+    url: '/antki-pl-images/kie-dorosli-41-miska-z-woda.jpg',
+    label: '🔥 NOOM #104 (Porady Mamy Gosi · Mama Krystyna 62 l.) · Córka odkrywa, dlaczego mama przestała wychodzić z 3. piętra',
+    source: 'ai',
+    groupCode: 'ZAL',
+    defaultForAngles: [104],
+    aspectRatio: '1:1',
+    angleId: 'noom-104-corka-gosia-mama-62-wroclaw',
+    note: 'Batch 6 (02.11): Noom Story-PDP z perspektywy córki Małgorzaty o 62-letniej mamie Krystynie',
+  },
+  {
+    id: 'noom-antek-105-fizjo-5-lekarzy-kalejdoskop',
+    url: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.png',
+    label: '🔥 NOOM #105 (Centrum Dobrego Kroku · Fizjo) · Pacjentka po 4 latach i 5 lekarzach z teczką badań przed endoprotezą',
+    source: 'ai',
+    groupCode: 'RYCIAK',
+    defaultForAngles: [105],
+    aspectRatio: '1:1',
+    angleId: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
+    note: 'Batch 6 (02.11): Noom Story-PDP z perspektywy fizjoterapeuty (kalejdoskop 5 specjalistów)',
+  },
 ];
 
 export function getDefaultImageForAngle(angleNumber: number): AntkiPlImageAsset {
@@ -1127,6 +1172,15 @@ export const ANTKI_PL_STAGE_LABELS: Record<
   AntkiPlFunnelStage,
   { label: string; shortLabel: string; badge: string; awareness: string; sophistication: string; description: string }
 > = {
+  noom_krystyna_kalejdoskop: {
+    label: '🔥 NOOM / A/B TEST (02.11): Historia Krystyny 62 l. · Kalejdoskop 5 Lekarzy (#102–#105 · kp-krystyna-1)',
+    shortLabel: '🔥 NOOM · Krystyna 5 Lekarzy (4)',
+    badge: 'NOOM A/B · KRYSTYNA (4)',
+    awareness: 'Stage 3/4: Poranna sztywność, 3. piętro bez windy, bezsenność z bólu, 4 lata i 5 lekarzy przed wyrokiem endoprotezy 35 000 zł',
+    sophistication: 'Poziom 5 (Kalejdoskop specjalistów: rodzinny, ortopeda + kwas, NFZ, prywatne fizjo, chirurg vs 10-sekundowy test biomechaniczny)',
+    description:
+      '4 nowe Antki Noom-style (#102–#105) napisane pod A/B test z landerem „Ciąg dalszy historii Krystyny” (/pages/kp-krystyna-1) oraz routerem 50/50 (/pages/orthomax-ab).',
+  },
   sport_gory_szlaki: {
     label: '🏔️ Sport #1 (01.11): Góry, Szlaki i Trekking (#82–#86 · orthomax-stepmax-pro)',
     shortLabel: '🏔️ Sport · Góry i Szlaki (5)',
@@ -2023,6 +2077,102 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
   },
   ...ANTKI_DOROSLI_PRESET_ANGLES,
   ...ANTKI_SPORT_PRESET_ANGLES,
+  {
+    id: 'noom-102-krystyna-62-wroclaw-schody',
+    number: 102,
+    code: '102_noom_iwona_62_wroclaw_schody_5_lekarzy',
+    title: '🔥 [NOOM #102 · Iwona Kożuchowska] Poranna sztywność. 3. piętro bez windy. 4 lata i 5 lekarzy przed wyrokiem endoprotezy',
+    segment: 'dorosli',
+    funnelStage: 'noom_krystyna_kalejdoskop',
+    funnelLabel: '🔥 NOOM · Krystyna 5 Lekarzy (4)',
+    awarenessStage: 'Stage 3/4: Kalejdoskop 5 specjalistów (rodzinny, kwas, NFZ, prywatne fizjo, chirurg)',
+    sophistication: 'Poziom 5 (Noom Story-PDP Bridge -> /pages/kp-krystyna-1)',
+    narrator: 'Iwona (62 lata, Wrocław)',
+    protagonist: 'Iwona (62 lata, 3. piętro bez windy)',
+    hookIdea:
+      'Budzik dzwoni o 6:00 rano, a moje prawe kolano jest sztywne jak zardzewiały zawias w starej bramie. Mieszkam na 3. piętrze bez windy we Wrocławiu. 4 lata, 5 lekarzy i wyrok endoprotezy za 35 000 zł.',
+    sceneBeat:
+      'Kalejdoskop 5 specjalistów (Voltaren/Ibuprom -> 3 zastrzyki kwasu hialuronowego -> fizjoterapia NFZ po 8 mies. -> prywatne fizjo 150 zł/sesja -> wyrok endoprotezy) + przełom na wizycie z córką i 10-sekundowy test podniesienia łuku stopy.',
+    failedSolutionsMath:
+      '3 zastrzyki kwasu hialuronowego 1350 zł + prywatna fizjoterapia 1800 zł + leki i wizyty 690 zł = 3840 zł',
+    discoveryBridge:
+      'Forum Gazeta.pl (wątek „Gonartroza i uciekająca pięta - jakie wkładki dynamiczne”) -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
+    defaultHeadline: '4 lata, 5 lekarzy i wyrok endoprotezy w wieku 62 lat. A problem leżał 30 cm niżej, w moich butach',
+    defaultImageUrl: '/antki-pl-images/kie-dorosli-43-spacer-lawka.jpg',
+    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+  },
+  {
+    id: 'noom-103-karol-64-endoproteza-kalejdoskop',
+    number: 103,
+    code: '103_noom_karol_64_endoproteza_5_lekarzy',
+    title: '🔥 [NOOM #103 · Karol Mikołajczyk] „Panie Karolu, czas rozważyć endoprotezę” — 4 lata, 5 gabinetów i 3920 zł w błoto',
+    segment: 'dorosli',
+    funnelStage: 'noom_krystyna_kalejdoskop',
+    funnelLabel: '🔥 NOOM · Krystyna 5 Lekarzy (4)',
+    awarenessStage: 'Stage 3/4: Mężczyzna 64 lata przed operacją kolana',
+    sophistication: 'Poziom 5 (Noom Story-PDP Bridge -> /pages/kp-krystyna-1)',
+    narrator: 'Karol (64 lata, Kraków)',
+    protagonist: 'Karol (64 lata, 2. piętro bez windy)',
+    hookIdea:
+      '„Panie Karolu, przy tym stopniu zwyrodnienia czas rozważyć endoprotezę” - kiedy ortopeda wypowiedział to zdanie, przestałem słyszeć resztę wizyty. 4 lata szukania, 5 gabinetów i 3920 zł.',
+    sceneBeat:
+      'Męska adaptacja historii Noom Krystyny na fanpage Karol Mikołajczyk (100% zgodności imienia Karol): poranne zakładanie skarpetek na siedząco, schody na 2. piętro, nocny ból o 2:00 i 3:00, 5 lekarzy i test osi kończyny.',
+    failedSolutionsMath:
+      '3 zastrzyki kwasu hialuronowego 1400 zł + 10 sesji prywatnej rehabilitacji 1600 zł + sztywne wkładki 380 zł + leki 540 zł = 3920 zł',
+    discoveryBridge:
+      'Komentarze pod filmem fizjoterapeuty na YouTubie -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
+    defaultHeadline: 'Usłyszałem od ortopedy słowo „endoproteza” w wieku 64 lat. Dopiero 5. specjalista kazał mi zdjąć buty',
+    defaultImageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.png',
+    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+  },
+  {
+    id: 'noom-104-corka-gosia-mama-62-wroclaw',
+    number: 104,
+    code: '104_noom_gosia_mama_krystyna_62_wroclaw',
+    title: '🔥 [NOOM #104 · Porady Mamy Gosi] Moja 62-letnia mama Krystyna z Wrocławia przestała wychodzić z mieszkania na 3. piętrze',
+    segment: 'dorosli',
+    funnelStage: 'noom_krystyna_kalejdoskop',
+    funnelLabel: '🔥 NOOM · Krystyna 5 Lekarzy (4)',
+    awarenessStage: 'Stage 3/4: Córka Małgorzata ratuje 62-letnią mamę Krystynę przed endoprotezą',
+    sophistication: 'Poziom 5 (Noom Story-PDP Bridge -> /pages/kp-krystyna-1)',
+    narrator: 'Małgorzata / Gosia (38 lat, Wrocław)',
+    protagonist: 'Mama Krystyna (62 lata, Wrocław)',
+    hookIdea:
+      'Kiedy w niedzielę weszłam na 3. piętro do mojej 62-letniej mamy we Wrocławiu, siedziała w fotelu przy oknie w płaszczu i płakała nad pudełkiem po zastrzykach.',
+    sceneBeat:
+      'Historia Krystyny (62 l., Wrocław) opowiedziana z perspektywy jej córki Małgorzaty na fanpage Porady Mamy Gosi: wspólna wizyta u 5. specjalisty, który zamiast patrzeć w komputer bada chód boso i ustawienie pięty.',
+    failedSolutionsMath:
+      '3 zastrzyki z kwasu hialuronowego 1350 zł + 10 prywatnych sesji fizjoterapii 1500 zł + wizyty i leki 720 zł = 3570 zł z emerytury mamy',
+    discoveryBridge:
+      'Pielęgniarka z oddziału ortopedycznego na grupie FB -> Pakiet 1+1 GRATIS Orthomax StepMax dla mamy + ciąg dalszy na /pages/kp-krystyna-1',
+    defaultHeadline: 'Moja 62-letnia mama wydała 3570 zł z emerytury na 4 lekarzy. Dopiero 5. spojrzał na jej bose stopy',
+    defaultImageUrl: '/antki-pl-images/kie-dorosli-41-miska-z-woda.jpg',
+    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+  },
+  {
+    id: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
+    number: 105,
+    code: '105_noom_fizjo_krystyna_5_lekarzy_wroclaw',
+    title: '🔥 [NOOM #105 · Centrum Dobrego Kroku] Położyła na moim biurku teczkę od 4 lekarzy i skierowanie na endoprotezę kolana',
+    segment: 'dorosli',
+    funnelStage: 'noom_krystyna_kalejdoskop',
+    funnelLabel: '🔥 NOOM · Krystyna 5 Lekarzy (4)',
+    awarenessStage: 'Stage 3/4: Perspektywa fizjoterapeuty (dlaczego 4 wcześniejsze terapie zawiodły)',
+    sophistication: 'Poziom 5 (Noom Story-PDP Bridge -> /pages/kp-krystyna-1)',
+    narrator: 'Fizjoterapeuta Tomasz (41 lat, Wrocław)',
+    protagonist: 'Pani Krystyna (62 lata, Wrocław)',
+    hookIdea:
+      'Położyła na moim biurku we Wrocławiu grubą teczkę z prześwietleniami, 3 paragony za zastrzyki w kolano i skierowanie na endoprotezę za 35 000 zł.',
+    sceneBeat:
+      'Relacja z gabinetu (Centrum Dobrego Kroku): fizjoterapeuta rozkłada na czynniki pierwsze, dlaczego leki, kwas hialuronowy i ćwiczenia na leżąco dają ulgę tylko na chwilę, dopóki stopa robi 6000 kroków dziennie z piętą uciekającą o 12 stopni.',
+    failedSolutionsMath:
+      'Teczka pacjentki: 3 zastrzyki kwasu hialuronowego + fizjoterapia NFZ + prywatne sesje po 150 zł + sztywne wkładki 400 zł = 4 lata i ponad 3800 zł',
+    discoveryBridge:
+      'Test 10 sekund przed lustrem + wątek pacjentów o dynamicznych wkładkach Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
+    defaultHeadline: 'Przez 4 lata 4 specjalistów leczyło jej prawe kolano. Żaden nie kazał jej zdjąć butów i przejść 5 kroków',
+    defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.png',
+    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+  },
 ];
 
 export const ANTKI_PL_SYSTEM_PROMPT = `Jesteś elitarnym polskim copywriterem direct-response piszącym natywne długie posty sprzedażowe (MSL / Antki) na Facebooka pod markę Orthomax (profilowane wkładki dynamiczne StepMax, sklep: orthomax.pl).

@@ -1,7 +1,7 @@
 import { inOwnerWorkspace } from './account-context';
 import { mutate, readState } from './store';
 
-export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v2';
+export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v3';
 
 export type AbVariantKey = 'A' | 'B';
 export type AbTrafficAllocation = '50_50' | '100_A' | '100_B' | 'paused';
@@ -121,8 +121,8 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
       'Test 50/50 dla długich Antków (LFS): Wariant A (Standardowy PDP na orthomax.pl) vs Wariant B (Noom Story-PDP „Historia Krystyny, 62 lata, Wrocław · ciąg dalszy” z koszykiem 1+1 GRATIS i przekierowaniem prosto do kasy orthomax.pl).',
     entryUrl: 'https://szekspir.vercel.app/pages/orthomax-ab',
     splitMode: 'url_redirect',
-    allocation: '50_50',
-    status: 'active',
+    allocation: 'paused',
+    status: 'paused',
     createdAt: Date.parse('2026-11-02T16:30:00+01:00'),
     updatedAt: Date.parse('2026-11-02T17:50:00+01:00'),
     variants: {
@@ -158,8 +158,8 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
       'Test 50/50 na kampanii ANTKI SPORT CC40 (#82-#101): czysty Sportowy PDP vs hybrydowy Story-PDP z podsumowaniem testu 2 mm fabrycznej wkładki i przeciążeń 3-4x.',
     entryUrl: 'https://orthomax.pl/products/orthomax-stepmax-pro',
     splitMode: 'in_page_dom',
-    allocation: '50_50',
-    status: 'active',
+    allocation: 'paused',
+    status: 'paused',
     createdAt: Date.parse('2026-11-02T16:35:00+01:00'),
     updatedAt: Date.parse('2026-11-02T16:35:00+01:00'),
     variants: {
@@ -195,8 +195,8 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
       'Test 50/50 dla Antków psich: klasyczna karta produktu Feliora vs hybrydowy Story-PDP wyjaśniający dlaczego gryzaki, klatka i tabletki usypiają tylko mięśnie, a feromon D.A.P. wyłącza alarm w mózgu.',
     entryUrl: 'https://feliora.pl/products/uspokajajacy-dyfuzor-feromonowy-dla-psow-feliora',
     splitMode: 'in_page_dom',
-    allocation: '50_50',
-    status: 'active',
+    allocation: 'paused',
+    status: 'paused',
     createdAt: Date.parse('2026-11-02T16:40:00+01:00'),
     updatedAt: Date.parse('2026-11-02T16:40:00+01:00'),
     variants: {
@@ -232,8 +232,8 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
       'Test 50/50 dla Antków SARDIAN Szampon: standardowy PDP vs hybrydowy Story-PDP z podsumowaniem „Dlaczego wcierki za 300 zł i biotyna nie przebijają czopa łojowego i DHT”.',
     entryUrl: 'https://sardian.pl/products/szampon-przeciw-wypadaniu-wlosow-sardian',
     splitMode: 'in_page_dom',
-    allocation: '50_50',
-    status: 'active',
+    allocation: 'paused',
+    status: 'paused',
     createdAt: Date.parse('2026-11-02T16:45:00+01:00'),
     updatedAt: Date.parse('2026-11-02T16:45:00+01:00'),
     variants: {

@@ -1,62 +1,182 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type {
-  AbTestComputedSummary,
-  AbTrafficAllocation,
-  AbVariantKey,
-} from '@/lib/ab-test-tracker';
+import Link from 'next/link';
+import { ANTKI_NOOM_KRYSTYNA_COPY } from '@/lib/antki-noom-krystyna-copy';
 
-type SummaryWithSnippets = AbTestComputedSummary & {
-  snippets?: {
-    headLiquid: string;
-    checkoutPixel: string;
+const NOOM_ANTKI_ITEMS: Array<{
+  id: string;
+  number: number;
+  fanpage: string;
+  narrator: string;
+  shortTitle: string;
+}> = [
+  {
+    id: 'noom-102-krystyna-62-wroclaw-schody',
+    number: 102,
+    fanpage: 'Iwona Kożuchowska',
+    narrator: 'Iwona, 62 lata, Wrocław',
+    shortTitle: '3. piętro bez windy, poranna sztywność i kalejdoskop 5 lekarzy',
+  },
+  {
+    id: 'noom-103-karol-64-endoproteza-kalejdoskop',
+    number: 103,
+    fanpage: 'Karol Mikołajczyk',
+    narrator: 'Karol, 64 lata, Kraków',
+    shortTitle: '4 lata, 5 gabinetów i wyrok endoprotezy za 35 000 zł',
+  },
+  {
+    id: 'noom-104-corka-gosia-mama-62-wroclaw',
+    number: 104,
+    fanpage: 'Porady Mamy Gosi',
+    narrator: 'Córka Małgorzata o 62-letniej mamie Krystynie',
+    shortTitle: 'Mama przestała wychodzić z 3. piętra we Wrocławiu (3570 zł z emerytury)',
+  },
+  {
+    id: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
+    number: 105,
+    fanpage: 'Centrum Dobrego Kroku',
+    narrator: 'Fizjoterapeuta Tomasz, 41 lat, Wrocław',
+    shortTitle: 'Teczka od 4 lekarzy na biurku i test 10 sekund przed lustrem',
+  },
+];
+
+export type AbVariantKey = 'A' | 'B';
+export type AbTrafficAllocation = '50_50' | '100_A' | '100_B' | 'paused';
+export type AbSplitMode = 'in_page_dom' | 'url_redirect';
+
+interface AbVariantComputedMetrics {
+  label: string;
+  subtitle: string;
+  targetUrlOrSelector: string;
+  pageviews: number;
+  uniqueViews: number;
+  atcCount: number;
+  uniqueAtc: number;
+  icCount: number;
+  uniqueIc: number;
+  orders: number;
+  revenuePln: number;
+  lastEventAt?: number;
+  atcRatePct: number;
+  icRatePct: number;
+  crPct: number;
+  aovPln: number;
+  rpvPln: number;
+}
+
+interface AbOrderLogItem {
+  orderId: string;
+  orderNumber: string;
+  variant: AbVariantKey;
+  revenuePln: number;
+  currency: string;
+  itemsSummary: string;
+  source: string;
+  createdAt: number;
+}
+
+interface AbTestExperiment {
+  id: string;
+  brandKey: 'orthomax' | 'feliora-pies' | 'feliora' | 'sardian-szampon' | 'stryde' | 'custom';
+  brandLabel: string;
+  storeDomain: string;
+  name: string;
+  description: string;
+  entryUrl: string;
+  splitMode: AbSplitMode;
+  allocation: AbTrafficAllocation;
+  status: 'active' | 'paused' | 'completed';
+  createdAt: number;
+  updatedAt: number;
+  recentOrders: AbOrderLogItem[];
+}
+
+interface AbTestSummary {
+  experiment: AbTestExperiment;
+  metrics: {
+    A: AbVariantComputedMetrics;
+    B: AbVariantComputedMetrics;
   };
-};
+  comparison: {
+    totalUniqueViews: number;
+    totalOrders: number;
+    totalRevenuePln: number;
+    leaderVariant: 'A' | 'B' | 'tie' | 'insufficient_data';
+    rpvDeltaPct: number;
+    crDeltaPct: number;
+    atcDeltaPct: number;
+    confidencePct: number;
+    statusText: string;
+  };
+}
 
-interface AbTestPanelProps {
-  defaultExpanded?: boolean;
+interface AbTestSnippets {
+  headScript: string;
+  customPixelScript: string;
+  webhookUrl: string;
+}
+
+export interface AbTestPanelProps {
+  activeBrandFilter?: 'orthomax' | 'feliora-pies' | 'feliora' | 'sardian-szampon' | 'stryde' | 'bennett-uk' | 'all';
   preferredBrandKey?: string;
+  defaultExpanded?: boolean;
   standalone?: boolean;
 }
 
+const ALLOCATION_OPTIONS: Array<{ key: AbTrafficAllocation; label: string }> = [
+  { key: 'paused', label: 'Wstrzymany (Draft)' },
+  { key: '50_50', label: 'Split 50 / 50' },
+  { key: '100_A', label: '100% Wariant A' },
+  { key: '100_B', label: '100% Wariant B' },
+];
+
 export default function AbTestPanel({
-  defaultExpanded = false,
+  activeBrandFilter = 'all',
   preferredBrandKey,
+  defaultExpanded = false,
   standalone = false,
 }: AbTestPanelProps) {
+  const effectiveBrand = preferredBrandKey || activeBrandFilter;
   const [expanded, setExpanded] = useState(defaultExpanded || standalone);
-  const [summaries, setSummaries] = useState<SummaryWithSnippets[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [summaries, setSummaries] = useState<AbTestSummary[]>([]);
+  const [snippets, setSnippets] = useState<Record<string, AbTestSnippets>>({});
   const [selectedTestId, setSelectedTestId] = useState<string>('orthomax-noom-v1');
-  const [loading, setLoading] = useState(false);
+  const [selectedNoomAntekId, setSelectedNoomAntekId] = useState<string>('noom-102-krystyna-62-wroclaw-schody');
+  const [activeDrawer, setActiveDrawer] = useState<'none' | 'snippets' | 'manual_order' | 'new_test'>('none');
   const [busyAction, setBusyAction] = useState<string | null>(null);
-  const [notice, setNotice] = useState('');
-  const [error, setError] = useState('');
-  const [showSnippets, setShowSnippets] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
 
-  // New test modal state
-  const [newBrandKey, setNewBrandKey] = useState<'orthomax' | 'feliora-pies' | 'sardian-szampon' | 'custom'>('orthomax');
-  const [newStoreDomain, setNewStoreDomain] = useState('orthomax.pl');
+  const [manualVariant, setManualVariant] = useState<AbVariantKey>('B');
+  const [manualOrderNumber, setManualOrderNumber] = useState('');
+  const [manualRevenuePln, setManualRevenuePln] = useState('99.99');
+
   const [newName, setNewName] = useState('');
+  const [newBrandKey, setNewBrandKey] = useState<AbTestExperiment['brandKey']>('orthomax');
   const [newEntryUrl, setNewEntryUrl] = useState('https://orthomax.pl/products/orthomax-stepmax');
-  const [newVarALabel, setNewVarALabel] = useState('Wariant A · Standard PDP (Control)');
-  const [newVarBLabel, setNewVarBLabel] = useState('Wariant B · Noom Story-PDP („Ciąg dalszy”)');
+  const [newVariantAUrl, setNewVariantAUrl] = useState('https://orthomax.pl/products/orthomax-stepmax?ab=A');
+  const [newVariantBUrl, setNewVariantBUrl] = useState('https://szekspir.vercel.app/pages/kp-krystyna-1');
 
-  const fetchDashboard = useCallback(async (silent = false) => {
-    if (!silent) setLoading(true);
+  const showNotice = useCallback((msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(prev => (prev === msg ? null : prev)), 3200);
+  }, []);
+
+  const fetchDashboard = useCallback(async (quiet = false) => {
+    if (!quiet) setLoading(true);
     try {
-      const res = await fetch('/api/ab-test', { cache: 'no-store' });
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'https://szekspir.vercel.app';
+      const res = await fetch(`/api/ab-test?origin=${encodeURIComponent(origin)}`, { cache: 'no-store' });
       const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || 'Nie udało się pobrać danych A/B testów');
+      if (data?.ok && Array.isArray(data.summaries)) {
+        setSummaries(data.summaries);
+        if (data.snippets) setSnippets(data.snippets);
       }
-      setSummaries(data.summaries || []);
-      setError('');
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Błąd połączenia z API A/B testów');
+    } catch {
+      // silent
     } finally {
-      if (!silent) setLoading(false);
+      if (!quiet) setLoading(false);
     }
   }, []);
 
@@ -64,23 +184,25 @@ export default function AbTestPanel({
     fetchDashboard();
   }, [fetchDashboard]);
 
-  // Auto-select test matching active brand tab in Antki PL when switching tabs
   useEffect(() => {
-    if (!preferredBrandKey || summaries.length === 0) return;
-    const match = summaries.find(s => s.experiment.brandKey === preferredBrandKey);
-    if (match) {
-      setSelectedTestId(match.experiment.id);
-    }
-  }, [preferredBrandKey, summaries]);
+    if (effectiveBrand === 'orthomax') setSelectedTestId('orthomax-noom-v1');
+    else if (effectiveBrand === 'feliora-pies' || effectiveBrand === 'feliora')
+      setSelectedTestId('feliora-pies-noom-v1');
+    else if (effectiveBrand === 'sardian-szampon') setSelectedTestId('sardian-szampon-noom-v1');
+    else if (effectiveBrand === 'stryde') setSelectedTestId('sardian-opaska-noom-v1');
+  }, [effectiveBrand]);
 
   const activeSummary = useMemo(() => {
     return summaries.find(s => s.experiment.id === selectedTestId) || summaries[0] || null;
   }, [summaries, selectedTestId]);
 
-  const runAction = async (payload: Record<string, unknown>, successMsg?: string) => {
+  const activeSnippets = useMemo(() => {
+    if (!activeSummary) return null;
+    return snippets[activeSummary.experiment.id] || null;
+  }, [activeSummary, snippets]);
+
+  async function runAction(payload: Record<string, unknown>, okMessage: string) {
     setBusyAction(String(payload.action || 'busy'));
-    setNotice('');
-    setError('');
     try {
       const res = await fetch('/api/ab-test', {
         method: 'POST',
@@ -88,156 +210,65 @@ export default function AbTestPanel({
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || 'Błąd wykonania akcji');
-      }
-      if (Array.isArray(data.summaries)) {
+      if (data?.ok && Array.isArray(data.summaries)) {
         setSummaries(data.summaries);
+        showNotice(okMessage);
       }
-      if (successMsg) setNotice(successMsg);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Wystąpił błąd');
+    } catch {
+      showNotice('Błąd komunikacji z API');
     } finally {
       setBusyAction(null);
     }
-  };
+  }
 
-  const handleCopy = async (text: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setNotice(`✅ Skopiowano: ${label}`);
-      setTimeout(() => setNotice(''), 3500);
-    } catch {
-      setError('Nie udało się skopiować do schowka');
-    }
-  };
-
-  const handleSimulateVisitor = async (variant: AbVariantKey, withPurchase: boolean) => {
+  async function handleSimulatePing(variant: AbVariantKey, withOrder: boolean) {
     if (!activeSummary) return;
-    const testId = activeSummary.experiment.id;
     setBusyAction(`sim_${variant}`);
     try {
-      await fetch('/api/ab-test', {
+      const vid = `sim_${variant}_${Date.now().toString(36)}`;
+      const expId = activeSummary.experiment.id;
+      await fetch('/api/ab-test/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'simulate_ping', testId, variant, event: 'view' }),
+        body: JSON.stringify({ experimentId: expId, variant, event: 'view', visitorId: vid }),
       });
-      await fetch('/api/ab-test', {
+      await fetch('/api/ab-test/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'simulate_ping', testId, variant, event: 'atc' }),
+        body: JSON.stringify({ experimentId: expId, variant, event: 'atc', visitorId: vid }),
       });
-      if (withPurchase) {
-        await fetch('/api/ab-test', {
+      if (withOrder) {
+        await fetch('/api/ab-test/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ experimentId: expId, variant, event: 'ic', visitorId: vid }),
+        });
+        await fetch('/api/ab-test/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action: 'simulate_ping',
-            testId,
+            experimentId: expId,
             variant,
             event: 'purchase',
-            revenuePln: variant === 'B' ? 129.99 : 99.99,
+            visitorId: vid,
+            orderId: `TEST-${Date.now().toString().slice(-4)}`,
+            orderNumber: `#TEST-${Date.now().toString().slice(-4)}`,
+            revenuePln: 99.99,
+            currency: 'PLN',
+            itemsSummary: 'Pakiet 1+1 GRATIS (Symulacja)',
           }),
         });
       }
       await fetchDashboard(true);
-      setNotice(
-        withPurchase
-          ? `⚡ Wysłano testowe wejście + ATC + Zakup na Wariant ${variant}`
-          : `⚡ Wysłano testowe wejście + ATC na Wariant ${variant}`,
-      );
-    } catch {
-      setError('Błąd symulacji zdarzenia');
+      showNotice(`Zapisano zdarzenie testowe dla Wariantu ${variant}`);
     } finally {
       setBusyAction(null);
     }
-  };
+  }
 
-  const totalAllViews = useMemo(
-    () => summaries.reduce((acc, s) => acc + s.comparison.totalUniqueViews, 0),
-    [summaries],
-  );
-  const totalAllOrders = useMemo(
-    () => summaries.reduce((acc, s) => acc + s.comparison.totalOrders, 0),
-    [summaries],
-  );
-
-  if (!expanded && !standalone) {
-    return (
-      <div
-        style={{
-          marginBottom: '12px',
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 27, 75, 0.94) 100%)',
-          border: '1px solid rgba(99, 102, 241, 0.45)',
-          borderRadius: '12px',
-          padding: '10px 14px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '12px',
-          flexWrap: 'wrap',
-          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.28)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-              color: '#fff',
-              fontWeight: 800,
-              fontSize: '11.5px',
-              padding: '4px 9px',
-              borderRadius: '7px',
-              letterSpacing: '0.03em',
-            }}
-          >
-            🧪 A/B TEST LANDERÓW 50/50
-          </span>
-          <span style={{ color: '#e2e8f0', fontSize: '13px', fontWeight: 700 }}>
-            {activeSummary ? activeSummary.experiment.name : 'Standard PDP vs Noom Story-PDP („Ciąg dalszy”)'}
-          </span>
-          {activeSummary && (
-            <span
-              style={{
-                fontSize: '12px',
-                color: '#a5b4fc',
-                background: 'rgba(99, 102, 241, 0.14)',
-                border: '1px solid rgba(99, 102, 241, 0.3)',
-                padding: '2px 8px',
-                borderRadius: '999px',
-                fontWeight: 700,
-              }}
-            >
-              A: {activeSummary.metrics.A.uniqueViews} wejść ({activeSummary.metrics.A.rpvPln.toFixed(2)} zł RPV) vs B:{' '}
-              {activeSummary.metrics.B.uniqueViews} wejść ({activeSummary.metrics.B.rpvPln.toFixed(2)} zł RPV)
-            </span>
-          )}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '11.5px', color: '#94a3b8' }}>
-            Wszystkie testy: <strong style={{ color: '#f8fafc' }}>{totalAllViews}</strong> wejść ·{' '}
-            <strong style={{ color: '#34d399' }}>{totalAllOrders}</strong> zamówień
-          </span>
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            style={{
-              background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.22)',
-              borderRadius: '8px',
-              padding: '6px 12px',
-              fontSize: '12px',
-              fontWeight: 800,
-              cursor: 'pointer',
-            }}
-          >
-            📊 Otwórz Panel A/B Testów ⌄
-          </button>
-        </div>
-      </div>
-    );
+  function copyText(txt: string, label: string) {
+    navigator.clipboard.writeText(txt);
+    showNotice(`Skopiowano: ${label}`);
   }
 
   const exp = activeSummary?.experiment;
@@ -245,641 +276,647 @@ export default function AbTestPanel({
   const mB = activeSummary?.metrics.B;
   const cmp = activeSummary?.comparison;
 
-  return (
-    <div
-      style={{
-        marginBottom: '16px',
-        background: 'rgba(9, 13, 24, 0.97)',
-        border: '1px solid rgba(99, 102, 241, 0.5)',
-        borderRadius: '14px',
-        padding: '18px',
-        color: '#f8fafc',
-        boxShadow: '0 10px 32px rgba(0, 0, 0, 0.45)',
-      }}
-    >
-      {/* Header Bar */}
+  // Compact collapsed bar inside /antki-pl
+  if (!expanded && !standalone) {
+    const isPaused = !exp || exp.allocation === 'paused' || exp.status === 'paused';
+    return (
       <div
         style={{
+          marginBottom: 14,
+          background: '#09090b',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 10,
+          padding: '10px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '12px',
+          gap: 12,
           flexWrap: 'wrap',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          paddingBottom: '14px',
-          marginBottom: '14px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", sans-serif',
         }}
       >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              color: isPaused ? '#a1a1aa' : '#34d399',
+              background: isPaused ? 'rgba(255,255,255,0.05)' : 'rgba(16, 185, 129, 0.12)',
+              border: `1px solid ${isPaused ? 'rgba(255,255,255,0.1)' : 'rgba(16, 185, 129, 0.3)'}`,
+              padding: '3px 8px',
+              borderRadius: 6,
+            }}
+          >
             <span
               style={{
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-                color: '#fff',
-                fontWeight: 800,
-                fontSize: '12px',
-                padding: '4px 10px',
-                borderRadius: '7px',
+                width: 6,
+                height: 6,
+                borderRadius: 999,
+                background: isPaused ? '#71717a' : '#10b981',
               }}
-            >
-              🧪 ZERO-REDIRECT 50/50 A/B TESTER
-            </span>
-            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#fff' }}>
-              Panel A/B Testów Landerów (Standard PDP vs Noom Story-PDP „Ciąg dalszy”)
-            </h2>
-          </div>
-          <p style={{ margin: '5px 0 0', fontSize: '12.5px', color: '#94a3b8' }}>
-            1 wspólny URL w Meta Ads (zero rozbijania Learning Phase i social proofu) · Podział 50/50 w przeglądarce ·
-            Śledzenie <strong style={{ color: '#e2e8f0' }}>Views → ATC% → IC% → Zamówienia → CR% → AOV → RPV (zł/wejście)</strong>
-          </p>
+            />
+            {isPaused ? 'DRAFT · WSTRZYMANY' : 'SPLIT AKTYWNY'}
+          </span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#f4f4f5' }}>
+            Lander A/B Split Tester
+          </span>
+          <span style={{ fontSize: 12, color: '#71717a' }}>
+            Wariant A (Standard PDP) vs Wariant B (Story-PDP „Historia Krystyny · ciąg dalszy”)
+          </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <a
+            href="https://orthomax.pl/products/orthomax-stepmax?ab=A"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 12,
+              color: '#a1a1aa',
+              textDecoration: 'none',
+              padding: '5px 10px',
+              borderRadius: 6,
+              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#121215',
+            }}
+          >
+            Wariant A ↗
+          </a>
+          <a
+            href="/pages/kp-krystyna-1"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 12,
+              color: '#e4e4e7',
+              textDecoration: 'none',
+              padding: '5px 10px',
+              borderRadius: 6,
+              border: '1px solid rgba(255,255,255,0.12)',
+              background: '#18181b',
+              fontWeight: 500,
+            }}
+          >
+            Wariant B (Krystyna) ↗
+          </a>
           <button
             type="button"
-            onClick={() => fetchDashboard()}
-            disabled={loading}
+            onClick={() => setExpanded(true)}
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              color: '#e2e8f0',
-              border: '1px solid rgba(255,255,255,0.16)',
-              borderRadius: '8px',
-              padding: '7px 12px',
-              fontSize: '12px',
-              fontWeight: 700,
+              background: '#f4f4f5',
+              color: '#09090b',
+              border: 'none',
+              borderRadius: 6,
+              padding: '5px 12px',
+              fontSize: 12,
+              fontWeight: 600,
               cursor: 'pointer',
             }}
           >
-            {loading ? '⏳ Odświeżanie...' : '🔄 Odśwież statystyki'}
+            Otwórz panel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const isPaused = !exp || exp.allocation === 'paused' || exp.status === 'paused';
+
+  return (
+    <div
+      style={{
+        marginBottom: 20,
+        background: '#09090b',
+        border: '1px solid rgba(255, 255, 255, 0.09)',
+        borderRadius: 12,
+        color: '#f4f4f5',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", sans-serif',
+        overflow: 'hidden',
+      }}
+    >
+      <style>{`
+        .ab-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+        .ab-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+        .ab-btn {
+          background: #18181b;
+          color: #e4e4e7;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background 0.12s, border-color 0.12s;
+        }
+        .ab-btn:hover { background: #27272a; border-color: rgba(255,255,255,0.18); }
+        .ab-grid-2 {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
+        }
+        .ab-url-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+        }
+        @media (max-width: 860px) {
+          .ab-grid-2, .ab-url-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      {/* TOP BAR */}
+      <div
+        style={{
+          padding: '14px 20px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 12,
+          flexWrap: 'wrap',
+          background: '#0c0c0f',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              color: isPaused ? '#a1a1aa' : '#34d399',
+              background: isPaused ? 'rgba(255,255,255,0.05)' : 'rgba(16, 185, 129, 0.12)',
+              border: `1px solid ${isPaused ? 'rgba(255,255,255,0.1)' : 'rgba(16, 185, 129, 0.3)'}`,
+              padding: '4px 9px',
+              borderRadius: 6,
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: 999,
+                background: isPaused ? '#71717a' : '#10b981',
+              }}
+            />
+            {isPaused
+              ? 'DRAFT · WSTRZYMANY (NIE DOTYKA RUCHU LIVE)'
+              : exp?.allocation === '50_50'
+              ? 'AKTYWNY · SPLIT 50/50'
+              : exp?.allocation === '100_A'
+              ? 'AKTYWNY · 100% WARIANT A'
+              : 'AKTYWNY · 100% WARIANT B'}
+          </span>
+
+          <h2 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: '#f4f4f5', letterSpacing: '-0.01em' }}>
+            Lander Split Experiments
+          </h2>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <button type="button" className="ab-btn" onClick={() => fetchDashboard()} disabled={loading}>
+            {loading ? 'Odświeżanie...' : 'Odśwież'}
           </button>
           <button
             type="button"
-            onClick={() => setShowCreateModal(true)}
-            style={{
-              background: 'rgba(16, 185, 129, 0.16)',
-              color: '#6ee7b7',
-              border: '1px solid rgba(16, 185, 129, 0.4)',
-              borderRadius: '8px',
-              padding: '7px 12px',
-              fontSize: '12px',
-              fontWeight: 800,
-              cursor: 'pointer',
-            }}
+            className="ab-btn"
+            onClick={() => setActiveDrawer(d => (d === 'manual_order' ? 'none' : 'manual_order'))}
           >
-            + Nowy Test A/B
+            + Zamówienie
           </button>
           <button
             type="button"
-            onClick={() => setShowSnippets(v => !v)}
-            style={{
-              background: showSnippets
-                ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
-                : 'rgba(245, 158, 11, 0.16)',
-              color: showSnippets ? '#fff' : '#fde68a',
-              border: '1px solid rgba(245, 158, 11, 0.45)',
-              borderRadius: '8px',
-              padding: '7px 12px',
-              fontSize: '12px',
-              fontWeight: 800,
-              cursor: 'pointer',
-            }}
+            className="ab-btn"
+            onClick={() => setActiveDrawer(d => (d === 'snippets' ? 'none' : 'snippets'))}
           >
-            📋 Kod Shopify 50/50 ({showSnippets ? 'Ukryj' : 'Pokaż'})
+            Kod Shopify
+          </button>
+          <button
+            type="button"
+            className="ab-btn"
+            onClick={() => setActiveDrawer(d => (d === 'new_test' ? 'none' : 'new_test'))}
+          >
+            Nowy eksperyment
           </button>
           {!standalone && (
-            <button
-              type="button"
-              onClick={() => setExpanded(false)}
-              style={{
-                background: 'rgba(255,255,255,0.06)',
-                color: '#94a3b8',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: '8px',
-                padding: '7px 11px',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
-            >
-              Zwiń ⌃
+            <button type="button" className="ab-btn" onClick={() => setExpanded(false)}>
+              Zwiń
             </button>
           )}
         </div>
       </div>
 
-      {/* Experiment Selector Tabs */}
+      {/* EXPERIMENT TABS + TRAFFIC ALLOCATION SEGMENTED CONTROL */}
       <div
         style={{
+          padding: '12px 20px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
           display: 'flex',
-          gap: '7px',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 14,
           flexWrap: 'wrap',
-          marginBottom: '16px',
         }}
       >
-        {summaries.map(item => {
-          const isSelected = item.experiment.id === activeSummary?.experiment.id;
-          return (
-            <button
-              key={item.experiment.id}
-              type="button"
-              onClick={() => setSelectedTestId(item.experiment.id)}
+        {/* Experiment Tabs */}
+        <div
+          style={{
+            display: ' inline-flex',
+            background: '#121215',
+            padding: 3,
+            borderRadius: 8,
+            border: '1px solid rgba(255,255,255,0.07)',
+            gap: 2,
+            flexWrap: 'wrap',
+          }}
+        >
+          {summaries.map(item => {
+            const active = item.experiment.id === exp?.id;
+            const cleanLabel = item.experiment.brandLabel.replace(/^[^\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/, '').trim();
+            return (
+              <button
+                key={item.experiment.id}
+                type="button"
+                onClick={() => setSelectedTestId(item.experiment.id)}
+                style={{
+                  background: active ? '#27272a' : 'transparent',
+                  color: active ? '#f4f4f5' : '#a1a1aa',
+                  border: 'none',
+                  borderRadius: 6,
+                  padding: '6px 12px',
+                  fontSize: 12,
+                  fontWeight: active ? 600 : 500,
+                  cursor: 'pointer',
+                }}
+              >
+                {cleanLabel}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Traffic Allocation Control */}
+        {exp && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 11, color: '#71717a', fontWeight: 500 }}>Tryb ruchu:</span>
+            <div
               style={{
-                background: isSelected
-                  ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
-                  : 'rgba(30, 41, 59, 0.75)',
-                color: isSelected ? '#ffffff' : '#cbd5e1',
-                border: isSelected
-                  ? '1px solid rgba(255,255,255,0.35)'
-                  : '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '9px',
-                padding: '8px 13px',
-                fontSize: '12.5px',
-                fontWeight: isSelected ? 800 : 700,
-                cursor: 'pointer',
                 display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: isSelected ? '0 3px 12px rgba(79, 70, 229, 0.4)' : 'none',
+                background: '#121215',
+                padding: 3,
+                borderRadius: 8,
+                border: '1px solid rgba(255,255,255,0.07)',
+                gap: 2,
               }}
             >
-              <span>{item.experiment.brandLabel}</span>
-              <span
-                style={{
-                  fontSize: '11px',
-                  padding: '2px 7px',
-                  borderRadius: '999px',
-                  background: 'rgba(0,0,0,0.3)',
-                  color: item.comparison.totalOrders > 0 ? '#34d399' : '#cbd5e1',
-                }}
-              >
-                {item.comparison.totalUniqueViews} wejść · {item.comparison.totalOrders} zam.
-              </span>
-            </button>
-          );
-        })}
+              {ALLOCATION_OPTIONS.map(opt => {
+                const active = exp.allocation === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    disabled={busyAction !== null}
+                    onClick={() =>
+                      runAction(
+                        {
+                          action: 'update_config',
+                          testId: exp.id,
+                          allocation: opt.key,
+                          status: opt.key === 'paused' ? 'paused' : 'active',
+                        },
+                        `Tryb testu zmieniony na: ${opt.label}`,
+                      )
+                    }
+                    style={{
+                      background: active ? (opt.key === 'paused' ? '#27272a' : '#f4f4f5') : 'transparent',
+                      color: active ? (opt.key === 'paused' ? '#f4f4f5' : '#09090b') : '#a1a1aa',
+                      border: 'none',
+                      borderRadius: 6,
+                      padding: '5px 10px',
+                      fontSize: 12,
+                      fontWeight: active ? 600 : 500,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
-      {notice && (
+      {toast && (
         <div
           style={{
-            marginBottom: '12px',
-            padding: '9px 13px',
-            borderRadius: '8px',
-            background: 'rgba(16, 185, 129, 0.16)',
-            border: '1px solid rgba(16, 185, 129, 0.4)',
-            color: '#6ee7b7',
-            fontSize: '12.5px',
-            fontWeight: 700,
+            margin: '12px 20px 0',
+            padding: '8px 12px',
+            background: '#18181b',
+            border: '1px solid rgba(255,255,255,0.14)',
+            borderRadius: 6,
+            fontSize: 12,
+            color: '#e4e4e7',
           }}
         >
-          {notice}
+          {toast}
         </div>
       )}
 
-      {error && (
-        <div
-          style={{
-            marginBottom: '12px',
-            padding: '9px 13px',
-            borderRadius: '8px',
-            background: 'rgba(239, 68, 68, 0.16)',
-            border: '1px solid rgba(239, 68, 68, 0.4)',
-            color: '#fca5a5',
-            fontSize: '12.5px',
-            fontWeight: 700,
-          }}
-        >
-          ⚠️ {error}
-        </div>
-      )}
-
+      {/* MAIN BODY */}
       {exp && mA && mB && cmp && (
-        <>
-          {/* Experiment Info & Traffic Allocation Controls */}
-          <div
-            style={{
-              background: 'rgba(15, 23, 42, 0.9)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '11px',
-              padding: '13px 15px',
-              marginBottom: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '14px',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ flex: '1 1 420px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '15px', fontWeight: 800, color: '#fff' }}>{exp.name}</span>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    padding: '2px 8px',
-                    borderRadius: '999px',
-                    background: 'rgba(99, 102, 241, 0.2)',
-                    color: '#a5b4fc',
-                    fontFamily: 'monospace',
-                  }}
-                >
-                  ID: {exp.id}
-                </span>
+        <div style={{ padding: 20 }}>
+          {/* 3 DIRECT LINKS BAR */}
+          <div className="ab-url-grid" style={{ marginBottom: 18 }}>
+            {[
+              {
+                tag: 'WARIANT A · CONTROL',
+                title: 'Standardowy PDP (Sklep)',
+                url: mA.targetUrlOrSelector,
+              },
+              {
+                tag: 'WARIANT B · CHALLENGER',
+                title: 'Noom Story-PDP (Krystyna 62 l.)',
+                url: mB.targetUrlOrSelector,
+              },
+              {
+                tag: 'ROUTER 50/50 (DO REKLAMY)',
+                title: 'Wspólny link dzielący ruch 50/50',
+                url: exp.entryUrl,
+              },
+            ].map(linkItem => (
+              <div
+                key={linkItem.tag}
+                style={{
+                  background: '#121215',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: 8,
+                  padding: '10px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: 8,
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 600,
+                      letterSpacing: '0.05em',
+                      color: '#71717a',
+                      marginBottom: 2,
+                    }}
+                  >
+                    {linkItem.tag}
+                  </div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#e4e4e7', marginBottom: 4 }}>
+                    {linkItem.title}
+                  </div>
+                  <div
+                    className="ab-mono"
+                    style={{
+                      fontSize: 11,
+                      color: '#a1a1aa',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                    title={linkItem.url}
+                  >
+                    {linkItem.url}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <a
+                    href={linkItem.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      flex: 1,
+                      textAlign: 'center',
+                      background: '#18181b',
+                      color: '#f4f4f5',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: 6,
+                      padding: '5px 8px',
+                      fontSize: 11.5,
+                      fontWeight: 500,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Otwórz stronę ↗
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => copyText(linkItem.url, linkItem.title)}
+                    style={{
+                      background: 'transparent',
+                      color: '#a1a1aa',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: 6,
+                      padding: '5px 10px',
+                      fontSize: 11.5,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Kopiuj
+                  </button>
+                </div>
               </div>
-              <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>{exp.description}</div>
-              <div style={{ fontSize: '12px', color: '#cbd5e1', marginTop: '6px' }}>
-                🔗 Docelowy URL w Meta Ads:{' '}
-                <a
-                  href={exp.entryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'underline' }}
-                >
-                  {exp.entryUrl}
-                </a>{' '}
-                · Podgląd wymuszony:{' '}
-                <a
-                  href={`${exp.entryUrl}${exp.entryUrl.includes('?') ? '&' : '?'}ab=A`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#93c5fd', fontWeight: 700 }}
-                >
-                  [?ab=A]
-                </a>{' '}
-                /{' '}
-                <a
-                  href={`${exp.entryUrl}${exp.entryUrl.includes('?') ? '&' : '?'}ab=B`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#c4b5fd', fontWeight: 700 }}
-                >
-                  [?ab=B]
-                </a>
-              </div>
-            </div>
-
-            {/* Traffic Split Buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end' }}>
-              <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 700 }}>
-                PODZIAŁ RUCHU NA SKLEPIE:
-              </span>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {(
-                  [
-                    { key: '50_50', label: '⚖️ 50% A / 50% B' },
-                    { key: '100_A', label: '🅰️ 100% Wariant A' },
-                    { key: '100_B', label: '🅱️ 100% Wariant B (Winner)' },
-                    { key: 'paused', label: '⏸️ Pauza' },
-                  ] as Array<{ key: AbTrafficAllocation; label: string }>
-                ).map(opt => {
-                  const active = exp.allocation === opt.key;
-                  return (
-                    <button
-                      key={opt.key}
-                      type="button"
-                      disabled={busyAction !== null}
-                      onClick={() =>
-                        runAction(
-                          { action: 'update_config', testId: exp.id, allocation: opt.key },
-                          `Zmieniono podział ruchu na: ${opt.label}`,
-                        )
-                      }
-                      style={{
-                        background: active
-                          ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                          : 'rgba(30, 41, 59, 0.9)',
-                        color: active ? '#fff' : '#cbd5e1',
-                        border: active
-                          ? '1px solid rgba(255,255,255,0.35)'
-                          : '1px solid rgba(255,255,255,0.12)',
-                        borderRadius: '7px',
-                        padding: '6px 10px',
-                        fontSize: '11.5px',
-                        fontWeight: active ? 800 : 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Verdict / Confidence Banner */}
-          <div
-            style={{
-              background:
-                cmp.leaderVariant === 'B'
-                  ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.1) 100%)'
-                  : cmp.leaderVariant === 'A'
-                    ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(37, 99, 235, 0.1) 100%)'
-                    : 'rgba(30, 41, 59, 0.6)',
-              border:
-                cmp.leaderVariant === 'B'
-                  ? '1px solid rgba(16, 185, 129, 0.45)'
-                  : cmp.leaderVariant === 'A'
-                    ? '1px solid rgba(59, 130, 246, 0.45)'
-                    : '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '10px',
-              padding: '11px 15px',
-              marginBottom: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '12px',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div>
-              <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#fff' }}>
-                🏆 Werdykt na żywo: {cmp.statusText}
-              </div>
-              <div style={{ fontSize: '12px', color: '#cbd5e1', marginTop: '3px' }}>
-                Pewność statystyczna (Z-Test):{' '}
-                <strong style={{ color: cmp.confidencePct >= 90 ? '#34d399' : '#fde68a' }}>
-                  {cmp.confidencePct.toFixed(1)}%
-                </strong>{' '}
-                (cel: 95% przy min. 30–40 zamówieniach łącznie) · Różnica ATC:{' '}
-                <strong>
-                  {cmp.atcDeltaPct >= 0 ? '+' : ''}
-                  {cmp.atcDeltaPct}%
-                </strong>{' '}
-                · Różnica CR:{' '}
-                <strong>
-                  {cmp.crDeltaPct >= 0 ? '+' : ''}
-                  {cmp.crDeltaPct}%
-                </strong>{' '}
-                · Różnica RPV:{' '}
-                <strong>
-                  {cmp.rpvDeltaPct >= 0 ? '+' : ''}
-                  {cmp.rpvDeltaPct}%
-                </strong>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                disabled={busyAction !== null}
-                onClick={() => handleSimulateVisitor('A', false)}
-                style={{
-                  background: 'rgba(59, 130, 246, 0.16)',
-                  color: '#93c5fd',
-                  border: '1px solid rgba(59, 130, 246, 0.35)',
-                  borderRadius: '7px',
-                  padding: '6px 10px',
-                  fontSize: '11.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                ⚡ Ping Testowy A (View+ATC)
-              </button>
-              <button
-                type="button"
-                disabled={busyAction !== null}
-                onClick={() => handleSimulateVisitor('B', true)}
-                style={{
-                  background: 'rgba(139, 92, 246, 0.2)',
-                  color: '#c4b5fd',
-                  border: '1px solid rgba(139, 92, 246, 0.45)',
-                  borderRadius: '7px',
-                  padding: '6px 10px',
-                  fontSize: '11.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                ⚡ Ping Testowy B (View+ATC+Zakup)
-              </button>
-              <button
-                type="button"
-                disabled={busyAction !== null}
-                onClick={() => {
-                  if (window.confirm(`Wyzerować wszystkie statystyki testu "${exp.name}"?`)) {
-                    runAction({ action: 'reset_stats', testId: exp.id }, '🗑️ Statystyki testu zostały wyzerowane');
-                  }
-                }}
-                style={{
-                  background: 'rgba(239, 68, 68, 0.14)',
-                  color: '#fca5a5',
-                  border: '1px solid rgba(239, 68, 68, 0.35)',
-                  borderRadius: '7px',
-                  padding: '6px 10px',
-                  fontSize: '11.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                🗑️ Wyzeruj liczniki
-              </button>
-            </div>
-          </div>
-
-          {/* 2 Variant Comparison Cards */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
-              gap: '14px',
-              marginBottom: '16px',
-            }}
-          >
+          {/* SIDE-BY-SIDE VARIANT CARDS */}
+          <div className="ab-grid-2" style={{ marginBottom: 16 }}>
             {(['A', 'B'] as const).map(vKey => {
               const m = vKey === 'A' ? mA : mB;
-              const other = vKey === 'A' ? mB : mA;
               const isLeader = cmp.leaderVariant === vKey;
-              const accentColor = vKey === 'A' ? '#3b82f6' : '#8b5cf6';
-              const badgeBg = vKey === 'A' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(139, 92, 246, 0.24)';
-
               return (
                 <div
                   key={vKey}
                   style={{
-                    background: 'rgba(15, 23, 42, 0.92)',
+                    background: '#121215',
                     border: isLeader
-                      ? '2px solid #10b981'
-                      : `1px solid ${vKey === 'A' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(139, 92, 246, 0.45)'}`,
-                    borderRadius: '12px',
-                    padding: '16px',
-                    position: 'relative',
+                      ? '1px solid rgba(16, 185, 129, 0.45)'
+                      : '1px solid rgba(255, 255, 255, 0.08)',
+                    borderRadius: 10,
+                    padding: 18,
                   }}
                 >
+                  {/* Card Header */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      gap: '8px',
-                      marginBottom: '8px',
+                      marginBottom: 14,
                     }}
                   >
-                    <span
-                      style={{
-                        background: badgeBg,
-                        color: vKey === 'A' ? '#93c5fd' : '#c4b5fd',
-                        border: `1px solid ${accentColor}`,
-                        padding: '3px 9px',
-                        borderRadius: '6px',
-                        fontSize: '11.5px',
-                        fontWeight: 800,
-                      }}
-                    >
-                      WARIANT {vKey} {vKey === 'A' ? '(CONTROL 50%)' : '(CHALLENGER 50%)'}
-                    </span>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span
+                          className="ab-mono"
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 600,
+                            padding: '2px 7px',
+                            borderRadius: 4,
+                            background: '#18181b',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            color: '#e4e4e7',
+                          }}
+                        >
+                          WARIANT {vKey}
+                        </span>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: '#f4f4f5' }}>
+                          {vKey === 'A' ? 'Standard PDP (Control)' : 'Noom Story-PDP (Challenger)'}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 12, color: '#71717a', marginTop: 3 }}>{m.subtitle}</div>
+                    </div>
+
                     {isLeader && (
                       <span
                         style={{
-                          background: 'rgba(16, 185, 129, 0.2)',
+                          fontSize: 11,
+                          fontWeight: 600,
                           color: '#34d399',
-                          border: '1px solid rgba(16, 185, 129, 0.5)',
-                          padding: '3px 9px',
-                          borderRadius: '999px',
-                          fontSize: '11px',
-                          fontWeight: 800,
+                          background: 'rgba(16, 185, 129, 0.1)',
+                          border: '1px solid rgba(16, 185, 129, 0.3)',
+                          padding: '3px 8px',
+                          borderRadius: 4,
                         }}
                       >
-                        🏆 LIDER RPV
+                        Lider RPV
                       </span>
                     )}
                   </div>
 
-                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#fff', marginBottom: '3px' }}>
-                    {m.label}
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '8px' }}>{m.subtitle}</div>
-                  <div style={{ fontSize: '12px', marginBottom: '14px' }}>
-                    <a
-                      href={m.targetUrlOrSelector}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        color: vKey === 'A' ? '#93c5fd' : '#c4b5fd',
-                        fontWeight: 700,
-                        textDecoration: 'underline',
-                        wordBreak: 'break-all',
-                      }}
-                    >
-                      🔗 {m.targetUrlOrSelector} ↗
-                    </a>
-                  </div>
-
-                  {/* Hero Metric: RPV */}
+                  {/* Hero KPI Row: RPV + Revenue + AOV */}
                   <div
                     style={{
-                      background: 'rgba(2, 6, 23, 0.75)',
-                      border: '1px solid rgba(255,255,255,0.09)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      marginBottom: '12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      display: 'grid',
+                      gridTemplateColumns: '1.2fr 1fr 1fr',
+                      gap: 12,
+                      padding: '14px 0',
+                      borderTop: '1px solid rgba(255,255,255,0.06)',
+                      borderBottom: '1px solid rgba(255,255,255,0.06)',
+                      marginBottom: 14,
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 700 }}>
-                        💰 RPV (PRZYCHÓD NA 1 WEJŚCIE — KLUCZOWY KPI)
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>
+                        RPV (Przychód / Wizyta)
                       </div>
-                      <div style={{ fontSize: '24px', fontWeight: 900, color: '#34d399', marginTop: '2px' }}>
-                        {m.rpvPln.toFixed(2)} zł
+                      <div
+                        className="ab-num ab-mono"
+                        style={{ fontSize: 24, fontWeight: 600, color: '#f4f4f5' }}
+                      >
+                        {m.rpvPln.toFixed(2)} <span style={{ fontSize: 13, color: '#71717a' }}>PLN</span>
                       </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 700 }}>PRZYCHÓD ŁĄCZNIE</div>
-                      <div style={{ fontSize: '17px', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>
-                        {m.revenuePln.toFixed(2)} zł
+                    <div>
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>Przychód</div>
+                      <div
+                        className="ab-num ab-mono"
+                        style={{ fontSize: 18, fontWeight: 600, color: '#e4e4e7', marginTop: 4 }}
+                      >
+                        {m.revenuePln.toFixed(2)} <span style={{ fontSize: 12, color: '#71717a' }}>PLN</span>
                       </div>
-                      <div style={{ fontSize: '11px', color: '#94a3b8' }}>AOV: {m.aovPln.toFixed(2)} zł</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>AOV (Śr. koszyk)</div>
+                      <div
+                        className="ab-num ab-mono"
+                        style={{ fontSize: 18, fontWeight: 600, color: '#e4e4e7', marginTop: 4 }}
+                      >
+                        {m.aovPln.toFixed(2)} <span style={{ fontSize: 12, color: '#71717a' }}>PLN</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Funnel Metrics Grid */}
+                  {/* 4-Step Funnel Metrics */}
                   <div
                     style={{
                       display: 'grid',
                       gridTemplateColumns: 'repeat(4, 1fr)',
-                      gap: '8px',
+                      gap: 8,
                     }}
                   >
                     <div
                       style={{
-                        background: 'rgba(30, 41, 59, 0.55)',
-                        borderRadius: '8px',
-                        padding: '9px',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        borderRadius: 6,
+                        padding: '10px',
                       }}
                     >
-                      <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: 700 }}>1. WEJŚCIA</div>
-                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginTop: '3px' }}>
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>Wizyty (UV)</div>
+                      <div className="ab-num ab-mono" style={{ fontSize: 16, fontWeight: 600 }}>
                         {m.uniqueViews}
                       </div>
-                      <div style={{ fontSize: '10.5px', color: '#64748b' }}>{m.pageviews} odsłon</div>
+                      <div className="ab-num" style={{ fontSize: 11, color: '#52525b', marginTop: 2 }}>
+                        {m.pageviews} odsłon
+                      </div>
                     </div>
 
                     <div
                       style={{
-                        background: 'rgba(30, 41, 59, 0.55)',
-                        borderRadius: '8px',
-                        padding: '9px',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        borderRadius: 6,
+                        padding: '10px',
                       }}
                     >
-                      <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: 700 }}>2. KOSZYK (ATC)</div>
-                      <div
-                        style={{
-                          fontSize: '18px',
-                          fontWeight: 800,
-                          color: m.atcRatePct >= other.atcRatePct && m.uniqueAtc > 0 ? '#34d399' : '#fff',
-                          marginTop: '3px',
-                        }}
-                      >
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>Koszyk (ATC)</div>
+                      <div className="ab-num ab-mono" style={{ fontSize: 16, fontWeight: 600 }}>
                         {m.atcRatePct.toFixed(1)}%
                       </div>
-                      <div style={{ fontSize: '10.5px', color: '#cbd5e1' }}>{m.uniqueAtc} osób</div>
+                      <div className="ab-num" style={{ fontSize: 11, color: '#52525b', marginTop: 2 }}>
+                        {m.uniqueAtc} os.
+                      </div>
                     </div>
 
                     <div
                       style={{
-                        background: 'rgba(30, 41, 59, 0.55)',
-                        borderRadius: '8px',
-                        padding: '9px',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        borderRadius: 6,
+                        padding: '10px',
                       }}
                     >
-                      <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: 700 }}>3. KASA (IC)</div>
-                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginTop: '3px' }}>
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>Checkout (IC)</div>
+                      <div className="ab-num ab-mono" style={{ fontSize: 16, fontWeight: 600 }}>
                         {m.icRatePct.toFixed(1)}%
                       </div>
-                      <div style={{ fontSize: '10.5px', color: '#cbd5e1' }}>{m.uniqueIc} osób</div>
+                      <div className="ab-num" style={{ fontSize: 11, color: '#52525b', marginTop: 2 }}>
+                        {m.uniqueIc} os.
+                      </div>
                     </div>
 
                     <div
                       style={{
-                        background: 'rgba(30, 41, 59, 0.55)',
-                        borderRadius: '8px',
-                        padding: '9px',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        borderRadius: 6,
+                        padding: '10px',
                       }}
                     >
-                      <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: 700 }}>4. ZAKUP (CR%)</div>
-                      <div
-                        style={{
-                          fontSize: '18px',
-                          fontWeight: 800,
-                          color: m.crPct >= other.crPct && m.orders > 0 ? '#34d399' : '#fff',
-                          marginTop: '3px',
-                        }}
-                      >
+                      <div style={{ fontSize: 11, color: '#71717a', marginBottom: 4 }}>Zakupy (CR)</div>
+                      <div className="ab-num ab-mono" style={{ fontSize: 16, fontWeight: 600 }}>
                         {m.crPct.toFixed(2)}%
                       </div>
-                      <div style={{ fontSize: '10.5px', color: '#34d399', fontWeight: 700 }}>
-                        {m.orders} zamówień
+                      <div className="ab-num" style={{ fontSize: 11, color: '#52525b', marginTop: 2 }}>
+                        {m.orders} zam.
                       </div>
                     </div>
                   </div>
@@ -888,377 +925,518 @@ export default function AbTestPanel({
             })}
           </div>
 
-          {/* Ready-to-Paste Shopify Snippets Section */}
-          {showSnippets && activeSummary.snippets && (
-            <div
-              style={{
-                background: 'rgba(15, 23, 42, 0.95)',
-                border: '1px solid rgba(245, 158, 11, 0.45)',
-                borderRadius: '12px',
-                padding: '16px',
-                marginBottom: '16px',
-              }}
-            >
-              <h3 style={{ margin: '0 0 8px', fontSize: '15px', fontWeight: 800, color: '#fde68a' }}>
-                🛠️ Gotowe Kody Integracji 50/50 dla sklepu {exp.storeDomain} ({exp.id})
-              </h3>
-              <p style={{ margin: '0 0 12px', fontSize: '12px', color: '#cbd5e1' }}>
-                1) Wklej poniższy skrypt do <code>layout/theme.liquid</code> tuż przed <code>&lt;/head&gt;</code>.
-                Wszystkie elementy na produkcie oznaczone klasą <code>sz-ab-only-b</code> wyświetlą się wyłącznie
-                klientom z Wariantu B (50% ruchu), bez przeładowania URL-a i bez utraty parametrów <code>fbclid</code>.
-              </p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '12px' }}>
-                <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '6px',
-                    }}
-                  >
-                    <span style={{ fontSize: '12px', fontWeight: 800, color: '#93c5fd' }}>
-                      1️⃣ Kod do layout/theme.liquid (&lt;head&gt;)
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(activeSummary.snippets!.headLiquid, 'Kod <head> 50/50 Split')}
-                      style={{
-                        background: '#2563eb',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '4px 10px',
-                        fontSize: '11.5px',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      📋 Kopiuj kod &lt;head&gt;
-                    </button>
-                  </div>
-                  <pre
-                    style={{
-                      background: '#020617',
-                      color: '#e2e8f0',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      fontSize: '11px',
-                      maxHeight: '210px',
-                      overflow: 'auto',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      margin: 0,
-                    }}
-                  >
-                    {activeSummary.snippets.headLiquid}
-                  </pre>
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '6px',
-                    }}
-                  >
-                    <span style={{ fontSize: '12px', fontWeight: 800, color: '#6ee7b7' }}>
-                      2️⃣ Kod Custom Pixel (Settings → Customer events w Shopify)
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleCopy(activeSummary.snippets!.checkoutPixel, 'Kod Shopify Checkout Custom Pixel')
-                      }
-                      style={{
-                        background: '#059669',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '4px 10px',
-                        fontSize: '11.5px',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      📋 Kopiuj Custom Pixel
-                    </button>
-                  </div>
-                  <pre
-                    style={{
-                      background: '#020617',
-                      color: '#e2e8f0',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      fontSize: '11px',
-                      maxHeight: '210px',
-                      overflow: 'auto',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      margin: 0,
-                    }}
-                  >
-                    {activeSummary.snippets.checkoutPixel}
-                  </pre>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Recent Orders Log */}
-          {exp.recentOrders && exp.recentOrders.length > 0 && (
-            <div
-              style={{
-                background: 'rgba(15, 23, 42, 0.85)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '10px',
-                padding: '12px 14px',
-              }}
-            >
-              <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#e2e8f0', marginBottom: '8px' }}>
-                🧾 Ostatnie zamówienia przypisane do testu ({exp.recentOrders.length}):
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', maxHeight: '160px', overflowY: 'auto' }}>
-                {exp.recentOrders.slice(0, 12).map(ord => (
-                  <div
-                    key={ord.orderId}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontSize: '12px',
-                      padding: '5px 9px',
-                      background: 'rgba(2, 6, 23, 0.6)',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span
-                        style={{
-                          padding: '1px 7px',
-                          borderRadius: '5px',
-                          fontWeight: 800,
-                          fontSize: '11px',
-                          background: ord.variant === 'B' ? 'rgba(139, 92, 246, 0.25)' : 'rgba(59, 130, 246, 0.25)',
-                          color: ord.variant === 'B' ? '#c4b5fd' : '#93c5fd',
-                        }}
-                      >
-                        Wariant {ord.variant}
-                      </span>
-                      <strong style={{ color: '#fff' }}>{ord.orderNumber}</strong>
-                      <span style={{ color: '#94a3b8' }}>{ord.itemsSummary}</span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <strong style={{ color: '#34d399' }}>{ord.revenuePln.toFixed(2)} zł</strong>
-                      <span style={{ color: '#64748b', fontSize: '11px' }}>
-                        {new Date(ord.createdAt).toLocaleTimeString('pl-PL', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* Create New Test Modal */}
-      {showCreateModal && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,0.75)',
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px',
-          }}
-        >
+          {/* FOOTER STATISTICAL BAR */}
           <div
             style={{
-              background: '#0f172a',
-              border: '1px solid rgba(99, 102, 241, 0.5)',
-              borderRadius: '14px',
-              padding: '20px',
-              width: '100%',
-              maxWidth: '520px',
-              color: '#fff',
+              background: '#121215',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: 8,
+              padding: '12px 16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+              flexWrap: 'wrap',
             }}
           >
-            <h3 style={{ margin: '0 0 12px', fontSize: '17px', fontWeight: 800 }}>
-              🧪 Utwórz nowy test A/B 50/50
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', fontSize: 12 }}>
+              <span style={{ color: '#a1a1aa' }}>
+                Status statystyczny: <strong style={{ color: '#f4f4f5' }}>{cmp.statusText}</strong>
+              </span>
+              <span className="ab-num" style={{ color: '#71717a' }}>
+                Z-Test Confidence: <strong style={{ color: '#e4e4e7' }}>{cmp.confidencePct.toFixed(1)}%</strong> (próg: 95%)
+              </span>
+              <span className="ab-num" style={{ color: '#71717a' }}>
+                Delta RPV:{' '}
+                <strong style={{ color: cmp.rpvDeltaPct > 0 ? '#34d399' : '#e4e4e7' }}>
+                  {cmp.rpvDeltaPct >= 0 ? '+' : ''}
+                  {cmp.rpvDeltaPct}%
+                </strong>
+              </span>
+            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <label style={{ fontSize: '12px', color: '#cbd5e1' }}>
-                Sklep / Marka:
-                <select
-                  value={newBrandKey}
-                  onChange={e => {
-                    const val = e.target.value as 'orthomax' | 'feliora-pies' | 'sardian-szampon' | 'custom';
-                    setNewBrandKey(val);
-                    if (val === 'orthomax') {
-                      setNewStoreDomain('orthomax.pl');
-                      setNewEntryUrl('https://orthomax.pl/products/orthomax-stepmax');
-                    } else if (val === 'feliora-pies') {
-                      setNewStoreDomain('feliora.pl');
-                      setNewEntryUrl('https://feliora.pl/products/uspokajajacy-dyfuzor-feromonowy-dla-psow-feliora');
-                    } else if (val === 'sardian-szampon') {
-                      setNewStoreDomain('sardian.pl');
-                      setNewEntryUrl('https://sardian.pl/products/szampon-przeciw-wypadaniu-wlosow-sardian');
-                    }
-                  }}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                type="button"
+                className="ab-btn"
+                disabled={busyAction !== null}
+                onClick={() => handleSimulatePing('A', false)}
+              >
+                Ping testowy A
+              </button>
+              <button
+                type="button"
+                className="ab-btn"
+                disabled={busyAction !== null}
+                onClick={() => handleSimulatePing('B', true)}
+              >
+                Ping testowy B
+              </button>
+              <button
+                type="button"
+                className="ab-btn"
+                disabled={busyAction !== null}
+                onClick={() => {
+                  if (window.confirm(`Wyzerować liczniki eksperymentu "${exp.name}"?`)) {
+                    runAction({ action: 'reset_stats', testId: exp.id }, 'Liczniki wyzerowane');
+                  }
+                }}
+              >
+                Resetuj liczniki
+              </button>
+            </div>
+          </div>
+
+          {/* 4 DEDICATED NOOM ANTKI (#102–#105) DIRECTLY EMBEDDED IN A/B TEST PANEL */}
+          {(() => {
+            const activeNoomMeta =
+              NOOM_ANTKI_ITEMS.find(item => item.id === selectedNoomAntekId) || NOOM_ANTKI_ITEMS[0];
+            const activeNoomCopy = ANTKI_NOOM_KRYSTYNA_COPY[activeNoomMeta.id];
+            const wordsCount = activeNoomCopy
+              ? activeNoomCopy.primaryText.trim().split(/\s+/).length
+              : 0;
+            return (
+              <div
+                style={{
+                  marginTop: 18,
+                  background: '#121215',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                }}
+              >
+                <div
                   style={{
-                    width: '100%',
-                    marginTop: '4px',
-                    padding: '8px',
-                    borderRadius: '7px',
-                    background: '#1e293b',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    padding: '12px 16px',
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                    flexWrap: 'wrap',
+                    background: '#0c0c0f',
                   }}
                 >
-                  <option value="orthomax">🦶 ORTHOMAX PL (orthomax.pl)</option>
-                  <option value="feliora-pies">🐶 FELIORA PL (feliora.pl)</option>
-                  <option value="sardian-szampon">🦁 SARDIAN PL (sardian.pl)</option>
-                  <option value="custom">🧪 Inny sklep / Custom</option>
-                </select>
-              </label>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#f4f4f5' }}>
+                      4 Antki NOOM pod ten A/B Test (#102–#105 · „Historia Krystyny / Kalejdoskop 5 Lekarzy”)
+                    </div>
+                    <div style={{ fontSize: 11.5, color: '#71717a', marginTop: 2 }}>
+                      Każdy Antek kończy się mostem do Wariantu B (<code>/pages/kp-krystyna-1</code>) lub Routera 50/50 (<code>/pages/orthomax-ab</code>)
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <a
+                      href={`/antki-pl?brand=orthomax&batch=noom&angle=${activeNoomMeta.id}`}
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: '#09090b',
+                        background: '#f4f4f5',
+                        padding: '6px 12px',
+                        borderRadius: 6,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Otwórz Batch #102–#105 w Fabryce Antków PL →
+                    </a>
+                  </div>
+                </div>
 
-              <label style={{ fontSize: '12px', color: '#cbd5e1' }}>
-                Nazwa testu:
+                {/* 4 TABS FOR #102 - #105 */}
+                <div
+                  style={{
+                    padding: '10px 16px',
+                    borderBottom: '1px solid rgba(255,255,255,0.06)',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                    gap: 8,
+                  }}
+                >
+                  {NOOM_ANTKI_ITEMS.map(item => {
+                    const isSelected = item.id === activeNoomMeta.id;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setSelectedNoomAntekId(item.id)}
+                        style={{
+                          textAlign: 'left',
+                          padding: '9px 11px',
+                          borderRadius: 7,
+                          border: isSelected
+                            ? '1px solid rgba(255,255,255,0.3)'
+                            : '1px solid rgba(255,255,255,0.07)',
+                          background: isSelected ? '#27272a' : '#09090b',
+                          color: '#f4f4f5',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: isSelected ? '#34d399' : '#a1a1aa' }}>
+                            #{item.number} · {item.fanpage}
+                          </span>
+                          <span style={{ fontSize: 10, color: '#71717a' }}>02.11</span>
+                        </div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: '#f4f4f5', lineHeight: 1.3 }}>
+                          {item.narrator}
+                        </div>
+                        <div style={{ fontSize: 11, color: '#a1a1aa', marginTop: 2, lineHeight: 1.3 }}>
+                          {item.shortTitle}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* ACTIVE NOOM ANTEK COPY VIEWER */}
+                {activeNoomCopy && (
+                  <div style={{ padding: 16 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 10,
+                        flexWrap: 'wrap',
+                        marginBottom: 12,
+                      }}
+                    >
+                      <div style={{ fontSize: 12, color: '#a1a1aa' }}>
+                        Fanpage: <strong style={{ color: '#f4f4f5' }}>{activeNoomMeta.fanpage}</strong> · Narrator:{' '}
+                        <strong style={{ color: '#f4f4f5' }}>{activeNoomMeta.narrator}</strong> · Długość:{' '}
+                        <strong style={{ color: '#34d399' }}>{wordsCount} słów</strong>
+                      </div>
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <button
+                          type="button"
+                          className="ab-btn"
+                          onClick={() => copyText(activeNoomCopy.headline, `Nagłówek #${activeNoomMeta.number}`)}
+                        >
+                          Kopiuj Headline
+                        </button>
+                        <button
+                          type="button"
+                          className="ab-btn"
+                          style={{ background: '#f4f4f5', color: '#09090b', fontWeight: 600 }}
+                          onClick={() => copyText(activeNoomCopy.primaryText, `Primary Text #${activeNoomMeta.number}`)}
+                        >
+                          Kopiuj cały Primary Text (#{activeNoomMeta.number})
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        padding: '9px 12px',
+                        borderRadius: 6,
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        marginBottom: 10,
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        color: '#f4f4f5',
+                      }}
+                    >
+                      <span style={{ color: '#71717a', fontWeight: 500, marginRight: 6 }}>Headline:</span>
+                      {activeNoomCopy.headline}
+                    </div>
+
+                    <pre
+                      style={{
+                        margin: 0,
+                        padding: 14,
+                        borderRadius: 6,
+                        background: '#09090b',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        color: '#e4e4e7',
+                        fontSize: 12.5,
+                        lineHeight: 1.6,
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                        maxHeight: 360,
+                        overflowY: 'auto',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", sans-serif',
+                      }}
+                    >
+                      {activeNoomCopy.primaryText}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
+          {/* DRAWER: MANUAL ORDER */}
+          {activeDrawer === 'manual_order' && (
+            <div
+              style={{
+                marginTop: 14,
+                background: '#121215',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                padding: 16,
+                display: 'flex',
+                alignItems: 'flex-end',
+                gap: 12,
+                flexWrap: 'wrap',
+              }}
+            >
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>
+                  Wariant
+                </label>
+                <select
+                  value={manualVariant}
+                  onChange={e => setManualVariant(e.target.value as AbVariantKey)}
+                  style={{
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
+                  }}
+                >
+                  <option value="A">Wariant A (Control)</option>
+                  <option value="B">Wariant B (Challenger)</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>
+                  Nr zamówienia
+                </label>
+                <input
+                  type="text"
+                  value={manualOrderNumber}
+                  onChange={e => setManualOrderNumber(e.target.value)}
+                  placeholder="#1100605"
+                  style={{
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>
+                  Kwota (PLN)
+                </label>
+                <input
+                  type="text"
+                  value={manualRevenuePln}
+                  onChange={e => setManualRevenuePln(e.target.value)}
+                  style={{
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
+                    width: 110,
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                className="ab-btn"
+                style={{ background: '#f4f4f5', color: '#09090b', fontWeight: 600 }}
+                onClick={() => {
+                  const rev = Number(manualRevenuePln.replace(',', '.')) || 99.99;
+                  runAction(
+                    {
+                      action: 'record_manual_order',
+                      testId: exp.id,
+                      variant: manualVariant,
+                      orderNumber: manualOrderNumber || `#M-${Date.now().toString().slice(-4)}`,
+                      revenuePln: rev,
+                    },
+                    `Dodano zamówienie (${rev.toFixed(2)} PLN) do Wariantu ${manualVariant}`,
+                  );
+                  setManualOrderNumber('');
+                }}
+              >
+                Zapisz zamówienie
+              </button>
+            </div>
+          )}
+
+          {/* DRAWER: SHOPIFY SNIPPETS */}
+          {activeDrawer === 'snippets' && activeSnippets && (
+            <div
+              style={{
+                marginTop: 14,
+                background: '#121215',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                padding: 16,
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontSize: 12, fontWeight: 600 }}>
+                  Skrypt Shopify (theme.liquid) & Webhook URL
+                </span>
+                <button
+                  type="button"
+                  className="ab-btn"
+                  onClick={() => copyText(activeSnippets.headScript, 'Skrypt theme.liquid')}
+                >
+                  Kopiuj skrypt
+                </button>
+              </div>
+              <pre
+                className="ab-mono"
+                style={{
+                  background: '#09090b',
+                  padding: 12,
+                  borderRadius: 6,
+                  fontSize: 11,
+                  color: '#a1a1aa',
+                  overflowX: 'auto',
+                  maxHeight: 200,
+                  margin: 0,
+                }}
+              >
+                {activeSnippets.headScript}
+              </pre>
+            </div>
+          )}
+
+          {/* DRAWER: NEW EXPERIMENT */}
+          {activeDrawer === 'new_test' && (
+            <div
+              style={{
+                marginTop: 14,
+                background: '#121215',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                padding: 16,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 12,
+              }}
+            >
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>Nazwa</label>
                 <input
                   type="text"
                   value={newName}
                   onChange={e => setNewName(e.target.value)}
-                  placeholder="np. Krystyna 62 l. — Standard PDP vs Story-PDP"
+                  placeholder="Np. Test PDP vs Advertorial"
                   style={{
                     width: '100%',
-                    marginTop: '4px',
-                    padding: '8px',
-                    borderRadius: '7px',
-                    background: '#1e293b',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
                   }}
                 />
-              </label>
-
-              <label style={{ fontSize: '12px', color: '#cbd5e1' }}>
-                Docelowy URL produktu (wklejany do reklam Meta):
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>Marka</label>
+                <select
+                  value={newBrandKey}
+                  onChange={e => setNewBrandKey(e.target.value as AbTestExperiment['brandKey'])}
+                  style={{
+                    width: '100%',
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
+                  }}
+                >
+                  <option value="orthomax">ORTHOMAX PL</option>
+                  <option value="feliora-pies">FELIORA PL (Psy)</option>
+                  <option value="sardian-szampon">SARDIAN PL</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>URL Wariant A</label>
                 <input
                   type="text"
-                  value={newEntryUrl}
-                  onChange={e => setNewEntryUrl(e.target.value)}
+                  value={newVariantAUrl}
+                  onChange={e => setNewVariantAUrl(e.target.value)}
                   style={{
                     width: '100%',
-                    marginTop: '4px',
-                    padding: '8px',
-                    borderRadius: '7px',
-                    background: '#1e293b',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
                   }}
                 />
-              </label>
-
-              <label style={{ fontSize: '12px', color: '#cbd5e1' }}>
-                Opis Wariantu A (Control):
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, color: '#a1a1aa', marginBottom: 4 }}>URL Wariant B</label>
                 <input
                   type="text"
-                  value={newVarALabel}
-                  onChange={e => setNewVarALabel(e.target.value)}
+                  value={newVariantBUrl}
+                  onChange={e => setNewVariantBUrl(e.target.value)}
                   style={{
                     width: '100%',
-                    marginTop: '4px',
-                    padding: '8px',
-                    borderRadius: '7px',
-                    background: '#1e293b',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    background: '#09090b',
+                    color: '#f4f4f5',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 6,
+                    padding: '7px 10px',
+                    fontSize: 12,
                   }}
                 />
-              </label>
-
-              <label style={{ fontSize: '12px', color: '#cbd5e1' }}>
-                Opis Wariantu B (Challenger):
-                <input
-                  type="text"
-                  value={newVarBLabel}
-                  onChange={e => setNewVarBLabel(e.target.value)}
-                  style={{
-                    width: '100%',
-                    marginTop: '4px',
-                    padding: '8px',
-                    borderRadius: '7px',
-                    background: '#1e293b',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.15)',
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="ab-btn"
+                  style={{ background: '#f4f4f5', color: '#09090b', fontWeight: 600, width: '100%' }}
+                  onClick={() => {
+                    if (!newName.trim()) return;
+                    runAction(
+                      {
+                        action: 'create_experiment',
+                        name: newName.trim(),
+                        brandKey: newBrandKey,
+                        entryUrl: newEntryUrl.trim(),
+                        variantAUrl: newVariantAUrl.trim(),
+                        variantBUrl: newVariantBUrl.trim(),
+                        splitMode: 'url_redirect',
+                      },
+                      'Utworzono nowy eksperyment',
+                    );
+                    setActiveDrawer('none');
                   }}
-                />
-              </label>
+                >
+                  Utwórz (jako Draft)
+                </button>
+              </div>
             </div>
+          )}
+        </div>
+      )}
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
-              <button
-                type="button"
-                onClick={() => setShowCreateModal(false)}
-                style={{
-                  background: 'transparent',
-                  color: '#94a3b8',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  borderRadius: '8px',
-                  padding: '8px 14px',
-                  cursor: 'pointer',
-                }}
-              >
-                Anuluj
-              </button>
-              <button
-                type="button"
-                onClick={async () => {
-                  const brandLabelMap: Record<string, string> = {
-                    orthomax: '🦶 ORTHOMAX PL',
-                    'feliora-pies': '🐶 FELIORA PL',
-                    'sardian-szampon': '🦁 SARDIAN PL',
-                    custom: '🧪 CUSTOM TEST',
-                  };
-                  await runAction(
-                    {
-                      action: 'create_test',
-                      brandKey: newBrandKey,
-                      brandLabel: brandLabelMap[newBrandKey] || '🧪 TEST',
-                      storeDomain: newStoreDomain,
-                      name: newName || 'Test 50/50 Standard PDP vs Story-PDP',
-                      entryUrl: newEntryUrl,
-                      variantALabel: newVarALabel,
-                      variantBLabel: newVarBLabel,
-                    },
-                    '✅ Utworzono nowy test A/B 50/50',
-                  );
-                  setShowCreateModal(false);
-                  setNewName('');
-                }}
-                style={{
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '8px 16px',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                }}
-              >
-                Utwórz Test A/B
-              </button>
-            </div>
-          </div>
+      {standalone && (
+        <div
+          style={{
+            padding: '10px 20px',
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            background: '#0c0c0f',
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontSize: 12,
+            color: '#71717a',
+          }}
+        >
+          <span>Szekspir Experiment Engine</span>
+          <Link href="/antki-pl" style={{ color: '#a1a1aa', textDecoration: 'none' }}>
+            ← Wróć do biblioteki Antków
+          </Link>
         </div>
       )}
     </div>

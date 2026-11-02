@@ -95,10 +95,10 @@ export const ANTKI_PL_BRAND_BATCHES: AntkiPlBrandBatchMeta[] = [
     key: 'orthomax',
     emoji: '🦶',
     shortLabel: 'ORTHOMAX PL · StepMax',
-    countLabel: '101 Antków',
+    countLabel: '105 Antków',
     createdDateLabel: '18.10',
-    updatedDateLabel: '01.11.2026',
-    sortTimestamp: Date.parse('2026-11-01T20:00:00+01:00'),
+    updatedDateLabel: '02.11.2026',
+    sortTimestamp: Date.parse('2026-11-02T21:35:00+01:00'),
     activeGradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
     activeShadow: '0 2px 10px rgba(234, 88, 12, 0.45)',
     inactiveColor: '#fdba74',
@@ -247,40 +247,40 @@ export default function AntkiPlBrandSwitcher({
           );
         })}
 
-        {/* A/B TEST 50/50 LIVE PANEL BUTTON */}
+        {/* A/B TEST PANEL BUTTON (CLEAN MONOCHROME, DRAFT BY DEFAULT) */}
         <button
           type="button"
           onClick={() => setShowAbModal(v => !v)}
-          title="Otwórz panel A/B testów 50/50 (Standard PDP vs Noom Story-PDP „Ciąg dalszy”)"
+          title="Otwórz panel A/B testów landerów (Standard PDP vs Noom Story-PDP „Ciąg dalszy”)"
           style={{
-            background: showAbModal
-              ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)'
-              : 'rgba(99, 102, 241, 0.22)',
-            color: '#ffffff',
-            border: '1px solid rgba(129, 140, 248, 0.6)',
+            background: showAbModal ? '#27272a' : '#18181b',
+            color: '#f4f4f5',
+            border: showAbModal
+              ? '1px solid rgba(255, 255, 255, 0.28)'
+              : '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '8px',
-            padding: '6px 12px',
+            padding: '6px 11px',
             fontSize: '12px',
-            fontWeight: 800,
+            fontWeight: 600,
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            boxShadow: '0 2px 10px rgba(79, 70, 229, 0.35)',
           }}
         >
-          <span>🧪 A/B Test Landerów 50/50</span>
+          <span>A/B Test Landerów</span>
           <span
             style={{
               fontSize: '10px',
-              background: '#10b981',
-              color: '#022c22',
-              fontWeight: 900,
+              background: 'rgba(255, 255, 255, 0.08)',
+              color: '#a1a1aa',
+              fontWeight: 600,
               padding: '1px 6px',
-              borderRadius: '999px',
+              borderRadius: '4px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
           >
-            LIVE
+            DRAFT
           </span>
         </button>
       </div>

@@ -15,6 +15,7 @@ import { ANTKI_SPORT_COPY_PART1 } from './antki-sport-copy-part1';
 import { ANTKI_SPORT_COPY_PART2 } from './antki-sport-copy-part2';
 import { ANTKI_SPORT_COPY_PART3 } from './antki-sport-copy-part3';
 import { ANTKI_SPORT_COPY_PART4 } from './antki-sport-copy-part4';
+import { ANTKI_NOOM_KRYSTYNA_COPY } from './antki-noom-krystyna-copy';
 import {
   ANTKI_PL_PRESET_ANGLES,
   ORTHOMAX_PL_DEFAULT_URL,
@@ -44,6 +45,7 @@ export const ANTKI_PL_ARGON_AUTHORED_COPY: Record<
   ...ANTKI_SPORT_COPY_PART2,
   ...ANTKI_SPORT_COPY_PART3,
   ...ANTKI_SPORT_COPY_PART4,
+  ...ANTKI_NOOM_KRYSTYNA_COPY,
   'zal-v2-01-skierowanie-szpital': {
     headline: 'Miałam wyznaczony termin operacji stopy na listopad. Po tym 10-sekundowym teście u fizjoterapeuty skreśliłam skierowanie',
     description: '',
@@ -399,6 +401,10 @@ const TESTPACK_NATIVE_PAGE_NAME_MAP: Record<string, string> = {
   'sport-99-bieganie-slow-mo-pronacja-asfalt': 'Porady Mamy Gosi',
   'sport-100-hala-siatkowka-parkiet-ladowanie': 'Karol Mikołajczyk',
   'sport-101-bieganie-anti-allegro-zel-vs-sprezyna': 'Karol Mikołajczyk',
+  'noom-102-krystyna-62-wroclaw-schody': 'Iwona Kożuchowska',
+  'noom-103-karol-64-endoproteza-kalejdoskop': 'Karol Mikołajczyk',
+  'noom-104-corka-gosia-mama-62-wroclaw': 'Porady Mamy Gosi',
+  'noom-105-fizjo-5-lekarzy-przed-endoproteza': 'Centrum Dobrego Kroku',
 };
 
 export function buildAllArgonPrewrittenAds(
@@ -415,12 +421,17 @@ export function buildAllArgonPrewrittenAds(
   const batch4Updated = Date.parse('2026-11-01T16:40:00+01:00');
   const batch5Created = Date.parse('2026-11-01T19:30:00+01:00');
   const batch5Updated = Date.parse('2026-11-01T20:00:00+01:00');
+  const batch6Created = Date.parse('2026-11-02T21:30:00+01:00');
+  const batch6Updated = Date.parse('2026-11-02T21:40:00+01:00');
   return ANTKI_PL_PRESET_ANGLES.map((angle, index) => {
-    const isBatch5 = angle.number >= 82;
+    const isBatch6 = angle.number >= 102;
+    const isBatch5 = angle.number >= 82 && angle.number < 102;
     const isBatch4 = angle.number >= 76 && angle.number < 82;
     const isBatch3 = angle.number >= 71 && angle.number < 76;
     const isBatch2 = angle.number >= 36 && angle.number < 71;
-    const baseCreated = isBatch5
+    const baseCreated = isBatch6
+      ? batch6Created
+      : isBatch5
       ? batch5Created
       : isBatch4
       ? batch4Created
@@ -429,7 +440,9 @@ export function buildAllArgonPrewrittenAds(
       : isBatch2
       ? batch2Created
       : batch1Created;
-    const baseUpdated = isBatch5
+    const baseUpdated = isBatch6
+      ? batch6Updated
+      : isBatch5
       ? batch5Updated
       : isBatch4
       ? batch4Updated
