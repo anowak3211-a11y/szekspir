@@ -2099,7 +2099,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
       'Forum Gazeta.pl (wątek „Gonartroza i uciekająca pięta - jakie wkładki dynamiczne”) -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: '4 lata, 5 lekarzy i wyrok endoprotezy w wieku 62 lat. A problem leżał 30 cm niżej, w moich butach',
     defaultImageUrl: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
-    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+    defaultDestinationUrl: 'https://orthomax.pl/products/orthomax-stepmax',
   },
   {
     id: 'noom-103-karol-64-endoproteza-kalejdoskop',
@@ -2123,7 +2123,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
       'Komentarze pod filmem fizjoterapeuty na YouTubie -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Usłyszałem od ortopedy słowo „endoproteza” w wieku 64 lat. Dopiero 5. specjalista kazał mi zdjąć buty',
     defaultImageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
-    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+    defaultDestinationUrl: 'https://orthomax.pl/products/orthomax-stepmax',
   },
   {
     id: 'noom-104-corka-gosia-mama-62-wroclaw',
@@ -2147,7 +2147,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
       'Pielęgniarka z oddziału ortopedycznego na grupie FB -> Pakiet 1+1 GRATIS Orthomax StepMax dla mamy + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Moja 62-letnia mama wydała 3570 zł z emerytury na 4 lekarzy. Dopiero 5. spojrzał na jej bose stopy',
     defaultImageUrl: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
-    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+    defaultDestinationUrl: 'https://orthomax.pl/products/orthomax-stepmax',
   },
   {
     id: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
@@ -2171,7 +2171,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
       'Test 10 sekund przed lustrem + wątek pacjentów o dynamicznych wkładkach Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Przez 4 lata 4 specjalistów leczyło jej prawe kolano. Żaden nie kazał jej zdjąć butów i przejść 5 kroków',
     defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
-    defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
+    defaultDestinationUrl: 'https://orthomax.pl/products/orthomax-stepmax',
   },
 ];
 
@@ -2398,9 +2398,12 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Naprawiono link produktowy na https://orthomax.pl/products/orthomax-stepmax.');
   }
 
-  // 10. Replace any accidental scissor-trimming mentions
+  // 10. Replace any accidental scissor-trimming mentions cleanly
   if (/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/i.test(text)) {
-    text = text.replace(/po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami/gi, 'miesiącu normalnego noszenia w butach');
+    text = text.replace(
+      /po\s+(?:docięciu|przycięciu)\s+(?:wkładek\s+)?nożyczkami(?:\s+wzdłuż\s+linii)?(?:\s+do\s+swojego\s+buta)?(?:\s+i\s+(?:miesiącu|30\s+dniach)\s+(?:normalnego\s+)?(?:noszenia|chodzenia(?:\s+w\s+nich)?))?/gi,
+      'po miesiącu normalnego noszenia w butach',
+    );
     fixes.push('Usunięto wzmiankę o docinaniu nożyczkami.');
   }
 

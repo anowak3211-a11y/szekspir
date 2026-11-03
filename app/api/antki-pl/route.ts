@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v23-noom-1to1-clean';
+const STATE_KEY = 'antki-pl-library-v24-noom-clean-orthomax';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -256,10 +256,10 @@ async function readLibraryState(): Promise<{
           auditWarnings: audited.auditWarnings,
           auditFixesApplied: audited.auditFixesApplied,
           destinationUrl:
-            baseAd?.destinationUrl?.includes('orthomax-stepmax-pro') ||
-            baseAd?.destinationUrl?.includes('kp-krystyna-1')
+            baseAd?.destinationUrl?.includes('orthomax-stepmax-pro')
               ? baseAd.destinationUrl
-              : ad.destinationUrl === 'https://orthomax.pl/products/stepmax'
+              : ad.destinationUrl === 'https://orthomax.pl/products/stepmax' ||
+                ad.destinationUrl?.includes('szekspir.vercel.app')
               ? ORTHOMAX_PL_DEFAULT_URL
               : ad.destinationUrl || baseAd?.destinationUrl || ORTHOMAX_PL_DEFAULT_URL,
         }),

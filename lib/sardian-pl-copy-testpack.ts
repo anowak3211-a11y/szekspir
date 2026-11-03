@@ -16,7 +16,7 @@ export const SARDIAN_PL_COPY_TESTPACK: Record<
     description: 'Formuła 3 z 3 bez SLS i silikonów - 60 dni gwarancji zwrotu nawet na puste butelki',
     primaryText: `Proszę, NIE kupuj szamponu SARDIAN, jeśli zamierzasz myć nim głowę tak samo jak żelem pod prysznic z marketu.
 
-Spójrz na zdjęcie z mojej łazienki dołączone do tego posta. Zrobiłem je z tym kciukiem w dół dokładnie 5. dnia rano, kiedy wytarłem głowę ręcznikiem, wyciągnąłem spod umywalki pusty karton po przesyłce i chciałem odesłać im wszystko co do grosza.
+Zrobiłem je z tym kciukiem w dół dokładnie 5. dnia rano, kiedy wytarłem głowę ręcznikiem, wyciągnąłem spod umywalki pusty karton po przesyłce i chciałem odesłać im wszystko co do grosza.
 
 Byłem wściekły sam na siebie. Mam 44 lata, pracuję jako kierownik budowy pod Wrocławiem i naprawdę nie należę do facetów, którzy kupują magiczne kosmetyki z reklam w internecie.
 
@@ -85,7 +85,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Sprawdź przed zakupem, czy należysz do 79% mężczyzn z żywymi cebulkami (60 dni gwarancji)',
     primaryText: `Szampon SARDIAN u około 21% mężczyzn nie daje absolutnie żadnego nowego odrostu.
 
-Spójrz na zdjęcie badania kamerą 200x z naszego gabinetu dołączone do tego posta. Pokazaliśmy wczoraj na tym monitorze 46-letniemu pacjentowi czarno na białym, dlaczego u prawie 8 na 10 facetów ten szampon zatrzymuje wypadanie i zagęszcza czubek głowy, a co 5. kupujący marnuje przy nim swój czas i niepotrzebnie się denerwuje.
+Pokazaliśmy wczoraj na tym monitorze 46-letniemu pacjentowi czarno na białym, dlaczego u prawie 8 na 10 facetów ten szampon zatrzymuje wypadanie i zagęszcza czubek głowy, a co 5. kupujący marnuje przy nim swój czas i niepotrzebnie się denerwuje.
 
 Zajmuję się kliniczną diagnostyką łysienia androgenowego u mężczyzn od 14 lat. Nie znoszę w tej branży cukierkowych obietnic, że 1 preparat odtworzy bujną czuprynę każdemu mężczyźnie niezależnie od wieku i stanu jego skóry. Biologia ludzkiego mieszka włosowego tak nie działa i każdy uczciwy specjalista powie to pacjentowi w 1. minucie wizyty.
 
@@ -143,7 +143,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Dlaczego w 1. tygodniu stare 3-tygodniowe włoski muszą ustąpić miejsca nowym (60 dni gwarancji)',
     primaryText: `Mój mąż wyszedł rano spod prysznica, rzucił mokry ręcznik na pralkę i powiedział, że ten czarny szampon za ponad 100 zł to zwykłe naciąganie naiwnych ludzi.
 
-Spójrz na zdjęcie metalowego sitka w naszej kabinie prysznicowej dołączone do tego posta. Zrobiłam je dokładnie 4. dnia rano po prysznicu Michała, kiedy pokazałam palcem ten mokry kłębek na odpływie, a on kazał mi wieczorem wygenerować kod zwrotu do Paczkomatu i odesłać paczkę z powrotem.
+Zrobiłam je dokładnie 4. dnia rano po prysznicu Michała, kiedy pokazałam palcem ten mokry kłębek na odpływie, a on kazał mi wieczorem wygenerować kod zwrotu do Paczkomatu i odesłać paczkę z powrotem.
 
 Poczułam wtedy w żołądku to okropne ukłucie wstydu, złości i bezsilności. Bo to właśnie ja namówiłam go na to zamówienie po miesiącach patrzenia, jak mój własny mąż gaśnie w oczach przed lustrem.
 
@@ -201,7 +201,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Dlaczego tanie zamienniki z SLS po 5 godzinach podwajają wyrzut DHT na skórze głowy (60 dni gwarancji)',
     primaryText: `Chciałem przycwaniakować i zamiast oryginalnego szamponu SARDIAN kupiłem na Allegro „ziołowy szampon przeciw wypadaniu dla mężczyzn" za 24,99 zł z darmowym Smartem.
 
-Spójrz na zdjęcie 2 szklanek ciepłej wody na mojej umywalce dołączone do tego posta. Ten prosty 2-minutowy eksperyment w łazience pokazał mi czarno na białym, dlaczego po miesiącu mojego wielkiego „oszczędzania" swędział mnie cały czubek głowy, a zakola cofnęły się jeszcze mocniej niż przedtem.
+Ten prosty 2-minutowy eksperyment w łazience pokazał mi czarno na białym, dlaczego po miesiącu mojego wielkiego „oszczędzania" swędział mnie cały czubek głowy, a zakola cofnęły się jeszcze mocniej niż przedtem.
 
 Przyznaję się bez bicia: zrobiłem dokładnie to, co robi pewnie co 2. facet w Polsce po przeczytaniu w internecie historii o skutecznym preparacie na wypadające włosy.
 
@@ -249,7 +249,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Ostrzeżenie starego fryzjera męskiego przed podróbkami z SLS i silikonami (60 dni gwarancji na oryginał)',
     primaryText: `Pod koniec zeszłego tygodnia mój stały klient usiadł u mnie na fotelu fryzjerskim z czerwoną, łuszczącą się skórą w zakolach i wyjął z plecaka ciemną plastikową butelkę kupioną na aukcji internetowej za 34 zł.
 
-Spójrz na zdjęcie tylnej etykiety tamtej butelki dołączone do tego posta - zrobiłem je własnym telefonem przy myjce fryzjerskiej i podkreśliłem niebieskim długopisem 2. składnik zaraz po wodzie, żeby pokazać każdemu facetowi w Polsce, jak handlarze w sieci robią dziś łysiejących mężczyzn w konia.
+zrobiłem je własnym telefonem przy myjce fryzjerskiej i podkreśliłem niebieskim długopisem 2. składnik zaraz po wodzie, żeby pokazać każdemu facetowi w Polsce, jak handlarze w sieci robią dziś łysiejących mężczyzn w konia.
 
 Stoję z nożyczkami przy fotelu męskim nieprzerwanie od 1991 roku. Przez te 35 lat pracy we własnym zakładzie widziałem na męskich głowach dosłownie wszystko: od wody brzozowej z kiosku Ruchu w latach 90., przez lepkie zagęszczacze w sprayu z telezakupów, aż po chłopaków wracających z poparzonymi karkami z tanich klinik w Stambule. Ale skala bezczelnych podróbek na dzisiejszych portalach aukcyjnych przechodzi ludzkie pojęcie.
 
@@ -306,7 +306,7 @@ https://sprobujsardian.pl/products/sardian-szampon-aktywujacy-korzenie`,
     description: 'Dlaczego oceny wystawiane 2 godziny po wyjęciu z Paczkomatu wprowadzają łysiejących facetów w błąd',
     primaryText: `Wydałem 189 zł na Allegro na 3 „apteczne bestsellery na porost włosów" ze średnią 4,9 gwiazdki, a po 6 tygodniach wcierania moje zakola i czubek głowy wyglądały jeszcze gorzej niż we wrześniu.
 
-Spójrz na zdjęcie mojej otwartej szuflady w łazience dołączone do tego posta. Te napoczęte bursztynowe buteleczki z pipetką, blistry po kapsułkach i czerwony szampon kofeinowy nauczyły mnie 1 brutalnej prawdy o systemie ocen na portalach aukcyjnych, z której 9 na 10 kupujących facetów kompletnie nie zdaje sobie sprawy.
+Te napoczęte bursztynowe buteleczki z pipetką, blistry po kapsułkach i czerwony szampon kofeinowy nauczyły mnie 1 brutalnej prawdy o systemie ocen na portalach aukcyjnych, z której 9 na 10 kupujących facetów kompletnie nie zdaje sobie sprawy.
 
 Mam 41 lat, pracuję w biurze projektowym w Katowicach i zawsze uważałem się za racjonalnego gościa, który nie kupuje kota w worku, tylko sprawdza opinie i statystyki.
 

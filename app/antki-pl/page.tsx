@@ -231,7 +231,7 @@ export default function AntkiPlPage() {
   const [activeAngleId, setActiveAngleId] = useState<string | null>('noom-102-krystyna-62-wroclaw-schody');
 
   // Generation & Fanpage settings (domyślnie natywny fanpage dopasowany do kąta)
-  const [destinationUrl, setDestinationUrl] = useState('https://szekspir.vercel.app/pages/kp-krystyna-1');
+  const [destinationUrl, setDestinationUrl] = useState(ORTHOMAX_PL_DEFAULT_URL);
   const [selectedPageId, setSelectedPageId] = useState('1194345203770949');
   const [pageName, setPageName] = useState('Iwona Kożuchowska');
   const [manualPageOverride, setManualPageOverride] = useState(false);

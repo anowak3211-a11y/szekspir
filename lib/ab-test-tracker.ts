@@ -1,7 +1,7 @@
 import { inOwnerWorkspace } from './account-context';
 import { mutate, readState } from './store';
 
-export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v5';
+export const AB_TEST_STATE_KEY = 'szekspir-ab-test-lander-v6';
 
 export type AbVariantKey = 'A' | 'B';
 export type AbTrafficAllocation = '50_50' | '100_A' | '100_B' | 'paused';
@@ -119,7 +119,7 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
     name: 'Standard PDP vs Noom Story-PDP („Historia Krystyny · ciąg dalszy”)',
     description:
       'Test 50/50 dla długich Antków (LFS): Wariant A (Standardowy PDP na orthomax.pl) vs Wariant B (Noom Story-PDP „Historia Krystyny, 62 lata, Wrocław · ciąg dalszy” z koszykiem 1+1 GRATIS i przekierowaniem prosto do kasy orthomax.pl).',
-    entryUrl: 'https://szekspir.vercel.app/pages/orthomax-ab',
+    entryUrl: 'https://orthomax.pl/products/orthomax-stepmax',
     splitMode: 'url_redirect',
     allocation: 'paused',
     status: 'paused',
@@ -134,7 +134,7 @@ export const DEFAULT_AB_EXPERIMENTS: AbTestExperiment[] = [
       B: emptyVariant(
         'Wariant B · Noom Story-PDP („Historia Krystyny · ciąg dalszy”)',
         'Pełna strona „Historia Krystyny, 62 lata, Wrocław · ciąg dalszy + Kartka od lekarza + Dziennik 6 tyg.” + Buybox 1+1 GRATIS',
-        'https://szekspir.vercel.app/pages/kp-krystyna-1',
+        'https://orthomax.pl/products/orthomax-stepmax?view=kp-krystyna-1',
       ),
     },
     seenVisitors: {

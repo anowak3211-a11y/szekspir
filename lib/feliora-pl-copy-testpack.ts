@@ -16,7 +16,7 @@ export const FELIORA_PL_COPY_TESTPACK: Record<
     description: 'Bezwonny kompleks M.A.P. + F3 dla kotów - 30-dniowa gwarancja zwrotu pieniędzy',
     primaryText: `NIE kupuj dyfuzora Feliora dla swojego kota, jeśli masz zamiar podłączyć go w mieszkaniu tak bezmyślnie jak ja.
 
-Spójrz na zdjęcie z mojej sypialni dołączone do tego posta. Zrobiłam je z tym kciukiem w dół dokładnie 4. dnia wieczorem, kiedy wyjęłam dyfuzor z kontaktu, postawiłam go na komodzie przy kartonie zwrotnym i w duchu klęłam na czym świat stoi, że znowu dałam się naciągnąć w internecie.
+Zrobiłam je z tym kciukiem w dół dokładnie 4. dnia wieczorem, kiedy wyjęłam dyfuzor z kontaktu, postawiłam go na komodzie przy kartonie zwrotnym i w duchu klęłam na czym świat stoi, że znowu dałam się naciągnąć w internecie.
 
 Mam 51 lat i od 3 lat żyję pod 1 dachem z Borysem - wykastrowanym szarym kocurem wziętym z fundacji, który zamienił moje 64-metrowe mieszkanie w pole minowe.
 
@@ -74,7 +74,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Uczciwa kwalifikacja weterynaryjna: kryształy w pęcherzu vs stresowe zapalenie FIC (30 dni gwarancji)',
     primaryText: `„U około 23% kotów sikających poza kuwetą dyfuzor Feliora nie zmieni absolutnie nic!" - usłyszałam już od progu od naszego lekarza weterynarii z 25-letnim stażem przy stole zabiegowym.
 
-Spójrz na zdjęcie z naszego gabinetu dołączone do tego posta: dłoń doktora z kubeczkiem próbki i wydruk z analizatora tuż obok transportera. Jeśli u Twojego kota w osadzie moczu wyjdzie dokładnie taki wynik jak ten zakreślony niebieskim długopisem (kryształy struwitowe +++), zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
+dłoń doktora z kubeczkiem próbki i wydruk z analizatora tuż obok transportera. Jeśli u Twojego kota w osadzie moczu wyjdzie dokładnie taki wynik jak ten zakreślony niebieskim długopisem (kryształy struwitowe +++), zamknij ten post, odłóż zakupy w internecie i jedź prosto do lecznicy.
 
 Piszę to ku przestrodze po tym, jak sama chciałam zacząć od złej strony, a w poprzedniej przychodni zostawiłam wcześniej 890 zł bez efektu. Nasz obecny doktor wytłumaczył mi w 3 brutalnie szczerych punktach, kiedy te 23% opiekunów popełnia błąd, kupuje feromony w ciemno, a po tygodniu wypisuje wściekłe komentarze w sieci, że „wtyczka nie działa":
 
@@ -111,7 +111,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Dlaczego prawdziwe feromony M.A.P. + F3 muszą być w 100% bezwonne dla człowieka (30 dni gwarancji)',
     primaryText: `6. dnia wieczorem uklęknąłem przy listwie przypodłogowej w przedpokoju, powąchałem wpięty dyfuzor z odległości 3 centymetrów i powiedziałem do mojej żony: „Kochanie, przykro mi, ale kupiłaś zwykłą wodę w buteleczce za prawie 190 zł".
 
-Spójrz na zdjęcie mojej dłoni przy gniazdku i 2 kotów w tle dołączone do tego posta. Zrobiłem je telefonem w korytarzu dokładnie wtedy, żeby pokazać żonie, że od tygodnia grzejemy prądem bezwonny plastik, podczas gdy nasze koty dalej patrzą na siebie przez podłogę jak na śmiertelnych wrogów.
+Zrobiłem je telefonem w korytarzu dokładnie wtedy, żeby pokazać żonie, że od tygodnia grzejemy prądem bezwonny plastik, podczas gdy nasze koty dalej patrzą na siebie przez podłogę jak na śmiertelnych wrogów.
 
 Mam 39 lat i jestem z wykształcenia inżynierem budownictwa - jak coś kupuję za własne pieniądze i wpinam do gniazdka 230V, to ma świecić, buczeć albo wyraźnie pachnieć w pokoju.
 
@@ -163,7 +163,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Uważaj na olejki lawendowe i walerianę w tanich zamiennikach - różnica między zapachem a feromonem M.A.P.',
     primaryText: `Kupiłam na Allegro tani „wkład uspokajający do kontaktu dla kota" za 29,99 zł z darmowym Smartem, a po 40 minutach otwierałam w mieszkaniu wszystkie okna na oścież, bo moja kotka dostała ślinotoku i wcisnęła się ze strachu za pralkę.
 
-Spójrz na zdjęcie tylnej ścianki pudełeczka tamtego zamiennika w mojej dłoni w kuchni dołączone do tego posta. Ten skład podkreślony czerwonym długopisem kosztował moją kotkę pół dnia potwornego stresu, a mnie wyleczył raz na zawsze z kupowania „tańszych odpowiedników" na portalach aukcyjnych.
+Ten skład podkreślony czerwonym długopisem kosztował moją kotkę pół dnia potwornego stresu, a mnie wyleczył raz na zawsze z kupowania „tańszych odpowiedników" na portalach aukcyjnych.
 
 Piszę to ku przestrodze dla każdej kociary i każdego kociarza, którzy - dokładnie tak jak ja miesiąc temu - przeczytają w internecie o feromonach dla zestresowanego kota, a sekundę później pomyślą: „Po co mam przepłacać na oficjalnej stronie Feliory, skoro mam darmową dostawę na Allegro i kupię taki sam wkład do kontaktu za niecałe 30 zł?!".
 
@@ -213,7 +213,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Dlaczego dusząca obróżka na szyi podnosi kotu kortyzol zamiast go wyciszać (30 dni gwarancji na Feliorę)',
     primaryText: `Chciałam zaoszczędzić 50 złotych i zamiast dyfuzora do kontaktu zamówiłam w internecie fioletową „obróżkę uspokajającą dla kota" za 38 zł. Po 6 dniach w sobotę rano trzęsącymi się rękami rozcinałam ją na szyi mojego kota nożyczkami w kuchni.
 
-Spójrz na zdjęcie tej przeciętej na 2 części fioletowej pętli w mojej dłoni nad stołem dołączone do tego posta. Zrobiłam je od razu ku przestrodze dla dziewczyn z naszej grupy kociarskiej, żeby nikt więcej nie zafundował swojemu kotu takiego piekła za własne pieniądze.
+Zrobiłam je od razu ku przestrodze dla dziewczyn z naszej grupy kociarskiej, żeby nikt więcej nie zafundował swojemu kotu takiego piekła za własne pieniądze.
 
 Nasz 4-letni pręgowany kocur Leon po jesiennej przeprowadzce do nowego mieszkania zupełnie stracił poczucie bezpieczeństwa. Każdej nocy punktualnie między 3:00 a 4:00 nad ranem budził nas przeraźliwym, gardłowym wyciem pod drzwiami wyjściowymi, drapał lustrzane drzwi szafy przesuwnej tak, że chodziła cała rama, a 1-2 razy w tygodniu zostawiał mokrą plamę na naszej kołdrze albo na kanapie w salonie.
 
@@ -265,7 +265,7 @@ https://feliora.pl/products/dyfuzor-feromonow-feliora`,
     description: 'Porównanie weterynaryjne: jednoskładnikowe zamienniki F3 (grzałka 95°C) vs podwójny kompleks M.A.P. + F3 w Feliorze',
     primaryText: `Wysypałem na stół zabiegowy w lecznicy 2 przegrzane plastikowe wtyczki kupione na Allegro i zapytałem wprost: „Panie doktorze, po zaledwie 12 dniach szklane fiolki są puste do dna, a nasze 2 koty dalej drą z siebie futro i sikają na dywan!".
 
-Spójrz na zdjęcie 2 dyfuzorów w dłoniach naszego weterynarza dołączone do tego posta - zrobiłem je telefonem prosto nad stołem w gabinecie. Po lewej stronie kadru doktor trzyma moją pożółkłą od gorąca, wysuszoną do zera wtyczkę z aukcji po 12 dniach, a po prawej oryginalny dyfuzor Feliora z połową bursztynowej fiolki. Widać na nim jak na dłoni cały haczyk tanich zamienników.
+zrobiłem je telefonem prosto nad stołem w gabinecie. Po lewej stronie kadru doktor trzyma moją pożółkłą od gorąca, wysuszoną do zera wtyczkę z aukcji po 12 dniach, a po prawej oryginalny dyfuzor Feliora z połową bursztynowej fiolki. Widać na nim jak na dłoni cały haczyk tanich zamienników.
 
 Nie będę udawał świętego: przy dzisiejszych cenach w sklepach liczę każdą złotówkę w domowym budżecie. Kiedy miesiąc wcześniej usłyszałem o dyfuzorach feromonowych do gniazdka, moim odruchem było otwarcie aplikacji Allegro i wpisanie hasła „feromony dla kota wkład 48 ml tanio". Wyskoczyły oferty po 35, 39 i 45 zł z dostawą do Paczkomatu. Na małym ekranie telefonu każda buteleczka wyglądała dla mnie identycznie: biały plastik, gwint i płyn w szkle.
 
