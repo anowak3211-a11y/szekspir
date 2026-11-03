@@ -99,12 +99,12 @@ export const BENNETT_UK_KIDNEY_PDP_URL = 'https://bennettseed.co/products/daily-
 export const BENNETT_UK_SOFTGELS_PDP_URL = 'https://bennettseed.co/products/styrian-seed-softgels';
 export const BENNETT_UK_HAIR_PDP_URL = 'https://bennettseed.co/products/daily-shine-softgels';
 
-export const BENNETT_UK_BLADDER_ADV_URL = 'https://bennettseed.co/pages/7-reasons-unbroken-nights';
-export const BENNETT_UK_PROSTATE_STORY_ADV_URL = 'https://bennettseed.co/pages/unbroken-night-story';
-export const BENNETT_UK_PROSTATE_DR_ADV_URL = 'https://bennettseed.co/pages/james-bennett-night-guide';
-export const BENNETT_UK_KIDNEY_ADV_URL = 'https://bennettseed.co/pages/7-reasons-daily-balance';
-export const BENNETT_UK_CHOLESTEROL_ADV_URL = 'https://bennettseed.co/pages/7-reasons-plant-sterols';
-export const BENNETT_UK_HAIR_ADV_URL = 'https://bennettseed.co/pages/5-ways-fuller-hair';
+export const BENNETT_UK_BLADDER_ADV_URL = BENNETT_UK_BLADDER_PDP_URL;
+export const BENNETT_UK_PROSTATE_STORY_ADV_URL = BENNETT_UK_PROSTATE_PDP_URL;
+export const BENNETT_UK_PROSTATE_DR_ADV_URL = BENNETT_UK_PROSTATE_PDP_URL;
+export const BENNETT_UK_KIDNEY_ADV_URL = BENNETT_UK_KIDNEY_PDP_URL;
+export const BENNETT_UK_CHOLESTEROL_ADV_URL = BENNETT_UK_SOFTGELS_PDP_URL;
+export const BENNETT_UK_HAIR_ADV_URL = BENNETT_UK_HAIR_PDP_URL;
 
 export const BENNETT_UK_PDP_URL = BENNETT_UK_BLADDER_PDP_URL;
 export const BENNETT_UK_DEFAULT_URL = BENNETT_UK_BLADDER_PDP_URL;
@@ -866,7 +866,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„My husband started taking tamsulosin in June 2024. Took it every evening without fail. Stopped drinking tea after 4. Gave up the pint...”',
     mechanismCore: 'Odżywienie receptorów prostaty i mięśnia wypieracza pęcherza fitosterolami Δ7, prowadzące czytelnika na przed-lander 7 Reasons.',
-    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?v=m`,
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
     defaultImageId: 'lun-catherine-1049',
     defaultImageUrl: '/bennett-uk-images/Ad_Catherine_Hughes_1049223327991730.png',
     defaultImageHash: '',
@@ -889,7 +889,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„2 men. Same age. Same urologist. 1 had spent years getting up 4 and 5 times a night, standing over that toilet in the dark...”',
     mechanismCore: 'Zimnotłoczony austriacki olej styryjski (bogaty w wolne fitosterole Δ7) w połączeniu z Saw Palmetto wspiera pełne opróżnianie pęcherza przed snem.',
-    destinationUrl: `${BENNETT_UK_BLADDER_ADV_URL}?v=m`,
+    destinationUrl: BENNETT_UK_PROSTATE_PDP_URL,
     defaultImageId: 'lun-catherine-4662',
     defaultImageUrl: '/bennett-uk-images/Ad_Catherine_Hughes_4662104310685847.png',
     defaultImageHash: '',
@@ -1100,7 +1100,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„Millions of British women between 50 and 65 have been told their cholesterol is a bit high. My name is Sarah. I am 58. I live just outside Harrogate...”',
     mechanismCore: 'Beta-sitosterol i fitosterole Δ7 mają budowę zbliżoną do cholesterolu i konkurują z nim w jelitach, ograniczając jego wchłanianie do krwi.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'fix-17-gp-cholesterol-slip',
     defaultImageUrl: '/bennett-uk-images/Fix_17_GP_Cholesterol_Slip_Of_Paper.jpg',
     defaultImageHash: '',
@@ -1123,7 +1123,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„A huge number of British women put on statins stop taking them within the first year. This is what I did in the 6 months before my review...”',
     mechanismCore: '2,000mg zimnotłoczonego oleju styryjskiego dostarcza steroli roślinnych oraz kwasów Omega-6 (linolowego) i Omega-9 (oleinowego) wspierających profil lipidowy.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'fix-18-statin-night-calf-cramp',
     defaultImageUrl: '/bennett-uk-images/Fix_18_Statin_Night_Calf_Cramp_2AM.jpg',
     defaultImageHash: '',
@@ -1146,7 +1146,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„I have referred too many men with slightly high blood pressure for cardiac workups years later to stay quiet about this...”',
     mechanismCore: 'Naturalne tokoferole (witamina E), karotenoidy i nienasycone kwasy tłuszczowe chronią naczynia przed stresem oksydacyjnym.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'lun-nhwc-1571',
     defaultImageUrl: '/bennett-uk-images/Ad_Natural_Health_Wellness_Club_1571135268018680.png',
     defaultImageHash: '',
@@ -1169,7 +1169,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„I helped a 72-year-old stranger load his shopping into his boot at Tesco last Tuesday and he ended up sobbing in the car park...”',
     mechanismCore: 'Kompleksowe wsparcie serca, lipidów i spokojnego snu dla seniorów w 2 łatwych do połknięcia kapsułkach dziennie.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'fix-20-tesco-widower-car-park',
     defaultImageUrl: '/bennett-uk-images/Fix_20_72yo_Widower_Tesco_Car_Park_Rain.jpg',
     defaultImageHash: '',
@@ -1192,7 +1192,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„My husband was 1 of Britain’s top heart doctors. He spent 31 years treating arterial health...”',
     mechanismCore: 'Nierafinowany olej styryjski tłoczony poniżej 38°C zachowuje pełne spektrum tokoferoli i fitosteroli chroniących lipidy przed utlenianiem.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'fix-21-cardiologist-widow-notebook',
     defaultImageUrl: '/bennett-uk-images/Fix_21_Cardiologist_Widow_Notebook_Sterols.jpg',
     defaultImageHash: '',
@@ -1215,7 +1215,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„My neighbour mowed his lawn at 6:00 AM every Saturday for 30 years. Then 1 morning the mower stayed silent...”',
     mechanismCore: 'Codzienna porcja 2,000mg steroli roślinnych i kwasów Omega-6/9 jako prosty poranny nawyk wspierający układ krążenia po 50-tce.',
-    destinationUrl: BENNETT_UK_CHOLESTEROL_ADV_URL,
+    destinationUrl: BENNETT_UK_SOFTGELS_PDP_URL,
     defaultImageId: 'fix-22-neighbour-6am-lawnmower',
     defaultImageUrl: '/bennett-uk-images/Fix_22_Neighbour_6AM_Lawnmower_British_Garden.jpg',
     defaultImageHash: '',
@@ -1240,7 +1240,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„My husband spent 28 years studying kidney and urinary health in Britain. Here is what he wished every adult over 50 knew...”',
     mechanismCore: 'Sprawne, pełne opróżnianie pęcherza i antyoksydanty rozpuszczalne w tłuszczach (witamina E + karotenoidy) odciążają dolne i górne drogi moczowe.',
-    destinationUrl: BENNETT_UK_KIDNEY_ADV_URL,
+    destinationUrl: BENNETT_UK_KIDNEY_PDP_URL,
     defaultImageId: 'lun-margot-1088',
     defaultImageUrl: '/bennett-uk-images/Ad_Margot_Whitaker_1088491380596267.png',
     defaultImageHash: '',
@@ -1263,7 +1263,7 @@ export const BENNETT_UK_PRESET_ANGLES: BennettUkAnglePreset[] = [
     updatedDate: '2026-11-01',
     vocTrigger: '„Nearly half of my patients with sluggish urinary numbers spend months being told: We will keep an eye on it...”',
     mechanismCore: '2,000mg czystego, mechanicznie tłoczonego oleju bez rozpuszczalników chemicznych i dwutlenku tytanu wspiera komfort dróg moczowych.',
-    destinationUrl: BENNETT_UK_KIDNEY_ADV_URL,
+    destinationUrl: BENNETT_UK_KIDNEY_PDP_URL,
     defaultImageId: 'fix-24-kidney-ankle-sock-marks',
     defaultImageUrl: '/bennett-uk-images/Fix_24_Kidney_Ankle_Sock_Marks_Clean_No_UI.jpg',
     defaultImageHash: '',

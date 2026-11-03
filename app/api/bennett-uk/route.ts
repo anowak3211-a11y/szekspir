@@ -28,7 +28,8 @@ export const maxDuration = 300;
 
 const LEGACY_STATE_KEY_V2 = 'bennett-uk-lfs-v2-30-complete-stories-fixed-images';
 const LEGACY_STATE_KEY_V8 = 'bennett-uk-lfs-v8-34-stories-1x1-fixed';
-const STATE_KEY = 'bennett-uk-lfs-v14-4-published-pages';
+const LEGACY_STATE_KEY_V14 = 'bennett-uk-lfs-v14-4-published-pages';
+const STATE_KEY = 'bennett-uk-lfs-v15-100pct-direct-pdp';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-01T19:53:00+01:00');
 
 interface BennettUkLibraryState {
@@ -183,6 +184,12 @@ async function readBennettUkLibraryState(): Promise<{
     });
     const stored = Array.isArray(value?.ads) ? value.ads : [];
     let customImages = Array.isArray(value?.customImages) ? value.customImages : [];
+    if (customImages.length === 0) {
+      const legacyV14 = await readState<BennettUkLibraryState>(LEGACY_STATE_KEY_V14, { ads: [], customImages: [] }).catch(() => null);
+      if (Array.isArray(legacyV14?.value?.customImages) && legacyV14.value.customImages.length > 0) {
+        customImages = legacyV14.value.customImages;
+      }
+    }
     if (customImages.length === 0) {
       const legacyV8 = await readState<BennettUkLibraryState>(LEGACY_STATE_KEY_V8, { ads: [], customImages: [] }).catch(() => null);
       if (Array.isArray(legacyV8?.value?.customImages) && legacyV8.value.customImages.length > 0) {
