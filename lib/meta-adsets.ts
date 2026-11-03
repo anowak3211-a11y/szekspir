@@ -1884,7 +1884,7 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
  type AngleSpec = { angleId: string; actors: ActorOption[] };
 
  const GROUPS: Array<{
-  key: 'dzieci' | 'dorosli';
+  key: 'dzieci' | 'dorosli' | 'noom';
   campaignId: string;
   templateAdSetId: string;
   adSetName: string;
@@ -1950,6 +1950,41 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
     },
    ],
   },
+  {
+   key: 'noom',
+   campaignId: '120249967753030300',
+   templateAdSetId: '120250128234500300',
+   adSetName: '04.11 - NOOM ENDOPROTEZA & KRYSTYNA (4x)',
+   angles: [
+    {
+     angleId: 'noom-102-krystyna-62-wroclaw-schody',
+     actors: [
+      { pId: '1194345203770949', pName: 'Iwona Kożuchowska', igId: '17841412233487287' },
+      { pId: '1194345203770949', pName: 'Iwona Kożuchowska' },
+     ],
+    },
+    {
+     angleId: 'noom-103-karol-64-endoproteza-kalejdoskop',
+     actors: [
+      { pId: '1363490303507686', pName: 'Karol Mikołajczyk' },
+     ],
+    },
+    {
+     angleId: 'noom-104-corka-gosia-mama-62-wroclaw',
+     actors: [
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi', igId: '17841473314157729' },
+      { pId: '798916893308685', pName: 'Porady Mamy Gosi' },
+     ],
+    },
+    {
+     angleId: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
+     actors: [
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku', igId: '17841477743222560' },
+      { pId: '866702399857726', pName: 'Centrum Dobrego Kroku' },
+     ],
+    },
+   ],
+  },
  ];
 
  const imageHashCache = new Map<string, string>();
@@ -1961,9 +1996,7 @@ export async function pushOrthomaxTestPackToMeta(raw: unknown = {}) {
    throw new Error(`Brak pliku grafiki na dysku: ${localPath}`);
   }
   const bytes = fs.readFileSync(localPath).toString('base64');
-  const uploadName = imgUrl.includes('?v=raw2')
-   ? `raw2-${path.basename(localPath)}`
-   : path.basename(localPath);
+  const uploadName = `noom-v25-${path.basename(localPath)}`;
   const upRes = await directGraph<{ images?: Record<string, { hash?: string }> }>(
    `act_${accountId}/adimages`,
    { bytes, name: uploadName },

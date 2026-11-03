@@ -2342,8 +2342,11 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Poprawiono formę gramatyczną Orthomax StepMax z liczby pojedynczej na mnogą.');
   }
 
+  const isNoomKalejdoskop = /Kalejdoskop\s+(?:4\s+)?specjalistów/i.test(text);
+
   // 4. Strip brochure product descriptions ("zmiennej gęstości", "głębokie korytko", "wypustki") on legacy non-sport copies
   if (
+    !isNoomKalejdoskop &&
     !text.includes('orthomax-stepmax-pro') &&
     /zmiennej\s+gęstości|głębokie\s+korytko|wypustki\s+(?:na\s+powierzchni|sensoryczne|pobudzają)/i.test(text)
   ) {
@@ -2375,8 +2378,8 @@ export function sanitizeAndAuditAntkiPl(
     fixes.push('Usunięto nienaturalne zwracanie się po imieniu przez pracownicę sklepu.');
   }
 
-  // 7. Fix hyper-specific fake timestamps
-  if (/\bo\s+(?:1[789]|2[0123]):(?:0[1-9]|[12345]\d)\b/i.test(text)) {
+  // 7. Fix hyper-specific fake timestamps (except normal 22:30 bedtime in Noom)
+  if (!isNoomKalejdoskop && /\bo\s+(?:1[789]|2[0123]):(?:0[1-9]|[12345]\d)\b/i.test(text)) {
     text = text.replace(/\bo\s+(?:1[89]|2[012]):(?:0[1-9]|[12345]\d)\b/gi, 'wieczorem');
     text = text.replace(/\bo\s+17:(?:0[1-9]|[12345]\d)\b/gi, 'po południu');
     text = text.replace(/\bo\s+23:(?:0[1-9]|[12345]\d)\b/gi, 'w środku nocy');
@@ -2426,7 +2429,7 @@ export function sanitizeAndAuditAntkiPl(
   if (!/99[,.]99|99\s*zł|50\s*zł/i.test(text)) {
     warnings.push('Sprawdź, czy w tekście znajduje się aktualna cena (99,99 zł / 50 zł za parę w 1+1).');
   }
-  if (!/30\s*dni/i.test(text)) {
+  if (!/30(?:\s*|-)?dni/i.test(text)) {
     warnings.push('Brak wzmianki o 30-dniowej gwarancji zwrotu bez ryzyka.');
   }
   if (words < 400) {
