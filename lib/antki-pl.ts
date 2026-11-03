@@ -1113,7 +1113,7 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   {
     id: 'noom-antek-102-krystyna-schody-wroclaw',
     url: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
-    label: '🔥 NOOM #102 (Iwona 62 l. · Wrocław) · Przekreślone skierowanie do szpitala (Oddział Ortopedyczny) na stole obok butów i wkładek',
+    label: '🔥 NOOM #102 (Iwona 62 l. · Wrocław) · Przekreślone skierowanie do szpitala (Oddział Ortopedyczny) na stole obok herbaty i wkładek (bez butów na stole)',
     source: 'ai',
     groupCode: 'ZAL',
     defaultForAngles: [102],

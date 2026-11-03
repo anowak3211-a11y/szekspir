@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v24-noom-clean-orthomax';
+const STATE_KEY = 'antki-pl-library-v25-noom-clean-v2';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];

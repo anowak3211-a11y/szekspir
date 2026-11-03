@@ -307,10 +307,10 @@ Kolano jest zgniatane od wewnętrznej strony jak w imadle - kość trze o kość
 
 „Zastrzyki kwasu hialuronowego za 1350 zł nasmarowały staw, ale zaraz po wyjściu z gabinetu włożyła pani te same płaskie buty i przez 90 dni wykręcała kolano przy każdym kroku” - wytłumaczył. - „Żeby odciążyć kolano na stałe, 3 rzeczy pod stopą muszą działać naraz: głębokie korytko trzymające piętę w pionie, sprężysty mostek podpierający łuk jak resor oraz warstwa pochłaniająca uderzenie o beton i schody.”
 
-Orthomax.pl - wpisałam w telefonie
+Skąd wzięłyśmy te wkładki
 
-Jeszcze tego samego wieczoru usiadłam z mamą w kuchni i wpisałam w wyszukiwarkę wielowarstwowe wkładki profilowane z korytkiem pięty i dynamicznym mostkiem.
-Trafiłyśmy na polską stronę orthomax.pl i model Orthomax StepMax.
+Specjalista powiedział nam wprost, żeby nie kupować miękkich żelowych wkładek z apteki ani sztywnych plastikowych desek za 400 zł, tylko sprawdzić polskie wielowarstwowe wkładki profilowane Orthomax StepMax (z korytkiem pięty i sprężystym mostkiem).
+Wieczorem weszłam na stronę orthomax.pl.
 W pakiecie 1+1 GRATIS 2 pary kosztowały 99,99 zł (czyli 50 zł za parę), a producent dawał pełne 30 dni gwarancji zwrotu bez ryzyka - nawet po miesiącu normalnego noszenia w butach.
 Mama kręciła głową: „Gosiu, wydałam 3570 zł na lekarzy i zastrzyki, a wkładki za 50 zł za parę mają mi pomóc?”.
 Odpowiedziałam: „Mamo, ryzykujemy 0 zł. Masz 30 dni na test. 1 parę włożymy do twoich półbutów na dwór, a 2. parę do domowych kapci. Jak za 3 tygodnie dalej będziesz budzić się o 2:00 w nocy, odsyłam je i oddają nam pieniądze”.
@@ -392,9 +392,8 @@ Odpowiedziałem: ani jedno, ani drugie. Miękki żel z drogerii za 30 zł ugniat
 
 Wizyta kontrolna po 6 tygodniach
 
-Kiedy pani Krystyna wróciła do mojego gabinetu po 6 tygodniach, weszła bez trzymania się córki pod rękę.
-Okazało się, że jeszcze tego samego wieczoru po naszej pierwszej rozmowie jej córka wpisała w wyszukiwarkę dynamiczne wkładki 3-punktowe i zamówiła dla mamy ze strony orthomax.pl wielowarstwowe wkładki profilowane Orthomax StepMax w pakiecie 1+1 GRATIS (2 pary za 99,99 zł, czyli 50 zł za parę - 1 para do półbutów wyjściowych, 2. para do domowych kapci) z 30-dniową gwarancją zwrotu.
-Pani Krystyna zrelacjonowała mi swoje pierwsze tygodnie krótko i bez koloryzowania:
+Jeszcze tego samego wieczoru córka pani Krystyny wpisała w wyszukiwarkę model, o którym rozmawialiśmy - wielowarstwowe wkładki profilowane Orthomax StepMax ze strony orthomax.pl. Zamówiły pakiet 1+1 GRATIS (1 para do półbutów wyjściowych, 2. para do domowych kapci).
+Kiedy pani Krystyna wróciła do mojego gabinetu po 6 tygodniach, weszła bez trzymania się córki pod rękę i zrelacjonowała mi pierwsze tygodnie krótko, bez koloryzowania:
 - Po 3 dniach chodzenia w butach i kapciach wieczorne rozpychanie w kolanie wyciszyło się na tyle, że przespała noc od 22:30 do 6:15 bez pobudki o 2:00 nad ranem.
 - Po 2 tygodniach poranna sztywność skróciła się z 30 minut do kilkunastu sekund, a skarpetki zaczęła zakładać bez bólu.
 - Po 4 tygodniach wróciła do półgodzinnych spacerów po parku i wchodzi na swoje 3. piętro bez przystanków co 2 stopnie.

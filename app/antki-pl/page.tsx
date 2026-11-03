@@ -13,6 +13,7 @@ import {
   ANTKI_PL_IMAGE_LIBRARY,
   ANTKI_PL_PRESET_ANGLES,
   ANTKI_PL_STAGE_LABELS,
+  ORTHOMAX_PL_DEFAULT_URL,
   getDefaultImageForAngle,
   type AntkiPlFunnelStage,
   type AntkiPlGeneratedAd,
@@ -336,7 +337,7 @@ export default function AntkiPlPage() {
 
   const applyLocalImageOverrides = useCallback((adsList: AntkiPlGeneratedAd[]): AntkiPlGeneratedAd[] => {
     try {
-      const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab') : null;
+      const rawLocal = typeof window !== 'undefined' ? window.localStorage.getItem('antki_pl_saved_images_v7_no_boots_clean') : null;
       if (!rawLocal) return adsList;
       const parsedLocal = JSON.parse(rawLocal) as Record<
         string,
@@ -819,10 +820,10 @@ export default function AntkiPlPage() {
     ) => {
       try {
         if (typeof window === 'undefined') return;
-        const raw = window.localStorage.getItem('antki_pl_saved_images_v6_clean_ab');
+        const raw = window.localStorage.getItem('antki_pl_saved_images_v7_no_boots_clean');
         const current = raw ? JSON.parse(raw) : {};
         const merged = { ...current, ...updates };
-        window.localStorage.setItem('antki_pl_saved_images_v6_clean_ab', JSON.stringify(merged));
+        window.localStorage.setItem('antki_pl_saved_images_v7_no_boots_clean', JSON.stringify(merged));
       } catch {
         // Ignore storage errors
       }
