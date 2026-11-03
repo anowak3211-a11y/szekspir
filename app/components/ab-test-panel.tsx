@@ -10,6 +10,7 @@ const NOOM_ANTKI_ITEMS: Array<{
   fanpage: string;
   narrator: string;
   shortTitle: string;
+  imageUrl: string;
 }> = [
   {
     id: 'noom-102-krystyna-62-wroclaw-schody',
@@ -17,6 +18,7 @@ const NOOM_ANTKI_ITEMS: Array<{
     fanpage: 'Iwona Kożuchowska',
     narrator: 'Iwona, 62 lata, Wrocław',
     shortTitle: '3. piętro bez windy, poranna sztywność i kalejdoskop 5 lekarzy',
+    imageUrl: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
   },
   {
     id: 'noom-103-karol-64-endoproteza-kalejdoskop',
@@ -24,6 +26,7 @@ const NOOM_ANTKI_ITEMS: Array<{
     fanpage: 'Karol Mikołajczyk',
     narrator: 'Karol, 64 lata, Kraków',
     shortTitle: '4 lata, 5 gabinetów i wyrok endoprotezy za 35 000 zł',
+    imageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
   },
   {
     id: 'noom-104-corka-gosia-mama-62-wroclaw',
@@ -31,6 +34,7 @@ const NOOM_ANTKI_ITEMS: Array<{
     fanpage: 'Porady Mamy Gosi',
     narrator: 'Córka Małgorzata o 62-letniej mamie Krystynie',
     shortTitle: 'Mama przestała wychodzić z 3. piętra we Wrocławiu (3570 zł z emerytury)',
+    imageUrl: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
   },
   {
     id: 'noom-105-fizjo-5-lekarzy-przed-endoproteza',
@@ -38,6 +42,7 @@ const NOOM_ANTKI_ITEMS: Array<{
     fanpage: 'Centrum Dobrego Kroku',
     narrator: 'Fizjoterapeuta Tomasz, 41 lat, Wrocław',
     shortTitle: 'Teczka od 4 lekarzy na biurku i test 10 sekund przed lustrem',
+    imageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
   },
 ];
 
@@ -624,35 +629,52 @@ export default function AbTestPanel({
                       background: isSelected ? '#27272a' : '#09090b',
                       color: '#f4f4f5',
                       cursor: 'pointer',
+                      display: 'flex',
+                      gap: 10,
+                      alignItems: 'center',
                     }}
                   >
-                    <div
+                    <img
+                      src={item.imageUrl}
+                      alt={`NOOM #${item.number}`}
                       style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: 4,
+                        width: 54,
+                        height: 54,
+                        borderRadius: 6,
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                        border: '1px solid rgba(255,255,255,0.12)',
                       }}
-                    >
-                      <span
-                        className="ab-mono"
+                    />
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div
                         style={{
-                          fontSize: 11,
-                          fontWeight: 700,
-                          color: isSelected ? '#f4f4f5' : '#a1a1aa',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: 3,
                         }}
                       >
-                        ANTEK #{item.number}
-                      </span>
-                      <span style={{ fontSize: 10.5, color: '#a1a1aa', fontWeight: 500 }}>
-                        {item.fanpage}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: '#f4f4f5', lineHeight: 1.3 }}>
-                      {item.narrator}
-                    </div>
-                    <div style={{ fontSize: 11, color: '#a1a1aa', marginTop: 3, lineHeight: 1.3 }}>
-                      {item.shortTitle}
+                        <span
+                          className="ab-mono"
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: isSelected ? '#f4f4f5' : '#a1a1aa',
+                          }}
+                        >
+                          ANTEK #{item.number}
+                        </span>
+                        <span style={{ fontSize: 10, color: '#a1a1aa', fontWeight: 500 }}>
+                          {item.fanpage}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11.5, fontWeight: 600, color: '#f4f4f5', lineHeight: 1.25 }}>
+                        {item.narrator}
+                      </div>
+                      <div style={{ fontSize: 10.5, color: '#a1a1aa', marginTop: 2, lineHeight: 1.25 }}>
+                        {item.shortTitle}
+                      </div>
                     </div>
                   </button>
                 );
@@ -700,18 +722,37 @@ export default function AbTestPanel({
 
                 <div
                   style={{
+                    display: 'grid',
+                    gridTemplateColumns: '110px 1fr',
+                    gap: 10,
+                    alignItems: 'center',
                     padding: '8px 11px',
                     borderRadius: 6,
                     background: '#09090b',
                     border: '1px solid rgba(255,255,255,0.08)',
                     marginBottom: 8,
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: '#f4f4f5',
                   }}
                 >
-                  <span style={{ color: '#71717a', fontWeight: 500, marginRight: 6 }}>Headline:</span>
-                  {activeNoomCopy.headline}
+                  <img
+                    src={activeNoomMeta.imageUrl}
+                    alt={`Kreacja 1:1 #${activeNoomMeta.number}`}
+                    style={{
+                      width: 110,
+                      height: 110,
+                      borderRadius: 6,
+                      objectFit: 'cover',
+                      border: '1px solid rgba(255,255,255,0.12)',
+                      display: 'block',
+                    }}
+                  />
+                  <div>
+                    <div style={{ fontSize: 10.5, color: '#71717a', fontWeight: 600, marginBottom: 4 }}>
+                      DEDYKOWANE ZDJĘCIE 1:1 + HEADLINE (#{activeNoomMeta.number}):
+                    </div>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#f4f4f5', lineHeight: 1.4 }}>
+                      {activeNoomCopy.headline}
+                    </div>
+                  </div>
                 </div>
 
                 <pre

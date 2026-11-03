@@ -22,7 +22,7 @@ import { ANTKI_PL_ARGON_AUTHORED_COPY, buildAllArgonPrewrittenAds } from '@/lib/
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'antki-pl-library-v22-noom-krystyna';
+const STATE_KEY = 'antki-pl-library-v23-noom-1to1-clean';
 
 interface AntkiPlLibraryState {
   ads: AntkiPlGeneratedAd[];
@@ -83,6 +83,20 @@ function ensureAdImage(ad: AntkiPlGeneratedAd): AntkiPlGeneratedAd {
     !nextAd.imageUrl.includes('/sport_antek_') &&
     !nextAd.imageUrl.startsWith('data:image/') &&
     !nextAd.imageUrl.startsWith('http')
+  ) {
+    nextAd = {
+      ...nextAd,
+      imageUrl: preset.defaultImageUrl,
+      imageHash: preset.defaultImageHash,
+    };
+  }
+  if (
+    angleNum >= 102 &&
+    preset?.defaultImageUrl &&
+    (!nextAd.imageUrl ||
+      nextAd.imageUrl.includes('kie-dorosli-43-spacer-lawka') ||
+      nextAd.imageUrl.includes('kie-dorosli-41-miska-z-woda') ||
+      nextAd.imageUrl.endsWith('.png'))
   ) {
     nextAd = {
       ...nextAd,

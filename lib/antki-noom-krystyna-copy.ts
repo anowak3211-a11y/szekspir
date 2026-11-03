@@ -9,7 +9,7 @@ export const ANTKI_NOOM_KRYSTYNA_COPY: Record<
     primaryText: `Poranna sztywność. Schody. Bezsenność z bólu o 2:00 w nocy.
 4 lata i 5 lekarzy - a problem mojego kolana leżał 40 centymetrów niżej, w miejscu, na które żaden z nich nawet nie spojrzał.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten prosty rysunek z 4 strzałkami obok mojego wypisu i pudełka po zastrzykach? To kartka, która uratowała mnie przed stołem operacyjnym za 35 000 zł.
+Spójrz na zdjęcie dołączone do tego posta. Widzisz to przekreślone długopisem skierowanie na oddział ortopedyczny na moim stole obok butów i wkładek? Przez 4 lata myślałam, że stół operacyjny za 35 000 zł to mój jedyny ratunek.
 
 Nazywam się Iwona, mam 62 lata i mieszkam we Wrocławiu.
 Zaczęło się zupełnie niewinnie.
@@ -119,7 +119,7 @@ P.S. Jeśli masz w domu twarde kafelki albo panele, koniecznie weź opcję 1+1 G
     primaryText: `Słowo „endoproteza - 35 000 zł prywatnie albo 3 lata w kolejce na NFZ” uderzyło mnie w gabinecie jak obuchem w głowę.
 Mam 64 lata, na imię Karol i przez 4 lata leczyłem kolano u 5 specjalistów, wydając ponad 3600 zł na coś, co od początku było tylko skutkiem, a nie przyczyną.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten prosty schemat z 4 strzałkami od stopy do kolana? Tę kartkę narysował mi ostatni specjalista w 2 minuty po tym, jak kazał mi zdjąć buty.
+Spójrz na zdjęcie dołączone do tego posta. Widzisz te 2 prześwietlenia na monitorze w gabinecie - po lewej endoproteza kolana, a po prawej zapadnięty łuk stopy, na który wskazuje długopis lekarza? To był moment, w którym zrozumiałem, dlaczego 4 poprzednich specjalistów przez 4 lata leczyło nie to miejsce, co trzeba.
 
 Zaczęło się 4 lata temu od porannej sztywności.
 Pierwsze 20-30 minut po wstaniu z łóżka o 6:00 rano moje lewe kolano pracowało jak zardzewiały zawias. Szedłem do kuchni na sztywnej nodze, trzymając się framugi.
@@ -199,7 +199,7 @@ P.S. W pakiecie 1+1 GRATIS możesz wybrać 2 różne rozmiary lub kolory (np. 1 
     primaryText: `Nigdy nie zapomnę widoku mojej 62-letniej mamy siedzącej przy kuchennym stole we Wrocławiu nad kartką z napisem: „Kwalifikacja do endoprotezoplastyki stawu kolanowego”.
 Ręce jej się trzęsły, a w oczach miała łzy bezsilności po 4 latach chodzenia od lekarza do lekarza.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten odręczny schemat z 4 strzałkami obok pudełek po maściach? To rysunek z gabinetu 5. specjalisty, do którego zaciągnęłam mamę niemal siłą - i który wyjaśnił, dlaczego poprzednich 4 lekarzy leczyło tylko skutek, ignorując przyczynę.
+Spójrz na zdjęcie dołączone do tego posta. Widzisz to pudełko na kuchennym stole mojej mamy - pełne tubek żeli przeciwbólowych, paragonów z apteki i sztywnych wkładek, które tylko obcierały jej stopy? To pamiątka po 4 lekarzach, którzy przez 4 lata leczyli tylko skutek, ignorując przyczynę.
 
 Mam na imię Gosia i przez ostatnie 4 lata patrzyłam, jak ból kolana po kawałku zabiera mojej mamie normalne życie.
 Najpierw była poranna sztywność - przez pierwsze 20-30 minut po przebudzeniu mama chodziła po mieszkaniu jak na szczudłach, zakładając skarpetki wyłącznie na siedząco na brzegu łóżka.
@@ -268,7 +268,7 @@ P.S. Jeśli zamawiasz pakiet 1+1 GRATIS (2 pary za 99,99 zł) dla mamy, taty alb
     primaryText: `Kiedy do mojego gabinetu weszła 62-letnia pani Krystyna ze swoją córką, położyła na biurku teczkę ważącą dobre pół kilograma.
 4 lata leczenia. 4 specjalistów. Rachunki na ponad 3400 zł za maści, tabletki, 3 zastrzyki z kwasu hialuronowego po 1500 zł i prywatną rehabilitację. A na samym wierzchu skierowanie na endoprotezę stawu kolanowego - koszt prywatny: 35 000 zł.
 
-Spójrz na zdjęcie dołączone do tego posta. Widzisz ten prosty schemat z 4 strzałkami, który narysowałem jej na kartce? To dokładnie ten sam mechanizm, przez który 8 na 10 moich pacjentów po 50. roku życia leczy kolano przez lata bez trwałego efektu.
+Spójrz na zdjęcie dołączone do tego posta. Widzisz ten prosty 10-sekundowy test przed lustrem w moim gabinecie, w którym dłońmi unoszę wewnętrzny łuk stopy pacjentki i prostuję oś całej nogi? To dokładny moment, w którym 8 na 10 moich pacjentów po 50. roku życia po raz pierwszy rozumie, dlaczego leki i zastrzyki w kolano dawały ulgę tylko na chwilę.
 
 Pani Krystyna opowiedziała mi historię, którą w gabinecie słyszę niemal codziennie:
 - Zaczęło się od porannej sztywności przez pierwsze 20-30 minut po wstaniu z łóżka.

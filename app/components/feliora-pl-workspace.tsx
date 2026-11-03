@@ -1673,12 +1673,12 @@ export default function FelioraPlWorkspace({
                   : '📸 Generuj 12 zdjęć Raw iPhone 3:4 pod ten kąt (2K Google AI · styl NHS z całego skryptu)'}
               </button>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                {/* Primary Image (Kreacja A) */}
+              <div>
+                {/* Dedicated 1:1 Image */}
                 <div
                   style={{
                     background: '#120921',
-                    border: '1px solid #5c2f14',
+                    border: '2px solid #8b5cf6',
                     borderRadius: '10px',
                     padding: '10px',
                     display: 'flex',
@@ -1687,10 +1687,12 @@ export default function FelioraPlWorkspace({
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#a78bfa' }}>Kreacja A (Główna)</span>
+                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#a78bfa' }}>
+                      📸 Dedykowane zdjęcie 1:1 (Kąt #{activePreset.number})
+                    </span>
                     <button
                       type="button"
-                      onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
+                      onClick={() => openLightboxForUrl(activeAd.imageUrl, `Zdjęcie · Kąt #${activePreset.number}`)}
                       style={{
                         background: 'rgba(139, 92, 246, 0.18)',
                         color: '#a78bfa',
@@ -1706,18 +1708,17 @@ export default function FelioraPlWorkspace({
                     </button>
                   </div>
                   <div
-                    onClick={() => openLightboxForUrl(activeAd.imageUrl, `Kreacja A · Kąt #${activePreset.number}`)}
+                    onClick={() => openLightboxForUrl(activeAd.imageUrl, `Zdjęcie · Kąt #${activePreset.number}`)}
                     title="Kliknij, aby powiększyć na cały ekran"
                     style={{ position: 'relative', cursor: 'zoom-in' }}
                   >
                     <img
                       src={activeAd.imageUrl}
-                      alt="Kreacja A"
+                      alt="Kreacja 1:1"
                       style={{
                         width: '100%',
-                        aspectRatio: '3 / 4',
+                        aspectRatio: '1 / 1',
                         objectFit: 'cover',
-                        objectPosition: 'top center',
                         borderRadius: '8px',
                         background: '#261308',
                         display: 'block',
@@ -1738,90 +1739,12 @@ export default function FelioraPlWorkspace({
                       cursor: 'pointer',
                     }}
                   >
-                    Zmień Kreację A
-                  </button>
-                </div>
-
-                {/* Secondary Image (Kreacja B) */}
-                <div
-                  style={{
-                    background: '#120921',
-                    border: '1px solid #5c2f14',
-                    borderRadius: '10px',
-                    padding: '10px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#c4b5fd' }}>Kreacja B (Split A/B)</span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        openLightboxForUrl(
-                          activeAd.secondImageUrl || activeAd.imageUrl,
-                          `Kreacja B · Kąt #${activePreset.number}`,
-                        )
-                      }
-                      style={{
-                        background: 'rgba(251, 146, 60, 0.15)',
-                        color: '#c4b5fd',
-                        border: '1px solid rgba(251, 146, 60, 0.4)',
-                        borderRadius: '5px',
-                        padding: '2px 7px',
-                        fontSize: '10.5px',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      🔍 Powiększ
-                    </button>
-                  </div>
-                  <div
-                    onClick={() =>
-                      openLightboxForUrl(
-                        activeAd.secondImageUrl || activeAd.imageUrl,
-                        `Kreacja B · Kąt #${activePreset.number}`,
-                      )
-                    }
-                    title="Kliknij, aby powiększyć na cały ekran"
-                    style={{ position: 'relative', cursor: 'zoom-in' }}
-                  >
-                    <img
-                      src={activeAd.secondImageUrl || activeAd.imageUrl}
-                      alt="Kreacja B"
-                      style={{
-                        width: '100%',
-                        aspectRatio: '3 / 4',
-                        objectFit: 'cover',
-                        objectPosition: 'top center',
-                        borderRadius: '8px',
-                        background: '#261308',
-                        display: 'block',
-                      }}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setImagePickerSlot('secondary')}
-                    style={{
-                      background: '#361b0b',
-                      color: '#ede9fe',
-                      border: '1px solid #5c2f14',
-                      borderRadius: '6px',
-                      padding: '6px',
-                      fontSize: '11.5px',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Zmień Kreację B
+                    Zmień zdjęcie
                   </button>
                 </div>
               </div>
 
-              {/* ANGLE-SPECIFIC GENERATED PHOTOS (12x RAW IPHONE 3:4 NHS STYLE) */}
+              {/* ANGLE-SPECIFIC GENERATED PHOTOS */}
               {imageLibrary.some(img => img.angleId === activePreset.id) && (
                 <div
                   style={{
@@ -1835,7 +1758,7 @@ export default function FelioraPlWorkspace({
                   }}
                 >
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#c4b5fd' }}>
-                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} (Raw iPhone 3:4 · styl NHS ·{' '}
+                    ✨ Nowo wygenerowane specjalnie do Kąta #{activePreset.number} ({' '}
                     {imageLibrary.filter(img => img.angleId === activePreset.id).length} szt.):
                   </span>
                   <div
@@ -1849,7 +1772,6 @@ export default function FelioraPlWorkspace({
                       .filter(img => img.angleId === activePreset.id)
                       .map(img => {
                         const isA = activeAd.imageUrl === img.url;
-                        const isB = activeAd.secondImageUrl === img.url;
                         return (
                           <div
                             key={`angle-${img.id}`}
@@ -1858,11 +1780,7 @@ export default function FelioraPlWorkspace({
                               borderRadius: '8px',
                               overflow: 'hidden',
                               background: '#1d1033',
-                              border: isB
-                                ? '2px solid #fbbf24'
-                                : isA
-                                ? '2px solid #8b5cf6'
-                                : '1px solid #5c2f14',
+                              border: isA ? '2px solid #8b5cf6' : '1px solid #5c2f14',
                               display: 'flex',
                               flexDirection: 'column',
                             }}
@@ -1877,19 +1795,18 @@ export default function FelioraPlWorkspace({
                                 alt={img.label}
                                 style={{
                                   width: '100%',
-                                  aspectRatio: '3 / 4',
+                                  aspectRatio: '1 / 1',
                                   objectFit: 'cover',
-                                  objectPosition: 'top center',
                                   display: 'block',
                                 }}
                               />
-                              {(isA || isB) && (
+                              {isA && (
                                 <span
                                   style={{
                                     position: 'absolute',
                                     top: '4px',
                                     right: '4px',
-                                    background: isA && isB ? '#059669' : isB ? '#d97706' : '#7c3aed',
+                                    background: '#7c3aed',
                                     color: '#fff',
                                     fontSize: '9.5px',
                                     fontWeight: 800,
@@ -1897,50 +1814,26 @@ export default function FelioraPlWorkspace({
                                     borderRadius: '4px',
                                   }}
                                 >
-                                  {isA && isB ? 'A + B' : isB ? 'Kreacja B' : 'Kreacja A'}
+                                  ✓ AKTYWNE
                                 </span>
                               )}
                             </div>
-                            <div
+                            <button
+                              type="button"
+                              onClick={() => void handleAssignImage(img, 'primary')}
                               style={{
-                                display: 'grid',
-                                gridTemplateColumns: '1fr 1fr',
+                                background: isA ? '#7c3aed' : '#120921',
+                                color: isA ? '#ffffff' : '#c4b5fd',
+                                border: 'none',
                                 borderTop: '1px solid #5c2f14',
-                                background: '#120921',
+                                padding: '5px 4px',
+                                fontSize: '10px',
+                                fontWeight: 800,
+                                cursor: 'pointer',
                               }}
                             >
-                              <button
-                                type="button"
-                                onClick={() => void handleAssignImage(img, 'primary')}
-                                style={{
-                                  background: isA ? '#7c3aed' : 'transparent',
-                                  color: isA ? '#ffffff' : '#c4b5fd',
-                                  border: 'none',
-                                  borderRight: '1px solid #5c2f14',
-                                  padding: '5px 4px',
-                                  fontSize: '10px',
-                                  fontWeight: 800,
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                {isA ? '✓ Kreacja A' : 'Ustaw A'}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => void handleAssignImage(img, 'secondary')}
-                                style={{
-                                  background: isB ? '#d97706' : 'transparent',
-                                  color: isB ? '#ffffff' : '#fcd34d',
-                                  border: 'none',
-                                  padding: '5px 4px',
-                                  fontSize: '10px',
-                                  fontWeight: 800,
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                {isB ? '✓ Kreacja B' : 'Ustaw B'}
-                              </button>
-                            </div>
+                              {isA ? '✓ Aktywne' : 'Ustaw zdjęcie'}
+                            </button>
                           </div>
                         );
                       })}
@@ -1948,7 +1841,7 @@ export default function FelioraPlWorkspace({
                 </div>
               )}
 
-              {/* ENLARGED GRID OF ALL 15 KIE.AI RAW PHONE PHOTOS (CLICK TO ZOOM, A/B BUTTONS TO ASSIGN) */}
+              {/* ENLARGED GRID OF ALL PHOTOS */}
               <div
                 style={{
                   background: '#120921',
@@ -1962,7 +1855,7 @@ export default function FelioraPlWorkspace({
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
                   <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#a78bfa' }}>
-                    📸 Surowe zdjęcia z telefonu ({imageLibrary.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
+                    📸 Biblioteka Zdjęć ({imageLibrary.length} szt. · Kliknij zdjęcie = Powiększ 🔍):
                   </span>
                 </div>
                 <div
@@ -1974,7 +1867,6 @@ export default function FelioraPlWorkspace({
                 >
                   {imageLibrary.map(img => {
                     const isA = activeAd.imageUrl === img.url;
-                    const isB = activeAd.secondImageUrl === img.url;
                     return (
                       <div
                         key={img.id}
@@ -1983,11 +1875,7 @@ export default function FelioraPlWorkspace({
                           borderRadius: '8px',
                           overflow: 'hidden',
                           background: '#1d1033',
-                          border: isB
-                            ? '2px solid #fbbf24'
-                            : isA
-                            ? '2px solid #8b5cf6'
-                            : '1px solid #5c2f14',
+                          border: isA ? '2px solid #8b5cf6' : '1px solid #5c2f14',
                           display: 'flex',
                           flexDirection: 'column',
                         }}
@@ -2022,13 +1910,13 @@ export default function FelioraPlWorkspace({
                           >
                             🔍
                           </span>
-                          {(isA || isB) && (
+                          {isA && (
                             <span
                               style={{
                                 position: 'absolute',
                                 top: '5px',
                                 right: '5px',
-                                background: isA && isB ? '#059669' : isB ? '#d97706' : '#7c3aed',
+                                background: '#7c3aed',
                                 color: '#fff',
                                 fontSize: '10px',
                                 fontWeight: 800,
@@ -2036,52 +1924,27 @@ export default function FelioraPlWorkspace({
                                 borderRadius: '4px',
                               }}
                             >
-                              {isA && isB ? 'Aktywna A+B' : isB ? 'Aktywna B' : 'Aktywna A'}
+                              ✓ AKTYWNE
                             </span>
                           )}
                         </div>
 
-                        {/* Quick Assign A / B bar below each thumbnail */}
-                        <div
+                        <button
+                          type="button"
+                          onClick={() => void handleAssignImage(img, 'primary')}
                           style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
+                            background: isA ? '#7c3aed' : '#1c0e05',
+                            color: isA ? '#ffffff' : '#a78bfa',
+                            border: 'none',
                             borderTop: '1px solid #3e2070',
-                            background: '#1c0e05',
+                            padding: '5px 4px',
+                            fontSize: '10.5px',
+                            fontWeight: 800,
+                            cursor: 'pointer',
                           }}
                         >
-                          <button
-                            type="button"
-                            onClick={() => void handleAssignImage(img, 'primary')}
-                            style={{
-                              background: isA ? '#7c3aed' : 'transparent',
-                              color: isA ? '#ffffff' : '#a78bfa',
-                              border: 'none',
-                              borderRight: '1px solid #3e2070',
-                              padding: '5px 4px',
-                              fontSize: '10.5px',
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {isA ? '✓ Kreacja A' : 'Ustaw A'}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => void handleAssignImage(img, 'secondary')}
-                            style={{
-                              background: isB ? '#d97706' : 'transparent',
-                              color: isB ? '#ffffff' : '#fcd34d',
-                              border: 'none',
-                              padding: '5px 4px',
-                              fontSize: '10.5px',
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {isB ? '✓ Kreacja B' : 'Ustaw B'}
-                          </button>
-                        </div>
+                          {isA ? '✓ Aktywne zdjęcie' : 'Ustaw zdjęcie'}
+                        </button>
                       </div>
                     );
                   })}
@@ -2171,42 +2034,6 @@ export default function FelioraPlWorkspace({
                     <div style={{ fontWeight: 700, fontSize: '13.5px', color: '#050505' }}>{activeFanpage.name}</div>
                     <div style={{ fontSize: '11.5px', color: '#65676b' }}>Sponsorowane · 🌍</div>
                   </div>
-                </div>
-
-                {/* Switcher between Kreacja A and Kreacja B in FB Feed Preview */}
-                <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '7px' }}>
-                  <button
-                    type="button"
-                    onClick={() => setFbPreviewSlot('primary')}
-                    style={{
-                      background: fbPreviewSlot === 'primary' ? '#7c3aed' : 'transparent',
-                      color: fbPreviewSlot === 'primary' ? '#ffffff' : '#475569',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '4px 8px',
-                      fontSize: '10.5px',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Kreacja A
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFbPreviewSlot('secondary')}
-                    style={{
-                      background: fbPreviewSlot === 'secondary' ? '#d97706' : 'transparent',
-                      color: fbPreviewSlot === 'secondary' ? '#ffffff' : '#475569',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '4px 8px',
-                      fontSize: '10.5px',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Kreacja B
-                  </button>
                 </div>
               </div>
 

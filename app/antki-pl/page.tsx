@@ -1861,7 +1861,13 @@ export default function AntkiPlPage() {
   const activeResolvedImage = useMemo(() => {
     if (!activeAngle) return imageLibrary[0];
     const defaultUrl = activeAngle.defaultImageUrl || getDefaultImageForAngle(activeAngle.number).url;
-    const savedUrl = activeAd?.imageUrl;
+    const rawSavedUrl = activeAd?.imageUrl;
+    const isBrokenLegacyNoomUrl =
+      rawSavedUrl &&
+      (rawSavedUrl.includes('kie-dorosli-43-spacer-lawka') ||
+        rawSavedUrl.includes('kie-dorosli-41-miska-z-woda') ||
+        rawSavedUrl.endsWith('.png'));
+    const savedUrl = isBrokenLegacyNoomUrl ? defaultUrl : rawSavedUrl;
     const dedicatedFirst = forAngleImages[0];
     const userModified = Boolean(activeAd?.updatedAt && activeAd.updatedAt > 1792616400000);
     const isUnmodifiedPlaceholder =
@@ -2792,26 +2798,7 @@ export default function AntkiPlPage() {
                             cursor: "pointer",
                           }}
                         >
-                          Ustaw A
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            activeAngle && void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)
-                          }
-                          style={{
-                            flex: 1,
-                            padding: "4px 6px",
-                            borderRadius: 5,
-                            border: 0,
-                            background: isSecond ? "#d97706" : "#3b1d0a",
-                            color: "#fed7aa",
-                            fontSize: 10.5,
-                            fontWeight: 700,
-                            cursor: "pointer",
-                          }}
-                        >
-                          Ustaw B
+                          {isPrimary ? "✓ Aktywne" : "Ustaw zdjęcie"}
                         </button>
                       </div>
                     </div>
@@ -3952,33 +3939,14 @@ export default function AntkiPlPage() {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  A
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    void assignImageToAngles([activeAngle.id], task.asset!, `Antek #${activeAngle.number}`, 2)
-                                  }
-                                  style={{
-                                    flex: 1,
-                                    padding: "2px 0",
-                                    fontSize: 9.5,
-                                    fontWeight: 800,
-                                    background: "#d97706",
-                                    color: "#fff",
-                                    border: 0,
-                                    borderRadius: 4,
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  B
+                                  Ustaw
                                 </button>
                               </div>
                             </>
                           ) : (
                             <div
                               style={{
-                                aspectRatio: "3 / 4",
+                                aspectRatio: "1 / 1",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -3996,206 +3964,76 @@ export default function AntkiPlPage() {
                   </div>
                 )}
 
-                {/* SIDE-BY-SIDE KREACJA A & KREACJA B (IDENTICAL TO FELIORA PL) */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  {/* Kreacja A */}
-                  <div
-                    onClick={() => setImageSlotTarget(1)}
-                    style={{
-                      background: "#160b04",
-                      border: imageSlotTarget === 1 ? "2px solid #f97316" : "1px solid #5c2d10",
-                      borderRadius: 10,
-                      padding: 10,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 8,
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fb923c" }}>Kreacja A (Główna)</span>
-                      {activeResolvedImage && (
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation();
-                            setLightboxAsset(activeResolvedImage);
-                          }}
-                          style={{
-                            background: "rgba(249, 115, 22, 0.18)",
-                            color: "#fdba74",
-                            border: "1px solid rgba(249, 115, 22, 0.45)",
-                            borderRadius: 5,
-                            padding: "2px 7px",
-                            fontSize: 10.5,
-                            fontWeight: 700,
-                            cursor: "pointer",
-                          }}
-                        >
-                          🔍 Powiększ
-                        </button>
-                      )}
-                    </div>
+                {/* SINGLE 1:1 DEDICATED IMAGE PREVIEW (ZERO SPLIT A/B) */}
+                <div
+                  style={{
+                    background: "#160b04",
+                    border: "2px solid #f97316",
+                    borderRadius: 10,
+                    padding: 12,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: "#fb923c" }}>
+                      📸 Dedykowane zdjęcie 1:1 (Antek #{activeAngle.number})
+                    </span>
                     {activeResolvedImage && (
-                      <div
+                      <button
+                        type="button"
                         onClick={e => {
                           e.stopPropagation();
                           setLightboxAsset(activeResolvedImage);
                         }}
-                        title="Kliknij, aby powiększyć na cały ekran"
-                        style={{ position: "relative", cursor: "zoom-in" }}
-                      >
-                        <img
-                          src={activeResolvedImage.url}
-                          alt={activeResolvedImage.label}
-                          style={{
-                            width: "100%",
-                            aspectRatio: "1 / 1",
-                            objectFit: "cover",
-                            borderRadius: 8,
-                            background: "#261308",
-                            display: "block",
-                          }}
-                        />
-                      </div>
-                    )}
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "#ffedd5",
-                        fontWeight: 600,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {activeResolvedImage?.label}
-                    </div>
-                  </div>
-
-                  {/* Kreacja B */}
-                  <div
-                    onClick={() => setImageSlotTarget(2)}
-                    style={{
-                      background: "#160b04",
-                      border: imageSlotTarget === 2 ? "2px solid #fbbf24" : "1px solid #5c2d10",
-                      borderRadius: 10,
-                      padding: 10,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 8,
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fbbf24" }}>Kreacja B (Split A/B)</span>
-                      <div style={{ display: "flex", gap: 4 }}>
-                        {(activeResolvedSecondImage || activeResolvedImage) && (
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation();
-                              setLightboxAsset(activeResolvedSecondImage || activeResolvedImage || null);
-                            }}
-                            style={{
-                              background: "rgba(251, 191, 36, 0.16)",
-                              color: "#fde68a",
-                              border: "1px solid rgba(251, 191, 36, 0.4)",
-                              borderRadius: 5,
-                              padding: "2px 7px",
-                              fontSize: 10.5,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                            }}
-                          >
-                            🔍 Powiększ
-                          </button>
-                        )}
-                        {activeResolvedSecondImage && (
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation();
-                              if (!activeAngle || !activeResolvedImage) return;
-                              void updateTwoImageConfig(
-                                activeAngle.id,
-                                {
-                                  imageUrl: activeResolvedImage.url,
-                                  imageHash: activeResolvedImage.imageHash,
-                                  secondImageUrl: "",
-                                  secondImageHash: "",
-                                },
-                                `Usunięto Kreację B z Antka #${activeAngle.number}.`,
-                              );
-                            }}
-                            style={{
-                              background: "rgba(239, 68, 68, 0.18)",
-                              color: "#fca5a5",
-                              border: "1px solid #7f1d1d",
-                              borderRadius: 5,
-                              padding: "2px 6px",
-                              fontSize: 10,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                            }}
-                          >
-                            ✕
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    {activeResolvedSecondImage ? (
-                      <>
-                        <div
-                          onClick={e => {
-                            e.stopPropagation();
-                            setLightboxAsset(activeResolvedSecondImage);
-                          }}
-                          title="Kliknij, aby powiększyć na cały ekran"
-                          style={{ position: "relative", cursor: "zoom-in" }}
-                        >
-                          <img
-                            src={activeResolvedSecondImage.url}
-                            alt={activeResolvedSecondImage.label}
-                            style={{
-                              width: "100%",
-                              aspectRatio: "1 / 1",
-                              objectFit: "cover",
-                              borderRadius: 8,
-                              background: "#261308",
-                              display: "block",
-                            }}
-                          />
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 11,
-                            color: "#fde68a",
-                            fontWeight: 600,
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {activeResolvedSecondImage.label}
-                        </div>
-                      </>
-                    ) : (
-                      <div
                         style={{
-                          aspectRatio: "1 / 1",
-                          borderRadius: 8,
-                          border: "1px dashed #5c2d10",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          textAlign: "center",
-                          padding: 12,
-                          fontSize: 11.5,
+                          background: "rgba(249, 115, 22, 0.18)",
                           color: "#fdba74",
+                          border: "1px solid rgba(249, 115, 22, 0.45)",
+                          borderRadius: 5,
+                          padding: "3px 9px",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          cursor: "pointer",
                         }}
                       >
-                        Kliknij „Ustaw B” pod dowolnym zdjęciem z biblioteki poniżej
-                      </div>
+                        🔍 Powiększ
+                      </button>
                     )}
+                  </div>
+                  {activeResolvedImage && (
+                    <div
+                      onClick={e => {
+                        e.stopPropagation();
+                        setLightboxAsset(activeResolvedImage);
+                      }}
+                      title="Kliknij, aby powiększyć na cały ekran"
+                      style={{ position: "relative", cursor: "zoom-in" }}
+                    >
+                      <img
+                        src={activeResolvedImage.url}
+                        alt={activeResolvedImage.label}
+                        style={{
+                          width: "100%",
+                          aspectRatio: "1 / 1",
+                          objectFit: "cover",
+                          borderRadius: 8,
+                          background: "#261308",
+                          display: "block",
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      fontSize: 11.5,
+                      color: "#ffedd5",
+                      fontWeight: 600,
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {activeResolvedImage?.label}
                   </div>
                 </div>
 
@@ -4280,7 +4118,6 @@ export default function AntkiPlPage() {
                   >
                     {filteredGalleryImages.map(asset => {
                       const isA = activeResolvedImage?.url === asset.url;
-                      const isB = activeResolvedSecondImage?.url === asset.url;
                       return (
                         <div
                           key={asset.id}
@@ -4289,11 +4126,7 @@ export default function AntkiPlPage() {
                             borderRadius: 8,
                             overflow: "hidden",
                             background: "#241207",
-                            border: isA
-                              ? "2px solid #f97316"
-                              : isB
-                              ? "2px solid #fbbf24"
-                              : "1px solid #4a2610",
+                            border: isA ? "2px solid #f97316" : "1px solid #4a2610",
                             display: "flex",
                             flexDirection: "column",
                           }}
@@ -4328,7 +4161,7 @@ export default function AntkiPlPage() {
                             >
                               {asset.source === "meta" ? "📚 META" : "🔍"}
                             </span>
-                            {(isA || isB) && (
+                            {isA && (
                               <span
                                 style={{
                                   position: "absolute",
@@ -4338,11 +4171,11 @@ export default function AntkiPlPage() {
                                   borderRadius: 4,
                                   fontSize: 9.5,
                                   fontWeight: 800,
-                                  background: isA ? "#ea580c" : "#d97706",
+                                  background: "#ea580c",
                                   color: "#ffffff",
                                 }}
                               >
-                                {isA ? "KREACJA A" : "KREACJA B"}
+                                ✓ AKTYWNE
                               </span>
                             )}
                           </div>
@@ -4371,42 +4204,23 @@ export default function AntkiPlPage() {
                             >
                               {asset.label}
                             </div>
-                            <div style={{ display: "flex", gap: 4 }}>
-                              <button
-                                type="button"
-                                onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)}
-                                style={{
-                                  flex: 1,
-                                  padding: "3px 0",
-                                  borderRadius: 4,
-                                  border: 0,
-                                  background: isA ? "#ea580c" : "#361b0b",
-                                  color: "#ffffff",
-                                  fontSize: 10,
-                                  fontWeight: 700,
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {isA ? "✓ A" : "Ustaw A"}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 2)}
-                                style={{
-                                  flex: 1,
-                                  padding: "3px 0",
-                                  borderRadius: 4,
-                                  border: 0,
-                                  background: isB ? "#d97706" : "#361b0b",
-                                  color: "#fed7aa",
-                                  fontSize: 10,
-                                  fontWeight: 700,
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {isB ? "✓ B" : "Ustaw B"}
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => void assignImageToAngles([activeAngle.id], asset, `Antek #${activeAngle.number}`, 1)}
+                              style={{
+                                width: "100%",
+                                padding: "4px 0",
+                                borderRadius: 4,
+                                border: 0,
+                                background: isA ? "#ea580c" : "#361b0b",
+                                color: "#ffffff",
+                                fontSize: 10,
+                                fontWeight: 700,
+                                cursor: "pointer",
+                              }}
+                            >
+                              {isA ? "✓ Aktywne zdjęcie" : "Ustaw zdjęcie"}
+                            </button>
                           </div>
                         </div>
                       );
@@ -4685,46 +4499,25 @@ export default function AntkiPlPage() {
               <div style={{ fontSize: 13, fontWeight: 700, color: "#ffedd5" }}>{lightboxAsset.label}</div>
               <div style={{ display: "flex", gap: 8 }}>
                 {activeAngle && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`, 1);
-                        setLightboxAsset(null);
-                      }}
-                      style={{
-                        padding: "7px 12px",
-                        borderRadius: 7,
-                        border: 0,
-                        background: "#ea580c",
-                        color: "#ffffff",
-                        fontWeight: 800,
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Ustaw jako Kreację A
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`, 2);
-                        setLightboxAsset(null);
-                      }}
-                      style={{
-                        padding: "7px 12px",
-                        borderRadius: 7,
-                        border: 0,
-                        background: "#d97706",
-                        color: "#ffffff",
-                        fontWeight: 800,
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Ustaw jako Kreację B
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void assignImageToAngles([activeAngle.id], lightboxAsset, `Antek #${activeAngle.number}`, 1);
+                      setLightboxAsset(null);
+                    }}
+                    style={{
+                      padding: "7px 12px",
+                      borderRadius: 7,
+                      border: 0,
+                      background: "#ea580c",
+                      color: "#ffffff",
+                      fontWeight: 800,
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    ✓ Ustaw to zdjęcie
+                  </button>
                 )}
                 <button
                   type="button"

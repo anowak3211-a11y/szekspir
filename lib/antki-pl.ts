@@ -1112,8 +1112,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'noom-antek-102-krystyna-schody-wroclaw',
-    url: '/antki-pl-images/kie-dorosli-43-spacer-lawka.jpg',
-    label: '🔥 NOOM #102 (Iwona 62 l. · Wrocław) · Poranna sztywność, 3. piętro bez windy i kalejdoskop 5 lekarzy',
+    url: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
+    label: '🔥 NOOM #102 (Iwona 62 l. · Wrocław) · Przekreślone skierowanie do szpitala (Oddział Ortopedyczny) na stole obok butów i wkładek',
     source: 'ai',
     groupCode: 'ZAL',
     defaultForAngles: [102],
@@ -1123,8 +1123,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'noom-antek-103-karol-endoproteza-rtg',
-    url: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.png',
-    label: '🔥 NOOM #103 (Karol 64 l. · Kraków) · 4 lata i 5 lekarzy przed wyrokiem endoprotezy za 35 000 zł',
+    url: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
+    label: '🔥 NOOM #103 (Karol 64 l. · Kraków) · 2 RTG na monitorze w gabinecie: endoproteza kolana vs zapadnięty łuk stopy',
     source: 'ai',
     groupCode: 'ZAL',
     defaultForAngles: [103],
@@ -1134,8 +1134,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'noom-antek-104-gosia-mama-62-wroclaw',
-    url: '/antki-pl-images/kie-dorosli-41-miska-z-woda.jpg',
-    label: '🔥 NOOM #104 (Porady Mamy Gosi · Mama Krystyna 62 l.) · Córka odkrywa, dlaczego mama przestała wychodzić z 3. piętra',
+    url: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
+    label: '🔥 NOOM #104 (Porady Mamy Gosi · Mama Krystyna 62 l.) · Pudełko pełne żeli przeciwbólowych, paragonów i sztywnych wkładek na stole mamy',
     source: 'ai',
     groupCode: 'ZAL',
     defaultForAngles: [104],
@@ -1145,8 +1145,8 @@ export const ANTKI_PL_IMAGE_LIBRARY: AntkiPlImageAsset[] = [
   },
   {
     id: 'noom-antek-105-fizjo-5-lekarzy-kalejdoskop',
-    url: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.png',
-    label: '🔥 NOOM #105 (Centrum Dobrego Kroku · Fizjo) · Pacjentka po 4 latach i 5 lekarzach z teczką badań przed endoprotezą',
+    url: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
+    label: '🔥 NOOM #105 (Centrum Dobrego Kroku · Fizjo) · 10-sekundowy test podniesienia łuku stopy dłońmi przed lustrem w gabinecie',
     source: 'ai',
     groupCode: 'RYCIAK',
     defaultForAngles: [105],
@@ -2098,7 +2098,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Forum Gazeta.pl (wątek „Gonartroza i uciekająca pięta - jakie wkładki dynamiczne”) -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: '4 lata, 5 lekarzy i wyrok endoprotezy w wieku 62 lat. A problem leżał 30 cm niżej, w moich butach',
-    defaultImageUrl: '/antki-pl-images/kie-dorosli-43-spacer-lawka.jpg',
+    defaultImageUrl: '/antki-pl-images/zal-v2-01-skierowanie-szpital.jpg',
     defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
   },
   {
@@ -2122,7 +2122,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Komentarze pod filmem fizjoterapeuty na YouTubie -> Pakiet 1+1 GRATIS Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Usłyszałem od ortopedy słowo „endoproteza” w wieku 64 lat. Dopiero 5. specjalista kazał mi zdjąć buty',
-    defaultImageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.png',
+    defaultImageUrl: '/antki-pl-images/zal-v2-02-dwa-rtg-kolano-stopa.jpg',
     defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
   },
   {
@@ -2146,7 +2146,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Pielęgniarka z oddziału ortopedycznego na grupie FB -> Pakiet 1+1 GRATIS Orthomax StepMax dla mamy + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Moja 62-letnia mama wydała 3570 zł z emerytury na 4 lekarzy. Dopiero 5. spojrzał na jej bose stopy',
-    defaultImageUrl: '/antki-pl-images/kie-dorosli-41-miska-z-woda.jpg',
+    defaultImageUrl: '/antki-pl-images/zal-v2-03-pudelko-wstydu-2140zl.jpg',
     defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
   },
   {
@@ -2170,7 +2170,7 @@ export const ANTKI_PL_PRESET_ANGLES: AntkiPlPresetAngle[] = [
     discoveryBridge:
       'Test 10 sekund przed lustrem + wątek pacjentów o dynamicznych wkładkach Orthomax StepMax + ciąg dalszy na /pages/kp-krystyna-1',
     defaultHeadline: 'Przez 4 lata 4 specjalistów leczyło jej prawe kolano. Żaden nie kazał jej zdjąć butów i przejść 5 kroków',
-    defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.png',
+    defaultImageUrl: '/antki-pl-images/zal-v2-05-skutek-vs-przyczyna-lustro.jpg',
     defaultDestinationUrl: 'https://szekspir.vercel.app/pages/kp-krystyna-1',
   },
 ];
