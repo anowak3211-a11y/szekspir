@@ -17,7 +17,7 @@ Taka kartka wisiała na moich drzwiach. Przyklejona szarą taśmą na wysokości
 
 Niżej ktoś dopisał czarnym markerem, że pies wyje od 8:00 do 16:00, nie da się pracować zdalnie i że następnym krokiem będzie wniosek z art. 51 KW oraz zgłoszenie do TOZ-u.
 
-Zerwałam ten papier tak gwałtownie, że pod szarą taśmą zostały białe skrawki wyrwane z zeszytu.
+Zerwałam ten papier tak gwałtownie, że pod szarą taśmą zostały białe skrawki papieru.
 
 Stałam bez ruchu z kluczami w dłoni i wstrzymywałam oddech. Nasłuchiwałam, czy za drzwiami obok ktoś nie stoi po ciemku przy wizjerze, czekając na moją reakcję.
 
