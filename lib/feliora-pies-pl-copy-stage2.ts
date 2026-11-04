@@ -65,17 +65,17 @@ Zapytał mnie, czy kiedyś na trasie ktoś zajechał mi drogę tak, że o włos 
 
 Siedziałam w ciszy, bo wreszcie ktoś nazwał po imieniu to, na co patrzyłam pod biurkiem.
 
-„Najpierw musimy zdjąć z niego ten strach w samym mieszkaniu” - mówił dalej lekarz. Opowiedział mi o naturalnym, niewyczuwalnym dla ludzi sygnale zapachowym, który karmiąca suka wydziela przy brzuchu w 1. dniach po porodzie - matczynym feromonie kojącym D.A.P.
+„Najpierw musimy zdjąć z niego ten strach w samym mieszkaniu, pani Małgorzato” - mówił dalej lekarz. Opowiedział mi o naturalnym, niewyczuwalnym dla ludzi sygnale zapachowym, który karmiąca suka wydziela przy brzuchu w 1. dniach po porodzie - matczynym feromonie kojącym D.A.P.
 
 Pies odbiera ten kod narządem nad podniebieniem przez całe życie. Sygnał mówi jego głowie bez żadnych słów: gniazdo jest bezpieczne, nikt cię nie porzucił, możesz zamknąć oczy.
 
-Doktor oderwał karteczkę z notesu i zapisał na niej wyłącznie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Uprzedził mnie tylko uczciwie na odchodne, że gdybyśmy wspomagali się dyfuzorem z takim feromonem do gniazdka, przez ścianę działową sygnał z 1 kontaktu nie przejdzie, więc musiałby pracować osobno w przedpokoju przy drzwiach oraz w salonie. „I niech pani nie liczy, że po 15 minutach pies padnie jak po narkozie. To nie są psychotropy, więc układowi nerwowemu trzeba dać od 5 do 10 dni ciągłej pracy dzień i noc” - dodał na pożegnanie, nie podając żadnej konkretnej marki.
 
-„Wepnie to pani do otwartego kontaktu w przedpokoju przy drzwiach oraz w salonie, bo przez ścianę działową sygnał z 1 gniazdka nie przejdzie” - uprzedził mnie uczciwie na odchodne. „Tylko niech pani nie liczy, że po 15 minutach pies padnie jak po narkozie. To nie są psychotropy, więc proszę mu dać od 5 do 10 dni ciągłej pracy w gniazdku dzień i noc”.
+Wieczorem w kuchni napisała do mnie na komunikatorze Marta z sąsiedniego biurka w firmie. Widziała w ciągu dnia moje zaczerwienione oczy, a sama 12 miesięcy wcześniej adoptowała lękliwego psa po przejściach i dopytywała, co powiedział weterynarz.
 
-Wieczorem w kuchni wyciągnęłam z torebki kartkę od doktora, wpisałam zapis w Google i sama dopisałam na końcu słowo „opinie”.
+Kiedy odpisałam jej o adrenalinie odcinającej żołądek i o matczynym feromonie D.A.P., oddzwoniła po 30 sekundach: „Gosia, przerabiałam identyczny armagedon na kamerce! Tylko nie kupuj tanich wtyczek z marketu, bo wywietrzeją po 7 dniach. Wepnij weterynaryjny dyfuzor Feliora w przedpokoju i w salonie, u nas to uratowało kaucję za mieszkanie” - i podesłała mi link do strony feliora.pl.
 
-Czytałam wpisy dziewczyn, które dokładnie jak ja płakały w pracy nad kamerką. Kiedy jednak weszłam na stronę producenta i zobaczyłam 189,99 zł za zestaw na 2 pokoje, głośno prychnęłam pod nosem nad stołem:
+Kliknęłam link, poczytałam historie dziewczyn, które dokładnie jak ja płakały w pracy nad podglądem z domu, ale kiedy zjechałam niżej i zobaczyłam 189,99 zł za zestaw na 2 pokoje, głośno prychnęłam pod nosem nad stołem:
 
 „Jasne, mrożony pasztet pod samym nosem go nie rusza, a uciszy go bezwonna wtyczka w ścianie. Kolejne naciąganie głupich psiarzy na prawie 200 zł”.
 
@@ -181,9 +181,9 @@ Sam mam w domu starego psa ze schroniska i doskonale wiem, jak szybko bezradnoś
 
 Wyjaśniłem im, jak działa matczyny feromon kojący D.A.P., który skóra karmiącej suki wydziela w 1. dniach po porodzie, żeby uspokoić ślepe szczenięta w gnieździe. Receptor nad podniebieniem psa nie zapomina tego kodu do starości, więc na 8-letniego Maksia działa on dokładnie tak samo kojąco jak na malucha.
 
-Wziąłem kartkę z bloczka i zapisałem wyraźnie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Poleciłem im wprost, żeby zamiast leków zamówili weterynaryjny dyfuzor Feliora z feromonem D.A.P.
 
-Podałem karteczkę przez biurko. Mąż wziął ją w 2 palce, przeczytał zapis, zmarszczył brwi i spojrzał na mnie z wyraźną nieufnością.
+Mąż zmarszczył brwi, zerknął na obandażowaną łapę psa pod krzesłem i spojrzał na mnie z wyraźną nieufnością.
 
 „Panie doktorze, ale szczerze - 8-letni pies drapie nam ścianę do gołego betonu, a ma go zatrzymać wtyczka do kontaktu jak zapach z drogerii? Przecież żona pomyśli, że zwariowałem, jak zamiast leków przyniosę odświeżacz powietrza za prawie 200 zł”.
 
@@ -199,9 +199,9 @@ Postawiłem przed nimi od razu twarde, uczciwe warunki, żeby nie oczekiwali cud
 
 Wyjaśniłem im barierę ścian działowych w bloku: cząsteczki feromonu nie przenikają przez mur ani płyty gipsowe. 1 sztuka schowana w salonie nie przepchnie sygnału za róg do korytarza pod drzwiami wejściowymi, gdzie wybucha panika. Muszą pracować 2 otwarte gniazdka przez 24 godziny na dobę - 1 w korytarzu przy drzwiach, a 2. w pokoju przy legowisku - nieprzerwanie przez 5 do 10 dni, aż kortyzol we krwi opadnie.
 
-„Nie sprzedaję tego u siebie z szafki, zamówicie to państwo sami w internecie” - dodałem na koniec. „Producent daje pełną 30-dniową gwarancję zwrotu pieniędzy. Jeśli po 2 albo 3 tygodniach Maksio dalej będzie drapał gładź, spakujecie puste wtyczki i odzyskacie pieniądze co do grosza. Niczym państwo nie ryzykują”.
+„Na oficjalnej stronie feliora.pl producent daje pełną 30-dniową gwarancję zwrotu pieniędzy” - dodałem na koniec. „Jeśli po 2 albo 3 tygodniach Maksio dalej będzie drapał gładź, spakujecie państwo wtyczki do pudełek i odzyskacie pieniądze co do grosza. Niczym nie ryzykujecie”.
 
-Mąż pokiwał powoli głową, schował kartkę do portfela i uścisnął mi dłoń. Taki uczciwy układ wreszcie do niego trafił.
+Mąż pokiwał powoli głową, zapisał w telefonie nazwę Feliora i uścisnął mi dłoń. Taki uczciwy układ wreszcie do niego trafił.
 
 Zajrzeli do lecznicy po 4 tygodniach na kontrolę zrośniętego pazura i szczepienie.
 
@@ -281,7 +281,7 @@ Rano pojechałam z Brunem do dr. wet. Edmunda Newelskiego, lekarza z 25-letnim s
 
 Doktor jednak spokojnie przemył łapy Bruna, obejrzał kły pod światło i podał mi chusteczkę.
 
-„Szkliwo całe, łapy zagoją się w 4 dni” - powiedział łagodnie. „Niech pani siebie nie biczuje, bo chciała pani dobrze, tylko w internecie nikt nie odróżnia psich psot od paniki separacyjnej”.
+„Szkliwo całe, łapy zagoją się w 4 dni, pani Iwono” - powiedział łagodnie. „Niech pani siebie nie biczuje, bo chciała pani dobrze, tylko w internecie nikt nie odróżnia psich psot od paniki separacyjnej”.
 
 Wytłumaczył mi to prostymi słowami: klatka sprawdza się wyłącznie wtedy, gdy pies ma spokojną głowę. U psa po schronisku zamknięcie drzwi mieszkania odpala w mózgu dziki wyrzut adrenaliny i 1 rozkaz: uciekaj, biegnij za swoim stadem!
 
@@ -293,13 +293,13 @@ Poczułam ukłucie w sercu, ale też ogromną ulgę, że ktoś wreszcie to zrozu
 
 Wyjaśnił mi, że zamiast otępiających tabletek wypełnia się dom matczynym feromonem kojącym D.A.P. - bezwonnym dla ludzi sygnałem, który karmiąca suka wydziela przy szczeniakach w 1. dniach po porodzie. Pies odbiera go przy każdym wdechu i jego układ nerwowy dostaje naturalny kod bezpieczeństwa, bez chemii w żołądku.
 
-Doktor wziął kartkę i zapisał na niej wyłącznie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+„Zamiast tabletek niech państwo zamówią weterynaryjny dyfuzor Feliora z tym feromonem” - poradził mi wprost w rozmowie doktor.
 
 „Tylko uprzedzam uczciwie: to nie jest środek nasenny, który zwali psa z nóg w 15 minut tego samego wieczoru” - zastrzegł od razu. „Hormony stresu opadają powoli, więc 2 wtyczki w przedpokoju oraz w salonie muszą chodzić w gniazdkach 24 godziny na dobę przez co najmniej 7 do 10 dni”.
 
 Po powrocie do domu mąż wziął kombinerki, odpiął pogięte stalowe drzwiczki od klatki i bez słowa zniósł je do piwnicy. W rogu salonu został sam otwarty stelaż wyłożony świeżym kocem.
 
-Wieczorem usiadłam przy stole w kuchni, położyłam przed sobą karteczkę od lekarza, wpisałam zapis z niej w Google i od siebie dopisałam słowo „opinie”.
+Wieczorem usiadłam przy stole w kuchni i otworzyłam w telefonie stronę feliora.pl, o której mówił rano weterynarz.
 
 Kiedy pokazałam mężowi ekran telefonu ze stroną Feliory, po całym tygodniu nerwów po prostu w nim pękło. Spojrzał na zabandażowane łapy Bruna, potem na mnie i wybuchnął na całą kuchnię:
 
@@ -387,13 +387,13 @@ Kiedy wprowadzasz pod swój dach 2. wystraszonego psa, z opuszek jego łap bije 
 
 Z kolei u psa w żałobie, takiego jak Borys, razem ze śmiercią starszej suczki z powietrza w mieszkaniu zniknął z dnia na dzień cały kojący zapach jego stada. Kiedy starsza pani zamykała drzwi do apteki, Borys zostawał w martwej ciszy i wpadał w dziki lęk, że stracił już wszystkich na świecie.
 
-W żadnym z tych 2 domów nie sięgnąłem po receptę na otępiające psychotropy. Zamiast tego zarówno młodemu małżeństwu, jak i później starszej pani od Borysa zapisałem na kartce z mojego biurka dokładnie to samo: „feromon kojący D.A.P. - dyfuzor Feliora”.
+W żadnym z tych 2 domów nie sięgnąłem po receptę na otępiające psychotropy. Zamiast tego zarówno młodemu małżeństwu, jak i później starszej pani od Borysa poleciłem w rozmowie dokładnie to samo rozwiązanie: weterynaryjny dyfuzor Feliora z matczynym feromonem kojącym D.A.P.
 
 Nigdy nie zapomnę reakcji tego niewyspanego od 3 tygodni męża z rozkładanej sofy.
 
-Przetarł zaczerwienione oczy, popatrzył na moją karteczkę i aż wybuchnął z bezsilności:
+Przetarł zaczerwienione oczy, spojrzał na mnie jak na wariata i aż wybuchnął z bezsilności:
 
-„Panie doktorze, one skaczą sobie z kłami do gardeł przy miskach, krew leci na kafelki, a pan mi zapisuje wtyczkę do kontaktu?! Ja tu przyszedłem po mocne tabletki, bo w weekend oddamy młodego z powrotem do fundacji!”.
+„Panie doktorze, one skaczą sobie z kłami do gardeł przy miskach, krew leci na kafelki, a pan mi poleca wtyczkę do kontaktu?! Ja tu przyszedłem po mocne tabletki, bo w weekend oddamy młodego z powrotem do fundacji!”.
 
 Spojrzałem mu prosto w oczy i odpowiedziałem stanowczo, bez owijania w bawełnę:
 
@@ -403,13 +403,13 @@ Postawiłem przed nimi żelazne zasady bezpieczeństwa na najbliższe 7 do 14 dn
 
 Kazałem im nadal karmić psy w 2 osobnych kątach mieszkania za zamkniętymi drzwiami, schować z podłogi do szafki wszystkie kości oraz gryzaki i wpiąć na stałe 2 dyfuzory w odsłonięte gniazdka pracujące 24 godziny na dobę: 1 w wąskim korytarzu, gdzie psy mijają się w przejściu, a 2. w salonie przy kanapie - bo przez ściany działowe sygnał D.A.P. nie przeleci.
 
-„Zanim podpisze pan papiery w fundacji i zostanie z tym poczuciem winy na lata, dajcie sobie czas” - dodałem spokojnie. „Na stronie producenta ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli napięcie między psami nie opadnie, wyjmie pan wtyczki ze ściany, odeśle i odzyska pieniądze”.
+„Zanim podpisze pan papiery w fundacji i zostanie z tym poczuciem winy na lata, dajcie sobie czas” - dodałem spokojnie. „Na stronie producenta feliora.pl ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli napięcie między psami nie opadnie, wyjmie pan wtyczki ze ściany, odeśle i odzyska pieniądze”.
 
-2 godziny później starsza pani od Borysa obracała taką samą karteczkę w spracowanych dłoniach i zapytała cicho z tym typowym lękiem emerytki, która w aptece ogląda każdą złotówkę z 2 stron:
+2 godziny później starsza pani od Borysa splotła spracowane dłonie na kolanach i zapytała cicho z tym typowym lękiem emerytki, która w aptece ogląda każdą złotówkę z 2 stron:
 
 „Panie doktorze, a czy ja naprawdę nie wyrzucę tego grosza w błoto? Bo kupiłam już w sklepie zoologicznym krople na ziołach za 60 zł, a Borys nawet nie podszedł do miski i wył pod drzwiami jeszcze głośniej”.
 
-Uspokoiłem ją łagodnie, że tutaj Borys nie musi niczego połykać, wkład pracuje w kontakcie bezwonnie aż przez 60 dni, a wnuczka przy zamawianiu przez internet ma schować pudełko - bo przez pełne 30 dni chroni ją gwarancja zwrotu co do złotówki.
+Uspokoiłem ją łagodnie, że tutaj Borys nie musi niczego połykać, wkład pracuje w kontakcie bezwonnie aż przez 60 dni, a wnuczce wysłaliśmy od razu z jej telefonu SMS-a z nazwą Feliora i adresem feliora.pl, żeby przy zamawianiu schowała pudełko - bo przez pełne 30 dni chroni ją gwarancja zwrotu co do złotówki.
 
 Te 2 przypadki sprawdziłem na kontroli po miesiącu.
 
@@ -491,9 +491,9 @@ Widziałem, jak z jego twarzy schodzi wielomiesięczne napięcie, ustępując mi
 
 Wyjaśniłem mu, jak wyciszyć czuwanie pod drzwiami bez faszerowania psa tabletkami: wpinając do kontaktu dyfuzor z matczynym feromonem kojącym D.A.P., czyli bezwonnym dla nas sygnałem bezpieczeństwa, który suka wydziela przy młodych po porodzie. Ten kod mówi psiemu mózgowi, że hałasy za drzwiami na klatce nie są atakiem na gniazdo i można spać dalej.
 
-Wziąłem karteczkę z biurka i zapisałem wyłącznie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Poleciłem mu wprost weterynaryjny dyfuzor Feliora z tym feromonem.
 
-Kiedy przesunąłem karteczkę po blacie w jego stronę, przeczytał ją i parsknął gorzkim, krótkim śmiechem.
+Kiedy usłyszał o wtyczce do gniazdka, parsknął gorzkim, krótkim śmiechem.
 
 „Doktorze, wydałem ponad 3 000 zł na 3 behawiorystów z certyfikatami, mam szafę pełną linek i saszetek na parówki, a teraz wepnę do ściany plastik za 200 zł i pies przestanie rzucać się na jamnika przed blokiem? Przecież to brzmi jak kiepski żart”.
 
@@ -507,9 +507,9 @@ Mężczyzna zamrugał zaskoczony moją szczerością, więc dokończyłem spokoj
 
 Na koniec dodałem argument, na który żaden zdroworozsądkowy facet nie potrafi się obrazić:
 
-„A wie pan, czym to się jeszcze różni od tamtych kursów? Żaden z tych 3 trenerów nie oddał panu z tych 3 000 zł nawet 1 złotówki, kiedy pod klatką dalej była szarpanina. Tutaj zamawia pan prosto ze strony producenta i ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli za 3 tygodnie Karmel dalej będzie zrywał się 20 razy dziennie pod próg na każdy trzask windy, wyjmie pan wtyczki z gniazdek, odeśle i odzyska pieniądze”.
+„A wie pan, czym to się jeszcze różni od tamtych kursów? Żaden z tych 3 trenerów nie oddał panu z tych 3 000 zł nawet 1 złotówki, kiedy pod klatką dalej była szarpanina. Tutaj zamawia pan prosto ze strony producenta feliora.pl i ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli za 3 tygodnie Karmel dalej będzie zrywał się 20 razy dziennie pod próg na każdy trzask windy, wyjmie pan wtyczki z gniazdek, odeśle i odzyska pieniądze”.
 
-Właściciel wyprostował plecy, schował karteczkę do kieszeni bluzy i uśmiechnął się krzywo pod nosem: „Uczciwie postawiona sprawa, panie doktorze. Sprawdzam to”.
+Właściciel wyprostował plecy, zapisał w telefonie adres feliora.pl i uśmiechnął się krzywo pod nosem: „Uczciwie postawiona sprawa, panie doktorze. Sprawdzam to”.
 
 Widzieliśmy się ponownie na kontroli po 4 tygodniach, gdy przyszedł do lecznicy po zwykłe tabletki na kleszcze.
 
@@ -525,7 +525,7 @@ Przełamanie przyszło dopiero w ciszy mieszkania pod koniec 1. tygodnia. Kiedy 
 
 Po 4 tygodniach: na widok obcego, dużego samca idącego z bliska tym samym chodnikiem Karmel nadal potrafi się spiąć i postawić sierść na karku - to żywy pies z krwią w żyłach, nie robot na pilota.
 
-Ale po zejściu z 8 godzin w mieszkaniu nie wybiega już z klatki schodowej z przekrwionymi białkami oczu i pianą na pysku. Wreszcie po roku męczarni na osiedlu słyszy głos właściciela na smyczy, bierze smaczka z ręki i potrafi minąć psa łukiem, a żona znów wychodzi z nim w dzień zamiast skradać się za śmietnikami o 22:00.
+Ale po zejściu z 8 godzin w mieszkaniu nie wybiega już z klatki schodowej z przekrwionymi białkami oczu i pianą na pysku. Wreszcie po 12 miesiącach męczarni na osiedlu słyszy głos właściciela na smyczy, bierze smaczka z ręki i potrafi minąć psa łukiem, a żona znów wychodzi z nim w dzień zamiast skradać się za śmietnikami o 22:00.
 
 Powiem to jako lekarz krótko i bez owijania w bawełnę.
 

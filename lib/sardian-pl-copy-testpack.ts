@@ -36,7 +36,7 @@ O szamponie SARDIAN usłyszałem miesiąc temu od Michała - mojego inspektora n
 
 Zapytałem go prosto z mostu, czy poleciał po cichu do Stambułu na przeszczep za 17 000 zł. Roześmiał się, wyciągnął telefon i pokazał mi zdjęcie czarnej, kanciastej butelki stojącej u niego pod prysznicem. Powiedział krótko, że jego dermatolog kazał mu wywalić drogeryjne piany na siarczanach i myć głowę formułą SARDIAN z rdestem wielokwiatowym, żeń-szeniem i mentolem.
 
-Wieczorem w domu wpisałem w telefon nazwę SARDIAN i sam dopisałem słowo opinie. Kiedy zobaczyłem cenę na oficjalnej stronie, prychnąłem pod nosem. Pomyślałem: jasne, ponad 100 zł za szampon do włosów, kolejne naciąganie łysiejących naiwniaków. Zamknąłem kartę w przeglądarce.
+Wieczorem w domu otworzyłem w telefonie stronę sprobujsardian.pl, o której mówił Michał. Kiedy zobaczyłem cenę na oficjalnej stronie, prychnąłem pod nosem. Pomyślałem: jasne, ponad 100 zł za szampon do włosów, kolejne naciąganie łysiejących naiwniaków. Zamknąłem kartę w przeglądarce.
 
 Wróciłem na tę stronę dopiero 4 dni później, w niedzielę wieczorem, kiedy po kąpieli wyjąłem z odpływu kolejny zbity pęczek włosów, a na zdjęciu z urodzin córki zobaczyłem pod lampą gołą skórę aż do połowy głowy. Przekonała mnie wyłącznie 1 rzecz: 60 dni bezwarunkowej gwarancji zwrotu pieniędzy, nawet na puste, zużyte butelki. Powiedziałem sobie krótko: biorę zestaw, kładę karton na szafie w przedpokoju, a jak nie zadziała, to im te puste plastiki odeślę i niech oddają kasę.
 
@@ -339,9 +339,9 @@ Kilka dni później mój szwagier (który rok temu miał już odłożone pienią
 
 - Panie Karolu, te wszystkie pojedyncze szampony kofeinowe, skrzypowe i wcierki na alkoholu z internetu robią w najlepszym razie 1 rzecz z 3, czyli dają ułamek tego, czego potrzebuje duszona cebulka - wyjaśnił specjalista, pokazując na ekranie moje żywe, ale zminiaturyzowane włoski. - Sama kofeina pobudzi krążenie na kwadrans, ale w żaden sposób nie blokuje hormonu DHT w gruczole łojowym i nie wydłuża skróconego do 21 dni cyklu wzrostu włosa. A SLS w szamponie oraz wysuszający alkohol w kroplach dodatkowo podrażniają ujście mieszka i nasilają łojotok z odbicia!
 
-Zapisał mi wtedy na małej karteczce z gabinetu samą nazwę: szampon aktywujący korzenie SARDIAN.
+Polecił mi wtedy wprost w rozmowie szampon aktywujący korzenie SARDIAN - dokładnie ten sam, którym 12 miesięcy wcześniej uratował górę głowy mój szwagier.
 
-Wieczorem w domu sam wpisałem w wyszukiwarkę SARDIAN opinie. Po wtopieniu ponad 300 zł na „gwiazdkowe hity" byłem najeżony i nieufny do granic możliwości. Powiedziałem żonie w kuchni: „Nie kupię już ani 1 buteleczki do tej przeklętej szuflady, dopóki ktoś nie podpisze się własnymi pieniędzmi pod efektem po miesiącu używania".
+Wieczorem w domu otworzyłem stronę sprobujsardian.pl. Po wtopieniu ponad 300 zł na „gwiazdkowe hity" byłem najeżony i nieufny do granic możliwości. Powiedziałem żonie w kuchni: „Nie kupię już ani 1 buteleczki do tej przeklętej szuflady, dopóki ktoś nie podpisze się własnymi pieniędzmi pod efektem po miesiącu używania".
 
 Kiedy wszedłem na oficjalną stronę SARDIAN i przeczytałem warunki, od razu zobaczyłem różnicę klas. Zamiast zbierania gwiazdek za „szybką paczkę po 2 dniach", producent daje czarno na białym pełne 60 dni bezwarunkowej gwarancji zwrotu pieniędzy - nawet na całkowicie puste, zużyte do dna butelki! Możesz myć głowę przez prawie 2 miesiące, a jeśli sitko pod prysznicem i lustro nie pokażą Ci różnicy, odsyłasz puste opakowania i odzyskujesz 100% wpłaty.
 

@@ -31,7 +31,7 @@ Oburzyłem się w ułamku sekundy.
 
 „Daj spokój, bez przesady” - odburknąłem pod nosem. „Trochę poszło, ale przynajmniej nie wywalam prawie 200 zł na jakieś magiczne wtyczki z internetu.”
 
-6 miesięcy wcześniej, zaraz na początku naszych problemów z Brunem, żona pokazała mi na telefonie zestaw 2 dyfuzorów feromonowych Feliora dla Psów za 189,99 zł. Wyśmiałem to w 3 sekundy: „Kochanie, 190 zł za płyn do gniazdka? Ogarniemy to sami i taniej”.
+6 miesięcy wcześniej, zaraz na początku naszych problemów z Brunem, dziewczyny na grupie adopcyjnej psów ze schroniska na Facebooku poleciły mojej żonie zestaw 2 dyfuzorów feromonowych Feliora dla Psów za 189,99 zł. Kiedy pokazała mi ekran telefonu, wyśmiałem to w 3 sekundy: „Kochanie, 190 zł za płyn do gniazdka z facebookowej grupki? Ogarniemy to sami i taniej”.
 
 Kiedy żona wyszła do sypialni bez słowa, usiadłem sam przy kuchennym stole.
 
@@ -67,21 +67,15 @@ Wydałem 2 524 zł żywej gotówki na łatanie dziur po pożarze, oszpeciłem na
 
 Spojrzałem jeszcze raz na pozycję nr 6 na mojej kartce - te 90 zł w lecznicy za zerwany pazur - i nagle aż drgnęła mi powieka.
 
-Sięgnąłem po swój skórzany portfel leżący na blacie przy chlebaku. Rozchyliłem boczną przegródkę za dowodem rejestracyjnym oraz starymi paragonami ze stacji paliw i wyciągnąłem z niej wyświechtany, złożony na 4 skrawek papieru z pieczątką tamtej przychodni.
+Przypomniałem sobie tamtą wizytę sprzed 5 miesięcy co do słowa. Kiedy starszy lekarz weterynarii owijał Brunowi zakrwawioną łapę bandażem na metalowym stole, narzekałem mu pod nosem, że pies dostaje rano 60 minut biegania za piłką, a mimo to po naszym wyjściu niszczy mieszkanie.
 
-Pamiętałem tę wizytę jak dziś. Kiedy starszy lekarz weterynarii owijał Brunowi zakrwawioną łapę bandażem na metalowym stole, narzekałem mu pod nosem, że pies dostaje rano 60 minut biegania za piłką, a mimo to po naszym wyjściu niszczy mieszkanie.
-
-Lekarz oderwał wtedy karteczkę z bloczka i zapisał mi na niej wyłącznie nazwę mechanizmu oraz preparatu: „feromon kojący D.A.P. - dyfuzor Feliora”.
-
-Powiedział mi przy tym stole rzecz prostą jak drut: kiedy zamykamy zamek od zewnątrz, mózg lękliwego psa zalewa taka fala kortyzolu, że zwierzę walczy o życie. Ma ściśnięte gardło, nie widzi zabawek i nie czuje żadnego pasztetu. Dopiero stałe stężenie psich feromonów kojących D.A.P. w powietrzu - tego samego sygnału bezpieczeństwa, jaki karmiąca suka wydziela przy szczeniakach - trafia przez narząd Jacobsona w nosie do ośrodka strachu w mózgu i powoli gasi ten alarm. Uprzedził mnie też uczciwie: „Panie Karolu, to nie jest młotek usypiający psa w 10 minut ani zamiennik spaceru. Jak pan zamknie niewybieganego psa na 12 godzin bez ruchu, żadna wtyczka nie pomoże. To ma chodzić w gniazdku 24 godziny na dobę i przez kilka dni budować mu w domu stałą tarczę spokoju”.
+Lekarz nie sprzedawał mi wtedy żadnego preparatu, tylko wytłumaczył samą biologię prostą jak drut: kiedy zamykamy zamek od zewnątrz, mózg lękliwego psa zalewa taka fala kortyzolu, że zwierzę walczy o życie. Ma ściśnięte gardło, nie widzi zabawek i nie czuje żadnego pasztetu. Dopiero stałe stężenie psich feromonów kojących D.A.P. w powietrzu - tego samego sygnału bezpieczeństwa, jaki karmiąca suka wydziela przy szczeniakach - trafia przez narząd Jacobsona w nosie do ośrodka strachu w mózgu i powoli gasi ten alarm. Uprzedził mnie też uczciwie: „Panie Karolu, taki dyfuzor w kontakcie to nie jest młotek usypiający psa w 10 minut ani zamiennik spaceru. Jak pan zamknie niewybieganego psa na 12 godzin bez ruchu, żadna wtyczka nie pomoże. To musi chodzić w gniazdku 24 godziny na dobę i przez 7 do 10 dni budować mu w domu stałą tarczę spokoju”.
 
 I co ja wtedy, wielki mądrala, zrobiłem po wyjściu z gabinetu na parking?
 
-Parsknąłem pod nosem: „Jasne, jeszcze mi tu będzie wciskał bezwonny odświeżacz powietrza do kontaktu. Sam psa oduczę!”, wcisnąłem tamtą karteczkę w najgłębszą kieszonkę portfela i poszedłem lekką ręką wydawać kolejne 800 zł na tapicera, 600 zł na behawiorystę oraz 219 zł na kamizelkę!
+Puściłem słowa lekarza mimo uszu, parsknąłem pod nosem: „Jasne, sam psa oduczę bez żadnych feromonów w kontakcie!” i lekką ręką poszedłem wydawać kolejne 800 zł na tapicera, 600 zł na behawiorystę oraz 219 zł na kamizelkę!
 
-Teraz siedziałem nad rachunkiem na 2 524 zł z piekącymi uszami. Wyprostowałem zmięty skrawek od weterynarza na kuchennym stole, wpisałem w wyszukiwarkę w telefonie frazę z kartki i sam dopisałem na końcu słowo „opinie”.
-
-Przekopałem komentarze ludzi z bloków, wszedłem na stronę Feliora i policzyłem wszystko na chłodno na tym samym kalkulatorze:
+Teraz siedziałem nad rachunkiem na 2 524 zł z piekącymi uszami, bo wreszcie połączyłem kropki: te „wtyczki z Facebooka”, które wyśmiałem żonie 6 miesięcy temu, to był dokładnie ten matczyny feromon D.A.P., o którym mówił w przychodni stary weterynarz! Sięgnąłem po telefon, sam wpisałem w Google „Feliora dyfuzor D.A.P. dla psa”, przekopałem relacje ludzi z bloków, a potem wszedłem na feliora.pl i policzyłem wszystko na chłodno na tym samym kalkulatorze:
 
 Zestaw na 2 pokoje kosztował 189,99 zł, czyli 94,99 zł za 1 dyfuzor z wkładem. Ponieważ 1 wkład wystarcza u nich aż na pełne 60 dni ciągłej pracy przez 24 godziny na dobę, podzieliłem 94,99 zł przez 60 dni. Wyszło 1,58 zł dziennie na pokój - taniej niż zwykła kajzerka w piekarni pod naszym blokiem!
 
@@ -153,11 +147,11 @@ W tym momencie pan Grzegorz zmrużył oczy z wyraźną podejrzliwością, zało�
 
 Roześmiałem się serdecznie, przysunąłem do siebie czysty bloczek z biurka, kliknąłem długopisem i policzyłem to przy nim na kartce, żeby nie musiał wierzyć mi na słowo:
 
-Po 1., ceramiczna głowica w dyfuzorze Feliora ma moc zaledwie 5 W. Dla porównania zwykła ładowarka do telefonu pobiera od 20 W do 65 W, a domowy router Wi-Fi - którego pan Grzegorz przecież nie wyrywa ze ściany codziennie o 16:00 - ciągnie około 12 W przez cały rok! Ciągła praca głowicy 5 W przez 24 godziny na dobę przez 30 dni zużywa ułamek tego co żarówka w lodówce, czyli dosłownie grosze na miesięcznym rachunku za prąd.
+Po 1., ceramiczna głowica w dyfuzorze Feliora ma moc zaledwie 5 W. Dla porównania zwykła ładowarka do telefonu pobiera od 20 W do 65 W, a domowy router Wi-Fi - którego pan Grzegorz przecież nie wyrywa ze ściany codziennie o 16:00 - ciągnie około 12 W przez 365 dni w roku! Ciągła praca głowicy 5 W przez 24 godziny na dobę przez 30 dni zużywa ułamek tego co żarówka w lodówce, czyli dosłownie grosze na miesięcznym rachunku za prąd.
 
 Po 2., w polskiej formule Feliora dzięki stabilizowanemu rdzeniowi 5 W pełny 1 wkład o pojemności 48 ml nie wygotowuje się w 7 dni jak w starych przegrzewanych wtyczkach, tylko odparowuje równo przez pełne 60 dni pracy non stop.
 
-Po 3., u mnie w lecznicy nie stał żaden karton na sprzedaż - zamawia się to bezpośrednio u producenta w internecie, gdzie każdy zakup chroni 30-dniowa gwarancja zwrotu pieniędzy. Zapytałem z uśmiechem: „Skoro w razie braku efektu oddają panu 100% wpłaty, to jaki miałbym interes pana naciągać?”.
+Po 3., na oficjalnej stronie producenta feliora.pl każdy zakup chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy. Zapytałem z uśmiechem: „Skoro w razie braku efektu oddają panu 100% wpłaty co do grosza, to jaki miałbym interes pana naciągać?”.
 
 Pan Grzegorz podrapał się po karku, spojrzał na moje wyliczenie 5 W na kartce i uśmiechnął pod wąsem: „Dobra, panie doktorze, z tym routerem to mnie pan zagiął. Niech pan rysuje, gdzie mam to powpinać”.
 
@@ -209,13 +203,13 @@ W mojej głowie odpaliła się w ułamku sekundy czarna płyta, którą zna chyb
 
 Przyznam Wam szczerze, że ja od samego początku podchodziłam do tego zakupu jak pies do jeża.
 
-7 dni wcześniej lekarka w gabinecie weterynaryjnym zapisała mi na karteczce wyłącznie krótkie hasło: „feromon kojący D.A.P. - dyfuzor Feliora”. Kiedy wróciłam do domu, usiadłam na kanapie, wpisałam tę nazwę w Google i sama dopisałam słowo „opinie”. Miałam już w szafce kuchennej otwarte smaczki uspokajające, które Rico wypluwał na kafelki, matę do lizania oraz ziołowy spray za łączną kwotę ponad 350 zł - więc za grosz nie wierzyłam, że 2 bezwonne wtyczki w ścianie zrobią cokolwiek z psem po przejściach.
+7 dni wcześniej lekarka w przychodni tłumaczyła nam, że zamiast kolejnych przysmaków musimy wyciszyć Rico stałym sygnałem feromonów D.A.P. w powietrzu, a tego samego wieczoru na spacerze spotkałam pod blokiem sąsiadkę z klatki obok z jej adoptowaną suczką. Kiedy pożaliłam się jej na wycie Rico, uśmiechnęła się ze zrozumieniem: „Pani Gosiu, u nas po schronisku było identycznie, pomogły dopiero 2 wtyczki Feliora z feliora.pl, tylko niech pani nie wyciąga ich z kontaktu po 2 dniach!”. Miałam już w szafce kuchennej otwarte smaczki uspokajające, które Rico wypluwał na kafelki, matę do lizania oraz ziołowy spray za łączną kwotę ponad 350 zł - więc za grosz nie wierzyłam, że 2 bezwonne wtyczki w ścianie zrobią cokolwiek z psem po przejściach.
 
 Kupiłam ten zestaw na 2 pokoje za 189,99 zł wyłącznie dlatego, że dawali 30-dniową gwarancję zwrotu pieniędzy. Ba, w niedzielę przy rozpakowywaniu paczki nawet nie wyrzuciłam pudełka - schowałam je równo złożone na dno szafy w sypialni, pewna na 99%, że za 2 tygodnie mi się przyda!
 
 I właśnie w ten wtorek o 8:00 rano schyliłam się już z ręką wyciągniętą do gniazdka w korytarzu, kiedy z kuchni wyszedł mój mąż i dosłownie złapał mnie za nadgarstek.
 
-„Zostaw tę wtyczkę w świętym spokoju” - powiedział spokojnie. „Przecież lekarka tłumaczyła Ci wyraźnie, że to nie jest gaz usypiający ani narkoza w 15 minut. Pudełko leży w szafie, masz 30 dni gwarancji na zwrot, więc daj jego głowie chociaż 2 tygodnie.”
+„Zostaw tę wtyczkę w świętym spokoju, Gosia” - powiedział spokojnie. „Przecież lekarka w przychodni oraz sąsiadka spod 2. klatki mówiły Ci wyraźnie, że to nie jest gaz usypiający ani narkoza w 15 minut. Pudełko leży w szafie, masz 30 dni gwarancji na zwrot, więc daj jego głowie chociaż 2 tygodnie.”
 
 Prychnęłam pod nosem, trzasnęłam drzwiami i jechałam tramwajem do biura obrażona na męża oraz na cały świat. Trzymałam telefon na kolanach i bałam się kliknąć ikonkę domowej kamerki, bo już widziałam oczami wyobraźni obdrapaną futrynę oraz zaciśnięte usta sąsiadki z parteru.
 
@@ -263,7 +257,7 @@ Każdy, kto mieszka w polskim bloku i choć raz w życiu wracał spod klatki sch
 
 A kiedy zostawiasz w zamkniętym mieszkaniu żywego przyjaciela na 9 godzin etatu wraz z dojazdem, wyobraźnia potrafi podsunąć najczarniejsze scenariusze: „Co będzie, jeśli ta wtyczka się przegrzeje albo zrobi zwarcie, kiedy nikogo nie ma w domu?”.
 
-Kilka tygodni temu napisała do nas pani Marta, opiekunka żywiołowego kundelka Fado z dużego osiedla. Jej wiadomość była tak szczera, że za jej zgodą cytujemy ją niemal w całości:
+3 tygodnie temu napisała do nas pani Marta, opiekunka żywiołowego kundelka Fado z dużego osiedla, która trafiła na feliora.pl, szukając w nocy w Google bezlekowego ratunku na lęk separacyjny. Jej wiadomość była tak szczera, że za jej zgodą cytujemy ją niemal w całości:
 
 „Napiszę Wam bez ściemy - zamawiałam Wasz zestaw na 2 pokoje z ogromną rezerwą i brakiem wiary. Wcześniej utopiłam ponad 300 zł w gryzakach, matach do lizania oraz ziołowych tabletkach, a Fado dalej wył pod drzwiami i odrywał listwy przypodłogowe w przedpokoju. Kliknęłam zamówienie wyłącznie z myślą, że schowam kartonik do szafy i najwyżej odeślę Wam wszystko po 3 tygodniach na gwarancji 30 dni. A jak 1. dnia rano przed wyjściem do biura dotknęłam lekko ciepłej obudowy palcem, to włączyła mi się kolejna panika! Przez 2 poranki z rzędu schodziłam do skrzynek na listy na parterze i wracałam windą na górę macać wtyczkę, czy nie robi się gorąca! Na dokładkę w autobusie gryzła mnie 2. myśl: że po 9 godzinach zastanę psa przymulonego i patrzącego tępo w ścianę jak po żelu uspokajającym z Sylwestra.”
 

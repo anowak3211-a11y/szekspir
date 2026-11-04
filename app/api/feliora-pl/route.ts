@@ -24,7 +24,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pl-library-v10-clean-no-spojrz';
+const STATE_KEY = 'feliora-pl-library-v11-random-discovery';
 
 interface FelioraPlLibraryState {
   ads: FelioraPlGeneratedAd[];

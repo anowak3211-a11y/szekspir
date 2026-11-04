@@ -63,7 +63,7 @@ Położyłam buteleczkę na jego biurku i powiedziałam zrezygnowana: „Panie d
 
 Doktor wziął moją starą wtyczkę w dłoń, powąchał przegrzaną plastikową głowicę i spojrzał na mnie znad okularów.
 
-„Proszę pani, pies nie może uodpornić się na matczyny feromon kojący D.A.P.” - powiedział spokojnie. „To odruch biologiczny w narządzie Jacobsona, dokładnie tak jak organizm nie przyzwyczaja się do tlenu. Skoro przez 7 dni Luna przesypiała etat w ciszy, to najlepszy dowód, że jej mózg reaguje na feromony wzorowo!”
+„Pani Małgorzato, pies nie może uodpornić się na matczyny feromon kojący D.A.P.” - powiedział spokojnie. „To odruch biologiczny w narządzie Jacobsona, dokładnie tak jak organizm nie przyzwyczaja się do tlenu. Skoro przez 7 dni Luna przesypiała etat w ciszy, to najlepszy dowód, że jej mózg reaguje na feromony wzorowo!”
 
 „To dlaczego 10. dnia oszalała pod drzwiami, skoro w butelce jest 50% płynu?!” - nie wytrzymałam.
 
@@ -81,11 +81,11 @@ A dla psa w 9. lub 10. dniu zaczyna się koszmar zwany efektem odbicia.
 
 Luna przez 7 dni czuła w pustym mieszkaniu bezpieczny sygnał matki i wreszcie odetchnęła. I nagle, z dnia na dzień, ten sygnał zgasł do 0. Jej układ nerwowy odebrał to jako nagłe porzucenie - kortyzol wystrzelił pod sufit i pies zaczął wołać o pomoc 2 razy głośniej niż wcześniej!
 
-Doktor urwał karteczkę z notesu i zapisał mi na niej tylko 1 hasło: „feromon kojący D.A.P. - dyfuzor Feliora”.
+„Zamiast pakować w młodą suczkę psychotropy, niech pani odstawi ten przegrzany plastik i zamówi dyfuzor Feliora ze stabilizowanym rdzeniem ceramicznym 5 W” - poradził mi wprost w rozmowie doktor.
 
-Spojrzałam na tę kartkę, potem na śmierdzącą plastikiem głowicę na jego biurku i wybuchnęłam gorzkim śmiechem przez łzy:
+Spojrzałam na śmierdzącą plastikiem głowicę na jego biurku i wybuchnęłam gorzkim śmiechem przez łzy:
 
-„Panie doktorze, przed chwilą przyniosłam panu w torebce bezużyteczną wtyczkę za 145 zł, a pan mi każe kupić w internecie kolejną wtyczkę?! Przecież wyjdę na skończoną naiwniaczkę!”
+„Panie doktorze, przed chwilą przyniosłam panu w torebce bezużyteczną wtyczkę za 145 zł, a pan mi radzi zamówić w internecie kolejną wtyczkę?! Przecież wyjdę na skończoną naiwniaczkę!”
 
 Doktor nawet się nie skrzywił. Pokiwał głową ze zrozumieniem i spokojnie wytłumaczył mi różnicę między tandetnym opornikiem rozgrzanym do 120 stopni a stabilizowanym rdzeniem ceramicznym 5 W w głowicy Feliora. Ceramika 5 W trzyma równą, niską temperaturę bez przegrzewania obudowy i bez wygotowywania frakcji czynnej w 1. tygodniu - dzięki czemu 1 wkład uwalnia identyczną dawkę D.A.P. dzień po dniu przez pełne 60 dni.
 
@@ -93,11 +93,11 @@ Uprzedził mnie przy tym uczciwie: „To nie zadziała jak środek nasenny w 15 
 
 A potem podał mi 1 konkretny argument, który zamknął mi usta:
 
-„Proszę pani, na ich stronie ma pani pełne 30 dni gwarancji zwrotu pieniędzy. Skoro tamta wtyczka padła po 7 dniach, to tutaj ten przeklęty 10. dzień minie pani aż 3 razy, zanim skończy się czas na darmowy zwrot!”
+„Pani Małgorzato, na ich stronie ma pani pełne 30 dni gwarancji zwrotu pieniędzy. Skoro tamta wtyczka padła po 7 dniach, to tutaj ten przeklęty 10. dzień minie pani aż 3 razy, zanim skończy się czas na darmowy zwrot!”
 
-Wieczorem w domu usiadłam z tą kartką na kanapie, wpisałam nazwę w wyszukiwarkę i sama dopisałam słowo opinie.
+Wieczorem w domu usiadłam z telefonem na kanapie i weszłam na stronę feliora.pl, o której mówił w gabinecie lekarz.
 
-Mimo setek historii podobnych do mojej aż 2 razy zamykałam stronę sklepu, kiedy zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje! Siedziałam z Luną przy nodze i myślałam z goryczą: „145 zł już wywaliłam w błoto, teraz dołożę prawie 190 zł, wyjdzie ponad 330 zł na wtyczki do kontaktu, a jak za 10 dni znowu zacznie wyć, to spłonę ze wstydu przed całą klatką”.
+Aż 2 razy zamykałam kartę ze sklepem, kiedy zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje! Siedziałam z Luną przy nodze i myślałam z goryczą: „145 zł już wywaliłam w błoto, teraz dołożę prawie 190 zł, wyjdzie ponad 330 zł na wtyczki do kontaktu, a jak za 10 dni znowu zacznie wyć, to spłonę ze wstydu przed całą klatką”.
 
 W końcu zamówiłam ten zestaw na 2 pokoje z mocno zaciśniętymi zębami. Gdy przyszedł kurier, schowałam karton wysyłkowy na dno szafy i od razu ustawiłam w telefonie 2 alarmy - na 12. dzień oraz na 25. dzień. Powiedziałam sobie krótko: „Jak 10. dnia w pracy znów zawibruje czerwony alert z kamerki, pakuję te 2 wtyczki razem z pustymi flakonami i odzyskuję co do grosza”.
 
@@ -213,11 +213,9 @@ Pan Tomasz spojrzał podejrzliwie na swoją starą wtyczkę wyjętą z kieszeni 
 
 Dotknąłem jego przegrzanej, lekko pożółkłej starej obudowy wokół kratki wylotowej i wytłumaczyłem mu konkretną różnicę: tanie marketowe wtyczki jadą na zwykłych opornikach grzejących do 120 stopni, które wygotowują frakcję czynną w 1. tygodniu, zostawiając w butelce bezużyteczny olej parafinowy. W głowicy Feliora pracuje natomiast stabilizowany rdzeń ceramiczny 5 W - utrzymuje równą, bezpieczną temperaturę i podaje stałe stężenie D.A.P. przez pełne 60 dni z 1 wkładu bez wypalania w 1. tygodniu.
 
-Na rogu tego samego rysunku mieszkania dopisałem długopisem: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Przesunąłem rozrysowany rzut mieszkania z powrotem w jego stronę i powiedziałem szczerze:
 
-Przesunąłem kartkę w jego stronę i powiedziałem szczerze:
-
-„Niech pan nie wierzy mi na słowo - dają na stronie 30 dni gwarancji zwrotu. Wepnie pan 2 sztuki w odsłonięte gniazdka na 10 dni, ma pan kamerkę w telefonie, sam pan sprawdzi”.
+„Niech pan nie wierzy mi na słowo - na stronie feliora.pl dają 30 dni gwarancji zwrotu pieniędzy. Wepnie pan 2 sztuki w odsłonięte gniazdka na 10 dni, ma pan kamerkę w telefonie, sam pan sprawdzi”.
 
 Pan Tomasz schował złożony szkic do kurtki z miną człowieka, który bardzo niechętnie wydaje prawie 190 zł po wcześniejszej wtopie za 120 zł, ale widmo mandatu i kolejnego pisma ze spółdzielni nie dawało mu spokoju.
 
@@ -303,9 +301,9 @@ Wytłumaczyłem wtedy właścicielowi Borysa, czym różni się zielarska podró
 
 W przyrodzie ten konkretny związek chemiczny wydziela listwa mleczna suki karmiącej szczenięta. Gdy cząsteczka D.A.P. trafia do narządu Jacobsona w podniebieniu psa, wysyła bezpośredni sygnał do ośrodka strachu w mózgu: „Jesteś bezpieczny przy matce, wyłącz alarm kortyzolowy”. I nie ma tu znaczenia, czy pies waży 4 kg jak maltańczyk, czy 32 kg jak Borys - bo to nie jest tabletka przeliczana w wątrobie na masę ciała, tylko biologiczny klucz do receptorów węchowych, które u dużego psa są tak samo czułe jak u szczeniaka!
 
-Wziąłem skrawek papieru z biurka i zapisałem mu na kartce: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Poleciłem mu krótko, żeby wyrzucił cytrynową podróbkę, porządnie przewietrzył mieszkanie i zamówił na stronie producenta weterynaryjny dyfuzor Feliora z czystym feromonem D.A.P.
 
-Chłopak spojrzał na kartkę, potem popatrzył na mnie spode łba i wypalił bez owijania w bawełnę:
+Chłopak popatrzył na puste pudełko na stole, potem spojrzał na mnie spode łba i wypalił bez owijania w bawełnę:
 
 „Panie doktorze, no dobra, tamci na aukcji nabili mnie w butelkę za 39 zł. Ale jaką ja mam pewność, że ta Feliora za prawie 200 zł to nie jest dokładnie taka sama ściema, tylko w ładniejszym opakowaniu?!”
 
@@ -401,17 +399,17 @@ Siedziałam nad tym laptopem i czułam się jak najgorsza opiekunka na świecie.
 
 Poszłam po rozum do głowy i umówiłam wizytę u lekarza weterynarii, dr. Edmunda Newelskiego.
 
-Kiedy opowiedziałam mu o psikaniu posłania przed 8-godzinnym etatem, doktor złapał się za głowę: „Proszę pani, spray wymyślono wyłącznie po to, żeby psiknąć pusty transporter w aucie na 15 minut przed krótką jazdą na szczepienie - i to trzeba odczekać 15 minut, aż wywietrzeje alkohol, zanim włoży się tam psa! Próbować zabezpieczyć psa sprayem na 8 godzin w bloku to jak przykleić dziurawy plaster na 20 minut!”.
+Kiedy opowiedziałam mu o psikaniu posłania przed 8-godzinnym etatem, doktor aż złapał się za głowę: „Pani Małgorzato, spray wymyślono wyłącznie po to, żeby psiknąć pusty transporter w aucie na 15 minut przed krótką jazdą na szczepienie - i to trzeba odczekać 15 minut, aż wywietrzeje alkohol, zanim włoży się tam psa! Próbować zabezpieczyć psa sprayem na 8 godzin w bloku to jak przykleić dziurawy plaster na 20 minut!”.
 
-Wziął kartkę z biurka i zapisał mi na niej wyraźnie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Wytłumaczył mi samą fizykę powietrza bez podawania konkretnej marki: zamiast spirytusu potrzebny jest stały, bezalkoholowy dyfuzor w kontakcie ze stabilizowanym rdzeniem ceramicznym 5 W, który bez syczenia nad uchem psa utrzyma w mieszkaniu równe stężenie matczynego sygnału D.A.P. o 7:00 przy moim wyjściu, o 8:00 przy trzaskaniu drzwi na klatce, o 12:00 w południe i o 15:00 przed powrotem.
 
-Wytłumaczył mi w rozmowie, na czym polega różnica: w głowicy Feliora jest 0% drażniącego alkoholu i pracuje tam stabilizowany rdzeń ceramiczny 5 W. Nic nie syczy psu nad uchem i nic nie wietrzeje przed 8:00 rano - 1 wkład bezgłośnie utrzymuje w powietrzu równe stężenie matczynego sygnału D.A.P. o 7:00 przy moim wyjściu, o 8:00 przy trzaskaniu drzwi na klatce, o 12:00 w południe i o 15:00 przed powrotem, dzień po dniu aż przez 60 dni.
+Gdy przy wyjściu z gabinetu zapytałam nieśmiało, czy taki dyfuzor wyłącza się po pracy, doktor aż podniósł rękę i ostrzegł mnie stanowczo: „Pod żadnym pozorem nie wyciąga się wtyczki o 16:00 po pracy dla oszczędności! Kiedy ceramika stygnie, stężenie D.A.P. spada do 0 i pies traci oparcie w nocnej fazie snu. To musi chodzić na stałe przez minimum 5-10 dni, bo nakręcony od 3 miesięcy kortyzol nie znika w 5 minut”.
 
-Gdy przy wyjściu z gabinetu zapytałam nieśmiało, czy mogę wyłączać dyfuzor po pracy, doktor aż podniósł rękę i ostrzegł mnie stanowczo: „Pod żadnym pozorem niech pani nie wyciąga wtyczki o 16:00 po pracy dla oszczędności! Kiedy ceramika stygnie, stężenie D.A.P. spada do 0 i pies traci oparcie w nocnej fazie snu. Proszę wpiąć na stałe i dać mu 5-10 dni, bo nakręcony od 3 miesięcy kortyzol nie znika w 5 minut”.
+Wracając od lekarza po schodach na górę, znów wpadłam pod drzwiami na tę samą sąsiadkę pielęgniarkę z mieszkania obok - wracała ze sklepu przed kolejnym 12-godzinnym dyżurem w szpitalu. Przeprosiłam ją jeszcze raz z duszą na ramieniu i opowiedziałam w 2 zdaniach, co wyszło na kamerce po tym alkoholowym sprayu.
 
-Wieczorem w domu otworzyłam szafkę w przedpokoju i popatrzyłam na 4 buteleczki sprayu za 320 zł.
+Kobieta spuściła z tonu, westchnęła ciężko i powiedziała po ludzku: „Pani Gosiu, niech pani wyrzuci te psikacze. Koleżanka z mojego oddziału na chirurgii miała identyczny cyrk z psem po przeprowadzce i uratowały ją dopiero polskie wtyczki Feliora z feliora.pl. Niech pani sprawdzi w domu, bylebym wreszcie przespała dzień po nocce”.
 
-Usiadłam na kanapie, wpisałam w wyszukiwarkę nazwę z kartki z dopiskiem opinie, a kiedy weszłam na stronę i zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje, pomyślałam z czystą goryczą:
+Wieczorem otworzyłam szafkę w przedpokoju, popatrzyłam na 4 buteleczki sprayu za 320 zł, usiadłam na kanapie i weszłam w telefonie na feliora.pl. Kiedy zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje (1 wkład działa przez pełne 60 dni), pomyślałam z czystą goryczą:
 
 „Świetnie, utopiłam 320 zł w spirytusie w atomizerze, teraz dołożę kolejne 190 zł na wtyczki i pęknie ponad 500 zł, a sąsiadka po nocnym dyżurze w szpitalu dalej mnie znienawidzi”.
 
@@ -507,7 +505,7 @@ Zapamiętajcie to raz na zawsze: w biologii NIE ISTNIEJE wspólny feromon dla ps
 
 Młoda mama wyraźnie odetchnęła z ulgą, ale wtedy zmęczony mąż potarł dłonią czoło i powiedział wprost:
 
-„Panie doktorze, ale tak po ludzku: rok temu kupiliśmy wtyczkę dla kota, teraz dokupimy 2 kolejne dla psa za prawie 200 zł, w każdym kontakcie będzie nam coś sterczało, a jak za 2 tygodnie Roki dalej będzie gonił kota i budził małego wyciem, to żona każe mi spakować te wszystkie wtyczki do kosza”.
+„Panie doktorze, ale tak po ludzku: 12 miesięcy temu kupiliśmy wtyczkę dla kota, teraz dokupimy 2 kolejne dla psa za prawie 200 zł, w każdym kontakcie będzie nam coś sterczało, a jak za 2 tygodnie Roki dalej będzie gonił kota i budził małego wyciem, to żona każe mi spakować te wszystkie wtyczki do kosza”.
 
 Pokiwałem głową ze zrozumieniem i uczciwie postawiłem przed nimi granice.
 
@@ -515,9 +513,7 @@ Wyjaśniłem im bez koloryzowania: w 1. tygodniu nadal muszą pilnować bezpiecz
 
 Jednak w aż 8 na 10 domów, gdzie adoptowany pies goni kota i wyje pod drzwiami, całym zapalnikiem domowej wojny jest właśnie panika i kortyzol psa! Kiedy zdejmiesz z niego ten ciągły lęk separacyjny, znika potrzeba rozładowywania frustracji na kocie, a 1 wkład Feliora utrzymuje równe stężenie D.A.P. aż przez 60 dni bez przegrzewania obudowy i bez śladu zapachu przy wózku dziecka.
 
-Wziąłem karteczkę z biurka i zapisałem na niej wyraźnie: „feromon kojący D.A.P. - dyfuzor Feliora”.
-
-Podałem ją mężowi i przypomniałem o 30-dniowej gwarancji zwrotu pieniędzy na oficjalnej stronie - dzięki której nie ryzykują ani grosza przed tak trudną decyzją o dalszym losie psa. Mąż schował kartkę do portfela, spojrzał na żonę i powiedział cicho, że dadzą Rokiemu uczciwą szansę, zanim podpiszą dokumenty zwrotne do fundacji. W domu wpięli 2 sztuki w odsłonięte kontakty - 1 przy przedpokoju i 2. w salonie obok posłania psa.
+Przypomniałem na koniec zmęczonemu mężowi o 30-dniowej gwarancji zwrotu pieniędzy na oficjalnej stronie feliora.pl - dzięki której nie ryzykują ani grosza przed tak trudną decyzją o dalszym losie psa. Mąż zapisał adres strony w telefonie, spojrzał na żonę i powiedział cicho, że dadzą Rokiemu uczciwą szansę, zanim podpiszą dokumenty zwrotne do fundacji. W domu wpięli 2 sztuki w odsłonięte kontakty - 1 przy przedpokoju i 2. w salonie obok posłania psa.
 
 Po 4 tygodniach małżeństwo przyszło do mnie na kontrolne ważenie i odrobaczanie Rokiego. Dokumenty zwrotne do fundacji poszły w odstawkę, a mąż zdał mi krótki, trzeźwy raport z ich mieszkania.
 

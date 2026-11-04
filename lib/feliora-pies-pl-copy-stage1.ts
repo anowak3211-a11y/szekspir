@@ -67,15 +67,11 @@ Poczułam, jak spada mi z pleców ogromny ciężar.
 
 „Lawendowe obróżki proszę wyrzucić, bo psi nos jest 10 000 razy czulszy od ludzkiego” - dodał lekarz. „Żeby wyciszyć ośrodek strachu bez psychotropów, trzeba podać sygnał przez narząd Jacobsona w podniebieniu. Tak działa matczyny feromon kojący D.A.P. - ten sam bezwonny sygnał, który wydziela suka karmiąca ślepe szczenięta przy brzuchu, żeby wiedziały, że mama jest blisko”.
 
-Wziął małą karteczkę z bloczka i zapisał mi na niej tylko 1 linijkę:
+Odłożył okulary na biurko, popatrzył na mnie spokojnie i uprzedził uczciwie: „Pani Małgorzato, niech pani poszuka stałego dyfuzora do gniazdka z czystym feromonem D.A.P., tylko proszę nie liczyć, że to zadziała w 15 minut jak tabletka nasenna. Taka wtyczka musi grzać w kontakcie non stop przez 2 do 4 dni, żeby cząsteczki nasyciły pokoje. I od jutra rano o 8:00 kończy pani z 5-minutowym kucaniem przy psie w progu i mówieniem łamiącym się głosem, że mamusia zaraz wróci, bo tym tylko nakręca mu pani alarm”.
 
-„feromon kojący D.A.P. - dyfuzor Feliora”
+Wieczorem w domu zrobiłam sobie herbatę w kuchni, usiadłam z telefonem przy stole i wpisałam w wyszukiwarkę hasło feromon kojący D.A.P. dla psa lęk separacyjny.
 
-Podając mi ten świstek, popatrzył na mnie znad okularów i uprzedził uczciwie: „Tylko niech pani nie liczy, że to zadziała w 15 minut jak tabletka nasenna. Wtyczka musi grzać w kontakcie non stop przez 2 do 4 dni, żeby cząsteczki nasyciły pokoje. I od jutra rano o 8:00 kończy pani z 5-minutowym kucaniem przy psie w progu i mówieniem łamiącym się głosem, że mamusia zaraz wróci, bo tym tylko nakręca mu pani alarm”.
-
-Wieczorem w kuchni wyciągnęłam zmiętą karteczkę z kieszeni płaszcza, przepisałam to w telefonie w Google i sama dopisałam na końcu słowo „opinie”.
-
-Weszłam na stronę producenta, zobaczyłam cenę 189,99 zł za zestaw na 2 pokoje i aż prychnęłam pod nosem nad zimną herbatą:
+Przejrzałam 4 dyskusje ludzi z bloków, którzy tak jak ja odchodzili od zmysłów przez skargi sąsiadów i weszłam na stronę feliora.pl. Kiedy zobaczyłam cenę 189,99 zł za zestaw dyfuzorów Feliora na 2 pokoje, aż prychnęłam pod nosem nad zimną herbatą:
 
 „Jasne. Wyrzuciłam już 129 zł na kamerkę, kupę kasy na maty węchowe, śmierdzące żwacze i 69 zł na lawendową obróżkę, która nic nie dała, a teraz mojego wyjącego psa uciszy bezwonna wtyczka do kontaktu jak na komary? Kolejne naciąganie zdesperowanych ludzi na prawie 200 zł”.
 
@@ -167,15 +163,11 @@ Patrzyłem na niego jak wryty, a on mówił dalej:
 
 Wytłumaczył mi, że dopóki pies nie poczuje w powietrzu biologicznego sygnału bezpieczeństwa, żadna zabawka nie uratuje naszych drzwi. Chodziło o matczyny feromon kojący D.A.P. - dokładnie ten sam bezwonny sygnał, który wydziela suka karmiąca małe szczeniaki z okolic listwy mlecznej, żeby wiedziały, że w gnieździe nic im nie grozi. Pies wciąga go nosem prosto do narządu Jacobsona w podniebieniu i impuls od razu hamuje panikę w układzie limbicznym.
 
-Sięgnął po bloczek na biurku i zapisał mi na kartce 1 krótką linijkę:
+Przy wyjściu z gabinetu zastrzegł jeszcze po męsku: „Tę nieszczęsną wyrzutnię piłek chowa pan dzisiaj głęboko do szafy i zamienia poranne biegi na spokojny spacer węchowy. A jeśli zdecydujecie się na stały dyfuzor z feromonem D.A.P. do kontaktu, to proszę nie liczyć na strzał ze środkiem usypiającym w 15 minut - to musi grzać w gniazdku 24 godziny na dobę przez minimum 3 do 4 dni, żeby nasycić pokoje”.
 
-„feromon kojący D.A.P. - dyfuzor Feliora”
+Wieczorem z obandażowanym Riko pod stołem siedziałem do północy na telefonie, przekopując długi wątek na Wykopie oraz dyskusję na Reddicie o wydrapanych drzwiach w wynajmowanych mieszkaniach. Chłopak z identycznie rozprutą futryną ostrzegał tam przed tanimi wtyczkami z lawendą z portali aukcyjnych i opisywał bezwonny dyfuzor weterynaryjny Feliora ze stabilną grzałką 5 W.
 
-Podając mi karteczkę, zastrzegł od razu po męsku: „Niech pan nie myśli, że wepnie to pan jutro o 7:00 rano i zadziała jak strzał ze środkiem usypiającym. Musi grzać w gniazdku 24 godziny na dobę przez minimum 3 do 4 dni, żeby nasycić pokoje, a tę nieszczęsną wyrzutnię piłek chowa pan do szafy i zamienia na spokojny spacer węchowy”.
-
-Parsknąłem pod nosem już w aucie pod lecznicą, rzucając ten świstek na fotel pasażera: „22-kilogramowy pies wygina zębami stalowy pręt w klatce i wydrapuje dziurę na wylot w płycie MDF, a zatrzyma go plastikowa wtyczka 5 W w ścianie? Dobre sobie, kolejny gadżet dla naiwnych”.
-
-Wieczorem mimo wszystko wpisałem z tej kartki nazwę w telefonie i dopisałem na końcu słowo „opinie”. Jak zobaczyłem na stronie zestaw na 2 pokoje za 189,99 zł, bez słowa zamknąłem przeglądarkę. Uznałem, że nie wywalę prawie 200 zł na magiczne powietrze.
+Kliknąłem podlinkowaną stronę feliora.pl, zobaczyłem zestaw na 2 pokoje za 189,99 zł i aż parsknąłem pod nosem: „22-kilogramowy pies wygina zębami stalowy pręt w klatce i wydrapuje dziurę na wylot w płycie MDF, a zatrzyma go plastikowa wtyczka 5 W w ścianie? Dobre sobie, kolejny gadżet dla naiwnych”. Bez słowa zamknąłem przeglądarkę. Uznałem, że nie wywalę prawie 200 zł na magiczne powietrze.
 
 Odkładałem ten zakup przez 2 dni. Zamiast tego okleiłem rozpruty narożnik świeżą warstwą grubej folii budowlanej, a pod same drzwi wejściowe ustawiłem ciężką, prowizoryczną barykadę z kuchennych krzeseł.
 
@@ -261,15 +253,11 @@ Zapytałam bezradnie, dlaczego nasza cisza i dobre jedzenie tego nie wyłączaj�
 
 Dla mnie najważniejsze było to: bez tabletek, bez wciskania past ze strzykawki, bez śmierdzących obróżek zapinanych wokół szyi. Wszystko dzieje się w powietrzu, bez dotykania przerażonego psa.
 
-Lekarka oderwała karteczkę z bloczka na biurku i zapisała na niej równym pismem:
+Przy drzwiach gabinetu uprzedziła mnie tylko łagodnie: „Pani Iwono, jeśli włączycie w domu dyfuzor z czystym feromonem D.A.P., proszę się uzbroić w cierpliwość. U psa po 2 latach boksu wtyczka musi grzać w gniazdku bez przerwy od 5 do 10 dni, zanim ten mur kortyzolu we krwi zacznie opadać. A w domu bardzo państwa proszę o 1 zmianę: nie pochylajcie się nad nim od góry przy głaskaniu, bo dla bitego psa cień nad głową to podniesiona ręka”.
 
-„feromon kojący D.A.P. - dyfuzor Feliora”
+Feliora.pl - wpisałam wieczorem w wyszukiwarkę po przeczytaniu w laptopie artykułów o matczynym feromonie kojącym D.A.P. dla psów po przejściach ze schroniska.
 
-Wręczając mi ją przy drzwiach gabinetu, uprzedziła mnie łagodnie: „Tylko proszę się uzbroić w cierpliwość. U psa po 2 latach boksu wtyczka musi grzać w gniazdku bez przerwy od 5 do 10 dni, zanim ten mur kortyzolu we krwi zacznie opadać. A w domu bardzo państwa proszę o 1 zmianę: nie pochylajcie się nad nim od góry przy głaskaniu, bo dla bitego psa cień nad głową to podniesiona ręka”.
-
-Wieczorem w domu usiadłam z tą karteczką przed laptopem, wpisałam w wyszukiwarkę nazwę i sama dopisałam na końcu słowo „opinie”.
-
-Kiedy otworzyłam stronę zamówienia na zestaw 2 wtyczek za 189,99 zł, mój mąż stanął za moim krzesłem, spojrzał na ekran i westchnął ciężko:
+Kiedy otworzyłam stronę dyfuzora Feliora i zobaczyłam zestaw 2 wtyczek za 189,99 zł, mój mąż stanął za moim krzesłem, spojrzał na ekran i westchnął ciężko:
 
 „Kochanie, zejdźmy na ziemię. Wydałaś już 320 zł na posłanie ortopedyczne, którego nawet nie dotyka, potem kasę na kapsułki ziołowe, a teraz 190 zł za 2 plastikowe wtyczki bez zapachu? Przecież to zwykłe żerowanie na ludziach o miękkim sercu”.
 
@@ -353,15 +341,11 @@ Kamień spadł mi z serca, a jednocześnie chciało mi się płakać, że dałam
 
 Lekarka wytłumaczyła mi, że żeby przerwać to błędne koło, trzeba wyciszyć alarm w układzie limbicznym przez narząd Jacobsona w podniebieniu za pomocą stałej dyfuzji matczynego feromonu kojącego D.A.P. - tego samego naturalnego sygnału bezpieczeństwa, który wydziela suka karmiąca szczenięta przy listwie mlecznej.
 
-Obróciła w moją stronę wydruk z USG, a na jego pustym rogu zapisała długopisem 1 linijkę:
+Odłożyła wyniki badań na teczkę i powiedziała mi wprost w rozmowie: „Pani Iwono, gdyby przyszła pani do mnie bez tych czystych badań moczu i posiewu, nawet bym o feromonach nie wspominała, bo żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu ani chorych nerek. Ale przy zdrowym pęcherzu niech pani zamówi do domu dyfuzor weterynaryjny Feliora z czystym feromonem D.A.P. Tylko niech pani nie liczy na korek w 1 godzinę od włożenia do gniazdka - wtyczka musi grzać non stop 24/7 przez 4 do 7 dni, żeby nasycić pokoje. A równolegle niech pani 5 razy dziennie bierze klucze z komody do ręki i odkłada je bez wychodzenia z domu, żeby odczulić mu sam dźwięk breloczka”.
 
-„feromon kojący D.A.P. - dyfuzor Feliora”
+Wieczorem w domu usiadłam przy blacie w kuchni i otworzyłam w telefonie stronę feliora.pl, o której mówiła lekarka.
 
-Postukała długopisem w papier i powiedziała mi prosto w oczy: „Gdyby przyszła pani do mnie bez tych czystych badań moczu i posiewu, nawet bym tego tutaj nie zapisała, bo żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu ani chorych nerek. Niech też pani nie liczy na korek w 1 godzinę od włożenia do gniazdka - wtyczka musi grzać non stop 24/7 przez 4 do 7 dni, żeby nasycić pokoje. A równolegle niech pani 5 razy dziennie bierze klucze z komody do ręki i odkłada je bez wychodzenia z domu, żeby odczulić mu sam dźwięk breloczka”.
-
-Wieczorem w domu położyłam ten wydruk na blacie w kuchni, przepisałam nazwę w telefonie i sama dopisałam na końcu słowo „opinie”.
-
-Kiedy weszłam na stronę i zobaczyłam zestaw na 2 pokoje za 189,99 zł, po wcześniejszym zostawieniu 480 zł w klinice i wylaniu na podłogę 3 litrowych butli płynów enzymatycznych aż prychnęłam do ekranu:
+Kiedy zobaczyłam zestaw na 2 pokoje za 189,99 zł, po wcześniejszym zostawieniu 480 zł w klinice i wylaniu na podłogę 3 litrowych butli płynów enzymatycznych aż prychnęłam do ekranu:
 
 „Super, prawie 200 zł za bezwonny plastik w ścianie. Równie dobrze mogę powiesić warkocz czosnku nad drzwiami, zadziała dokładnie tak samo”.
 
@@ -383,7 +367,7 @@ Wąchałam kontakt w przedpokoju, nie czułam kompletnie nic, a 3. dnia po moim 
 
 Po 3 tygodniach wniosłam z balkonu zwinięty jasny dywan i rozłożyłam go z powrotem na środku pokoju.
 
-Nie będę udawać, że problem zniknął jak za dotknięciem różdżki w 100% sytuacji. Raz, kiedy za ścianą u sąsiada od rana kuli beton młotem udarowym pod moją nieobecność, ze stresu zdarzyło mu się jeszcze popuścić kilka kropel na wycieraczkę. Ale zwykłe wyjścia do pracy, do piekarni czy do paczkomatu przestały kończyć się szorowaniem spuchniętych paneli na kolanach.
+Nie będę udawać, że problem zniknął jak za dotknięciem różdżki w 100% sytuacji. Raz, kiedy za ścianą u sąsiada od rana kuli beton młotem udarowym pod moją nieobecność, ze stresu zdarzyło mu się jeszcze popuścić 3-4 krople na wycieraczkę. Ale zwykłe wyjścia do pracy, do piekarni czy do paczkomatu przestały kończyć się szorowaniem spuchniętych paneli na kolanach.
 
 Jeżeli badania moczu i USG u weterynarza wyszły czyste, możesz zrobić 2 rzeczy:
 
@@ -439,13 +423,9 @@ Kiedy powiedział mi, że przed grudniem trzeba wpiąć w mieszkaniu wtyczkę do
 
 Lekarz nawet się nie obraził, tylko spokojnie się uśmiechnął. Wytłumaczył mi, że u psa nie chodzi o ludzki zapach, tylko o narząd Jacobsona w podniebieniu oraz matczyny feromon kojący D.A.P. - wierny odpowiednik bezwonnego sygnału bezpieczeństwa, który wydziela listwa mleczna suki karmiącej szczenięta. Pies wciąga te cząsteczki z powietrzem prosto do układu limbicznego, co podnosi próg paniki w mózgu bez chemii we krwi, bez zwiotczania mięśni i bez obciążania wątroby.
 
-Wziął karteczkę z biurka i zapisał na niej tylko 1 linijkę:
+Pogroził mi przy tym palcem jak dobremu znajomemu: „Tylko panie Karolu, umówmy się od razu - żaden feromon D.A.P. nie zatyka psu uszu jak korek i nie sprawi, że pobiegnie aportować, jak ktoś rzuci mu pod łapy petardę na chodniku. Przede wszystkim proszę nie wpinać dyfuzora 31 grudnia po południu albo w środku burzy, bo nic nie da! Taka wtyczka musi chodzić w kontakcie non stop minimum 7 do 10 dni wcześniej, żeby nasycić pokoje, a w domu kończycie państwo z bieganiem do psa i piskliwym pocieszaniem: oj, biedny piesek”. Dodał też, że gdyby przy samym sylwestrze o północy pies potrzebował jeszcze nowoczesnego wsparcia przeciwlękowego z gabinetu, feromony są w 100% bezpiecznym tłem i nie wchodzą w żadne interakcje z lekami.
 
-„feromon kojący D.A.P. - dyfuzor Feliora”
-
-Podając mi ten świstek, pogroził mi palcem jak dobremu znajomemu: „Tylko panie Karolu, umówmy się od razu - to nie zatyka psu uszu jak korek i nie sprawi, że pobiegnie aportować, jak ktoś rzuci mu pod łapy petardę na chodniku. Przede wszystkim proszę nie wpinać tego 31 grudnia po południu albo w środku burzy, bo nic nie da! Wtyczka musi chodzić w kontakcie non stop minimum 7 do 10 dni wcześniej, żeby nasycić pokoje, a w domu kończycie państwo z bieganiem do psa i piskliwym pocieszaniem: oj, biedny piesek”. Dodał też, że gdyby przy samym sylwestrze o północy pies potrzebował jeszcze nowoczesnego wsparcia przeciwlękowego z gabinetu, feromony są w 100% bezpiecznym tłem i nie wchodzą w żadne interakcje z lekami.
-
-Wieczorem w domu wpisałem z kartki nazwę w telefonie i sam dopisałem słowo „opinie”. Wszedłem na stronę, zobaczyłem cenę 189,99 zł za zestaw na 2 pokoje, zamknąłem przeglądarkę i powiedziałem żonie krótko, że po wtopieniu 180 zł w kamizelkę uciskową nie dam prawie 200 zł za kolejny naciągany gadżet z internetu.
+Wieczorem po kolacji usiadłem z telefonem i wpisałem w wyszukiwarkę hasło feromon kojący D.A.P. dyfuzor dla psa burza petardy. Ominąłem tanie wtyczki z olejkiem lawendowym, trafiłem na stronę feliora.pl i model z głowicą ceramiczną 5 W, ale kiedy zobaczyłem cenę 189,99 zł za zestaw na 2 pokoje, zamknąłem przeglądarkę. Powiedziałem żonie krótko, że po wtopieniu 180 zł w kamizelkę uciskową nie dam prawie 200 zł za kolejny naciągany gadżet z internetu.
 
 Wytrzymałem 4 dni.
 

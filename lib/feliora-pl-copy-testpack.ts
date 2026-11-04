@@ -30,9 +30,9 @@ Przez ostatni rok przerobiłam dosłownie wszystko i mam na to paragony w szufla
 
 Razem ponad 1 080 zł wydane w kilka miesięcy, a werdykt lekarza za każdym razem brzmiał identycznie: pęcherz bez kamieni, zero bakterii, kot sika z lęku terytorialnego i idiopatycznego zapalenia pęcherza na tle stresowym (FIC).
 
-Lekarz zapisał mi wtedy na małej karteczce z bloczka samą nazwę mechanizmu: podwójny kompleks feromonowy M.A.P. + F3 - dyfuzor Feliora.
+Lekarz nie sprzedawał wtedy w przychodni żadnych wtyczek, wytłumaczył mi tylko sam mechanizm biologiczny: przy FIC trzeba wyciszyć w powietrzu koci stres podwójnym kompleksem feromonowym M.A.P. + F3.
 
-Wieczorem w domu przy herbacie wpisałam to hasło w telefon i sama dopisałam słowo opinie. Kiedy zobaczyłam cenę zestawu na stronie producenta, aż prychnęłam pod nosem do męża: „No jasne, prawie 190 zł za plastikowe kaczuszki do kontaktu, a ten rozbójnik i tak naleje mi jutro na poduszkę". Zamknęłam przeglądarkę i przez kolejny tydzień udawałam, że poradzę sobie roztworem z octu i dostawieniem 3. kuwety w kącie sypialni.
+Wieczorem w domu przy herbacie sama wpisałam w wyszukiwarkę „feromony dla kota M.A.P. F3 sikanie na łóżko" i trafiłam na stronę feliora.pl. Kiedy zobaczyłam cenę zestawu, aż prychnęłam pod nosem do męża: „No jasne, prawie 190 zł za plastikowe kaczuszki do kontaktu, a ten rozbójnik i tak naleje mi jutro na poduszkę". Zamknęłam przeglądarkę i przez kolejne 7 dni udawałam, że poradzę sobie roztworem z octu i dostawieniem 3. kuwety w kącie sypialni.
 
 Złamałam się dopiero w środku kolejnego tygodnia nad ranem, kiedy o 5:00 obudziłam się z ciepłą, mokrą plamą na własnej kołdrze na wysokości kolan. Usiadłam na łóżku, rozpłakałam się z bezsilności w pustej kuchni i zamówiłam zestaw na 2 pokoje wyłącznie dlatego, że dawali pełne 30 dni gwarancji zwrotu pieniędzy. Powiedziałam mężowi krótko: nie wyrzucaj kartonu z szafy, jak nic się nie zmieni, odeślemy puste butelki i odzyskamy kasę co do grosza.
 
@@ -91,11 +91,11 @@ U mojego Leona badanie moczu, posiew z punkcji i USG wyszły idealnie czysto: ze
 Doktor wyjaśnił mi przy stole czystą biologię choroby cywilizacyjnej kotów niewychodzących w blokach - idiopatycznego, stresowego zapalenia pęcherza (FIC):
 Wiertarka u sąsiada za ścianą, przestawienie mebli, obcy zapach na butach gości czy 8 godzin ciszy, gdy jesteśmy w pracy, uruchamiają w ciele migdałowatym kota przewlekły alarm i zalewają krew kortyzolem. Hormony stresu niszczą warstwę ochronną glikozaminoglikanów wyściełającą pęcherz od wewnątrz. Zwykły mocz zaczyna piec odsłonięte nerwy jak kwas, kot kojarzy kuwetę z bólem i ucieka sikać tam, gdzie jest miękko i czuć zapach opiekuna - prosto na Twoją kołdrę albo kanapę!
 
-Kiedy lekarz zapisał mi na kartce z bloczka nazwę mechanizmu: podwójny kompleks biomimetyczny M.A.P. + F3 - dyfuzor Feliora, spojrzałam na niego z ogromnym niedowierzaniem i wypaliłam szczerze: „Panie doktorze, bez urazy, ale nie wierzę, że mała bezwonna wtyczka w kontakcie zatrzyma sikanie 6-kilogramowego kocura na nasze łóżko".
+Kiedy lekarz w rozmowie polecił mi weterynaryjny dyfuzor Feliora z podwójnym kompleksem biomimetycznym M.A.P. + F3, spojrzałam na niego z ogromnym niedowierzaniem i wypaliłam szczerze: „Panie doktorze, bez urazy, ale nie wierzę, że mała bezwonna wtyczka w kontakcie zatrzyma sikanie 6-kilogramowego kocura na nasze łóżko".
 
 Doktor spokojnie rozrysował mi różnicę: nad podniebieniem kota znajduje się narząd Jacobsona połączony nerwami prosto z układem limbicznym mózgu. Starsze wtyczki ze sklepu zoologicznego mają wyłącznie 1 frakcję policzkową F3 (dobrą na drapanie mebli, ale za słabą na głęboki lęk i FIC). Feliora łączy w 1 fiolce 2 sygnały naraz: frakcję terytorialną F3 oraz matczyny kompleks kojący M.A.P. - biologiczny odpowiednik cząsteczek wydzielanych przez karmiącą kotkę, które dają kociętom bezwarunkowe poczucie bezpieczeństwa. Stabilny rdzeń ceramiczny 5W utrzymuje to stężenie 24 godziny na dobę przez pełne 30 dni, wyciszając wyrzut kortyzolu u źródła.
 
-Wieczorem w domu wpisałam nazwę z kartki w Google, dopisałam słowo opinie i zamówiłam zestaw na 2 pokoje wyłącznie dlatego, że producent daje 30 dni gwarancji zwrotu pieniędzy nawet po zużyciu wkładu. Powiedziałam mężowi krótko: „Sprawdzam przez 3 tygodnie, pudełka z szafy nie wyrzucamy".
+Wieczorem w domu otworzyłam stronę feliora.pl i zamówiłam zestaw na 2 pokoje wyłącznie dlatego, że producent daje 30 dni gwarancji zwrotu pieniędzy nawet po zużyciu wkładu. Powiedziałam mężowi krótko: „Sprawdzam przez 3 tygodnie, pudełka z szafy nie wyrzucamy".
 
 Oto jak wyglądała rzeczywistość u nas w domu tydzień po tygodniu:
 - W 1. tygodniu pracy dyfuzorów zdarzyła się jeszcze 1 mała wpadka na dywaniku łazienkowym - wysycenie mieszkania i odbudowa śluzówki pęcherza zajmuje fizjologicznie od 7 do 12 dni, to biologia, a nie magiczny przycisk w pilocie.
@@ -300,9 +300,9 @@ Razem: 518 zł w błoto i 2 skłócone koty nadal zamykane w osobnych pokojach.
 
 Powiedziałem doktorowi całkiem po męsku: „Panie doktorze, ja już mam odruch alergiczny na słowo dyfuzor, boję się utopić kolejne prawie 200 zł".
 
-Lekarz zapisał mi na kartce samą nazwę: dyfuzor Feliora (kompleks M.A.P. + F3) i dodał krótko, że oryginał celowo nie jest sprzedawany przez pośredników na Allegro, a producent daje pełne 30 dni gwarancji zwrotu pieniędzy - nawet na puste, zużyte przez miesiąc fiolki.
+Lekarz wskazał na swój gabinetowy dyfuzor Feliora i dodał krótko, że oryginał celowo nie jest sprzedawany przez pośredników na Allegro, a na oficjalnej stronie feliora.pl producent daje pełne 30 dni gwarancji zwrotu pieniędzy - nawet na puste, zużyte przez miesiąc fiolki.
 
-Wieczorem w domu wpisałem nazwę w telefon, dopisałem słowo opinie i zamówiłem zestaw na 2 pokoje prosto u producenta, zostawiając karton w szafie na wypadek zwrotu.
+Wieczorem w domu otworzyłem stronę feliora.pl, poczytałem na forum Miau.pl relacje innych kociarzy po przegrzanych zamiennikach i zamówiłem zestaw na 2 pokoje prosto u producenta, zostawiając karton w szafie na wypadek zwrotu.
 
 Oto twarde podsumowanie po 26 dniach w naszym mieszkaniu:
 - Po 26 dniach ciągłej pracy 24/7 na dnie 2 szklanych fiolek wciąż widać zapas płynu na ostatnie dni miesiąca, a obudowy są ledwie letnie pod palcem.

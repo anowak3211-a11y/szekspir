@@ -23,7 +23,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'sardian-pl-v13-clean-no-spojrz';
+const STATE_KEY = 'sardian-pl-v14-random-discovery';
 
 interface SardianPlLibraryState {
   ads: SardianPlGeneratedAd[];

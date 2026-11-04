@@ -63,7 +63,7 @@ Przyjmował starszy lekarz, na oko po 60. roku życia. Kiedy bandażował łapę
 
 Lekarz przeczytał 4 linijki, pokręcił głową i oddał mi kartkę.
 
-„Niech pani to wyrzuci i przestanie się zadręczać” - powiedział spokojnie. „Nie da się nauczyć tabliczki mnożenia człowieka, który właśnie tonie w ciemnej wodzie”.
+„Pani Małgorzato, niech pani to wyrzuci i przestanie się zadręczać” - powiedział spokojnie. „Nie da się nauczyć tabliczki mnożenia człowieka, który właśnie tonie w ciemnej wodzie”.
 
 Popatrzyłam na niego przez łzy, nic nie rozumiejąc.
 
@@ -77,11 +77,11 @@ Kiedy suka karmi ślepe szczenięta, skóra na jej brzuchu wydziela niewyczuwaln
 
 Dorosły pies do końca życia ma w podniebieniu specjalny narząd Jacobsona, który odczytuje ten sam kod w 1 sekundę z powietrza i gasi wyrzut kortyzolu w mózgu. Bez tabletek w żołądku i bez otumaniania.
 
-Lekarz nie sprzedawał tego u siebie w gabinecie. Wziął tylko czysty skrawek papieru z biurka i napisał na nim długopisem: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Starszy lekarz nie podał mi żadnej nazwy handlowej ani nie wciskał żadnego pudełka z szafki. Powiedział tylko na odchodne, żebym poszukała dyfuzora do gniazdka z czystym feromonem D.A.P., który utrzyma ten sygnał w mieszkaniu przez cały mój etat.
 
-Wróciłam z obandażowanym Karmelem do mieszkania, zrobiłam sobie herbatę w kuchni i wpisałam to hasło z kartki w laptopa. Sama dopisałam na końcu słowo opinie.
+Wróciłam z obandażowanym Karmelem do domu, zaparzyłam herbatę w kuchni, otworzyłam laptopa i sama wpisałam w wyszukiwarkę: feromon kojący D.A.P. dla psa lęk separacyjny 8 godzin pracy.
 
-Przez ponad 1 godzinę czytałam relacje ludzi z polskich bloków, którzy dokładnie tak jak ja musieli wychodzić rano na 8 godzin na normalny etat. Wszystko brzmiało sensownie aż do chwili, gdy kliknęłam w stronę producenta i doczytałam, że cząsteczki feromonów nie przenikają przez ściany działowe, więc na mój zamknięty przedpokój i pokój potrzebuję zestawu 2 wtyczek za 189,99 zł.
+Przez ponad 1 godzinę przekopywałam wątki ludzi z polskich bloków, którzy dokładnie tak jak ja musieli wychodzić rano na 8 godzin na normalny etat. W komentarzach raz po raz przewijała się nazwa Feliora - aż w końcu weszłam na feliora.pl i doczytałam, że cząsteczki feromonów nie przenikają przez ściany działowe, więc na mój zamknięty przedpokój oraz pokój potrzebuję zestawu 2 wtyczek za 189,99 zł.
 
 Kiedy zobaczyłam tę kwotę na ekranie, zalała mnie czysta, żywa złość. Przed oczami miałam wyciąg z konta pomniejszony o 600 zł po tamtych 2 wizytach domowych.
 
@@ -179,13 +179,13 @@ Zbadałem Fuksa i wytłumaczyłem jego pani prosty mechanizm, który stworzyła 
 
 W podniebieniu każdego psa znajduje się narząd Jacobsona. To osobny zmysł, który nie służy do wąchania kiełbasy, tylko do odbierania biologicznych sygnałów bezpieczeństwa - dokładnie takich jak matczyny feromon kojący D.A.P., wydzielany przez karmiącą sukę, żeby uspokoić szczenięta w gnieździe.
 
-Przyciągnąłem do siebie czysty bloczek z biurka, zapisałem na kartce wyraźnie „feromon kojący D.A.P. - dyfuzor Feliora” i zaproponowałem starszej pani bezpieczny plan: najpierw nasycimy mieszkanie tym sygnałem z gniazdka, a potem pod kontrolą badań krwi powoli zejdziemy z tamtych ciężkich tabletek.
+Zaproponowałem starszej pani bezpieczny plan z weterynaryjnym dyfuzorem Feliora z feromonem D.A.P.: najpierw nasycimy mieszkanie tym sygnałem z gniazdka, a potem pod kontrolą badań krwi powoli zejdziemy z tamtych ciężkich tabletek.
 
-Starsza pani ujęła karteczkę w drżące palce, przeczytała napis i spojrzała na mnie z autentycznym przerażeniem w oczach.
+Starsza pani splotła drżące palce na torebce i spojrzała na mnie z autentycznym przerażeniem w oczach.
 
 „Panie doktorze, ale niech mi pan powie szczerze jak na spowiedzi...” - głos jej zadrżał. „A jak odstawimy leki na rzecz samej wtyczki w kontakcie i on znów zacznie wyć na cały pion? Sąsiad z góry straszył mnie już spółdzielnią! Ja ze skromnej emerytury nie mogę wyrzucić prawie 200 zł w błoto na coś, czego nawet nie czuć nosem, zwłaszcza że w tamtej klinice zostawiłam już 180 zł!”.
 
-Odłożyłem długopis na blat, bo jej obawa była w 100% ludzka i uzasadniona. Kiedy człowiek liczy każdy grosz przed 10. dniem miesiąca, a nad sufitem ma rozjuszonego sąsiada, ostatnie czego potrzebuje to kupowanie kota w worku.
+Nachyliłem się łagodnie nad biurkiem, bo jej obawa była w 100% ludzka i uzasadniona. Kiedy człowiek liczy każdy grosz przed 10. dniem miesiąca, a nad sufitem ma rozjuszonego sąsiada, ostatnie czego potrzebuje to kupowanie kota w worku.
 
 Wytłumaczyłem jej po ludzku cały plan krok po kroku, bez skakania na głęboką wodę.
 
@@ -193,9 +193,9 @@ Po 1.: żadnych gwałtownych ruchów z dnia na dzień. Najpierw przez pełne 7 d
 
 Po 2.: pojedynczy wkład wystarcza aż na 60 dni ciągłej pracy z 0% chemii w żołądku oraz 0% obciążenia dla zmęczonej wątroby i nerek 9-letniego zwierzaka.
 
-A po 3. - co ostatecznie zdjęło jej kamień z serca - wyjaśniłem, dlaczego odsyłam ją z wnuczką bezpośrednio na stronę producenta: zamówienie chroni tam pełna, 30-dniowa gwarancja zwrotu pieniędzy. Gdyby po zejściu z tabletek Fuks znów zaczął rozpaczać pod progiem, odsyła pudełka i dostaje co do złotówki zwrot na konto.
+A po 3. - co ostatecznie zdjęło jej kamień z serca - poprosiłem, żeby wnuczka zamówiła zestaw bezpośrednio na stronie producenta feliora.pl, gdzie zakup chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy. Gdyby po zejściu z tabletek Fuks znów zaczął rozpaczać pod progiem, odsyła pudełka i dostaje co do złotówki zwrot na konto.
 
-Pokiwała z wolna głową, schowała karteczkę do portmonetki między dowód osobisty a legitymację emeryta i obiecała, że przypnie paragon magnesem na lodówce.
+Pokiwała z wolna głową, poprosiła mnie tylko o wpisanie nazwy Feliora w SMS-ie do wnuczki i obiecała, że przypnie paragon magnesem na lodówce.
 
 Po 4 tygodniach starsza pani przyszła z Fuksem na kontrolne pobranie krwi.
 
@@ -275,9 +275,9 @@ Dziewczyna zakryła usta dłonią, a po policzkach pociekły jej łzy.
 
 „Boże... a jak on w nocy tarł szyją o dywan i trzepał głową, to jeszcze zapięłam mu ten pasek ciaśniej, bo w instrukcji pisało, że musi dotykać skóry...” - wyszeptała i przytuliła łeb Riko do swojego brzucha.
 
-Przemyłem rany antyseptykiem, założyłem miękkie opatrunki na pogryzione nadgarstki psa, a potem oderwałem czystą kartkę z bloczka i zapisałem na niej wyraźnie: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Przemyłem rany antyseptykiem, założyłem miękkie opatrunki na pogryzione nadgarstki psa i poleciłem młodemu małżeństwu wprost, żeby zamiast wieszać Riko cokolwiek na poranionej szyi, zamówili weterynaryjny dyfuzor Feliora z feromonem D.A.P.
 
-Wytłumaczyłem im krótko, że zamiast wieszać psu cokolwiek na poranionej szyi, wpina się taki dyfuzor prosto do zwykłego gniazdka w ścianie. Mgiełka jest w 100% bezwonna dla człowieka i nie drażni 300 milionów receptorów węchowych psa, bo odbiera ją wyłącznie narząd Jacobsona w podniebieniu z biologicznym sygnałem matki: „Gniazdo jest bezpieczne, możesz spać”.
+Wytłumaczyłem im krótko, że wpina się go prosto do zwykłego gniazdka w ścianie. Mgiełka jest w 100% bezwonna dla człowieka i nie drażni 300 milionów receptorów węchowych psa, bo odbiera ją wyłącznie narząd Jacobsona w podniebieniu z biologicznym sygnałem matki: „Gniazdo jest bezpieczne, możesz spać”.
 
 Spodziewałem się, że odetchną z ulgą. Zamiast tego młody mąż pobladł jeszcze mocniej i wypalił w czystej panice:
 
@@ -363,11 +363,11 @@ Weterynarz wysłuchał mnie ze stoickim spokojem i zadał mi 1 proste pytanie:
 
 „Jak serek znika, w pokoju zostaje ta sama cisza i ten sam strach. Żeby mózg psa wytrzymał 9 godzin, sygnał spokoju nie może być w zabawce na podłodze - musi być w powietrzu, którym ten pies oddycha o 9:00, o 12:00 i o 16:00”.
 
-Wziął receptę, odwrócił ją na czystą stronę i zapisał mi na niej drukowanymi literami: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Powiedział mi krótko o psim feromonie kojącym D.A.P., który suka wydziela przy karmieniu młodych, ale nie podał żadnej konkretnej marki - w drzwiach stał już następny pacjent z poczekalni.
 
-Wróciłem w sobotę po południu do domu, rzuciłem tę karteczkę na szafkę przy ekspresie do kawy i wieczorem z czystej ciekawości wpisałem hasło od weta w telefon, samemu dopisując na końcu słowo opinie.
+Wieczorem w sobotę usiadłem z kubkiem kawy na kanapie, odpaliłem YouTube w telefonie i wpisałem w wyszukiwarkę „lęk separacyjny pies feromony D.A.P.”. Obejrzałem 12-minutowy wykład lekarza weterynarii o działaniu narządu Jacobsona w podniebieniu psa, a potem zjechałem palcem do sekcji komentarzy.
 
-Poczytałem o działaniu narządu Jacobsona w podniebieniu psa i o matczynym feromonie kojącym D.A.P., który grzałka utrzymuje w powietrzu przez 24 godziny na dobę przez 60 dni z 1 wkładu. Brzmiało to całkiem logicznie aż do chwili, gdy wszedłem na stronę producenta i zobaczyłem, że przez ściany działowe między naszym korytarzem a salonem potrzebuję zestawu na 2 pokoje za 189,99 zł.
+Pod filmem ponad 40 osób po kamizelkach uciskowych i walerianie pisało o polskiej wtyczce Feliora ze stabilizowaną grzałką 5 W, która utrzymuje ten sygnał w powietrzu przez 24 godziny na dobę aż przez 60 dni z 1 wkładu. Brzmiało to całkiem logicznie aż do chwili, gdy wszedłem na feliora.pl i zobaczyłem, że przez ściany działowe między naszym korytarzem a salonem potrzebuję zestawu na 2 pokoje za 189,99 zł.
 
 Prychnąłem głośno i zamknąłem przeglądarkę 1 ruchem kciuka.
 
@@ -463,13 +463,13 @@ Jedyna rzecz, którą przeliczamy przy dyfuzorze Feliora, to NIE waga Twojego ps
 
 Postawiłem mu jednak twardy, uczciwy warunek, zanim wyszedł z gabinetu: u zdrowego, 38-kilogramowego owczarka żadna wtyczka świata nie zastąpi porządnego, 60-minutowego spaceru przed pracą, na którym pies zmęczy głowę węszeniem w trawie. I pod żadnym pozorem nie wolno wyciągać dyfuzora z gniazdka na noc „żeby oszczędzić płyn”, bo pełne wysycenie powietrza i wyciszenie układu nerwowego buduje się przez 5 do 10 dni ciągłej pracy.
 
-Wpiąłem swój dyfuzor z powrotem do gniazdka obok stołu zabiegowego, wziąłem czysty skrawek papieru z biurka i zapisałem mu wyraźnie nazwę do zamówienia w sieci: „feromon kojący D.A.P. - dyfuzor Feliora”.
+Wpiąłem swój dyfuzor Feliora z powrotem do gniazdka obok stołu zabiegowego i powiedziałem mu wprost, gdzie zamówi taki zestaw do domu.
 
-Pan Marek schował karteczkę do kieszeni roboczej kurtki, zerknął jeszcze raz na małą białą wtyczkę w ścianie mojego gabinetu i pokręcił z niedowierzaniem głową.
+Pan Marek zerknął jeszcze raz na małą białą wtyczkę w ścianie mojego gabinetu i pokręcił z niedowierzaniem głową.
 
 „Panie doktorze, przychodzę do pana od lat, ale niech pan mnie zrozumie” - mruknął pod nosem. „Jak przyjedzie kurier i moja żona zobaczy, że zamiast porządnych tabletek dla takiego byka zamówiłem do kontaktu 2 małe buteleczki za prawie 200 zł, to popuka się w czoło przy kolacji”.
 
-Wyjaśniłem mu krótko, dlaczego nie sprzedaję tych pudełek z narzutem u siebie w szafce, tylko odsyłam prosto na stronę producenta: pojedynczy wkład działa w kontakcie bez przerwy aż przez 60 dni, a całe zamówienie chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy.
+Uspokoiłem go krótko, że na oficjalnej stronie producenta feliora.pl pojedynczy wkład działa w kontakcie bez przerwy aż przez 60 dni, a całe zamówienie chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy.
 
 Kiedy to usłyszał, machnął ciężką dłonią.
 

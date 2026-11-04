@@ -25,7 +25,7 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pies-pl-v10-true-a4-and-11';
+const STATE_KEY = 'feliora-pies-pl-v11-random-discovery';
 const DEFAULT_CREATED_AT = Date.parse('2026-11-04T12:50:00+01:00');
 
 interface FelioraPiesPlLibraryState {
