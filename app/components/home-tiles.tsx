@@ -6,43 +6,6 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
       <p className="sub">Pick a tool. <a href="/profile">Profil i konfiguracja</a></p>
       <div className="tiles">
         <a className="tile big" href="/uploader"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></svg></span><span className="tile-title">Szekspir Ads</span><span className="tile-sub">Gotowe filmy i obrazy, zatwierdzone teksty oraz publikacja do Meta. Zapisane paczki i postęp każdej reklamy.</span></a>
-        <a className="tile big" href="/ads-xray"><span className="tile-title">ADS X-RAY</span><span className="tile-sub">Porównaj skrypty, warianty i tłumaczenia. Różnice słów, mapa zdań, analiza podobieństwa AI i historia.</span></a>
-        <a className="tile big" href="/antki"><span className="tile-icon">🐜</span><span className="tile-title">ANTKI</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
-        <a className="tile big" href="/antki-pl?brand=orthomax&batch=noom&angle=noom-102-krystyna-62-wroclaw-schody">
-          <span className="tile-icon" aria-hidden="true">🔥</span>
-          <span className="tile-title">4 ANTKI NOOM · KRYSTYNA 62 L. (#102–#105)</span>
-          <span className="tile-sub">
-            Batch 6 (02.11.2026): 4 nowe długie Antki NOOM („Kalejdoskop 5 lekarzy / 3. piętro we Wrocławiu”) pod A/B test landera /pages/kp-krystyna-1 (#102 Iwona, #103 Karol, #104 Gosia, #105 Fizjo).
-          </span>
-        </a>
-        <a className="tile big" href="/ab-test">
-          <span className="tile-icon" aria-hidden="true">🧪</span>
-          <span className="tile-title">A/B TEST LANDERÓW · DRAFT (WSTRZYMANY)</span>
-          <span className="tile-sub">
-            Panel eksperymentów (domyślnie WSTRZYMANY · zero wpływu na live ruch): Wariant A (Standard PDP) vs Wariant B (Noom Story-PDP „Historia Krystyny · ciąg dalszy”) + 4 Antki NOOM (#102–#105).
-          </span>
-        </a>
-        <a className="tile big" href="/antki-pl">
-          <span className="tile-icon" aria-hidden="true">🇵🇱</span>
-          <span className="tile-title">ANTKI PL &amp; UK (FABRYKA)</span>
-          <span className="tile-sub">
-            Orthomax StepMax (105 — w tym 4 NOWE NOOM #102–#105), SARDIAN Szampon (44), Feliora PL Psy (25), Feliora Koty (31) oraz Bennett &amp; Seed UK (30 LFS).
-          </span>
-        </a>
-        <a className="tile big" href="/antki-pl?brand=bennett-uk">
-          <span className="tile-icon" aria-hidden="true">🎃</span>
-          <span className="tile-title">BENNETT &amp; SEED UK · 30 LFS</span>
-          <span className="tile-sub">
-            Wszystkie 30 pełnych brytyjskich Long-Form Stories (Antków) 1:1 pod 5 silosów bennettseed.co: Bladder 50+ (8), Prostate 50+ (8), Cholesterol (6), Kidney (4), Hair &amp; GLP-1 (4).
-          </span>
-        </a>
-        <a className="tile big" href="/native-images">
-          <span className="tile-icon" aria-hidden="true">📱</span>
-          <span className="tile-title">NATIVE IMAGES · Raw iPhone 3:4</span>
-          <span className="tile-sub">
-            Wklej dowolny skrypt.txt (PL lub UK) + instruction.txt. Generuje 12 lub 15 surowych zdjęć Raw iPhone 3:4 (2K Google AI) z selekcją i pobieraniem paczek.
-          </span>
-        </a>
         <a className="tile big" href="/image-ripper">
           <span className="tile-icon" aria-hidden="true">🖼️</span>
           <span className="tile-title">IMAGE RIPPER</span>
@@ -67,13 +30,6 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
           <span className="tile-icon">📜</span>
           <span className="tile-title">SCRIPT HISTORY</span>
           <span className="tile-sub">SZEKSPIR transcripts and localised scripts. Search, review and copy saved text.</span>
-        </a>
-        <a className="tile big" href="/advertorial">
-          <span className="tile-icon">📰</span>
-          <span className="tile-title">ADVERTORIAL</span>
-          <span className="tile-sub">
-            Long-form advertorial localization US → UK. Coming soon.
-          </span>
         </a>
         <a className="tile big" href="/voice-swapper"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 9h16m-4-4 4 4-4 4M20 15H4m4-4-4 4 4 4"/></svg></span><span className="tile-title">VOICE SWAPPER</span><span className="tile-sub">Usuń oryginalną mowę, zachowaj tło i podłóż gotowy voiceover z ElevenLabs. Odsłuch i eksport filmu.</span></a>
         <a className="tile big" href="/additional-files">
