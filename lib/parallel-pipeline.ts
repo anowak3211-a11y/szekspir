@@ -72,7 +72,10 @@ export async function advanceParallel(id:string):Promise<number>{
   const j=await mutate<Job|null,Job>(`job-${id}`,null,s=>{
    if(!s||s.status==='Failed'||s.step==='done'||s.hookDeliveryPending!==undefined||(s.leaseUntil||0)>Date.now())throw Error('NOT_RUNNABLE');
    s.stages??={};
-   for(const v of Object.values(s.stages))if(v.pending){v.error??='Previous paid request was interrupted. Check the provider before retrying.';v.uncertain=true;}
+   for(const [k,v] of Object.entries(s.stages))if(v.pending){
+    if((k==='transcribe'||k==='localise')&&(v.attempts||0)<4){v.pending=false;v.uncertain=false;v.error=undefined;continue;}
+    v.error??='Previous paid request was interrupted. Check the provider before retrying.';v.uncertain=true;
+   }
    s.lease=token;s.leaseUntil=Date.now()+360000;s.status='Running';return structuredClone(s);
   });claimed=true;
   const patch=async(fn:(s:Job)=>void)=>mutate<Job|null,void>(`job-${id}`,null,s=>{if(!s||s.lease!==token)throw Error('Lease expired');fn(s);s.updated=Date.now();});
@@ -220,6 +223,9 @@ export async function advanceParallel(id:string):Promise<number>{
     }
     if(['videoPoll','enhancePoll','cleanFirst','driveUpload'].includes(k)&&!stage.pending&&/aborted due to timeout|Video (?:transfer|headers|DNS lookup) (?:timed out|stalled)|Video storage returned HTTP 5\d\d|fetch failed|ECONNRESET|ETIMEDOUT/i.test((e as Error).message||'')&&(stage.attempts||0)<5){
      stage.nextAt=Date.now()+8000;stage.error=undefined;stage.uncertain=false;stage.retryReason='Retrying large video transfer to storage automatically.';return;
+    }
+    if((k==='transcribe'||k==='localise')&&(/Request timed out|timed out|aborted due to timeout|APIConnection|Language provider (?:timed out|is temporarily unavailable)|Could not connect to the language provider|fetch failed|ECONNRESET|ETIMEDOUT|HTTP 5\d\d|429/i.test((e as Error).message||'')||['APIConnectionTimeoutError','APIConnectionError'].includes((e as Error).name||''))&&(stage.attempts||0)<4){
+     stage.pending=false;stage.uncertain=false;stage.error=undefined;stage.nextAt=Date.now()+6000;stage.retryReason='Provider timed out on long audio or script. Retrying automatically.';return;
     }
     const safe=(e as Error&{safeToRetry?:boolean}).safeToRetry===true;
     if(safe)stage.pending=false;

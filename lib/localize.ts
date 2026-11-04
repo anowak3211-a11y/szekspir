@@ -185,32 +185,32 @@ export async function localize(usScript:string,provider:Provider,model:string,pr
    :'';
  if(targetProductInstruction)system+='\n'+targetProductInstruction;
  const user=JSON.stringify({disclosureInstruction,mode:market==='pl'||productMd?.trim()?'BRAND_ADAPTATION':'FAITHFUL_SOURCE',productContext:productMd||'',sourceTranscript:usScript});
- let raw=await complete(provider,model,system,user,120000); let result:LocalizeResult;
+ let raw=await complete(provider,model,system,user,180000); let result:LocalizeResult;
  try{result=validateLocalisation(raw,generateHooks);}catch{
-  raw=await complete(provider,model,system,user+'\nPrevious output had an invalid schema. Return exactly the requested JSON contract; do not omit fields.',60000);
+  raw=await complete(provider,model,system,user+'\nPrevious output had an invalid schema. Return exactly the requested JSON contract; do not omit fields.',120000);
   result=validateLocalisation(raw,generateHooks,true);
  }
  if(market==='pl')assertPolishLength(usScript,result.uk_script);
  if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand)){
-  const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',120000);
+  const corrected=await complete(provider,model,system,user+'\nThe previous attempt introduced a brand absent from the source. Regenerate faithfully with NO MELLOW or added product reveal. Return the full JSON contract.',150000);
   result=validateLocalisation(corrected,generateHooks,true);
   if(market==='uk'&&hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  // Keep both the target count and the source's compact composition wording.
  const compositionGuard=saffronProduct&&!!productMd?.trim()&&!singingAd&&mayIntroduceMellow(usScript);
  if(compositionGuard&&hasRejectedComposition(usScript,result)){
-  const corrected=await complete(provider,model,system,user+`\nCorrect only the advertised-product composition in the previous output. Mellow Mood Munchies have ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve the ORIGINAL compact phrase and change only its number: all 14 nutrients -> all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients -> saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Do not replace a counted phrase with a list of ingredient names or change its noun. Preserve all other sentences, the original hook, disclosure timing and CTA. Return the full JSON contract.\nPrevious output: `+JSON.stringify(result),60000);
+  const corrected=await complete(provider,model,system,user+`\nCorrect only the advertised-product composition in the previous output. Mellow Mood Munchies have ${MELLOW_SAFFRON_NUTRIENTS} nutrients in total, including saffron. Preserve the ORIGINAL compact phrase and change only its number: all 14 nutrients -> all ${MELLOW_SAFFRON_NUTRIENTS} nutrients; saffron plus 14 natural ingredients -> saffron plus ${MELLOW_SAFFRON_NUTRIENTS-1} natural ingredients. Do not replace a counted phrase with a list of ingredient names or change its noun. Preserve all other sentences, the original hook, disclosure timing and CTA. Return the full JSON contract.\nPrevious output: `+JSON.stringify(result),120000);
   result=validateLocalisation(corrected,generateHooks,true);
   if(hasRejectedComposition(usScript,result))throw Error('Localisation changed the compact composition wording or used the wrong Mellow Mood Munchies nutrient count. No new script was saved.');
   if(hasUnwantedBrandReveal(usScript,[result.uk_script,...result.hooks],targetBrand))throw Error('Adaptation added a brand absent from the US source. No new script was saved. Please regenerate.');
  }
  if(gummyFormat&&[result.uk_script,...result.hooks].some(hasGummyFormatAttack)){
-  const corrected=await complete(provider,model,system,user+'\nCorrect only the source format rant in the previous output. The target is a gummy product. Replace anti-gummy criticism with a positive supported gummy-format argument or the existing pill/powder refusal problem. Keep all other sentences and brand-reveal timing unchanged. Return the full JSON contract.\nPrevious output: '+JSON.stringify(result),60000);
+  const corrected=await complete(provider,model,system,user+'\nCorrect only the source format rant in the previous output. The target is a gummy product. Replace anti-gummy criticism with a positive supported gummy-format argument or the existing pill/powder refusal problem. Keep all other sentences and brand-reveal timing unchanged. Return the full JSON contract.\nPrevious output: '+JSON.stringify(result),120000);
   result=validateLocalisation(corrected,generateHooks,true);
   if([result.uk_script,...result.hooks].some(hasGummyFormatAttack))throw Error('Adaptation still attacks the selected gummy format. No new script was saved.');
  }
  if(market==='uk'&&depth==='close'&&!singingAd&&!closeFidelity(canonicalUkMedicationName(usScript),canonicalUkMedicationName(result.uk_script),selectedCta,gummyFormat)){
-  const corrected=await complete(provider,model,system,user+'\nThe previous output rewrote too much of the source. This is LIGHT LOCALISATION, not new copy. Edit the ORIGINAL transcript sentence by sentence, retaining its original opening, sentence order and wording. Change only genuine British usage, obvious transcription errors and supplied target-product facts/offer. Do not paraphrase natural English. Return the full JSON contract.',60000);
+  const corrected=await complete(provider,model,system,user+'\nThe previous output rewrote too much of the source. This is LIGHT LOCALISATION, not new copy. Edit the ORIGINAL transcript sentence by sentence, retaining its original opening, sentence order and wording. Change only genuine British usage, obvious transcription errors and supplied target-product facts/offer. Do not paraphrase natural English. Return the full JSON contract.',120000);
   result=validateLocalisation(corrected,generateHooks,true);
   if(!closeFidelity(canonicalUkMedicationName(usScript),canonicalUkMedicationName(result.uk_script),selectedCta,gummyFormat))throw Error('Light localisation rewrote too much of the original. No new script was saved.');
  }
@@ -360,13 +360,13 @@ async function complete(
 
 function criticModel(provider:Provider){return provider==='anthropic'?'claude-haiku-4-5-20251001':'gpt-6-sol';}
 export async function critic(script:string,provider:Provider,_model:string,sourceTranscript?:string){
- const raw=objectJson(await complete(provider==='custom'?'openai':provider,criticModel(provider),CRITIC_PROMPT,JSON.stringify({script,sourceTranscript}),30000,true));
+ const raw=objectJson(await complete(provider==='custom'?'openai':provider,criticModel(provider),CRITIC_PROMPT,JSON.stringify({script,sourceTranscript}),90000,true));
  if(!Array.isArray(raw.fixes))throw new Error('Invalid British English check response');
  const fixed=applyCritic(script,raw.fixes,sourceTranscript);return {uk_script:fixed.script,fixes:fixed.fixes};
 }
 export async function prepareNarration(script:string,_provider:Provider,_model:string,market:Market='uk'){return narration(script,market);}
 export async function transcribeWithDuration(file:File,wordTimes=false):Promise<{text:string;duration?:number;words?:{word:string;start:number;end:number}[]}>{
- const client=new OpenAI({apiKey:requiredAccountEnv('OPENAI_API_KEY'),timeout:60000,maxRetries:0});
+ const client=new OpenAI({apiKey:requiredAccountEnv('OPENAI_API_KEY'),timeout:210000,maxRetries:0});
  const response=await client.audio.transcriptions.create({file,model:'whisper-1',response_format:'verbose_json',...(wordTimes?{timestamp_granularities:['word' as const]}:{})});
  return {text:response.text,duration:response.duration,...(wordTimes?{words:response.words}: {})};
 }
