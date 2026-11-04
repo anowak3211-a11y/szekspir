@@ -381,6 +381,10 @@ body{line-height:1.55} .wrap{max-width:1180px} h1{letter-spacing:-.025em} h2,h3{
 /* Separate, touch-friendly controls for silence removal and pitch-preserving tempo. */
 .voice-adjustments {min-width:0;border:1px solid var(--voice-border,var(--border));border-radius:12px;margin:20px 0;padding:16px;color:var(--text);text-align:left;}
 .voice-adjustments legend {padding:0 6px;font-size:17px;font-weight:700;}
+.voice-presets {display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 18px;}
+.voice-preset-btn {margin:0;min-height:40px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--voice-border,var(--border));background:var(--card,#fff);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:background .14s,border-color .14s;}
+.voice-preset-btn.active {background:#eaf8ef;border-color:#16844b;color:#125f36;}
+.voice-preset-btn:disabled {opacity:.6;cursor:not-allowed;}
 .voice-adjustment-grid {display:grid;grid-template-columns:minmax(0,1fr);gap:24px;}
 .voice-adjustment {min-width:0;}
 .voice-adjustment label {display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:600;}

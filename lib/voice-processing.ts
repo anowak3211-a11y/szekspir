@@ -4,8 +4,12 @@ export const OPENING_REACTIONS=['none','yawns','sighs','laughs','clears throat',
 export type OpeningReaction=typeof OPENING_REACTIONS[number];
 export type VoiceAudioAdjustments={pauseShorteningMs:number;tempoFactor:number;sourceAnchor?:import('./phrase-pace').PhraseAnchor};
 export type VoiceProcessing={deliveryPace?:'brisk';pauseShorteningMs?:number;tempoFactor?:number;matchSourcePace?:boolean;mode:'standard'|'gentle'|'aggressive';normalize:boolean;emotion?:VoiceEmotion;openingReaction?:OpeningReaction;breaths?:boolean;ambience?:'none'|'car'|'room'|'outdoors'};
-export function pauseShorteningMs(value?:VoiceProcessing){return value?.pauseShorteningMs??(value?.matchSourcePace===true?0:300);}
-export function voiceTempoFactor(value?:VoiceProcessing){return value?.tempoFactor??1;}
+export const NATURAL_VO_PRESET_1={pauseShorteningMs:650,tempoFactor:1.16} as const;
+export function pauseShorteningMs(value?:VoiceProcessing){return value?.pauseShorteningMs??(value?.matchSourcePace===true?0:NATURAL_VO_PRESET_1.pauseShorteningMs);}
+export function voiceTempoFactor(value?:VoiceProcessing){return value?.tempoFactor??(value?.mode==='gentle'&&value?.matchSourcePace!==true?NATURAL_VO_PRESET_1.tempoFactor:1);}
+export function applyNaturalVoPreset1(saved?:VoiceProcessing):VoiceProcessing{
+ return {...v4RecordingSettings(saved),matchSourcePace:false,emotion:'off',pauseShorteningMs:NATURAL_VO_PRESET_1.pauseShorteningMs,tempoFactor:NATURAL_VO_PRESET_1.tempoFactor};
+}
 export function voiceProcessing(value?:unknown):VoiceProcessing{
  if(value===undefined)return {mode:'standard',normalize:false,emotion:'off',openingReaction:'none'};
  if(!value||typeof value!=='object')throw Error('Invalid voice processing settings');

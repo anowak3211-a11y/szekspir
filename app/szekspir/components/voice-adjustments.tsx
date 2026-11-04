@@ -1,10 +1,20 @@
 'use client';
-import {pauseShorteningMs,voiceTempoFactor,v4RecordingSettings,type VoiceProcessing} from '@/lib/voice-processing';
+import {NATURAL_VO_PRESET_1,applyNaturalVoPreset1,pauseShorteningMs,voiceTempoFactor,v4RecordingSettings,type VoiceProcessing} from '@/lib/voice-processing';
 
 export default function VoiceAdjustments({value,onChange,disabled=false,polish=false}:{value:VoiceProcessing;onChange:(value:VoiceProcessing)=>void;disabled?:boolean;polish?:boolean}){
  const pause=pauseShorteningMs(value),speed=voiceTempoFactor(value),automatic=value.matchSourcePace===true;
+ const isPreset1=!automatic&&pause===NATURAL_VO_PRESET_1.pauseShorteningMs&&Math.abs(speed-NATURAL_VO_PRESET_1.tempoFactor)<0.001&&(value.emotion??'off')==='off';
+ const isRaw=!automatic&&pause===0&&Math.abs(speed-1)<0.001;
  return <fieldset className="voice-adjustments" disabled={disabled}>
   <legend>{polish?'Pauzy i tempo':'Pauses and speech speed'}</legend>
+  <div className="voice-presets" role="group" aria-label={polish?'Presety VO':'VO presets'}>
+   <button type="button" className={`voice-preset-btn ${isPreset1?'active':''}`} aria-pressed={isPreset1} disabled={disabled} onClick={()=>onChange(applyNaturalVoPreset1(value))}>
+    {polish?'Preset 1 · VO Natural (0,65 s · 1,16×)':'Preset 1 · VO Natural (0.65 s · 1.16×)'}
+   </button>
+   <button type="button" className={`voice-preset-btn ${isRaw?'active':''}`} aria-pressed={isRaw} disabled={disabled} onClick={()=>onChange({...v4RecordingSettings(value),matchSourcePace:false,pauseShorteningMs:0,tempoFactor:1})}>
+    {polish?'Oryginał · 1,00× (bez skracania)':'Original · 1.00× (no shortening)'}
+   </button>
+  </div>
   <div className="voice-adjustment-grid">
    <div className="voice-adjustment">
     <label htmlFor="voice-pause-shortening"><span>{polish?'Skracanie pauz':'Pause shortening'}</span><strong>{pause===0?(polish?'Pełne pauzy':'Full pauses'):`${(pause/1000).toFixed(2)} s`}</strong></label>

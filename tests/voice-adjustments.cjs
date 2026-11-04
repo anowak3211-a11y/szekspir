@@ -2,12 +2,15 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),ts=r
 for(const ext of ['.ts','.tsx'])require.extensions[ext]=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true,jsx:ts.JsxEmit.ReactJSX}}).outputText,f);
 const real=Module._load;Module._load=function(n,p,...args){return real.call(this,n.startsWith('@/')?path.resolve(n.slice(2)):n,p,...args);};
 const React=require('react'),{renderToStaticMarkup}=require('react-dom/server'),Controls=require('../app/szekspir/components/voice-adjustments.tsx').default;
-const {voiceProcessing,v4RecordingSettings,voiceoverCreationSettings}=require('../lib/voice-processing.ts'),{cleanVoiceover}=require('../lib/vo-cleanup.ts'),ffmpeg=require('ffmpeg-static');
+const {NATURAL_VO_PRESET_1,applyNaturalVoPreset1,pauseShorteningMs,voiceTempoFactor,voiceProcessing,v4RecordingSettings,voiceoverCreationSettings}=require('../lib/voice-processing.ts'),{cleanVoiceover}=require('../lib/vo-cleanup.ts'),ffmpeg=require('ffmpeg-static');
+assert.equal(pauseShorteningMs(v4RecordingSettings()),650);assert.equal(voiceTempoFactor(v4RecordingSettings()),1.16);assert.deepEqual(NATURAL_VO_PRESET_1,{pauseShorteningMs:650,tempoFactor:1.16});
 const settings={mode:'gentle',normalize:false,matchSourcePace:false,pauseShorteningMs:150,tempoFactor:1.05,emotion:'curious',ambience:'car'};
 assert.deepEqual(v4RecordingSettings(voiceProcessing(JSON.parse(JSON.stringify(settings)))),{...settings,breaths:false,openingReaction:'none'});
+assert.deepEqual(applyNaturalVoPreset1(settings),{...v4RecordingSettings(settings),matchSourcePace:false,emotion:'off',pauseShorteningMs:650,tempoFactor:1.16});
 for(const bad of [{pauseShorteningMs:-1},{pauseShorteningMs:1001},{pauseShorteningMs:1.5},{pauseShorteningMs:'300'},{tempoFactor:.9},{tempoFactor:1.31},{tempoFactor:NaN},{tempoFactor:'1.05'},{matchSourcePace:true,tempoFactor:1.1}])assert.throws(()=>voiceProcessing({...settings,...bad}));
 const source=voiceoverCreationSettings('source',settings);assert.equal(source.tempoFactor,1);assert.equal(source.pauseShorteningMs,150);
 const render=value=>renderToStaticMarkup(React.createElement(Controls,{value,onChange:()=>{}}));
+assert(render(v4RecordingSettings()).includes('0.65 s'));assert(render(v4RecordingSettings()).includes('1.16×'));assert(render(v4RecordingSettings()).includes('Preset 1 · VO Natural (0.65 s · 1.16×)'));
 assert.equal((render(settings).match(/type="range"/g)||[]).length,2);assert(render(settings).includes('0.15 s'));assert(render(settings).includes('1.05×'));assert(/id="voice-tempo-factor"[^>]*disabled=""/.test(render(source)));assert(render({...settings,pauseShorteningMs:0}).includes('Full pauses'));
 let changed;const inputs=[];function visit(n){if(!React.isValidElement(n))return;if(n.type==='input')inputs.push(n);React.Children.forEach(n.props.children,visit);}
 visit(Controls({value:settings,onChange:v=>changed=v}));inputs[0].props.onChange({target:{value:'600'}});assert.equal(changed.pauseShorteningMs,600);assert.equal(changed.tempoFactor,1.05);assert.equal(changed.ambience,'car');inputs[1].props.onChange({target:{value:'1.15'}});assert.equal(changed.tempoFactor,1.15);assert.equal(changed.pauseShorteningMs,150);

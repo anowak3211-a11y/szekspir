@@ -1,6 +1,6 @@
 import {accountRoute} from '@/lib/account-route';
 import {listVoices,generatePauseSample,ELEVEN_MODEL_ID} from '@/lib/elevenlabs';
-import {voiceProcessing,breathsEnabled} from '@/lib/voice-processing';
+import {voiceProcessing,breathsEnabled,pauseShorteningMs,voiceTempoFactor} from '@/lib/voice-processing';
 import {cleanVoiceover,VO_CLEANUP_VERSION} from '@/lib/vo-cleanup';
 import {existingMedia,putMedia} from '@/lib/media';
 import {withEditorLocks} from '@/lib/editor-locks';
@@ -45,7 +45,7 @@ async function accountPOST(req:Request){
    });
   }
 
-  const processedPath=`vo/preview-${key}-${ELEVEN_MODEL_ID}-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}-pause-${processing.pauseShorteningMs??(processing.matchSourcePace===true?0:300)}-tempo-${processing.tempoFactor??1}.wav`;
+  const processedPath=`vo/preview-${key}-${ELEVEN_MODEL_ID}-${VO_CLEANUP_VERSION}-${processing.mode}-${breathsEnabled(processing)?'breaths':'plain'}-${processing.normalize?'norm':'plain'}-pause-${pauseShorteningMs(processing)}-tempo-${voiceTempoFactor(processing)}.wav`;
   let processed=await existingMedia(processedPath);
   if(!processed){
    const response=await fetch(original,{signal:AbortSignal.timeout(30000)});
