@@ -6,6 +6,14 @@ export default function HomeTiles({adminSheetId,editorSheetId}:{adminSheetId?:st
       <p className="sub">Pick a tool. <a href="/profile">Profil i konfiguracja</a></p>
       <div className="tiles">
         <a className="tile big" href="/uploader"><span className="tile-icon" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></svg></span><span className="tile-title">Szekspir Ads</span><span className="tile-sub">Gotowe filmy i obrazy, zatwierdzone teksty oraz publikacja do Meta. Zapisane paczki i postęp każdej reklamy.</span></a>
+        <a className="tile big" href="/antki"><span className="tile-icon">🐜</span><span className="tile-title">ANTKI</span><span className="tile-sub">Trendtrack image ads and long primary texts. Saved in the Admin Sheet with permanent Drive images.</span></a>
+        <a className="tile big" href="/antki-pl">
+          <span className="tile-icon" aria-hidden="true">🇵🇱</span>
+          <span className="tile-title">ANTKI PL</span>
+          <span className="tile-sub">
+            Orthomax StepMax, Feliora Psy i Koty oraz SARDIAN — gotowe polskie Antki 1:1 i wysyłka do Meta.
+          </span>
+        </a>
         <a className="tile big" href="/image-ripper">
           <span className="tile-icon" aria-hidden="true">🖼️</span>
           <span className="tile-title">IMAGE RIPPER</span>
