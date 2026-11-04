@@ -25,8 +25,8 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pies-pl-v9-orthomax-realism';
-const DEFAULT_CREATED_AT = Date.parse('2026-11-04T00:25:00+01:00');
+const STATE_KEY = 'feliora-pies-pl-v10-true-a4-and-11';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-04T12:50:00+01:00');
 
 interface FelioraPiesPlLibraryState {
   ads: FelioraPiesPlGeneratedAd[];

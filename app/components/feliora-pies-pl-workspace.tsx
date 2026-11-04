@@ -97,7 +97,7 @@ export default function FelioraPiesPlWorkspace({
   const [pushStatus] = useState<'PAUSED' | 'ACTIVE'>('PAUSED');
   const [pushingMeta, setPushingMeta] = useState(false);
 
-  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v4';
+  const FELIORA_PIES_LOCAL_IMAGES_KEY = 'feliora_pies_pl_saved_images_v5';
 
   const applyLocalImageOverrides = useCallback((list: FelioraPiesPlGeneratedAd[]): FelioraPiesPlGeneratedAd[] => {
     try {

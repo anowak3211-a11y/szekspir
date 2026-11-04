@@ -230,9 +230,9 @@ export const FELIORA_PIES_STAGES: Record<FelioraPiesAwarenessStageId, FelioraPie
 export const FELIORA_PIES_IMAGE_LIBRARY: FelioraPiesImageAsset[] = [
   {
     id: 'dog-01-kartka-art51',
-    url: '/feliora-pies-pl-images/dog-01-kartka-art51-v2.jpg',
+    url: '/feliora-pies-pl-images/dog-01-kartka-art51-v3.jpg',
     imageHash: '',
-    label: '#01 · Kartka na drzwiach od sąsiadów: „ZRÓBCIE COŚ Z TYM PSEM ALBO JUTRO DZWONIMY NA STRAŻ MIEJSKĄ!”',
+    label: '#01 · Kartka A4 na drzwiach od sąsiadów: „ZRÓBCIE COŚ Z TYM PSEM ALBO JUTRO DZWONIMY NA STRAŻ MIEJSKĄ!”',
     adsetOrigin: 'Hook-Congruent 1:1 (Styl Orthomax Raw)',
     adOrigin: 'P1-01 Kartka na Drzwiach',
     aspectRatio: '1:1',
@@ -340,10 +340,10 @@ export const FELIORA_PIES_IMAGE_LIBRARY: FelioraPiesImageAsset[] = [
   },
   {
     id: 'dog-11-plan-300zl',
-    url: '/feliora-pies-pl-images/dog-11-plan-300zl.jpg',
+    url: '/feliora-pies-pl-images/dog-11-plan-300zl-v2.jpg',
     imageHash: '',
-    label: '#11 · Kartka od behawiorystki „PLAN TRENINGOWY — 300 ZŁ / GODZ. · Wychodzić na 30 sekund” w przedpokoju',
-    adsetOrigin: 'Hook-Congruent 1:1 (Styl Sardian)',
+    label: '#11 · Pognieciona kartka A4 od behawiorystki (300 zł/godz., wychodzić na 30 sek.) na stole i pies pod drzwiami',
+    adsetOrigin: 'Hook-Congruent 1:1 (Styl Orthomax Raw)',
     adOrigin: 'P3-11 Behawiorystka 300 zł',
     aspectRatio: '1:1',
     source: 'ai',
@@ -536,7 +536,7 @@ export const FELIORA_PIES_PRESET_ANGLES: FelioraPiesAnglePreset[] = [
     vocTrigger: '„Znalazłam na drzwiach kartkę przyklejoną szarą taśmą: wyje od 8:00 do 16:00, dzwonimy na straż miejską z art. 51 KW i do TOZ.”',
     mechanismCore: 'Pies śpiący przy właścicielu jak anioł nie wyje ze złośliwości - zamknięcie zamka odcina zapach przewodnika i odpala panikę separacyjną.',
     defaultImageId: 'dog-01-kartka-art51',
-    defaultImageUrl: '/feliora-pies-pl-images/dog-01-kartka-art51-v2.jpg',
+    defaultImageUrl: '/feliora-pies-pl-images/dog-01-kartka-art51-v3.jpg',
     defaultImageHash: '',
   },
   {
@@ -756,11 +756,11 @@ export const FELIORA_PIES_PRESET_ANGLES: FelioraPiesAnglePreset[] = [
     recommendedFanpageId: '798916893308685',
     recommendedFanpageName: 'Porady Mamy Gosi',
     createdDate: '2026-10-26',
-    updatedDate: '2026-11-01',
+    updatedDate: '2026-11-04',
     vocTrigger: '„Wzięła 300 zł i kazała przez 3 miesiące nie zostawiać psa nawet na wyjście do Żabki, tylko ćwiczyć klamkę po 30 sekund.”',
     mechanismCore: 'Trening behawioralny nie przyswaja się w mózgu zalanym adrenaliną; stała dyfuzja D.A.P. 24/7 daje osłonę od razu podczas normalnej pracy.',
     defaultImageId: 'dog-11-plan-300zl',
-    defaultImageUrl: '/feliora-pies-pl-images/dog-11-plan-300zl.jpg',
+    defaultImageUrl: '/feliora-pies-pl-images/dog-11-plan-300zl-v2.jpg',
     defaultImageHash: '',
   },
   {
