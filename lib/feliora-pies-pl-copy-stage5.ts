@@ -114,74 +114,66 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
 
   'dog-22-instrukcja-5-zasad-rozmieszczenia-pies-w-bloku': {
     headline:
-      'Zanim wepniesz dyfuzor dla psa w 1. lepsze gniazdko za kanapą, poznaj 5 zasad z mojego gabinetu',
+      'Zanim wepniesz dyfuzor dla psa w 1. lepsze gniazdko za kanapą, zobacz mój błąd i 5 zasad z gabinetu',
     description:
-      'Dr wet. Edmund Newelski po 25 latach w lecznicy tłumaczy, jak rozmieścić dyfuzory w polskim bloku bez utraty efektu.',
-    primaryText: `Zanim wepniesz dyfuzor dla psa w 1. lepsze gniazdko za kanapą, przeczytaj to. Unikniesz błędu, przez który polscy opiekunowie tracą połowę efektu.
+      'Przez zasłonę i wyłączanie wtyczki o 16:00 straciłem 10 dni. Sprawdź protokół dr. Newelskiego do polskiego bloku.',
+    primaryText: `Zanim wepniesz dyfuzor dla psa w 1. lepsze gniazdko za kanapą, przeczytaj to. Unikniesz głupiego błędu, przez który ja straciłem 10 dni i nerwy na całej klatce schodowej.
 
-Nazywam się Edmund Newelski i od 25 lat przyjmuję psy w mojej lecznicy weterynaryjnej.
+Mam na imię Karol, mieszkam w 10-piętrowym bloku z wielkiej płyty i mam adoptowanego ze schroniska mieszańca, który po naszym wyjściu na 8 godzin do pracy urządzał pod drzwiami regularny koncert wycia.
 
-W zeszłym miesiącu wszedł do gabinetu pan Grzegorz - porządny, zmęczony życiem człowiek z 10-piętrowego bloku z wielkiej płyty, właściciel mieszańca adoptowanego ze schroniska.
+Kiedy sąsiadka z dołu po raz 3. zaczęła walić miotłą w rury od kaloryfera, zamówiłem dyfuzor feromonowy. Minęło 10 dni, a pies jak wył pod klamką, tak wył dalej!
 
-Postawił na moim biurku napoczęty dyfuzor feromonowy i westchnął ciężko:
+Poszedłem wściekły do naszego lekarza weterynarii, dr. Edmunda Newelskiego, postawiłem napoczęte pudełko na jego biurku i powiedziałem po męsku:
 
-„Panie doktorze, niech mi pan powie szczerze jak chłop chłopu. Kupiłem te feromony, minęło 10 dni, a pies jak wył pod drzwiami po moim wyjściu na 8 godzin, tak wyje dalej. Sąsiadka z dołu znowu waliła miotłą w rury od kaloryfera. Co robię źle?”
+„Panie doktorze, niech mi pan powie szczerze jak chłop chłopu. Kupiłem te feromony, minęło 10 dni, a pies dalej zawodzi pod drzwiami przez 8 godzin. Co jest z tym nie tak?”
 
-Zamiast zaglądać psu w zęby, poprosiłem pana Grzegorza o 1 rzecz: „Niech pan wyciągnie telefon z kieszeni i pokaże mi zdjęcie miejsca, w którym pan to podłączył”.
+Zamiast zaglądać psu w zęby, doktor poprosił mnie o 1 rzecz: „Panie Karolu, niech pan wyciągnie telefon z kieszeni i pokaże mi zdjęcie miejsca, w którym pan to podłączył”.
 
-Spojrzałem na ekran jego smartfona i w 3 sekundy miałem odpowiedź na stole.
+Odchyliłem dzień wcześniej w domu zasłonę, żeby sprawdzić poziom płynu, więc miałem fotkę w galerii. Spojrzał na ekran mojego smartfona i w 3 sekundy miał odpowiedź na stole.
 
-Dyfuzor był wetknięty poziomo w plastikowy przedłużacz leżący płasko na dywanie w sypialni, wciśnięty za ciężką, welurową zasłonę opadającą aż do samej podłogi. Na dodatek pan Grzegorz z dumą dorzucił:
+Wtyczka była wetknięta w kontakt tuż za oparciem szarej kanapy i przykryta od góry do samej podłogi grubą, welurową zasłoną! Na dodatek z dumą dorzuciłem:
 
 „I jeszcze pilnuję oszczędności, panie doktorze! Jak wracam z roboty o 16:00, to od razu wyciągam wtyczkę z prądu na całe popołudnie oraz noc, bo po co ma parować w powietrze, kiedy siedzę z psem w mieszkaniu!”
 
-Uśmiechnąłem się życzliwie znad okularów i wytłumaczyłem mu wprost, co zaszło w jego mieszkaniu.
+Doktor tylko pokręcił głową znad okularów i wytłumaczył mi wprost, co narobiłem.
 
 Feromony kojące D.A.P. to czysta neurobiologia, ale w naszych polskich blokach podlegają twardym prawom fizyki. Ciepłe cząsteczki unoszące się z głowicy nie przenikają przez żelbetowe ściany działowe, nie otwierają sobie przymkniętych drzwi i nie zakręcają o 90 stopni w długim przedpokoju zastawionym szafą typu Komandor!
 
-Powiedziałem mu otwarcie: „Panie Grzegorzu, kiedy pies stoi w panice pod drzwiami wejściowymi, a pan chowa 1 wtyczkę poziomo za zasłoną w sypialni i wyłącza ją o 16:00, to cały preparat osiada tłustą plamą na welurze, a pod drzwiami wyjściowymi stężenie wynosi równe 0%. W mieszkaniu rozkładowym potrzebuje pan 2 odsłoniętych punktów włączonych w gniazdkach przez pełne 24 godziny na dobę”.
+„Panie Karolu” - powiedział otwarcie lekarz. „Kiedy pies stoi w panice pod drzwiami wejściowymi, a pan chowa 1 wtyczkę za kanapą i ciężką zasłoną oraz wyłącza ją o 16:00, to cały preparat osiada na welurze, a pod drzwiami wejściowymi stężenie wynosi równe 0%. W mieszkaniu rozkładowym potrzebuje pan 2 odsłoniętych punktów włączonych w gniazdkach przez pełne 24 godziny na dobę”.
 
-W tym momencie pan Grzegorz zmrużył oczy z wyraźną podejrzliwością, założył ręce na piersi i wypalił bez ogródek:
+W tym momencie zmrużyłem oczy z podejrzliwością, założyłem ręce na piersi i wypaliłem bez ogródek:
 
 „Panie doktorze, niech pan się nie gniewa, ale czy pan mnie czasem nie naciąga na 2. wtyczkę i rachunek za prąd przez całą dobę?!”
 
-Roześmiałem się serdecznie, przysunąłem do siebie czysty bloczek z biurka, kliknąłem długopisem i policzyłem to przy nim na kartce, żeby nie musiał wierzyć mi na słowo:
+Doktor roześmiał się serdecznie, przysunął do siebie czysty bloczek z biurka, kliknął długopisem i policzył mi to czarno na białym na kartce:
 
-Po 1., ceramiczna głowica w dyfuzorze Feliora ma moc zaledwie 5 W. Dla porównania zwykła ładowarka do telefonu pobiera od 20 W do 65 W, a domowy router Wi-Fi - którego pan Grzegorz przecież nie wyrywa ze ściany codziennie o 16:00 - ciągnie około 12 W przez 365 dni w roku! Ciągła praca głowicy 5 W przez 24 godziny na dobę przez 30 dni zużywa ułamek tego co żarówka w lodówce, czyli dosłownie grosze na miesięcznym rachunku za prąd.
+Po 1., ceramiczna głowica w dyfuzorze Feliora ma moc zaledwie 5 W. Zwykła ładowarka do telefonu pobiera od 20 W do 65 W, a mój domowy router Wi-Fi - którego przecież nie wyrywam ze ściany codziennie o 16:00 - ciągnie około 12 W przez 365 dni w roku! Ciągła praca głowicy 5 W przez 24 godziny na dobę przez 30 dni zużywa ułamek tego co żarówka w lodówce, czyli poniżej 4 zł na miesięcznym rachunku za prąd.
 
 Po 2., w polskiej formule Feliora dzięki stabilizowanemu rdzeniowi 5 W pełny 1 wkład o pojemności 48 ml nie wygotowuje się w 7 dni jak w starych przegrzewanych wtyczkach, tylko odparowuje równo przez pełne 60 dni pracy non stop.
 
-Po 3., na oficjalnej stronie producenta feliora.pl każdy zakup chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy. Zapytałem z uśmiechem: „Skoro w razie braku efektu oddają panu 100% wpłaty co do grosza, to jaki miałbym interes pana naciągać?”.
+Po 3., na oficjalnej stronie feliora.pl każdy zakup chroni pełna, 30-dniowa gwarancja zwrotu pieniędzy. Doktor zapytał z uśmiechem: „Skoro w razie braku efektu oddają panu 100% wpłaty co do grosza, to jaki miałbym interes pana naciągać?”.
 
-Pan Grzegorz podrapał się po karku, spojrzał na moje wyliczenie 5 W na kartce i uśmiechnął pod wąsem: „Dobra, panie doktorze, z tym routerem to mnie pan zagiął. Niech pan rysuje, gdzie mam to powpinać”.
+Podrapałem się po karku, spojrzałem na wyliczenie 5 W kontra router 12 W i uśmiechnąłem pod nosem: „Dobra, doktorze, z tym routerem to mnie pan zagiął. Niech pan pisze, gdzie mam to powpinać”.
 
-Widzę identyczne błędy u opiekunów niemal co tydzień. W polskim bloku dzień lękliwego psa toczy się zawsze między 2 strefami, które musisz połączyć:
+Spisałem wtedy na kartce jego 5 żelaznych zasad dla polskiego mieszkania w bloku, łączących 1. Strefę Oczekiwania przy drzwiach wejściowych (gdzie pies słyszy obrót klucza i kroki na klatce) z 2. Strefą Snu i Azylu w salonie przy legowisku. Przeklejam je tutaj słowo w słowo, żeby nikt nie powtórzył mojego błędu z zasłoną:
 
-1. strefa to Strefa Oczekiwania przy wyjściu (przedpokój, hol albo otwarte przejście z salonu na korytarz). To tutaj pies patrzy na Twoje buty, słyszy obrót klucza w zamku i kroki sąsiadów na klatce. Tu wybucha w jego głowie wyrzut kortyzolu, wycie i drapanie okleiny.
+Zasada 1. Zawsze pionowo - szklana butelka na dole pod głowicą. Wpinaj urządzenie bezpośrednio w gniazdko ścienne tak, aby fiolka wisiała prosto w dół. Nigdy nie wtykaj dyfuzora do góry nogami, pod skosem ani w luźną listwę zasilającą leżącą płasko na dywanie, bo w poziomie knot traci równy dopływ płynu!
 
-2. strefa to Strefa Snu i Azylu (salon z głównym legowiskiem lub kanapą albo sypialnia). To tutaj pies ma odejść spod drzwi, położyć pysk na łapach i spokojnie przespać 8 godzin Twojej pracy oraz całą noc.
+Zasada 2. Odsłonięte gniazdko i minimum 1,2 m wolnego powietrza nad wtyczką. Rdzeń ceramiczny 5 W działa jak mały komin termiczny: unosi cząsteczki D.A.P. pionowo w górę, skąd opadają łagodnie na poziom psiego nosa i narządu Jacobsona. Nigdy nie zasłaniaj dyfuzora kanapą, grubą zasłoną, biurkiem ani niską szafką na buty! Jeśli w ciasnym przedpokoju nie masz wolnego kontaktu, wepnij 1. dyfuzor w otwarte gniazdko w salonie tuż przy samym wejściu na korytarz, a 2. przy miejscu snu psa.
 
-Jeśli masz już dyfuzor Feliora dla Psów albo właśnie zamierzasz go zamówić, trzymaj się tych 5 żelaznych zasad z mojego gabinetu:
+Zasada 3. Praca 24 godziny na dobę bez wyjmowania o 16:00 ani na noc. Gdy wyjmiesz wtyczkę po pracy, mieszkanie wywietrzeje do 0% w 1-2 godziny. Pies zbija nagromadzony w ciągu dnia kortyzol przede wszystkim podczas głębokiego snu nocnego w fazie REM! Wyłączając wtyczkę na noc, zabierasz mu nocną regenerację układu nerwowego i o 7:00 rano znów startuje z wysokiego napięcia.
 
-Zasada 1. Zawsze pionowo - szklana butelka na dole pod głowicą. Wpinaj urządzenie bezpośrednio w gniazdko ścienne tak, aby fiolka wisiała prosto w dół. Nigdy nie wtykaj dyfuzora do góry nogami, pod skosem ani w luźną listwę zasilającą leżącą płasko na dywanie! W poziomie knot traci równy dopływ płynu, a preparat zamiast parować może sączyć się na obudowę.
+Zasada 4. Z daleka od przeciągów i kratek wentylacyjnych. Nie montuj wtyczki pod stale uchylonym oknem balkonowym ani pod kratką kominową, która wyssie cząsteczki na zewnątrz, zanim dotrą do psa - wybierz spokojną, wewnętrzną ścianę.
 
-Zasada 2. Odsłonięte gniazdko i minimum 1,2 m wolnego powietrza nad wtyczką. Rdzeń ceramiczny 5 W działa jak mały komin termiczny: unosi cząsteczki D.A.P. pionowo w górę, skąd opadają łagodnie na poziom psiego nosa i narządu Jacobsona. Nigdy nie zasłaniaj dyfuzora kanapą, grubą zasłoną, biurkiem ani niską szafką na buty! A jeśli w ciasnym przedpokoju w bloku nie masz żadnego wolnego gniazdka? Wepnij 1. dyfuzor w otwarty kontakt w salonie tuż przy samym wejściu na korytarz, a 2. przy miejscu snu psa.
+Zasada 5. Włącz z wyprzedzeniem i utnij 5-minutowe pożegnania w progu. Rano wkładasz buty, bierzesz klucze i wychodzisz spokojnie bez dramatycznego pocieszania psa pod drzwiami, które tylko potwierdza mu, że za zamkiem czai się zagrożenie.
 
-Zasada 3. Praca 24 godziny na dobę bez wyjmowania na noc ani po powrocie z pracy. Gdy wyjmiesz wtyczkę o 16:00, mieszkanie wywietrzeje do 0% w 1-2 godziny. Jako lekarz przypominam o fizjologii: pies zbija nagromadzony w ciągu dnia kortyzol przede wszystkim podczas głębokiego snu nocnego w fazie REM! Wyłączając dyfuzor na noc, zabierasz mu nocną regenerację układu nerwowego, przez co o 7:00 rano pies znów startuje z wysokiego progu napięcia.
+Jeszcze tego samego wieczoru zamówiłem na feliora.pl zestaw 2 dyfuzorów za 189,99 zł, schowałem kartony na szafie i wpiąłem 2 sztuki w odsłonięte gniazdka na pełną dobę.
 
-Zasada 4. Z daleka od przeciągów i kratek wentylacyjnych. Nie montuj wtyczki pod stale uchylonym oknem balkonowym ani tuż pod kratką kominową. Przeciąg wyssie cząsteczki na zewnątrz, zanim dotrą do psa - wybierz gniazdko na spokojnej, wewnętrznej ścianie.
+Przyznam bez bicia: przez początkowe 4 dni jeszcze zaglądałem z latarką do licznika prądu na klatce i kręciłem głową, bo w domu nie widziałem natychmiastowego przełomu. Układ nerwowy potrzebował czasu na nasycenie 2 stref.
 
-Zasada 5. Włącz z wyprzedzeniem przed trudnym okresem i utnij wylewne pożegnania w progu. Przed powrotem z urlopu do biura, zapowiedzianym remontem u sąsiadów albo grudniowymi petardami przed Sylwestrem wepnij dyfuzory 1-2 tygodnie wcześniej, żeby układ limbiczny psa zdążył nasycić się sygnałem bezpieczeństwa. Równocześnie skróć poranne wyjście z domu do spokojnej rutyny: wkładasz buty, bierzesz klucze i wychodzisz bez 5-minutowego głaskania czy pocieszania psa pod drzwiami, bo nadmierne emocje opiekuna w progu tylko potwierdzają zwierzęciu, że za zamkiem kryje się zagrożenie.
+Dopiero między 7. a 10. dniem ciągłej pracy 2 wtyczek pies przestał warować pod klamką po moim wyjściu o 7:00 rano i zaczął spokojnie przesypiać 8 godzin etatu na posłaniu w salonie. Rury od kaloryfera wreszcie ucichły. Oczywiście gdy obcy kurier zadzwoni domofonem, pies nadal podniesie łeb i szczeknie - feromony nie zmieniają zwierzęcia w otumanioną maskotkę, tylko wygaszają panikę separacyjną.
 
-W gabinecie nie dobieram liczby dyfuzorów na oko, tylko ściśle pod układ ścian działowych (pojedyncza głowica zabezpiecza do 70 m2 otwartej przestrzeni, ale cząsteczki nie przenikają przez mur ani zamknięte drzwi):
-
-Jeśli mieszkasz w otwartej kawalerce typu studio, gdzie korytarz łączy się bezpośrednio z pokojem bez ścian i drzwi, w zupełności wystarczy 1 dyfuzor. W standardowym polskim mieszkaniu w bloku z osobnym przedpokojem i salonem potrzebny jest zestaw na 2 strefy za 189,99 zł - tak, aby połączyć Strefę Oczekiwania przy drzwiach ze Strefą Snu przy legowisku. Z kolei w większym mieszkaniu wielopokojowym lub piętrowym należy zabezpieczyć 3-4 strefy, w których pies realnie spędza dzień oraz noc, żeby zamknięte ściany nie odcięły sygnału.
-
-Kiedy po 3 tygodniach pan Grzegorz przyszedł do mojej lecznicy po tabletki przeciw kleszczom, zapytałem krótko przy biurku, jak sytuacja w mieszkaniu. Przyznał z lekkim zakłopotaniem, że przez początkowe 4 dni jeszcze zaglądał z latarką do licznika prądu na klatce i kręcił głową, bo w domu nie widział natychmiastowego przełomu. Dopiero między 7. a 10. dniem ciągłej pracy 2 wtyczek pies przestał warować pod klamką po jego wyjściu o 7:00 rano i zaczął spokojnie przesypiać 8 godzin etatu na posłaniu w salonie. Oczywiście gdy obcy kurier zadzwoni domofonem, pies nadal podniesie łeb i szczeknie - feromony nie zmieniają zwierzęcia w otumanioną maskotkę, tylko wygaszają patologiczny lęk separacyjny.
-
-Jako lekarz weterynarii uczulam na koniec na 1 rzecz: nie oczekuj cudu od 1. godziny po włożeniu wtyczki do ściany. Układ nerwowy lękliwego psa potrzebuje pełnych 7-10 dni nieprzerwanego nasycenia powietrza sygnałem D.A.P., zanim podwyższony kortyzol opadnie na dobre.
-
-Dzięki rdzeniowi 5 W 1 wkład pracuje równo przez 60 dni, a producent daje 30-dniową gwarancję zwrotu pieniędzy na spokojną próbę we własnym domu, bez ryzyka finansowego.
+Dzięki rdzeniowi 5 W pojedynczy wkład Feliora pracuje równo przez pełne 60 dni bez przegrzewania obudowy, a na stronie producenta masz 30 dni gwarancji zwrotu pieniędzy na spokojny test we własnym mieszkaniu.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
@@ -246,128 +238,106 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
 
   'dog-24-bezpieczenstwo-wtyczki-9h-w-pracy-i-zero-przymulenia': {
     headline:
-      'Obudowa dyfuzora jest lekko ciepła - czy mogę spokojnie zostawić go w gniazdku na 9 godzin pracy? Wyjaśniamy',
+      'Dotknęłam obudowy dyfuzora przed wyjściem na 9 godzin do pracy - była lekko ciepła. 2 razy wracałam spod klatki!',
     description:
-      'Szczera odpowiedź na 2 najczęstsze obawy właścicieli psów z bloków: rdzeń 5W z certyfikatem CE oraz 0% przymulenia.',
-    primaryText: `„Dotknęłam obudowy palcem - jest lekko ciepła. Czy to na pewno bezpieczne, kiedy wychodzę na 9 godzin do pracy?”
+      'Bałam się zostawić wtyczkę w pustym mieszkaniu i zamulić psa. Zobacz twarde fakty o rdzeniu PTC 5W i 0% sedacji.',
+    primaryText: `Dotknęłam obudowy dyfuzora palcem przed wyjściem na 9 godzin do pracy - była lekko wyczuwalnie ciepła. Przez 2 poranki z rzędu wracałam windą spod skrzynek na listy macać gniazdko!
 
-Dostajemy to pytanie na naszą skrzynkę przynajmniej 10 razy w tygodniu. Zamiast odsyłać suchą formułkę z instrukcji obsługi, odpowiemy Wam po ludzku i bez owijania w bawełnę, co dokładnie siedzi w środku.
+Każda dziewczyna, która mieszka w polskim bloku i choć raz w życiu wracała z półpiętra z kołaczącym sercem oraz myślą: „Kurczę, czy ja na pewno wyłączyłam żelazko?!”, zrozumie moją panikę w 1 sekundę.
 
-Każdy, kto mieszka w polskim bloku i choć raz w życiu wracał spod klatki schodowej na 3. piętro z kołaczącym sercem oraz myślą: „Kurczę, czy ja na pewno wyłączyłam żelazko przed wyjściem?!”, doskonale rozumie ten odruch.
+Mam na imię Gosia i jestem z tych osób, które przed wyjazdem zakręcają zawór wody pod zlewem. Kiedy zostawiasz w zamkniętym mieszkaniu ukochanego psa na 9 godzin etatu razem z dojazdem, wyobraźnia podsuwa najczarniejsze scenariusze: „Co będzie, jeśli ta wtyczka się przegrzeje albo zrobi zwarcie, kiedy nikogo nie ma w domu?!”.
 
-A kiedy zostawiasz w zamkniętym mieszkaniu żywego przyjaciela na 9 godzin etatu wraz z dojazdem, wyobraźnia potrafi podsunąć najczarniejsze scenariusze: „Co będzie, jeśli ta wtyczka się przegrzeje albo zrobi zwarcie, kiedy nikogo nie ma w domu?”.
+Do zakupu zestawu 2 dyfuzorów Feliora na feliora.pl (trafiłam na nich wieczorem przez wyszukiwarkę Google, szukając bezlekowego ratunku na lęk separacyjny naszego Fado) podchodziłam od początku z ogromną rezerwą.
 
-3 tygodnie temu napisała do nas pani Marta, opiekunka żywiołowego kundelka Fado z dużego osiedla, która trafiła na feliora.pl, szukając w nocy w Google bezlekowego ratunku na lęk separacyjny. Jej wiadomość była tak szczera, że za jej zgodą cytujemy ją niemal w całości:
+Wcześniej utopiłam ponad 300 zł w gryzakach, matach do lizania oraz ziołowych tabletkach, a Fado dalej wył pod drzwiami i odrywał listwy przypodłogowe w korytarzu. Kliknęłam zamówienie za 189,99 zł wyłącznie dlatego, że dają pełne 30 dni gwarancji zwrotu pieniędzy - schowałam kartonik na dno szafy z myślą, że jak za 3 tygodnie nic się nie zmieni, odeślę wszystko co do grosza.
 
-„Napiszę Wam bez ściemy - zamawiałam Wasz zestaw na 2 pokoje z ogromną rezerwą i brakiem wiary. Wcześniej utopiłam ponad 300 zł w gryzakach, matach do lizania oraz ziołowych tabletkach, a Fado dalej wył pod drzwiami i odrywał listwy przypodłogowe w przedpokoju. Kliknęłam zamówienie wyłącznie z myślą, że schowam kartonik do szafy i najwyżej odeślę Wam wszystko po 3 tygodniach na gwarancji 30 dni. A jak 1. dnia rano przed wyjściem do biura dotknęłam lekko ciepłej obudowy palcem, to włączyła mi się kolejna panika! Przez 2 poranki z rzędu schodziłam do skrzynek na listy na parterze i wracałam windą na górę macać wtyczkę, czy nie robi się gorąca! Na dokładkę w autobusie gryzła mnie 2. myśl: że po 9 godzinach zastanę psa przymulonego i patrzącego tępo w ścianę jak po żelu uspokajającym z Sylwestra.”
+Tylko że 1. ranka przed wyjściem do biura kucnęłam przy gniazdku w przedpokoju, dotknęłam białej głowicy opuszkiem palca i zamarłam. Była lekko ciepła!
 
-Kiedy czytamy takie maile w zespole Feliora, nikt u nas się nie dziwi. Mamy dla Was wielki szacunek - bo po sparzeniu się na nieskutecznych gadżetach dmuchacie na zimne i dbacie o bezpieczeństwo własnego domu oraz psa.
+W autobusie do pracy gryzły mnie naraz aż 2 czarne myśli: po 1., czy zostawiona bez nadzoru wtyczka jest w 100% bezpieczna przeciwpożarowo, a po 2. - czy po 9 godzinach wdychania tego w zamkniętym mieszkaniu nie zastanę Fado przymulonego i patrzącego tępo w ścianę jak po doustnym żelu uspokajającym z Sylwestra!
 
-Rozłóżmy więc te 2 obawy na czynniki, tak jak tłumaczymy to własnej rodzinie przy stole:
+Zamiast zgadywać, napisałam prosto z biura maila z pytaniami technicznymi do zespołu Feliora, a wieczorem przedzwoniłam jeszcze do mojego kuzyna elektryka oraz naszego lekarza weterynarii, żeby zweryfikować każde słowo na chłodno.
 
-Sprawa 1: Dlaczego obudowa dyfuzora jest lekko wyczuwalnie ciepła pod palcem i czy może bezpiecznie chodzić bez nadzoru przez 9 godzin w pustym mieszkaniu?
+Spisałam sobie wtedy konkrety, które zdjęły mi kamień z serca i raz na zawsze wyleczyły mnie z wracania spod klatki schodowej:
 
-Zacznijmy od czystej fizyki: gdyby obudowa po 1 godzinie w kontakcie była lodowata jak kafelki na ścianie, oznaczałoby to tylko 1 rzecz - w gniazdku nie ma prądu albo urządzenie nie działa.
+Sprawa 1: Dlaczego obudowa dyfuzora jest lekko ciepła pod palcem i czy może bezpiecznie chodzić bez nadzoru przez 24 godziny na dobę?
 
-Cząsteczki psich feromonów kojących D.A.P. są z natury ciężkie oraz oleiste. W zimnej szklanej fiolce stałyby bez ruchu na dnie i nie uniosłyby się nawet na 20 cm nad podłogę. Żeby równomiernie wypełniły pokój o powierzchni do 70 m2, porowaty knot wewnątrz wkładu potrzebuje stałej, łagodnie podwyższonej temperatury.
+Zacznijmy od czystej fizyki: gdyby obudowa po 1 godzinie w kontakcie była lodowata jak kafelki na ścianie, oznaczałoby to tylko 1 rzecz - w gniazdku nie ma prądu albo urządzenie jest zepsute! Cząsteczki psich feromonów kojących D.A.P. są z natury ciężkie oraz oleiste. W zimnej szklanej fiolce stałyby bez ruchu na dnie i nie uniosłyby się nawet na 20 cm nad podłogę. Żeby równomiernie wypełniły pokój, porowaty knot potrzebuje stałej, łagodnie podwyższonej temperatury.
 
-Skąd więc bierze się ten znajomy strach u właścicieli mieszkań? Stąd, że wielu z nas kupiło kiedyś w markecie albo na aukcji tani odświeżacz zapachowy za 20 zł ze zwykłym drutem oporowym starego typu, który rozgrzewał się do 120 stopni, po 3 dniach parzył w palce i śmierdział na cały korytarz przypalonym plastikiem!
+Skąd brał się mój strach? Stąd, że 2 lata temu kupiłam w markecie tani odświeżacz zapachowy za 20 zł ze zwykłym drutem oporowym starego typu, który rozgrzewał się do 120 stopni, po 3 dniach parzył w palce i śmierdział przypalonym plastikiem!
 
-W dyfuzorze weterynaryjnym Feliora nie ma żadnego drutu grzejnego. Wewnątrz pracuje niskonapięciowy, samoregulujący rdzeń ceramiczny PTC o mocy zaledwie 5 W.
+W dyfuzorze weterynaryjnym Feliora nie ma żadnego drutu oporowego. Wewnątrz pracuje niskonapięciowy, samoregulujący rdzeń ceramiczny PTC o mocy zaledwie 5 W.
 
-Żebyś miała pełną skalę porównawczą z urządzeniami we własnym mieszkaniu: zwykła ładowarka do smartfona pobiera od 20 W do 65 W. Twój domowy router Wi-Fi, którego nie wyłączasz z listwy przez 365 dni w roku, bierze około 12 W. Czajnik elektryczny w kuchni ciągnie 2 000 W. Nasza głowica 5 W pobiera ułamek mocy ładowarki do telefonu oraz mniej niż 50% mocy routera - przy dzisiejszych stawkach taryfowych ciągła praca 24 godziny na dobę przez 7 dni w tygodniu kosztuje poniżej 4 zł prądu miesięcznie!
+Kuzyn elektryk podał mi prostą skalę z własnego mieszkania: zwykła ładowarka do smartfona pobiera od 20 W do 65 W. Nasz domowy router Wi-Fi, którego nie wyłączamy z listwy przez 365 dni w roku, bierze około 12 W. Czajnik w kuchni ciągnie 2 000 W. Głowica 5 W pobiera ułamek mocy ładowarki do telefonu oraz mniej niż 50% mocy routera - ciągła praca 24 godziny na dobę przez 30 dni kosztuje poniżej 4 zł prądu miesięcznie!
 
-Najważniejsza jest jednak konstrukcja zabezpieczeń samej grzałki PTC: gdy tylko rdzeń osiągnie swój niski punkt odparowania płynu, jego opór elektryczny samoczynnie rośnie i element fizycznie nie jest w stanie nagrzać się wyżej - ani w lipcowy upał, ani przy rozkręconych kaloryferach zimą. Dodatkowo układ chronią 2 niezależne, wbudowane bezpieczniki termiczne odcinające obwód w razie przepięcia w sieci blokowej, a cała obudowa odlana jest z trudnopalnego tworzywa posiadającego europejski certyfikat bezpieczeństwa CE do pracy ciągłej przez 365 dni w roku.
+Najważniejsza jest jednak fizyka samego rdzenia PTC: gdy tylko ceramika osiągnie swój niski punkt odparowania płynu, jej opór elektryczny samoczynnie rośnie i element fizycznie nie jest w stanie nagrzać się wyżej - ani w lipcowy upał, ani przy odkręconych kaloryferach zimą. Układ chronią dodatkowo 2 niezależne bezpieczniki termiczne odcinające obwód w razie przepięcia w sieci blokowej, a obudowa jest odlana z trudnopalnego tworzywa z certyfikatem CE do pracy ciągłej.
 
-Powiedzmy sobie przy tym uczciwie o 1 sytuacji, w której NIE wolno wpinać żadnego dyfuzora do ściany: jeżeli masz w pokoju stare, obluzowane gniazdko pamiętające poprzednią epokę, z którego bolce wypadają pod ciężarem kabla lub które iskrzy przy włączaniu odkurzacza, albo jeśli chcesz wcisnąć dyfuzor poziomo w rozgałęźnik przygnieciony materacem i zasłoną - nie rób tego.
+Oczywiście jest 1 zasada zdrowego rozsądku, o której uprzedził mnie kuzyn: nigdy nie wpinaj żadnego dyfuzora w stare, obluzowane i iskrzące gniazdko z poprzedniej epoki ani poziomo w rozgałęźnik przygnieciony zasłoną i materacem! Wpinasz go pionowo (buteleczką na dole) w sprawne, odsłonięte gniazdko ścienne z minimum 1,2 m wolnej przestrzeni nad głowicą i spokojnie jedziesz do pracy.
 
-Wepnij go pionowo (szklaną buteleczką na dole) w sprawne, odsłonięte gniazdko ścienne z minimum 1,2 m wolnej przestrzeni nad głowicą, przekręć klucz w zamku i jedź spokojnie na 9 godzin do pracy bez zawracania spod skrzynek pocztowych!
+Sprawa 2: Czy pies nie zrobi się po tym senny i przymulony, a domownicy albo alergicy nie poczują w domu chemii?
 
-Sprawa 2: „Czy mój pies nie zrobi się po tym ospały i przymulony, a domownicy, dzieci albo kot nie poczują w mieszkaniu chemii?”
+Nasz weterynarz wytłumaczył mi to krótko: 0% sedacji, 0% psychotropów, 0% substancji we krwi oraz 100% bezwonności dla ludzi!
 
-Odpowiedź jest krótka: 0% sedacji, 0% psychotropów, 0% substancji we krwi oraz 100% bezwonności dla ludzi, alergików i kotów!
+Środki doustne i żele sylwestrowe idą z żołądka do krwiobiegu, obciążają wątrobę i blokują mięśnie. Natomiast Feliora w ogóle nie wchodzi do krwiobiegu psa - biomimetyczne feromony D.A.P. z powietrza trafiają wyłącznie do narządu Jacobsona w nosie, dając mózgowi naturalny sygnał bezpieczeństwa jak przy karmiącej matce. W buteleczce jest równe 0% lawendy, waleriany czy sztucznych perfum, więc w mieszkaniu nie czuć kompletnie nic.
 
-Pani Marta - tak jak ogromna część opiekunów na polskich forach - nosiła pod powiekami przykry widok psa po doustnym żelu sedacyjnym z Sylwestra. Takie środki trafiają z żołądka do krwiobiegu, obciążają wątrobę z nerkami i chemicznie blokują mięśnie: pies plącze łapy na panelach i nie umie wskoczyć na kanapę, chociaż pod czaszką jego mózg nadal słyszy każdy hałas i trzęsie się z przerażenia.
+3. dnia przestałam wracać spod skrzynek pocztowych macać kontakt. Obudowa ma stałą, lekko letnią temperaturę (chłodniejszą niż moja ładowarka od laptopa na biurku), pojedynczy wkład 48 ml pracuje równo przez pełne 60 dni (wychodzi 1,58 zł dziennie na pokój w zestawie 2 sztuk za 189,99 zł), a Fado jest w 100% przytomny!
 
-Feliora w ogóle nie wchodzi do krwiobiegu ani układu pokarmowego psa.
+Przez początkowe 4 dni w zachowaniu Fado nie widziałam jeszcze przełomu - nadal siadał pod progiem po moim wyjściu o 8:00 rano i popiskiwał przez 10 minut, zanim powietrze w przedpokoju i salonie nasyciło się sygnałem D.A.P. Dopiero w 2. tygodniu zeszło z niego to nerwowe napięcie.
 
-Biomimetyczne feromony D.A.P. z powietrza trafiają wyłącznie do receptorów w narządzie Jacobsona w psim nosie, przekazując mózgowi naturalny sygnał bezpieczeństwa znany szczeniakom przy karmiącej matce. Dlatego ta sama wtyczka jest w 100% bezpieczna dla szczeniąt oraz psich seniorów przyjmujących leki nasercowe czy nerkowe oraz działa identycznie na 4-kilogramowego maltańczyka i na 38-kilogramowego owczarka - bo liczy się stężenie w powietrzu pokoju, a nie masa ciała psa!
+Po 17:00 na spacerze normalnie ciągnie na smyczy do parku za piłką, ma błyszczące oczy i szczeknie, kiedy obcy kurier zapuka do drzwi - to żywy, radosny pies, nie przymulony pluszak po proszkach. Różnica jest taka, że na podglądzie z kamerki w biurze między 8:00 a 17:00 nie widzę już wyjącego w panice psa zdzierającego listwy w korytarzu, tylko Fado śpiącego spokojnie na boku na swoim posłaniu. Puste pudełko z dna szafy dawno wyniosłam na makulaturę, a w autobusie do pracy wreszcie piję kawę ze spokojną głową.
 
-Nie dolewamy też do butelki ani kropli lawendy, waleriany czy sztucznych perfum. Dla ludzkiego nosa, małych dzieci, astmatyków, alergików oraz kotów mieszkających pod tym samym dachem dyfuzor jest całkowicie niewyczuwalny i obojętny.
-
-Po 2 tygodniach pani Marta przysłała nam krótką, rzeczową wiadomość zwrotną:
-
-„Puste pudełko z szafy poszło już do kosza na papier i przestałam wracać spod klatki macać gniazdka. Obudowa ma stałą, lekko letnią temperaturę, w mieszkaniu nie czuć kompletnie nic, a Fado jest w 100% przytomny - po 17:00 na spacerze normalnie ciągnie do parku za piłką i szczeknie, kiedy obcy kurier zapuka do drzwi. Różnica jest taka, że między 8:00 a 17:00 na podglądzie z kamerki nie widzę już wyjącego psa zdzierającego listwy w korytarzu, tylko Fado śpiącego spokojnie na kanapie.”
-
-Zamiast okrągłych haseł podsumowujemy twarde parametry techniczne i warunki testu:
-
-- Grzałka ceramiczna PTC z 2 wbudowanymi bezpiecznikami termicznymi oraz trudnopalną obudową z certyfikatem CE - przystosowana do ciągłej pracy bez nadzoru.
-- Pobór mocy 5 W - poniżej 4 zł prądu miesięcznie przy nieprzerwanej pracy 24/7.
-- Pełna przytomność psa bez otumanienia - 0% sedacji i 0% substancji w żołądku czy krwiobiegu.
-- 60 dni ciągłego działania z 1 wkładu 48 ml (w standardowym zestawie na 2 pokoje za 189,99 zł wychodzi 1,58 zł dziennie na pomieszczenie, a do otwartej kawalerki bez osobnego korytarza wystarczy pojedynczy dyfuzor za 119,99 zł).
-- Pełne 30 dni gwarancji zwrotu pieniędzy na test we własnym mieszkaniu - jeżeli w ciągu 30 dni nie zobaczysz spokojniejszego psa na kamerce i całych drzwi po powrocie z pracy, odsyłasz nawet zużyty wkład i odzyskujesz 100% wpłaty.
+Jeśli też dmuchasz na zimne przy zostawianiu czegokolwiek w gniazdku - na oficjalnej stronie masz pełne 30 dni gwarancji zwrotu pieniędzy na spokojny test we własnym mieszkaniu, nawet po zużyciu wkładu.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-25-test-30-dni-ciche-drzwi-albo-zwrot-100-proc': {
     headline:
-      'Masz już w szafie nietknięte gryzaki i ziołowe tabletki? Weź Feliorę na 30 dni próby albo zwrócimy 100% wpłaty',
+      'Mam w przedpokoju „szufladę wstydu” za ponad 600 zł. Wziąłem Feliorę tylko dlatego, że dają 30 dni na zwrot',
     description:
-      'Ponad 2 000 000 sprzedanych dyfuzorów i poniżej 1% zwrotów. Sprawdź w domu przez 30 dni na nasze pełne ryzyko.',
-    primaryText: `Wiemy, co teraz myślisz: „Mam już w szafie nietkniętego Konga, obróżkę z zoologicznego i ziołowe tabletki. Nie wydam kolejnych 189,99 zł w ciemno”.
+      'Nietknięty Kong, obróżki i zioła w szufladzie kontra test 30 dni bez ryzyka (ponad 2 000 000 sztuk i <1% zwrotów).',
+    primaryText: `Mam w przedpokoju „szufladę wstydu” wartą ponad 600 zł: nietkniętego Konga, fioletową obróżkę z zoologicznego i ziołowe tabletki. Powiedziałem żonie wprost: „Nie wydam kolejnych 189,99 zł w ciemno”.
 
-Nie zamierzamy klepać Cię po ramieniu gładkimi słówkami ani wmawiać Ci, że przesadzasz. Po tym, ile pieniędzy polscy właściciele psów potrafili już wyrzucić w błoto, masz pełne prawo nie wierzyć w żadną reklamę w internecie.
+Mam na imię Karol i po tym, ile pieniędzy zdążyłem już wyrzucić w błoto przez lęk separacyjny naszego psa, nie wierzę w żadną gładką reklamę w internecie.
 
-Znamy na pamięć zawartość tej „szuflady wstydu” w przedpokoju każdego opiekuna psa z lękiem separacyjnym.
+Każdy właściciel psa z bloku zna zawartość mojej szuflady w korytarzu na pamięć.
 
-Leży tam gumowa zabawka za 80 zł, którą na grupach kazali Ci wypychać pasztetem albo twarogiem i mrozić na noc - a na którą Twój pies po przekręceniu klucza w zamku o 8:00 rano nawet nie spojrzy. Stoi nad nią w kałuży śliny pod drzwiami z tak zaciśniętym z rozpaczy gardłem, że zjada środek dopiero o 17:00, kiedy wrócisz z pracy.
+Leży tam gumowa zabawka za 80 zł, którą na grupach kazali wypychać masłem orzechowym albo twarogiem i mrozić na noc - a na którą nasz pies po przekręceniu klucza w zamku o 8:00 rano nawet nie spojrzał. Stał nad nią w kałuży śliny pod drzwiami z tak ściśniętym z paniki gardłem, że zjadał środek dopiero o 17:00, kiedy wracaliśmy z pracy!
 
-Leży tam napoczęty blister tabletek z walerianą oraz tryptofanem, które pies wypluwał z kawałków kiełbasy na kafelki. Obok poniewiera się dusząca lawendą obróżka z marketu, po której tylko drapał szyję do czerwonego, oraz rachunek na 300 zł od specjalisty, który usiadł z notesem na kanapie i poradził z kamienną twarzą: „Proszę przez najbliższe 3 miesiące nie zostawiać psa samego dłużej niż na 2 minuty”.
+Leży tam napoczęty blister tabletek z walerianą oraz tryptofanem, które wypluwał z kiełbasy pod lodówkę. Obok poniewiera się dusząca lawendą obróżka z galerii, po której tylko drapał szyję do czerwonego, spray na spirytusie oraz rachunek na 300 zł od specjalisty, który usiadł z notesem na kanapie i poradził z kamienną twarzą: „Proszę przez najbliższe 3 miesiące nie zostawiać psa samego dłużej niż na 2 minuty”.
 
-Świetna teoria na papierze - tylko jak to wykonać w prawdziwym życiu w Polsce, kiedy jutro o 8:00 rano musisz stawić się w pracy, żeby zapłacić ratę kredytu oraz czynsz do spółdzielni, a w kieszeni kurtki gniecie Cię anonimowa kartka z klatki schodowej ze wzmianką o straży miejskiej i art. 51 Kodeksu wykroczeń?!
+Świetna teoria na papierze - tylko jak to wykonać w prawdziwym życiu w Polsce, kiedy jutro o 8:00 rano musisz odbić kartę w pracy, żeby zapłacić ratę kredytu i czynsz do spółdzielni, a w kieszeni kurtki gniecie Cię anonimowa kartka z klatki schodowej ze wzmianką o straży miejskiej i art. 51 Kodeksu wykroczeń?!
 
-Kiedy człowiek sparzył się już 4 albo 5 razy z rzędu, siedzi wieczorem przy stole, patrzy na podrapaną okleinę drzwi wejściowych i myśli z goryczą: „Na mojego psa po prostu nic nie działa, nie dam się naciągnąć ani razu więcej”.
+Kiedy człowiek sparzył się już 5 razy z rzędu, siedzi wieczorem przy stole, patrzy na podrapaną okleinę drzwi wejściowych i myśli z goryczą: „Na mojego psa po prostu nic nie działa, nie dam się naciągnąć ani razu więcej”.
 
-Dlatego w Feliora odwróciliśmy zasady o 180 stopni: nie prosimy Cię o wiarę na ładne oczy. Kładziemy na stół prosty, twardy układ, w którym 100% ryzyka finansowego bierzemy na siebie.
+Kiedy więc wieczorem na forum Wykopu w wątku o psach ze schroniska trafiłem na wpisy ludzi polecających weterynaryjny dyfuzor feromonów D.A.P. Feliora z oficjalnej strony feliora.pl, wszedłem tam wyłącznie po to, żeby znaleźć haczyk.
 
-Zamawiasz weterynaryjny dyfuzor feromonów dla psów Feliora do swojego mieszkania, wpinasz go w gniazdko i sprawdzasz u siebie w domu przez pełne 30 dni. Jeżeli na Twojej kamerce oraz pod Twoimi drzwiami nie zapanuje spokój - zwracamy Ci 100% wpłaconych pieniędzy co do 1 grosza, nawet jeśli przez ten miesiąc wyparujesz płyn w buteleczce!
+I wtedy zobaczyłem ich główny warunek: zamawiasz zestaw do swojego mieszkania, wpinasz w gniazdko i sprawdzasz przez pełne 30 dni - a jeżeli na Twojej kamerce i pod drzwiami nie zapanuje spokój, zwracają 100% wpłaconych pieniędzy co do 1 grosza, nawet jeśli przez te 30 dni wyparujesz płyn w buteleczce!
 
-W tym miejscu każdemu trzeźwo myślącemu człowiekowi zapala się w głowie czerwona lampka: „Zaraz, gdzie tu jest haczyk? Przecież gdyby ludzie masowo odsyłali Wam zużyte wkłady po 3-4 tygodniach, to poszlibyście z torbami w 30 dni!”.
+Od razu zapaliła mi się w głowie czerwona lampka: „Zaraz, gdzie tu jest haczyk?! Przecież gdyby ludzie masowo odsyłali im puste buteleczki po 3-4 tygodniach, to poszliby z torbami w 30 dni!”.
 
-Piszemy wprost: dokładnie tak by się skończyło, gdyby w środku siedziała perfumowana woda albo stara grzałka oporowa, która wypala się po 7 dniach.
+Zanim wydałem choćby 1 złotówkę, napisałem do nich wieczorem ostrego, konkretnego maila z pytaniem, czy naprawdę oddają wpłatę bez wykrętów i bez durnych formularzy na 5 stron, jeśli zużyję ponad połowę wkładu i nie zobaczę poprawy.
 
-Możemy utrzymać tak bezkompromisową gwarancję z 1 konkretnego powodu: z naszego rozwiązania skorzystano już w ponad 2 000 000 domów na świecie, a odsetek zwrotów trzyma się u nas twardo poniżej 1%!
+Odpisali mi po ludzku w 15 minut, dając mi to czarno na białym na mailu - i podali twarde dane, które przekonały nawet takiego sceptyka jak ja:
 
-W ankiecie przeprowadzonej wśród 416 właścicieli psów aż 97% opiekunów zauważyło wyraźną poprawę samopoczucia swojego psa po 2 tygodniach, 96% potwierdziło spokojniejsze zostawanie pupila samemu w mieszkaniu, a 91% odnotowało spadek drapania drzwi oraz niszczenia mebli. Kiedy stabilizowany rdzeń ceramiczny 5 W utrzymuje w powietrzu równe stężenie matczynych feromonów kojących D.A.P. przez 24 godziny na dobę, narząd Jacobsona w psim nosie robi dokładnie to, do czego zaprogramowała go natura - wycisza wyrzuty kortyzolu u samego źródła, bez tabletek w żołądku i bez otumaniania.
+Gdyby w środku siedziała perfumowana woda z aukcji za 39 zł albo stara grzałka oporowa wypalająca się po 7 dniach, faktycznie zbankrutowaliby w 1 miesiąc. Mogą wziąć 100% ryzyka finansowego na siebie, bo z tej technologii skorzystano już w ponad 2 000 000 domów na świecie, a odsetek zwrotów trzyma się twardo poniżej 1%!
 
-Zanim jednak dodasz zestaw do koszyka, zatrzymaj się na 10 sekund i przeczytaj nasze uczciwe ostrzeżenie - bo jest 1 sytuacja, w której mówimy otwarcie: NIE KUPUJ dziś Feliory, tylko jedź jutro rano do lekarza weterynarii!
+W badaniu przeprowadzonym wśród 416 właścicieli psów aż 97% opiekunów zauważyło wyraźną poprawę samopoczucia psa po 2 tygodniach, 96% potwierdziło spokojniejsze zostawanie pupila samemu w mieszkaniu, a 91% spadek drapania drzwi i niszczenia mebli. Stabilizowany rdzeń ceramiczny 5 W utrzymuje w powietrzu równe stężenie matczynych feromonów kojących D.A.P. przez 24 godziny na dobę aż przez 60 dni z 1 wkładu, a narząd Jacobsona w psim nosie wycisza wyrzuty kortyzolu u źródła - bez tabletek w żołądku i bez otumaniania.
 
-Jeżeli masz pod dachem 12-letniego psa seniora, który przez całe dotychczasowe życie spokojnie przesypiał 8 godzin Twojego etatu, a nagle w ostatnich dniach zaczął popuszczać mocz na dywan, ciężko dyszeć w środku nocy, wypijać miskę wody za miską albo piszczeć przy wstawaniu z legowiska - zamknij tę stronę i zrób mu morfologię krwi oraz badanie moczu. U starszego psa taka nagła zmiana to bardzo często ostre zapalenie pęcherza albo nerek, ropomacicze u niesterylizowanej suczki lub silny rzut bólu zwyrodnieniowego kręgosłupa! Feromony D.A.P. gaszą lęk emocjonalny w mózgu, ale nie wyleczą stanu zapalnego ani bolących stawów.
+Mało tego - spodobało mi się u nich 1 brutalnie uczciwe ostrzeżenie weterynaryjne, którego nie widziałem u żadnego sprzedawcy gadżetów: napisali otwarcie, kiedy NIE kupować Feliory! Jeżeli masz 12-letniego psa seniora, który całe życie spał spokojnie sam przez 8 godzin, a nagle w ostatnich dniach zaczął popuszczać mocz na dywan, ciężko dyszeć w nocy, wypijać miskę wody za miską albo piszczeć przy wstawaniu - nie kupuj wtyczki, tylko jedź rano na morfologię krwi i badanie moczu, bo feromony D.A.P. gaszą lęk w mózgu, a nie zapalenie pęcherza czy ból kręgosłupa!
 
-Jeżeli jednak Twój pies został zbadany i fizycznie nic mu nie dolega, a po zamknięciu drzwi zamienia się w wyjący kłębek nerwów pod klamką, zdziera uszczelki z futryny albo trzęsie się za pralką w czasie burzy - zrób dokładnie to samo, co zrobili nasi najbardziej nieufni klienci.
+Nasz pies był jednak przebadany u weterynarza od nosa po ogon i fizycznie zdrowy jak ryba.
 
-Zobacz historie 2 opiekunów z polskich bloków, którzy klikali zamówienie z gotowym planem odesłania paczki:
+Zamówiłem zestaw na 2 pokoje za 189,99 zł (bo ściana między przedpokojem a salonem zatrzymuje cząsteczki, a przy 60 dniach działania 1 wkładu wychodziło 1,58 zł dziennie na pokój). Gdy przyjechał kurier, schowałem puste pudełko z paragonem na dno szafy w korytarzu i ustawiłem w telefonie alarm na 25. dzień: „Odesłać Feliorę i odebrać 189,99 zł”.
 
-1. Pan Marek z mieszkania w bloku i jego 36-kilogramowy owczarek.
+Wpiąłem 1. dyfuzor pionowo przy wejściu do przedpokoju (zostawiając ponad 1,2 m wolnej przestrzeni nad głowicą), a 2. w salonie przy legowisku na pełne 24 godziny na dobę.
 
-Sąsiad pracujący zdalnie za ścianą zagroził panu Markowi wezwaniem straży miejskiej za wycie psa od 8:00 do 16:00. Pan Marek kpił przy żonie: „Jasne, ziołowe tabletki nie ruszyły 36-kilogramowego byka, a mała bezwonna wtyczka w kontakcie go uspokoi!”. Zamówił Pakiet 2 Pokoje za 189,99 zł, schował kartonik z paragonem na dno szafy w korytarzu i ustawił w telefonie przypomnienie na 25. dzień: „Odesłać Feliorę i odebrać 189,99 zł”. Wpiął 1. dyfuzor przy wejściu do przedpokoju, a 2. w salonie przy legowisku. Przez 1., 2. oraz 3. dzień chodził po domu z miną zwycięzcy, pewien swego. Tymczasem 11. dnia zajrzał w pracy na kamerkę - a jego 36-kilogramowy owczarek chrapał rozciągnięty na boku na środku dywanu! Po 3 tygodniach sąsiad zza ściany zapytał na schodach, czy oddali psa rodzinie na wieś, bo w pionie zapadła cisza. 25. dnia pan Marek ze śmiechem skasował alarm w telefonie i wyrzucił pusty kartonik na makulaturę, a po 60 dniach dokupił same wkłady uzupełniające.
+Przez 1., 2. oraz 3. dzień chodziłem po mieszkaniu z miną zwycięzcy, pewien, że miałem rację - bo pies po naszym wyjściu o 8:00 nadal kręcił się pod progiem przez 15 minut.
 
-2. Pani Kasia i adoptowana ze schroniska suczka Luna.
+Tymczasem 10. dnia zajrzałem w pracy o 12:00 na kamerkę w telefonie i przecierałem oczy: nasz pies leżał wyciągnięty na boku na środku dywanu w salonie, a wcześniej wylizał do czysta masło orzechowe z Konga, którego przez 6 miesięcy w samotności nawet nie tknął!
 
-Przed trafieniem do nas pani Kasia straciła ponad 400 zł na krople wyciszające oraz gryzaki, podczas gdy Luna dalej bała się własnego cienia, zrywała się w nocy na każdy stukot windy i w czasie burzy drapała drzwi łazienki do krwi. Zanim w ogóle złożyła zamówienie, napisała do nas ostrego maila z pytaniem, czy naprawdę oddamy jej wpłatę bez wykrętów, jeżeli zużyje 50% płynu w butelce i nie zobaczy poprawy. Odpisaliśmy w 10 minut, dając jej to czarno na białym. Wzięła Pakiet 2 Pokoje na próbę - i w 2. tygodniu Luna wreszcie od wyjścia ze schroniskowego boksu zasnęła na środku salonu kołami do góry oraz przestała zawodzić o 8:00 rano!
+Po 3 tygodniach sąsiad zza ściany zapytał mnie na schodach, czy oddaliśmy psa rodzinie na wieś, bo w pionie zapadła cisza. 25. dnia z uśmiechem skasowałem alarm w telefonie i wyrzuciłem kartonik z szafy na makulaturę. Oczywiście pies nie zmienił się w pluszaka - jak kurier zadzwoni domofonem, to normalnie szczeknie pod drzwiami, ale po 1 minucie wraca spać na koc zamiast wyć przez 8 godzin.
 
-Cała Twoja 30-dniowa próba zamyka się w 3 prostych krokach:
-
-1. Dobierasz zestaw do układu ścian, wpinasz dyfuzory pionowo w odsłonięte gniazdka ścienne (minimum 1,2 m wolnej przestrzeni nad wtyczką) i zostawiasz włączone 24 godziny na dobę.
-
-2. Przez pełne 30 dni patrzysz na twarde fakty we własnym domu - na podgląd z kamerki w pracy, na stan drzwi oraz na spokój na klatce schodowej.
-
-3. Gdybyś uznał, że nie widzisz różnicy - piszesz 1 krótkiego maila na naszą skrzynkę, bez wypełniania durnych formularzy na 5 stron i bez nagrywania filmików z psem jako dowodu, a my zwracamy 100% Twojej wpłaty na konto.
-
-Ponieważ cząsteczki feromonów D.A.P. nie przenikają przez ściany działowe między przedpokojem a salonem, do typowego mieszkania w bloku opiekunowie wybierają najczęściej zestaw na 2 pomieszczenia za 189,99 zł (czyli 94,99 zł za sztukę), natomiast do otwartej kawalerki bez wydzielonego korytarza wystarczy pojedynczy dyfuzor za 119,99 zł. Dzięki głowicy 5 W każdy 1 wkład działa na pełne 60 dni ciągłej pracy, co w zestawie na 2 pokoje daje 1,58 zł dziennie na pomieszczenie.
-
-Możesz zrobić 2 rzeczy: dorzucić do szuflady kolejną pachnącą obróżkę bez prawa zwrotu po rozpakowaniu - albo wpiąć Feliorę do gniazdka na 30 dni na nasze ryzyko. Jeśli po miesiącu nie zobaczysz spokojniejszego psa po powrocie z pracy, odsyłasz nawet zużyty wkład i odzyskujesz 100% pieniędzy.
+Możesz dorzucić do swojej szuflady kolejną obróżkę ze sklepu bez prawa zwrotu po rozpakowaniu - albo wpiąć Feliorę do gniazdka na 30 dni na pełne ryzyko producenta. Jeśli na kamerce i pod drzwiami nie zobaczysz różnicy, odsyłasz nawet zużyty wkład i odzyskujesz 100% wpłaty.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },

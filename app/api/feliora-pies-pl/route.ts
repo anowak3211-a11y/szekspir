@@ -25,8 +25,8 @@ import {
 
 export const maxDuration = 300;
 
-const STATE_KEY = 'feliora-pies-pl-v11-random-discovery';
-const DEFAULT_CREATED_AT = Date.parse('2026-11-04T12:50:00+01:00');
+const STATE_KEY = 'feliora-pies-pl-v12-persona-congruent';
+const DEFAULT_CREATED_AT = Date.parse('2026-11-04T18:35:00+01:00');
 
 interface FelioraPiesPlLibraryState {
   ads: FelioraPiesPlGeneratedAd[];
@@ -1003,7 +1003,11 @@ export const POST = accountRoute(async (req: Request) => {
         switchedAdSetToFbOnly = true;
       };
 
-      const accountAuthorizedIgIds = new Set<string>(['17841437606417391', '17841473314157729']);
+      const accountAuthorizedIgIds = new Set<string>([
+        '17841437606417391',
+        '17841473314157729',
+        '17841472034688013',
+      ]);
       for (const igEndpoint of [
         `act_${FELIORA_PIES_META_ACCOUNT_ID}/instagram_accounts`,
         `act_${FELIORA_PIES_META_ACCOUNT_ID}/page_backed_instagram_accounts`,

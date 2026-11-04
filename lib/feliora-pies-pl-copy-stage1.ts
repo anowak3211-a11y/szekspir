@@ -253,7 +253,7 @@ Zapytałam bezradnie, dlaczego nasza cisza i dobre jedzenie tego nie wyłączaj�
 
 Dla mnie najważniejsze było to: bez tabletek, bez wciskania past ze strzykawki, bez śmierdzących obróżek zapinanych wokół szyi. Wszystko dzieje się w powietrzu, bez dotykania przerażonego psa.
 
-Przy drzwiach gabinetu uprzedziła mnie tylko łagodnie: „Pani Iwono, jeśli włączycie w domu dyfuzor z czystym feromonem D.A.P., proszę się uzbroić w cierpliwość. U psa po 2 latach boksu wtyczka musi grzać w gniazdku bez przerwy od 5 do 10 dni, zanim ten mur kortyzolu we krwi zacznie opadać. A w domu bardzo państwa proszę o 1 zmianę: nie pochylajcie się nad nim od góry przy głaskaniu, bo dla bitego psa cień nad głową to podniesiona ręka”.
+Przy drzwiach gabinetu uprzedziła mnie tylko łagodnie: „Pani Małgorzato, jeśli włączycie w domu dyfuzor z czystym feromonem D.A.P., proszę się uzbroić w cierpliwość. U psa po 2 latach boksu wtyczka musi grzać w gniazdku bez przerwy od 5 do 10 dni, zanim ten mur kortyzolu we krwi zacznie opadać. A w domu bardzo państwa proszę o 1 zmianę: nie pochylajcie się nad nim od góry przy głaskaniu, bo dla bitego psa cień nad głową to podniesiona ręka”.
 
 Feliora.pl - wpisałam wieczorem w wyszukiwarkę po przeczytaniu w laptopie artykułów o matczynym feromonie kojącym D.A.P. dla psów po przejściach ze schroniska.
 
@@ -341,7 +341,7 @@ Kamień spadł mi z serca, a jednocześnie chciało mi się płakać, że dałam
 
 Lekarka wytłumaczyła mi, że żeby przerwać to błędne koło, trzeba wyciszyć alarm w układzie limbicznym przez narząd Jacobsona w podniebieniu za pomocą stałej dyfuzji matczynego feromonu kojącego D.A.P. - tego samego naturalnego sygnału bezpieczeństwa, który wydziela suka karmiąca szczenięta przy listwie mlecznej.
 
-Odłożyła wyniki badań na teczkę i powiedziała mi wprost w rozmowie: „Pani Iwono, gdyby przyszła pani do mnie bez tych czystych badań moczu i posiewu, nawet bym o feromonach nie wspominała, bo żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu ani chorych nerek. Ale przy zdrowym pęcherzu niech pani zamówi do domu dyfuzor weterynaryjny Feliora z czystym feromonem D.A.P. Tylko niech pani nie liczy na korek w 1 godzinę od włożenia do gniazdka - wtyczka musi grzać non stop 24/7 przez 4 do 7 dni, żeby nasycić pokoje. A równolegle niech pani 5 razy dziennie bierze klucze z komody do ręki i odkłada je bez wychodzenia z domu, żeby odczulić mu sam dźwięk breloczka”.
+Odłożyła wyniki badań na teczkę i powiedziała mi wprost w rozmowie: „Pani Małgorzato, gdyby przyszła pani do mnie bez tych czystych badań moczu i posiewu, nawet bym o feromonach nie wspominała, bo żaden dyfuzor na świecie nie wyleczy bakterii w pęcherzu ani chorych nerek. Ale przy zdrowym pęcherzu niech pani zamówi do domu dyfuzor weterynaryjny Feliora z czystym feromonem D.A.P. Tylko niech pani nie liczy na korek w 1 godzinę od włożenia do gniazdka - wtyczka musi grzać non stop 24/7 przez 4 do 7 dni, żeby nasycić pokoje. A równolegle niech pani 5 razy dziennie bierze klucze z komody do ręki i odkłada je bez wychodzenia z domu, żeby odczulić mu sam dźwięk breloczka”.
 
 Wieczorem w domu usiadłam przy blacie w kuchni i otworzyłam w telefonie stronę feliora.pl, o której mówiła lekarka.
 

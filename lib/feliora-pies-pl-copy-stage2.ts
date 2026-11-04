@@ -119,115 +119,71 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-07-starszy-pies-przeprowadzka-cos-sie-przestawilo': {
-    headline: '„Przez 7 lat nie pisnął sam w domu, a po przeprowadzce drapie ściany do betonu”. Historia z mojego gabinetu',
-    description: 'Dr wet. Edmund Newelski: dlaczego spokojny dorosły pies po zmianie mieszkania wpada w panikę pod drzwiami i jak przywrócić mu bezpieczny dom.',
-    primaryText: `„Panie doktorze, jemu po przeprowadzce coś pękło w głowie. Przez 7 lat nie pisnął sam w domu, a teraz drapie ściany do betonu”.
+    headline: 'Przez 7 lat nie pisnął sam w domu, a po przeprowadzce zaczął drapać ściany aż do gołego betonu',
+    description: 'Dlaczego spokojny dorosły pies po zmianie mieszkania wpada w panikę pod drzwiami i co poradził nasz weterynarz.',
+    primaryText: `„Panie doktorze, jemu po przeprowadzce coś pękło w głowie. Przez 7 lat nie pisnął sam w domu, a teraz drapie ściany do betonu” - wydusiłam w gabinecie z oczami czerwonymi z niewyspania.
 
-Patrzyłem na młode małżeństwo siedzące w moim gabinecie i na ich 8-letniego kundelka Maksia, który leżał pod krzesłem z obandażowaną łapą.
+Siedzieliśmy z mężem na krzesłach w lecznicy, a nasz 8-letni kundelek Maksio chował się pod moimi nogami z obandażowaną na niebiesko łapą.
 
-Przez 25 lat pracy w lecznicy widziałem ten wyraz twarzy u porządnych ludzi ponad 200 razy. Podkrążone oczy, nerwowe skubanie paska od torebki i ten cichy wstyd, jakby przyszli przyznać się do porażki wychowawczej.
+Nie chciał nawet wyjść spod krzesła. Przyciskał siwiejący pysk do mojego buta i dygotał na kafelkach jak w febrze.
 
-Maksio nie chciał nawet wyjść spod krzesła swojej pani. Przyciskał siwiejący pysk do jej buta, a na prawym nadgarstku miał opatrunek przesiąknięty na różowo.
+2 dni wcześniej wyszliśmy na 20 minut do sklepu po chleb i mleko. Gdy wróciliśmy pod drzwi nowego mieszkania, już z windy słyszeliśmy rozdzierający skowyt, a Maksio tak drapał o nową futrynę, że naderwał sobie pazur aż do żywej miazgi.
 
-2 dni wcześniej wyszli na 20 minut do sklepu po chleb i mleko. Gdy wrócili pod drzwi nowego mieszkania, już z windy słyszeli skowyt, a Maksio tak drapał o nową futrynę, że naderwał sobie pazur do żywej miazgi.
+Mój mąż pokazał dr. wet. Edmundowi Newelskiemu na telefonie zdjęcie wydrapanej do szarego tynku ściany i westchnął ciężko:
 
-Mąż pokazał mi na telefonie zdjęcie wydrapanej do szarego tynku ściany i westchnął ciężko.
+„Kredyt na 30 lat, kartonów jeszcze nie rozpakowaliśmy, a sąsiedzi już przykleili nam kartkę, że zgłoszą nas do wspólnoty. Wczoraj zadzwoniliśmy w desperacji do poleconego trenera”.
 
-„Kredyt na 30 lat, kartonów jeszcze nie rozpakowaliśmy, a sąsiedzi już przykleili nam kartkę, że zgłoszą nas do wspólnoty” - powiedział cicho. „Wczoraj zadzwoniliśmy w desperacji do poleconego trenera”.
+Doktor uniósł brew.
 
-Uniosłem brew, bo niestety domyślałem się, co usłyszeli.
+„Powiedział nam, że na większym metrażu Maksio poczuł się przewodnikiem stada i testuje granice” - dokończyłam cicho. „Kazał pokazać psu, kto tu rządzi, nie litować się i zostawiać go samego, aż przestanie wymuszać”.
 
-„Powiedział, że na większym metrażu Maksio poczuł się przewodnikiem stada i testuje granice. Kazał nam pokazać psu, kto tu rządzi, nie litować się i zostawiać go samego, aż przestanie wymuszać”.
+Widziałam, jak lekarz aż zacisnął szczękę i pokręcił głową, patrząc pod moje krzesło na drżącego 8-letniego psa, który bał się stracić moją nogawkę z oczu na 3 sekundy.
 
-Musiałem ugryźć się w język, żeby nie powiedzieć przy nich na głos tego, co zawsze myślę o takich telefonicznych guru od „łamania charakteru”. Kiedy słyszę, jak ktoś każe dobrym, przerażonym ludziom ignorować płacz 8-letniego przyjaciela, krew się we mnie gotuje.
+Najpierw dokładnie zbadał Maksia na stole, bo u 8-letniego psa nagły lęk potrafi brać się z bólu kręgosłupa albo chorej tarczycy. Osłuchał serce, sprawdził stawy, przejrzał wyniki krwi i opatrzył na nowo skaleczony pazur. Fizycznie Maksio był zdrowy jak ryba. Cały dramat dział się w jego głowie.
 
-Zajrzałem pod krzesło na 8-letniego kundelka, któremu drżały łapki na kafelkach i który bał się stracić nogawkę swojej pani z oczu na 3 sekundy. Pomyślałem w duchu: no rzeczywiście, wypisz wymaluj bezwzględny samiec alfa przejmujący władzę nad blokiem.
+Doktor przysunął taboret bliżej naszych krzeseł, zdjął okulary i zapytał po ludzku:
 
-Najpierw dokładnie zbadałem Maksia na stole, bo u 8-letniego psa nagły lęk potrafi brać się z bólu kręgosłupa albo chorej tarczycy. Osłuchałem serce, sprawdziłem stawy, przejrzałem świeże wyniki krwi i opatrzyłem na nowo skaleczony pazur.
+„Pani Małgorzato, niech mi pani powie szczerze: skąd wy wiecie po wejściu do tego nowego bloku, że jesteście już u siebie w domu?”
 
-Fizycznie był zdrowy jak ryba. Cały dramat dział się w jego głowie.
+Zamrugałam ze zdziwienia: „Stoi nasza szara kanapa, nasze łóżko, w kuchni nasze kubki i telewizor na ścianie”.
 
-Przysunąłem taboret bliżej ich krzeseł, zdjąłem okulary i zapytałem po ludzku:
+„Właśnie” - pokiwał głową. „Wy jesteście ludźmi, więc poznajecie dom oczami, a Maksio ma nos 40 razy czulszy od waszego”.
 
-„Powiedzcie mi szczerze: skąd wy wiecie po wejściu do tego nowego bloku, że jesteście już u siebie w domu?”
+Mój mąż przestał obracać kluczyki w palcach i zaczął uważnie słuchać.
 
-Żona zamrugała ze zdziwienia. „Stoi nasza szara kanapa, nasze łóżko, w kuchni nasze kubki i telewizor na ścianie”.
+„Dla psa dom to nie jest kształt kanapy, tylko zapach wsiąkający w ściany przez 7 długich lat” - tłumaczył spokojnie doktor. „W starym mieszkaniu Maksio znał zapach każdej listwy i stukot obcasów sąsiadki z góry. Miał w powietrzu stałą obietnicę: tu jestem bezpieczny, stąd nikt nie znika na zawsze. A w sobotę spakowaliście to wszystko w kartony i wywieźliście go do obcego budynku. Dla jego nosa tam śmierdzi świeżą farbą, klejem pod panelami, silikonem i obcym betonem, a za drzwiami chodzi obca winda”.
 
-„Właśnie” - pokiwałem głową. „Wy jesteście ludźmi, więc poznajecie dom oczami, a Maksio ma nos 40 razy czulszy od waszego”.
+Ściszył głos, patrząc na obandażowaną łapę Maksia:
 
-Widziałem, jak mąż przestaje obracać kluczyki w palcach i zaczyna uważnie słuchać.
+„Dopóki siedzicie z nim w pokoju, trzyma się was jak koła ratunkowego. Ale gdy zamykacie te nowe drzwi od zewnątrz, w jego 8-letniej głowie nie ma żadnego rządzenia - jest czyste przerażenie: stado wywiozło mnie w obce miejsce i zostawiło samego. On nie niszczył ściany na złość. On drapał ten tynk do krwi, bo próbował się przez niego przekopać za wami na klatkę”.
 
-„Dla psa dom to nie jest kształt kanapy, tylko zapach wsiąkający w ściany przez 7 długich lat” - tłumaczyłem spokojnie. „W starym mieszkaniu Maksio znał zapach każdej listwy i stukot obcasów sąsiadki z góry. Miał w powietrzu stałą obietnicę: tu jestem bezpieczny, stąd nikt nie znika na zawsze”.
-
-„A w sobotę spakowaliście to wszystko w kartony i wywieźliście go do obcego budynku. Dla jego nosa tam śmierdzi świeżą farbą, klejem pod panelami, silikonem i obcym betonem, a za drzwiami chodzi obca winda”.
-
-Ściszyłem głos, patrząc na obandażowaną łapę psa.
-
-„Dopóki siedzicie z nim w pokoju, trzyma się was jak koła ratunkowego. Ale gdy zamykacie te nowe drzwi od zewnątrz, w jego 8-letniej głowie nie ma żadnego rządzenia - jest czyste przerażenie: stado wywiozło mnie w obce miejsce i zostawiło samego”.
-
-Dodałem cicho: „On nie niszczył ściany na złość. On drapał ten tynk do krwi, bo próbował się przez niego przekopać za wami na klatkę”.
-
-W gabinecie zapadła cisza. Żona schowała twarz w dłoniach i rozpłakała się bezgłośnie, a mąż przełknął ślinę i powiedział chrapliwie w podłogę:
+Rozpłakałam się w dłonie bez słowa, a mój mąż przełknął ślinę i powiedział chrapliwie w podłogę:
 
 „Boże, a ja wczoraj, jak zobaczyłem tę dziurę w gładzi, to na niego huknąłem w przedpokoju. Stał skulony z tą krwawiącą łapą, a ja krzyczałem, że jest niewdzięczny”.
 
-Położyłem mu rękę na ramieniu. „Nie wiedział pan, bo wszędzie powtarza się bzdury o złośliwych psach, a żaden pies nie zrywa sobie pazura ze złośliwości”.
+„W poniedziałek wracamy z urlopu do pracy na 8 godzin” - zapytałam przez łzy. „Co mamy zrobić, żeby nie szpikować go w tym wieku tabletkami na otumanienie?”
 
-Sam mam w domu starego psa ze schroniska i doskonale wiem, jak szybko bezradność potrafi zmienić się w nerwy pod drzwiami, kiedy człowiek wraca zmęczony ze sklepu i widzi zniszczoną ścianę.
+Lekarz wyjaśnił nam, że zamiast otępiać mięśnie starego psa psychotropami, po których zatacza się na panelach jak po narkozie, trzeba wypełnić nowe mieszkanie matczynym feromonem kojącym D.A.P. - bezwonnym dla ludzi sygnałem, który skóra karmiącej suki wydziela w 1. dniach po porodzie. Receptor nad podniebieniem psa nie zapomina tego kodu do starości, więc na 8-letniego Maksia działa tak samo jak na szczeniaka. Polecił nam wprost w rozmowie weterynaryjny dyfuzor Feliora z feromonem D.A.P.
 
-„Panie doktorze, w poniedziałek wracamy z urlopu do pracy na 8 godzin” - powiedziała przez łzy żona. „Co mamy zrobić, żeby nie szpikować go w tym wieku tabletkami na otumanienie?”
+Mój mąż zmarszczył brwi i spojrzał na doktora z wyraźną nieufnością:
 
-„Nie będziemy go niczym otumaniać” - odpowiedziałem. „Wypełnimy po prostu to nowe mieszkanie sygnałem bezpieczeństwa w języku, który jego nos rozumie od urodzenia”.
+„Panie doktorze, ale szczerze - 8-letni pies drapie nam ścianę do gołego betonu, a ma go zatrzymać wtyczka do kontaktu jak zapach z drogerii za prawie 200 zł?!”.
 
-Wyjaśniłem im, jak działa matczyny feromon kojący D.A.P., który skóra karmiącej suki wydziela w 1. dniach po porodzie, żeby uspokoić ślepe szczenięta w gnieździe. Receptor nad podniebieniem psa nie zapomina tego kodu do starości, więc na 8-letniego Maksia działa on dokładnie tak samo kojąco jak na malucha.
+Doktor odpowiedział bez ogródek, że człowiek nie czuje z tego gniazdka absolutnie nic, i od razu postawił nam twarde warunki fizyki: cząsteczki feromonu nie przenikają przez mur ani płyty gipsowe. 1 sztuka w salonie nie przepchnie sygnału za róg do korytarza pod drzwiami wejściowymi. Muszą pracować 2 odkryte gniazdka przez 24 godziny na dobę - 1 w korytarzu przy drzwiach, a 2. w pokoju przy legowisku - nieprzerwanie przez 5 do 10 dni, aż opadnie kortyzol. A na oficjalnej stronie feliora.pl chroni nas 30-dniowa gwarancja zwrotu pieniędzy.
 
-Poleciłem im wprost, żeby zamiast leków zamówili weterynaryjny dyfuzor Feliora z feromonem D.A.P.
+Wieczorem zamówiliśmy zestaw na 2 pokoje za 189,99 zł z prostą umową między sobą: pudełka zostają w szafie, jak po 3 tygodniach dalej będzie rwał gładź, odsyłamy i odzyskujemy kasę co do grosza.
 
-Mąż zmarszczył brwi, zerknął na obandażowaną łapę psa pod krzesłem i spojrzał na mnie z wyraźną nieufnością.
+Oto jak wyglądały nasze 4 tygodnie w nowym mieszkaniu:
 
-„Panie doktorze, ale szczerze - 8-letni pies drapie nam ścianę do gołego betonu, a ma go zatrzymać wtyczka do kontaktu jak zapach z drogerii? Przecież żona pomyśli, że zwariowałem, jak zamiast leków przyniosę odświeżacz powietrza za prawie 200 zł”.
+1. tydzień: przez początkowe 4 dni nie zmieniło się prawie nic. Mąż wieczorami dotykał obudowy w korytarzu, sprawdzając, czy grzałka 5 W w ogóle pracuje, bo Maksio nadal szedł pod drzwi za każdym razem, gdy sięgaliśmy po kurtki. Dopiero pod koniec 1. tygodnia, po 20-minutowym wyjściu do sklepu, pod drzwiami na klatce było cicho, a szara gładź przy futrynie nie miała świeżych zadrapań.
 
-Uśmiechnąłem się lekko, bo w moim gabinecie słyszę to pytanie niemal w każdym tygodniu - wcale się ludziom nie dziwię.
+2. tydzień: zniknęło ciężkie sapanie w szparę pod progiem i mokre plamy śliny na kafelkach. Zaczęliśmy zostawiać go samego na 2 godziny, a potem wróciliśmy do normalnych 8 godzin pracy.
 
-„Gdyby to był zapach z drogerii, sam wyrzuciłbym pana z tym za drzwi, bo sztuczna perfumeria tylko jeszcze bardziej drażni psi nos” - odpowiedziałem spokojnie. „Człowiek nie czuje z tego gniazdka absolutnie nic. A wie pan, dlaczego nie chcę od razu zamulać zdrowego 8-latka psychotropami?”.
+Po 4 tygodniach pazur zagoił się czysto, a dziurę przy futrynie mąż zaszpachlował i zamalował - ściana jest cała.
 
-Pochyliłem się nad stołem, patrząc na drzemiącego pod krzesłem Maksia.
+Maksio nie zmienił się nagle w szczeniaka. W nowym bloku nadal potrafi czasem podnieść głowę z koca i nasłuchiwać obcych kroków na klatce schodowej, bo to starszy pies w nowym budynku, a nie pluszowa zabawka. Ale jego tętno nie wchodzi już w panikę, normalnie pije wodę i przesypia dzień na posłaniu.
 
-„Bo ciężka tabletka uspokajająca często tylko zwala mięśnie z nóg. Stary pies zatacza się na śliskich panelach jak po narkozie i nie ma siły podejść do drzwi, ale pod czaszką dalej szaleje ten sam śmiertelny strach. My nie chcemy Maksia wyłączyć z prądu - my chcemy, żeby przestał bać się nowego mieszkania”.
-
-Postawiłem przed nimi od razu twarde, uczciwe warunki, żeby nie oczekiwali cudu w 15 minut po włożeniu wtyczki do ściany.
-
-Wyjaśniłem im barierę ścian działowych w bloku: cząsteczki feromonu nie przenikają przez mur ani płyty gipsowe. 1 sztuka schowana w salonie nie przepchnie sygnału za róg do korytarza pod drzwiami wejściowymi, gdzie wybucha panika. Muszą pracować 2 otwarte gniazdka przez 24 godziny na dobę - 1 w korytarzu przy drzwiach, a 2. w pokoju przy legowisku - nieprzerwanie przez 5 do 10 dni, aż kortyzol we krwi opadnie.
-
-„Na oficjalnej stronie feliora.pl producent daje pełną 30-dniową gwarancję zwrotu pieniędzy” - dodałem na koniec. „Jeśli po 2 albo 3 tygodniach Maksio dalej będzie drapał gładź, spakujecie państwo wtyczki do pudełek i odzyskacie pieniądze co do grosza. Niczym nie ryzykujecie”.
-
-Mąż pokiwał powoli głową, zapisał w telefonie nazwę Feliora i uścisnął mi dłoń. Taki uczciwy układ wreszcie do niego trafił.
-
-Zajrzeli do lecznicy po 4 tygodniach na kontrolę zrośniętego pazura i szczepienie.
-
-Bez wielkich scen w progu. Weszli spokojnie do gabinetu, już bez szarych z niewyspania twarzy, a Maksio położył się cicho przy bucie właściciela bez dygotania na kafelkach.
-
-Zapytałem krótko, jak minął ten miesiąc w nowym mieszkaniu.
-
-1. tydzień: przez początkowe 4 dni nie zmieniło się prawie nic. Właściciel przyznał sucho, że wieczorami dotykał obudowy w korytarzu, sprawdzając, czy grzałka w ogóle pracuje, bo pies nadal wstawał z posłania i szedł pod drzwi za każdym razem, gdy sięgali po kurtki.
-
-Dopiero pod koniec 1. tygodnia, po 20-minutowym wyjściu do sklepu, pod drzwiami na klatce było cicho, a szara gładź przy futrynie nie miała świeżych zadrapań.
-
-2. tydzień: zniknęło ciężkie sapanie w szparę pod progiem i mokre plamy śliny na kafelkach. Zaczęli zostawiać go samego na 2 godziny, a potem wrócili do normalnych 8 godzin pracy.
-
-Po 4 tygodniach: pazur zagoił się czysto. Dziurę przy futrynie zaszpachlowali i zamalowali - ściana jest cała.
-
-Maksio nie zmienił się nagle w szczeniaka. W nowym bloku nadal potrafi czasem podnieść głowę z koca i nasłuchiwać obcych kroków na klatce schodowej, bo to starszy pies w nowym budynku, a nie pluszowa zabawka.
-
-Ale jego tętno nie wchodzi już w panikę. Nie próbuje przekopać się przez beton za właścicielami, normalnie pije wodę i przesypia dzień na posłaniu.
-
-Jako lekarz powiem to wprost.
-
-Jeśli po przeprowadzce albo remoncie Twój dorosły pies nagle zaczął niszczyć drzwi lub wyć - nie karć go i nie wmawiaj sobie, że „zgłupiał na starość”. Dla jego nosa to obcy lokal bez sygnału bezpieczeństwa, a nie walka o dominację nad rodziną.
-
-Zanim sięgniesz po otępiające leki albo rady o „pokazywaniu psu miejsca w szeregu”, wypełnij nowe mieszkanie biologicznym sygnałem spokojnego gniazda. Przy układzie ze ścianami działowymi zawsze wpinamy 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w strefie drzwi wejściowych, a 2. w pokoju z posłaniem psa, bo mur zatrzymuje cząsteczki feromonu.
-
-1 wkład pracuje w kontakcie bez przerwy przez 60 dni. Na stronie producenta chroni Cię pełna 30-dniowa gwarancja zwrotu pieniędzy - jeśli po 3 tygodniach nie zobaczysz wyraźnego wyciszenia u swojego psa, odsyłasz zestaw i odzyskujesz pieniądze.
+Jeśli po przeprowadzce albo remoncie Twój dorosły pies nagle zaczął niszczyć drzwi lub wyć - nie karć go. Przy układzie ze ścianami działowymi wpinasz 2 dyfuzory Feliora (1 wkład pracuje 60 dni non stop), a na stronie producenta chroni Cię 30-dniowa gwarancja zwrotu pieniędzy.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
@@ -281,7 +237,7 @@ Rano pojechałam z Brunem do dr. wet. Edmunda Newelskiego, lekarza z 25-letnim s
 
 Doktor jednak spokojnie przemył łapy Bruna, obejrzał kły pod światło i podał mi chusteczkę.
 
-„Szkliwo całe, łapy zagoją się w 4 dni, pani Iwono” - powiedział łagodnie. „Niech pani siebie nie biczuje, bo chciała pani dobrze, tylko w internecie nikt nie odróżnia psich psot od paniki separacyjnej”.
+„Szkliwo całe, łapy zagoją się w 4 dni, pani Małgorzato” - powiedział łagodnie. „Niech pani siebie nie biczuje, bo chciała pani dobrze, tylko w internecie nikt nie odróżnia psich psot od paniki separacyjnej”.
 
 Wytłumaczył mi to prostymi słowami: klatka sprawdza się wyłącznie wtedy, gdy pies ma spokojną głowę. U psa po schronisku zamknięcie drzwi mieszkania odpala w mózgu dziki wyrzut adrenaliny i 1 rozkaz: uciekaj, biegnij za swoim stadem!
 
@@ -303,7 +259,7 @@ Wieczorem usiadłam przy stole w kuchni i otworzyłam w telefonie stronę felior
 
 Kiedy pokazałam mężowi ekran telefonu ze stroną Feliory, po całym tygodniu nerwów po prostu w nim pękło. Spojrzał na zabandażowane łapy Bruna, potem na mnie i wybuchnął na całą kuchnię:
 
-„Iwona, błagam cię! Stalowe pręty wygiął zębami, a ty chcesz wydać kolejne 190 zł na plastikową wtyczkę bez zapachu?! Zaraz zaczniemy kupować amulety z internetu!”.
+„Gosia, błagam cię! Stalowe pręty wygiął zębami, a ty chcesz wydać kolejne 190 zł na plastikową wtyczkę bez zapachu?! Zaraz zaczniemy kupować amulety z internetu!”.
 
 Nie potrafiłam się nawet na niego wściekać, bo w głębi ducha myślałam dokładnie to samo. Przecież przed chwilą utopiliśmy 380 zł w zakrwawionej klatce i wcześniej 150 zł w rozszarpanych na strzępy posłaniach.
 
@@ -343,195 +299,109 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-09-drugi-pies-zaloba-walki-w-domu': {
-    headline: '„Boimy się wyjść nawet do sklepu, bo nasze 2 psy rzucają się sobie do gardeł o zwykłą kanapę”',
-    description: 'Dr wet. Edmund Newelski: gdy 2 psy walczą pod 1 dachem albo pies wyje z żałoby po stracie przyjaciela, zawodzi ten sam sygnał stada.',
-    primaryText: `„Boimy się wyjść z domu nawet do sklepu, bo nasze 2 psy rzucają się sobie do gardeł o zwykłą kanapę”.
+    headline: 'Od 3 tygodni spałem na sofie za zamkniętymi drzwiami, bo nasze 2 psy skakały sobie do gardeł o kanapę',
+    description: 'Gdy 2 psy walczą pod 1 dachem albo pies wyje z żałoby po stracie przyjaciela, w powietrzu brakuje 1 sygnału stada.',
+    primaryText: `„Panie doktorze, boimy się wyjść z domu nawet do sklepu, bo nasze 2 psy rzucają się sobie do gardeł o zwykłą kanapę” - wydusiłem u weterynarza po 3 tygodniach spania na rozkładanej sofie.
 
-Kiedy usłyszałem to zdanie w zeszłym miesiącu w moim gabinecie, spojrzałem na siedzące przede mną małżeństwo i od razu zobaczyłem, jak bardzo są wykończeni.
+Siedziałem na krześle pod ścianą gabinetu, kurczowo owijając smycz wokół nadgarstka, a naprzeciwko mój szwagier trzymał na 2. smyczy naszego młodszego mieszańca, żeby psy nawet nie spojrzały na siebie przez środek sali.
 
-Siedzieli na 2 osobnych krzesłach pod przeciwległymi ścianami, kurczowo owijając smycze wokół nadgarstków, żeby ich psy nawet nie spojrzały na siebie przez środek gabinetu. Starszy, 7-letni rezydent miał na lewym uchu świeży strup po kłach, a młodszy, 1-roczny przybłęda ze schroniska sztywniał na wyprostowanych łapach za każdym razem, gdy tamten tylko poruszył głową.
+Nasz 7-letni rezydent miał na lewym uchu świeży strup po kłach, a 1-roczny przybłęda wzięty z fundacji sztywniał na wyprostowanych łapach za każdym razem, gdy tamten tylko poruszył głową.
 
-„Panie doktorze, chcieliśmy dobrze” - powiedziała cicho kobieta, a po jej głosie słyszałem, że ledwo powstrzymuje płacz. „Myśleliśmy, że starszemu będzie raźniej z kolegą, a urządziliśmy sobie na 54 metrach kwadratowych piekło na ziemi”.
+Mam na imię Karol. Chcieliśmy z żoną dobrze - myśleliśmy, że starszemu psu będzie raźniej z kolegą, a urządziliśmy sobie na 54 metrach kwadratowych piekło na ziemi.
 
-Jej mąż przetarł oczy i dodał zdanie, które zapadło mi w pamięć najbardziej:
+Od 3 tygodni spaliśmy z żoną w osobnych pokojach za zamkniętymi na klucz drzwiami. Ja na rozkładanej sofie w salonie z młodym, żona w sypialni ze starszym. Jak mijaliśmy się rano o 6:30 w kuchni przy miskach z wodą, wstrzymywaliśmy oddech, czy zaraz znowu nie będzie wrzasku i krwi na kafelkach.
 
-„Od 3 tygodni śpimy z żoną w osobnych pokojach za zamkniętymi na klucz drzwiami. Ja śpię na rozkładanej sofie w salonie z młodym, a żona w sypialni ze starszym. Jak mijamy się w kuchni przy miskach z wodą, to wstrzymujemy oddech, czy zaraz znowu nie będzie wrzasku i krwi na kafelkach”.
+W pracy siedziałem przed komputerem z zaciśniętym żołądkiem i co 15 minut spoglądałem w telefon, bojąc się wiadomości od żony. Najgorszy był ten dławiący wstyd, gdy sąsiedzi słyszeli przez cienkie ściany warkot i trzask naszych drzwi, a ja wieczorem rozkładałem pościel w salonie we własnym mieszkaniu jak intruz i patrzyłem na podrapaną okleinę. Żona płakała w kuchni nad umową adopcyjną z fundacji, mówiąc, że zawiedliśmy 2 psy naraz.
 
-Patrzyłem na nich i po ludzku ścisnęło mnie w dołku. Dobrzy ludzie, którzy chcieli dać dom biednemu psu zza krat, stali się zakładnikami we własnym mieszkaniu.
+Dr wet. Edmund Newelski popatrzył na nasze podkrążone oczy i powiedział coś, co od razu zdjęło mi z barków połowę poczucia winy:
 
-Tego samego popołudnia, dosłownie 2 godziny po ich wyjściu, na tym samym krześle przy moim biurku usiadła starsza pani z 6-letnim kundelkiem Borysem.
+„Panie Karolu, dokładnie 1 godzinę przed panem siedziała tu starsza pani z 6-letnim kundelkiem, który po śmierci 14-letniej suczki z rozpaczy zrywa firanki z karnisza i wyje pod drzwiami, gdy pani wyjdzie na 15 minut do apteki. U niej i u was zawodzi w mieszkaniu dokładnie ta sama chemia stada”.
 
-Jej historia wyglądała jak lustrzane odbicie tamtego małżeństwa - tylko jeszcze bardziej łamała serce.
+Wytłumaczył mi to po męsku na przykładzie natury w 1. dobach po porodzie suki.
 
-Przez 6 lat w jej mieszkaniu żyły zgodnie 2 psy: Borys oraz starsza, 14-letnia suczka, w którą Borys był wpatrzony jak w obrazek. 3 tygodnie wcześniej musiałem pomóc starszej suczce spokojnie odejść z powodu ciężkiej niewydolności nerek.
+W ciasnym kojcu gniecie się obok siebie 7 albo 8 ślepych szczeniaków i przepycha łapkami do mleka, a nie ma tam agresji ani paniki. Dlaczego? Bo skóra na brzuchu matki uwalnia w powietrze bezwonny dla człowieka sygnał - matczyny feromon kojący D.A.P.
 
-„Panie doktorze, ja już nie mogę wyjść nawet na 15 minut do apteki na dół” - wyszeptała starsza pani, gładząc Borysa po karku. „Śpi na pustym miejscu po jej posłaniu, a jak tylko zamknę drzwi mieszkania, to wyje pod niebiosa, zrywa firanki z karnisza i drapie komodę”.
+Ten sygnał trafia przy każdym wdechu prosto do narządu Jacobsona nad podniebieniem psa i bez udziału myślenia wycisza ośrodek strachu oraz obrony w mózgu. Mówi każdemu psu w gnieździe to samo: jesteś częścią bezpiecznego stada, nikomu niczego nie zabraknie, możesz opuścić gardę.
 
-Przetarła oczy chusteczką i dodała cicho: „Przez 6 lat nie zniszczył nawet kapcia. On mi pęka z rozpaczy na oczach, a ja płaczę pod tymi drzwiami razem z nim”.
+„Kiedy wprowadził pan pod dach 2. wystraszonego psa, z opuszek jego łap bił zapach czystego stresu, który rezydent odebrał jako wtargnięcie intruza” - wyjaśnił doktor. „U tych 2 psów kortyzol wystrzelił pod sufit - żaden z nich nie warczy przy kanapie dlatego, że jest zły z natury, tylko dlatego, że każdy boi się utraty swojego miejsca w domu!”.
 
-Wieczorem, kiedy zamknąłem już lecznicę i myłem ręce nad zlewem, miałem przed oczami te 2 domy naraz.
+Poprosiłem go wprost o mocne tabletki uspokajające, bo w weekend mieliśmy już podpisywać z żoną papiery zwrotne w fundacji.
 
-W 1 mieszkaniu 2 zdrowe psy skakały sobie do oczu o kawałek dywanu i dostęp do kolan właściciela. W 2. mieszkaniu osierocony pies niszczył meble z rozpaczy za utraconą przyjaciółką.
+Lekarz spojrzał na mnie twardo i odmówił:
 
-Przez 25 lat praktyki weterynaryjnej widziałem ponad 150 takich dramatów i zawsze tłumaczę opiekunom tę samą prostą prawdę: pies nie rozumie naszych słów, że „macie się lubić” albo „wrócę za 15 minut”. Pies oddycha chemią swojego stada.
+„Wypisanie silnych tabletek otumaniających przy 2 skonfliktowanych psach pod 1 dachem to proszenie się o nieszczęście, panie Karolu. Jeśli przymulimy lekami 1 psa, spowolnimy mu refleks i zaburzymy mowę ciała, przez co 2. zaatakuje go jeszcze mocniej - albo zdezorientowany po tabletce pies straci hamulce i zamiast warknąć ostrzegawczo, od razu ugryzie na ślepo!”.
 
-Wystarczy spojrzeć na naturę w 1. dobach po tym, jak suka urodzi młode.
+Zamiast recepty kazał nam trzymać żelazne zasady (karmienie w 2 osobnych pokojach za zamkniętymi drzwiami, schowanie wszystkich kości i gryzaków z podłogi do szafki) oraz wpiąć na stałe do kontaktów 2 dyfuzory z matczynym feromonem kojącym D.A.P. - w korytarzu na trasie mijania się psów oraz w salonie przy kanapie, bo ściany działowe zatrzymują przepływ cząsteczek. Nie podawał w gabinecie żadnej konkretnej firmy.
 
-W ciasnym kojcu gniecie się obok siebie 7 albo 8 ślepych szczeniaków i przepycha łapkami do mleka, a mimo to nie ma tam agresji ani paniki. Dlaczego? Bo skóra na brzuchu matki uwalnia w powietrze bezwonny dla człowieka sygnał - matczyny feromon kojący D.A.P.
+Wieczorem na tej mojej rozkładanej sofie w salonie wpisałem w wyszukiwarkę Google „dyfuzor feromony kojące D.A.P. 2 psy walka w domu” i trafiłem na stronę feliora.pl.
 
-Ten sygnał trafia przy każdym wdechu prosto do narządu nad podniebieniem psa i bez udziału myślenia wycisza ośrodek strachu oraz obrony w mózgu. Mówi każdemu psu w gnieździe dokładnie to samo: jesteś częścią bezpiecznego stada, nikomu niczego nie zabraknie, możesz opuścić gardę.
+Kiedy zobaczyłem zestaw na 2 pokoje za 189,99 zł, aż parsknąłem gorzko pod nosem: „One skaczą sobie z kłami do gardeł przy miskach, a pogodzi je bezwonna wtyczka 5 W w ścianie?!”. Zamknąłem telefon.
 
-A co dzieje się w zamkniętym mieszkaniu w bloku, kiedy brakuje tego sygnału?
+Złamałem się następnego dnia wieczorem, gdy przy nalewaniu wody do miski znowu musiałem rozdzielać je własnym kolanem, aż rozlałem wodę po całej kuchni. Zamówiłem ten zestaw na 2 pokoje wyłącznie dlatego, że producent dawał pełne 30 dni gwarancji zwrotu pieniędzy - powiedziałem żonie krótko: zanim oddamy młodego do schroniska i będziemy żałować latami, dajmy temu 3 tygodnie, a puste pudełka zostają w szafie na wypadek zwrotu.
 
-Kiedy wprowadzasz pod swój dach 2. wystraszonego psa, z opuszek jego łap bije zapach czystego stresu, który rezydent odbiera w sekundę jako wtargnięcie intruza. U tych 2 psów kortyzol wystrzeliwuje pod sufit - żaden z nich nie warczy przy kanapie dlatego, że jest zły z natury, tylko dlatego, że każdy z nich boi się utraty swojego miejsca w domu!
+Bez bajek o cudownym pojednaniu w 1 dobę - tak wyglądały nasze 4 tygodnie:
 
-Z kolei u psa w żałobie, takiego jak Borys, razem ze śmiercią starszej suczki z powietrza w mieszkaniu zniknął z dnia na dzień cały kojący zapach jego stada. Kiedy starsza pani zamykała drzwi do apteki, Borys zostawał w martwej ciszy i wpadał w dziki lęk, że stracił już wszystkich na świecie.
+1. tydzień: przez początkowe 5 dni w mieszkaniu nic się nie zmieniło. Psy dalej sztywniały w progu kuchni z jeżem na karku, a ja wąchałem gniazdko w korytarzu z 5 cm, nie czułem żadnego zapachu i byłem o krok od spakowania wtyczek do paczkomatu.
 
-W żadnym z tych 2 domów nie sięgnąłem po receptę na otępiające psychotropy. Zamiast tego zarówno młodemu małżeństwu, jak i później starszej pani od Borysa poleciłem w rozmowie dokładnie to samo rozwiązanie: weterynaryjny dyfuzor Feliora z matczynym feromonem kojącym D.A.P.
+2. i 3. tydzień: napięcie zaczęło wyraźnie schodzić około 9. dnia. Kiedy starszy wchodził napić się wody, młody po raz 1. nie zrywał się z warkotem z dywanu, tylko obserwował go spokojnie spod stołu i opuszczał uszy.
 
-Nigdy nie zapomnę reakcji tego niewyspanego od 3 tygodni męża z rozkładanej sofy.
+Po 4 tygodniach nadal nie jedzą z 1 miski i nie śpią przytulone łapami jak w kreskówce. Dalej pilnujemy zasady 2 osobnych misek za zamkniętymi drzwiami w porze karmienia i nie zostawiamy kości na dywanie - bo feromon nie zastępuje zdrowego rozsądku opiekuna.
 
-Przetarł zaczerwienione oczy, spojrzał na mnie jak na wariata i aż wybuchnął z bezsilności:
+Ale zniknęło ciągłe patrolowanie wąskiego korytarza na sztywnych łapach i skakanie sobie do gardeł o kanapę. Mijają się spokojnie przy wodzie, na uchu rezydenta nie ma świeżych strupów, a ja po 30 dniach wróciłem z rozkładanej sofy do własnej sypialni. Młody został z nami na stałe.
 
-„Panie doktorze, one skaczą sobie z kłami do gardeł przy miskach, krew leci na kafelki, a pan mi poleca wtyczkę do kontaktu?! Ja tu przyszedłem po mocne tabletki, bo w weekend oddamy młodego z powrotem do fundacji!”.
-
-Spojrzałem mu prosto w oczy i odpowiedziałem stanowczo, bez owijania w bawełnę:
-
-„Wypisanie silnych tabletek otumaniających przy 2 skonfliktowanych psach pod 1 dachem to proszenie się o nieszczęście. Jeśli przymulimy lekami 1 psa, spowolnimy mu refleks i zaburzymy mowę ciała, przez co 2. zaatakuje go jeszcze mocniej - albo odwrotnie: zdezorientowany po tabletce pies straci hamulce i zamiast warknąć ostrzegawczo, od razu ugryzie na ślepo!”.
-
-Postawiłem przed nimi żelazne zasady bezpieczeństwa na najbliższe 7 do 14 dni, bo żadna wtyczka nie zrobi cudu w 15 minut po włożeniu do gniazdka.
-
-Kazałem im nadal karmić psy w 2 osobnych kątach mieszkania za zamkniętymi drzwiami, schować z podłogi do szafki wszystkie kości oraz gryzaki i wpiąć na stałe 2 dyfuzory w odsłonięte gniazdka pracujące 24 godziny na dobę: 1 w wąskim korytarzu, gdzie psy mijają się w przejściu, a 2. w salonie przy kanapie - bo przez ściany działowe sygnał D.A.P. nie przeleci.
-
-„Zanim podpisze pan papiery w fundacji i zostanie z tym poczuciem winy na lata, dajcie sobie czas” - dodałem spokojnie. „Na stronie producenta feliora.pl ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli napięcie między psami nie opadnie, wyjmie pan wtyczki ze ściany, odeśle i odzyska pieniądze”.
-
-2 godziny później starsza pani od Borysa splotła spracowane dłonie na kolanach i zapytała cicho z tym typowym lękiem emerytki, która w aptece ogląda każdą złotówkę z 2 stron:
-
-„Panie doktorze, a czy ja naprawdę nie wyrzucę tego grosza w błoto? Bo kupiłam już w sklepie zoologicznym krople na ziołach za 60 zł, a Borys nawet nie podszedł do miski i wył pod drzwiami jeszcze głośniej”.
-
-Uspokoiłem ją łagodnie, że tutaj Borys nie musi niczego połykać, wkład pracuje w kontakcie bezwonnie aż przez 60 dni, a wnuczce wysłaliśmy od razu z jej telefonu SMS-a z nazwą Feliora i adresem feliora.pl, żeby przy zamawianiu schowała pudełko - bo przez pełne 30 dni chroni ją gwarancja zwrotu co do złotówki.
-
-Te 2 przypadki sprawdziłem na kontroli po miesiącu.
-
-Bez bajek o cudownym pojednaniu w 1 dobę.
-
-U małżeństwa z 2 psami przez początkowe 5 dni w mieszkaniu nic się nie zmieniło - psy dalej sztywniały w progu kuchni, a właściciel był bliski spakowania wtyczek do zwrotu. Napięcie zaczęło wyraźnie schodzić dopiero w 2. tygodniu.
-
-Po 4 tygodniach nadal nie jedzą z 1 miski i nie śpią przytulone jak w kreskówce. Właściciele dalej pilnują zasady 2 osobnych misek za zamkniętymi drzwiami w porze karmienia i nie zostawiają kości na dywanie - bo feromon nie zastępuje zdrowego rozsądku.
-
-Ale zniknęło ciągłe patrolowanie wąskiego korytarza na sztywnych łapach i skakanie sobie do gardeł o kanapę. Mijają się spokojnie przy wodzie, na uszach rezydenta nie ma świeżych strupów, a mąż wrócił z sofy w salonie do własnej sypialni. Młodszy pies został w rodzinie.
-
-Podobny, spokojny raport usłyszałem u 6-letniego Borysa, z którym starsza pani przyszła po 4 tygodniach przyciąć pazury.
-
-Pies nadal lubi położyć się w kącie po posłaniu zmarłej suczki - tęsknoty nie wycina się skalpelem. Jednak od 2. tygodnia normalnie zjada śniadanie, zniknęło nocne wycie pod drzwiami, a pani wychodzi na 30 minut do apteki i sklepu bez pozrywanych firanek i bez podrapanej komody.
-
-To nie są cuda. To zwykła fizjologia węchu i układu limbicznego psa.
-
-Jeśli w Twoim mieszkaniu 2 psy żyją w ciągłym spięciu o każdy metr podłogi albo pies wpadł w rozpacz po stracie psiego towarzysza - nie krzycz na nie i nie zaczynaj od tabletek przymulających głowę. Najpierw uzupełnij w powietrzu sygnał bezpiecznego stada.
-
-W mieszkaniu ze ścianami działowymi zawsze wpinamy 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w korytarzu na trasie mijania się psów i przy drzwiach wejściowych, a 2. w pokoju dziennym. 1 wkład działa bezwonnie przez 60 dni, a na stronie producenta chroni Cię 30-dniowa gwarancja zwrotu pieniędzy, więc sprawdzasz efekt we własnym domu bez ryzyka.
+W mieszkaniu ze ścianami działowymi wpinasz 2 dyfuzory Feliora (1 wkład działa bezwonnie przez 60 dni ciągłej pracy), a na stronie producenta chroni Cię 30-dniowa gwarancja zwrotu pieniędzy.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-10-dlug-kortyzolowy-72h-reaktywnosc-na-spacerze': {
-    headline: 'Wydali ponad 3 000 zł na szkolenia, a ich pies dalej rzucał się z ujadaniem na każdego psa pod blokiem',
-    description: 'Dr wet. Edmund Newelski: dlaczego Twój pies eksploduje na smyczy między blokami i jak 72-godzinny dług kortyzolowy w mieszkaniu odcina mu myślenie.',
-    primaryText: `Wydali ponad 3 000 zł na szkolenia, a ich pies dalej rzucał się z ujadaniem na każdego psa pod blokiem.
+    headline: 'Wydałem ponad 3 000 zł na szkolenia, a mój pies dalej rzucał się z ujadaniem na każdego psa pod blokiem',
+    description: 'Dlaczego pies eksploduje na smyczy między blokami i jak 72-godzinny dług kortyzolowy w mieszkaniu odcina mu myślenie.',
+    primaryText: `Wydałem ponad 3 000 zł na szkolenia, a mój pies dalej rzucał się z ujadaniem na każdego psa pod blokiem.
 
-Kiedy właściciel opowiedział mi, jak wyglądają ich spacery o 22:00 opłotkami osiedla, żeby tylko nikogo nie minąć, zadałem mu 1 pytanie, którego nie zadał mu żaden trener.
+Wychodziłem z nim o 6:00 rano, a wieczorem czekałem do 22:00 i przemykałem za śmietnikami jak złodziej, żeby nie słuchać od sąsiadów, że trzymam w bloku niewychowanego wariata. Moja żona od jesieni w ogóle bała się brać smycz do ręki, żeby nasz 4-letni Karmel nie ściągnął jej ze schodów.
 
-Siedział naprzeciwko mnie w gabinecie postawny mężczyzna po 40., który z nerwów tak mocno owijał smycz wokół dłoni, że na kostkach palców miał czerwone pręgi. Pod jego nogami dyszał 4-letni rudy kundelek Karmel, zrywając się na równe łapy, gdy za drzwiami w poczekalni ktoś tylko szurnął butem.
+Mam na imię Karol, mam 42 lata i najbardziej dobijał mnie w tym wszystkim kompletny brak logiki.
 
-Znam ten cichy wstyd opiekunów reaktywnych psów z polskich blokowisk aż za dobrze, bo słucham o nim w swojej lecznicy od 25 lat.
+Gdy w niedzielę jechaliśmy autem na cichy plac treningowy pod lasem za miastem, Karmel był psem z obrazka: chodził przy luźnej nodze i patrzył mi w oczy za kawałek kurczaka. A w poniedziałek przed naszym 10-piętrowym blokiem 30 metrów dalej pojawiał się spokojny jamnik - i Karmel stawał dęba na szelkach, toczył ślinę i wypluwał kurczaka na chodnik, kompletnie głuchy na własne imię!
 
-Patrzyłem na jego zaciśnięte ramiona i pomyślałem sobie w duchu: ilu jeszcze porządnych ludzi w tym kraju uwierzy, że ma w domu potwora, zanim ktoś zapyta ich o zwykły sen psa za zamkniętymi drzwiami? Przecież z oczu tego chłopaka biło czyste zmęczenie człowieka, który kocha swojego zwierzaka, ale nie ma już siły walczyć z całym osiedlem.
+Kiedy poszedłem z nim do lecznicy i pokazałem dr. wet. Edmundowi Newelskiemu czerwone pręgi od taśmy na kostkach moich palców, doktor zadał mi 1 pytanie, którego nie zadał nam wcześniej żaden z 3 trenerów:
 
-„Panie doktorze, ja się po prostu wstydzę wyjść z własnej klatki w biały dzień” - przyznał szczerze właściciel, patrząc w blat biurka. „Wychodzę z nim o 6:00 rano, a wieczorem czekam do 22:00 i przemykam za śmietnikami jak złodziej, żeby nie słuchać od sąsiadów, że trzymam w bloku niewychowanego wariata”.
+„Panie Karolu, a ile godzin w ciągu dnia Karmel naprawdę twardo śpi w mieszkaniu - tak na boku, bez podnoszenia ucha?”
 
-Najbardziej dobijała go bezradność po wydaniu ponad 3 000 zł na psie szkoły i behawiorystów.
+Spojrzałem na niego ze zdziwieniem: „Pracuję przy komputerze w małym pokoju, więc widzę go cały dzień! Leży na posłaniu w przedpokoju od rana do popołudnia i nic nie gryzie”.
 
-Gdy w niedzielę jechali autem na cichy plac treningowy pod lasem za miastem, Karmel był psem z obrazka: chodził przy luźnej nodze i patrzył w oczy za kawałek kurczaka. A w poniedziałek przed ich 10-piętrowym blokiem 30 metrów dalej pojawiał się spokojny jamnik - i Karmel stawał dęba na szelkach, toczył ślinę i wypluwał kurczaka na chodnik, kompletnie głuchy na własne imię.
+„Leży i śpi, czy leży i pełni wartę?” - dopytał spokojnie doktor. „Co robi, kiedy na klatce zadzwoni winda, zaszczeka pies za ścianą albo kurier zadzwoni domofonem obok?”
 
-„Żona od jesieni boi się z nim wychodzić, żeby nie ściągnął jej ze schodów” - zakończył cicho. „Chyba trafiliśmy na psa, u którego coś w głowie jest trwale zepsute”.
+Podrapałem się po karku: „Podnosi łeb, prycha i zrywa się z koca pod szparę przy drzwiach, dopóki na klatce nie ucichnie. Robi tak z 15 albo 20 razy dziennie, ale po 60 sekundach wraca na miejsce!”.
 
-Pokręciłem głową, oparłem łokcie o biurko i zadałem mu to 1 proste pytanie:
+Doktor uśmiechnął się smutno: „I właśnie rozwiązał pan zagadkę, nad którą 3 trenerów głowiło się na trawniku pod lasem”.
 
-„Ile godzin w ciągu dnia Karmel naprawdę twardo śpi w mieszkaniu - tak na boku, bez podnoszenia ucha?”
+Wytłumaczył mi prostą biologię: gdy człowiek przestraszy się huku na klatce, po 5 minutach o tym zapomina. U psa po 1 silnym skoku stresu wyrzucony do krwi kortyzol wypłukuje się z organizmu aż przez 72 godziny - czyli przez bite 3 doby!
 
-Mężczyzna spojrzał na mnie ze zdziwieniem: „Pracuję przy komputerze w małym pokoju, więc widzę go cały dzień! Leży na posłaniu w przedpokoju od rana do popołudnia i nic nie gryzie”.
+Kazał mi wyobrazić sobie, że Karmel nosi w piersi zwykłe 10-litrowe wiadro. O 8:00 rano trzaska ciężka krata windy - chlust, do wiadra wpada szklanka kortyzolu, która zostanie w jego żyłach do czwartku. O 9:00 sąsiad schodzi z owczarkiem - kolejna szklanka, o 11:00 i 14:00 dzwoni domofon i tupią dzieci na schodach. Zdrowy pies musi przespać głęboko od 14 do 16 godzin na dobę, żeby to wiadro opróżnić, a Karmel w bloku nie zmrużył oka w twardym śnie nawet na 1 godzinę!
 
-„Leży i śpi, czy leży i pełni wartę?” - dopytałem spokojnie.
+„Gdy o 16:00 bierze pan smycz, wychodzi pan z psem, u którego to wiadro stresu przelewa się już na wycieraczce” - powiedział mi prosto w oczy lekarz. „Wystarczy 1 jamnik po 2. stronie ulicy, żeby ostatnia kropla przelała krawędź i odcięła mu korę mózgową!”.
 
-„Co robi Karmel, kiedy na klatce zadzwoni winda, zaszczeka pies za ścianą albo kurier zadzwoni domofonem obok?”
+Popatrzyłem w milczeniu na swoje obtarte od smyczy dłonie. Warczałem na własnego psa na chodniku za to, że był skrajnie przebodźcowany i niewyspany we własnym domu.
 
-Zastanowił się przez chwilę i podrapał po karku.
+Doktor wyjaśnił mi sam mechanizm wyciszenia czuwania pod drzwiami bez faszerowania psa tabletkami: matczyny feromon kojący D.A.P. do stałego kontaktu 24/7, który mówi psiemu mózgowi przez narząd Jacobsona w podniebieniu, że hałasy za drzwiami na klatce nie są atakiem na gniazdo i można spać dalej. Od razu uprzedził szczerze: na samym chodniku pod blokiem wtyczka nie zrobi nic, bo zostaje w ścianie - jej jedynym zadaniem jest wyłączyć całodzienny alarm przy windzie, żeby pies przespał 14 godzin na dobę i przez 7 do 14 dni wypłukał kortyzol.
 
-„Podnosi łeb, prycha i zrywa się z koca pod szparę przy drzwiach, dopóki na klatce nie ucichnie” - odpowiedział powoli. „Robi tak z 15 albo 20 razy dziennie, ale po 60 sekundach wraca na miejsce!”.
+Wieczorem w domu usiadłem przed monitorem, wpisałem w wyszukiwarkę „matczyny feromon kojący D.A.P. dyfuzor dla psa” i wszedłem na feliora.pl.
 
-Uśmiechnąłem się smutno. „I właśnie rozwiązał pan zagadkę, nad którą 3 trenerów głowiło się na trawniku pod lasem”.
+Kiedy zobaczyłem zestaw na 2 pokoje za 189,99 zł, parsknąłem krótkim śmiechem do ekranu: „Wydałem ponad 3 000 zł na 3 behawiorystów z certyfikatami, mam szafę pełną linek i saszetek na parówki, a teraz wepnę do ściany plastik za prawie 200 zł i pies przestanie rzucać się na jamnika?!”.
 
-Wytłumaczyłem mu to po ludzku, bez medycznego żargonu: gdy człowiek przestraszy się huku na klatce, po 5 minutach o tym zapomina. U psa po 1 silnym skoku stresu wyrzucony do krwi kortyzol wypłukuje się z organizmu aż przez 72 godziny - czyli przez bite 3 doby!
+Zamówiłem ten zestaw wyłącznie z 1 powodu: żaden z tamtych 3 trenerów nie oddał mi z 3 000 zł nawet 1 złotówki, a na feliora.pl dawali 30 dni gwarancji zwrotu pieniędzy. Schowałem karton do szafy i powiedziałem żonie: „Jak za 3 tygodnie dalej będzie zrywał się 20 razy dziennie pod próg na każdy trzask windy, odsyłam im to co do grosza”.
 
-Kazałem mu wyobrazić sobie, że Karmel nosi w piersi zwykłe 10-litrowe wiadro.
+Tak wyglądały nasze 4 tygodnie dzień po dniu:
 
-O 8:00 rano trzaska ciężka krata windy - chlust, do wiadra wpada szklanka kortyzolu, która zostanie w jego żyłach do czwartku. O 9:00 sąsiad schodzi z owczarkiem - kolejna szklanka, a o 11:00 i 14:00 dzwoni domofon i tupią dzieci na schodach.
+1. tydzień: przez początkowe 4 dni kląłem pod nosem przy komputerze, pewien, że wyrzuciłem kasę w błoto. Karmel dalej strzygł uszami na windę, a wieczorem pod blokiem obszczekał sąsiedzkiego psa dokładnie tak samo jak dawniej. Przełamanie przyszło dopiero w ciszy mieszkania pod koniec 1. tygodnia - gdy kurier zadzwonił domofonem obok, podniósł łeb z koca, ale po chwili odłożył pysk na łapy i spał dalej.
 
-Zdrowy pies musi przespać głęboko od 14 do 16 godzin na dobę, żeby to wiadro opróżnić. Tymczasem Karmel przez cały dzień w bloku nie zmrużył oka w twardym śnie nawet na 1 godzinę!
+2. i 3. tydzień: zaczął wreszcie twardo przesypiać w dzień po 12-14 godzin na boku. Dopiero gdy organizm wypłukał zalegający kortyzol, zmiana z mieszkania przeniosła się na chodnik.
 
-„Gdy o 16:00 bierze pan smycz, wychodzi pan z psem, u którego to wiadro stresu przelewa się już na wycieraczce” - powiedziałem mu prosto w oczy. „Wystarczy 1 jamnik po 2. stronie ulicy, żeby ostatnia kropla przelała krawędź i odcięła mu korę mózgową, podczas gdy pod lasem nikt nie trzaskał mu windą nad uchem!”.
+Po 4 tygodniach: na widok obcego, dużego samca idącego z bliska tym samym chodnikiem Karmel nadal potrafi się spiąć i postawić sierść na karku - to żywy pies z krwią w żyłach, nie robot na pilota. Ale nie wybiega już z klatki z przekrwionymi oczami i pianą na pysku. Słyszy mój głos na smyczy, bierze smaczka z ręki i mija psa łukiem, a moja żona znów normalnie wychodzi z nim w biały dzień zamiast o 22:00 za śmietnikami.
 
-Właściciel Karmela popatrzył w milczeniu na swoje obtarte od taśmy dłonie.
-
-„Czyli ja na niego warczałem na chodniku za to, że był skrajnie przebodźcowany i niewyspany we własnym domu” - powiedział cicho, aż głos mu zadrżał.
-
-Widziałem, jak z jego twarzy schodzi wielomiesięczne napięcie, ustępując miejsca zwykłemu ludzkiemu żalowi, że nikt wcześniej mu tego nie wytłumaczył.
-
-„Dokładnie tak” - przytaknąłem. „Żadna kiełbasa pod blokiem nie zadziała, dopóki nie opróżnimy mu tego wiadra w mieszkaniu, w którym spędza ponad 20 godzin na dobę”.
-
-Wyjaśniłem mu, jak wyciszyć czuwanie pod drzwiami bez faszerowania psa tabletkami: wpinając do kontaktu dyfuzor z matczynym feromonem kojącym D.A.P., czyli bezwonnym dla nas sygnałem bezpieczeństwa, który suka wydziela przy młodych po porodzie. Ten kod mówi psiemu mózgowi, że hałasy za drzwiami na klatce nie są atakiem na gniazdo i można spać dalej.
-
-Poleciłem mu wprost weterynaryjny dyfuzor Feliora z tym feromonem.
-
-Kiedy usłyszał o wtyczce do gniazdka, parsknął gorzkim, krótkim śmiechem.
-
-„Doktorze, wydałem ponad 3 000 zł na 3 behawiorystów z certyfikatami, mam szafę pełną linek i saszetek na parówki, a teraz wepnę do ściany plastik za 200 zł i pies przestanie rzucać się na jamnika przed blokiem? Przecież to brzmi jak kiepski żart”.
-
-Spojrzałem na niego poważnie i odpowiedziałem ostro, bez żadnego słodzenia:
-
-„Na chodniku pod blokiem ta wtyczka nie zrobi absolutnie nic, bo zostaje w pana ścianie, a nie idzie z panem na smyczy!”.
-
-Mężczyzna zamrugał zaskoczony moją szczerością, więc dokończyłem spokojniej:
-
-„Chodzenia przy nodze ci 3 trenerzy już Karmela nauczyli pod lasem - sam pan to widział. Problem polega na tym, że pod blokiem on ma odcięty ze zmęczenia mózg. Dyfuzor wpięty 24 godziny na dobę w przedpokoju przy drzwiach oraz w pokoju obok legowiska ma zrobić w pana mieszkaniu wyłącznie 1 rzecz: wyłączyć ten całodzienny alarm przy windzie, żeby Karmel wreszcie przespał twardym snem od 14 do 16 godzin na dobę i przez 7 do 14 dni wypłukał z krwi kortyzol”.
-
-Na koniec dodałem argument, na który żaden zdroworozsądkowy facet nie potrafi się obrazić:
-
-„A wie pan, czym to się jeszcze różni od tamtych kursów? Żaden z tych 3 trenerów nie oddał panu z tych 3 000 zł nawet 1 złotówki, kiedy pod klatką dalej była szarpanina. Tutaj zamawia pan prosto ze strony producenta feliora.pl i ma pan 30 dni gwarancji zwrotu pieniędzy. Jeśli za 3 tygodnie Karmel dalej będzie zrywał się 20 razy dziennie pod próg na każdy trzask windy, wyjmie pan wtyczki z gniazdek, odeśle i odzyska pieniądze”.
-
-Właściciel wyprostował plecy, zapisał w telefonie adres feliora.pl i uśmiechnął się krzywo pod nosem: „Uczciwie postawiona sprawa, panie doktorze. Sprawdzam to”.
-
-Widzieliśmy się ponownie na kontroli po 4 tygodniach, gdy przyszedł do lecznicy po zwykłe tabletki na kleszcze.
-
-Bez filmowych cudów w oknie gabinetu. Po prostu usiadł spokojnie przy biurku, bez świeżych otarć od taśmy na dłoniach, a Karmel położył się na boku przy krześle i nie zrywał się już na każdy ruch klamki w poczekalni.
-
-Zapytałem, jak wyglądały te 4 tygodnie dzień po dniu.
-
-1. tydzień: przez początkowe 4 dni właściciel klął pod nosem przy komputerze, pewien, że wyrzucił prawie 200 zł w błoto. Pies dalej strzygł uszami na windę i chodził pod drzwi, a wieczorem pod blokiem obszczekał sąsiedzkiego psa dokładnie tak samo jak dawniej.
-
-Przełamanie przyszło dopiero w ciszy mieszkania pod koniec 1. tygodnia. Kiedy kurier zadzwonił domofonem obok, Karmel podniósł łeb z koca, ale po chwili odłożył pysk na łapy i spał dalej zamiast biec z prychaniem pod zamek.
-
-2. i 3. tydzień: pies zaczął wreszcie twardo przesypiać w dzień od 12 do 14 godzin. Dopiero gdy organizm wypłukał zalegający kortyzol, zmiana z mieszkania przeniosła się na chodnik.
-
-Po 4 tygodniach: na widok obcego, dużego samca idącego z bliska tym samym chodnikiem Karmel nadal potrafi się spiąć i postawić sierść na karku - to żywy pies z krwią w żyłach, nie robot na pilota.
-
-Ale po zejściu z 8 godzin w mieszkaniu nie wybiega już z klatki schodowej z przekrwionymi białkami oczu i pianą na pysku. Wreszcie po 12 miesiącach męczarni na osiedlu słyszy głos właściciela na smyczy, bierze smaczka z ręki i potrafi minąć psa łukiem, a żona znów wychodzi z nim w dzień zamiast skradać się za śmietnikami o 22:00.
-
-Powiem to jako lekarz krótko i bez owijania w bawełnę.
-
-Żaden trener za 3 000 zł nie nauczy psa spokoju na 45-minutowym spacerze, jeśli przez pozostałe 23 godziny doby jego mózg pływa w kortyzolu we własnym mieszkaniu. Najpierw musisz wyłączyć psu całodzienny alarm przy drzwiach i pozwolić mu odespać dług stresowy.
-
-W bloku ze ścianami działowymi wpinamy zawsze zestaw na 2 strefy, czyli 2 dyfuzory Feliora w odsłonięte gniazdka - 1 w przedpokoju przy drzwiach na klatkę schodową, a 2. w pokoju obok legowiska. 1 wkład wystarcza na 60 dni ciągłej pracy w prądzie, a na stronie producenta masz pełne 30 dni gwarancji zwrotu pieniędzy - możesz spokojnie sprawdzić w swoim domu, czy Twój pies zacznie wreszcie twardo spać.
+Żaden trener za 3 000 zł nie nauczy psa spokoju na 45-minutowym spacerze, jeśli przez pozostałe 23 godziny doby jego mózg pływa w kortyzolu w mieszkaniu. Zestaw 2 dyfuzorów Feliora na przedpokój i pokój kosztuje 189,99 zł (1 wkład działa 60 dni non stop) z pełną, 30-dniową gwarancją zwrotu pieniędzy.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },

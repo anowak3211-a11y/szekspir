@@ -140,206 +140,158 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
 
   'dog-17-blad-przedpokoju-gdzie-wpiac-w-bloku': {
     headline:
-      '„Wpiąłem dyfuzor w salonie i nie działa!” - 1 rysunek z mojego gabinetu wyjaśnił panu Tomaszowi dlaczego',
+      '„Wpiąłem dyfuzor w salonie i nie działa!” - 1 rysunek u weterynarza wyjaśnił mi błąd polskiego przedpokoju',
     description:
-      'Dr wet. Edmund Newelski pokazuje błąd polskiego przedpokoju w kształcie litery L i zasadę 2 stref.',
+      'Dlaczego feromony zza kanapy nie skręcają za szafę w korytarzu w kształcie litery L i jak działa zasada 2 stref.',
     primaryText: `„Panie doktorze, wpiąłem dyfuzor w salonie i kompletnie nie działa! Pies dalej wyje pod drzwiami”.
 
-Wziąłem kartkę papieru, położyłem ją na biurku i poprosiłem pana Tomasza: „Niech pan narysuje układ swojego mieszkania i postawi krzyżyk tam, gdzie wpiął pan wtyczkę”.
+Dr Edmund Newelski wziął czystą kartkę papieru, położył ją na biurku i poprosił mnie spokojnie: „Panie Karolu, niech pan narysuje układ swojego mieszkania i postawi krzyżyk tam, gdzie wpiął pan wtyczkę”.
 
-Pan Tomasz popatrzył na mnie jak na wariata.
+Popatrzyłem na niego jak na wariata.
 
-Przyszedł do mojej lecznicy po pracy, zmęczony, z sińcami pod oczami i z wydrukowanym pismem ze spółdzielni mieszkaniowej w kieszeni kurtki. Sąsiedzi z bloku zagrozili mu wezwaniem straży miejskiej z art. 51 KW, bo jego adoptowany kundelek zawodził pod drzwiami codziennie od 7:00 rano do 15:00.
+Przyszedłem do jego lecznicy prosto po pracy, niewyspany, z sińcami pod oczami i z wydrukowanym pismem ze spółdzielni mieszkaniowej w kieszeni kurtki. Sąsiedzi z mojego pionu zagrozili mi wezwaniem straży miejskiej z art. 51 KW, bo nasz adoptowany kundelek Fuks zawodził pod drzwiami codziennie od 7:00 rano do 15:00.
 
-Widziałem po jego minie tę typową męską złość zmieszaną z bezradnością: „Chciałem dobrze, wydałem ponad 120 zł na wtyczkę z napisem zasięg do 70 m², moje mieszkanie ma 52 m², a wyszedłem na naiwniaka przed żoną i całą klatką schodową”.
+Gotowało się we mnie z tej typowej męskiej złości zmieszanej z bezradnością: chciałem dobrze, wydałem 129 zł w sklepie zoologicznym na wtyczkę z wielkim napisem „zasięg do 70 m2”, nasze mieszkanie na 4. piętrze ma 52 m2, a wyszedłem na naiwniaka przed żoną i całą klatką schodową!
 
-Jako lekarz weterynarii z 25-letnim stażem w gabinecie powiem Wam szczerze: za każdym razem, gdy słyszę zdanie o „zasięgu 70 m² z pudełka”, w duchu już dokładnie wiem, co zobaczę za chwilę na kartce.
+Westchnąłem ciężko, chwyciłem długopis i w 30 sekund naszkicowałem rzut naszego mieszkania w bloku.
 
-Pan Tomasz westchnął ciężko, chwycił długopis i w 30 sekund naszkicował typowe polskie mieszkanie w bloku na 4. piętrze.
+Po prawej stronie narysowałem prostokątny salon z balkonem. W samym rogu salonu - za narożną kanapą i pod oknem - postawiłem gruby, mocny krzyżyk.
 
-Po prawej stronie narysował duży, prostokątny salon z balkonem. W samym rogu salonu - za kanapą narożną i pod oknem - postawił gruby, mocny krzyżyk.
+„Proszę bardzo” - stuknąłem długopisem w papier. „Wpiąłem tutaj, obok szafki z telewizorem, za długą zasłoną. Żeby nie wystawało na widoku i żeby nam się nikt o to nie potykał. Chodzi w prądzie 3. tydzień bez przerwy i efekt jest równy 0”.
 
-„Proszę bardzo” - stuknął długopisem w papier. „Wpiąłem tutaj, obok szafki z telewizorem, za długą zasłoną. Żeby nie wystawało na widoku i żeby nam się nikt o to nie potykał. Chodzi w prądzie 3. tydzień bez przerwy i efekt jest równy 0”.
+Doktor pokiwał głową z lekkim uśmiechem i zadał mi 1 proste pytanie:
 
-Pokiwałem głową z lekkim uśmiechem i zadałem mu 1 proste pytanie:
-
-„Panie Tomaszu... a jak zamyka pan drzwi o 7:00 rano i zagląda pan w pracy na kamerkę w telefonie, to ten pański pies leży sobie na tym narożniku pod oknem i ogląda telewizor?”
+„Panie Karolu... a jak zamyka pan drzwi o 7:00 rano i zagląda pan w pracy na kamerkę w telefonie, to ten pański pies leży sobie na tym narożniku pod oknem i ogląda telewizor?”
 
 Zapadła 3-sekundowa cisza.
 
-Pan Tomasz mrugnął, podrapał się po karku i spuścił z tonu: „No nie... Nawet nie wchodzi do salonu. Jak tylko przekręcę zamek, biegnie pod drzwi wejściowe i leży tam na kafelkach przez bite 8 godzin”.
+Podrapałem się po karku i spuściłem z tonu: „No nie... Nawet nie wchodzi do salonu. Jak tylko przekręcę zamek, biegnie pod drzwi wejściowe i leży tam na kafelkach przez bite 8 godzin”.
 
-Spojrzałem z powrotem na jego rysunek i wziąłem do ręki czerwony mazak.
+Lekarz spojrzał z powrotem na mój rysunek i wziął do ręki czerwony mazak.
 
-Między jego salonem a drzwiami wejściowymi ciągnął się klasyczny polski przedpokój - wąski, ciemny i złamany pod kątem 90 stopni w kształt litery L. Mało tego: wzdłuż całej ściany tego korytarza stała głęboka do samego sufitu lustrzana szafa przesuwna typu Komandor!
+Między naszym salonem a drzwiami wejściowymi ciągnął się klasyczny polski przedpokój - wąski, ciemny i złamany pod kątem 90 stopni w kształt litery L. Mało tego: wzdłuż całej ściany tego korytarza stała głęboka do samego sufitu lustrzana szafa przesuwna typu Komandor!
 
-„Panie Tomaszu” - powiedziałem po męsku, rysując czerwone kółko wokół jego krzyżyka za kanapą. „Niech się pan nie obrazi, ale pan od 3 tygodni nie uspokaja swojego psa. Pan od 3 tygodni bardzo skutecznie uspokaja swoją welurową zasłonę i tył narożnika!”
+„Panie Karolu” - powiedział doktor po męsku, rysując czerwone kółko wokół mojego krzyżyka za kanapą. „Niech się pan nie obrazi, ale pan od 3 tygodni nie uspokaja swojego psa. Pan od 3 tygodni bardzo skutecznie uspokaja swoją welurową zasłonę i tył narożnika!”
 
-Parsknął nerwowym śmiechem, ale po chwili zrobił wielkie oczy, kiedy wytłumaczyłem mu prostą fizykę, o której żaden producent na kolorowym pudełku nie raczy wspomnieć słowem.
+Parsknąłem nerwowym śmiechem, ale po chwili zrobiłem wielkie oczy, kiedy wytłumaczył mi prostą fizykę powietrza, o której żaden producent na kolorowym pudełku nie raczy wspomnieć słowem.
 
-Większość ludzi myśli w duchu, że feromony z dyfuzora rozchodzą się po mieszkaniu jak sygnał Wi-Fi z routera - że przelecą przez ścianę nośną, ominą szafę, skręcą w korytarz i dotrą w każdy kąt.
+Ja też myślałem w duchu, że feromony z dyfuzora rozchodzą się po mieszkaniu jak sygnał Wi-Fi z routera - że przelecą przez ściankę działową, ominą szafę, skręcą w korytarz i dotrą w każdy kąt.
 
 Bzdura!
 
 Psi matczyny feromon kojący D.A.P. jest zawieszony w mikro-kropelkach lipidowych, które unoszą się pionowo w górę na delikatnym słupie ciepłego powietrza znad grzałki.
 
-Kiedy pan Tomasz wcisnął wtyczkę za kanapę i ciężką zasłonę, ponad 85% tych mikro-kropelek uderzało prosto w tkaninę 30 centymetrów nad gniazdkiem i osiadało na niej jak para nad garnkiem w kuchni!
+Kiedy wcisnąłem wtyczkę za kanapę i ciężką zasłonę, ponad 85% tych mikro-kropelek uderzało prosto w tkaninę 30 cm nad gniazdkiem i osiadało na niej jak para nad garnkiem w kuchni!
 
 A te nieliczne cząsteczki, które jakimś cudem wydostały się na środek salonu?
 
-Ten słynny napis „do 70 m²” na opakowaniach dyfuzorów jest mierzony w 1 wielkiej, pustej hali laboratoryjnej bez żadnych ścianek działowych! W prawdziwym polskim bloku mikro-kropelki lipidowe nie przenikają przez beton ani karton-gips, nie przeciskają się przez wąskie nadproża drzwi i nie potrafią skręcić pod kątem 90 stopni za szafę Komandor!
+Ten słynny napis „do 70 m2” na opakowaniach jest mierzony w 1 wielkiej, pustej hali laboratoryjnej bez żadnych ścianek działowych! W prawdziwym polskim bloku mikro-kropelki lipidowe nie przenikają przez beton ani karton-gips, nie przeciskają się przez wąskie nadproża drzwi i nie potrafią skręcić pod kątem 90 stopni za szafę Komandor!
 
-Tymczasem gdzie leży pies z lękiem separacyjnym przez cały Twój etat?
+Tymczasem gdzie leży pies z lękiem separacyjnym przez cały nasz etat?
 
 On nigdy nie leży na środku salonu! Spanikowany pies leży z czarnym nosem wciśniętym w 1-centymetrową szparę pod drzwiami wejściowymi, gdzie ciągnie chłodny przeciąg z klatki schodowej i gdzie słychać każdy zgrzyt windy, kroki kuriera i trzask drzwi sąsiadów!
 
-Napisałem czerwonym mazakiem pod drzwiami wejściowymi na szkicu pana Tomasza wielką cyfrę: 0.
+Doktor napisał czerwonym mazakiem pod drzwiami wejściowymi na moim szkicu wielką cyfrę: 0.
 
-„Tam, gdzie pański pies oddycha i dusi się z paniki przez 8 godzin, stężenie feromonów zza zasłony w salonie wynosi równe 0” - powiedziałem.
+„Tam, gdzie pański pies oddycha i dusi się z paniki przez 8 godzin, stężenie feromonów zza zasłony w salonie wynosi równe 0” - powiedział.
 
-Pan Tomasz patrzył na tę kartkę przez dobrą chwilę, po czym klepnął się otwartą dłonią w czoło: „Czyli pies odchodził od zmysłów pod progiem, a ja mu perfumowałem firankę na balkonie i wyzywałem go w myślach, że jest oporny na leczenie...”.
+Patrzyłem na tę kartkę przez dobrą chwilę, po czym klepnąłem się otwartą dłonią w czoło: „Czyli Fuks odchodził od zmysłów pod progiem, a ja mu perfumowałem firankę przy balkonie i wyzywałem go w myślach, że jest oporny...”.
 
-Powiem Wam tutaj otwarcie 1 rzecz, którą powtarzam każdemu opiekunowi w moim gabinecie: fizyki w mieszkaniu nie da się oszukać. Jeżeli masz w domu wyłącznie gniazdka zasłonięte ciężkimi meblami, wciśnięte pod niską komodę albo zamierzasz wpiąć dyfuzor poziomo do przedłużacza pod biurkiem - szkoda Twoich pieniędzy na jakikolwiek preparat. Nad wtyczką musi być minimum 1,2 metra wolnej przestrzeni, a dyfuzor to nie pigułka nasenna ścinająca psa z nóg w 15 minut, tylko stała osłona wymagająca ciągłego wpięcia 24 godziny na dobę.
+Lekarz uprzedził mnie otwarcie: fizyki w mieszkaniu nie da się oszukać. Jeżeli w domu masz wyłącznie gniazdka zasłonięte ciężkimi meblami albo chcesz wpiąć dyfuzor poziomo do przedłużacza pod biurkiem - szkoda pieniędzy na jakikolwiek preparat. Nad wtyczką musi być minimum 1,2 metra wolnej przestrzeni, a dyfuzor wymaga ciągłego wpięcia przez 24 godziny na dobę.
 
-Rozrysowałem panu Tomaszowi na tej samej kartce zasadę 2 stref, którą zalecam w polskich mieszkaniach z przedpokojem w kształcie litery L.
+Rozrysował mi na tej samej kartce zasadę 2 stref dla polskich mieszkań z przedpokojem w kształcie litery L:
 
-1. strefa to „strefa zapalnika” - odsłonięte gniazdko ścienne w samym przedpokoju lub tuż przy otwartym wejściu z salonu na korytarz. Tak, żeby bańka matczynego feromonu kojącego D.A.P. czekała na nos psa dokładnie tam, gdzie waruje pod drzwiami i słyszy windę!
+1. strefa to „strefa zapalnika” - odsłonięte gniazdko ścienne w samym przedpokoju lub tuż przy otwartym wejściu z salonu na korytarz. Tak, żeby bańka matczynego feromonu kojącego D.A.P. czekała na nos i narząd Jacobsona psa dokładnie tam, gdzie waruje pod drzwiami i słyszy windę!
 
-2. strefa to „strefa głębokiego snu” - odsłonięte gniazdko w salonie przy legowisku. Kiedy feromon D.A.P. pod drzwiami wyhamuje wyrzut kortyzolu w ciele migdałowatym, pies sam rezygnuje z leżenia na zimnych płytkach, przechodzi do salonu i tam w 2. strefie zapada w spokojny sen!
+2. strefa to „strefa głębokiego snu” - odsłonięte gniazdko w salonie przy legowisku. Kiedy sygnał D.A.P. pod drzwiami wyhamuje wyrzut kortyzolu w ciele migdałowatym, pies sam rezygnuje z leżenia na zimnych płytkach, przechodzi do salonu i tam w 2. strefie zapada w spokojny sen!
 
-Pan Tomasz spojrzał podejrzliwie na swoją starą wtyczkę wyjętą z kieszeni kurtki i zapytał po męsku:
+Wyjąłem z kieszeni kurtki swoją starą wtyczkę z zoologicznego i zapytałem podejrzliwie:
 
-„Dobra, panie doktorze, błąd z zasłoną rozumiem. Ale po co mam zamawiać jakieś 2 nowe dyfuzory Feliora, zamiast kupić najtańszą 2. wtyczkę w markecie i wpiąć w korytarzu?”
+„Dobra, panie doktorze, błąd z zasłoną rozumiem. Ale po co mam zamawiać w sieci jakieś nowe dyfuzory Feliora, zamiast dokupić w markecie 2. zwykłą wtyczkę i wpiąć w korytarzu?”
 
-Dotknąłem jego przegrzanej, lekko pożółkłej starej obudowy wokół kratki wylotowej i wytłumaczyłem mu konkretną różnicę: tanie marketowe wtyczki jadą na zwykłych opornikach grzejących do 120 stopni, które wygotowują frakcję czynną w 1. tygodniu, zostawiając w butelce bezużyteczny olej parafinowy. W głowicy Feliora pracuje natomiast stabilizowany rdzeń ceramiczny 5 W - utrzymuje równą, bezpieczną temperaturę i podaje stałe stężenie D.A.P. przez pełne 60 dni z 1 wkładu bez wypalania w 1. tygodniu.
+Doktor dotknął mojej przegrzanej, pożółkłej starej obudowy wokół kratki wylotowej i pokazał mi konkretną różnicę: zwykłe sklepowe wtyczki jadą na prostych opornikach grzejących do 120 stopni, które wygotowują frakcję czynną w 7 dni, zostawiając w butelce sam wywietrzały olej parafinowy. Natomiast w głowicy Feliora pracuje stabilizowany rdzeń ceramiczny 5 W - utrzymuje równą, bezpieczną temperaturę i podaje stałe stężenie D.A.P. przez pełne 60 dni z 1 wkładu bez wypalania w 1. tygodniu.
 
-Przesunąłem rozrysowany rzut mieszkania z powrotem w jego stronę i powiedziałem szczerze:
+Przesunął rozrysowany rzut mieszkania w moją stronę: „Panie Karolu, niech pan nie wierzy mi na słowo - na stronie feliora.pl dają 30 dni gwarancji zwrotu pieniędzy. Wepnie pan 2 sztuki w odsłonięte gniazdka na 10 dni, ma pan kamerkę w telefonie, sam pan sprawdzi”.
 
-„Niech pan nie wierzy mi na słowo - na stronie feliora.pl dają 30 dni gwarancji zwrotu pieniędzy. Wepnie pan 2 sztuki w odsłonięte gniazdka na 10 dni, ma pan kamerkę w telefonie, sam pan sprawdzi”.
+Schowałem złożony szkic do kurtki z miną człowieka, który bardzo niechętnie wydaje 189,99 zł po wcześniejszej wtopie za 129 zł. Wieczorem w domu zamówiłem jednak zestaw 2 dyfuzorów na feliora.pl, bo widmo mandatu i kolejnego pisma ze spółdzielni nie dawało mi żyć. Żona schowała puste pudełka do szuflady na wypadek zwrotu.
 
-Pan Tomasz schował złożony szkic do kurtki z miną człowieka, który bardzo niechętnie wydaje prawie 190 zł po wcześniejszej wtopie za 120 zł, ale widmo mandatu i kolejnego pisma ze spółdzielni nie dawało mu spokoju.
+Jeszcze tego samego wieczoru odsunąłem w korytarzu ciężką szafkę na buty. 1. dyfuzor Feliora wpiąłem pionowo w przedpokoju dokładnie 1,5 metra od drzwi wejściowych, a 2. na otwartej ścianie w salonie, z dala od narożnika i zasłony.
 
-Po 3 tygodniach pan Tomasz zadzwonił do rejestracji lecznicy, żeby potwierdzić termin szczepienia, a recepcja przełączyła go na chwilę na mój telefon w gabinecie.
-
-Bez żadnych wielkich uniesień zdał mi krótki, rzeczowy raport z mieszkania.
-
-Jeszcze w dniu tamtej wizyty odsunął w korytarzu ciężką szafkę na buty. 1. dyfuzor Feliora wpiął w przedpokoju dokładnie 1,5 metra od drzwi wejściowych. 2. umieścił w pokoju dziennym na otwartej ścianie, z dala od narożnika i zasłony.
-
-1. tydzień po przepięciu wymagał zwykłej cierpliwości.
-
-Przez początkowe 4-5 dni nie stał się żaden cud - zanim 2 pomieszczenia nasyciły się od nowa równym stężeniem D.A.P., pies po wyjściu domowników nadal kładł się na kafelkach i popiskiwał pod zamkiem, a żona pana Tomasza trzymała puste pudełka w szufladzie na wypadek zwrotu.
+1. tydzień po przepięciu wymagał zwykłej cierpliwości: przez początkowe 4-5 dni nie stał się żaden cud - zanim 2 pomieszczenia nasyciły się od nowa równym stężeniem D.A.P., Fuks po naszym wyjściu o 7:00 nadal kładł się na kafelkach i popiskiwał pod zamkiem, a ja już patrzyłem krzywo na pudełka w szufladzie.
 
 Zmiana przyszła pod koniec 2. tygodnia.
 
-Skończyło się drapanie okleiny i wycie na klatkę schodową między 8:00 a 16:00, kiedy mieszkanie stoi puste. Pies dalej jest normalnym psem - podchodzi pod próg przy samym wyjściu właściciela i potrafi podnieść głowę, gdy na piętrze zatrzyma się winda, ale po 2-3 minutach odpuszcza, wraca z zimnego przedpokoju na legowisko w pokoju i przesypia resztę dnia.
+Skończyło się drapanie okleiny i wycie na klatkę schodową między 7:00 a 15:00. Fuks dalej jest normalnym, żywym psem - podchodzi pod próg przy samym wyjściu z domu i potrafi podnieść głowę, gdy na 4. piętrze zatrzyma się winda, ale po 2-3 minutach odpuszcza, wraca z zimnego przedpokoju na legowisko w salonie i przesypia resztę dnia. Od 3 tygodni ze spółdzielni nie przyszło żadne pismo.
 
-Od 14 dni ze spółdzielni nie przyszło żadne pismo.
+To nie był żaden cud z bajki. To była zwykła korekta błędu z fizyki powietrza.
 
-To nie był żaden przełom z bajki. To była zwykła korekta błędu z fizyki powietrza.
-
-Feromon nie przechodzi przez zamknięte drzwi, ceglane ściany, szafy przesuwne ani ciężkie zasłony.
-
-Zanim uznasz, że metoda nie działa - sprawdź, gdzie Twój pies stoi w 1. minucie po przekręceniu zamka i czy w tym miejscu w ogóle ma szansę dotrzeć do niego jakakolwiek cząsteczka D.A.P.
-
-Zestaw 2 dyfuzorów Feliora ze stabilizowanym rdzeniem ceramicznym 5 W zabezpiecza równocześnie 2 strefy w mieszkaniu i utrzymuje stałe stężenie przez pełne 60 dni z 1 wkładu. Na stronie producenta masz 30 dni gwarancji zwrotu pieniędzy na spokojne sprawdzenie tego układu u siebie w domu.
+Zanim uznasz, że feromony nie działają - sprawdź, gdzie Twój pies stoi w 1. minucie po przekręceniu zamka i czy nie blokujesz wtyczki zasłoną lub szafą. Zestaw 2 dyfuzorów Feliora z rdzeniem 5 W zabezpiecza równocześnie 2 strefy przez pełne 60 dni z 1 wkładu, z 30-dniową gwarancją zwrotu pieniędzy na stronie producenta.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
 
   'dog-18-analiza-zamiennikow-z-internetu-0-procent-dap': {
     headline:
-      'Poprosiłem 18 właścicieli psów mówiących „feromony to ściema”, by przynieśli te pudełka do lecznicy',
+      'Powiedziałem weterynarzowi: „Kupiłem feromony za 39 zł i to ściema!”. Wtedy wyjął lupę i 23 pudełka z sieci',
     description:
-      'Dr wet. Edmund Newelski sprawdził pod lupą 23 produkty z internetu. Aż 15 miało 0% psich feromonów D.A.P.',
-    primaryText: `Poprosiłem 18 właścicieli psów, którzy mówili mi „kupiłem feromony w internecie i to ściema”, żeby przynieśli te pudełka do mojej lecznicy.
+      'Sprawdziliśmy pod lupą zamienniki z aukcji: aż 15 na 23 miało 0% psich feromonów D.A.P. Zobacz różnicę.',
+    primaryText: `„Panie doktorze, błagam, niech mi pan nie wciska bajek o feromonach! Kupiłem już wtyczkę na portalu aukcyjnym za 39 zł, miało ponad 1 000 ocen, i mój pies wył jeszcze gorzej!”.
 
-Kiedy wysypaliśmy wszystkie 23 opakowania na metalowy stół zabiegowy i wziąłem lupę, zapadła w gabinecie cisza.
+Kiedy wypaliłem to zdanie w gabinecie przy moim 32-kilogramowym mieszańcu Borysie, dr Edmund Newelski nawet nie mrugnął.
 
-Przyznam Wam się bez bicia: jako lekarzowi weterynarii z 25-letnim stażem w pewnym momencie po prostu puściły mi nerwy.
+Spojrzał na moje podkrążone oczy, na zdjęcia wydrapanej dziury w drzwiach wynajmowanego mieszkania (za które groziła mi utrata 2 000 zł kaucji oraz wezwanie straży miejskiej z art. 51 KW), po czym sięgnął pod stół zabiegowy i wysypał na stalowy blat 23 kolorowe kartoniki!
 
-Przez ostatnie 12 miesięcy niemal co 7 dni miałem w gabinecie identyczną scenę. Wchodzi człowiek na skraju załamania nerwowego - podkrążone oczy, na drzwiach w domu wydrapana dziura za 2000 zł kaucji, sąsiedzi grożą policją z art. 51 KW i zgłoszeniem do TOZ za całodzienne wycie psa.
+Mam na imię Karol i rzadko brakuje mi języka w gębie, ale w tamtej sekundzie w gabinecie zapadła głucha cisza.
 
-Badam czworonoga od czubka nosa po ogon, wykluczam ból somatyczny, widzę czysty jak łza lęk separacyjny napędzany kortyzolem i zaczynam mówić o psim feromonie kojącym D.A.P.
+„Wie pan, panie Karolu, skąd mam to pudło?” - zapytał spokojnie lekarz, biorąc z biurka dużą lupę. „Przez ostatnie 2 miesiące poprosiłem 18 właścicieli psów, którzy mówili mi słowo w słowo to samo co pan, żeby przynieśli do lecznicy dokładne opakowania tego, co kupili w internecie. A pan ma swoje pudełko w aucie?”.
 
-A właściciel macha ręką i patrzy na mnie z gorzkim uśmieszkiem politowania:
+Miałem je w schowku samochodu, bo chciałem pokazać żonie, jaki badziew sprzedają w sieci. Poszedłem na parking, przyniosłem kartonik za 39 zł i położyłem go na metalowym stole obok tamtych 23 sztuk: tanich wtyczek po 35-45 zł, pachnących obróżek, kropli na kark i „mgiełek antystresowych”.
 
-„Panie doktorze, błagam, niech mi pan nie wciska tych bajek z internetu. Kupiłem już wtyczkę z feromonami na portalu aukcyjnym za 39 zł, miało ponad 1000 ocen, kupiłem też obróżkę i mgiełkę. Pies wył jeszcze gorzej! Na forach piszą prawdę - to nie działa”.
+Na froncie każdego pudełka - również mojego - uśmiechał się szczęśliwy labrador albo owczarek pod wielkimi, medycznie brzmiącymi hasłami: „Calming Formula”, „Relax Complex”, „Bio-Spokój”.
 
-Za 10. razem siedziałem wieczorem w pustym gabinecie po dyżurze i biłem się z własnymi myślami: „Zaraz, Edmund, o co tu chodzi? Przecież znasz neurobiologię narządu Jacobsona od 25 lat. Widziałeś ponad 400 psów po schronisku, które wyciszały się na tym bez żadnych tabletek. Albo biologia ssaków nagle przestała działać w Polsce, albo ci ludzie wpinają do kontaktów jakieś gówno w ładnym papierku!”.
+Doktor odwrócił moje pudełko na plecy, przyłożył szkło powiększające do mikroskopijnego maczku na samym dole i podał mi lupę do ręki.
 
-Postanowiłem powiedzieć: sprawdzam.
+„Niech pan sam przeczyta ostatnią linijkę na głos, panie Karolu”.
 
-Przez kolejne 2 miesiące nie kłóciłem się z żadnym z takich opiekunów. Mówiłem tylko krótko: „Umówmy się uczciwie. Na kontrolę za 7 dni proszę przynieść w reklamówce dokładne pudełko i butelkę tego, co kupił pan dla psa w sieci”.
+Nachyliłem się nad stołem i zacząłem czytać: „Wyciąg z kozłka lekarskiego... olejek lawendowy... ekstrakt z melisy... olejek cytrynowy... nośnik parafinowy...”.
 
-Przyniosło je 18 właścicieli. Niektórzy wyjęli z torby po 2 różne wynalazki. Łącznie na moim stalowym stole wylądowały 23 kolorowe opakowania: tanie wtyczki po 35-45 zł, pachnące obróżki, krople na kark i „mgiełki antystresowe”.
+Urwałem w pół zdania i zrobiłem się purpurowy ze złości: „Panie doktorze, a gdzie tu są psie feromony?!”.
 
-Na froncie każdego kartonika uśmiechał się szczęśliwy labrador albo owczarek, a nad nim błyszczały wielkie, medycznie brzmiące hasła: „Calming Formula”, „Relax Complex”, „Bio-Spokój”.
+„Nigdzie” - odpowiedział cicho lekarz. „Właśnie o to chodzi”.
 
-Odwracałem te pudełka na plecy, przykładałem lupę do składu wydrukowanego mikroskopijnym maczkiem na samym dole i czytałem na głos przy właścicielach.
+Na 23 produkty przyniesione przez jego pacjentów aż 15 - w tym mój hit z aukcji za 39 zł - miało w składzie równe 0% psich feromonów D.A.P.! Ani mikrograma! Zapłaciłem cwaniakom z internetu za zwykłą walerianę z lawendą i olejkiem cytrynowym do ciasta, święcie przekonany, że testuję terapię feromonową!
 
-Nigdy nie zapomnę twarzy tych ludzi w gabinecie. Najpierw robili się purpurowi ze wstydu, a 1 sekundę później bladli z czystej, żywej wściekłości!
+Ale to, co lekarz powiedział mi sekundę później, sprawiło, że aż ścisnęło mnie w żołądku z poczucia winy wobec własnego psa.
 
-„Niech pan sam przeczyta ostatnią linijkę” - podałem szkło powiększające młodemu chłopakowi, którego 32-kilogramowy mieszaniec Borys ze strachu zerwał klamkę i wygryzł kawał płyty w drzwiach wynajmowanego mieszkania.
+Ludzki nos ma około 5 000 000 receptorów węchowych i lubi, jak w łazience pachnie cytryną czy lawendą. Ale nos mojego psa ma ponad 220 000 000 receptorów - jest ponad 40 razy czulszy od mojego!
 
-Chłopak nachylił się nad stołem i zaczął dukać na głos: „Wyciąg z kozłka lekarskiego... olejek lawendowy... ekstrakt z melisy... olejek cytrynowy... nośnik parafinowy... Panie doktorze, a gdzie tu są psie feromony?!”.
+Kiedy zamykałem przerażonego Borysa na 8 godzin w mieszkaniu i grzałem mu w kontakcie syntetyczny olejek cytrynowy zmieszany z duszącą walerianą, to dla jego narządu Jacobsona w podniebieniu ten opar był bezwartościowy, a dla psiego nosa zamieniał pokój w salę tortur! Borys nie wył i nie rwał klamki dlatego, że „feromony nie działały” - on wył jeszcze głośniej, bo chciał uciec od duszącego cytrusowego smrodu z mojej taniej wtyczki!
 
-„Nigdzie” - odpowiedziałem cicho. „Właśnie o to chodzi”.
+A pozostałe 8 opakowań ze stołu doktora? 5 z nich to były spraye na spirytusie wietrzejące z koca w 20 minut, a 3 to stare, przegrzane wtyczki grzejące do 120 stopni, w których po 7 dniach parował już tylko sam olej parafinowy.
 
-Na 23 produkty przyniesione przez moich pacjentów aż 15 miało w składzie równe 0% psich feromonów D.A.P.! Ani mikrograma!
+Doktor wytłumaczył mi różnicę między zielarską podróbką z aukcji a bio-identycznym analogiem psiego feromonu kojącego D.A.P.
 
-Ludzie w dobrej wierze płacili po 39 zł za zwykłą walerianę z lawendą i olejkiem do ciasta, wierząc cwaniakom z aukcji, że testują terapię feromonową!
+W przyrodzie ten konkretny związek wydziela listwa mleczna suki karmiącej szczenięta. Gdy cząsteczka D.A.P. trafia do narządu Jacobsona, wysyła bezpośredni sygnał do ośrodka strachu w mózgu: „Jesteś bezpieczny, wyłącz alarm kortyzolowy”. I działa tak samo na 4-kilogramowego maltańczyka, jak i na mojego 32-kilogramowego Borysa, bo liczy się czuły nos i metraż pokoju, a nie masa ciała!
 
-Ale jako lekarz wytłumaczyłem im coś jeszcze gorszego, od czego temu chłopakowi aż zadrżała powieka.
+Poradził mi wprost, żebym wyrzucił cytrynową podróbkę, porządnie przewietrzył mieszkanie i zamówił na stronie feliora.pl weterynaryjny dyfuzor Feliora z czystym feromonem D.A.P.
 
-Ludzki nos ma około 5 000 000 receptorów węchowych i lubi, jak w łazience pachnie lawendą. Ale nos Twojego psa ma ponad 220 000 000 receptorów - jest ponad 40 razy czulszy od Twojego!
+Spojrzałem na puste pudełko na stole, potem na lekarza spode łba i wypaliłem bez owijania w bawełnę:
 
-Kiedy zamykasz przerażonego psa na 8 godzin w małym mieszkaniu i zaczynasz mu grzać w gniazdku syntetyczny olejek cytrynowy zmieszany z duszącą walerianą, to dla narządu Jacobsona ten opar jest całkowicie bezwartościowy, a dla psiego nosa staje się salą tortur! Borys nie wył dlatego, że „feromony na niego nie działały” - wył jeszcze głośniej, bo chciał uciec od duszącego cytrusowego smrodu z taniej wtyczki!
+„Panie doktorze, tamci na aukcji nabili mnie w butelkę za 39 zł. Ale jaką ja mam pewność, że ta Feliora za 189,99 zł za 2 sztuki to nie jest taka sama ściema, tylko w droższym kartoniku?!”
 
-A pozostałe 8 opakowań ze stołu? 5 z nich to były spraye na spirytusie, które wietrzały z posłania w 20 minut, a 3 to stare, przegrzane wtyczki grzejące do 120 stopni, w których po 7 dniach parował już tylko sam olej parafinowy.
+Doktor uśmiechnął się lekko i podał mi 3 twarde fakty: po 1., wkład Feliora jest w 100% bezwonny dla człowieka i ma równe 0% olejków eterycznych oraz 0% waleriany - odkręcasz flakonik i nie czujesz żadnej cytryny ani lawendy. Po 2., w głowicy pracuje stabilizowany rdzeń ceramiczny 5 W, który utrzymuje równe stężenie przez pełne 60 dni z 1 wkładu. A po 3.: „Panie Karolu, żaden handlarz cytrynową wodą z aukcji nie dałby ludziom pełnej 30-dniowej gwarancji zwrotu pieniędzy nawet po otwarciu i zużyciu wkładu! Zbankrutowałby po 2 tygodniach”.
 
-Wytłumaczyłem wtedy właścicielowi Borysa, czym różni się zielarska podróbka z aukcji od pełnowartościowego, bio-identycznego analogu psiego feromonu kojącego D.A.P.
+Uprzedził mnie też uczciwie, że to nie jest chemiczny ogłuszacz paraliżujący mięśnie w 20 minut - rano przed pracą Borys musi wyjść na porządny długi spacer, a w tamtej 18-osobowej grupie z jego gabinetu aż u 16 psów po odstawieniu pachnących zamienników i wpięciu 2 dyfuzorów Feliora (1 przy przedpokoju i 2. w pokoju przy kocu) wielogodzinne wycie i niszczenie drzwi ustało między 7. a 21. dniem.
 
-W przyrodzie ten konkretny związek chemiczny wydziela listwa mleczna suki karmiącej szczenięta. Gdy cząsteczka D.A.P. trafia do narządu Jacobsona w podniebieniu psa, wysyła bezpośredni sygnał do ośrodka strachu w mózgu: „Jesteś bezpieczny przy matce, wyłącz alarm kortyzolowy”. I nie ma tu znaczenia, czy pies waży 4 kg jak maltańczyk, czy 32 kg jak Borys - bo to nie jest tabletka przeliczana w wątrobie na masę ciała, tylko biologiczny klucz do receptorów węchowych, które u dużego psa są tak samo czułe jak u szczeniaka!
+Zgniotłem w garści cytrynowe pudełko za 39 zł, cisnąłem je do kosza przy umywalce i mruknąłem: „Mam 3 tygodnie do wypowiedzenia najmu i utraty 2 000 zł kaucji. Zamówię na próbę, ale kartonu nie wyrzucam”.
 
-Poleciłem mu krótko, żeby wyrzucił cytrynową podróbkę, porządnie przewietrzył mieszkanie i zamówił na stronie producenta weterynaryjny dyfuzor Feliora z czystym feromonem D.A.P.
+W domu przewietrzyłem korytarz na oścież, wyprałem koc Borysa z resztek olejków i wpiąłem 2 bezwonne wtyczki Feliora w odsłonięte gniazdka na 24 godziny na dobę.
 
-Chłopak popatrzył na puste pudełko na stole, potem spojrzał na mnie spode łba i wypalił bez owijania w bawełnę:
+Dni 1-3: ustąpiło napadowe kichanie, drapanie pyska łapami i uciekanie od posłania, choć przy moim wyjściu o 7:30 rano Borys nadal podchodził pod drzwi i popiskiwał przez 10-15 minut, więc trzymałem rękę na pulsie i nie chowałem jeszcze paragonu.
 
-„Panie doktorze, no dobra, tamci na aukcji nabili mnie w butelkę za 39 zł. Ale jaką ja mam pewność, że ta Feliora za prawie 200 zł to nie jest dokładnie taka sama ściema, tylko w ładniejszym opakowaniu?!”
+Koniec 1. tygodnia (7.-8. dzień): przyszedł wyraźny spadek napięcia. W pracy o 12:00 w południe włączyłem kamerkę - drzwi były całe, a 32-kilogramowy Borys leżał spokojnie na boku w przedpokoju. Przy głośnym trzasku windy nadal podnosił głowę i nasłuchiwał przez chwilę, ale nie zrywał się już do drapania płyty i wycia przez 8 godzin. Uratowałem umowę najmu i pełne 2 000 zł kaucji.
 
-Uśmiechnąłem się lekko, bo szanuję taki opór - na jego miejscu zadałbym identyczne pytanie.
-
-Wytłumaczyłem mu krótko, jak bez laboratorium odróżnić prawdziwy analog D.A.P. od bazarowej mgiełki. Po 1.: wkład Feliora jest w 100% bezwonny dla człowieka i ma równe 0% olejków eterycznych oraz 0% waleriany - odkręcasz flakonik i nie czujesz żadnej cytryny ani lawendy. Po 2.: w głowicy pracuje stabilizowany rdzeń ceramiczny 5 W, który trzyma równe stężenie przez pełne 60 dni z 1 wkładu bez przegrzewania plastiku.
-
-A po 3. - i to zamknęło temat: „Panie kolego, żaden handlarz cytrynową wodą z portalu aukcyjnego nie dałby ludziom pełnej 30-dniowej gwarancji zwrotu pieniędzy nawet po otwarciu i zużyciu wkładu! Zbankrutowałby po 2 tygodniach, bo każdy właściciel z kamerką odesłałby mu puste szkło”.
-
-Od razu uprzedziłem go też uczciwie o twardych zasadach, bo nienawidzę obiecywania cudów: „Feliora to nie jest chemiczny ogłuszacz jak stare żele z acepromazyną, które paraliżowały psu mięśnie w 20 minut i robiły z niego przymulone zombie. Rano przed pracą Borys obowiązkowo musi wyjść na porządny, długi spacer, a 2 dyfuzory - 1 przy przedpokoju i 2. w pokoju przy kocu - muszą chodzić w odsłoniętych gniazdkach 24 godziny na dobę przez 7-14 dni, żeby zbić bazowy kortyzol”.
-
-Chłopak zgniótł cytrynową podróbkę za 39 zł, cisnął ją do kosza przy umywalce i mruknął: „Mam 3 tygodnie do wypowiedzenia najmu i utraty 2000 zł kaucji. Zamówię na próbę, ale kartonu nie wyrzucam”.
-
-Przez następne 4 tygodnie spisywałem w kartach wizyt wyniki całej tej 18-osobowej grupy opiekunów, którzy odstawili pachnące zamienniki z internetu, przewietrzyli mieszkania z oparów olejków i wpięli czysty analog D.A.P. Feliora w odsłonięte gniazdka.
-
-Kliniczny bilans z gabinetu wyglądał następująco - bez koloryzowania i bez bajek o cudzie w 24 godziny:
-
-Dni 1-4: odciążenie węchu.
-
-Niemal od razu - zazwyczaj po 2 dobach od wyjęcia starych wtyczek i wyprania posłań z resztek olejków - u psów ustąpiło napadowe kichanie, drapanie pyska łapami, tarcie nosem o dywan i uciekanie od własnego koca. Sam lęk separacyjny na tym etapie jeszcze nie zniknął.
-
-1. tydzień: szybsze przypadki.
-
-U 32-kilogramowego Borysa oraz u 6 innych psów o krótszej historii problemu wyraźny spadek napięcia przyszedł około 7.-8. dnia. Właściciel Borysa uratował umowę najmu i kaucję - na kontroli po 3 tygodniach pokazał krótkie wideo z kamerki z 12:00 w południe. Drzwi były całe, pies leżał spokojnie na podłodze w przedpokoju, choć przy hałasie na klatce nadal podnosił głowę i nasłuchiwał.
-
-2. i 3. tydzień: psy po długim drażnieniu śluzówki.
-
-U pozostałej części pacjentów - szczególnie tam, gdzie przez wiele tygodni grzano w gniazdkach duszącą walerianę, lawendę i olejek cytrynowy - przesterowany układ nerwowy potrzebował znacznie więcej czasu. Realne wyciszenie paniki separacyjnej i koniec wycia pod drzwiami przyszły u nich dopiero między 14. a 21. dniem ciągłej pracy dyfuzorów.
-
-U 2 psów z całej grupy 18 przypadków same feromony okazały się za słabe ze względu na ciężką traumę schroniskową i włączyliśmy równoległą pracę z behawiorystą. U 16 psów ustąpiło zarówno niszczenie drzwi, jak i wielogodzinne wycie pod nieobecność domowników - bez podawania farmakologii.
-
-W biologii nie ma dróg na skróty. Albo podajesz do narządu Jacobsona właściwą cząsteczkę chemiczną w stabilnej temperaturze, albo męczysz psu nos tanim odświeżaczem powietrza.
-
-Możesz kupić kolejną pachnącą wtyczkę z walerianą za 39 zł z losowej aukcji i dziwić się, dlaczego Twój pies drapie drzwi jeszcze mocniej.
-
-Albo możesz sprawdzić bezwonny, czysty analog D.A.P. Feliora ze stabilizowanym rdzeniem ceramicznym 5 W (do 60 dni stałej emisji z 1 wkładu), chroniony 30-dniową gwarancją zwrotu pieniędzy na oficjalnej stronie.
+W biologii nie ma dróg na skróty - albo podajesz do narządu Jacobsona czysty sygnał D.A.P., albo męczysz psu 220 000 000 receptorów tanim odświeżaczem powietrza za 39 zł. Pojedynczy wkład Feliora działa z rdzeniem 5 W przez pełne 60 dni, a zakup na oficjalnej stronie chroni 30-dniowa gwarancja zwrotu pieniędzy.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
@@ -373,7 +325,7 @@ Bańka pękła pewnego popołudnia, kiedy wracałam z zakupami.
 
 Drzwi mieszkania obok otworzyły się z hukiem i wyszła z nich blada jak ściana sąsiadka - pielęgniarka po nocnym dyżurze w szpitalu. Patrzyła na mnie tak, że nogi wrosły mi w wycieraczkę.
 
-„Proszę pani, ja dłużej nie wytrzymam” - głos jej się łamał ze zmęczenia. „Pani wychodzi rano i ma pani spokój, a ten pies codziennie punkt 8:00 rano zaczyna wyć pod drzwiami jak syrena strażacka i nie milknie przez 7 godzin! Nie spałam po dyżurze nawet godziny!”.
+„Proszę pani, ja dłużej nie wytrzymam” - głos jej się łamał ze zmęczenia. „Pani wychodzi rano i ma pani spokój, a ten pies codziennie punkt 8:00 rano zaczyna wyć pod drzwiami jak syrena strażacka i nie milknie przez 7 godzin! Nie spałam po dyżurze nawet 1 godziny!”.
 
 Spaliłam się ze wstydu. Wyjąkałam przeprosiny, zamknęłam się w łazience i zadałam sobie pytanie: „Jak to od 8:00 rano?! Przecież o 7:00 rano psikam mu całe posłanie i wycieraczkę!”.
 
@@ -450,94 +402,66 @@ https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
 
   'dog-20-feromony-kota-nie-dzialaja-na-psa-gatunkowosc': {
     headline:
-      '„Mamy w kontakcie dyfuzor dla kota, a pies dalej wyje i go goni!” Tłumaczę szyfr receptorów VNO',
+      '„Mamy w kontakcie dyfuzor dla kota, a pies dalej wyje i goni go na regał!” - błąd, przez który prawie oddaliśmy psa',
     description:
-      'Dr wet. Edmund Newelski wyjaśnia, dlaczego kocie F3 nie działa na psa i czy psi D.A.P. jest bezpieczny dla dzieci i kotów.',
-    primaryText: `„Mamy już w kontakcie dyfuzor dla naszego kota, a adoptowany pies dalej wyje i goni kota po mieszkaniu! Dlaczego to na niego nie działa?!”
+      'Dlaczego koci feromon F3 nie działa na psa i czy psi dyfuzor D.A.P. jest w 100% bezpieczny dla dziecka oraz kota.',
+    primaryText: `„Panie doktorze, przecież w kontakcie przy kanapie non stop chodzi dyfuzor dla naszego kota, a adoptowany pies stoi 50 cm obok, wyje i goni kota na samą górę regału!”.
 
-Młode małżeństwo siedziało naprzeciwko mnie w gabinecie z 12-miesięcznym chłopczykiem na kolanach i widziałem po ich zaczerwienionych oczach, że są o 1 nieprzespaną noc od oddania psa z powrotem do fundacji.
+Siedzieliśmy z mężem w gabinecie weterynaryjnym z naszym 12-miesięcznym synkiem na kolanach i razem mieliśmy tak przekrwione z niewyspania oczy, że byliśmy o 1 nieprzespaną noc od podpisania papierów i oddania psa z powrotem do fundacji.
 
-Nazywam się Edmund Newelski, od 25 lat przyjmuję zwierzęta w lecznicy i przysięgam Wam, że w polskich domach, gdzie pod 1 dachem żyją razem kot, pies i małe dziecko, ten dramat rozgrywa się co chwilę.
+Mam na imię Gosia i do dziś ściska mnie w gardle na wspomnienie tamtego miesiąca.
 
-Historia tych państwa brzmiała znajomo aż do bólu.
+W naszym 58-metrowym mieszkaniu od lat mieszkał spokojny, 7-letni rudy kocur, dla którego 12 miesięcy wcześniej przy przeprowadzce wpięliśmy w salonie koci dyfuzor. 4 tygodnie temu otworzyliśmy z mężem serce i adoptowaliśmy ze schroniska 2-letniego kundelka o imieniu Roki.
 
-Mieli w 58-metrowym mieszkaniu spokojnego, 7-letniego rudego kocura, dla którego 12 miesięcy wcześniej przy przeprowadzce wpięli w salonie koci dyfuzor. 4 tygodnie temu otworzyli serce i adoptowali ze schroniska 2-letniego kundelka o imieniu Roki.
+Dopóki mąż był na urlopie ojcowskim, jakoś to ogarnialiśmy. Ale w dniu, w którym wrócił na 7:00 rano do pracy, a ja zostałam w bloku z małym dzieckiem, zaczął się armagedon.
 
-Dopóki mąż był na urlopie, jakoś dawali radę. Ale w dniu, w którym wrócił na 7:00 rano do pracy, w mieszkaniu zaczął się armagedon.
+Roki trząsł się na każdy dźwięk domofonu, wył pod drzwiami, gdy wychodziłam choćby z wózkiem po bułki, budził płaczącego synka z każdej drzemki, a cały ten buzujący we krwi kortyzol rozładowywał na kocie - goniąc przerażonego rudzielca po panelach aż na najwyższą półkę białego regału w salonie!
 
-Roki trząsł się na każdy dźwięk domofonu, wył pod drzwiami tak głośno, że budził z płaczem ich 12-miesięcznego synka w pokoju obok, a cały ten buzujący we krwi kortyzol rozładowywał w najgorszy możliwy sposób - goniąc przerażonego rudego kota pod szafę w sypialni!
+Mąż w gabinecie rozłożył bezradnie ręce przed dr. Edmundem Newelskim:
 
-Mąż rozłożył ręce i powiedział z kompletnym niedowierzaniem w głosie:
+„Panie doktorze, ja już głupieję! Chciałem wczoraj w nocy zamówić na aukcji taką tanią uniwersalną wtyczkę dla psów i kotów 2 w 1 za 42 zł, ale Gosia podniosła alarm, czy jak nawsadzamy tyle chemii do gniazdek, to nie podtrujemy naszego 12-miesięcznego dziecka i kota!”.
 
-„Panie doktorze, ja już głupieję! Przecież w kontakcie przy kanapie non stop chodzi wtyczka z feromonami! Roki stoi dosłownie 50 centymetrów od tego gniazdka, dyszy jak lokomotywa i szczeka! Chciałem już wczoraj w nocy zamówić na aukcji taką tanią uniwersalną wtyczkę dla psów i kotów 2 w 1 za 42 zł, ale żona podniosła alarm, czy jak nawsadzamy tyle chemii do kontaktów, to nie podtrujemy naszego synka i kota!”.
+Lekarz spojrzał na mojego męża śmiertelnie poważnie: „Niech pan podziękuje pani Małgorzacie, że pana powstrzymała przed wpięciem tego uniwersalnego wynalazku z aukcji! I już państwu tłumaczę w 2 minuty, dlaczego Roki stoi nad kocią wtyczką i kompletnie nic nie czuje”.
 
-Spojrzałem na niego poważnie i powiedziałem od razu: „Panie szanowny, niech pan podziękuje żonie, że pana powstrzymała przed wpięciem tego uniwersalnego wynalazku z aukcji. I już panu tłumaczę w 2 minuty, dlaczego pański pies stoi nad kocią wtyczką i nic nie czuje”.
-
-Nachyliłem się nad biurkiem i zadałem mu proste pytanie z życia:
+Nachylił się nad biurkiem i zadał mężowi proste pytanie:
 
 „Ma pan w kieszeni kluczyk do skrzynki pocztowej na dole w klatce? Ma pan. A otworzy pan tym kluczykiem drzwi do swojego samochodu na parkingu?”
 
-Uśmiechnął się lekko i pokręcił głową: „No skąd, inne ząbki”.
+„No skąd, inne ząbki”.
 
-„Dokładnie tak samo działa biologia w podniebieniu pana psa i pana kota!” - odpowiedziałem.
+„Dokładnie tak samo działa biologia w podniebieniu państwa psa i państwa kota!” - odpowiedział doktor.
 
-Zarówno pies, jak i kot posiadają tuż za górnymi zębami specjalny czytnik chemiczny zwany narządem Jacobsona (VNO), połączony prosto z ośrodkiem strachu w mózgu.
+Zarówno pies, jak i kot posiadają za górnymi zębami specjalny czytnik chemiczny zwany narządem Jacobsona (VNO), połączony prosto z ośrodkiem strachu w mózgu. Tylko że ewolucja zaszyfrowała te sygnały jak zamki patentowe - ściśle dla 1 konkretnego gatunku! Gdyby w naturze kojący feromon kota albo sarny usypiał czujność psa czy wilka, w lesie zapanowałby chaos.
 
-Tylko że natura nie jest głupia! Pomyślcie sami: co by się działo w lesie, gdyby kojący feromon sarny albo kota usypiał czujność wilka czy psa? Ewolucja zaszyfrowała te sygnały jak zamki patentowe - ściśle dla 1 konkretnego gatunku!
+Koci dyfuzor w naszym salonie wypuszczał w powietrze kocią frakcję policzkową F3. Dla rudego kocura to czytelny komunikat, ale dla receptorów psa Rokiego ta cząsteczka ma zupełnie obcy kształt! Pies jest na koci feromon w 100% „ślepy węchowo” - równie dobrze moglibyśmy czytać mu książkę po chińsku i dziwić się, że dalej dyszy!
 
-Koci dyfuzor w ich salonie wypuszczał w powietrze kocią frakcję policzkową F3. Dla rudego kocura to czytelny komunikat, ale dla receptorów psa Rokiego ta cząsteczka ma zupełnie obcy kształt! Pies jest na koci feromon w 100% „ślepy węchowo” - równie dobrze właściciel mógłby czytać Rokiemu książkę po chińsku i dziwić się, że pies się nie uspokaja!
+Żeby wyłączyć panikę w ciele migdałowatym psa, do jego nosa musi trafić jego własny, psi klucz biologiczny: matczyny feromon kojący D.A.P., czyli dokładny odpowiednik sygnału wydzielanego przez listwę mleczną karmiącej suki.
 
-Żeby wyłączyć panikę w ciele migdałowatym psa, do jego nosa musi trafić jego własny, psi klucz biologiczny: matczyny feromon kojący D.A.P., czyli dokładny odpowiednik sygnału wydzielanego przez listwę mleczną karmiącej suki!
+Przytuliłam mocniej naszego 12-miesięcznego synka i zapytałam z tym matczynym lękiem, który ma w sobie każda mama:
 
-Wtedy młoda mama przytuliła mocniej 12-miesięcznego synka i zapytała z tym matczynym lękiem, który rozumiem w 100%:
+„Panie doktorze, a w 2. stronę? Jak wepniemy psi dyfuzor w salonie, gdzie mały raczkuje po dywanie i gdzie chodzi kot, to czy dziecko nie będzie po tym senne albo kot nie zacznie chorować?”
 
-„Panie doktorze, a w 2. stronę? Jak wepniemy ten psi dyfuzor Feliora D.A.P. w salonie, gdzie nasz mały raczkuje po dywanie i gdzie chodzi kot, to czy dziecko nie będzie po tym senne albo kot nie zacznie chorować?”
+Lekarz uspokoił mnie od razu: zasada zamka i klucza działa w 2 strony!
 
-Uspokoiłem ją natychmiast, bo to najpiękniejsza rzecz w prawdziwej feromonoterapii gatunkowej: zasada zamka i klucza działa w 2 strony!
+Kot nie ma w podniebieniu żadnych receptorów dla psiego feromonu D.A.P. - dla kociego organizmu i wątroby ta cząsteczka jest całkowicie niewidzialna i obojętna! A u ludzi dorosłych, kobiet w ciąży i małych dzieci narząd Jacobsona zanika jeszcze przed narodzinami i nie ma żadnych połączeń nerwowych z mózgiem!
 
-Kot nie ma w podniebieniu żadnych receptorów dla psiego feromonu D.A.P. - dla kociego organizmu i kociej wątroby ta cząsteczka jest całkowicie niewidzialna i obojętna!
+Ostrzegł nas za to bardzo mocno przed tamtą „uniwersalną wtyczką dla psów i kotów 2 w 1 za 42 zł” z internetu: w biologii NIE ISTNIEJE wspólny feromon dla psa i kota! Taki produkt ma w środku 0% feromonów, a butelka nalana jest tanimi olejkami eterycznymi - lawendą, cytrusami lub geraniolem, których fenoli kocia wątroba nie potrafi strawić i które mogą kotu realnie zaszkodzić!
 
-A u ludzi dorosłych, kobiet w ciąży i małych dzieci narząd Jacobsona zanika jeszcze przed narodzinami i nie ma żadnych połączeń nerwowych z mózgiem! Ponieważ w weterynaryjnym dyfuzorze Feliora D.A.P. jest równe 0% sztucznych perfum, 0% alkoholu i 0% lotnych olejków, w pokoju dziecka nie ma najmniejszego zapachu i absolutnie żadnego wpływu na zdrowie malucha!
+Poradził nam, żebyśmy zamiast eksperymentów z aukcji sprawdzili polski weterynaryjny dyfuzor dla psów Feliora D.A.P. - bo ma równe 0% sztucznych perfum, 0% alkoholu i 0% lotnych olejków, więc przy łóżeczku i raczkującym dziecku jest w 100% bezwonny i bezpieczny.
 
-Ale ostrzegłem ich bardzo mocno przed tą „uniwersalną wtyczką dla psów i kotów za 42 zł”, którą mąż widział w internecie!
+Mąż potarł dłonią czoło i mruknął sceptycznie: „Panie doktorze, ale tak po ludzku: mamy już wtyczkę dla kota, teraz dokupimy 2 kolejne dla psa za prawie 200 zł, w każdym kontakcie będzie coś sterczało, a jak za 2 tygodnie Roki dalej będzie gonił kota na regał i budził małego, to wywalimy kasę w błoto”.
 
-Zapamiętajcie to raz na zawsze: w biologii NIE ISTNIEJE wspólny feromon dla psa i kota! Jeżeli widzisz w sieci produkt reklamowany jako „uniwersalny uspokajacz dla psów i kotów”, to masz 100% gwarancji, że w środku jest 0% feromonów, a butelka nalana jest tanimi olejkami eterycznymi - lawendą, cytrusami lub geraniolem. A kocia wątroba nie ma enzymów trawiących fenole z podgrzewanych olejków roślinnych i takie „uniwersalne” opary mogą kotu realnie zaszkodzić!
+Lekarz postawił sprawę uczciwie: w 1. tygodniu nadal musimy odgradzać sypialnię bramką rozporową, bo stabilizowany rdzeń ceramiczny 5 W w Feliorze nie działa jak zastrzyk usypiający w 15 minut, tylko potrzebuje 7-14 dni pracy 24 godziny na dobę na zbicie kortyzolu u psa (1 wkład działa przez pełne 60 dni). Dodał jednak, że w 8 na 10 takich domów całym zapalnikiem gonitw za kotem jest właśnie panika separacyjna psa, a na stronie feliora.pl chroni nas pełna 30-dniowa gwarancja zwrotu pieniędzy.
 
-Młoda mama wyraźnie odetchnęła z ulgą, ale wtedy zmęczony mąż potarł dłonią czoło i powiedział wprost:
+Wieczorem w domu zamówiliśmy zestaw 2 dyfuzorów za 189,99 zł z postanowieniem, że dajemy Rokiemu tę ostatnią uczciwą próbę przed telefonem do fundacji. 1 wtyczkę wpięliśmy przy przedpokoju, a 2. w salonie obok posłania psa, natomiast kocia wtyczka została w sypialni przy drapaku.
 
-„Panie doktorze, ale tak po ludzku: 12 miesięcy temu kupiliśmy wtyczkę dla kota, teraz dokupimy 2 kolejne dla psa za prawie 200 zł, w każdym kontakcie będzie nam coś sterczało, a jak za 2 tygodnie Roki dalej będzie gonił kota i budził małego wyciem, to żona każe mi spakować te wszystkie wtyczki do kosza”.
+1. tydzień nie wyglądał różowo: przez początkowe 5 dni Roki dalej podrywał się na domofon, sypialnię trzymaliśmy zamkniętą bramką dla spokoju kota przy kuwecie, a puste kartoniki po dyfuzorach leżały w szafce gotowe do zwrotu.
 
-Pokiwałem głową ze zrozumieniem i uczciwie postawiłem przed nimi granice.
+Wyraźne wyhamowanie przyszło w 2. tygodniu, około 10.-12. dnia ciągłej pracy wtyczek. Kiedy z Rokiego zeszło to ostre napięcie po porannym wyjściu męża o 7:00, ustało wycie pod drzwiami, które wybudzało naszego synka z drzemek.
 
-Wyjaśniłem im bez koloryzowania: w 1. tygodniu nadal muszą pilnować bezpiecznego dystansu między psem, kotem i dzieckiem (a jeśli kot miał własny stres, kocia wtyczka zostaje u niego w sypialni przy drapaku). Psi dyfuzor nie działa jak zastrzyk usypiający w 15 minut - stabilizowany rdzeń ceramiczny 5 W potrzebuje 7-14 dni ciągłej pracy 24 godziny na dobę w odsłoniętych gniazdkach na zbicie kortyzolu u psa.
+Napiszę szczerze, bez bajek z kreskówki: nasz pies i kot nie zaczęli nagle spać przytuleni na 1 poduszce. 7-letni rudy kocur nadal ma swoją ulubioną półkę na drapaku i na białym regale, a Roki ma legowisko pod oknem w salonie. Ale skończyło się kompulsywne gonienie kota z nerwów po całym mieszkaniu - dziś mijają się w przedpokoju spokojnie na odległość 1 metra, bez syczenia i bez paniki, a dokumenty zwrotne do fundacji wyrzuciliśmy do kosza.
 
-Jednak w aż 8 na 10 domów, gdzie adoptowany pies goni kota i wyje pod drzwiami, całym zapalnikiem domowej wojny jest właśnie panika i kortyzol psa! Kiedy zdejmiesz z niego ten ciągły lęk separacyjny, znika potrzeba rozładowywania frustracji na kocie, a 1 wkład Feliora utrzymuje równe stężenie D.A.P. aż przez 60 dni bez przegrzewania obudowy i bez śladu zapachu przy wózku dziecka.
-
-Przypomniałem na koniec zmęczonemu mężowi o 30-dniowej gwarancji zwrotu pieniędzy na oficjalnej stronie feliora.pl - dzięki której nie ryzykują ani grosza przed tak trudną decyzją o dalszym losie psa. Mąż zapisał adres strony w telefonie, spojrzał na żonę i powiedział cicho, że dadzą Rokiemu uczciwą szansę, zanim podpiszą dokumenty zwrotne do fundacji. W domu wpięli 2 sztuki w odsłonięte kontakty - 1 przy przedpokoju i 2. w salonie obok posłania psa.
-
-Po 4 tygodniach małżeństwo przyszło do mnie na kontrolne ważenie i odrobaczanie Rokiego. Dokumenty zwrotne do fundacji poszły w odstawkę, a mąż zdał mi krótki, trzeźwy raport z ich mieszkania.
-
-1. tydzień wcale nie wyglądał różowo.
-
-Przez początkowe 5 dni Roki dalej podrywał się na dźwięk domofonu i trzeba było odgradzać sypialnię bramką rozporową, żeby kocur mógł spokojnie korzystać z kuwety, a pudełka po dyfuzorach czekały w szafce na ewentualny zwrot.
-
-Wyraźne wyhamowanie przyszło w 2. tygodniu, około 10.-12. dnia stałej pracy wtyczek.
-
-Kiedy z psa zeszło to ostre napięcie separacyjne po wyjściu męża o 7:00 rano, ustało wycie pod drzwiami, które wcześniej wybudzało ich 12-miesięcznego synka z drzemki.
-
-Napiszę tu wprost, bez bajek jak z kreskówki: pies i kot nie zaczęli nagle spać przytuleni na 1 poduszce.
-
-7-letni rudy kocur nadal ma swoją wysoką półkę na drapaku, a Roki ma swoje legowisko pod oknem w salonie.
-
-Ale skończyło się kompulsywne gonienie kota po korytarzu z nudów i stresu, a pies przestał wyć po wyjściu właścicieli z domu. Zwierzęta mijają się w przedpokoju spokojnie na odległość 1 metra, bez syczenia i bez uciekania pod szafę.
-
-W sypialni przy drapaku chodzi koci wkład z frakcją F3, a w przedpokoju i salonie pracują dyfuzory Feliora z psim D.A.P. Te 2 różne systemy gatunkowe pracują obok siebie pod 1 dachem bez wchodzenia sobie w drogę, bez żadnego zapachu i bez jakiegokolwiek wpływu na małe dziecko.
-
-Biologii receptorów nie da się oszukać: koci feromon F3 nie działa na psa, a „uniwersalne” wtyczki 2 w 1 z aukcji to zwykłe olejki eteryczne.
-
-Jeżeli w Twoim domu źródłem hałasu i napięcia jest lęk psa, podaj mu jego własny, gatunkowy analog D.A.P. Feliora ze stabilizowanym rdzeniem ceramicznym 5 W (do 60 dni równej emisji z 1 wkładu).
-
-Zamówienie na oficjalnej stronie chroni 30-dniowa gwarancja zwrotu pieniędzy - masz pełne 30 dni na spokojne sprawdzenie efektu we własnym mieszkaniu.
+Koci feromon F3 nie działa na psa, a „uniwersalne” wtyczki za 42 zł to zwykłe olejki eteryczne. Czysty psi sygnał D.A.P. w dyfuzorze Feliora (do 60 dni pracy z 1 wkładu, 100% bezwonny dla dzieci i kotów) sprawdzisz u siebie w domu z pełną 30-dniową gwarancją zwrotu pieniędzy.
 
 https://feliora.pl/products/weterynaryjny-dyfuzor-feromonow-dla-psow-feliora`,
   },
