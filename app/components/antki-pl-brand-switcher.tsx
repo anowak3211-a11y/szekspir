@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import AbTestPanel from './ab-test-panel';
 
 export type AntkiPlBrandKey =
+  | 'titano-cz'
   | 'bennett-uk'
   | 'feliora-pies'
   | 'sardian-szampon'
@@ -26,6 +27,19 @@ export interface AntkiPlBrandBatchMeta {
 }
 
 export const ANTKI_PL_BRAND_BATCHES: AntkiPlBrandBatchMeta[] = [
+  {
+    key: 'titano-cz',
+    emoji: '🍳',
+    shortLabel: 'TITANO CZ · Babcia Danuše',
+    countLabel: '40 Antków',
+    createdDateLabel: '05.11',
+    updatedDateLabel: '05.11.2026',
+    sortTimestamp: Date.parse('2026-11-05T18:30:00+01:00'),
+    activeGradient: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+    activeShadow: '0 2px 10px rgba(220, 38, 38, 0.45)',
+    inactiveColor: '#fca5a5',
+    badgeColor: '#fee2e2',
+  },
   {
     key: 'orthomax',
     emoji: '🦶',

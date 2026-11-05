@@ -248,6 +248,10 @@ export default function BennettUkWorkspace({
 
   const handleBrandSelect = useCallback(
     (brand: AntkiPlBrandKey) => {
+      if (brand === 'titano-cz') {
+        window.location.href = '/antki-pl?brand=titano-cz';
+        return;
+      }
       if (brand === 'feliora-pies') {
         if (onSwitchToFelioraPies) onSwitchToFelioraPies();
         else window.location.href = '/antki-pl?brand=feliora-pies';

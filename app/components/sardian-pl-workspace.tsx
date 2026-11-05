@@ -185,6 +185,10 @@ export default function SardianPlWorkspace({
 
   const handleBrandSelect = useCallback(
     (brand: AntkiPlBrandKey) => {
+      if (brand === 'titano-cz') {
+        window.location.href = '/antki-pl?brand=titano-cz';
+        return;
+      }
       if (brand === 'bennett-uk') {
         if (onSwitchToBennettUk) onSwitchToBennettUk();
         else window.location.href = '/antki-pl?brand=bennett-uk';

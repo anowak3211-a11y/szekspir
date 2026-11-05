@@ -9,6 +9,7 @@ import BennettUkWorkspace from '@/app/components/bennett-uk-workspace';
 import FelioraPlWorkspace from '@/app/components/feliora-pl-workspace';
 import FelioraPiesPlWorkspace from '@/app/components/feliora-pies-pl-workspace';
 import SardianPlWorkspace from '@/app/components/sardian-pl-workspace';
+import TitanoCzWorkspace from '@/app/components/titano-cz-workspace';
 import {
   ANTKI_PL_IMAGE_LIBRARY,
   ANTKI_PL_PRESET_ANGLES,
@@ -171,7 +172,7 @@ type CampaignStructureState = {
 };
 
 export default function AntkiPlPage() {
-  const [activeBrand, setActiveBrand] = useState<'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('orthomax');
+  const [activeBrand, setActiveBrand] = useState<'titano-cz' | 'bennett-uk' | 'sardian-szampon' | 'stryde' | 'feliora' | 'feliora-pies' | 'orthomax'>('titano-cz');
   const [sidebarSort, setSidebarSort] = useState<'newest' | 'oldest' | 'days'>('newest');
   const [presets, setPresets] = useState<AntkiPlPresetAngle[]>(() =>
     ANTKI_PL_PRESET_ANGLES.map(angle => {
@@ -1917,7 +1918,9 @@ export default function AntkiPlPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const b = params.get("brand");
-    if (b === "bennett" || b === "bennett-uk" || b === "bennettseed") {
+    if (b === "titano" || b === "titano-cz" || b === "cz") {
+      setActiveBrand("titano-cz");
+    } else if (b === "bennett" || b === "bennett-uk" || b === "bennettseed") {
       setActiveBrand("bennett-uk");
     } else if (b === "sardian" || b === "sardian-szampon" || b === "szampon" || b === "stryde") {
       setActiveBrand("sardian-szampon");
@@ -2099,6 +2102,19 @@ export default function AntkiPlPage() {
     const t = (editPrimaryText || activeAd?.primaryText || "").trim();
     return t ? t.split(/\s+/).length : 0;
   }, [editPrimaryText, activeAd]);
+
+  if (activeBrand === "titano-cz") {
+    return (
+      <TitanoCzWorkspace
+        onSwitchToBennettUk={() => setActiveBrand("bennett-uk")}
+        onSwitchToFelioraPies={() => setActiveBrand("feliora-pies")}
+        onSwitchToSardianSzampon={() => setActiveBrand("sardian-szampon")}
+        onSwitchToStryde={() => setActiveBrand("sardian-szampon")}
+        onSwitchToFeliora={() => setActiveBrand("feliora")}
+        onSwitchToOrthomax={() => setActiveBrand("orthomax")}
+      />
+    );
+  }
 
   if (activeBrand === "bennett-uk") {
     return (
