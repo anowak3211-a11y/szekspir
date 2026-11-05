@@ -14,6 +14,7 @@ export async function proxy(req: NextRequest) {
     req.nextUrl.pathname === "/privacy" ||
     req.nextUrl.pathname === "/api/work-tracker-sync" ||
     req.nextUrl.pathname === "/api/capi/bennett-uk" ||
+    req.nextUrl.pathname === "/api/bennett-sub" ||
     req.nextUrl.pathname === "/api/ab-test/track" ||
     req.nextUrl.pathname.startsWith("/pages/")
   ) return NextResponse.next();

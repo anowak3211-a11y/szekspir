@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { inOwnerWorkspace } from '@/lib/account-context';
 import { metaToken, metaProof, META_VERSION } from '@/lib/meta-client';
+import { autoCancelByWebhookOrder, RATE_ADJ_PRODUCT_ID } from '@/lib/bennett-loop-sub';
 
 export const maxDuration = 60;
 
@@ -230,6 +231,37 @@ export async function POST(req: NextRequest) {
     const shipping = (payload.shipping_address || {}) as Record<string, unknown>;
     const customer = (payload.customer || {}) as Record<string, unknown>;
     const clientDetails = (payload.client_details || {}) as Record<string, unknown>;
+
+    const isRateAdjustment =
+      Boolean(attrs.bs_cancel_contract) ||
+      lineItems.some(li => {
+        const item = (li || {}) as Record<string, unknown>;
+        return (
+          Number(item.product_id) === RATE_ADJ_PRODUCT_ID ||
+          String(item.sku || '').startsWith('BS-RATE-ADJ-')
+        );
+      });
+
+    if (isRateAdjustment) {
+      if (topic.startsWith('checkouts/')) {
+        return NextResponse.json({ ok: true, skipped: 'rate_adjustment_checkout' });
+      }
+      const rawOrderEmail = String(
+        payload.email || payload.contact_email || customer.email || attrs.bs_cancel_email || '',
+      )
+        .trim()
+        .toLowerCase();
+      const cancelRes = await autoCancelByWebhookOrder(rawOrderEmail, attrs.bs_cancel_contract);
+      return NextResponse.json({
+        ok: true,
+        skipped: 'rate_adjustment_order',
+        autoCancelled: cancelRes,
+      });
+    }
+
+    if (String(payload.source_name || '').toLowerCase() === 'subscription_contract') {
+      return NextResponse.json({ ok: true, skipped: 'recurring_subscription_rebill' });
+    }
 
     const emailHash = normEmail(payload.email || payload.contact_email || customer.email);
     const phoneHash = normPhone(
